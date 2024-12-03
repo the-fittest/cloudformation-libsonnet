@@ -81,11 +81,11 @@ const main = async () => {
     }
 
     writeFileSync(fileName, content);
-    writeMainFile(
-      mainFile,
-      `(import '${rootPackage}/${serviceName}.libsonnet')\n`,
-      i < services.length - 1
-    )
+    // writeMainFile(
+    //   mainFile,
+    //   `(import '${rootPackage}/${serviceName}.libsonnet')\n`,
+    //   i < services.length - 1
+    // )
   }
 };
 
