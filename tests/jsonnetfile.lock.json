@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/the-fittest/cloudformation-libsonnet.git",
+          "subdir": "1.0.0"
+        }
+      },
+      "version": "96a6058dc5828fc493398590a5e2d531ec1bb4fa",
+      "sum": "ocXAE4A2VuEDMke/4z1cn3G2N+WAdg3EaqGm7rp0/+w="
+    }
+  ],
+  "legacyImports": false
+}

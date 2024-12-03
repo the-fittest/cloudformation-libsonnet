@@ -1,5 +1,6 @@
 schemas
 .idea
+schemas.zip
 ### Node template
 # Logs
 logs
@@ -137,3 +138,4 @@ dist
 vendor/
 
 
+/tests/template.json

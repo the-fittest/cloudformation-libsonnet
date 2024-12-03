@@ -2,18 +2,32 @@
 version: "3"
 
 tasks:
+  clean:
+    cmds:
+      - rm -f schemas.zip
+      - rm -rf schemas
+      - rm -rf vendor
+      - rm -rf node_modules
+
+  install:
+    cmds:
+      - npm install
+      - jb install
+
   format:
     cmds:
-#      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/*.libsonnet
       - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/**/*.libsonnet
 
   schemas-download:
+    deps: [install]
     cmds:
       - wget https://schema.cloudformation.eu-central-1.amazonaws.com/CloudformationSchema.zip -O schemas.zip
       - unzip -o schemas.zip -d schemas
-      - rm -f schemas.zip
 
   generate:
+    deps: ['schemas-download']
     cmds:
       - node .generator/index.js
       - task: format
+
+...
