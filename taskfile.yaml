@@ -24,6 +24,9 @@ tasks:
     cmds:
       - wget https://schema.cloudformation.eu-central-1.amazonaws.com/CloudformationSchema.zip -O schemas.zip
       - unzip -o schemas.zip -d schemas
+    status:
+      - test -d schemas
+      - test -f schemas.zip
 
   generate:
     deps: ['schemas-download']

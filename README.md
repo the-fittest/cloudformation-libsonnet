@@ -18,4 +18,3 @@ a bit of testing can be done in the test folder
 
 # Todo
 - [ ] need to understand how documentation with Docsonnet works [see](https://jsonnet-libs.github.io/jsonnet-training-course/lesson5.html)
-- [ ] mainfile does not work as expected [see](https://jsonnet-libs.github.io/jsonnet-training-course/lesson4.html)

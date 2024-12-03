@@ -17,14 +17,11 @@ const getServiceStructure = (files) => {
   return serviceStructure;
 }
 
-const writeMainFile = (mainFile, content, isLastIteration) => {
-  if (!existsSync(mainFile)) {
-    writeFileSync(mainFile, content);
-  } else {
-    appendFileSync(mainFile, content);
-  }
-  if (isLastIteration) {
-    appendFileSync(mainFile, `+`);
+const writeMainFile = (mainFile, content, isNotLastIteration) => {
+  appendFileSync(mainFile, content);
+
+  if (!isNotLastIteration) {
+    appendFileSync(mainFile, '}');
   }
 }
 
@@ -33,7 +30,7 @@ const main = async () => {
   const schemasDir = `${process.cwd()}/schemas`;
   const libsDir = `${process.cwd()}/${version}`;
   const templateDir = `${process.cwd()}/.generator/`
-  const mainFile = `${libsDir}/main.libsonnet`;
+  const mainFile = `${libsDir}/AWS.libsonnet`;
 
   if (!existsSync(schemasDir)) {
     throw new Error(`schemas directory ${schemasDir} does not exists!`);
@@ -49,6 +46,7 @@ const main = async () => {
 
   if (existsSync(mainFile)) {
     rmSync(mainFile);
+    writeFileSync(mainFile, '{\n');
   }
 
   let files = globSync(`${schemasDir}/aws-*.json`);
@@ -81,11 +79,11 @@ const main = async () => {
     }
 
     writeFileSync(fileName, content);
-    // writeMainFile(
-    //   mainFile,
-    //   `(import '${rootPackage}/${serviceName}.libsonnet')\n`,
-    //   i < services.length - 1
-    // )
+    writeMainFile(
+      mainFile,
+      `${serviceName}: import '${rootPackage}/${serviceName}.libsonnet',\n`,
+      i < services.length - 1
+    )
   }
 };
 

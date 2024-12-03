@@ -1,8 +1,7 @@
-local IAM = import 'github.com/the-fittest/cloudformation-libsonnet/1.0.0/AWS/IAM.libsonnet';
-local Logs = import 'github.com/the-fittest/cloudformation-libsonnet/1.0.0/AWS/Logs.libsonnet';
+local AWS = import 'github.com/the-fittest/cloudformation-libsonnet/1.0.0/AWS.libsonnet';
 
-local LogGroup = Logs.LogGroup;
-local Role = IAM.Role;
+local LogGroup = AWS.Logs.LogGroup;
+local Role = AWS.IAM.Role;
 
 local StateMachineId = 'Tadaaa';
 
@@ -14,7 +13,7 @@ local StateMachineId = 'Tadaaa';
       LogGroup.new()
       + LogGroup.withLogGroupName('/aws/vendedlogs/states/TadaaStateMachine')
       + LogGroup.withRetentionInDays(1)
-      ,
+    ,
     [StateMachineId + 'StateMachineRole']:
       Role.new(
         AssumeRolePolicyDocument={
