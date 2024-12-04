@@ -10,8 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@apidevtools/json-schema-ref-parser": "^11.7.2",
+    "@hanazuki/node-jsonnet": "^2.1.0",
     "ejs": "^3.1.10",
     "glob": "^11.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "lodash-contrib": "^4.1200.1"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
   }
 }

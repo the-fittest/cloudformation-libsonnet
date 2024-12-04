@@ -16,8 +16,8 @@ tasks:
 
   format:
     cmds:
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/**/*.libsonnet
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS.libsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/**/*.libsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/AWS.libsonnet
 
   schemas-download:
     deps: [install]
@@ -31,7 +31,7 @@ tasks:
   generate:
     deps: ['schemas-download']
     cmds:
-      - node .generator/index.js
+      - node .generator/new.js
       - task: format
 
 ...
