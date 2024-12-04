@@ -1,0 +1,16 @@
+{
+  VpcAttachment: (import 'NetworkManager/VpcAttachment.libsonnet'),
+  TransitGatewayRouteTableAttachment: (import 'NetworkManager/TransitGatewayRouteTableAttachment.libsonnet'),
+  TransitGatewayRegistration: (import 'NetworkManager/TransitGatewayRegistration.libsonnet'),
+  TransitGatewayPeering: (import 'NetworkManager/TransitGatewayPeering.libsonnet'),
+  SiteToSiteVpnAttachment: (import 'NetworkManager/SiteToSiteVpnAttachment.libsonnet'),
+  Site: (import 'NetworkManager/Site.libsonnet'),
+  LinkAssociation: (import 'NetworkManager/LinkAssociation.libsonnet'),
+  Link: (import 'NetworkManager/Link.libsonnet'),
+  GlobalNetwork: (import 'NetworkManager/GlobalNetwork.libsonnet'),
+  Device: (import 'NetworkManager/Device.libsonnet'),
+  CustomerGatewayAssociation: (import 'NetworkManager/CustomerGatewayAssociation.libsonnet'),
+  CoreNetwork: (import 'NetworkManager/CoreNetwork.libsonnet'),
+  ConnectPeer: (import 'NetworkManager/ConnectPeer.libsonnet'),
+  ConnectAttachment: (import 'NetworkManager/ConnectAttachment.libsonnet'),
+}

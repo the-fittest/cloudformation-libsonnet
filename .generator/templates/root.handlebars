@@ -1,0 +1,39 @@
+{
+    # {{Provider schema}} {{Module schema}} {{Resource schema}}
+    {{Resource schema}}: {
+    {{#if (requiredProperties schema)}}
+        new(
+        {{#each (requiredProperties schema)}}
+            {{@key}},
+        {{/each}}
+        ): {
+            local base = self,
+            Properties: {
+            {{#each (requiredProperties schema)}}
+                {{> (whichProperty this.type 'required') Property=@key}}
+            {{/each}}
+            },
+        {{else}}
+            new(): {
+            local base = self,
+            Properties:: {},
+        {{/if}}
+            DependsOn:: [],
+            CreationPolicy:: [],
+            DeletionPolicy:: [],
+            UpdatePolicy:: [],
+            UpdateReplacePolicy:: [],
+            Metadata:: [],
+            Type: '{{schema.typeName}}',
+        },
+    {{#each (optionalProperties schema)}}
+        {{> (whichProperty this.type 'optional') Property=@key}}
+    {{/each}}
+        {{> optionalArrayProperty Property='DependsOn'}}
+        {{> optionalArrayProperty Property='CreationPolicy'}}
+        {{> optionalArrayProperty Property='DeletionPolicy'}}
+        {{> optionalArrayProperty Property='UpdatePolicy'}}
+        {{> optionalArrayProperty Property='UpdateReplacePolicy'}}
+        {{> optionalArrayProperty Property='Metadata'}}
+    }
+}

@@ -1,0 +1,16 @@
+{
+  StreamingDistribution: (import 'CloudFront/StreamingDistribution.libsonnet'),
+  ResponseHeadersPolicy: (import 'CloudFront/ResponseHeadersPolicy.libsonnet'),
+  RealtimeLogConfig: (import 'CloudFront/RealtimeLogConfig.libsonnet'),
+  PublicKey: (import 'CloudFront/PublicKey.libsonnet'),
+  OriginRequestPolicy: (import 'CloudFront/OriginRequestPolicy.libsonnet'),
+  OriginAccessControl: (import 'CloudFront/OriginAccessControl.libsonnet'),
+  MonitoringSubscription: (import 'CloudFront/MonitoringSubscription.libsonnet'),
+  KeyValueStore: (import 'CloudFront/KeyValueStore.libsonnet'),
+  KeyGroup: (import 'CloudFront/KeyGroup.libsonnet'),
+  Function: (import 'CloudFront/Function.libsonnet'),
+  Distribution: (import 'CloudFront/Distribution.libsonnet'),
+  ContinuousDeploymentPolicy: (import 'CloudFront/ContinuousDeploymentPolicy.libsonnet'),
+  CloudFrontOriginAccessIdentity: (import 'CloudFront/CloudFrontOriginAccessIdentity.libsonnet'),
+  CachePolicy: (import 'CloudFront/CachePolicy.libsonnet'),
+}

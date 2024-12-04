@@ -1,0 +1,20 @@
+{{#if Parameters}}
+new(
+{{#each Parameters}}
+    {{@key}},
+{{/each}}
+): {
+    local base = self,
+    Properties: {
+    {{#each Parameters}}
+        {{> (whichProperty this.type 'required') Property=@key}}
+    {{/each}}
+    }
+{{else}}
+new(): {
+    local base = self,
+    Properties:: {},
+{{/if}}
+    DependsOn:: [],
+    Type: '{{schema.typeName}}',
+},

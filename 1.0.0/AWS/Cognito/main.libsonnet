@@ -1,0 +1,17 @@
+{
+  UserPoolUserToGroupAttachment: (import 'Cognito/UserPoolUserToGroupAttachment.libsonnet'),
+  UserPoolUser: (import 'Cognito/UserPoolUser.libsonnet'),
+  UserPoolUICustomizationAttachment: (import 'Cognito/UserPoolUICustomizationAttachment.libsonnet'),
+  UserPoolRiskConfigurationAttachment: (import 'Cognito/UserPoolRiskConfigurationAttachment.libsonnet'),
+  UserPoolResourceServer: (import 'Cognito/UserPoolResourceServer.libsonnet'),
+  UserPoolIdentityProvider: (import 'Cognito/UserPoolIdentityProvider.libsonnet'),
+  UserPoolGroup: (import 'Cognito/UserPoolGroup.libsonnet'),
+  UserPoolDomain: (import 'Cognito/UserPoolDomain.libsonnet'),
+  UserPoolClient: (import 'Cognito/UserPoolClient.libsonnet'),
+  UserPool: (import 'Cognito/UserPool.libsonnet'),
+  ManagedLoginBranding: (import 'Cognito/ManagedLoginBranding.libsonnet'),
+  LogDeliveryConfiguration: (import 'Cognito/LogDeliveryConfiguration.libsonnet'),
+  IdentityPoolRoleAttachment: (import 'Cognito/IdentityPoolRoleAttachment.libsonnet'),
+  IdentityPoolPrincipalTag: (import 'Cognito/IdentityPoolPrincipalTag.libsonnet'),
+  IdentityPool: (import 'Cognito/IdentityPool.libsonnet'),
+}

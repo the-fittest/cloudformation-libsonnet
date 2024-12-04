@@ -1,0 +1,18 @@
+{
+  OptionGroup: (import 'RDS/OptionGroup.libsonnet'),
+  Integration: (import 'RDS/Integration.libsonnet'),
+  GlobalCluster: (import 'RDS/GlobalCluster.libsonnet'),
+  EventSubscription: (import 'RDS/EventSubscription.libsonnet'),
+  DBSubnetGroup: (import 'RDS/DBSubnetGroup.libsonnet'),
+  DBShardGroup: (import 'RDS/DBShardGroup.libsonnet'),
+  DBSecurityGroupIngress: (import 'RDS/DBSecurityGroupIngress.libsonnet'),
+  DBSecurityGroup: (import 'RDS/DBSecurityGroup.libsonnet'),
+  DBProxyTargetGroup: (import 'RDS/DBProxyTargetGroup.libsonnet'),
+  DBProxyEndpoint: (import 'RDS/DBProxyEndpoint.libsonnet'),
+  DBProxy: (import 'RDS/DBProxy.libsonnet'),
+  DBParameterGroup: (import 'RDS/DBParameterGroup.libsonnet'),
+  DBInstance: (import 'RDS/DBInstance.libsonnet'),
+  DBClusterParameterGroup: (import 'RDS/DBClusterParameterGroup.libsonnet'),
+  DBCluster: (import 'RDS/DBCluster.libsonnet'),
+  CustomDBEngineVersion: (import 'RDS/CustomDBEngineVersion.libsonnet'),
+}

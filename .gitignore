@@ -1,6 +1,7 @@
 schemas
 .idea
 schemas.zip
+.DS_Store
 ### Node template
 # Logs
 logs
