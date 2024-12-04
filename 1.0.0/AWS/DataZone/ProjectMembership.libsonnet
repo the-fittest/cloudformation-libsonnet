@@ -8,6 +8,7 @@
     local base = self,
     Properties: {
       assert std.isString(Designation) : 'Designation must be a string',
+      assert Designation == 'PROJECT_OWNER' || Designation == 'PROJECT_CONTRIBUTOR' : "Designation should be 'PROJECT_OWNER' or 'PROJECT_CONTRIBUTOR'",
       Designation: Designation,
       assert std.isString(DomainIdentifier) : 'DomainIdentifier must be a string',
       DomainIdentifier: DomainIdentifier,

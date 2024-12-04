@@ -17,6 +17,7 @@
   },
   withIpAddressType(IpAddressType): {
     assert std.isString(IpAddressType) : 'IpAddressType must be a string',
+    assert IpAddressType == 'IPV4' || IpAddressType == 'DUAL_STACK' : "IpAddressType should be 'IPV4' or 'DUAL_STACK'",
     Properties+::: {
       IpAddressType: IpAddressType,
     },

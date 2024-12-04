@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Scope) : 'Scope must be a string',
+      assert Scope == 'CLOUDFRONT' || Scope == 'REGIONAL' : "Scope should be 'CLOUDFRONT' or 'REGIONAL'",
       Scope: Scope,
       RegularExpressionList: (if std.isArray(RegularExpressionList) then RegularExpressionList else [RegularExpressionList]),
     },

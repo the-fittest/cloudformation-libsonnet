@@ -92,12 +92,14 @@
   },
   withTaskMode(TaskMode): {
     assert std.isString(TaskMode) : 'TaskMode must be a string',
+    assert TaskMode == 'BASIC' || TaskMode == 'ENHANCED' : "TaskMode should be 'BASIC' or 'ENHANCED'",
     Properties+::: {
       TaskMode: TaskMode,
     },
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'AVAILABLE' || Status == 'CREATING' || Status == 'QUEUED' || Status == 'RUNNING' || Status == 'UNAVAILABLE' : "Status should be 'AVAILABLE' or 'CREATING' or 'QUEUED' or 'RUNNING' or 'UNAVAILABLE'",
     Properties+::: {
       Status: Status,
     },

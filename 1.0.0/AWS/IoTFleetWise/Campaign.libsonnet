@@ -25,12 +25,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'WAITING_FOR_APPROVAL' || Status == 'RUNNING' || Status == 'SUSPENDED' : "Status should be 'CREATING' or 'WAITING_FOR_APPROVAL' or 'RUNNING' or 'SUSPENDED'",
     Properties+::: {
       Status: Status,
     },
   },
   withAction(Action): {
     assert std.isString(Action) : 'Action must be a string',
+    assert Action == 'APPROVE' || Action == 'SUSPEND' || Action == 'RESUME' || Action == 'UPDATE' : "Action should be 'APPROVE' or 'SUSPEND' or 'RESUME' or 'UPDATE'",
     Properties+::: {
       Action: Action,
     },
@@ -43,6 +45,7 @@
   },
   withCompression(Compression): {
     assert std.isString(Compression) : 'Compression must be a string',
+    assert Compression == 'OFF' || Compression == 'SNAPPY' : "Compression should be 'OFF' or 'SNAPPY'",
     Properties+::: {
       Compression: Compression,
     },
@@ -109,6 +112,7 @@
   },
   withSpoolingMode(SpoolingMode): {
     assert std.isString(SpoolingMode) : 'SpoolingMode must be a string',
+    assert SpoolingMode == 'OFF' || SpoolingMode == 'TO_DISK' : "SpoolingMode should be 'OFF' or 'TO_DISK'",
     Properties+::: {
       SpoolingMode: SpoolingMode,
     },
@@ -131,6 +135,7 @@
   },
   withDiagnosticsMode(DiagnosticsMode): {
     assert std.isString(DiagnosticsMode) : 'DiagnosticsMode must be a string',
+    assert DiagnosticsMode == 'OFF' || DiagnosticsMode == 'SEND_ACTIVE_DTCS' : "DiagnosticsMode should be 'OFF' or 'SEND_ACTIVE_DTCS'",
     Properties+::: {
       DiagnosticsMode: DiagnosticsMode,
     },

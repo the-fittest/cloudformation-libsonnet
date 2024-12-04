@@ -39,6 +39,7 @@
   },
   withLayout(Layout): {
     assert std.isString(Layout) : 'Layout must be a string',
+    assert Layout == 'BOTTOM_BANNER' || Layout == 'TOP_BANNER' || Layout == 'OVERLAYS' || Layout == 'MOBILE_FEED' || Layout == 'MIDDLE_BANNER' || Layout == 'CAROUSEL' : "Layout should be 'BOTTOM_BANNER' or 'TOP_BANNER' or 'OVERLAYS' or 'MOBILE_FEED' or 'MIDDLE_BANNER' or 'CAROUSEL'",
     Properties+::: {
       Layout: Layout,
     },

@@ -43,6 +43,7 @@
   },
   withEntitlementStatus(EntitlementStatus): {
     assert std.isString(EntitlementStatus) : 'EntitlementStatus must be a string',
+    assert EntitlementStatus == 'ENABLED' || EntitlementStatus == 'DISABLED' : "EntitlementStatus should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       EntitlementStatus: EntitlementStatus,
     },

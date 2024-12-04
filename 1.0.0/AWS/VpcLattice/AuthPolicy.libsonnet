@@ -20,6 +20,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'ACTIVE' || State == 'INACTIVE' : "State should be 'ACTIVE' or 'INACTIVE'",
     Properties+::: {
       State: State,
     },

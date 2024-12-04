@@ -28,6 +28,7 @@
   },
   withBridgeState(BridgeState): {
     assert std.isString(BridgeState) : 'BridgeState must be a string',
+    assert BridgeState == 'CREATING' || BridgeState == 'STANDBY' || BridgeState == 'STARTING' || BridgeState == 'DEPLOYING' || BridgeState == 'ACTIVE' || BridgeState == 'STOPPING' || BridgeState == 'DELETING' || BridgeState == 'DELETED' || BridgeState == 'START_FAILED' || BridgeState == 'START_PENDING' || BridgeState == 'UPDATING' : "BridgeState should be 'CREATING' or 'STANDBY' or 'STARTING' or 'DEPLOYING' or 'ACTIVE' or 'STOPPING' or 'DELETING' or 'DELETED' or 'START_FAILED' or 'START_PENDING' or 'UPDATING'",
     Properties+::: {
       BridgeState: BridgeState,
     },

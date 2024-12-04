@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(DefaultAction) : 'DefaultAction must be a string',
+      assert DefaultAction == 'ALLOW' || DefaultAction == 'DENY' : "DefaultAction should be 'ALLOW' or 'DENY'",
       DefaultAction: DefaultAction,
       PolicyStatements: (if std.isArray(PolicyStatements) then PolicyStatements else [PolicyStatements]),
     },

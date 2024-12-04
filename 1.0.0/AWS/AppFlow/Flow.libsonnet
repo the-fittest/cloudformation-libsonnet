@@ -45,6 +45,7 @@
   },
   withFlowStatus(FlowStatus): {
     assert std.isString(FlowStatus) : 'FlowStatus must be a string',
+    assert FlowStatus == 'Active' || FlowStatus == 'Suspended' || FlowStatus == 'Draft' : "FlowStatus should be 'Active' or 'Suspended' or 'Draft'",
     Properties+::: {
       FlowStatus: FlowStatus,
     },

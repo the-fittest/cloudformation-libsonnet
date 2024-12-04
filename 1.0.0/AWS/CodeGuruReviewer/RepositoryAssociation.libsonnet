@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'CodeCommit' || Type == 'Bitbucket' || Type == 'GitHubEnterpriseServer' || Type == 'S3Bucket' : "Type should be 'CodeCommit' or 'Bitbucket' or 'GitHubEnterpriseServer' or 'S3Bucket'",
       Type: Type,
     },
     DependsOn:: [],

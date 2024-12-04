@@ -38,6 +38,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'COMPLETE' || Status == 'DELETING' || Status == 'UPDATING' || Status == 'COMPLETE_IMPORT_FAILED' || Status == 'IMPORTING' || Status == 'INACTIVE_OWNER_ACCOUNT_CLOSED' : "Status should be 'COMPLETE' or 'DELETING' or 'UPDATING' or 'COMPLETE_IMPORT_FAILED' or 'IMPORTING' or 'INACTIVE_OWNER_ACCOUNT_CLOSED'",
     Properties+::: {
       Status: Status,
     },

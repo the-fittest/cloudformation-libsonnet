@@ -37,6 +37,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'DISABLED' || State == 'ENABLED' || State == 'ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS' : "State should be 'DISABLED' or 'ENABLED' or 'ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS'",
     Properties+::: {
       State: State,
     },

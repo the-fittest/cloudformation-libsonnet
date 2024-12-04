@@ -58,6 +58,7 @@
   },
   withJoinedMethod(JoinedMethod): {
     assert std.isString(JoinedMethod) : 'JoinedMethod must be a string',
+    assert JoinedMethod == 'INVITED' || JoinedMethod == 'CREATED' : "JoinedMethod should be 'INVITED' or 'CREATED'",
     Properties+::: {
       JoinedMethod: JoinedMethod,
     },
@@ -70,6 +71,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'SUSPENDED' || Status == 'PENDING_CLOSURE' : "Status should be 'ACTIVE' or 'SUSPENDED' or 'PENDING_CLOSURE'",
     Properties+::: {
       Status: Status,
     },

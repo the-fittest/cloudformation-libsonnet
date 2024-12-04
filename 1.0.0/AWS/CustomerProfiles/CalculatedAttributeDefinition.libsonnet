@@ -14,6 +14,7 @@
       assert std.isObject(AttributeDetails) : 'AttributeDetails must be an object',
       AttributeDetails: AttributeDetails,
       assert std.isString(Statistic) : 'Statistic must be a string',
+      assert Statistic == 'FIRST_OCCURRENCE' || Statistic == 'LAST_OCCURRENCE' || Statistic == 'COUNT' || Statistic == 'SUM' || Statistic == 'MINIMUM' || Statistic == 'MAXIMUM' || Statistic == 'AVERAGE' || Statistic == 'MAX_OCCURRENCE' : "Statistic should be 'FIRST_OCCURRENCE' or 'LAST_OCCURRENCE' or 'COUNT' or 'SUM' or 'MINIMUM' or 'MAXIMUM' or 'AVERAGE' or 'MAX_OCCURRENCE'",
       Statistic: Statistic,
     },
     DependsOn:: [],

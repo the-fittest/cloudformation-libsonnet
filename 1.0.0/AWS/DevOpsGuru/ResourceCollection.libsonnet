@@ -17,6 +17,7 @@
   },
   withResourceCollectionType(ResourceCollectionType): {
     assert std.isString(ResourceCollectionType) : 'ResourceCollectionType must be a string',
+    assert ResourceCollectionType == 'AWS_CLOUD_FORMATION' || ResourceCollectionType == 'AWS_TAGS' : "ResourceCollectionType should be 'AWS_CLOUD_FORMATION' or 'AWS_TAGS'",
     Properties+::: {
       ResourceCollectionType: ResourceCollectionType,
     },

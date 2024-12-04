@@ -17,6 +17,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'active' || Status == 'no-permission' || Status == 'topic-not-exist' : "Status should be 'active' or 'no-permission' or 'topic-not-exist'",
     Properties+::: {
       Status: Status,
     },
@@ -39,6 +40,7 @@
   },
   withSourceType(SourceType): {
     assert std.isString(SourceType) : 'SourceType must be a string',
+    assert SourceType == 'cluster' || SourceType == 'cluster-parameter-group' || SourceType == 'cluster-security-group' || SourceType == 'cluster-snapshot' || SourceType == 'scheduled-action' : "SourceType should be 'cluster' or 'cluster-parameter-group' or 'cluster-security-group' or 'cluster-snapshot' or 'scheduled-action'",
     Properties+::: {
       SourceType: SourceType,
     },
@@ -61,6 +63,7 @@
   },
   withSeverity(Severity): {
     assert std.isString(Severity) : 'Severity must be a string',
+    assert Severity == 'ERROR' || Severity == 'INFO' : "Severity should be 'ERROR' or 'INFO'",
     Properties+::: {
       Severity: Severity,
     },

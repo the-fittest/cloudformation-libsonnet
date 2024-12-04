@@ -121,6 +121,7 @@
   },
   withPlatform(Platform): {
     assert std.isString(Platform) : 'Platform must be a string',
+    assert Platform == 'WEB' || Platform == 'WEB_DYNAMIC' || Platform == 'WEB_COMPUTE' : "Platform should be 'WEB' or 'WEB_DYNAMIC' or 'WEB_COMPUTE'",
     Properties+::: {
       Platform: Platform,
     },

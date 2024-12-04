@@ -10,6 +10,7 @@
       assert std.isObject(Source) : 'Source must be an object',
       Source: Source,
       assert std.isString(Format) : 'Format must be a string',
+      assert Format == 'SQL' : "Format should be 'SQL'",
       Format: Format,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

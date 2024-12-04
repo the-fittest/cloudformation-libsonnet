@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(Status) : 'Status must be a string',
+      assert Status == 'ACTIVE' || Status == 'INACTIVE' || Status == 'REVOKED' || Status == 'PENDING_TRANSFER' || Status == 'PENDING_ACTIVATION' : "Status should be 'ACTIVE' or 'INACTIVE' or 'REVOKED' or 'PENDING_TRANSFER' or 'PENDING_ACTIVATION'",
       Status: Status,
     },
     DependsOn:: [],
@@ -35,6 +36,7 @@
   },
   withCertificateMode(CertificateMode): {
     assert std.isString(CertificateMode) : 'CertificateMode must be a string',
+    assert CertificateMode == 'DEFAULT' || CertificateMode == 'SNI_ONLY' : "CertificateMode should be 'DEFAULT' or 'SNI_ONLY'",
     Properties+::: {
       CertificateMode: CertificateMode,
     },

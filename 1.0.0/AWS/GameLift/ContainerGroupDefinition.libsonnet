@@ -10,6 +10,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
+      assert OperatingSystem == 'AMAZON_LINUX_2023' : "OperatingSystem should be 'AMAZON_LINUX_2023'",
       OperatingSystem: OperatingSystem,
       assert std.isNumber(TotalMemoryLimitMebibytes) : 'TotalMemoryLimitMebibytes must be a number',
       TotalMemoryLimitMebibytes: TotalMemoryLimitMebibytes,
@@ -38,6 +39,7 @@
   },
   withContainerGroupType(ContainerGroupType): {
     assert std.isString(ContainerGroupType) : 'ContainerGroupType must be a string',
+    assert ContainerGroupType == 'GAME_SERVER' || ContainerGroupType == 'PER_INSTANCE' : "ContainerGroupType should be 'GAME_SERVER' or 'PER_INSTANCE'",
     Properties+::: {
       ContainerGroupType: ContainerGroupType,
     },
@@ -78,6 +80,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'READY' || Status == 'COPYING' || Status == 'FAILED' : "Status should be 'READY' or 'COPYING' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },

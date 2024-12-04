@@ -93,6 +93,7 @@
   },
   withGroupingType(GroupingType): {
     assert std.isString(GroupingType) : 'GroupingType must be a string',
+    assert GroupingType == 'ACCOUNT_BASED' : "GroupingType should be 'ACCOUNT_BASED'",
     Properties+::: {
       GroupingType: GroupingType,
     },

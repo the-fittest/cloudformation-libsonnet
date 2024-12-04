@@ -28,6 +28,7 @@
   },
   withClusterStatus(ClusterStatus): {
     assert std.isString(ClusterStatus) : 'ClusterStatus must be a string',
+    assert ClusterStatus == 'Creating' || ClusterStatus == 'Deleting' || ClusterStatus == 'Failed' || ClusterStatus == 'InService' || ClusterStatus == 'RollingBack' || ClusterStatus == 'SystemUpdating' || ClusterStatus == 'Updating' : "ClusterStatus should be 'Creating' or 'Deleting' or 'Failed' or 'InService' or 'RollingBack' or 'SystemUpdating' or 'Updating'",
     Properties+::: {
       ClusterStatus: ClusterStatus,
     },
@@ -58,6 +59,7 @@
   },
   withNodeRecovery(NodeRecovery): {
     assert std.isString(NodeRecovery) : 'NodeRecovery must be a string',
+    assert NodeRecovery == 'Automatic' || NodeRecovery == 'None' : "NodeRecovery should be 'Automatic' or 'None'",
     Properties+::: {
       NodeRecovery: NodeRecovery,
     },

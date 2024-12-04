@@ -50,6 +50,7 @@
   },
   withProvisioningType(ProvisioningType): {
     assert std.isString(ProvisioningType) : 'ProvisioningType must be a string',
+    assert ProvisioningType == 'NON_PROVISIONABLE' || ProvisioningType == 'IMMUTABLE' || ProvisioningType == 'FULLY_MUTABLE' : "ProvisioningType should be 'NON_PROVISIONABLE' or 'IMMUTABLE' or 'FULLY_MUTABLE'",
     Properties+::: {
       ProvisioningType: ProvisioningType,
     },
@@ -62,6 +63,7 @@
   },
   withVisibility(Visibility): {
     assert std.isString(Visibility) : 'Visibility must be a string',
+    assert Visibility == 'PUBLIC' || Visibility == 'PRIVATE' : "Visibility should be 'PUBLIC' or 'PRIVATE'",
     Properties+::: {
       Visibility: Visibility,
     },

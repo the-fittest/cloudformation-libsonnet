@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(DefinitionType) : 'DefinitionType must be a string',
+      assert DefinitionType == 'SSM_AUTOMATION' : "DefinitionType should be 'SSM_AUTOMATION'",
       DefinitionType: DefinitionType,
       Definition: (if std.isArray(Definition) then Definition else [Definition]),
     },
@@ -22,6 +23,7 @@
   },
   withAcceptLanguage(AcceptLanguage): {
     assert std.isString(AcceptLanguage) : 'AcceptLanguage must be a string',
+    assert AcceptLanguage == 'en' || AcceptLanguage == 'jp' || AcceptLanguage == 'zh' : "AcceptLanguage should be 'en' or 'jp' or 'zh'",
     Properties+::: {
       AcceptLanguage: AcceptLanguage,
     },

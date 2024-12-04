@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'retention' : "Type should be 'retention'",
       Type: Type,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

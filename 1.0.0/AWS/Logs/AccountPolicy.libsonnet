@@ -9,6 +9,7 @@
       assert std.isString(PolicyName) : 'PolicyName must be a string',
       PolicyName: PolicyName,
       assert std.isString(PolicyType) : 'PolicyType must be a string',
+      assert PolicyType == 'DATA_PROTECTION_POLICY' || PolicyType == 'SUBSCRIPTION_FILTER_POLICY' : "PolicyType should be 'DATA_PROTECTION_POLICY' or 'SUBSCRIPTION_FILTER_POLICY'",
       PolicyType: PolicyType,
       assert std.isString(PolicyDocument) : 'PolicyDocument must be a string',
       PolicyDocument: PolicyDocument,
@@ -29,6 +30,7 @@
   },
   withScope(Scope): {
     assert std.isString(Scope) : 'Scope must be a string',
+    assert Scope == 'ALL' : "Scope should be 'ALL'",
     Properties+::: {
       Scope: Scope,
     },

@@ -45,6 +45,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'RUNNING' || State == 'STOPPED' : "State should be 'RUNNING' or 'STOPPED'",
     Properties+::: {
       State: State,
     },

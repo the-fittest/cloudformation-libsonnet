@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Frequency) : 'Frequency must be a string',
+      assert Frequency == 'DAILY' || Frequency == 'WEEKLY' || Frequency == 'BIWEEKLY' || Frequency == 'MONTHLY' : "Frequency should be 'DAILY' or 'WEEKLY' or 'BIWEEKLY' or 'MONTHLY'",
       Frequency: Frequency,
       TargetCheckNames: (if std.isArray(TargetCheckNames) then TargetCheckNames else [TargetCheckNames]),
     },
@@ -31,6 +32,7 @@
   },
   withDayOfWeek(DayOfWeek): {
     assert std.isString(DayOfWeek) : 'DayOfWeek must be a string',
+    assert DayOfWeek == 'SUN' || DayOfWeek == 'MON' || DayOfWeek == 'TUE' || DayOfWeek == 'WED' || DayOfWeek == 'THU' || DayOfWeek == 'FRI' || DayOfWeek == 'SAT' || DayOfWeek == 'UNSET_VALUE' : "DayOfWeek should be 'SUN' or 'MON' or 'TUE' or 'WED' or 'THU' or 'FRI' or 'SAT' or 'UNSET_VALUE'",
     Properties+::: {
       DayOfWeek: DayOfWeek,
     },

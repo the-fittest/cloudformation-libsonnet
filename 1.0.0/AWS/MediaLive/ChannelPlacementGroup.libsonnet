@@ -58,6 +58,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'UNASSIGNED' || State == 'ASSIGNING' || State == 'ASSIGNED' || State == 'DELETING' || State == 'DELETED' || State == 'UNASSIGNING' : "State should be 'UNASSIGNED' or 'ASSIGNING' or 'ASSIGNED' or 'DELETING' or 'DELETED' or 'UNASSIGNING'",
     Properties+::: {
       State: State,
     },

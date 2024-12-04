@@ -10,6 +10,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(DatasetType) : 'DatasetType must be a string',
+      assert DatasetType == 'Interactions' || DatasetType == 'Items' || DatasetType == 'Users' : "DatasetType should be 'Interactions' or 'Items' or 'Users'",
       DatasetType: DatasetType,
       assert std.isString(DatasetGroupArn) : 'DatasetGroupArn must be a string',
       DatasetGroupArn: DatasetGroupArn,

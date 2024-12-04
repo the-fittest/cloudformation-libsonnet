@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'SERVICE_CONTROL_POLICY' || Type == 'AISERVICES_OPT_OUT_POLICY' || Type == 'BACKUP_POLICY' || Type == 'TAG_POLICY' || Type == 'CHATBOT_POLICY' || Type == 'RESOURCE_CONTROL_POLICY' : "Type should be 'SERVICE_CONTROL_POLICY' or 'AISERVICES_OPT_OUT_POLICY' or 'BACKUP_POLICY' or 'TAG_POLICY' or 'CHATBOT_POLICY' or 'RESOURCE_CONTROL_POLICY'",
       Type: Type,
       Content: Content,
     },

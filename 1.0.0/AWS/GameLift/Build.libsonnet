@@ -26,6 +26,7 @@
   },
   withOperatingSystem(OperatingSystem): {
     assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
+    assert OperatingSystem == 'AMAZON_LINUX' || OperatingSystem == 'AMAZON_LINUX_2' || OperatingSystem == 'AMAZON_LINUX_2023' || OperatingSystem == 'WINDOWS_2012' || OperatingSystem == 'WINDOWS_2016' : "OperatingSystem should be 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2023' or 'WINDOWS_2012' or 'WINDOWS_2016'",
     Properties+::: {
       OperatingSystem: OperatingSystem,
     },

@@ -11,6 +11,7 @@
       assert std.isObject(FilterCriteria) : 'FilterCriteria must be an object',
       FilterCriteria: FilterCriteria,
       assert std.isString(FilterAction) : 'FilterAction must be a string',
+      assert FilterAction == 'NONE' || FilterAction == 'SUPPRESS' : "FilterAction should be 'NONE' or 'SUPPRESS'",
       FilterAction: FilterAction,
     },
     DependsOn:: [],

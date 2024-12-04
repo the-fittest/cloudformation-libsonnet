@@ -61,6 +61,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'ACTIVE' || State == 'CREATING' || State == 'UPDATING' || State == 'DELETING' || State == 'CREATE_FAILED' || State == 'UPDATE_FAILED' : "State should be 'ACTIVE' or 'CREATING' or 'UPDATING' or 'DELETING' or 'CREATE_FAILED' or 'UPDATE_FAILED'",
     Properties+::: {
       State: State,
     },

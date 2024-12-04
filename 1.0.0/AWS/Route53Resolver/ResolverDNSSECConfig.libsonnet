@@ -32,6 +32,7 @@
   },
   withValidationStatus(ValidationStatus): {
     assert std.isString(ValidationStatus) : 'ValidationStatus must be a string',
+    assert ValidationStatus == 'ENABLING' || ValidationStatus == 'ENABLED' || ValidationStatus == 'DISABLING' || ValidationStatus == 'DISABLED' : "ValidationStatus should be 'ENABLING' or 'ENABLED' or 'DISABLING' or 'DISABLED'",
     Properties+::: {
       ValidationStatus: ValidationStatus,
     },

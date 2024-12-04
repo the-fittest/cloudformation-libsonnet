@@ -29,6 +29,7 @@
   },
   withTrackingServerSize(TrackingServerSize): {
     assert std.isString(TrackingServerSize) : 'TrackingServerSize must be a string',
+    assert TrackingServerSize == 'Small' || TrackingServerSize == 'Medium' || TrackingServerSize == 'Large' : "TrackingServerSize should be 'Small' or 'Medium' or 'Large'",
     Properties+::: {
       TrackingServerSize: TrackingServerSize,
     },

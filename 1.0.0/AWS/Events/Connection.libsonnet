@@ -38,6 +38,7 @@
   },
   withAuthorizationType(AuthorizationType): {
     assert std.isString(AuthorizationType) : 'AuthorizationType must be a string',
+    assert AuthorizationType == 'API_KEY' || AuthorizationType == 'BASIC' || AuthorizationType == 'OAUTH_CLIENT_CREDENTIALS' : "AuthorizationType should be 'API_KEY' or 'BASIC' or 'OAUTH_CLIENT_CREDENTIALS'",
     Properties+::: {
       AuthorizationType: AuthorizationType,
     },

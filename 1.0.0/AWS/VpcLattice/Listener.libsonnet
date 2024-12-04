@@ -8,6 +8,7 @@
       assert std.isObject(DefaultAction) : 'DefaultAction must be an object',
       DefaultAction: DefaultAction,
       assert std.isString(Protocol) : 'Protocol must be a string',
+      assert Protocol == 'HTTP' || Protocol == 'HTTPS' || Protocol == 'TLS_PASSTHROUGH' : "Protocol should be 'HTTP' or 'HTTPS' or 'TLS_PASSTHROUGH'",
       Protocol: Protocol,
     },
     DependsOn:: [],

@@ -14,6 +14,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'CONTACT_FLOW' || Type == 'CUSTOMER_QUEUE' || Type == 'CUSTOMER_HOLD' || Type == 'CUSTOMER_WHISPER' || Type == 'AGENT_HOLD' || Type == 'AGENT_WHISPER' || Type == 'OUTBOUND_WHISPER' || Type == 'AGENT_TRANSFER' || Type == 'QUEUE_TRANSFER' || Type == 'CAMPAIGN' : "Type should be 'CONTACT_FLOW' or 'CUSTOMER_QUEUE' or 'CUSTOMER_HOLD' or 'CUSTOMER_WHISPER' or 'AGENT_HOLD' or 'AGENT_WHISPER' or 'OUTBOUND_WHISPER' or 'AGENT_TRANSFER' or 'QUEUE_TRANSFER' or 'CAMPAIGN'",
       Type: Type,
     },
     DependsOn:: [],
@@ -38,6 +39,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'ACTIVE' || State == 'ARCHIVED' : "State should be 'ACTIVE' or 'ARCHIVED'",
     Properties+::: {
       State: State,
     },

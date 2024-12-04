@@ -10,6 +10,7 @@
       AcceleratorArn: AcceleratorArn,
       PortRanges: (if std.isArray(PortRanges) then PortRanges else [PortRanges]),
       assert std.isString(Protocol) : 'Protocol must be a string',
+      assert Protocol == 'TCP' || Protocol == 'UDP' : "Protocol should be 'TCP' or 'UDP'",
       Protocol: Protocol,
     },
     DependsOn:: [],
@@ -28,6 +29,7 @@
   },
   withClientAffinity(ClientAffinity): {
     assert std.isString(ClientAffinity) : 'ClientAffinity must be a string',
+    assert ClientAffinity == 'NONE' || ClientAffinity == 'SOURCE_IP' : "ClientAffinity should be 'NONE' or 'SOURCE_IP'",
     Properties+::: {
       ClientAffinity: ClientAffinity,
     },

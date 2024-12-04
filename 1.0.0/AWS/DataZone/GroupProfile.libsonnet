@@ -38,6 +38,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ASSIGNED' || Status == 'NOT_ASSIGNED' : "Status should be 'ASSIGNED' or 'NOT_ASSIGNED'",
     Properties+::: {
       Status: Status,
     },

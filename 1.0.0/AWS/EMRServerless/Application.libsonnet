@@ -20,6 +20,7 @@
   },
   withArchitecture(Architecture): {
     assert std.isString(Architecture) : 'Architecture must be a string',
+    assert Architecture == 'ARM64' || Architecture == 'X86_64' : "Architecture should be 'ARM64' or 'X86_64'",
     Properties+::: {
       Architecture: Architecture,
     },

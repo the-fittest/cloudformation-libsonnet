@@ -9,6 +9,7 @@
       assert std.isObject(ServerConfiguration) : 'ServerConfiguration must be an object',
       ServerConfiguration: ServerConfiguration,
       assert std.isString(SystemType) : 'SystemType must be a string',
+      assert SystemType == 'NetAppONTAP' : "SystemType should be 'NetAppONTAP'",
       SystemType: SystemType,
       AgentArns: (if std.isArray(AgentArns) then AgentArns else [AgentArns]),
     },
@@ -62,6 +63,7 @@
   },
   withConnectivityStatus(ConnectivityStatus): {
     assert std.isString(ConnectivityStatus) : 'ConnectivityStatus must be a string',
+    assert ConnectivityStatus == 'PASS' || ConnectivityStatus == 'FAIL' || ConnectivityStatus == 'UNKNOWN' : "ConnectivityStatus should be 'PASS' or 'FAIL' or 'UNKNOWN'",
     Properties+::: {
       ConnectivityStatus: ConnectivityStatus,
     },

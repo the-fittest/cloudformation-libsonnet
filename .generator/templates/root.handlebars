@@ -8,7 +8,7 @@
             local base = self,
             Properties: {
             {{#each (requiredProperties schema)}}
-                {{> (whichProperty this.type 'required') Property=@key}}
+                {{> (whichProperty this.type 'required') Property=@key Enum=this.enum}}
             {{/each}}
             },
         {{else}}
@@ -25,7 +25,7 @@
             Type: '{{schema.typeName}}',
         },
     {{#each (optionalProperties schema)}}
-        {{> (whichProperty this.type 'optional') Property=@key}}
+        {{> (whichProperty this.type 'optional') Property=@key Enum=this.enum}}
     {{/each}}
         {{> optionalArrayProperty Property='DependsOn'}}
         {{> optionalArrayProperty Property='CreationPolicy'}}

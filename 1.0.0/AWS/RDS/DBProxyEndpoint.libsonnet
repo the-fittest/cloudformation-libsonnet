@@ -50,6 +50,7 @@
   },
   withTargetRole(TargetRole): {
     assert std.isString(TargetRole) : 'TargetRole must be a string',
+    assert TargetRole == 'READ_WRITE' || TargetRole == 'READ_ONLY' : "TargetRole should be 'READ_WRITE' or 'READ_ONLY'",
     Properties+::: {
       TargetRole: TargetRole,
     },

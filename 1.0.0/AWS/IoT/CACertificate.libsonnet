@@ -8,6 +8,7 @@
       assert std.isString(CACertificatePem) : 'CACertificatePem must be a string',
       CACertificatePem: CACertificatePem,
       assert std.isString(Status) : 'Status must be a string',
+      assert Status == 'ACTIVE' || Status == 'INACTIVE' : "Status should be 'ACTIVE' or 'INACTIVE'",
       Status: Status,
     },
     DependsOn:: [],
@@ -26,12 +27,14 @@
   },
   withCertificateMode(CertificateMode): {
     assert std.isString(CertificateMode) : 'CertificateMode must be a string',
+    assert CertificateMode == 'DEFAULT' || CertificateMode == 'SNI_ONLY' : "CertificateMode should be 'DEFAULT' or 'SNI_ONLY'",
     Properties+::: {
       CertificateMode: CertificateMode,
     },
   },
   withAutoRegistrationStatus(AutoRegistrationStatus): {
     assert std.isString(AutoRegistrationStatus) : 'AutoRegistrationStatus must be a string',
+    assert AutoRegistrationStatus == 'ENABLE' || AutoRegistrationStatus == 'DISABLE' : "AutoRegistrationStatus should be 'ENABLE' or 'DISABLE'",
     Properties+::: {
       AutoRegistrationStatus: AutoRegistrationStatus,
     },

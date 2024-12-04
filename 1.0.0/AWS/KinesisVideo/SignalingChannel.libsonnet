@@ -26,6 +26,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'SINGLE_MASTER' : "Type should be 'SINGLE_MASTER'",
     Properties+::: {
       Type: Type,
     },

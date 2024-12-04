@@ -53,6 +53,7 @@
   },
   withNetworkOrigin(NetworkOrigin): {
     assert std.isString(NetworkOrigin) : 'NetworkOrigin must be a string',
+    assert NetworkOrigin == 'Internet' || NetworkOrigin == 'VPC' : "NetworkOrigin should be 'Internet' or 'VPC'",
     Properties+::: {
       NetworkOrigin: NetworkOrigin,
     },

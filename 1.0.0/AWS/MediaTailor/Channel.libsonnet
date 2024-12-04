@@ -10,6 +10,7 @@
       ChannelName: ChannelName,
       Outputs: (if std.isArray(Outputs) then Outputs else [Outputs]),
       assert std.isString(PlaybackMode) : 'PlaybackMode must be a string',
+      assert PlaybackMode == 'LOOP' || PlaybackMode == 'LINEAR' : "PlaybackMode should be 'LOOP' or 'LINEAR'",
       PlaybackMode: PlaybackMode,
     },
     DependsOn:: [],
@@ -60,6 +61,7 @@
   },
   withTier(Tier): {
     assert std.isString(Tier) : 'Tier must be a string',
+    assert Tier == 'BASIC' || Tier == 'STANDARD' : "Tier should be 'BASIC' or 'STANDARD'",
     Properties+::: {
       Tier: Tier,
     },

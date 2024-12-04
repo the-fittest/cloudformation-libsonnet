@@ -47,6 +47,7 @@
   },
   withVpcEndpointType(VpcEndpointType): {
     assert std.isString(VpcEndpointType) : 'VpcEndpointType must be a string',
+    assert VpcEndpointType == 'Interface' || VpcEndpointType == 'Gateway' || VpcEndpointType == 'GatewayLoadBalancer' : "VpcEndpointType should be 'Interface' or 'Gateway' or 'GatewayLoadBalancer'",
     Properties+::: {
       VpcEndpointType: VpcEndpointType,
     },

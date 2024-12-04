@@ -16,6 +16,7 @@
       assert std.isString(TargetEndpointArn) : 'TargetEndpointArn must be a string',
       TargetEndpointArn: TargetEndpointArn,
       assert std.isString(ReplicationType) : 'ReplicationType must be a string',
+      assert ReplicationType == 'full-load' || ReplicationType == 'full-load-and-cdc' || ReplicationType == 'cdc' : "ReplicationType should be 'full-load' or 'full-load-and-cdc' or 'cdc'",
       ReplicationType: ReplicationType,
       assert std.isObject(ComputeConfig) : 'ComputeConfig must be an object',
       ComputeConfig: ComputeConfig,

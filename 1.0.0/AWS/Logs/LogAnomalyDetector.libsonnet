@@ -42,6 +42,7 @@
   },
   withEvaluationFrequency(EvaluationFrequency): {
     assert std.isString(EvaluationFrequency) : 'EvaluationFrequency must be a string',
+    assert EvaluationFrequency == 'FIVE_MIN' || EvaluationFrequency == 'TEN_MIN' || EvaluationFrequency == 'FIFTEEN_MIN' || EvaluationFrequency == 'THIRTY_MIN' || EvaluationFrequency == 'ONE_HOUR' : "EvaluationFrequency should be 'FIVE_MIN' or 'TEN_MIN' or 'FIFTEEN_MIN' or 'THIRTY_MIN' or 'ONE_HOUR'",
     Properties+::: {
       EvaluationFrequency: EvaluationFrequency,
     },

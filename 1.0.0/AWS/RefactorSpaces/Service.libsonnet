@@ -12,6 +12,7 @@
       assert std.isString(ApplicationIdentifier) : 'ApplicationIdentifier must be a string',
       ApplicationIdentifier: ApplicationIdentifier,
       assert std.isString(EndpointType) : 'EndpointType must be a string',
+      assert EndpointType == 'LAMBDA' || EndpointType == 'URL' : "EndpointType should be 'LAMBDA' or 'URL'",
       EndpointType: EndpointType,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

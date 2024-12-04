@@ -9,6 +9,7 @@
     local base = self,
     Properties: {
       assert std.isString(Authentication) : 'Authentication must be a string',
+      assert Authentication == 'SASL_IAM' || Authentication == 'SASL_SCRAM' || Authentication == 'TLS' : "Authentication should be 'SASL_IAM' or 'SASL_SCRAM' or 'TLS'",
       Authentication: Authentication,
       ClientSubnets: (if std.isArray(ClientSubnets) then ClientSubnets else [ClientSubnets]),
       SecurityGroups: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),

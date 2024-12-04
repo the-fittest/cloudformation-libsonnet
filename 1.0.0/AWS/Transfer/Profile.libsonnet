@@ -8,6 +8,7 @@
       assert std.isString(As2Id) : 'As2Id must be a string',
       As2Id: As2Id,
       assert std.isString(ProfileType) : 'ProfileType must be a string',
+      assert ProfileType == 'LOCAL' || ProfileType == 'PARTNER' : "ProfileType should be 'LOCAL' or 'PARTNER'",
       ProfileType: ProfileType,
     },
     DependsOn:: [],

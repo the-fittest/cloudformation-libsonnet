@@ -9,6 +9,7 @@
       assert std.isString(InstanceId) : 'InstanceId must be a string',
       InstanceId: InstanceId,
       assert std.isString(IntegrationType) : 'IntegrationType must be a string',
+      assert IntegrationType == 'LEX_BOT' || IntegrationType == 'LAMBDA_FUNCTION' || IntegrationType == 'APPLICATION' : "IntegrationType should be 'LEX_BOT' or 'LAMBDA_FUNCTION' or 'APPLICATION'",
       IntegrationType: IntegrationType,
       assert std.isString(IntegrationArn) : 'IntegrationArn must be a string',
       IntegrationArn: IntegrationArn,

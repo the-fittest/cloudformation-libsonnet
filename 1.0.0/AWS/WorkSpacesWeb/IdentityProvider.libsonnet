@@ -11,6 +11,7 @@
       assert std.isString(IdentityProviderName) : 'IdentityProviderName must be a string',
       IdentityProviderName: IdentityProviderName,
       assert std.isString(IdentityProviderType) : 'IdentityProviderType must be a string',
+      assert IdentityProviderType == 'SAML' || IdentityProviderType == 'Facebook' || IdentityProviderType == 'Google' || IdentityProviderType == 'LoginWithAmazon' || IdentityProviderType == 'SignInWithApple' || IdentityProviderType == 'OIDC' : "IdentityProviderType should be 'SAML' or 'Facebook' or 'Google' or 'LoginWithAmazon' or 'SignInWithApple' or 'OIDC'",
       IdentityProviderType: IdentityProviderType,
     },
     DependsOn:: [],

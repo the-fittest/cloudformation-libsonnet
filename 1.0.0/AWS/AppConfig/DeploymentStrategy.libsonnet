@@ -14,6 +14,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(ReplicateTo) : 'ReplicateTo must be a string',
+      assert ReplicateTo == 'NONE' || ReplicateTo == 'SSM_DOCUMENT' : "ReplicateTo should be 'NONE' or 'SSM_DOCUMENT'",
       ReplicateTo: ReplicateTo,
     },
     DependsOn:: [],
@@ -38,6 +39,7 @@
   },
   withGrowthType(GrowthType): {
     assert std.isString(GrowthType) : 'GrowthType must be a string',
+    assert GrowthType == 'EXPONENTIAL' || GrowthType == 'LINEAR' : "GrowthType should be 'EXPONENTIAL' or 'LINEAR'",
     Properties+::: {
       GrowthType: GrowthType,
     },

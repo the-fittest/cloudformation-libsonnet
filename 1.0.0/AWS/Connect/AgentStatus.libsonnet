@@ -11,6 +11,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(State) : 'State must be a string',
+      assert State == 'ENABLED' || State == 'DISABLED' : "State should be 'ENABLED' or 'DISABLED'",
       State: State,
     },
     DependsOn:: [],
@@ -41,6 +42,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'ROUTABLE' || Type == 'CUSTOM' || Type == 'OFFLINE' : "Type should be 'ROUTABLE' or 'CUSTOM' or 'OFFLINE'",
     Properties+::: {
       Type: Type,
     },

@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'TOPIC_FILTER' : "Type should be 'TOPIC_FILTER'",
       Type: Type,
       StringValues: (if std.isArray(StringValues) then StringValues else [StringValues]),
     },

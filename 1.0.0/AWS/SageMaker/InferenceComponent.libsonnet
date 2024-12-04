@@ -56,6 +56,7 @@
   },
   withInferenceComponentStatus(InferenceComponentStatus): {
     assert std.isString(InferenceComponentStatus) : 'InferenceComponentStatus must be a string',
+    assert InferenceComponentStatus == 'InService' || InferenceComponentStatus == 'Creating' || InferenceComponentStatus == 'Updating' || InferenceComponentStatus == 'Failed' || InferenceComponentStatus == 'Deleting' : "InferenceComponentStatus should be 'InService' or 'Creating' or 'Updating' or 'Failed' or 'Deleting'",
     Properties+::: {
       InferenceComponentStatus: InferenceComponentStatus,
     },

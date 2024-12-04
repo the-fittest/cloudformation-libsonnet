@@ -17,6 +17,7 @@
       assert std.isString(Template) : 'Template must be a string',
       Template: Template,
       assert std.isString(TemplateType) : 'TemplateType must be a string',
+      assert TemplateType == 'JSON' || TemplateType == 'YAML' : "TemplateType should be 'JSON' or 'YAML'",
       TemplateType: TemplateType,
     },
     DependsOn:: [],

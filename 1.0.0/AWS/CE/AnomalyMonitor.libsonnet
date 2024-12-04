@@ -8,6 +8,7 @@
       assert std.isString(MonitorName) : 'MonitorName must be a string',
       MonitorName: MonitorName,
       assert std.isString(MonitorType) : 'MonitorType must be a string',
+      assert MonitorType == 'DIMENSIONAL' || MonitorType == 'CUSTOM' : "MonitorType should be 'DIMENSIONAL' or 'CUSTOM'",
       MonitorType: MonitorType,
     },
     DependsOn:: [],
@@ -44,6 +45,7 @@
   },
   withMonitorDimension(MonitorDimension): {
     assert std.isString(MonitorDimension) : 'MonitorDimension must be a string',
+    assert MonitorDimension == 'SERVICE' : "MonitorDimension should be 'SERVICE'",
     Properties+::: {
       MonitorDimension: MonitorDimension,
     },

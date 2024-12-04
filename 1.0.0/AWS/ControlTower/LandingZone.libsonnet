@@ -19,6 +19,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'PROCESSING' || Status == 'FAILED' : "Status should be 'ACTIVE' or 'PROCESSING' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },
@@ -31,6 +32,7 @@
   },
   withDriftStatus(DriftStatus): {
     assert std.isString(DriftStatus) : 'DriftStatus must be a string',
+    assert DriftStatus == 'DRIFTED' || DriftStatus == 'IN_SYNC' : "DriftStatus should be 'DRIFTED' or 'IN_SYNC'",
     Properties+::: {
       DriftStatus: DriftStatus,
     },

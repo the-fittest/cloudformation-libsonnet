@@ -84,6 +84,7 @@
   },
   withPackageType(PackageType): {
     assert std.isString(PackageType) : 'PackageType must be a string',
+    assert PackageType == 'Image' || PackageType == 'Zip' : "PackageType should be 'Image' or 'Zip'",
     Properties+::: {
       PackageType: PackageType,
     },
@@ -158,6 +159,7 @@
   },
   withRecursiveLoop(RecursiveLoop): {
     assert std.isString(RecursiveLoop) : 'RecursiveLoop must be a string',
+    assert RecursiveLoop == 'Allow' || RecursiveLoop == 'Terminate' : "RecursiveLoop should be 'Allow' or 'Terminate'",
     Properties+::: {
       RecursiveLoop: RecursiveLoop,
     },

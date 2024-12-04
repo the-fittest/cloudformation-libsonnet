@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(AzureBlobAuthenticationType) : 'AzureBlobAuthenticationType must be a string',
+      assert AzureBlobAuthenticationType == 'SAS' : "AzureBlobAuthenticationType should be 'SAS'",
       AzureBlobAuthenticationType: AzureBlobAuthenticationType,
       AgentArns: (if std.isArray(AgentArns) then AgentArns else [AgentArns]),
     },
@@ -31,12 +32,14 @@
   },
   withAzureBlobType(AzureBlobType): {
     assert std.isString(AzureBlobType) : 'AzureBlobType must be a string',
+    assert AzureBlobType == 'BLOCK' : "AzureBlobType should be 'BLOCK'",
     Properties+::: {
       AzureBlobType: AzureBlobType,
     },
   },
   withAzureAccessTier(AzureAccessTier): {
     assert std.isString(AzureAccessTier) : 'AzureAccessTier must be a string',
+    assert AzureAccessTier == 'HOT' || AzureAccessTier == 'COOL' || AzureAccessTier == 'ARCHIVE' : "AzureAccessTier should be 'HOT' or 'COOL' or 'ARCHIVE'",
     Properties+::: {
       AzureAccessTier: AzureAccessTier,
     },

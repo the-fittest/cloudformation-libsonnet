@@ -13,6 +13,7 @@
       InstanceArn: InstanceArn,
       Items: (if std.isArray(Items) then Items else [Items]),
       assert std.isString(Status) : 'Status must be a string',
+      assert Status == 'DRAFT' || Status == 'ACTIVE' : "Status should be 'DRAFT' or 'ACTIVE'",
       Status: Status,
     },
     DependsOn:: [],

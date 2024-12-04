@@ -14,6 +14,7 @@
       assert std.isObject(InputDataConfig) : 'InputDataConfig must be an object',
       InputDataConfig: InputDataConfig,
       assert std.isString(LanguageCode) : 'LanguageCode must be a string',
+      assert LanguageCode == 'en' || LanguageCode == 'es' || LanguageCode == 'fr' || LanguageCode == 'it' || LanguageCode == 'de' || LanguageCode == 'pt' : "LanguageCode should be 'en' or 'es' or 'fr' or 'it' or 'de' or 'pt'",
       LanguageCode: LanguageCode,
     },
     DependsOn:: [],
@@ -44,6 +45,7 @@
   },
   withMode(Mode): {
     assert std.isString(Mode) : 'Mode must be a string',
+    assert Mode == 'MULTI_CLASS' || Mode == 'MULTI_LABEL' : "Mode should be 'MULTI_CLASS' or 'MULTI_LABEL'",
     Properties+::: {
       Mode: Mode,
     },

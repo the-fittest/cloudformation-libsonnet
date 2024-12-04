@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(KnowledgeBaseType) : 'KnowledgeBaseType must be a string',
+      assert KnowledgeBaseType == 'EXTERNAL' || KnowledgeBaseType == 'CUSTOM' || KnowledgeBaseType == 'MESSAGE_TEMPLATES' || KnowledgeBaseType == 'MANAGED' : "KnowledgeBaseType should be 'EXTERNAL' or 'CUSTOM' or 'MESSAGE_TEMPLATES' or 'MANAGED'",
       KnowledgeBaseType: KnowledgeBaseType,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

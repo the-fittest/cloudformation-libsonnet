@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(StudioLifecycleConfigAppType) : 'StudioLifecycleConfigAppType must be a string',
+      assert StudioLifecycleConfigAppType == 'JupyterServer' || StudioLifecycleConfigAppType == 'KernelGateway' || StudioLifecycleConfigAppType == 'CodeEditor' || StudioLifecycleConfigAppType == 'JupyterLab' : "StudioLifecycleConfigAppType should be 'JupyterServer' or 'KernelGateway' or 'CodeEditor' or 'JupyterLab'",
       StudioLifecycleConfigAppType: StudioLifecycleConfigAppType,
       assert std.isString(StudioLifecycleConfigContent) : 'StudioLifecycleConfigContent must be a string',
       StudioLifecycleConfigContent: StudioLifecycleConfigContent,

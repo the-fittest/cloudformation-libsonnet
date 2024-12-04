@@ -69,6 +69,7 @@
   },
   withComplianceSeverity(ComplianceSeverity): {
     assert std.isString(ComplianceSeverity) : 'ComplianceSeverity must be a string',
+    assert ComplianceSeverity == 'CRITICAL' || ComplianceSeverity == 'HIGH' || ComplianceSeverity == 'MEDIUM' || ComplianceSeverity == 'LOW' || ComplianceSeverity == 'UNSPECIFIED' : "ComplianceSeverity should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'UNSPECIFIED'",
     Properties+::: {
       ComplianceSeverity: ComplianceSeverity,
     },
@@ -85,6 +86,7 @@
   },
   withSyncCompliance(SyncCompliance): {
     assert std.isString(SyncCompliance) : 'SyncCompliance must be a string',
+    assert SyncCompliance == 'AUTO' || SyncCompliance == 'MANUAL' : "SyncCompliance should be 'AUTO' or 'MANUAL'",
     Properties+::: {
       SyncCompliance: SyncCompliance,
     },

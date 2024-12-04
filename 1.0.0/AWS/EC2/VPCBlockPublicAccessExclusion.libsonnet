@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(InternetGatewayExclusionMode) : 'InternetGatewayExclusionMode must be a string',
+      assert InternetGatewayExclusionMode == 'allow-bidirectional' || InternetGatewayExclusionMode == 'allow-egress' : "InternetGatewayExclusionMode should be 'allow-bidirectional' or 'allow-egress'",
       InternetGatewayExclusionMode: InternetGatewayExclusionMode,
     },
     DependsOn:: [],

@@ -8,6 +8,7 @@
       assert std.isString(FlowArn) : 'FlowArn must be a string',
       FlowArn: FlowArn,
       assert std.isString(Protocol) : 'Protocol must be a string',
+      assert Protocol == 'zixi-push' || Protocol == 'rtp-fec' || Protocol == 'rtp' || Protocol == 'zixi-pull' || Protocol == 'rist' || Protocol == 'fujitsu-qos' || Protocol == 'srt-listener' || Protocol == 'srt-caller' || Protocol == 'st2110-jpegxs' || Protocol == 'cdi' : "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'zixi-pull' or 'rist' or 'fujitsu-qos' or 'srt-listener' or 'srt-caller' or 'st2110-jpegxs' or 'cdi'",
       Protocol: Protocol,
     },
     DependsOn:: [],
@@ -112,6 +113,7 @@
   },
   withOutputStatus(OutputStatus): {
     assert std.isString(OutputStatus) : 'OutputStatus must be a string',
+    assert OutputStatus == 'ENABLED' || OutputStatus == 'DISABLED' : "OutputStatus should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       OutputStatus: OutputStatus,
     },

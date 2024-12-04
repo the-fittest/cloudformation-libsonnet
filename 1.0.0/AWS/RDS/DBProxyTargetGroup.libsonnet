@@ -8,6 +8,7 @@
       assert std.isString(DBProxyName) : 'DBProxyName must be a string',
       DBProxyName: DBProxyName,
       assert std.isString(TargetGroupName) : 'TargetGroupName must be a string',
+      assert TargetGroupName == 'default' : "TargetGroupName should be 'default'",
       TargetGroupName: TargetGroupName,
     },
     DependsOn:: [],

@@ -41,6 +41,7 @@
   },
   withMutationProtection(MutationProtection): {
     assert std.isString(MutationProtection) : 'MutationProtection must be a string',
+    assert MutationProtection == 'ENABLED' || MutationProtection == 'DISABLED' : "MutationProtection should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       MutationProtection: MutationProtection,
     },
@@ -53,6 +54,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'COMPLETE' || Status == 'DELETING' || Status == 'UPDATING' || Status == 'INACTIVE_OWNER_ACCOUNT_CLOSED' : "Status should be 'COMPLETE' or 'DELETING' or 'UPDATING' or 'INACTIVE_OWNER_ACCOUNT_CLOSED'",
     Properties+::: {
       Status: Status,
     },

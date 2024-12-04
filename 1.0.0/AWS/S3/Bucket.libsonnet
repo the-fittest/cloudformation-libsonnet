@@ -20,6 +20,7 @@
   },
   withAccessControl(AccessControl): {
     assert std.isString(AccessControl) : 'AccessControl must be a string',
+    assert AccessControl == 'AuthenticatedRead' || AccessControl == 'AwsExecRead' || AccessControl == 'BucketOwnerFullControl' || AccessControl == 'BucketOwnerRead' || AccessControl == 'LogDeliveryWrite' || AccessControl == 'Private' || AccessControl == 'PublicRead' || AccessControl == 'PublicReadWrite' : "AccessControl should be 'AuthenticatedRead' or 'AwsExecRead' or 'BucketOwnerFullControl' or 'BucketOwnerRead' or 'LogDeliveryWrite' or 'Private' or 'PublicRead' or 'PublicReadWrite'",
     Properties+::: {
       AccessControl: AccessControl,
     },

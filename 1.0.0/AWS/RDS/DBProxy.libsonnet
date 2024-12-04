@@ -12,6 +12,7 @@
       assert std.isString(DBProxyName) : 'DBProxyName must be a string',
       DBProxyName: DBProxyName,
       assert std.isString(EngineFamily) : 'EngineFamily must be a string',
+      assert EngineFamily == 'MYSQL' || EngineFamily == 'POSTGRESQL' || EngineFamily == 'SQLSERVER' : "EngineFamily should be 'MYSQL' or 'POSTGRESQL' or 'SQLSERVER'",
       EngineFamily: EngineFamily,
       assert std.isString(RoleArn) : 'RoleArn must be a string',
       RoleArn: RoleArn,

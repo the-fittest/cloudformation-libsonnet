@@ -8,6 +8,7 @@
       assert std.isString(Certificate) : 'Certificate must be a string',
       Certificate: Certificate,
       assert std.isString(Usage) : 'Usage must be a string',
+      assert Usage == 'SIGNING' || Usage == 'ENCRYPTION' || Usage == 'TLS' : "Usage should be 'SIGNING' or 'ENCRYPTION' or 'TLS'",
       Usage: Usage,
     },
     DependsOn:: [],
@@ -72,12 +73,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'PENDING' || Status == 'INACTIVE' : "Status should be 'ACTIVE' or 'PENDING' or 'INACTIVE'",
     Properties+::: {
       Status: Status,
     },
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'CERTIFICATE' || Type == 'CERTIFICATE_WITH_PRIVATE_KEY' : "Type should be 'CERTIFICATE' or 'CERTIFICATE_WITH_PRIVATE_KEY'",
     Properties+::: {
       Type: Type,
     },

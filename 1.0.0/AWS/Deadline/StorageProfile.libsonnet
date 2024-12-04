@@ -11,6 +11,7 @@
       assert std.isString(FarmId) : 'FarmId must be a string',
       FarmId: FarmId,
       assert std.isString(OsFamily) : 'OsFamily must be a string',
+      assert OsFamily == 'WINDOWS' || OsFamily == 'LINUX' || OsFamily == 'MACOS' : "OsFamily should be 'WINDOWS' or 'LINUX' or 'MACOS'",
       OsFamily: OsFamily,
     },
     DependsOn:: [],

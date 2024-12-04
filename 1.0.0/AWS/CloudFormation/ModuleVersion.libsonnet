@@ -62,6 +62,7 @@
   },
   withVisibility(Visibility): {
     assert std.isString(Visibility) : 'Visibility must be a string',
+    assert Visibility == 'PRIVATE' : "Visibility should be 'PRIVATE'",
     Properties+::: {
       Visibility: Visibility,
     },

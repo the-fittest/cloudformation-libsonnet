@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'SINGLE' || Type == 'QUAD' : "Type should be 'SINGLE' or 'QUAD'",
       Type: Type,
     },
     DependsOn:: [],
@@ -32,12 +33,14 @@
   },
   withMode(Mode): {
     assert std.isString(Mode) : 'Mode must be a string',
+    assert Mode == 'QUADRANT' || Mode == 'INTERLEAVE' : "Mode should be 'QUADRANT' or 'INTERLEAVE'",
     Properties+::: {
       Mode: Mode,
     },
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'IDLE' || State == 'IN_USE' || State == 'DELETED' : "State should be 'IDLE' or 'IN_USE' or 'DELETED'",
     Properties+::: {
       State: State,
     },

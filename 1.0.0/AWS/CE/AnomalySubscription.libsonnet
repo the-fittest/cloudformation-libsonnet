@@ -10,6 +10,7 @@
       MonitorArnList: (if std.isArray(MonitorArnList) then MonitorArnList else [MonitorArnList]),
       Subscribers: (if std.isArray(Subscribers) then Subscribers else [Subscribers]),
       assert std.isString(Frequency) : 'Frequency must be a string',
+      assert Frequency == 'DAILY' || Frequency == 'IMMEDIATE' || Frequency == 'WEEKLY' : "Frequency should be 'DAILY' or 'IMMEDIATE' or 'WEEKLY'",
       Frequency: Frequency,
       assert std.isString(SubscriptionName) : 'SubscriptionName must be a string',
       SubscriptionName: SubscriptionName,

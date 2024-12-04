@@ -26,6 +26,7 @@
   },
   withEnhancedMonitoring(EnhancedMonitoring): {
     assert std.isString(EnhancedMonitoring) : 'EnhancedMonitoring must be a string',
+    assert EnhancedMonitoring == 'DEFAULT' || EnhancedMonitoring == 'PER_BROKER' || EnhancedMonitoring == 'PER_TOPIC_PER_BROKER' || EnhancedMonitoring == 'PER_TOPIC_PER_PARTITION' : "EnhancedMonitoring should be 'DEFAULT' or 'PER_BROKER' or 'PER_TOPIC_PER_BROKER' or 'PER_TOPIC_PER_PARTITION'",
     Properties+::: {
       EnhancedMonitoring: EnhancedMonitoring,
     },
@@ -80,6 +81,7 @@
   },
   withStorageMode(StorageMode): {
     assert std.isString(StorageMode) : 'StorageMode must be a string',
+    assert StorageMode == 'LOCAL' || StorageMode == 'TIERED' : "StorageMode should be 'LOCAL' or 'TIERED'",
     Properties+::: {
       StorageMode: StorageMode,
     },

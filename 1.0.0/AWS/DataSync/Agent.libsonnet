@@ -52,6 +52,7 @@
   },
   withEndpointType(EndpointType): {
     assert std.isString(EndpointType) : 'EndpointType must be a string',
+    assert EndpointType == 'FIPS' || EndpointType == 'PUBLIC' || EndpointType == 'PRIVATE_LINK' : "EndpointType should be 'FIPS' or 'PUBLIC' or 'PRIVATE_LINK'",
     Properties+::: {
       EndpointType: EndpointType,
     },

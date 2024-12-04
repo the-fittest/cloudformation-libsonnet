@@ -26,6 +26,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'associating' || State == 'associated' || State == 'association-failed' || State == 'disassociating' || State == 'disassociated' || State == 'disassociation-failed' : "State should be 'associating' or 'associated' or 'association-failed' or 'disassociating' or 'disassociated' or 'disassociation-failed'",
     Properties+::: {
       State: State,
     },

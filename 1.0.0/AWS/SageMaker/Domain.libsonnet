@@ -9,6 +9,7 @@
     local base = self,
     Properties: {
       assert std.isString(AuthMode) : 'AuthMode must be a string',
+      assert AuthMode == 'SSO' || AuthMode == 'IAM' : "AuthMode should be 'SSO' or 'IAM'",
       AuthMode: AuthMode,
       assert std.isObject(DefaultUserSettings) : 'DefaultUserSettings must be an object',
       DefaultUserSettings: DefaultUserSettings,
@@ -40,6 +41,7 @@
   },
   withAppNetworkAccessType(AppNetworkAccessType): {
     assert std.isString(AppNetworkAccessType) : 'AppNetworkAccessType must be a string',
+    assert AppNetworkAccessType == 'PublicInternetOnly' || AppNetworkAccessType == 'VpcOnly' : "AppNetworkAccessType should be 'PublicInternetOnly' or 'VpcOnly'",
     Properties+::: {
       AppNetworkAccessType: AppNetworkAccessType,
     },
@@ -98,6 +100,7 @@
   },
   withAppSecurityGroupManagement(AppSecurityGroupManagement): {
     assert std.isString(AppSecurityGroupManagement) : 'AppSecurityGroupManagement must be a string',
+    assert AppSecurityGroupManagement == 'Service' || AppSecurityGroupManagement == 'Customer' : "AppSecurityGroupManagement should be 'Service' or 'Customer'",
     Properties+::: {
       AppSecurityGroupManagement: AppSecurityGroupManagement,
     },
@@ -110,6 +113,7 @@
   },
   withTagPropagation(TagPropagation): {
     assert std.isString(TagPropagation) : 'TagPropagation must be a string',
+    assert TagPropagation == 'ENABLED' || TagPropagation == 'DISABLED' : "TagPropagation should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       TagPropagation: TagPropagation,
     },

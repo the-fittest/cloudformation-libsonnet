@@ -52,6 +52,7 @@
   },
   withInstanceMatchCriteria(InstanceMatchCriteria): {
     assert std.isString(InstanceMatchCriteria) : 'InstanceMatchCriteria must be a string',
+    assert InstanceMatchCriteria == 'open' : "InstanceMatchCriteria should be 'open'",
     Properties+::: {
       InstanceMatchCriteria: InstanceMatchCriteria,
     },
@@ -64,6 +65,7 @@
   },
   withTenancy(Tenancy): {
     assert std.isString(Tenancy) : 'Tenancy must be a string',
+    assert Tenancy == 'default' : "Tenancy should be 'default'",
     Properties+::: {
       Tenancy: Tenancy,
     },

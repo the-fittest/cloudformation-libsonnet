@@ -31,6 +31,7 @@
   },
   withExcessCapacityTerminationPolicy(ExcessCapacityTerminationPolicy): {
     assert std.isString(ExcessCapacityTerminationPolicy) : 'ExcessCapacityTerminationPolicy must be a string',
+    assert ExcessCapacityTerminationPolicy == 'termination' || ExcessCapacityTerminationPolicy == 'no-termination' : "ExcessCapacityTerminationPolicy should be 'termination' or 'no-termination'",
     Properties+::: {
       ExcessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy,
     },
@@ -65,6 +66,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'maintain' || Type == 'request' || Type == 'instant' : "Type should be 'maintain' or 'request' or 'instant'",
     Properties+::: {
       Type: Type,
     },

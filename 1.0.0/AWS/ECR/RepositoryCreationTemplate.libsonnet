@@ -25,6 +25,7 @@
   },
   withImageTagMutability(ImageTagMutability): {
     assert std.isString(ImageTagMutability) : 'ImageTagMutability must be a string',
+    assert ImageTagMutability == 'MUTABLE' || ImageTagMutability == 'IMMUTABLE' : "ImageTagMutability should be 'MUTABLE' or 'IMMUTABLE'",
     Properties+::: {
       ImageTagMutability: ImageTagMutability,
     },

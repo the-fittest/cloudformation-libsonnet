@@ -45,6 +45,7 @@
   },
   withHomeDirectoryType(HomeDirectoryType): {
     assert std.isString(HomeDirectoryType) : 'HomeDirectoryType must be a string',
+    assert HomeDirectoryType == 'PATH' || HomeDirectoryType == 'LOGICAL' : "HomeDirectoryType should be 'PATH' or 'LOGICAL'",
     Properties+::: {
       HomeDirectoryType: HomeDirectoryType,
     },

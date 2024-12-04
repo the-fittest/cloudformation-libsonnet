@@ -8,6 +8,7 @@
       assert std.isString(GreengrassGroupId) : 'GreengrassGroupId must be a string',
       GreengrassGroupId: GreengrassGroupId,
       assert std.isString(Architecture) : 'Architecture must be a string',
+      assert Architecture == 'X86_64' || Architecture == 'ARM64' || Architecture == 'ARMHF' : "Architecture should be 'X86_64' or 'ARM64' or 'ARMHF'",
       Architecture: Architecture,
     },
     DependsOn:: [],

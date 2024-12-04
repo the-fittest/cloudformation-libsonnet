@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(EngineType) : 'EngineType must be a string',
+      assert EngineType == 'microfocus' || EngineType == 'bluage' : "EngineType should be 'microfocus' or 'bluage'",
       EngineType: EngineType,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

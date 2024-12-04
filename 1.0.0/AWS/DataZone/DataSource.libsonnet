@@ -57,6 +57,7 @@
   },
   withEnableSetting(EnableSetting): {
     assert std.isString(EnableSetting) : 'EnableSetting must be a string',
+    assert EnableSetting == 'ENABLED' || EnableSetting == 'DISABLED' : "EnableSetting should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       EnableSetting: EnableSetting,
     },
@@ -122,6 +123,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'FAILED_CREATION' || Status == 'READY' || Status == 'UPDATING' || Status == 'FAILED_UPDATE' || Status == 'RUNNING' || Status == 'DELETING' || Status == 'FAILED_DELETION' : "Status should be 'CREATING' or 'FAILED_CREATION' or 'READY' or 'UPDATING' or 'FAILED_UPDATE' or 'RUNNING' or 'DELETING' or 'FAILED_DELETION'",
     Properties+::: {
       Status: Status,
     },

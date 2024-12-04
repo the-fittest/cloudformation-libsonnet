@@ -38,6 +38,7 @@
   },
   withDbInstanceType(DbInstanceType): {
     assert std.isString(DbInstanceType) : 'DbInstanceType must be a string',
+    assert DbInstanceType == 'db.influx.medium' || DbInstanceType == 'db.influx.large' || DbInstanceType == 'db.influx.xlarge' || DbInstanceType == 'db.influx.2xlarge' || DbInstanceType == 'db.influx.4xlarge' || DbInstanceType == 'db.influx.8xlarge' || DbInstanceType == 'db.influx.12xlarge' || DbInstanceType == 'db.influx.16xlarge' : "DbInstanceType should be 'db.influx.medium' or 'db.influx.large' or 'db.influx.xlarge' or 'db.influx.2xlarge' or 'db.influx.4xlarge' or 'db.influx.8xlarge' or 'db.influx.12xlarge' or 'db.influx.16xlarge'",
     Properties+::: {
       DbInstanceType: DbInstanceType,
     },
@@ -70,6 +71,7 @@
   },
   withDbStorageType(DbStorageType): {
     assert std.isString(DbStorageType) : 'DbStorageType must be a string',
+    assert DbStorageType == 'InfluxIOIncludedT1' || DbStorageType == 'InfluxIOIncludedT2' || DbStorageType == 'InfluxIOIncludedT3' : "DbStorageType should be 'InfluxIOIncludedT1' or 'InfluxIOIncludedT2' or 'InfluxIOIncludedT3'",
     Properties+::: {
       DbStorageType: DbStorageType,
     },
@@ -100,6 +102,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'AVAILABLE' || Status == 'DELETING' || Status == 'MODIFYING' || Status == 'UPDATING' || Status == 'UPDATING_DEPLOYMENT_TYPE' || Status == 'UPDATING_INSTANCE_TYPE' || Status == 'DELETED' || Status == 'FAILED' : "Status should be 'CREATING' or 'AVAILABLE' or 'DELETING' or 'MODIFYING' or 'UPDATING' or 'UPDATING_DEPLOYMENT_TYPE' or 'UPDATING_INSTANCE_TYPE' or 'DELETED' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },
@@ -148,6 +151,7 @@
   },
   withDeploymentType(DeploymentType): {
     assert std.isString(DeploymentType) : 'DeploymentType must be a string',
+    assert DeploymentType == 'SINGLE_AZ' || DeploymentType == 'WITH_MULTIAZ_STANDBY' : "DeploymentType should be 'SINGLE_AZ' or 'WITH_MULTIAZ_STANDBY'",
     Properties+::: {
       DeploymentType: DeploymentType,
     },

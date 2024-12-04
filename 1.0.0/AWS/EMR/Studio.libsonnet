@@ -12,6 +12,7 @@
     local base = self,
     Properties: {
       assert std.isString(AuthMode) : 'AuthMode must be a string',
+      assert AuthMode == 'SSO' || AuthMode == 'IAM' : "AuthMode should be 'SSO' or 'IAM'",
       AuthMode: AuthMode,
       assert std.isString(EngineSecurityGroupId) : 'EngineSecurityGroupId must be a string',
       EngineSecurityGroupId: EngineSecurityGroupId,
@@ -95,6 +96,7 @@
   },
   withIdcUserAssignment(IdcUserAssignment): {
     assert std.isString(IdcUserAssignment) : 'IdcUserAssignment must be a string',
+    assert IdcUserAssignment == 'REQUIRED' || IdcUserAssignment == 'OPTIONAL' : "IdcUserAssignment should be 'REQUIRED' or 'OPTIONAL'",
     Properties+::: {
       IdcUserAssignment: IdcUserAssignment,
     },

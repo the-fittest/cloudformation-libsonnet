@@ -17,12 +17,14 @@
   },
   withKeyType(KeyType): {
     assert std.isString(KeyType) : 'KeyType must be a string',
+    assert KeyType == 'rsa' || KeyType == 'ed25519' : "KeyType should be 'rsa' or 'ed25519'",
     Properties+::: {
       KeyType: KeyType,
     },
   },
   withKeyFormat(KeyFormat): {
     assert std.isString(KeyFormat) : 'KeyFormat must be a string',
+    assert KeyFormat == 'pem' || KeyFormat == 'ppk' : "KeyFormat should be 'pem' or 'ppk'",
     Properties+::: {
       KeyFormat: KeyFormat,
     },

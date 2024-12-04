@@ -44,18 +44,21 @@
   },
   withProviderType(ProviderType): {
     assert std.isString(ProviderType) : 'ProviderType must be a string',
+    assert ProviderType == 'GitHub' || ProviderType == 'Bitbucket' || ProviderType == 'GitHubEnterprise' || ProviderType == 'GitLab' || ProviderType == 'GitLabSelfManaged' : "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'",
     Properties+::: {
       ProviderType: ProviderType,
     },
   },
   withPublishDeploymentStatus(PublishDeploymentStatus): {
     assert std.isString(PublishDeploymentStatus) : 'PublishDeploymentStatus must be a string',
+    assert PublishDeploymentStatus == 'ENABLED' || PublishDeploymentStatus == 'DISABLED' : "PublishDeploymentStatus should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       PublishDeploymentStatus: PublishDeploymentStatus,
     },
   },
   withTriggerResourceUpdateOn(TriggerResourceUpdateOn): {
     assert std.isString(TriggerResourceUpdateOn) : 'TriggerResourceUpdateOn must be a string',
+    assert TriggerResourceUpdateOn == 'ANY_CHANGE' || TriggerResourceUpdateOn == 'FILE_CHANGE' : "TriggerResourceUpdateOn should be 'ANY_CHANGE' or 'FILE_CHANGE'",
     Properties+::: {
       TriggerResourceUpdateOn: TriggerResourceUpdateOn,
     },

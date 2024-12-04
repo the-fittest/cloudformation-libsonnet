@@ -29,6 +29,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'running' || Status == 'failed' || Status == 'succeeded' : "Status should be 'running' or 'failed' or 'succeeded'",
     Properties+::: {
       Status: Status,
     },
@@ -53,6 +54,7 @@
   },
   withFindingsFound(FindingsFound): {
     assert std.isString(FindingsFound) : 'FindingsFound must be a string',
+    assert FindingsFound == 'true' || FindingsFound == 'false' || FindingsFound == 'unknown' : "FindingsFound should be 'true' or 'false' or 'unknown'",
     Properties+::: {
       FindingsFound: FindingsFound,
     },

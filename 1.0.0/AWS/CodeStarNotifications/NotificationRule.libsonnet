@@ -12,6 +12,7 @@
       assert std.isString(Resource) : 'Resource must be a string',
       Resource: Resource,
       assert std.isString(DetailType) : 'DetailType must be a string',
+      assert DetailType == 'BASIC' || DetailType == 'FULL' : "DetailType should be 'BASIC' or 'FULL'",
       DetailType: DetailType,
       Targets: (if std.isArray(Targets) then Targets else [Targets]),
       assert std.isString(Name) : 'Name must be a string',
@@ -45,6 +46,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ENABLED' || Status == 'DISABLED' : "Status should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       Status: Status,
     },

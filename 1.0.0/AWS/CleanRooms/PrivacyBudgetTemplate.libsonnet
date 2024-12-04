@@ -8,8 +8,10 @@
     local base = self,
     Properties: {
       assert std.isString(AutoRefresh) : 'AutoRefresh must be a string',
+      assert AutoRefresh == 'CALENDAR_MONTH' || AutoRefresh == 'NONE' : "AutoRefresh should be 'CALENDAR_MONTH' or 'NONE'",
       AutoRefresh: AutoRefresh,
       assert std.isString(PrivacyBudgetType) : 'PrivacyBudgetType must be a string',
+      assert PrivacyBudgetType == 'DIFFERENTIAL_PRIVACY' : "PrivacyBudgetType should be 'DIFFERENTIAL_PRIVACY'",
       PrivacyBudgetType: PrivacyBudgetType,
       assert std.isObject(Parameters) : 'Parameters must be an object',
       Parameters: Parameters,

@@ -38,12 +38,14 @@
   },
   withDocumentType(DocumentType): {
     assert std.isString(DocumentType) : 'DocumentType must be a string',
+    assert DocumentType == 'ApplicationConfiguration' || DocumentType == 'ApplicationConfigurationSchema' || DocumentType == 'Automation' || DocumentType == 'Automation.ChangeTemplate' || DocumentType == 'ChangeCalendar' || DocumentType == 'CloudFormation' || DocumentType == 'Command' || DocumentType == 'DeploymentStrategy' || DocumentType == 'Package' || DocumentType == 'Policy' || DocumentType == 'ProblemAnalysis' || DocumentType == 'ProblemAnalysisTemplate' || DocumentType == 'Session' : "DocumentType should be 'ApplicationConfiguration' or 'ApplicationConfigurationSchema' or 'Automation' or 'Automation.ChangeTemplate' or 'ChangeCalendar' or 'CloudFormation' or 'Command' or 'DeploymentStrategy' or 'Package' or 'Policy' or 'ProblemAnalysis' or 'ProblemAnalysisTemplate' or 'Session'",
     Properties+::: {
       DocumentType: DocumentType,
     },
   },
   withDocumentFormat(DocumentFormat): {
     assert std.isString(DocumentFormat) : 'DocumentFormat must be a string',
+    assert DocumentFormat == 'YAML' || DocumentFormat == 'JSON' || DocumentFormat == 'TEXT' : "DocumentFormat should be 'YAML' or 'JSON' or 'TEXT'",
     Properties+::: {
       DocumentFormat: DocumentFormat,
     },
@@ -76,6 +78,7 @@
   },
   withUpdateMethod(UpdateMethod): {
     assert std.isString(UpdateMethod) : 'UpdateMethod must be a string',
+    assert UpdateMethod == 'Replace' || UpdateMethod == 'NewVersion' : "UpdateMethod should be 'Replace' or 'NewVersion'",
     Properties+::: {
       UpdateMethod: UpdateMethod,
     },

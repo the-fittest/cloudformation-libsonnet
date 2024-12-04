@@ -42,6 +42,7 @@
   },
   withServiceType(ServiceType): {
     assert std.isString(ServiceType) : 'ServiceType must be a string',
+    assert ServiceType == 'DATA' || ServiceType == 'CREDENTIAL_PROVIDER' || ServiceType == 'JOBS' : "ServiceType should be 'DATA' or 'CREDENTIAL_PROVIDER' or 'JOBS'",
     Properties+::: {
       ServiceType: ServiceType,
     },
@@ -60,12 +61,14 @@
   },
   withDomainConfigurationStatus(DomainConfigurationStatus): {
     assert std.isString(DomainConfigurationStatus) : 'DomainConfigurationStatus must be a string',
+    assert DomainConfigurationStatus == 'ENABLED' || DomainConfigurationStatus == 'DISABLED' : "DomainConfigurationStatus should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       DomainConfigurationStatus: DomainConfigurationStatus,
     },
   },
   withDomainType(DomainType): {
     assert std.isString(DomainType) : 'DomainType must be a string',
+    assert DomainType == 'ENDPOINT' || DomainType == 'AWS_MANAGED' || DomainType == 'CUSTOMER_MANAGED' : "DomainType should be 'ENDPOINT' or 'AWS_MANAGED' or 'CUSTOMER_MANAGED'",
     Properties+::: {
       DomainType: DomainType,
     },
@@ -94,12 +97,14 @@
   },
   withAuthenticationType(AuthenticationType): {
     assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
+    assert AuthenticationType == 'AWS_X509' || AuthenticationType == 'CUSTOM_AUTH' || AuthenticationType == 'AWS_SIGV4' || AuthenticationType == 'CUSTOM_AUTH_X509' || AuthenticationType == 'DEFAULT' : "AuthenticationType should be 'AWS_X509' or 'CUSTOM_AUTH' or 'AWS_SIGV4' or 'CUSTOM_AUTH_X509' or 'DEFAULT'",
     Properties+::: {
       AuthenticationType: AuthenticationType,
     },
   },
   withApplicationProtocol(ApplicationProtocol): {
     assert std.isString(ApplicationProtocol) : 'ApplicationProtocol must be a string',
+    assert ApplicationProtocol == 'SECURE_MQTT' || ApplicationProtocol == 'MQTT_WSS' || ApplicationProtocol == 'HTTPS' || ApplicationProtocol == 'DEFAULT' : "ApplicationProtocol should be 'SECURE_MQTT' or 'MQTT_WSS' or 'HTTPS' or 'DEFAULT'",
     Properties+::: {
       ApplicationProtocol: ApplicationProtocol,
     },

@@ -42,6 +42,7 @@
   },
   withHealthCheckProtocol(HealthCheckProtocol): {
     assert std.isString(HealthCheckProtocol) : 'HealthCheckProtocol must be a string',
+    assert HealthCheckProtocol == 'TCP' || HealthCheckProtocol == 'HTTP' || HealthCheckProtocol == 'HTTPS' : "HealthCheckProtocol should be 'TCP' or 'HTTP' or 'HTTPS'",
     Properties+::: {
       HealthCheckProtocol: HealthCheckProtocol,
     },

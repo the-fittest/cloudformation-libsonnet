@@ -30,6 +30,7 @@
   },
   withDefaultBudgetAction(DefaultBudgetAction): {
     assert std.isString(DefaultBudgetAction) : 'DefaultBudgetAction must be a string',
+    assert DefaultBudgetAction == 'NONE' || DefaultBudgetAction == 'STOP_SCHEDULING_AND_COMPLETE_TASKS' || DefaultBudgetAction == 'STOP_SCHEDULING_AND_CANCEL_TASKS' : "DefaultBudgetAction should be 'NONE' or 'STOP_SCHEDULING_AND_COMPLETE_TASKS' or 'STOP_SCHEDULING_AND_CANCEL_TASKS'",
     Properties+::: {
       DefaultBudgetAction: DefaultBudgetAction,
     },

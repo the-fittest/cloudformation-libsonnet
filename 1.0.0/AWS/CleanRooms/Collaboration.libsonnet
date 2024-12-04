@@ -18,6 +18,7 @@
       assert std.isString(Description) : 'Description must be a string',
       Description: Description,
       assert std.isString(QueryLogStatus) : 'QueryLogStatus must be a string',
+      assert QueryLogStatus == 'ENABLED' || QueryLogStatus == 'DISABLED' : "QueryLogStatus should be 'ENABLED' or 'DISABLED'",
       QueryLogStatus: QueryLogStatus,
     },
     DependsOn:: [],
@@ -58,6 +59,7 @@
   },
   withAnalyticsEngine(AnalyticsEngine): {
     assert std.isString(AnalyticsEngine) : 'AnalyticsEngine must be a string',
+    assert AnalyticsEngine == 'CLEAN_ROOMS_SQL' || AnalyticsEngine == 'SPARK' : "AnalyticsEngine should be 'CLEAN_ROOMS_SQL' or 'SPARK'",
     Properties+::: {
       AnalyticsEngine: AnalyticsEngine,
     },

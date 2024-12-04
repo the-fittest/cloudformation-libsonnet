@@ -44,6 +44,7 @@
   },
   withProvisioning(Provisioning): {
     assert std.isString(Provisioning) : 'Provisioning must be a string',
+    assert Provisioning == 'CUSTOMER_MANAGED' : "Provisioning should be 'CUSTOMER_MANAGED'",
     Properties+::: {
       Provisioning: Provisioning,
     },

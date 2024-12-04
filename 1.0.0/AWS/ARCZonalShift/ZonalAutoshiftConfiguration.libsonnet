@@ -14,6 +14,7 @@
   },
   withZonalAutoshiftStatus(ZonalAutoshiftStatus): {
     assert std.isString(ZonalAutoshiftStatus) : 'ZonalAutoshiftStatus must be a string',
+    assert ZonalAutoshiftStatus == 'ENABLED' : "ZonalAutoshiftStatus should be 'ENABLED'",
     Properties+::: {
       ZonalAutoshiftStatus: ZonalAutoshiftStatus,
     },

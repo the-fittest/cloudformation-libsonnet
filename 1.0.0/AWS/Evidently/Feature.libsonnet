@@ -34,6 +34,7 @@
   },
   withEvaluationStrategy(EvaluationStrategy): {
     assert std.isString(EvaluationStrategy) : 'EvaluationStrategy must be a string',
+    assert EvaluationStrategy == 'ALL_RULES' || EvaluationStrategy == 'DEFAULT_VARIATION' : "EvaluationStrategy should be 'ALL_RULES' or 'DEFAULT_VARIATION'",
     Properties+::: {
       EvaluationStrategy: EvaluationStrategy,
     },

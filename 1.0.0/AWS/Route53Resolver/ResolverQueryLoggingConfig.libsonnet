@@ -26,12 +26,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'CREATED' || Status == 'DELETING' || Status == 'FAILED' : "Status should be 'CREATING' or 'CREATED' or 'DELETING' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },
   },
   withShareStatus(ShareStatus): {
     assert std.isString(ShareStatus) : 'ShareStatus must be a string',
+    assert ShareStatus == 'NOT_SHARED' || ShareStatus == 'SHARED_WITH_ME' || ShareStatus == 'SHARED_BY_ME' : "ShareStatus should be 'NOT_SHARED' or 'SHARED_WITH_ME' or 'SHARED_BY_ME'",
     Properties+::: {
       ShareStatus: ShareStatus,
     },

@@ -76,6 +76,7 @@
   },
   withModelApprovalStatus(ModelApprovalStatus): {
     assert std.isString(ModelApprovalStatus) : 'ModelApprovalStatus must be a string',
+    assert ModelApprovalStatus == 'Approved' || ModelApprovalStatus == 'Rejected' || ModelApprovalStatus == 'PendingManualApproval' : "ModelApprovalStatus should be 'Approved' or 'Rejected' or 'PendingManualApproval'",
     Properties+::: {
       ModelApprovalStatus: ModelApprovalStatus,
     },
@@ -112,6 +113,7 @@
   },
   withSkipModelValidation(SkipModelValidation): {
     assert std.isString(SkipModelValidation) : 'SkipModelValidation must be a string',
+    assert SkipModelValidation == 'None' || SkipModelValidation == 'All' : "SkipModelValidation should be 'None' or 'All'",
     Properties+::: {
       SkipModelValidation: SkipModelValidation,
     },
@@ -160,6 +162,7 @@
   },
   withModelPackageStatus(ModelPackageStatus): {
     assert std.isString(ModelPackageStatus) : 'ModelPackageStatus must be a string',
+    assert ModelPackageStatus == 'Pending' || ModelPackageStatus == 'Deleting' || ModelPackageStatus == 'InProgress' || ModelPackageStatus == 'Completed' || ModelPackageStatus == 'Failed' : "ModelPackageStatus should be 'Pending' or 'Deleting' or 'InProgress' or 'Completed' or 'Failed'",
     Properties+::: {
       ModelPackageStatus: ModelPackageStatus,
     },

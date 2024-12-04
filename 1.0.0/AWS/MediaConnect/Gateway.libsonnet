@@ -27,6 +27,7 @@
   },
   withGatewayState(GatewayState): {
     assert std.isString(GatewayState) : 'GatewayState must be a string',
+    assert GatewayState == 'CREATING' || GatewayState == 'ACTIVE' || GatewayState == 'UPDATING' || GatewayState == 'ERROR' || GatewayState == 'DELETING' || GatewayState == 'DELETED' : "GatewayState should be 'CREATING' or 'ACTIVE' or 'UPDATING' or 'ERROR' or 'DELETING' or 'DELETED'",
     Properties+::: {
       GatewayState: GatewayState,
     },

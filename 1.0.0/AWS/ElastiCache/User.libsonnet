@@ -11,6 +11,7 @@
       assert std.isString(UserName) : 'UserName must be a string',
       UserName: UserName,
       assert std.isString(Engine) : 'Engine must be a string',
+      assert Engine == 'redis' || Engine == 'valkey' : "Engine should be 'redis' or 'valkey'",
       Engine: Engine,
     },
     DependsOn:: [],

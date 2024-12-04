@@ -80,6 +80,7 @@
   },
   withProtocol(Protocol): {
     assert std.isString(Protocol) : 'Protocol must be a string',
+    assert Protocol == 'zixi-push' || Protocol == 'rtp-fec' || Protocol == 'rtp' || Protocol == 'rist' || Protocol == 'srt-listener' || Protocol == 'srt-caller' : "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'rist' or 'srt-listener' or 'srt-caller'",
     Properties+::: {
       Protocol: Protocol,
     },

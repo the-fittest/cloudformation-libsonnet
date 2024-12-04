@@ -26,6 +26,7 @@
   },
   withAction(Action): {
     assert std.isString(Action) : 'Action must be a string',
+    assert Action == 'ARCHIVE' || Action == 'NOOP' : "Action should be 'ARCHIVE' or 'NOOP'",
     Properties+::: {
       Action: Action,
     },

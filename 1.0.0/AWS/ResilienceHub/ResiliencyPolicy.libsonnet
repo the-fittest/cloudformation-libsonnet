@@ -9,6 +9,7 @@
       assert std.isString(PolicyName) : 'PolicyName must be a string',
       PolicyName: PolicyName,
       assert std.isString(Tier) : 'Tier must be a string',
+      assert Tier == 'MissionCritical' || Tier == 'Critical' || Tier == 'Important' || Tier == 'CoreServices' || Tier == 'NonCritical' : "Tier should be 'MissionCritical' or 'Critical' or 'Important' or 'CoreServices' or 'NonCritical'",
       Tier: Tier,
       assert std.isObject(Policy) : 'Policy must be an object',
       Policy: Policy,
@@ -29,6 +30,7 @@
   },
   withDataLocationConstraint(DataLocationConstraint): {
     assert std.isString(DataLocationConstraint) : 'DataLocationConstraint must be a string',
+    assert DataLocationConstraint == 'AnyLocation' || DataLocationConstraint == 'SameContinent' || DataLocationConstraint == 'SameCountry' : "DataLocationConstraint should be 'AnyLocation' or 'SameContinent' or 'SameCountry'",
     Properties+::: {
       DataLocationConstraint: DataLocationConstraint,
     },

@@ -8,6 +8,7 @@
     local base = self,
     Properties: {
       assert std.isString(Status) : 'Status must be a string',
+      assert Status == 'ACTIVE' || Status == 'INACTIVE' : "Status should be 'ACTIVE' or 'INACTIVE'",
       Status: Status,
       assert std.isString(HostedZoneId) : 'HostedZoneId must be a string',
       HostedZoneId: HostedZoneId,

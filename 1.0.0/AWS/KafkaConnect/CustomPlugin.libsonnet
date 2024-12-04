@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(ContentType) : 'ContentType must be a string',
+      assert ContentType == 'JAR' || ContentType == 'ZIP' : "ContentType should be 'JAR' or 'ZIP'",
       ContentType: ContentType,
       assert std.isObject(Location) : 'Location must be an object',
       Location: Location,

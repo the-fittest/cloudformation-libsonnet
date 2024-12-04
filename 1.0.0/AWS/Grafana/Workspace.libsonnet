@@ -8,8 +8,10 @@
     Properties: {
       AuthenticationProviders: (if std.isArray(AuthenticationProviders) then AuthenticationProviders else [AuthenticationProviders]),
       assert std.isString(PermissionType) : 'PermissionType must be a string',
+      assert PermissionType == 'CUSTOMER_MANAGED' || PermissionType == 'SERVICE_MANAGED' : "PermissionType should be 'CUSTOMER_MANAGED' or 'SERVICE_MANAGED'",
       PermissionType: PermissionType,
       assert std.isString(AccountAccessType) : 'AccountAccessType must be a string',
+      assert AccountAccessType == 'CURRENT_ACCOUNT' || AccountAccessType == 'ORGANIZATION' : "AccountAccessType should be 'CURRENT_ACCOUNT' or 'ORGANIZATION'",
       AccountAccessType: AccountAccessType,
     },
     DependsOn:: [],
@@ -46,6 +48,7 @@
   },
   withSamlConfigurationStatus(SamlConfigurationStatus): {
     assert std.isString(SamlConfigurationStatus) : 'SamlConfigurationStatus must be a string',
+    assert SamlConfigurationStatus == 'CONFIGURED' || SamlConfigurationStatus == 'NOT_CONFIGURED' : "SamlConfigurationStatus should be 'CONFIGURED' or 'NOT_CONFIGURED'",
     Properties+::: {
       SamlConfigurationStatus: SamlConfigurationStatus,
     },
@@ -58,6 +61,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'CREATING' || Status == 'DELETING' || Status == 'FAILED' || Status == 'UPDATING' || Status == 'UPGRADING' || Status == 'VERSION_UPDATING' || Status == 'DELETION_FAILED' || Status == 'CREATION_FAILED' || Status == 'UPDATE_FAILED' || Status == 'UPGRADE_FAILED' || Status == 'LICENSE_REMOVAL_FAILED' || Status == 'VERSION_UPDATE_FAILED' : "Status should be 'ACTIVE' or 'CREATING' or 'DELETING' or 'FAILED' or 'UPDATING' or 'UPGRADING' or 'VERSION_UPDATING' or 'DELETION_FAILED' or 'CREATION_FAILED' or 'UPDATE_FAILED' or 'UPGRADE_FAILED' or 'LICENSE_REMOVAL_FAILED' or 'VERSION_UPDATE_FAILED'",
     Properties+::: {
       Status: Status,
     },

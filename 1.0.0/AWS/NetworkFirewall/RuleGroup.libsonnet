@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'STATELESS' || Type == 'STATEFUL' : "Type should be 'STATELESS' or 'STATEFUL'",
       Type: Type,
       assert std.isNumber(Capacity) : 'Capacity must be a number',
       Capacity: Capacity,

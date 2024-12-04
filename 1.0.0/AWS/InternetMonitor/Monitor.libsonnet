@@ -47,6 +47,7 @@
   },
   withProcessingStatus(ProcessingStatus): {
     assert std.isString(ProcessingStatus) : 'ProcessingStatus must be a string',
+    assert ProcessingStatus == 'OK' || ProcessingStatus == 'INACTIVE' || ProcessingStatus == 'COLLECTING_DATA' || ProcessingStatus == 'INSUFFICIENT_DATA' || ProcessingStatus == 'FAULT_SERVICE' || ProcessingStatus == 'FAULT_ACCESS_CLOUDWATCH' : "ProcessingStatus should be 'OK' or 'INACTIVE' or 'COLLECTING_DATA' or 'INSUFFICIENT_DATA' or 'FAULT_SERVICE' or 'FAULT_ACCESS_CLOUDWATCH'",
     Properties+::: {
       ProcessingStatus: ProcessingStatus,
     },
@@ -89,6 +90,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'PENDING' || Status == 'ACTIVE' || Status == 'INACTIVE' || Status == 'ERROR' : "Status should be 'PENDING' or 'ACTIVE' or 'INACTIVE' or 'ERROR'",
     Properties+::: {
       Status: Status,
     },

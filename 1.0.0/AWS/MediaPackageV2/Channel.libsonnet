@@ -48,6 +48,7 @@
   },
   withInputType(InputType): {
     assert std.isString(InputType) : 'InputType must be a string',
+    assert InputType == 'HLS' || InputType == 'CMAF' : "InputType should be 'HLS' or 'CMAF'",
     Properties+::: {
       InputType: InputType,
     },

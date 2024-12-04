@@ -35,6 +35,7 @@
   },
   withDesktopType(DesktopType): {
     assert std.isString(DesktopType) : 'DesktopType must be a string',
+    assert DesktopType == 'workspaces' || DesktopType == 'appstream' || DesktopType == 'workspaces-web' : "DesktopType should be 'workspaces' or 'appstream' or 'workspaces-web'",
     Properties+::: {
       DesktopType: DesktopType,
     },
@@ -53,6 +54,7 @@
   },
   withSoftwareSetUpdateSchedule(SoftwareSetUpdateSchedule): {
     assert std.isString(SoftwareSetUpdateSchedule) : 'SoftwareSetUpdateSchedule must be a string',
+    assert SoftwareSetUpdateSchedule == 'USE_MAINTENANCE_WINDOW' || SoftwareSetUpdateSchedule == 'APPLY_IMMEDIATELY' : "SoftwareSetUpdateSchedule should be 'USE_MAINTENANCE_WINDOW' or 'APPLY_IMMEDIATELY'",
     Properties+::: {
       SoftwareSetUpdateSchedule: SoftwareSetUpdateSchedule,
     },
@@ -65,6 +67,7 @@
   },
   withSoftwareSetUpdateMode(SoftwareSetUpdateMode): {
     assert std.isString(SoftwareSetUpdateMode) : 'SoftwareSetUpdateMode must be a string',
+    assert SoftwareSetUpdateMode == 'USE_LATEST' || SoftwareSetUpdateMode == 'USE_DESIRED' : "SoftwareSetUpdateMode should be 'USE_LATEST' or 'USE_DESIRED'",
     Properties+::: {
       SoftwareSetUpdateMode: SoftwareSetUpdateMode,
     },
@@ -89,6 +92,7 @@
   },
   withSoftwareSetComplianceStatus(SoftwareSetComplianceStatus): {
     assert std.isString(SoftwareSetComplianceStatus) : 'SoftwareSetComplianceStatus must be a string',
+    assert SoftwareSetComplianceStatus == 'COMPLIANT' || SoftwareSetComplianceStatus == 'NOT_COMPLIANT' || SoftwareSetComplianceStatus == 'NO_REGISTERED_DEVICES' : "SoftwareSetComplianceStatus should be 'COMPLIANT' or 'NOT_COMPLIANT' or 'NO_REGISTERED_DEVICES'",
     Properties+::: {
       SoftwareSetComplianceStatus: SoftwareSetComplianceStatus,
     },

@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(PlatformId) : 'PlatformId must be a string',
+      assert PlatformId == 'AWSLambda-SHA384-ECDSA' || PlatformId == 'Notation-OCI-SHA384-ECDSA' : "PlatformId should be 'AWSLambda-SHA384-ECDSA' or 'Notation-OCI-SHA384-ECDSA'",
       PlatformId: PlatformId,
     },
     DependsOn:: [],

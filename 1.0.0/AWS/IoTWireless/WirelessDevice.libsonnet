@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'Sidewalk' || Type == 'LoRaWAN' : "Type should be 'Sidewalk' or 'LoRaWAN'",
       Type: Type,
       assert std.isString(DestinationName) : 'DestinationName must be a string',
       DestinationName: DestinationName,
@@ -78,6 +79,7 @@
   },
   withPositioning(Positioning): {
     assert std.isString(Positioning) : 'Positioning must be a string',
+    assert Positioning == 'Enabled' || Positioning == 'Disabled' : "Positioning should be 'Enabled' or 'Disabled'",
     Properties+::: {
       Positioning: Positioning,
     },

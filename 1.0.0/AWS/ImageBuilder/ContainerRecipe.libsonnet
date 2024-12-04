@@ -66,12 +66,14 @@
   },
   withPlatformOverride(PlatformOverride): {
     assert std.isString(PlatformOverride) : 'PlatformOverride must be a string',
+    assert PlatformOverride == 'Windows' || PlatformOverride == 'Linux' : "PlatformOverride should be 'Windows' or 'Linux'",
     Properties+::: {
       PlatformOverride: PlatformOverride,
     },
   },
   withContainerType(ContainerType): {
     assert std.isString(ContainerType) : 'ContainerType must be a string',
+    assert ContainerType == 'DOCKER' : "ContainerType should be 'DOCKER'",
     Properties+::: {
       ContainerType: ContainerType,
     },

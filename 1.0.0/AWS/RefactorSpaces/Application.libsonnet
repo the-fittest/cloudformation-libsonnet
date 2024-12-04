@@ -14,6 +14,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(ProxyType) : 'ProxyType must be a string',
+      assert ProxyType == 'API_GATEWAY' : "ProxyType should be 'API_GATEWAY'",
       ProxyType: ProxyType,
     },
     DependsOn:: [],

@@ -62,6 +62,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' : "Status should be 'ACTIVE'",
     Properties+::: {
       Status: Status,
     },
@@ -78,6 +79,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'APPLICATION' || Type == 'SYSTEM_DEFINED' : "Type should be 'APPLICATION' or 'SYSTEM_DEFINED'",
     Properties+::: {
       Type: Type,
     },

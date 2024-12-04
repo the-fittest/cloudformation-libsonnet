@@ -78,6 +78,7 @@
   },
   withTier(Tier): {
     assert std.isString(Tier) : 'Tier must be a string',
+    assert Tier == 'free' || Tier == 'advanced' : "Tier should be 'free' or 'advanced'",
     Properties+::: {
       Tier: Tier,
     },

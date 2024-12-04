@@ -37,18 +37,21 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ASSIGNED' || Status == 'NOT_ASSIGNED' || Status == 'ACTIVATED' || Status == 'DEACTIVATED' : "Status should be 'ASSIGNED' or 'NOT_ASSIGNED' or 'ACTIVATED' or 'DEACTIVATED'",
     Properties+::: {
       Status: Status,
     },
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'IAM' || Type == 'SSO' : "Type should be 'IAM' or 'SSO'",
     Properties+::: {
       Type: Type,
     },
   },
   withUserType(UserType): {
     assert std.isString(UserType) : 'UserType must be a string',
+    assert UserType == 'IAM_USER' || UserType == 'IAM_ROLE' || UserType == 'SSO_USER' : "UserType should be 'IAM_USER' or 'IAM_ROLE' or 'SSO_USER'",
     Properties+::: {
       UserType: UserType,
     },

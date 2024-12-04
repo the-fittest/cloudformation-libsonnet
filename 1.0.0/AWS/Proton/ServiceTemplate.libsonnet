@@ -44,6 +44,7 @@
   },
   withPipelineProvisioning(PipelineProvisioning): {
     assert std.isString(PipelineProvisioning) : 'PipelineProvisioning must be a string',
+    assert PipelineProvisioning == 'CUSTOMER_MANAGED' : "PipelineProvisioning should be 'CUSTOMER_MANAGED'",
     Properties+::: {
       PipelineProvisioning: PipelineProvisioning,
     },

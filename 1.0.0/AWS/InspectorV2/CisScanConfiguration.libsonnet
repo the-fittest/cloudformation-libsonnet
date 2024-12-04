@@ -10,6 +10,7 @@
       assert std.isString(ScanName) : 'ScanName must be a string',
       ScanName: ScanName,
       assert std.isString(SecurityLevel) : 'SecurityLevel must be a string',
+      assert SecurityLevel == 'LEVEL_1' || SecurityLevel == 'LEVEL_2' : "SecurityLevel should be 'LEVEL_1' or 'LEVEL_2'",
       SecurityLevel: SecurityLevel,
       Schedule: Schedule,
       Targets: Targets,

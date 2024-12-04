@@ -68,6 +68,7 @@
   },
   withWorkerType(WorkerType): {
     assert std.isString(WorkerType) : 'WorkerType must be a string',
+    assert WorkerType == 'Standard' || WorkerType == 'G.1X' || WorkerType == 'G.2X' || WorkerType == 'G.025X' || WorkerType == 'G.4X' || WorkerType == 'G.8X' || WorkerType == 'Z.2X' : "WorkerType should be 'Standard' or 'G.1X' or 'G.2X' or 'G.025X' or 'G.4X' or 'G.8X' or 'Z.2X'",
     Properties+::: {
       WorkerType: WorkerType,
     },

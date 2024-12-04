@@ -11,6 +11,7 @@
       assert std.isString(DisplayName) : 'DisplayName must be a string',
       DisplayName: DisplayName,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'PERSONAL' || Type == 'ESCALATION' || Type == 'ONCALL_SCHEDULE' : "Type should be 'PERSONAL' or 'ESCALATION' or 'ONCALL_SCHEDULE'",
       Type: Type,
     },
     DependsOn:: [],

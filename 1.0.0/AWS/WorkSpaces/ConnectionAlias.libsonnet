@@ -33,6 +33,7 @@
   },
   withConnectionAliasState(ConnectionAliasState): {
     assert std.isString(ConnectionAliasState) : 'ConnectionAliasState must be a string',
+    assert ConnectionAliasState == 'CREATING' || ConnectionAliasState == 'CREATED' || ConnectionAliasState == 'DELETING' : "ConnectionAliasState should be 'CREATING' or 'CREATED' or 'DELETING'",
     Properties+::: {
       ConnectionAliasState: ConnectionAliasState,
     },

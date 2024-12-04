@@ -54,6 +54,7 @@
   },
   withUserExperienceVersion(UserExperienceVersion): {
     assert std.isString(UserExperienceVersion) : 'UserExperienceVersion must be a string',
+    assert UserExperienceVersion == 'LEGACY' || UserExperienceVersion == 'NEW_READER_EXPERIENCE' : "UserExperienceVersion should be 'LEGACY' or 'NEW_READER_EXPERIENCE'",
     Properties+::: {
       UserExperienceVersion: UserExperienceVersion,
     },

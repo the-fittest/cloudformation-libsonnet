@@ -44,6 +44,7 @@
   },
   withTemplateType(TemplateType): {
     assert std.isString(TemplateType) : 'TemplateType must be a string',
+    assert TemplateType == 'FLEET_PROVISIONING' || TemplateType == 'JITP' : "TemplateType should be 'FLEET_PROVISIONING' or 'JITP'",
     Properties+::: {
       TemplateType: TemplateType,
     },

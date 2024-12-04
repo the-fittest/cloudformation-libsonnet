@@ -9,6 +9,7 @@
       assert std.isString(ApplicationArn) : 'ApplicationArn must be a string',
       ApplicationArn: ApplicationArn,
       assert std.isString(PrincipalType) : 'PrincipalType must be a string',
+      assert PrincipalType == 'USER' || PrincipalType == 'GROUP' : "PrincipalType should be 'USER' or 'GROUP'",
       PrincipalType: PrincipalType,
       assert std.isString(PrincipalId) : 'PrincipalId must be a string',
       PrincipalId: PrincipalId,

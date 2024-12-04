@@ -32,6 +32,7 @@
   },
   withPreferredChannelPipeline(PreferredChannelPipeline): {
     assert std.isString(PreferredChannelPipeline) : 'PreferredChannelPipeline must be a string',
+    assert PreferredChannelPipeline == 'CURRENTLY_ACTIVE' || PreferredChannelPipeline == 'PIPELINE_0' || PreferredChannelPipeline == 'PIPELINE_1' : "PreferredChannelPipeline should be 'CURRENTLY_ACTIVE' or 'PIPELINE_0' or 'PIPELINE_1'",
     Properties+::: {
       PreferredChannelPipeline: PreferredChannelPipeline,
     },

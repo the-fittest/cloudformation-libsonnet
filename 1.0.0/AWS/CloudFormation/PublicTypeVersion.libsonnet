@@ -56,6 +56,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'RESOURCE' || Type == 'MODULE' || Type == 'HOOK' : "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'",
     Properties+::: {
       Type: Type,
     },

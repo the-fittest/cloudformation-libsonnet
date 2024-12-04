@@ -9,6 +9,7 @@
       assert std.isString(TargetId) : 'TargetId must be a string',
       TargetId: TargetId,
       assert std.isString(TargetType) : 'TargetType must be a string',
+      assert TargetType == 'ACCOUNT' || TargetType == 'ORGANIZATIONAL_UNIT' || TargetType == 'ROOT' : "TargetType should be 'ACCOUNT' or 'ORGANIZATIONAL_UNIT' or 'ROOT'",
       TargetType: TargetType,
       assert std.isString(ConfigurationPolicyId) : 'ConfigurationPolicyId must be a string',
       ConfigurationPolicyId: ConfigurationPolicyId,
@@ -23,12 +24,14 @@
   },
   withAssociationStatus(AssociationStatus): {
     assert std.isString(AssociationStatus) : 'AssociationStatus must be a string',
+    assert AssociationStatus == 'SUCCESS' || AssociationStatus == 'PENDING' || AssociationStatus == 'FAILED' : "AssociationStatus should be 'SUCCESS' or 'PENDING' or 'FAILED'",
     Properties+::: {
       AssociationStatus: AssociationStatus,
     },
   },
   withAssociationType(AssociationType): {
     assert std.isString(AssociationType) : 'AssociationType must be a string',
+    assert AssociationType == 'APPLIED' || AssociationType == 'INHERITED' : "AssociationType should be 'APPLIED' or 'INHERITED'",
     Properties+::: {
       AssociationType: AssociationType,
     },

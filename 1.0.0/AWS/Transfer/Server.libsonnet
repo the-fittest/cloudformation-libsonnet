@@ -36,6 +36,7 @@
   },
   withDomain(Domain): {
     assert std.isString(Domain) : 'Domain must be a string',
+    assert Domain == 'S3' || Domain == 'EFS' : "Domain should be 'S3' or 'EFS'",
     Properties+::: {
       Domain: Domain,
     },
@@ -48,6 +49,7 @@
   },
   withEndpointType(EndpointType): {
     assert std.isString(EndpointType) : 'EndpointType must be a string',
+    assert EndpointType == 'PUBLIC' || EndpointType == 'VPC' || EndpointType == 'VPC_ENDPOINT' : "EndpointType should be 'PUBLIC' or 'VPC' or 'VPC_ENDPOINT'",
     Properties+::: {
       EndpointType: EndpointType,
     },
@@ -60,6 +62,7 @@
   },
   withIdentityProviderType(IdentityProviderType): {
     assert std.isString(IdentityProviderType) : 'IdentityProviderType must be a string',
+    assert IdentityProviderType == 'SERVICE_MANAGED' || IdentityProviderType == 'API_GATEWAY' || IdentityProviderType == 'AWS_DIRECTORY_SERVICE' || IdentityProviderType == 'AWS_LAMBDA' : "IdentityProviderType should be 'SERVICE_MANAGED' or 'API_GATEWAY' or 'AWS_DIRECTORY_SERVICE' or 'AWS_LAMBDA'",
     Properties+::: {
       IdentityProviderType: IdentityProviderType,
     },

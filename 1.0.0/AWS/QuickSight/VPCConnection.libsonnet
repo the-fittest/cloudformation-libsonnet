@@ -20,6 +20,7 @@
   },
   withAvailabilityStatus(AvailabilityStatus): {
     assert std.isString(AvailabilityStatus) : 'AvailabilityStatus must be a string',
+    assert AvailabilityStatus == 'AVAILABLE' || AvailabilityStatus == 'UNAVAILABLE' || AvailabilityStatus == 'PARTIALLY_AVAILABLE' : "AvailabilityStatus should be 'AVAILABLE' or 'UNAVAILABLE' or 'PARTIALLY_AVAILABLE'",
     Properties+::: {
       AvailabilityStatus: AvailabilityStatus,
     },
@@ -86,6 +87,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATION_IN_PROGRESS' || Status == 'CREATION_SUCCESSFUL' || Status == 'CREATION_FAILED' || Status == 'UPDATE_IN_PROGRESS' || Status == 'UPDATE_SUCCESSFUL' || Status == 'UPDATE_FAILED' || Status == 'DELETION_IN_PROGRESS' || Status == 'DELETION_FAILED' || Status == 'DELETED' : "Status should be 'CREATION_IN_PROGRESS' or 'CREATION_SUCCESSFUL' or 'CREATION_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_SUCCESSFUL' or 'UPDATE_FAILED' or 'DELETION_IN_PROGRESS' or 'DELETION_FAILED' or 'DELETED'",
     Properties+::: {
       Status: Status,
     },

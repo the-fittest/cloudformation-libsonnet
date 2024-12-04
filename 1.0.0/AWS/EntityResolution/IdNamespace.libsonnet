@@ -8,6 +8,7 @@
       assert std.isString(IdNamespaceName) : 'IdNamespaceName must be a string',
       IdNamespaceName: IdNamespaceName,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'SOURCE' || Type == 'TARGET' : "Type should be 'SOURCE' or 'TARGET'",
       Type: Type,
     },
     DependsOn:: [],

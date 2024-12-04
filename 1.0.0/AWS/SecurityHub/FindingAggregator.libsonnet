@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(RegionLinkingMode) : 'RegionLinkingMode must be a string',
+      assert RegionLinkingMode == 'ALL_REGIONS' || RegionLinkingMode == 'ALL_REGIONS_EXCEPT_SPECIFIED' || RegionLinkingMode == 'SPECIFIED_REGIONS' : "RegionLinkingMode should be 'ALL_REGIONS' or 'ALL_REGIONS_EXCEPT_SPECIFIED' or 'SPECIFIED_REGIONS'",
       RegionLinkingMode: RegionLinkingMode,
     },
     DependsOn:: [],

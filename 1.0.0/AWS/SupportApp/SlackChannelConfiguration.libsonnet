@@ -12,6 +12,7 @@
       assert std.isString(ChannelId) : 'ChannelId must be a string',
       ChannelId: ChannelId,
       assert std.isString(NotifyOnCaseSeverity) : 'NotifyOnCaseSeverity must be a string',
+      assert NotifyOnCaseSeverity == 'none' || NotifyOnCaseSeverity == 'all' || NotifyOnCaseSeverity == 'high' : "NotifyOnCaseSeverity should be 'none' or 'all' or 'high'",
       NotifyOnCaseSeverity: NotifyOnCaseSeverity,
       assert std.isString(ChannelRoleArn) : 'ChannelRoleArn must be a string',
       ChannelRoleArn: ChannelRoleArn,

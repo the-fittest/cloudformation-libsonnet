@@ -8,8 +8,10 @@
     Properties: {
       Addresses: (if std.isArray(Addresses) then Addresses else [Addresses]),
       assert std.isString(IPAddressVersion) : 'IPAddressVersion must be a string',
+      assert IPAddressVersion == 'IPV4' || IPAddressVersion == 'IPV6' : "IPAddressVersion should be 'IPV4' or 'IPV6'",
       IPAddressVersion: IPAddressVersion,
       assert std.isString(Scope) : 'Scope must be a string',
+      assert Scope == 'CLOUDFRONT' || Scope == 'REGIONAL' : "Scope should be 'CLOUDFRONT' or 'REGIONAL'",
       Scope: Scope,
     },
     DependsOn:: [],

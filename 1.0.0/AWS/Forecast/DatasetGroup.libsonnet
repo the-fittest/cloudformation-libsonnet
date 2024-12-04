@@ -8,6 +8,7 @@
       assert std.isString(DatasetGroupName) : 'DatasetGroupName must be a string',
       DatasetGroupName: DatasetGroupName,
       assert std.isString(Domain) : 'Domain must be a string',
+      assert Domain == 'RETAIL' || Domain == 'CUSTOM' || Domain == 'INVENTORY_PLANNING' || Domain == 'EC2_CAPACITY' || Domain == 'WORK_FORCE' || Domain == 'WEB_TRAFFIC' || Domain == 'METRICS' : "Domain should be 'RETAIL' or 'CUSTOM' or 'INVENTORY_PLANNING' or 'EC2_CAPACITY' or 'WORK_FORCE' or 'WEB_TRAFFIC' or 'METRICS'",
       Domain: Domain,
     },
     DependsOn:: [],

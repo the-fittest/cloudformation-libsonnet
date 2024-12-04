@@ -32,6 +32,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATION_IN_PROGRESS' || Status == 'ACTIVE' || Status == 'CREATION_FAILED' || Status == 'PENDING_DELETION' || Status == 'DELETION_FAILED' || Status == 'UPDATE_IN_PROGRESS' : "Status should be 'CREATION_IN_PROGRESS' or 'ACTIVE' or 'CREATION_FAILED' or 'PENDING_DELETION' or 'DELETION_FAILED' or 'UPDATE_IN_PROGRESS'",
     Properties+::: {
       Status: Status,
     },

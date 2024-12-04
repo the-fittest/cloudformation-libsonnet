@@ -29,6 +29,7 @@
   },
   withS3StorageClass(S3StorageClass): {
     assert std.isString(S3StorageClass) : 'S3StorageClass must be a string',
+    assert S3StorageClass == 'STANDARD' || S3StorageClass == 'STANDARD_IA' || S3StorageClass == 'ONEZONE_IA' || S3StorageClass == 'INTELLIGENT_TIERING' || S3StorageClass == 'GLACIER' || S3StorageClass == 'GLACIER_INSTANT_RETRIEVAL' || S3StorageClass == 'DEEP_ARCHIVE' : "S3StorageClass should be 'STANDARD' or 'STANDARD_IA' or 'ONEZONE_IA' or 'INTELLIGENT_TIERING' or 'GLACIER' or 'GLACIER_INSTANT_RETRIEVAL' or 'DEEP_ARCHIVE'",
     Properties+::: {
       S3StorageClass: S3StorageClass,
     },

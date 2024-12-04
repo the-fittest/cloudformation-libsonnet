@@ -90,6 +90,7 @@
   },
   withStage(Stage): {
     assert std.isString(Stage) : 'Stage must be a string',
+    assert Stage == 'EXPERIMENTAL' || Stage == 'BETA' || Stage == 'PULL_REQUEST' || Stage == 'PRODUCTION' || Stage == 'DEVELOPMENT' : "Stage should be 'EXPERIMENTAL' or 'BETA' or 'PULL_REQUEST' or 'PRODUCTION' or 'DEVELOPMENT'",
     Properties+::: {
       Stage: Stage,
     },

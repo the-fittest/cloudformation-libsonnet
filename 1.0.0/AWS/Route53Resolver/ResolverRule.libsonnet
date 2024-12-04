@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(RuleType) : 'RuleType must be a string',
+      assert RuleType == 'FORWARD' || RuleType == 'SYSTEM' || RuleType == 'RECURSIVE' || RuleType == 'DELEGATE' : "RuleType should be 'FORWARD' or 'SYSTEM' or 'RECURSIVE' or 'DELEGATE'",
       RuleType: RuleType,
     },
     DependsOn:: [],

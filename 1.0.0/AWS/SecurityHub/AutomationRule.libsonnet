@@ -34,6 +34,7 @@
   },
   withRuleStatus(RuleStatus): {
     assert std.isString(RuleStatus) : 'RuleStatus must be a string',
+    assert RuleStatus == 'ENABLED' || RuleStatus == 'DISABLED' : "RuleStatus should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       RuleStatus: RuleStatus,
     },

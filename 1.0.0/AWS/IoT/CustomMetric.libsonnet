@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(MetricType) : 'MetricType must be a string',
+      assert MetricType == 'string-list' || MetricType == 'ip-address-list' || MetricType == 'number-list' || MetricType == 'number' : "MetricType should be 'string-list' or 'ip-address-list' or 'number-list' or 'number'",
       MetricType: MetricType,
     },
     DependsOn:: [],

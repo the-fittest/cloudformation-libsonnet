@@ -34,12 +34,14 @@
   },
   withBalancingStrategy(BalancingStrategy): {
     assert std.isString(BalancingStrategy) : 'BalancingStrategy must be a string',
+    assert BalancingStrategy == 'SPOT_ONLY' || BalancingStrategy == 'SPOT_PREFERRED' || BalancingStrategy == 'ON_DEMAND_ONLY' : "BalancingStrategy should be 'SPOT_ONLY' or 'SPOT_PREFERRED' or 'ON_DEMAND_ONLY'",
     Properties+::: {
       BalancingStrategy: BalancingStrategy,
     },
   },
   withDeleteOption(DeleteOption): {
     assert std.isString(DeleteOption) : 'DeleteOption must be a string',
+    assert DeleteOption == 'SAFE_DELETE' || DeleteOption == 'FORCE_DELETE' || DeleteOption == 'RETAIN' : "DeleteOption should be 'SAFE_DELETE' or 'FORCE_DELETE' or 'RETAIN'",
     Properties+::: {
       DeleteOption: DeleteOption,
     },
@@ -52,6 +54,7 @@
   },
   withGameServerProtectionPolicy(GameServerProtectionPolicy): {
     assert std.isString(GameServerProtectionPolicy) : 'GameServerProtectionPolicy must be a string',
+    assert GameServerProtectionPolicy == 'NO_PROTECTION' || GameServerProtectionPolicy == 'FULL_PROTECTION' : "GameServerProtectionPolicy should be 'NO_PROTECTION' or 'FULL_PROTECTION'",
     Properties+::: {
       GameServerProtectionPolicy: GameServerProtectionPolicy,
     },

@@ -20,6 +20,7 @@
       assert std.isObject(Actions) : 'Actions must be an object',
       Actions: Actions,
       assert std.isString(PublishStatus) : 'PublishStatus must be a string',
+      assert PublishStatus == 'DRAFT' || PublishStatus == 'PUBLISHED' : "PublishStatus should be 'DRAFT' or 'PUBLISHED'",
       PublishStatus: PublishStatus,
     },
     DependsOn:: [],

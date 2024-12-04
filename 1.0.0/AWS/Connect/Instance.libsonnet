@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(IdentityManagementType) : 'IdentityManagementType must be a string',
+      assert IdentityManagementType == 'SAML' || IdentityManagementType == 'CONNECT_MANAGED' || IdentityManagementType == 'EXISTING_DIRECTORY' : "IdentityManagementType should be 'SAML' or 'CONNECT_MANAGED' or 'EXISTING_DIRECTORY'",
       IdentityManagementType: IdentityManagementType,
       assert std.isObject(Attributes) : 'Attributes must be an object',
       Attributes: Attributes,
@@ -50,6 +51,7 @@
   },
   withInstanceStatus(InstanceStatus): {
     assert std.isString(InstanceStatus) : 'InstanceStatus must be a string',
+    assert InstanceStatus == 'CREATION_IN_PROGRESS' || InstanceStatus == 'CREATION_FAILED' || InstanceStatus == 'ACTIVE' : "InstanceStatus should be 'CREATION_IN_PROGRESS' or 'CREATION_FAILED' or 'ACTIVE'",
     Properties+::: {
       InstanceStatus: InstanceStatus,
     },

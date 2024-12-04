@@ -9,14 +9,19 @@
     local base = self,
     Properties: {
       assert std.isString(CopyAllowed) : 'CopyAllowed must be a string',
+      assert CopyAllowed == 'Disabled' || CopyAllowed == 'Enabled' : "CopyAllowed should be 'Disabled' or 'Enabled'",
       CopyAllowed: CopyAllowed,
       assert std.isString(DownloadAllowed) : 'DownloadAllowed must be a string',
+      assert DownloadAllowed == 'Disabled' || DownloadAllowed == 'Enabled' : "DownloadAllowed should be 'Disabled' or 'Enabled'",
       DownloadAllowed: DownloadAllowed,
       assert std.isString(PasteAllowed) : 'PasteAllowed must be a string',
+      assert PasteAllowed == 'Disabled' || PasteAllowed == 'Enabled' : "PasteAllowed should be 'Disabled' or 'Enabled'",
       PasteAllowed: PasteAllowed,
       assert std.isString(PrintAllowed) : 'PrintAllowed must be a string',
+      assert PrintAllowed == 'Disabled' || PrintAllowed == 'Enabled' : "PrintAllowed should be 'Disabled' or 'Enabled'",
       PrintAllowed: PrintAllowed,
       assert std.isString(UploadAllowed) : 'UploadAllowed must be a string',
+      assert UploadAllowed == 'Disabled' || UploadAllowed == 'Enabled' : "UploadAllowed should be 'Disabled' or 'Enabled'",
       UploadAllowed: UploadAllowed,
     },
     DependsOn:: [],
@@ -85,6 +90,7 @@
   },
   withDeepLinkAllowed(DeepLinkAllowed): {
     assert std.isString(DeepLinkAllowed) : 'DeepLinkAllowed must be a string',
+    assert DeepLinkAllowed == 'Disabled' || DeepLinkAllowed == 'Enabled' : "DeepLinkAllowed should be 'Disabled' or 'Enabled'",
     Properties+::: {
       DeepLinkAllowed: DeepLinkAllowed,
     },

@@ -26,18 +26,21 @@
   },
   withEnvironmentType(EnvironmentType): {
     assert std.isString(EnvironmentType) : 'EnvironmentType must be a string',
+    assert EnvironmentType == 'WINDOWS_SERVER_2019_CONTAINER' || EnvironmentType == 'WINDOWS_SERVER_2022_CONTAINER' || EnvironmentType == 'LINUX_CONTAINER' || EnvironmentType == 'LINUX_GPU_CONTAINER' || EnvironmentType == 'ARM_CONTAINER' || EnvironmentType == 'MAC_ARM' : "EnvironmentType should be 'WINDOWS_SERVER_2019_CONTAINER' or 'WINDOWS_SERVER_2022_CONTAINER' or 'LINUX_CONTAINER' or 'LINUX_GPU_CONTAINER' or 'ARM_CONTAINER' or 'MAC_ARM'",
     Properties+::: {
       EnvironmentType: EnvironmentType,
     },
   },
   withComputeType(ComputeType): {
     assert std.isString(ComputeType) : 'ComputeType must be a string',
+    assert ComputeType == 'BUILD_GENERAL1_SMALL' || ComputeType == 'BUILD_GENERAL1_MEDIUM' || ComputeType == 'BUILD_GENERAL1_LARGE' || ComputeType == 'BUILD_GENERAL1_XLARGE' || ComputeType == 'BUILD_GENERAL1_2XLARGE' || ComputeType == 'ATTRIBUTE_BASED_COMPUTE' : "ComputeType should be 'BUILD_GENERAL1_SMALL' or 'BUILD_GENERAL1_MEDIUM' or 'BUILD_GENERAL1_LARGE' or 'BUILD_GENERAL1_XLARGE' or 'BUILD_GENERAL1_2XLARGE' or 'ATTRIBUTE_BASED_COMPUTE'",
     Properties+::: {
       ComputeType: ComputeType,
     },
   },
   withOverflowBehavior(OverflowBehavior): {
     assert std.isString(OverflowBehavior) : 'OverflowBehavior must be a string',
+    assert OverflowBehavior == 'QUEUE' || OverflowBehavior == 'ON_DEMAND' : "OverflowBehavior should be 'QUEUE' or 'ON_DEMAND'",
     Properties+::: {
       OverflowBehavior: OverflowBehavior,
     },

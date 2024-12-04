@@ -17,18 +17,21 @@
   },
   withAutoEnableStandards(AutoEnableStandards): {
     assert std.isString(AutoEnableStandards) : 'AutoEnableStandards must be a string',
+    assert AutoEnableStandards == 'DEFAULT' || AutoEnableStandards == 'NONE' : "AutoEnableStandards should be 'DEFAULT' or 'NONE'",
     Properties+::: {
       AutoEnableStandards: AutoEnableStandards,
     },
   },
   withConfigurationType(ConfigurationType): {
     assert std.isString(ConfigurationType) : 'ConfigurationType must be a string',
+    assert ConfigurationType == 'CENTRAL' || ConfigurationType == 'LOCAL' : "ConfigurationType should be 'CENTRAL' or 'LOCAL'",
     Properties+::: {
       ConfigurationType: ConfigurationType,
     },
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'PENDING' || Status == 'ENABLED' || Status == 'FAILED' : "Status should be 'PENDING' or 'ENABLED' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },

@@ -2,6 +2,7 @@ local AWS = import '1.0.0/AWS/main.libsonnet';
 
 local LogGroup = AWS.Logs.LogGroup;
 local Role = AWS.IAM.Role;
+local Parameter = AWS.SSM.Parameter;
 
 local StateMachineId = 'Tadaaa';
 
@@ -13,6 +14,12 @@ local StateMachineId = 'Tadaaa';
       LogGroup.new()
       + LogGroup.withLogGroupName('/aws/vendedlogs/states/TadaaStateMachine')
       + LogGroup.withRetentionInDays(1)
+    ,
+    [StateMachineId + 'Parameter']:
+      Parameter.new(
+        Value='12345',
+        Type='Beany')
+      + Parameter.withName('/dev/nasd')
     ,
     [StateMachineId + 'StateMachineRole']:
       Role.new(

@@ -35,6 +35,7 @@
   },
   withIpamScopeType(IpamScopeType): {
     assert std.isString(IpamScopeType) : 'IpamScopeType must be a string',
+    assert IpamScopeType == 'public' || IpamScopeType == 'private' : "IpamScopeType should be 'public' or 'private'",
     Properties+::: {
       IpamScopeType: IpamScopeType,
     },

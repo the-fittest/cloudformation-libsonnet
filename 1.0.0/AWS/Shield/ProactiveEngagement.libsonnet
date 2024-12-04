@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(ProactiveEngagementStatus) : 'ProactiveEngagementStatus must be a string',
+      assert ProactiveEngagementStatus == 'ENABLED' || ProactiveEngagementStatus == 'DISABLED' : "ProactiveEngagementStatus should be 'ENABLED' or 'DISABLED'",
       ProactiveEngagementStatus: ProactiveEngagementStatus,
       EmergencyContactList: (if std.isArray(EmergencyContactList) then EmergencyContactList else [EmergencyContactList]),
     },

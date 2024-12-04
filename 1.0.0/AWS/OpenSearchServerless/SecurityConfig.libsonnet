@@ -44,6 +44,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'saml' || Type == 'iamidentitycenter' : "Type should be 'saml' or 'iamidentitycenter'",
     Properties+::: {
       Type: Type,
     },

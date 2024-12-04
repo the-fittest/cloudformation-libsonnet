@@ -44,6 +44,7 @@
   },
   withFormActionType(FormActionType): {
     assert std.isString(FormActionType) : 'FormActionType must be a string',
+    assert FormActionType == 'create' || FormActionType == 'update' : "FormActionType should be 'create' or 'update'",
     Properties+::: {
       FormActionType: FormActionType,
     },
@@ -56,6 +57,7 @@
   },
   withLabelDecorator(LabelDecorator): {
     assert std.isString(LabelDecorator) : 'LabelDecorator must be a string',
+    assert LabelDecorator == 'required' || LabelDecorator == 'optional' || LabelDecorator == 'none' : "LabelDecorator should be 'required' or 'optional' or 'none'",
     Properties+::: {
       LabelDecorator: LabelDecorator,
     },

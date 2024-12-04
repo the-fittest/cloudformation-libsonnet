@@ -14,6 +14,7 @@
   },
   withEngine(Engine): {
     assert std.isString(Engine) : 'Engine must be a string',
+    assert Engine == 'aurora' || Engine == 'aurora-mysql' || Engine == 'aurora-postgresql' : "Engine should be 'aurora' or 'aurora-mysql' or 'aurora-postgresql'",
     Properties+::: {
       Engine: Engine,
     },

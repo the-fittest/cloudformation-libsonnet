@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'ADOBE_ANALYTICS' || Type == 'AMAZON_ELASTICSEARCH' || Type == 'AMAZON_OPENSEARCH' || Type == 'ATHENA' || Type == 'AURORA' || Type == 'AURORA_POSTGRESQL' || Type == 'AWS_IOT_ANALYTICS' || Type == 'DATABRICKS' || Type == 'DENODO' || Type == 'DREMIO' || Type == 'DYNAMODB' || Type == 'SAPHANA' || Type == 'DB2_AS400' || Type == 'EXASOL' || Type == 'FILE' || Type == 'GITHUB' || Type == 'JIRA' || Type == 'MARIADB' || Type == 'MYSQL' || Type == 'ORACLE' || Type == 'POSTGRESQL' || Type == 'PRESTO' || Type == 'REDSHIFT' || Type == 'S3' || Type == 'S3_TABLES' || Type == 'SALESFORCE' || Type == 'SERVICENOW' || Type == 'SNOWFLAKE' || Type == 'SPARK' || Type == 'SQLSERVER' || Type == 'TERADATA' || Type == 'TIMESTREAM' || Type == 'TWITTER' || Type == 'BIGQUERY' || Type == 'GOOGLE_ANALYTICS' || Type == 'TRINO' || Type == 'STARBURST' || Type == 'MONGO' || Type == 'MONGO_ATLAS' || Type == 'DOCUMENTDB' || Type == 'APPFLOW' || Type == 'IMPALA' || Type == 'GLUE' : "Type should be 'ADOBE_ANALYTICS' or 'AMAZON_ELASTICSEARCH' or 'AMAZON_OPENSEARCH' or 'ATHENA' or 'AURORA' or 'AURORA_POSTGRESQL' or 'AWS_IOT_ANALYTICS' or 'DATABRICKS' or 'DENODO' or 'DREMIO' or 'DYNAMODB' or 'SAPHANA' or 'DB2_AS400' or 'EXASOL' or 'FILE' or 'GITHUB' or 'JIRA' or 'MARIADB' or 'MYSQL' or 'ORACLE' or 'POSTGRESQL' or 'PRESTO' or 'REDSHIFT' or 'S3' or 'S3_TABLES' or 'SALESFORCE' or 'SERVICENOW' or 'SNOWFLAKE' or 'SPARK' or 'SQLSERVER' or 'TERADATA' or 'TIMESTREAM' or 'TWITTER' or 'BIGQUERY' or 'GOOGLE_ANALYTICS' or 'TRINO' or 'STARBURST' or 'MONGO' or 'MONGO_ATLAS' or 'DOCUMENTDB' or 'APPFLOW' or 'IMPALA' or 'GLUE'",
       Type: Type,
     },
     DependsOn:: [],
@@ -104,6 +105,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATION_IN_PROGRESS' || Status == 'CREATION_SUCCESSFUL' || Status == 'CREATION_FAILED' || Status == 'UPDATE_IN_PROGRESS' || Status == 'UPDATE_SUCCESSFUL' || Status == 'UPDATE_FAILED' || Status == 'DELETED' : "Status should be 'CREATION_IN_PROGRESS' or 'CREATION_SUCCESSFUL' or 'CREATION_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_SUCCESSFUL' or 'UPDATE_FAILED' or 'DELETED'",
     Properties+::: {
       Status: Status,
     },

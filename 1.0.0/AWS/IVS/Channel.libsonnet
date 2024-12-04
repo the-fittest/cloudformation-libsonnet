@@ -38,12 +38,14 @@
   },
   withLatencyMode(LatencyMode): {
     assert std.isString(LatencyMode) : 'LatencyMode must be a string',
+    assert LatencyMode == 'NORMAL' || LatencyMode == 'LOW' : "LatencyMode should be 'NORMAL' or 'LOW'",
     Properties+::: {
       LatencyMode: LatencyMode,
     },
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'STANDARD' || Type == 'BASIC' || Type == 'ADVANCED_SD' || Type == 'ADVANCED_HD' : "Type should be 'STANDARD' or 'BASIC' or 'ADVANCED_SD' or 'ADVANCED_HD'",
     Properties+::: {
       Type: Type,
     },
@@ -78,6 +80,7 @@
   },
   withPreset(Preset): {
     assert std.isString(Preset) : 'Preset must be a string',
+    assert Preset == '' || Preset == 'HIGHER_BANDWIDTH_DELIVERY' || Preset == 'CONSTRAINED_BANDWIDTH_DELIVERY' : "Preset should be '' or 'HIGHER_BANDWIDTH_DELIVERY' or 'CONSTRAINED_BANDWIDTH_DELIVERY'",
     Properties+::: {
       Preset: Preset,
     },

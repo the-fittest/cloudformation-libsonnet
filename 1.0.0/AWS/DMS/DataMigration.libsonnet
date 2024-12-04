@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(DataMigrationType) : 'DataMigrationType must be a string',
+      assert DataMigrationType == 'full-load' || DataMigrationType == 'cdc' || DataMigrationType == 'full-load-and-cdc' : "DataMigrationType should be 'full-load' or 'cdc' or 'full-load-and-cdc'",
       DataMigrationType: DataMigrationType,
       assert std.isString(MigrationProjectIdentifier) : 'MigrationProjectIdentifier must be a string',
       MigrationProjectIdentifier: MigrationProjectIdentifier,

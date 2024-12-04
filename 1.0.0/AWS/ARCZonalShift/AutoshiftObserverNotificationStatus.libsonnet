@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(Status) : 'Status must be a string',
+      assert Status == 'ENABLED' : "Status should be 'ENABLED'",
       Status: Status,
     },
     DependsOn:: [],

@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(State) : 'State must be a string',
+      assert State == 'block-all-sharing' || State == 'block-new-sharing' : "State should be 'block-all-sharing' or 'block-new-sharing'",
       State: State,
     },
     DependsOn:: [],

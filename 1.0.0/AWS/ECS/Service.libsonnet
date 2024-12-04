@@ -20,6 +20,7 @@
   },
   withPropagateTags(PropagateTags): {
     assert std.isString(PropagateTags) : 'PropagateTags must be a string',
+    assert PropagateTags == 'SERVICE' || PropagateTags == 'TASK_DEFINITION' : "PropagateTags should be 'SERVICE' or 'TASK_DEFINITION'",
     Properties+::: {
       PropagateTags: PropagateTags,
     },
@@ -72,6 +73,7 @@
   },
   withLaunchType(LaunchType): {
     assert std.isString(LaunchType) : 'LaunchType must be a string',
+    assert LaunchType == 'EC2' || LaunchType == 'FARGATE' || LaunchType == 'EXTERNAL' : "LaunchType should be 'EC2' or 'FARGATE' or 'EXTERNAL'",
     Properties+::: {
       LaunchType: LaunchType,
     },
@@ -84,12 +86,14 @@
   },
   withAvailabilityZoneRebalancing(AvailabilityZoneRebalancing): {
     assert std.isString(AvailabilityZoneRebalancing) : 'AvailabilityZoneRebalancing must be a string',
+    assert AvailabilityZoneRebalancing == 'ENABLED' || AvailabilityZoneRebalancing == 'DISABLED' : "AvailabilityZoneRebalancing should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       AvailabilityZoneRebalancing: AvailabilityZoneRebalancing,
     },
   },
   withSchedulingStrategy(SchedulingStrategy): {
     assert std.isString(SchedulingStrategy) : 'SchedulingStrategy must be a string',
+    assert SchedulingStrategy == 'DAEMON' || SchedulingStrategy == 'REPLICA' : "SchedulingStrategy should be 'DAEMON' or 'REPLICA'",
     Properties+::: {
       SchedulingStrategy: SchedulingStrategy,
     },

@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Platform) : 'Platform must be a string',
+      assert Platform == 'Windows' || Platform == 'Linux' || Platform == 'macOS' : "Platform should be 'Windows' or 'Linux' or 'macOS'",
       Platform: Platform,
       assert std.isString(Version) : 'Version must be a string',
       Version: Version,
@@ -41,6 +42,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'BUILD' || Type == 'TEST' : "Type should be 'BUILD' or 'TEST'",
     Properties+::: {
       Type: Type,
     },

@@ -112,6 +112,7 @@
   },
   withProvisionedResourceCleanup(ProvisionedResourceCleanup): {
     assert std.isString(ProvisionedResourceCleanup) : 'ProvisionedResourceCleanup must be a string',
+    assert ProvisionedResourceCleanup == 'AUTOMATIC' || ProvisionedResourceCleanup == 'OFF' : "ProvisionedResourceCleanup should be 'AUTOMATIC' or 'OFF'",
     Properties+::: {
       ProvisionedResourceCleanup: ProvisionedResourceCleanup,
     },

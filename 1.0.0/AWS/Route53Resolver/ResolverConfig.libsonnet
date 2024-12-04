@@ -8,6 +8,7 @@
       assert std.isString(ResourceId) : 'ResourceId must be a string',
       ResourceId: ResourceId,
       assert std.isString(AutodefinedReverseFlag) : 'AutodefinedReverseFlag must be a string',
+      assert AutodefinedReverseFlag == 'DISABLE' : "AutodefinedReverseFlag should be 'DISABLE'",
       AutodefinedReverseFlag: AutodefinedReverseFlag,
     },
     DependsOn:: [],
@@ -32,6 +33,7 @@
   },
   withAutodefinedReverse(AutodefinedReverse): {
     assert std.isString(AutodefinedReverse) : 'AutodefinedReverse must be a string',
+    assert AutodefinedReverse == 'ENABLING' || AutodefinedReverse == 'ENABLED' || AutodefinedReverse == 'DISABLING' || AutodefinedReverse == 'DISABLED' : "AutodefinedReverse should be 'ENABLING' or 'ENABLED' or 'DISABLING' or 'DISABLED'",
     Properties+::: {
       AutodefinedReverse: AutodefinedReverse,
     },

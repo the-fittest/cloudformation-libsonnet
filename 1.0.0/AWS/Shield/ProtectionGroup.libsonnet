@@ -7,8 +7,10 @@
     local base = self,
     Properties: {
       assert std.isString(Aggregation) : 'Aggregation must be a string',
+      assert Aggregation == 'SUM' || Aggregation == 'MEAN' || Aggregation == 'MAX' : "Aggregation should be 'SUM' or 'MEAN' or 'MAX'",
       Aggregation: Aggregation,
       assert std.isString(Pattern) : 'Pattern must be a string',
+      assert Pattern == 'ALL' || Pattern == 'ARBITRARY' || Pattern == 'BY_RESOURCE_TYPE' : "Pattern should be 'ALL' or 'ARBITRARY' or 'BY_RESOURCE_TYPE'",
       Pattern: Pattern,
       assert std.isString(ProtectionGroupId) : 'ProtectionGroupId must be a string',
       ProtectionGroupId: ProtectionGroupId,
@@ -39,6 +41,7 @@
   },
   withResourceType(ResourceType): {
     assert std.isString(ResourceType) : 'ResourceType must be a string',
+    assert ResourceType == 'CLOUDFRONT_DISTRIBUTION' || ResourceType == 'ROUTE_53_HOSTED_ZONE' || ResourceType == 'ELASTIC_IP_ALLOCATION' || ResourceType == 'CLASSIC_LOAD_BALANCER' || ResourceType == 'APPLICATION_LOAD_BALANCER' || ResourceType == 'GLOBAL_ACCELERATOR' : "ResourceType should be 'CLOUDFRONT_DISTRIBUTION' or 'ROUTE_53_HOSTED_ZONE' or 'ELASTIC_IP_ALLOCATION' or 'CLASSIC_LOAD_BALANCER' or 'APPLICATION_LOAD_BALANCER' or 'GLOBAL_ACCELERATOR'",
     Properties+::: {
       ResourceType: ResourceType,
     },

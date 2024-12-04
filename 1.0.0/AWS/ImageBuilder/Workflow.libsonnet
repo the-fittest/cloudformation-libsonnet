@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'BUILD' || Type == 'TEST' || Type == 'DISTRIBUTION' : "Type should be 'BUILD' or 'TEST' or 'DISTRIBUTION'",
       Type: Type,
       assert std.isString(Version) : 'Version must be a string',
       Version: Version,

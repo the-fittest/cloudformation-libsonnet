@@ -71,6 +71,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'ENABLED' || State == 'DISABLED' : "State should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       State: State,
     },

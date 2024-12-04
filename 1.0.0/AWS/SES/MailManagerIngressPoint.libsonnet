@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'OPEN' || Type == 'AUTH' : "Type should be 'OPEN' or 'AUTH'",
       Type: Type,
       assert std.isString(TrafficPolicyId) : 'TrafficPolicyId must be a string',
       TrafficPolicyId: TrafficPolicyId,
@@ -52,12 +53,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'PROVISIONING' || Status == 'DEPROVISIONING' || Status == 'UPDATING' || Status == 'ACTIVE' || Status == 'CLOSED' || Status == 'FAILED' : "Status should be 'PROVISIONING' or 'DEPROVISIONING' or 'UPDATING' or 'ACTIVE' or 'CLOSED' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },
   },
   withStatusToUpdate(StatusToUpdate): {
     assert std.isString(StatusToUpdate) : 'StatusToUpdate must be a string',
+    assert StatusToUpdate == 'ACTIVE' || StatusToUpdate == 'CLOSED' : "StatusToUpdate should be 'ACTIVE' or 'CLOSED'",
     Properties+::: {
       StatusToUpdate: StatusToUpdate,
     },

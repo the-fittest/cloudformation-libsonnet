@@ -26,6 +26,7 @@
   },
   withFeatureSet(FeatureSet): {
     assert std.isString(FeatureSet) : 'FeatureSet must be a string',
+    assert FeatureSet == 'ALL' || FeatureSet == 'CONSOLIDATED_BILLING' : "FeatureSet should be 'ALL' or 'CONSOLIDATED_BILLING'",
     Properties+::: {
       FeatureSet: FeatureSet,
     },

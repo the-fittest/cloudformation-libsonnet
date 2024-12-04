@@ -32,6 +32,7 @@
   },
   withNetworkFabricType(NetworkFabricType): {
     assert std.isString(NetworkFabricType) : 'NetworkFabricType must be a string',
+    assert NetworkFabricType == 'TRANSIT_GATEWAY' || NetworkFabricType == 'NONE' : "NetworkFabricType should be 'TRANSIT_GATEWAY' or 'NONE'",
     Properties+::: {
       NetworkFabricType: NetworkFabricType,
     },

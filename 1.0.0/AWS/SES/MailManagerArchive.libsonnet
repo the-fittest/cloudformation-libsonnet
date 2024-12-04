@@ -32,6 +32,7 @@
   },
   withArchiveState(ArchiveState): {
     assert std.isString(ArchiveState) : 'ArchiveState must be a string',
+    assert ArchiveState == 'ACTIVE' || ArchiveState == 'PENDING_DELETION' : "ArchiveState should be 'ACTIVE' or 'PENDING_DELETION'",
     Properties+::: {
       ArchiveState: ArchiveState,
     },

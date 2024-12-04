@@ -11,6 +11,7 @@
       assert std.isString(AccessAssociationSource) : 'AccessAssociationSource must be a string',
       AccessAssociationSource: AccessAssociationSource,
       assert std.isString(AccessAssociationSourceType) : 'AccessAssociationSourceType must be a string',
+      assert AccessAssociationSourceType == 'VPCE' : "AccessAssociationSourceType should be 'VPCE'",
       AccessAssociationSourceType: AccessAssociationSourceType,
     },
     DependsOn:: [],

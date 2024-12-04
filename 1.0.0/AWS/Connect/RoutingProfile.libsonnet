@@ -54,6 +54,7 @@
   },
   withAgentAvailabilityTimer(AgentAvailabilityTimer): {
     assert std.isString(AgentAvailabilityTimer) : 'AgentAvailabilityTimer must be a string',
+    assert AgentAvailabilityTimer == 'TIME_SINCE_LAST_ACTIVITY' || AgentAvailabilityTimer == 'TIME_SINCE_LAST_INBOUND' : "AgentAvailabilityTimer should be 'TIME_SINCE_LAST_ACTIVITY' or 'TIME_SINCE_LAST_INBOUND'",
     Properties+::: {
       AgentAvailabilityTimer: AgentAvailabilityTimer,
     },

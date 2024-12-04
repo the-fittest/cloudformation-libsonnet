@@ -47,12 +47,14 @@
   },
   withPositionFiltering(PositionFiltering): {
     assert std.isString(PositionFiltering) : 'PositionFiltering must be a string',
+    assert PositionFiltering == 'TimeBased' || PositionFiltering == 'DistanceBased' || PositionFiltering == 'AccuracyBased' : "PositionFiltering should be 'TimeBased' or 'DistanceBased' or 'AccuracyBased'",
     Properties+::: {
       PositionFiltering: PositionFiltering,
     },
   },
   withPricingPlan(PricingPlan): {
     assert std.isString(PricingPlan) : 'PricingPlan must be a string',
+    assert PricingPlan == 'RequestBasedUsage' : "PricingPlan should be 'RequestBasedUsage'",
     Properties+::: {
       PricingPlan: PricingPlan,
     },

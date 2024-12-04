@@ -32,12 +32,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'ACTIVE' || Status == 'ACTION_NEEDED' || Status == 'DELETING' || Status == 'FAILED' || Status == 'OVERRIDDEN' : "Status should be 'CREATING' or 'ACTIVE' or 'ACTION_NEEDED' or 'DELETING' or 'FAILED' or 'OVERRIDDEN'",
     Properties+::: {
       Status: Status,
     },
   },
   withError(Error): {
     assert std.isString(Error) : 'Error must be a string',
+    assert Error == 'NONE' || Error == 'DESTINATION_NOT_FOUND' || Error == 'ACCESS_DENIED' : "Error should be 'NONE' or 'DESTINATION_NOT_FOUND' or 'ACCESS_DENIED'",
     Properties+::: {
       Error: Error,
     },

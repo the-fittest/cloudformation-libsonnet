@@ -42,6 +42,7 @@
   },
   withAgentAliasStatus(AgentAliasStatus): {
     assert std.isString(AgentAliasStatus) : 'AgentAliasStatus must be a string',
+    assert AgentAliasStatus == 'CREATING' || AgentAliasStatus == 'PREPARED' || AgentAliasStatus == 'FAILED' || AgentAliasStatus == 'UPDATING' || AgentAliasStatus == 'DELETING' : "AgentAliasStatus should be 'CREATING' or 'PREPARED' or 'FAILED' or 'UPDATING' or 'DELETING'",
     Properties+::: {
       AgentAliasStatus: AgentAliasStatus,
     },

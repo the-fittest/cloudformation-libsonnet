@@ -48,6 +48,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'CREATED' || Status == 'UPDATING' || Status == 'UPDATED' || Status == 'DELETING' : "Status should be 'CREATING' or 'CREATED' or 'UPDATING' or 'UPDATED' or 'DELETING'",
     Properties+::: {
       Status: Status,
     },
@@ -60,6 +61,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'MANAGED' || Type == 'CUSTOM' : "Type should be 'MANAGED' or 'CUSTOM'",
     Properties+::: {
       Type: Type,
     },

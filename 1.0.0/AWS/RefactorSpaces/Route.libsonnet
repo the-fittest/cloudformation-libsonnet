@@ -14,6 +14,7 @@
       assert std.isString(ServiceIdentifier) : 'ServiceIdentifier must be a string',
       ServiceIdentifier: ServiceIdentifier,
       assert std.isString(RouteType) : 'RouteType must be a string',
+      assert RouteType == 'DEFAULT' || RouteType == 'URI_PATH' : "RouteType should be 'DEFAULT' or 'URI_PATH'",
       RouteType: RouteType,
     },
     DependsOn:: [],

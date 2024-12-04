@@ -32,6 +32,7 @@
   },
   withBotAliasStatus(BotAliasStatus): {
     assert std.isString(BotAliasStatus) : 'BotAliasStatus must be a string',
+    assert BotAliasStatus == 'Creating' || BotAliasStatus == 'Available' || BotAliasStatus == 'Deleting' || BotAliasStatus == 'Failed' : "BotAliasStatus should be 'Creating' or 'Available' or 'Deleting' or 'Failed'",
     Properties+::: {
       BotAliasStatus: BotAliasStatus,
     },

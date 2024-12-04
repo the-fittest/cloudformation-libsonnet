@@ -29,6 +29,7 @@
   },
   withAssociationBehavior(AssociationBehavior): {
     assert std.isString(AssociationBehavior) : 'AssociationBehavior must be a string',
+    assert AssociationBehavior == 'CreateIotThing' || AssociationBehavior == 'ValidateIotThingExists' : "AssociationBehavior should be 'CreateIotThing' or 'ValidateIotThingExists'",
     Properties+::: {
       AssociationBehavior: AssociationBehavior,
     },

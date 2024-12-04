@@ -41,6 +41,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'DRAFT' || Status == 'PUBLISHED' || Status == 'DEPRECATED' : "Status should be 'DRAFT' or 'PUBLISHED' or 'DEPRECATED'",
     Properties+::: {
       Status: Status,
     },

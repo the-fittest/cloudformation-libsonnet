@@ -29,6 +29,7 @@
   },
   withFunctionUrlAuthType(FunctionUrlAuthType): {
     assert std.isString(FunctionUrlAuthType) : 'FunctionUrlAuthType must be a string',
+    assert FunctionUrlAuthType == 'AWS_IAM' || FunctionUrlAuthType == 'NONE' : "FunctionUrlAuthType should be 'AWS_IAM' or 'NONE'",
     Properties+::: {
       FunctionUrlAuthType: FunctionUrlAuthType,
     },

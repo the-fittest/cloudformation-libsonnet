@@ -8,6 +8,7 @@
       assert std.isString(Value) : 'Value must be a string',
       Value: Value,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'String' || Type == 'StringList' : "Type should be 'String' or 'StringList'",
       Type: Type,
     },
     DependsOn:: [],
@@ -38,6 +39,7 @@
   },
   withTier(Tier): {
     assert std.isString(Tier) : 'Tier must be a string',
+    assert Tier == 'Standard' || Tier == 'Advanced' || Tier == 'Intelligent-Tiering' : "Tier should be 'Standard' or 'Advanced' or 'Intelligent-Tiering'",
     Properties+::: {
       Tier: Tier,
     },
@@ -50,6 +52,7 @@
   },
   withDataType(DataType): {
     assert std.isString(DataType) : 'DataType must be a string',
+    assert DataType == 'text' || DataType == 'aws:ec2:image' : "DataType should be 'text' or 'aws:ec2:image'",
     Properties+::: {
       DataType: DataType,
     },

@@ -57,12 +57,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'Available' || Status == 'Pending' || Status == 'Deleting' || Status == 'Create_Failed' || Status == 'Delete_Failed' : "Status should be 'Available' or 'Pending' or 'Deleting' or 'Create_Failed' or 'Delete_Failed'",
     Properties+::: {
       Status: Status,
     },
   },
   withAccessType(AccessType): {
     assert std.isString(AccessType) : 'AccessType must be a string',
+    assert AccessType == 'CustomerOwnedIp' || AccessType == 'Private' : "AccessType should be 'CustomerOwnedIp' or 'Private'",
     Properties+::: {
       AccessType: AccessType,
     },

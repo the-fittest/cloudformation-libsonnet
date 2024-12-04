@@ -17,6 +17,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'running' || Status == 'failed' || Status == 'succeeded' : "Status should be 'running' or 'failed' or 'succeeded'",
     Properties+::: {
       Status: Status,
     },

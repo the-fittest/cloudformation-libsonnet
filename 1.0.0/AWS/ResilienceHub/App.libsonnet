@@ -46,6 +46,7 @@
   },
   withAppAssessmentSchedule(AppAssessmentSchedule): {
     assert std.isString(AppAssessmentSchedule) : 'AppAssessmentSchedule must be a string',
+    assert AppAssessmentSchedule == 'Disabled' || AppAssessmentSchedule == 'Daily' : "AppAssessmentSchedule should be 'Disabled' or 'Daily'",
     Properties+::: {
       AppAssessmentSchedule: AppAssessmentSchedule,
     },
@@ -68,6 +69,7 @@
   },
   withDriftStatus(DriftStatus): {
     assert std.isString(DriftStatus) : 'DriftStatus must be a string',
+    assert DriftStatus == 'NotChecked' || DriftStatus == 'NotDetected' || DriftStatus == 'Detected' : "DriftStatus should be 'NotChecked' or 'NotDetected' or 'Detected'",
     Properties+::: {
       DriftStatus: DriftStatus,
     },

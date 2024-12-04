@@ -23,12 +23,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ENABLED' || Status == 'DISABLED' : "Status should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       Status: Status,
     },
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'STANDARD' || Type == 'AGENT' : "Type should be 'STANDARD' or 'AGENT'",
     Properties+::: {
       Type: Type,
     },

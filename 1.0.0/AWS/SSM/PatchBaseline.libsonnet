@@ -29,6 +29,7 @@
   },
   withOperatingSystem(OperatingSystem): {
     assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
+    assert OperatingSystem == 'WINDOWS' || OperatingSystem == 'AMAZON_LINUX' || OperatingSystem == 'AMAZON_LINUX_2' || OperatingSystem == 'AMAZON_LINUX_2022' || OperatingSystem == 'AMAZON_LINUX_2023' || OperatingSystem == 'UBUNTU' || OperatingSystem == 'REDHAT_ENTERPRISE_LINUX' || OperatingSystem == 'SUSE' || OperatingSystem == 'CENTOS' || OperatingSystem == 'ORACLE_LINUX' || OperatingSystem == 'DEBIAN' || OperatingSystem == 'MACOS' || OperatingSystem == 'RASPBIAN' || OperatingSystem == 'ROCKY_LINUX' || OperatingSystem == 'ALMA_LINUX' : "OperatingSystem should be 'WINDOWS' or 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2022' or 'AMAZON_LINUX_2023' or 'UBUNTU' or 'REDHAT_ENTERPRISE_LINUX' or 'SUSE' or 'CENTOS' or 'ORACLE_LINUX' or 'DEBIAN' or 'MACOS' or 'RASPBIAN' or 'ROCKY_LINUX' or 'ALMA_LINUX'",
     Properties+::: {
       OperatingSystem: OperatingSystem,
     },
@@ -77,6 +78,7 @@
   },
   withRejectedPatchesAction(RejectedPatchesAction): {
     assert std.isString(RejectedPatchesAction) : 'RejectedPatchesAction must be a string',
+    assert RejectedPatchesAction == 'ALLOW_AS_DEPENDENCY' || RejectedPatchesAction == 'BLOCK' : "RejectedPatchesAction should be 'ALLOW_AS_DEPENDENCY' or 'BLOCK'",
     Properties+::: {
       RejectedPatchesAction: RejectedPatchesAction,
     },
@@ -93,6 +95,7 @@
   },
   withApprovedPatchesComplianceLevel(ApprovedPatchesComplianceLevel): {
     assert std.isString(ApprovedPatchesComplianceLevel) : 'ApprovedPatchesComplianceLevel must be a string',
+    assert ApprovedPatchesComplianceLevel == 'CRITICAL' || ApprovedPatchesComplianceLevel == 'HIGH' || ApprovedPatchesComplianceLevel == 'MEDIUM' || ApprovedPatchesComplianceLevel == 'LOW' || ApprovedPatchesComplianceLevel == 'INFORMATIONAL' || ApprovedPatchesComplianceLevel == 'UNSPECIFIED' : "ApprovedPatchesComplianceLevel should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'INFORMATIONAL' or 'UNSPECIFIED'",
     Properties+::: {
       ApprovedPatchesComplianceLevel: ApprovedPatchesComplianceLevel,
     },

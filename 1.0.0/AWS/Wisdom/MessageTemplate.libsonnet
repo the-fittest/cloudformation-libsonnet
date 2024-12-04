@@ -10,6 +10,7 @@
       assert std.isString(KnowledgeBaseArn) : 'KnowledgeBaseArn must be a string',
       KnowledgeBaseArn: KnowledgeBaseArn,
       assert std.isString(ChannelSubtype) : 'ChannelSubtype must be a string',
+      assert ChannelSubtype == 'EMAIL' || ChannelSubtype == 'SMS' : "ChannelSubtype should be 'EMAIL' or 'SMS'",
       ChannelSubtype: ChannelSubtype,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

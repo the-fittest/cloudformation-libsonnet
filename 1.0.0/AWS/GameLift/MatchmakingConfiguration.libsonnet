@@ -38,6 +38,7 @@
   },
   withBackfillMode(BackfillMode): {
     assert std.isString(BackfillMode) : 'BackfillMode must be a string',
+    assert BackfillMode == 'AUTOMATIC' || BackfillMode == 'MANUAL' : "BackfillMode should be 'AUTOMATIC' or 'MANUAL'",
     Properties+::: {
       BackfillMode: BackfillMode,
     },
@@ -68,6 +69,7 @@
   },
   withFlexMatchMode(FlexMatchMode): {
     assert std.isString(FlexMatchMode) : 'FlexMatchMode must be a string',
+    assert FlexMatchMode == 'STANDALONE' || FlexMatchMode == 'WITH_QUEUE' : "FlexMatchMode should be 'STANDALONE' or 'WITH_QUEUE'",
     Properties+::: {
       FlexMatchMode: FlexMatchMode,
     },

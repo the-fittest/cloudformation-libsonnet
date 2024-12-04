@@ -39,6 +39,7 @@
   },
   withExecutionMode(ExecutionMode): {
     assert std.isString(ExecutionMode) : 'ExecutionMode must be a string',
+    assert ExecutionMode == 'QUEUED' || ExecutionMode == 'SUPERSEDED' || ExecutionMode == 'PARALLEL' : "ExecutionMode should be 'QUEUED' or 'SUPERSEDED' or 'PARALLEL'",
     Properties+::: {
       ExecutionMode: ExecutionMode,
     },
@@ -89,6 +90,7 @@
   },
   withPipelineType(PipelineType): {
     assert std.isString(PipelineType) : 'PipelineType must be a string',
+    assert PipelineType == 'V1' || PipelineType == 'V2' : "PipelineType should be 'V1' or 'V2'",
     Properties+::: {
       PipelineType: PipelineType,
     },

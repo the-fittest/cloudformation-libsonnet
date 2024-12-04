@@ -57,12 +57,14 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'SEARCH' || Type == 'TIMESERIES' || Type == 'VECTORSEARCH' : "Type should be 'SEARCH' or 'TIMESERIES' or 'VECTORSEARCH'",
     Properties+::: {
       Type: Type,
     },
   },
   withStandbyReplicas(StandbyReplicas): {
     assert std.isString(StandbyReplicas) : 'StandbyReplicas must be a string',
+    assert StandbyReplicas == 'ENABLED' || StandbyReplicas == 'DISABLED' : "StandbyReplicas should be 'ENABLED' or 'DISABLED'",
     Properties+::: {
       StandbyReplicas: StandbyReplicas,
     },

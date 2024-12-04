@@ -50,6 +50,7 @@
   },
   withModelPackageGroupStatus(ModelPackageGroupStatus): {
     assert std.isString(ModelPackageGroupStatus) : 'ModelPackageGroupStatus must be a string',
+    assert ModelPackageGroupStatus == 'Pending' || ModelPackageGroupStatus == 'InProgress' || ModelPackageGroupStatus == 'Completed' || ModelPackageGroupStatus == 'Failed' || ModelPackageGroupStatus == 'Deleting' || ModelPackageGroupStatus == 'DeleteFailed' : "ModelPackageGroupStatus should be 'Pending' or 'InProgress' or 'Completed' or 'Failed' or 'Deleting' or 'DeleteFailed'",
     Properties+::: {
       ModelPackageGroupStatus: ModelPackageGroupStatus,
     },

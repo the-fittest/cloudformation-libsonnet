@@ -9,6 +9,7 @@
     Properties: {
       AllowedColumns: (if std.isArray(AllowedColumns) then AllowedColumns else [AllowedColumns]),
       assert std.isString(AnalysisMethod) : 'AnalysisMethod must be a string',
+      assert AnalysisMethod == 'DIRECT_QUERY' : "AnalysisMethod should be 'DIRECT_QUERY'",
       AnalysisMethod: AnalysisMethod,
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,

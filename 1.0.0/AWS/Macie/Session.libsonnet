@@ -20,12 +20,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ENABLED' || Status == 'PAUSED' : "Status should be 'ENABLED' or 'PAUSED'",
     Properties+::: {
       Status: Status,
     },
   },
   withFindingPublishingFrequency(FindingPublishingFrequency): {
     assert std.isString(FindingPublishingFrequency) : 'FindingPublishingFrequency must be a string',
+    assert FindingPublishingFrequency == 'FIFTEEN_MINUTES' || FindingPublishingFrequency == 'ONE_HOUR' || FindingPublishingFrequency == 'SIX_HOURS' : "FindingPublishingFrequency should be 'FIFTEEN_MINUTES' or 'ONE_HOUR' or 'SIX_HOURS'",
     Properties+::: {
       FindingPublishingFrequency: FindingPublishingFrequency,
     },

@@ -66,6 +66,7 @@
   },
   withOrigination(Origination): {
     assert std.isString(Origination) : 'Origination must be a string',
+    assert Origination == 'ALLOW' || Origination == 'DENY' : "Origination should be 'ALLOW' or 'DENY'",
     Properties+::: {
       Origination: Origination,
     },

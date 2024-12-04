@@ -41,6 +41,7 @@
   },
   withStateMachineType(StateMachineType): {
     assert std.isString(StateMachineType) : 'StateMachineType must be a string',
+    assert StateMachineType == 'STANDARD' || StateMachineType == 'EXPRESS' : "StateMachineType should be 'STANDARD' or 'EXPRESS'",
     Properties+::: {
       StateMachineType: StateMachineType,
     },

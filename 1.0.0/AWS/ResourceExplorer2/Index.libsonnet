@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'LOCAL' || Type == 'AGGREGATOR' : "Type should be 'LOCAL' or 'AGGREGATOR'",
       Type: Type,
     },
     DependsOn:: [],
@@ -29,6 +30,7 @@
   },
   withIndexState(IndexState): {
     assert std.isString(IndexState) : 'IndexState must be a string',
+    assert IndexState == 'ACTIVE' || IndexState == 'CREATING' || IndexState == 'DELETING' || IndexState == 'DELETED' || IndexState == 'UPDATING' : "IndexState should be 'ACTIVE' or 'CREATING' or 'DELETING' or 'DELETED' or 'UPDATING'",
     Properties+::: {
       IndexState: IndexState,
     },

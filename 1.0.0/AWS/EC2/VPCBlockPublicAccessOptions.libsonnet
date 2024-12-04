@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(InternetGatewayBlockMode) : 'InternetGatewayBlockMode must be a string',
+      assert InternetGatewayBlockMode == 'block-bidirectional' || InternetGatewayBlockMode == 'block-ingress' : "InternetGatewayBlockMode should be 'block-bidirectional' or 'block-ingress'",
       InternetGatewayBlockMode: InternetGatewayBlockMode,
     },
     DependsOn:: [],

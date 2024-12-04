@@ -53,6 +53,7 @@
   },
   withEvaluationType(EvaluationType): {
     assert std.isString(EvaluationType) : 'EvaluationType must be a string',
+    assert EvaluationType == 'PeriodBased' || EvaluationType == 'RequestBased' : "EvaluationType should be 'PeriodBased' or 'RequestBased'",
     Properties+::: {
       EvaluationType: EvaluationType,
     },

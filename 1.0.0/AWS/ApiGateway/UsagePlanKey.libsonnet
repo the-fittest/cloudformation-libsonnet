@@ -7,6 +7,7 @@
     local base = self,
     Properties: {
       assert std.isString(KeyType) : 'KeyType must be a string',
+      assert KeyType == 'API_KEY' : "KeyType should be 'API_KEY'",
       KeyType: KeyType,
       assert std.isString(UsagePlanId) : 'UsagePlanId must be a string',
       UsagePlanId: UsagePlanId,

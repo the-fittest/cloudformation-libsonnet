@@ -13,6 +13,7 @@
       assert std.isString(ExecutionRole) : 'ExecutionRole must be a string',
       ExecutionRole: ExecutionRole,
       assert std.isString(ResourceType) : 'ResourceType must be a string',
+      assert ResourceType == 'AMI_IMAGE' || ResourceType == 'CONTAINER_IMAGE' : "ResourceType should be 'AMI_IMAGE' or 'CONTAINER_IMAGE'",
       ResourceType: ResourceType,
       PolicyDetails: (if std.isArray(PolicyDetails) then PolicyDetails else [PolicyDetails]),
       assert std.isObject(ResourceSelection) : 'ResourceSelection must be an object',
@@ -40,6 +41,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'DISABLED' || Status == 'ENABLED' : "Status should be 'DISABLED' or 'ENABLED'",
     Properties+::: {
       Status: Status,
     },

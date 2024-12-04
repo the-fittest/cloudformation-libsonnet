@@ -41,6 +41,7 @@
   },
   withTaskDefinitionType(TaskDefinitionType): {
     assert std.isString(TaskDefinitionType) : 'TaskDefinitionType must be a string',
+    assert TaskDefinitionType == 'UPDATE' : "TaskDefinitionType should be 'UPDATE'",
     Properties+::: {
       TaskDefinitionType: TaskDefinitionType,
     },

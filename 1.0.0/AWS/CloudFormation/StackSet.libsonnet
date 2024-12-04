@@ -8,6 +8,7 @@
       assert std.isString(StackSetName) : 'StackSetName must be a string',
       StackSetName: StackSetName,
       assert std.isString(PermissionModel) : 'PermissionModel must be a string',
+      assert PermissionModel == 'SERVICE_MANAGED' || PermissionModel == 'SELF_MANAGED' : "PermissionModel should be 'SERVICE_MANAGED' or 'SELF_MANAGED'",
       PermissionModel: PermissionModel,
     },
     DependsOn:: [],
@@ -108,6 +109,7 @@
   },
   withCallAs(CallAs): {
     assert std.isString(CallAs) : 'CallAs must be a string',
+    assert CallAs == 'SELF' || CallAs == 'DELEGATED_ADMIN' : "CallAs should be 'SELF' or 'DELEGATED_ADMIN'",
     Properties+::: {
       CallAs: CallAs,
     },

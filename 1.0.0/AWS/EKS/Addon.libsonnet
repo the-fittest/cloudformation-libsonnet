@@ -32,6 +32,7 @@
   },
   withResolveConflicts(ResolveConflicts): {
     assert std.isString(ResolveConflicts) : 'ResolveConflicts must be a string',
+    assert ResolveConflicts == 'NONE' || ResolveConflicts == 'OVERWRITE' || ResolveConflicts == 'PRESERVE' : "ResolveConflicts should be 'NONE' or 'OVERWRITE' or 'PRESERVE'",
     Properties+::: {
       ResolveConflicts: ResolveConflicts,
     },

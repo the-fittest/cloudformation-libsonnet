@@ -9,6 +9,7 @@
       assert std.isObject(Association) : 'Association must be an object',
       Association: Association,
       assert std.isString(AssociationType) : 'AssociationType must be a string',
+      assert AssociationType == 'KNOWLEDGE_BASE' : "AssociationType should be 'KNOWLEDGE_BASE'",
       AssociationType: AssociationType,
       assert std.isString(AssistantId) : 'AssistantId must be a string',
       AssistantId: AssistantId,

@@ -32,12 +32,14 @@
   },
   withLogGroupClass(LogGroupClass): {
     assert std.isString(LogGroupClass) : 'LogGroupClass must be a string',
+    assert LogGroupClass == 'STANDARD' || LogGroupClass == 'INFREQUENT_ACCESS' : "LogGroupClass should be 'STANDARD' or 'INFREQUENT_ACCESS'",
     Properties+::: {
       LogGroupClass: LogGroupClass,
     },
   },
   withRetentionInDays(RetentionInDays): {
     assert std.isNumber(RetentionInDays) : 'RetentionInDays must be a number',
+    assert RetentionInDays == 1 || RetentionInDays == 3 || RetentionInDays == 5 || RetentionInDays == 7 || RetentionInDays == 14 || RetentionInDays == 30 || RetentionInDays == 60 || RetentionInDays == 90 || RetentionInDays == 120 || RetentionInDays == 150 || RetentionInDays == 180 || RetentionInDays == 365 || RetentionInDays == 400 || RetentionInDays == 545 || RetentionInDays == 731 || RetentionInDays == 1096 || RetentionInDays == 1827 || RetentionInDays == 2192 || RetentionInDays == 2557 || RetentionInDays == 2922 || RetentionInDays == 3288 || RetentionInDays == 3653 : 'RetentionInDays should be 1 or 3 or 5 or 7 or 14 or 30 or 60 or 90 or 120 or 150 or 180 or 365 or 400 or 545 or 731 or 1096 or 1827 or 2192 or 2557 or 2922 or 3288 or 3653',
     Properties+::: {
       RetentionInDays: RetentionInDays,
     },

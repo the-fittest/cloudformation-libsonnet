@@ -10,6 +10,7 @@
       assert std.isString(AppName) : 'AppName must be a string',
       AppName: AppName,
       assert std.isString(AppType) : 'AppType must be a string',
+      assert AppType == 'JupyterServer' || AppType == 'KernelGateway' || AppType == 'RStudioServerPro' || AppType == 'RSessionGateway' || AppType == 'Canvas' : "AppType should be 'JupyterServer' or 'KernelGateway' or 'RStudioServerPro' or 'RSessionGateway' or 'Canvas'",
       AppType: AppType,
       assert std.isString(DomainId) : 'DomainId must be a string',
       DomainId: DomainId,

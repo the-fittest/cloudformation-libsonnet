@@ -20,6 +20,7 @@
   },
   withEffect(Effect): {
     assert std.isString(Effect) : 'Effect must be a string',
+    assert Effect == 'Allow' || Effect == 'Deny' : "Effect should be 'Allow' or 'Deny'",
     Properties+::: {
       Effect: Effect,
     },

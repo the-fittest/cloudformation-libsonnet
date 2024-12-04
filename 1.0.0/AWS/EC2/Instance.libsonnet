@@ -328,6 +328,7 @@
   },
   withAffinity(Affinity): {
     assert std.isString(Affinity) : 'Affinity must be a string',
+    assert Affinity == 'default' || Affinity == 'host' : "Affinity should be 'default' or 'host'",
     Properties+::: {
       Affinity: Affinity,
     },

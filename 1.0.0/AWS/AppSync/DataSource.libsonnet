@@ -83,6 +83,7 @@
   },
   withMetricsConfig(MetricsConfig): {
     assert std.isString(MetricsConfig) : 'MetricsConfig must be a string',
+    assert MetricsConfig == 'DISABLED' || MetricsConfig == 'ENABLED' : "MetricsConfig should be 'DISABLED' or 'ENABLED'",
     Properties+::: {
       MetricsConfig: MetricsConfig,
     },

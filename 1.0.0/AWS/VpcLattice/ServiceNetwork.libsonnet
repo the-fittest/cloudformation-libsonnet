@@ -44,6 +44,7 @@
   },
   withAuthType(AuthType): {
     assert std.isString(AuthType) : 'AuthType must be a string',
+    assert AuthType == 'NONE' || AuthType == 'AWS_IAM' : "AuthType should be 'NONE' or 'AWS_IAM'",
     Properties+::: {
       AuthType: AuthType,
     },

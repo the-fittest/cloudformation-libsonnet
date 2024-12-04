@@ -37,18 +37,21 @@
   },
   withKeyUsage(KeyUsage): {
     assert std.isString(KeyUsage) : 'KeyUsage must be a string',
+    assert KeyUsage == 'ENCRYPT_DECRYPT' || KeyUsage == 'SIGN_VERIFY' || KeyUsage == 'GENERATE_VERIFY_MAC' || KeyUsage == 'KEY_AGREEMENT' : "KeyUsage should be 'ENCRYPT_DECRYPT' or 'SIGN_VERIFY' or 'GENERATE_VERIFY_MAC' or 'KEY_AGREEMENT'",
     Properties+::: {
       KeyUsage: KeyUsage,
     },
   },
   withOrigin(Origin): {
     assert std.isString(Origin) : 'Origin must be a string',
+    assert Origin == 'AWS_KMS' || Origin == 'EXTERNAL' : "Origin should be 'AWS_KMS' or 'EXTERNAL'",
     Properties+::: {
       Origin: Origin,
     },
   },
   withKeySpec(KeySpec): {
     assert std.isString(KeySpec) : 'KeySpec must be a string',
+    assert KeySpec == 'SYMMETRIC_DEFAULT' || KeySpec == 'RSA_2048' || KeySpec == 'RSA_3072' || KeySpec == 'RSA_4096' || KeySpec == 'ECC_NIST_P256' || KeySpec == 'ECC_NIST_P384' || KeySpec == 'ECC_NIST_P521' || KeySpec == 'ECC_SECG_P256K1' || KeySpec == 'HMAC_224' || KeySpec == 'HMAC_256' || KeySpec == 'HMAC_384' || KeySpec == 'HMAC_512' || KeySpec == 'SM2' : "KeySpec should be 'SYMMETRIC_DEFAULT' or 'RSA_2048' or 'RSA_3072' or 'RSA_4096' or 'ECC_NIST_P256' or 'ECC_NIST_P384' or 'ECC_NIST_P521' or 'ECC_SECG_P256K1' or 'HMAC_224' or 'HMAC_256' or 'HMAC_384' or 'HMAC_512' or 'SM2'",
     Properties+::: {
       KeySpec: KeySpec,
     },

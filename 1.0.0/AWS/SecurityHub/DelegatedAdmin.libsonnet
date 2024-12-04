@@ -23,6 +23,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ENABLED' || Status == 'DISABLE_IN_PROGRESS' : "Status should be 'ENABLED' or 'DISABLE_IN_PROGRESS'",
     Properties+::: {
       Status: Status,
     },

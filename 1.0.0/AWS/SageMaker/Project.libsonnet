@@ -60,6 +60,7 @@
   },
   withProjectStatus(ProjectStatus): {
     assert std.isString(ProjectStatus) : 'ProjectStatus must be a string',
+    assert ProjectStatus == 'Pending' || ProjectStatus == 'CreateInProgress' || ProjectStatus == 'CreateCompleted' || ProjectStatus == 'CreateFailed' || ProjectStatus == 'DeleteInProgress' || ProjectStatus == 'DeleteFailed' || ProjectStatus == 'DeleteCompleted' : "ProjectStatus should be 'Pending' or 'CreateInProgress' or 'CreateCompleted' or 'CreateFailed' or 'DeleteInProgress' or 'DeleteFailed' or 'DeleteCompleted'",
     Properties+::: {
       ProjectStatus: ProjectStatus,
     },

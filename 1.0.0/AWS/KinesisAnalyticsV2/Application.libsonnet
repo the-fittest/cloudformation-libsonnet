@@ -32,6 +32,7 @@
   },
   withApplicationMode(ApplicationMode): {
     assert std.isString(ApplicationMode) : 'ApplicationMode must be a string',
+    assert ApplicationMode == 'INTERACTIVE' || ApplicationMode == 'STREAMING' : "ApplicationMode should be 'INTERACTIVE' or 'STREAMING'",
     Properties+::: {
       ApplicationMode: ApplicationMode,
     },

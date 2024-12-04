@@ -74,6 +74,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'available' || Status == 'inactive' || Status == 'inactive-except-restore' : "Status should be 'available' or 'inactive' or 'inactive-except-restore'",
     Properties+::: {
       Status: Status,
     },

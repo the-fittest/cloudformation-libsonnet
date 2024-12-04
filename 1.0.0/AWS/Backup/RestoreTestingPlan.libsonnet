@@ -35,6 +35,7 @@
   },
   withScheduleStatus(ScheduleStatus): {
     assert std.isString(ScheduleStatus) : 'ScheduleStatus must be a string',
+    assert ScheduleStatus == 'ACTIVE' || ScheduleStatus == 'SUSPENDED' : "ScheduleStatus should be 'ACTIVE' or 'SUSPENDED'",
     Properties+::: {
       ScheduleStatus: ScheduleStatus,
     },

@@ -9,6 +9,7 @@
       assert std.isObject(Grantee) : 'Grantee must be an object',
       Grantee: Grantee,
       assert std.isString(Permission) : 'Permission must be a string',
+      assert Permission == 'READ' || Permission == 'WRITE' || Permission == 'READWRITE' : "Permission should be 'READ' or 'WRITE' or 'READWRITE'",
       Permission: Permission,
       assert std.isString(AccessGrantsLocationId) : 'AccessGrantsLocationId must be a string',
       AccessGrantsLocationId: AccessGrantsLocationId,
@@ -45,6 +46,7 @@
   },
   withS3PrefixType(S3PrefixType): {
     assert std.isString(S3PrefixType) : 'S3PrefixType must be a string',
+    assert S3PrefixType == 'Object' : "S3PrefixType should be 'Object'",
     Properties+::: {
       S3PrefixType: S3PrefixType,
     },

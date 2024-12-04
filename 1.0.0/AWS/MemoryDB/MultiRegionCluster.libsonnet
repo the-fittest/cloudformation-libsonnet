@@ -87,6 +87,7 @@
   },
   withUpdateStrategy(UpdateStrategy): {
     assert std.isString(UpdateStrategy) : 'UpdateStrategy must be a string',
+    assert UpdateStrategy == 'COORDINATED' || UpdateStrategy == 'UNCOORDINATED' : "UpdateStrategy should be 'COORDINATED' or 'UNCOORDINATED'",
     Properties+::: {
       UpdateStrategy: UpdateStrategy,
     },

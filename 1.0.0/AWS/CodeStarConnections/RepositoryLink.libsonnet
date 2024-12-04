@@ -23,6 +23,7 @@
   },
   withProviderType(ProviderType): {
     assert std.isString(ProviderType) : 'ProviderType must be a string',
+    assert ProviderType == 'GitHub' || ProviderType == 'Bitbucket' || ProviderType == 'GitHubEnterprise' || ProviderType == 'GitLab' || ProviderType == 'GitLabSelfManaged' : "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'",
     Properties+::: {
       ProviderType: ProviderType,
     },

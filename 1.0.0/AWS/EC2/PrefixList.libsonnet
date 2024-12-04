@@ -8,6 +8,7 @@
       assert std.isString(PrefixListName) : 'PrefixListName must be a string',
       PrefixListName: PrefixListName,
       assert std.isString(AddressFamily) : 'AddressFamily must be a string',
+      assert AddressFamily == 'IPv4' || AddressFamily == 'IPv6' : "AddressFamily should be 'IPv4' or 'IPv6'",
       AddressFamily: AddressFamily,
     },
     DependsOn:: [],

@@ -14,6 +14,7 @@
   },
   withAcceptLanguage(AcceptLanguage): {
     assert std.isString(AcceptLanguage) : 'AcceptLanguage must be a string',
+    assert AcceptLanguage == 'en' || AcceptLanguage == 'jp' || AcceptLanguage == 'zh' : "AcceptLanguage should be 'en' or 'jp' or 'zh'",
     Properties+::: {
       AcceptLanguage: AcceptLanguage,
     },

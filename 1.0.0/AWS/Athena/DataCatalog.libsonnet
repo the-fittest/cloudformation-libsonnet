@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'LAMBDA' || Type == 'GLUE' || Type == 'HIVE' : "Type should be 'LAMBDA' or 'GLUE' or 'HIVE'",
       Type: Type,
     },
     DependsOn:: [],

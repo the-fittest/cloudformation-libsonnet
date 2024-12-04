@@ -20,6 +20,7 @@
   },
   withAuthenticationType(AuthenticationType): {
     assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
+    assert AuthenticationType == 'Standard' || AuthenticationType == 'IAM_Identity_Center' : "AuthenticationType should be 'Standard' or 'IAM_Identity_Center'",
     Properties+::: {
       AuthenticationType: AuthenticationType,
     },
@@ -32,6 +33,7 @@
   },
   withBrowserType(BrowserType): {
     assert std.isString(BrowserType) : 'BrowserType must be a string',
+    assert BrowserType == 'Chrome' : "BrowserType should be 'Chrome'",
     Properties+::: {
       BrowserType: BrowserType,
     },
@@ -62,6 +64,7 @@
   },
   withInstanceType(InstanceType): {
     assert std.isString(InstanceType) : 'InstanceType must be a string',
+    assert InstanceType == 'standard.regular' || InstanceType == 'standard.large' || InstanceType == 'standard.xlarge' : "InstanceType should be 'standard.regular' or 'standard.large' or 'standard.xlarge'",
     Properties+::: {
       InstanceType: InstanceType,
     },
@@ -98,12 +101,14 @@
   },
   withPortalStatus(PortalStatus): {
     assert std.isString(PortalStatus) : 'PortalStatus must be a string',
+    assert PortalStatus == 'Incomplete' || PortalStatus == 'Pending' || PortalStatus == 'Active' : "PortalStatus should be 'Incomplete' or 'Pending' or 'Active'",
     Properties+::: {
       PortalStatus: PortalStatus,
     },
   },
   withRendererType(RendererType): {
     assert std.isString(RendererType) : 'RendererType must be a string',
+    assert RendererType == 'AppStream' : "RendererType should be 'AppStream'",
     Properties+::: {
       RendererType: RendererType,
     },

@@ -20,6 +20,7 @@
   },
   withFormat(Format): {
     assert std.isString(Format) : 'Format must be a string',
+    assert Format == 'CSV' || Format == 'JSON' || Format == 'PARQUET' || Format == 'EXCEL' || Format == 'ORC' : "Format should be 'CSV' or 'JSON' or 'PARQUET' or 'EXCEL' or 'ORC'",
     Properties+::: {
       Format: Format,
     },

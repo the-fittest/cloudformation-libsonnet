@@ -38,6 +38,7 @@
   },
   withPricingPlan(PricingPlan): {
     assert std.isString(PricingPlan) : 'PricingPlan must be a string',
+    assert PricingPlan == 'RequestBasedUsage' : "PricingPlan should be 'RequestBasedUsage'",
     Properties+::: {
       PricingPlan: PricingPlan,
     },

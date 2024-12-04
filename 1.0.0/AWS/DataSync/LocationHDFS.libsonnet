@@ -8,6 +8,7 @@
     Properties: {
       NameNodes: (if std.isArray(NameNodes) then NameNodes else [NameNodes]),
       assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
+      assert AuthenticationType == 'SIMPLE' || AuthenticationType == 'KERBEROS' : "AuthenticationType should be 'SIMPLE' or 'KERBEROS'",
       AuthenticationType: AuthenticationType,
       AgentArns: (if std.isArray(AgentArns) then AgentArns else [AgentArns]),
     },

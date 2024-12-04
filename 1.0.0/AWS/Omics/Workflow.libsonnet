@@ -38,6 +38,7 @@
   },
   withEngine(Engine): {
     assert std.isString(Engine) : 'Engine must be a string',
+    assert Engine == 'WDL' || Engine == 'NEXTFLOW' || Engine == 'CWL' : "Engine should be 'WDL' or 'NEXTFLOW' or 'CWL'",
     Properties+::: {
       Engine: Engine,
     },
@@ -68,12 +69,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'ACTIVE' || Status == 'UPDATING' || Status == 'DELETED' || Status == 'FAILED' : "Status should be 'CREATING' or 'ACTIVE' or 'UPDATING' or 'DELETED' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },
   },
   withAccelerators(Accelerators): {
     assert std.isString(Accelerators) : 'Accelerators must be a string',
+    assert Accelerators == 'GPU' : "Accelerators should be 'GPU'",
     Properties+::: {
       Accelerators: Accelerators,
     },
@@ -92,6 +95,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'PRIVATE' : "Type should be 'PRIVATE'",
     Properties+::: {
       Type: Type,
     },

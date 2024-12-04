@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(ResourceType) : 'ResourceType must be a string',
+      assert ResourceType == 'NetworkInterface' || ResourceType == 'Subnet' || ResourceType == 'VPC' || ResourceType == 'TransitGateway' || ResourceType == 'TransitGatewayAttachment' : "ResourceType should be 'NetworkInterface' or 'Subnet' or 'VPC' or 'TransitGateway' or 'TransitGatewayAttachment'",
       ResourceType: ResourceType,
       assert std.isString(ResourceId) : 'ResourceId must be a string',
       ResourceId: ResourceId,
@@ -44,6 +45,7 @@
   },
   withLogDestinationType(LogDestinationType): {
     assert std.isString(LogDestinationType) : 'LogDestinationType must be a string',
+    assert LogDestinationType == 'cloud-watch-logs' || LogDestinationType == 's3' || LogDestinationType == 'kinesis-data-firehose' : "LogDestinationType should be 'cloud-watch-logs' or 's3' or 'kinesis-data-firehose'",
     Properties+::: {
       LogDestinationType: LogDestinationType,
     },
@@ -78,6 +80,7 @@
   },
   withTrafficType(TrafficType): {
     assert std.isString(TrafficType) : 'TrafficType must be a string',
+    assert TrafficType == 'ACCEPT' || TrafficType == 'ALL' || TrafficType == 'REJECT' : "TrafficType should be 'ACCEPT' or 'ALL' or 'REJECT'",
     Properties+::: {
       TrafficType: TrafficType,
     },

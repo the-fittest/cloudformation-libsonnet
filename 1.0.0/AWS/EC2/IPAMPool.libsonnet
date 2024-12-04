@@ -66,6 +66,7 @@
   },
   withAwsService(AwsService): {
     assert std.isString(AwsService) : 'AwsService must be a string',
+    assert AwsService == 'ec2' : "AwsService should be 'ec2'",
     Properties+::: {
       AwsService: AwsService,
     },
@@ -84,6 +85,7 @@
   },
   withIpamScopeType(IpamScopeType): {
     assert std.isString(IpamScopeType) : 'IpamScopeType must be a string',
+    assert IpamScopeType == 'public' || IpamScopeType == 'private' : "IpamScopeType should be 'public' or 'private'",
     Properties+::: {
       IpamScopeType: IpamScopeType,
     },
@@ -118,6 +120,7 @@
   },
   withPublicIpSource(PublicIpSource): {
     assert std.isString(PublicIpSource) : 'PublicIpSource must be a string',
+    assert PublicIpSource == 'byoip' || PublicIpSource == 'amazon' : "PublicIpSource should be 'byoip' or 'amazon'",
     Properties+::: {
       PublicIpSource: PublicIpSource,
     },
@@ -142,6 +145,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'create-in-progress' || State == 'create-complete' || State == 'modify-in-progress' || State == 'modify-complete' || State == 'delete-in-progress' || State == 'delete-complete' : "State should be 'create-in-progress' or 'create-complete' or 'modify-in-progress' or 'modify-complete' or 'delete-in-progress' or 'delete-complete'",
     Properties+::: {
       State: State,
     },

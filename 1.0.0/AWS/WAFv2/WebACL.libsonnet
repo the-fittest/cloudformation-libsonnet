@@ -9,6 +9,7 @@
       assert std.isObject(DefaultAction) : 'DefaultAction must be an object',
       DefaultAction: DefaultAction,
       assert std.isString(Scope) : 'Scope must be a string',
+      assert Scope == 'CLOUDFRONT' || Scope == 'REGIONAL' : "Scope should be 'CLOUDFRONT' or 'REGIONAL'",
       Scope: Scope,
       assert std.isObject(VisibilityConfig) : 'VisibilityConfig must be an object',
       VisibilityConfig: VisibilityConfig,

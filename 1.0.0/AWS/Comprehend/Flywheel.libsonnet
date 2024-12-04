@@ -35,6 +35,7 @@
   },
   withModelType(ModelType): {
     assert std.isString(ModelType) : 'ModelType must be a string',
+    assert ModelType == 'DOCUMENT_CLASSIFIER' || ModelType == 'ENTITY_RECOGNIZER' : "ModelType should be 'DOCUMENT_CLASSIFIER' or 'ENTITY_RECOGNIZER'",
     Properties+::: {
       ModelType: ModelType,
     },

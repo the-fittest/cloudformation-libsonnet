@@ -11,6 +11,7 @@
       assert std.isString(RoleArn) : 'RoleArn must be a string',
       RoleArn: RoleArn,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'PROFILE' || Type == 'RECIPE' : "Type should be 'PROFILE' or 'RECIPE'",
       Type: Type,
     },
     DependsOn:: [],
@@ -35,12 +36,14 @@
   },
   withEncryptionMode(EncryptionMode): {
     assert std.isString(EncryptionMode) : 'EncryptionMode must be a string',
+    assert EncryptionMode == 'SSE-KMS' || EncryptionMode == 'SSE-S3' : "EncryptionMode should be 'SSE-KMS' or 'SSE-S3'",
     Properties+::: {
       EncryptionMode: EncryptionMode,
     },
   },
   withLogSubscription(LogSubscription): {
     assert std.isString(LogSubscription) : 'LogSubscription must be a string',
+    assert LogSubscription == 'ENABLE' || LogSubscription == 'DISABLE' : "LogSubscription should be 'ENABLE' or 'DISABLE'",
     Properties+::: {
       LogSubscription: LogSubscription,
     },

@@ -45,6 +45,7 @@
   },
   withQuickConnectType(QuickConnectType): {
     assert std.isString(QuickConnectType) : 'QuickConnectType must be a string',
+    assert QuickConnectType == 'PHONE_NUMBER' || QuickConnectType == 'QUEUE' || QuickConnectType == 'USER' : "QuickConnectType should be 'PHONE_NUMBER' or 'QUEUE' or 'USER'",
     Properties+::: {
       QuickConnectType: QuickConnectType,
     },

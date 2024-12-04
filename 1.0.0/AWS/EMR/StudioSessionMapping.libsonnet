@@ -12,6 +12,7 @@
       assert std.isString(IdentityName) : 'IdentityName must be a string',
       IdentityName: IdentityName,
       assert std.isString(IdentityType) : 'IdentityType must be a string',
+      assert IdentityType == 'USER' || IdentityType == 'GROUP' : "IdentityType should be 'USER' or 'GROUP'",
       IdentityType: IdentityType,
       assert std.isString(SessionPolicyArn) : 'SessionPolicyArn must be a string',
       SessionPolicyArn: SessionPolicyArn,

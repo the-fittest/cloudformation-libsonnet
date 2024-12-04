@@ -47,6 +47,7 @@
   },
   withServiceNetworkLogType(ServiceNetworkLogType): {
     assert std.isString(ServiceNetworkLogType) : 'ServiceNetworkLogType must be a string',
+    assert ServiceNetworkLogType == 'SERVICE' || ServiceNetworkLogType == 'RESOURCE' : "ServiceNetworkLogType should be 'SERVICE' or 'RESOURCE'",
     Properties+::: {
       ServiceNetworkLogType: ServiceNetworkLogType,
     },

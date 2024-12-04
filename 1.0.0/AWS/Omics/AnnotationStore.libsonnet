@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(StoreFormat) : 'StoreFormat must be a string',
+      assert StoreFormat == 'GFF' || StoreFormat == 'TSV' || StoreFormat == 'VCF' : "StoreFormat should be 'GFF' or 'TSV' or 'VCF'",
       StoreFormat: StoreFormat,
     },
     DependsOn:: [],
@@ -50,6 +51,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'CREATING' || Status == 'UPDATING' || Status == 'DELETING' || Status == 'ACTIVE' || Status == 'FAILED' : "Status should be 'CREATING' or 'UPDATING' or 'DELETING' or 'ACTIVE' or 'FAILED'",
     Properties+::: {
       Status: Status,
     },

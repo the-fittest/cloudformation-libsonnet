@@ -8,6 +8,7 @@
       assert std.isString(CollaborationIdentifier) : 'CollaborationIdentifier must be a string',
       CollaborationIdentifier: CollaborationIdentifier,
       assert std.isString(QueryLogStatus) : 'QueryLogStatus must be a string',
+      assert QueryLogStatus == 'ENABLED' || QueryLogStatus == 'DISABLED' : "QueryLogStatus should be 'ENABLED' or 'DISABLED'",
       QueryLogStatus: QueryLogStatus,
     },
     DependsOn:: [],

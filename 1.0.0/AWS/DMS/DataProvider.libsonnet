@@ -5,6 +5,7 @@
     local base = self,
     Properties: {
       assert std.isString(Engine) : 'Engine must be a string',
+      assert Engine == 'postgres' || Engine == 'mysql' || Engine == 'oracle' || Engine == 'sqlserver' || Engine == 'aurora' || Engine == 'aurora_postgresql' : "Engine should be 'postgres' or 'mysql' or 'oracle' or 'sqlserver' or 'aurora' or 'aurora_postgresql'",
       Engine: Engine,
     },
     DependsOn:: [],

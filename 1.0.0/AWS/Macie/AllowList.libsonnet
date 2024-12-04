@@ -38,6 +38,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'OK' || Status == 'S3_OBJECT_NOT_FOUND' || Status == 'S3_USER_ACCESS_DENIED' || Status == 'S3_OBJECT_ACCESS_DENIED' || Status == 'S3_THROTTLED' || Status == 'S3_OBJECT_OVERSIZE' || Status == 'S3_OBJECT_EMPTY' || Status == 'UNKNOWN_ERROR' : "Status should be 'OK' or 'S3_OBJECT_NOT_FOUND' or 'S3_USER_ACCESS_DENIED' or 'S3_OBJECT_ACCESS_DENIED' or 'S3_THROTTLED' or 'S3_OBJECT_OVERSIZE' or 'S3_OBJECT_EMPTY' or 'UNKNOWN_ERROR'",
     Properties+::: {
       Status: Status,
     },

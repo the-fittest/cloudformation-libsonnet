@@ -9,6 +9,7 @@
       assert std.isNumber(Capacity) : 'Capacity must be a number',
       Capacity: Capacity,
       assert std.isString(Scope) : 'Scope must be a string',
+      assert Scope == 'CLOUDFRONT' || Scope == 'REGIONAL' : "Scope should be 'CLOUDFRONT' or 'REGIONAL'",
       Scope: Scope,
       assert std.isObject(VisibilityConfig) : 'VisibilityConfig must be an object',
       VisibilityConfig: VisibilityConfig,

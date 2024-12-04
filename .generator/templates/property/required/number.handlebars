@@ -1,2 +1,3 @@
 assert std.isNumber({{Property}}): '{{Property}} must be a number',
+{{~#if Enum}}assert {{#each Enum}} {{../Property}} == {{this}}{{#unless @last}} || {{/unless}}{{/each}}: "{{Property}} should be {{#each Enum}}{{this}}{{#unless @last}} or {{/unless}}{{/each}}",{{/if~}}
 {{Property}}: {{Property}},

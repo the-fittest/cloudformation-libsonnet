@@ -20,6 +20,7 @@
   },
   withAuthType(AuthType): {
     assert std.isString(AuthType) : 'AuthType must be a string',
+    assert AuthType == 'NONE' || AuthType == 'AWS_IAM' : "AuthType should be 'NONE' or 'AWS_IAM'",
     Properties+::: {
       AuthType: AuthType,
     },
@@ -56,6 +57,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'CREATE_IN_PROGRESS' || Status == 'DELETE_IN_PROGRESS' || Status == 'CREATE_FAILED' || Status == 'DELETE_FAILED' : "Status should be 'ACTIVE' or 'CREATE_IN_PROGRESS' or 'DELETE_IN_PROGRESS' or 'CREATE_FAILED' or 'DELETE_FAILED'",
     Properties+::: {
       Status: Status,
     },

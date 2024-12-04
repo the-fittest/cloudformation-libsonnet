@@ -26,6 +26,7 @@
   },
   withKeyCheckValueAlgorithm(KeyCheckValueAlgorithm): {
     assert std.isString(KeyCheckValueAlgorithm) : 'KeyCheckValueAlgorithm must be a string',
+    assert KeyCheckValueAlgorithm == 'CMAC' || KeyCheckValueAlgorithm == 'ANSI_X9_24' : "KeyCheckValueAlgorithm should be 'CMAC' or 'ANSI_X9_24'",
     Properties+::: {
       KeyCheckValueAlgorithm: KeyCheckValueAlgorithm,
     },
@@ -38,12 +39,14 @@
   },
   withKeyOrigin(KeyOrigin): {
     assert std.isString(KeyOrigin) : 'KeyOrigin must be a string',
+    assert KeyOrigin == 'EXTERNAL' || KeyOrigin == 'AWS_PAYMENT_CRYPTOGRAPHY' : "KeyOrigin should be 'EXTERNAL' or 'AWS_PAYMENT_CRYPTOGRAPHY'",
     Properties+::: {
       KeyOrigin: KeyOrigin,
     },
   },
   withKeyState(KeyState): {
     assert std.isString(KeyState) : 'KeyState must be a string',
+    assert KeyState == 'CREATE_IN_PROGRESS' || KeyState == 'CREATE_COMPLETE' || KeyState == 'DELETE_PENDING' || KeyState == 'DELETE_COMPLETE' : "KeyState should be 'CREATE_IN_PROGRESS' or 'CREATE_COMPLETE' or 'DELETE_PENDING' or 'DELETE_COMPLETE'",
     Properties+::: {
       KeyState: KeyState,
     },

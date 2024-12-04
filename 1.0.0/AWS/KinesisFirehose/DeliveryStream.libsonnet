@@ -32,6 +32,7 @@
   },
   withDeliveryStreamType(DeliveryStreamType): {
     assert std.isString(DeliveryStreamType) : 'DeliveryStreamType must be a string',
+    assert DeliveryStreamType == 'DatabaseAsSource' || DeliveryStreamType == 'DirectPut' || DeliveryStreamType == 'KinesisStreamAsSource' || DeliveryStreamType == 'MSKAsSource' : "DeliveryStreamType should be 'DatabaseAsSource' or 'DirectPut' or 'KinesisStreamAsSource' or 'MSKAsSource'",
     Properties+::: {
       DeliveryStreamType: DeliveryStreamType,
     },

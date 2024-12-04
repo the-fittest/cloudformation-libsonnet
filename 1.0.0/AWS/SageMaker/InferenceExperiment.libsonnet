@@ -11,6 +11,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'ShadowMode' : "Type should be 'ShadowMode'",
       Type: Type,
       assert std.isString(RoleArn) : 'RoleArn must be a string',
       RoleArn: RoleArn,
@@ -92,6 +93,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'Creating' || Status == 'Created' || Status == 'Updating' || Status == 'Starting' || Status == 'Stopping' || Status == 'Running' || Status == 'Completed' || Status == 'Cancelled' : "Status should be 'Creating' or 'Created' or 'Updating' or 'Starting' or 'Stopping' or 'Running' or 'Completed' or 'Cancelled'",
     Properties+::: {
       Status: Status,
     },
@@ -104,6 +106,7 @@
   },
   withDesiredState(DesiredState): {
     assert std.isString(DesiredState) : 'DesiredState must be a string',
+    assert DesiredState == 'Running' || DesiredState == 'Completed' || DesiredState == 'Cancelled' : "DesiredState should be 'Running' or 'Completed' or 'Cancelled'",
     Properties+::: {
       DesiredState: DesiredState,
     },

@@ -60,12 +60,14 @@
   },
   withVendorGuidance(VendorGuidance): {
     assert std.isString(VendorGuidance) : 'VendorGuidance must be a string',
+    assert VendorGuidance == 'NOT_PROVIDED' || VendorGuidance == 'STABLE' || VendorGuidance == 'TO_BE_ARCHIVED' || VendorGuidance == 'ARCHIVED' : "VendorGuidance should be 'NOT_PROVIDED' or 'STABLE' or 'TO_BE_ARCHIVED' or 'ARCHIVED'",
     Properties+::: {
       VendorGuidance: VendorGuidance,
     },
   },
   withJobType(JobType): {
     assert std.isString(JobType) : 'JobType must be a string',
+    assert JobType == 'TRAINING' || JobType == 'INFERENCE' || JobType == 'NOTEBOOK_KERNEL' : "JobType should be 'TRAINING' or 'INFERENCE' or 'NOTEBOOK_KERNEL'",
     Properties+::: {
       JobType: JobType,
     },
@@ -84,6 +86,7 @@
   },
   withProcessor(Processor): {
     assert std.isString(Processor) : 'Processor must be a string',
+    assert Processor == 'CPU' || Processor == 'GPU' : "Processor should be 'CPU' or 'GPU'",
     Properties+::: {
       Processor: Processor,
     },

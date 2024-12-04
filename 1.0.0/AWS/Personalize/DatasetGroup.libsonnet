@@ -35,6 +35,7 @@
   },
   withDomain(Domain): {
     assert std.isString(Domain) : 'Domain must be a string',
+    assert Domain == 'ECOMMERCE' || Domain == 'VIDEO_ON_DEMAND' : "Domain should be 'ECOMMERCE' or 'VIDEO_ON_DEMAND'",
     Properties+::: {
       Domain: Domain,
     },

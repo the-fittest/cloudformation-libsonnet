@@ -8,6 +8,7 @@
       assert std.isString(TargetFunctionArn) : 'TargetFunctionArn must be a string',
       TargetFunctionArn: TargetFunctionArn,
       assert std.isString(AuthType) : 'AuthType must be a string',
+      assert AuthType == 'AWS_IAM' || AuthType == 'NONE' : "AuthType should be 'AWS_IAM' or 'NONE'",
       AuthType: AuthType,
     },
     DependsOn:: [],
@@ -26,6 +27,7 @@
   },
   withInvokeMode(InvokeMode): {
     assert std.isString(InvokeMode) : 'InvokeMode must be a string',
+    assert InvokeMode == 'BUFFERED' || InvokeMode == 'RESPONSE_STREAM' : "InvokeMode should be 'BUFFERED' or 'RESPONSE_STREAM'",
     Properties+::: {
       InvokeMode: InvokeMode,
     },

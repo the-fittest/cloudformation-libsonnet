@@ -25,6 +25,7 @@
   },
   withPolicyType(PolicyType): {
     assert std.isString(PolicyType) : 'PolicyType must be a string',
+    assert PolicyType == 'STATIC' || PolicyType == 'TEMPLATE_LINKED' : "PolicyType should be 'STATIC' or 'TEMPLATE_LINKED'",
     Properties+::: {
       PolicyType: PolicyType,
     },

@@ -11,6 +11,7 @@
       assert std.isString(Resource) : 'Resource must be a string',
       Resource: Resource,
       assert std.isString(ResourceType) : 'ResourceType must be a string',
+      assert ResourceType == 'CFN_STACK' : "ResourceType should be 'CFN_STACK'",
       ResourceType: ResourceType,
     },
     DependsOn:: [],

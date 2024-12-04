@@ -38,6 +38,7 @@
   },
   withFolderType(FolderType): {
     assert std.isString(FolderType) : 'FolderType must be a string',
+    assert FolderType == 'SHARED' || FolderType == 'RESTRICTED' : "FolderType should be 'SHARED' or 'RESTRICTED'",
     Properties+::: {
       FolderType: FolderType,
     },
@@ -72,6 +73,7 @@
   },
   withSharingModel(SharingModel): {
     assert std.isString(SharingModel) : 'SharingModel must be a string',
+    assert SharingModel == 'ACCOUNT' || SharingModel == 'NAMESPACE' : "SharingModel should be 'ACCOUNT' or 'NAMESPACE'",
     Properties+::: {
       SharingModel: SharingModel,
     },

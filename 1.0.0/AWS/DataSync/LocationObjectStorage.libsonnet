@@ -52,6 +52,7 @@
   },
   withServerProtocol(ServerProtocol): {
     assert std.isString(ServerProtocol) : 'ServerProtocol must be a string',
+    assert ServerProtocol == 'HTTPS' || ServerProtocol == 'HTTP' : "ServerProtocol should be 'HTTPS' or 'HTTP'",
     Properties+::: {
       ServerProtocol: ServerProtocol,
     },

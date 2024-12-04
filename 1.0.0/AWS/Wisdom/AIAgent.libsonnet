@@ -10,6 +10,7 @@
       AssistantId: AssistantId,
       Configuration: Configuration,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'MANUAL_SEARCH' || Type == 'ANSWER_RECOMMENDATION' : "Type should be 'MANUAL_SEARCH' or 'ANSWER_RECOMMENDATION'",
       Type: Type,
     },
     DependsOn:: [],

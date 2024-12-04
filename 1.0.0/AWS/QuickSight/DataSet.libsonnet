@@ -110,6 +110,7 @@
   },
   withImportMode(ImportMode): {
     assert std.isString(ImportMode) : 'ImportMode must be a string',
+    assert ImportMode == 'SPICE' || ImportMode == 'DIRECT_QUERY' : "ImportMode should be 'SPICE' or 'DIRECT_QUERY'",
     Properties+::: {
       ImportMode: ImportMode,
     },

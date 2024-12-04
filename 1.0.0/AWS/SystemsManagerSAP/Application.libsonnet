@@ -8,6 +8,7 @@
       assert std.isString(ApplicationId) : 'ApplicationId must be a string',
       ApplicationId: ApplicationId,
       assert std.isString(ApplicationType) : 'ApplicationType must be a string',
+      assert ApplicationType == 'HANA' || ApplicationType == 'SAP_ABAP' : "ApplicationType should be 'HANA' or 'SAP_ABAP'",
       ApplicationType: ApplicationType,
     },
     DependsOn:: [],

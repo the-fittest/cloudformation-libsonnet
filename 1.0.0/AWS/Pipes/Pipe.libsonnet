@@ -35,6 +35,7 @@
   },
   withCurrentState(CurrentState): {
     assert std.isString(CurrentState) : 'CurrentState must be a string',
+    assert CurrentState == 'RUNNING' || CurrentState == 'STOPPED' || CurrentState == 'CREATING' || CurrentState == 'UPDATING' || CurrentState == 'DELETING' || CurrentState == 'STARTING' || CurrentState == 'STOPPING' || CurrentState == 'CREATE_FAILED' || CurrentState == 'UPDATE_FAILED' || CurrentState == 'START_FAILED' || CurrentState == 'STOP_FAILED' || CurrentState == 'DELETE_FAILED' || CurrentState == 'CREATE_ROLLBACK_FAILED' || CurrentState == 'DELETE_ROLLBACK_FAILED' || CurrentState == 'UPDATE_ROLLBACK_FAILED' : "CurrentState should be 'RUNNING' or 'STOPPED' or 'CREATING' or 'UPDATING' or 'DELETING' or 'STARTING' or 'STOPPING' or 'CREATE_FAILED' or 'UPDATE_FAILED' or 'START_FAILED' or 'STOP_FAILED' or 'DELETE_FAILED' or 'CREATE_ROLLBACK_FAILED' or 'DELETE_ROLLBACK_FAILED' or 'UPDATE_ROLLBACK_FAILED'",
     Properties+::: {
       CurrentState: CurrentState,
     },
@@ -47,6 +48,7 @@
   },
   withDesiredState(DesiredState): {
     assert std.isString(DesiredState) : 'DesiredState must be a string',
+    assert DesiredState == 'RUNNING' || DesiredState == 'STOPPED' : "DesiredState should be 'RUNNING' or 'STOPPED'",
     Properties+::: {
       DesiredState: DesiredState,
     },

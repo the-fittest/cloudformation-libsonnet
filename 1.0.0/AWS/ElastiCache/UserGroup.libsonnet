@@ -9,6 +9,7 @@
       assert std.isString(UserGroupId) : 'UserGroupId must be a string',
       UserGroupId: UserGroupId,
       assert std.isString(Engine) : 'Engine must be a string',
+      assert Engine == 'redis' || Engine == 'valkey' : "Engine should be 'redis' or 'valkey'",
       Engine: Engine,
       UserIds: (if std.isArray(UserIds) then UserIds else [UserIds]),
     },

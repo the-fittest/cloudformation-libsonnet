@@ -54,6 +54,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'DRAFT' : "Status should be 'ACTIVE' or 'DRAFT'",
     Properties+::: {
       Status: Status,
     },

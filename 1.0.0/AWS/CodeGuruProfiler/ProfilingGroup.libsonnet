@@ -17,6 +17,7 @@
   },
   withComputePlatform(ComputePlatform): {
     assert std.isString(ComputePlatform) : 'ComputePlatform must be a string',
+    assert ComputePlatform == 'Default' || ComputePlatform == 'AWSLambda' : "ComputePlatform should be 'Default' or 'AWSLambda'",
     Properties+::: {
       ComputePlatform: ComputePlatform,
     },

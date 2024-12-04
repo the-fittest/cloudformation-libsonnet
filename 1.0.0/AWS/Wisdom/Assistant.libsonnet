@@ -8,6 +8,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'AGENT' : "Type should be 'AGENT'",
       Type: Type,
     },
     DependsOn:: [],

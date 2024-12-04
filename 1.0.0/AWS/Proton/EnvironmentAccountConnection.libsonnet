@@ -62,6 +62,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'PENDING' || Status == 'CONNECTED' || Status == 'REJECTED' : "Status should be 'PENDING' or 'CONNECTED' or 'REJECTED'",
     Properties+::: {
       Status: Status,
     },

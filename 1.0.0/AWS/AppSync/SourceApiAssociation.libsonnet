@@ -73,6 +73,7 @@
   },
   withSourceApiAssociationStatus(SourceApiAssociationStatus): {
     assert std.isString(SourceApiAssociationStatus) : 'SourceApiAssociationStatus must be a string',
+    assert SourceApiAssociationStatus == 'MERGE_SCHEDULED' || SourceApiAssociationStatus == 'MERGE_FAILED' || SourceApiAssociationStatus == 'MERGE_SUCCESS' || SourceApiAssociationStatus == 'MERGE_IN_PROGRESS' || SourceApiAssociationStatus == 'AUTO_MERGE_SCHEDULE_FAILED' || SourceApiAssociationStatus == 'DELETION_SCHEDULED' || SourceApiAssociationStatus == 'DELETION_IN_PROGRESS' || SourceApiAssociationStatus == 'DELETION_FAILED' : "SourceApiAssociationStatus should be 'MERGE_SCHEDULED' or 'MERGE_FAILED' or 'MERGE_SUCCESS' or 'MERGE_IN_PROGRESS' or 'AUTO_MERGE_SCHEDULE_FAILED' or 'DELETION_SCHEDULED' or 'DELETION_IN_PROGRESS' or 'DELETION_FAILED'",
     Properties+::: {
       SourceApiAssociationStatus: SourceApiAssociationStatus,
     },

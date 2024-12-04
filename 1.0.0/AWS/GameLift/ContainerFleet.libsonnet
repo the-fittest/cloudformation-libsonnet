@@ -87,6 +87,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'PENDING' || Status == 'CREATING' || Status == 'CREATED' || Status == 'ACTIVATING' || Status == 'ACTIVE' || Status == 'UPDATING' || Status == 'DELETING' : "Status should be 'PENDING' or 'CREATING' or 'CREATED' or 'ACTIVATING' or 'ACTIVE' or 'UPDATING' or 'DELETING'",
     Properties+::: {
       Status: Status,
     },
@@ -111,6 +112,7 @@
   },
   withBillingType(BillingType): {
     assert std.isString(BillingType) : 'BillingType must be a string',
+    assert BillingType == 'ON_DEMAND' || BillingType == 'SPOT' : "BillingType should be 'ON_DEMAND' or 'SPOT'",
     Properties+::: {
       BillingType: BillingType,
     },
@@ -147,6 +149,7 @@
   },
   withNewGameSessionProtectionPolicy(NewGameSessionProtectionPolicy): {
     assert std.isString(NewGameSessionProtectionPolicy) : 'NewGameSessionProtectionPolicy must be a string',
+    assert NewGameSessionProtectionPolicy == 'FullProtection' || NewGameSessionProtectionPolicy == 'NoProtection' : "NewGameSessionProtectionPolicy should be 'FullProtection' or 'NoProtection'",
     Properties+::: {
       NewGameSessionProtectionPolicy: NewGameSessionProtectionPolicy,
     },

@@ -71,6 +71,7 @@
   },
   withLaunchType(LaunchType): {
     assert std.isString(LaunchType) : 'LaunchType must be a string',
+    assert LaunchType == 'EC2' || LaunchType == 'FARGATE' : "LaunchType should be 'EC2' or 'FARGATE'",
     Properties+::: {
       LaunchType: LaunchType,
     },

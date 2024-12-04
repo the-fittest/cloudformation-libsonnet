@@ -9,6 +9,7 @@
       assert std.isString(IntegrationName) : 'IntegrationName must be a string',
       IntegrationName: IntegrationName,
       assert std.isString(IntegrationType) : 'IntegrationType must be a string',
+      assert IntegrationType == 'OPENSEARCH' : "IntegrationType should be 'OPENSEARCH'",
       IntegrationType: IntegrationType,
       assert std.isObject(ResourceConfig) : 'ResourceConfig must be an object',
       ResourceConfig: ResourceConfig,
@@ -23,6 +24,7 @@
   },
   withIntegrationStatus(IntegrationStatus): {
     assert std.isString(IntegrationStatus) : 'IntegrationStatus must be a string',
+    assert IntegrationStatus == 'PROVISIONING' || IntegrationStatus == 'ACTIVE' || IntegrationStatus == 'FAILED' : "IntegrationStatus should be 'PROVISIONING' or 'ACTIVE' or 'FAILED'",
     Properties+::: {
       IntegrationStatus: IntegrationStatus,
     },

@@ -9,6 +9,7 @@
       assert std.isString(Name) : 'Name must be a string',
       Name: Name,
       assert std.isString(RuleVersion) : 'RuleVersion must be a string',
+      assert RuleVersion == 'CostCategoryExpression.v1' : "RuleVersion should be 'CostCategoryExpression.v1'",
       RuleVersion: RuleVersion,
       assert std.isString(Rules) : 'Rules must be a string',
       Rules: Rules,

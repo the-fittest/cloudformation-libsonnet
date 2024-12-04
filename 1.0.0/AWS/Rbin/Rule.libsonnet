@@ -8,6 +8,7 @@
       assert std.isObject(RetentionPeriod) : 'RetentionPeriod must be an object',
       RetentionPeriod: RetentionPeriod,
       assert std.isString(ResourceType) : 'ResourceType must be a string',
+      assert ResourceType == 'EBS_SNAPSHOT' || ResourceType == 'EC2_IMAGE' : "ResourceType should be 'EBS_SNAPSHOT' or 'EC2_IMAGE'",
       ResourceType: ResourceType,
     },
     DependsOn:: [],

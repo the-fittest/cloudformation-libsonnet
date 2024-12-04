@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Protocol) : 'Protocol must be a string',
+      assert Protocol == 'tcp' || Protocol == 'udp' : "Protocol should be 'tcp' or 'udp'",
       Protocol: Protocol,
       assert std.isString(Source) : 'Source must be a string',
       Source: Source,

@@ -11,6 +11,7 @@
       assert std.isString(RoleArn) : 'RoleArn must be a string',
       RoleArn: RoleArn,
       assert std.isString(DefaultLogLevel) : 'DefaultLogLevel must be a string',
+      assert DefaultLogLevel == 'ERROR' || DefaultLogLevel == 'WARN' || DefaultLogLevel == 'INFO' || DefaultLogLevel == 'DEBUG' || DefaultLogLevel == 'DISABLED' : "DefaultLogLevel should be 'ERROR' or 'WARN' or 'INFO' or 'DEBUG' or 'DISABLED'",
       DefaultLogLevel: DefaultLogLevel,
     },
     DependsOn:: [],

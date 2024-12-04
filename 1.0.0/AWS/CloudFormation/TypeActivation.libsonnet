@@ -56,6 +56,7 @@
   },
   withVersionBump(VersionBump): {
     assert std.isString(VersionBump) : 'VersionBump must be a string',
+    assert VersionBump == 'MAJOR' || VersionBump == 'MINOR' : "VersionBump should be 'MAJOR' or 'MINOR'",
     Properties+::: {
       VersionBump: VersionBump,
     },
@@ -74,6 +75,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'RESOURCE' || Type == 'MODULE' || Type == 'HOOK' : "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'",
     Properties+::: {
       Type: Type,
     },

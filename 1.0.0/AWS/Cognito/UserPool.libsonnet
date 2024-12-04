@@ -226,6 +226,7 @@
   },
   withUserPoolTier(UserPoolTier): {
     assert std.isString(UserPoolTier) : 'UserPoolTier must be a string',
+    assert UserPoolTier == 'LITE' || UserPoolTier == 'ESSENTIALS' || UserPoolTier == 'PLUS' : "UserPoolTier should be 'LITE' or 'ESSENTIALS' or 'PLUS'",
     Properties+::: {
       UserPoolTier: UserPoolTier,
     },

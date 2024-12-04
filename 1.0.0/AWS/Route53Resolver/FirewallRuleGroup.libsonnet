@@ -38,6 +38,7 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'COMPLETE' || Status == 'DELETING' || Status == 'UPDATING' || Status == 'INACTIVE_OWNER_ACCOUNT_CLOSED' : "Status should be 'COMPLETE' or 'DELETING' or 'UPDATING' or 'INACTIVE_OWNER_ACCOUNT_CLOSED'",
     Properties+::: {
       Status: Status,
     },
@@ -56,6 +57,7 @@
   },
   withShareStatus(ShareStatus): {
     assert std.isString(ShareStatus) : 'ShareStatus must be a string',
+    assert ShareStatus == 'NOT_SHARED' || ShareStatus == 'SHARED_WITH_ME' || ShareStatus == 'SHARED_BY_ME' : "ShareStatus should be 'NOT_SHARED' or 'SHARED_WITH_ME' or 'SHARED_BY_ME'",
     Properties+::: {
       ShareStatus: ShareStatus,
     },

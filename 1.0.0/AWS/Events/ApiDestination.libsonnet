@@ -11,6 +11,7 @@
       assert std.isString(InvocationEndpoint) : 'InvocationEndpoint must be a string',
       InvocationEndpoint: InvocationEndpoint,
       assert std.isString(HttpMethod) : 'HttpMethod must be a string',
+      assert HttpMethod == 'GET' || HttpMethod == 'HEAD' || HttpMethod == 'POST' || HttpMethod == 'OPTIONS' || HttpMethod == 'PUT' || HttpMethod == 'DELETE' || HttpMethod == 'PATCH' : "HttpMethod should be 'GET' or 'HEAD' or 'POST' or 'OPTIONS' or 'PUT' or 'DELETE' or 'PATCH'",
       HttpMethod: HttpMethod,
     },
     DependsOn:: [],

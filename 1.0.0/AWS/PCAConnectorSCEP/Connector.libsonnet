@@ -23,6 +23,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'GENERAL_PURPOSE' || Type == 'INTUNE' : "Type should be 'GENERAL_PURPOSE' or 'INTUNE'",
     Properties+::: {
       Type: Type,
     },

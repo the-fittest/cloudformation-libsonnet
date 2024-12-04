@@ -32,6 +32,7 @@
   },
   withEvaluationMethod(EvaluationMethod): {
     assert std.isString(EvaluationMethod) : 'EvaluationMethod must be a string',
+    assert EvaluationMethod == 'BATCH' || EvaluationMethod == 'SERIAL' : "EvaluationMethod should be 'BATCH' or 'SERIAL'",
     Properties+::: {
       EvaluationMethod: EvaluationMethod,
     },

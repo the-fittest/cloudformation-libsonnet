@@ -35,6 +35,7 @@
   },
   withInTransitEncryption(InTransitEncryption): {
     assert std.isString(InTransitEncryption) : 'InTransitEncryption must be a string',
+    assert InTransitEncryption == 'NONE' || InTransitEncryption == 'TLS1_2' : "InTransitEncryption should be 'NONE' or 'TLS1_2'",
     Properties+::: {
       InTransitEncryption: InTransitEncryption,
     },

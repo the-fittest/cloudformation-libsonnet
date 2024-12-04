@@ -161,12 +161,14 @@
   },
   withWebserverAccessMode(WebserverAccessMode): {
     assert std.isString(WebserverAccessMode) : 'WebserverAccessMode must be a string',
+    assert WebserverAccessMode == 'PRIVATE_ONLY' || WebserverAccessMode == 'PUBLIC_ONLY' : "WebserverAccessMode should be 'PRIVATE_ONLY' or 'PUBLIC_ONLY'",
     Properties+::: {
       WebserverAccessMode: WebserverAccessMode,
     },
   },
   withEndpointManagement(EndpointManagement): {
     assert std.isString(EndpointManagement) : 'EndpointManagement must be a string',
+    assert EndpointManagement == 'CUSTOMER' || EndpointManagement == 'SERVICE' : "EndpointManagement should be 'CUSTOMER' or 'SERVICE'",
     Properties+::: {
       EndpointManagement: EndpointManagement,
     },

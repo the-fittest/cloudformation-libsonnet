@@ -67,6 +67,7 @@
   },
   withType(Type): {
     assert std.isString(Type) : 'Type must be a string',
+    assert Type == 'QUICKSIGHT' || Type == 'CUSTOM' || Type == 'ALL' : "Type should be 'QUICKSIGHT' or 'CUSTOM' or 'ALL'",
     Properties+::: {
       Type: Type,
     },

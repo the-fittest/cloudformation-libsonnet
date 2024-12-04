@@ -29,6 +29,7 @@
   },
   withPublisherStatus(PublisherStatus): {
     assert std.isString(PublisherStatus) : 'PublisherStatus must be a string',
+    assert PublisherStatus == 'VERIFIED' || PublisherStatus == 'UNVERIFIED' : "PublisherStatus should be 'VERIFIED' or 'UNVERIFIED'",
     Properties+::: {
       PublisherStatus: PublisherStatus,
     },
@@ -41,6 +42,7 @@
   },
   withIdentityProvider(IdentityProvider): {
     assert std.isString(IdentityProvider) : 'IdentityProvider must be a string',
+    assert IdentityProvider == 'AWS_Marketplace' || IdentityProvider == 'GitHub' || IdentityProvider == 'Bitbucket' : "IdentityProvider should be 'AWS_Marketplace' or 'GitHub' or 'Bitbucket'",
     Properties+::: {
       IdentityProvider: IdentityProvider,
     },

@@ -11,6 +11,7 @@
       assert std.isObject(Content) : 'Content must be an object',
       Content: Content,
       assert std.isString(ModelCardStatus) : 'ModelCardStatus must be a string',
+      assert ModelCardStatus == 'Draft' || ModelCardStatus == 'PendingReview' || ModelCardStatus == 'Approved' || ModelCardStatus == 'Archived' : "ModelCardStatus should be 'Draft' or 'PendingReview' or 'Approved' or 'Archived'",
       ModelCardStatus: ModelCardStatus,
     },
     DependsOn:: [],
@@ -65,6 +66,7 @@
   },
   withModelCardProcessingStatus(ModelCardProcessingStatus): {
     assert std.isString(ModelCardProcessingStatus) : 'ModelCardProcessingStatus must be a string',
+    assert ModelCardProcessingStatus == 'UnsetValue' || ModelCardProcessingStatus == 'DeleteInProgress' || ModelCardProcessingStatus == 'DeletePending' || ModelCardProcessingStatus == 'ContentDeleted' || ModelCardProcessingStatus == 'ExportJobsDeleted' || ModelCardProcessingStatus == 'DeleteCompleted' || ModelCardProcessingStatus == 'DeleteFailed' : "ModelCardProcessingStatus should be 'UnsetValue' or 'DeleteInProgress' or 'DeletePending' or 'ContentDeleted' or 'ExportJobsDeleted' or 'DeleteCompleted' or 'DeleteFailed'",
     Properties+::: {
       ModelCardProcessingStatus: ModelCardProcessingStatus,
     },

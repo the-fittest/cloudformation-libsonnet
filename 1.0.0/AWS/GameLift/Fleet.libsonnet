@@ -32,6 +32,7 @@
   },
   withApplyCapacity(ApplyCapacity): {
     assert std.isString(ApplyCapacity) : 'ApplyCapacity must be a string',
+    assert ApplyCapacity == 'ON_UPDATE' || ApplyCapacity == 'ON_CREATE_AND_UPDATE' : "ApplyCapacity should be 'ON_UPDATE' or 'ON_CREATE_AND_UPDATE'",
     Properties+::: {
       ApplyCapacity: ApplyCapacity,
     },
@@ -44,6 +45,7 @@
   },
   withComputeType(ComputeType): {
     assert std.isString(ComputeType) : 'ComputeType must be a string',
+    assert ComputeType == 'EC2' || ComputeType == 'ANYWHERE' : "ComputeType should be 'EC2' or 'ANYWHERE'",
     Properties+::: {
       ComputeType: ComputeType,
     },
@@ -78,6 +80,7 @@
   },
   withFleetType(FleetType): {
     assert std.isString(FleetType) : 'FleetType must be a string',
+    assert FleetType == 'ON_DEMAND' || FleetType == 'SPOT' : "FleetType should be 'ON_DEMAND' or 'SPOT'",
     Properties+::: {
       FleetType: FleetType,
     },
@@ -90,6 +93,7 @@
   },
   withInstanceRoleCredentialsProvider(InstanceRoleCredentialsProvider): {
     assert std.isString(InstanceRoleCredentialsProvider) : 'InstanceRoleCredentialsProvider must be a string',
+    assert InstanceRoleCredentialsProvider == 'SHARED_CREDENTIAL_FILE' : "InstanceRoleCredentialsProvider should be 'SHARED_CREDENTIAL_FILE'",
     Properties+::: {
       InstanceRoleCredentialsProvider: InstanceRoleCredentialsProvider,
     },
@@ -138,6 +142,7 @@
   },
   withNewGameSessionProtectionPolicy(NewGameSessionProtectionPolicy): {
     assert std.isString(NewGameSessionProtectionPolicy) : 'NewGameSessionProtectionPolicy must be a string',
+    assert NewGameSessionProtectionPolicy == 'FullProtection' || NewGameSessionProtectionPolicy == 'NoProtection' : "NewGameSessionProtectionPolicy should be 'FullProtection' or 'NoProtection'",
     Properties+::: {
       NewGameSessionProtectionPolicy: NewGameSessionProtectionPolicy,
     },

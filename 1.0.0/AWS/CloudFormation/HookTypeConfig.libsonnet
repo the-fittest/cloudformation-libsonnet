@@ -38,6 +38,7 @@
   },
   withConfigurationAlias(ConfigurationAlias): {
     assert std.isString(ConfigurationAlias) : 'ConfigurationAlias must be a string',
+    assert ConfigurationAlias == 'default' : "ConfigurationAlias should be 'default'",
     Properties+::: {
       ConfigurationAlias: ConfigurationAlias,
     },

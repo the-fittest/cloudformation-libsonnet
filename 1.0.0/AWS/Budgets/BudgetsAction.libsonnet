@@ -13,8 +13,10 @@
       assert std.isString(BudgetName) : 'BudgetName must be a string',
       BudgetName: BudgetName,
       assert std.isString(NotificationType) : 'NotificationType must be a string',
+      assert NotificationType == 'ACTUAL' || NotificationType == 'FORECASTED' : "NotificationType should be 'ACTUAL' or 'FORECASTED'",
       NotificationType: NotificationType,
       assert std.isString(ActionType) : 'ActionType must be a string',
+      assert ActionType == 'APPLY_IAM_POLICY' || ActionType == 'APPLY_SCP_POLICY' || ActionType == 'RUN_SSM_DOCUMENTS' : "ActionType should be 'APPLY_IAM_POLICY' or 'APPLY_SCP_POLICY' or 'RUN_SSM_DOCUMENTS'",
       ActionType: ActionType,
       assert std.isObject(ActionThreshold) : 'ActionThreshold must be an object',
       ActionThreshold: ActionThreshold,
@@ -40,6 +42,7 @@
   },
   withApprovalModel(ApprovalModel): {
     assert std.isString(ApprovalModel) : 'ApprovalModel must be a string',
+    assert ApprovalModel == 'AUTOMATIC' || ApprovalModel == 'MANUAL' : "ApprovalModel should be 'AUTOMATIC' or 'MANUAL'",
     Properties+::: {
       ApprovalModel: ApprovalModel,
     },

@@ -35,6 +35,7 @@
   },
   withDistribution(Distribution): {
     assert std.isString(Distribution) : 'Distribution must be a string',
+    assert Distribution == 'Random' || Distribution == 'ByLogStream' : "Distribution should be 'Random' or 'ByLogStream'",
     Properties+::: {
       Distribution: Distribution,
     },

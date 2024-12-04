@@ -50,6 +50,7 @@
   },
   withNetworkType(NetworkType): {
     assert std.isString(NetworkType) : 'NetworkType must be a string',
+    assert NetworkType == 'IPV4' || NetworkType == 'DUAL' : "NetworkType should be 'IPV4' or 'DUAL'",
     Properties+::: {
       NetworkType: NetworkType,
     },

@@ -11,6 +11,7 @@
       assert std.isString(Expression) : 'Expression must be a string',
       Expression: Expression,
       assert std.isString(ExpressionType) : 'ExpressionType must be a string',
+      assert ExpressionType == 'RuleName' || ExpressionType == 'MqttTopic' || ExpressionType == 'SnsTopic' : "ExpressionType should be 'RuleName' or 'MqttTopic' or 'SnsTopic'",
       ExpressionType: ExpressionType,
     },
     DependsOn:: [],

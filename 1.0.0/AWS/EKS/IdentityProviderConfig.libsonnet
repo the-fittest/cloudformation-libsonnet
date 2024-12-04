@@ -6,6 +6,7 @@
     local base = self,
     Properties: {
       assert std.isString(Type) : 'Type must be a string',
+      assert Type == 'oidc' : "Type should be 'oidc'",
       Type: Type,
       assert std.isString(ClusterName) : 'ClusterName must be a string',
       ClusterName: ClusterName,

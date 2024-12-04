@@ -14,6 +14,7 @@
       assert std.isString(OriginEndpointName) : 'OriginEndpointName must be a string',
       OriginEndpointName: OriginEndpointName,
       assert std.isString(ContainerType) : 'ContainerType must be a string',
+      assert ContainerType == 'TS' || ContainerType == 'CMAF' : "ContainerType should be 'TS' or 'CMAF'",
       ContainerType: ContainerType,
     },
     DependsOn:: [],

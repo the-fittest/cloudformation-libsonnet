@@ -66,6 +66,7 @@
   },
   withMonitoringScheduleStatus(MonitoringScheduleStatus): {
     assert std.isString(MonitoringScheduleStatus) : 'MonitoringScheduleStatus must be a string',
+    assert MonitoringScheduleStatus == 'Pending' || MonitoringScheduleStatus == 'Failed' || MonitoringScheduleStatus == 'Scheduled' || MonitoringScheduleStatus == 'Stopped' : "MonitoringScheduleStatus should be 'Pending' or 'Failed' or 'Scheduled' or 'Stopped'",
     Properties+::: {
       MonitoringScheduleStatus: MonitoringScheduleStatus,
     },

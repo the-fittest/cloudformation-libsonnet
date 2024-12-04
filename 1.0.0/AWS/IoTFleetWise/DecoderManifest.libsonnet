@@ -64,12 +64,14 @@
   },
   withStatus(Status): {
     assert std.isString(Status) : 'Status must be a string',
+    assert Status == 'ACTIVE' || Status == 'DRAFT' : "Status should be 'ACTIVE' or 'DRAFT'",
     Properties+::: {
       Status: Status,
     },
   },
   withDefaultForUnmappedSignals(DefaultForUnmappedSignals): {
     assert std.isString(DefaultForUnmappedSignals) : 'DefaultForUnmappedSignals must be a string',
+    assert DefaultForUnmappedSignals == 'CUSTOM_DECODING' : "DefaultForUnmappedSignals should be 'CUSTOM_DECODING'",
     Properties+::: {
       DefaultForUnmappedSignals: DefaultForUnmappedSignals,
     },

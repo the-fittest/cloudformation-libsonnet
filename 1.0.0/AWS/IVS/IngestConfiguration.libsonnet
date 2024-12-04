@@ -38,6 +38,7 @@
   },
   withIngestProtocol(IngestProtocol): {
     assert std.isString(IngestProtocol) : 'IngestProtocol must be a string',
+    assert IngestProtocol == 'RTMP' || IngestProtocol == 'RTMPS' : "IngestProtocol should be 'RTMP' or 'RTMPS'",
     Properties+::: {
       IngestProtocol: IngestProtocol,
     },
@@ -50,6 +51,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'ACTIVE' || State == 'INACTIVE' : "State should be 'ACTIVE' or 'INACTIVE'",
     Properties+::: {
       State: State,
     },

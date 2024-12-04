@@ -26,6 +26,7 @@
   },
   withChannelType(ChannelType): {
     assert std.isString(ChannelType) : 'ChannelType must be a string',
+    assert ChannelType == 'SMS' || ChannelType == 'VOICE' || ChannelType == 'EMAIL' : "ChannelType should be 'SMS' or 'VOICE' or 'EMAIL'",
     Properties+::: {
       ChannelType: ChannelType,
     },

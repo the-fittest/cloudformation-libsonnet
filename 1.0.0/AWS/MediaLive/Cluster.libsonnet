@@ -30,6 +30,7 @@
   },
   withClusterType(ClusterType): {
     assert std.isString(ClusterType) : 'ClusterType must be a string',
+    assert ClusterType == 'ON_PREMISES' || ClusterType == 'OUTPOSTS_RACK' || ClusterType == 'OUTPOSTS_SERVER' || ClusterType == 'EC2' : "ClusterType should be 'ON_PREMISES' or 'OUTPOSTS_RACK' or 'OUTPOSTS_SERVER' or 'EC2'",
     Properties+::: {
       ClusterType: ClusterType,
     },
@@ -60,6 +61,7 @@
   },
   withState(State): {
     assert std.isString(State) : 'State must be a string',
+    assert State == 'CREATING' || State == 'CREATE_FAILED' || State == 'ACTIVE' || State == 'DELETING' || State == 'DELETED' : "State should be 'CREATING' or 'CREATE_FAILED' or 'ACTIVE' or 'DELETING' or 'DELETED'",
     Properties+::: {
       State: State,
     },

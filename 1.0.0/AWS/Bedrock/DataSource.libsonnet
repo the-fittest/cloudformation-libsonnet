@@ -35,6 +35,7 @@
   },
   withDataSourceStatus(DataSourceStatus): {
     assert std.isString(DataSourceStatus) : 'DataSourceStatus must be a string',
+    assert DataSourceStatus == 'AVAILABLE' || DataSourceStatus == 'DELETING' || DataSourceStatus == 'DELETE_UNSUCCESSFUL' : "DataSourceStatus should be 'AVAILABLE' or 'DELETING' or 'DELETE_UNSUCCESSFUL'",
     Properties+::: {
       DataSourceStatus: DataSourceStatus,
     },
@@ -53,6 +54,7 @@
   },
   withDataDeletionPolicy(DataDeletionPolicy): {
     assert std.isString(DataDeletionPolicy) : 'DataDeletionPolicy must be a string',
+    assert DataDeletionPolicy == 'RETAIN' || DataDeletionPolicy == 'DELETE' : "DataDeletionPolicy should be 'RETAIN' or 'DELETE'",
     Properties+::: {
       DataDeletionPolicy: DataDeletionPolicy,
     },
