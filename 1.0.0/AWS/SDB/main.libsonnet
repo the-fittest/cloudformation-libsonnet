@@ -1,3 +1,3 @@
 {
-  Domain: (import 'SDB/Domain.libsonnet'),
+  Domain: import 'SDB/Domain.libsonnet',
 }

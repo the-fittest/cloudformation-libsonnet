@@ -1,3 +1,3 @@
 {
-  ServiceLevelObjective: (import 'ApplicationSignals/ServiceLevelObjective.libsonnet'),
+  ServiceLevelObjective: import 'ApplicationSignals/ServiceLevelObjective.libsonnet',
 }

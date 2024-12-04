@@ -1,6 +1,6 @@
-local AWS = import 'github.com/the-fittest/cloudformation-libsonnet/1.0.0/AWS.libsonnet';
+local AWS = import 'vendor/1.0.0/AWS/main.libsonnet';
 
-local LogGroup = AWS.Logs.LogGroup;
+local LogGroup = AWS.Logs;
 local Role = AWS.IAM.Role;
 
 local StateMachineId = 'Tadaaa';

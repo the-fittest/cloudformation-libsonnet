@@ -1,3 +1,3 @@
 {
-  GitHubRepository: (import 'CodeStar/GitHubRepository.libsonnet'),
+  GitHubRepository: import 'CodeStar/GitHubRepository.libsonnet',
 }

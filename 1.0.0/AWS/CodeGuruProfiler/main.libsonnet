@@ -1,3 +1,3 @@
 {
-  ProfilingGroup: (import 'CodeGuruProfiler/ProfilingGroup.libsonnet'),
+  ProfilingGroup: import 'CodeGuruProfiler/ProfilingGroup.libsonnet',
 }

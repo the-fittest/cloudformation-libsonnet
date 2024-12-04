@@ -1,3 +1,3 @@
 {
-  Application: (import 'SystemsManagerSAP/Application.libsonnet'),
+  Application: import 'SystemsManagerSAP/Application.libsonnet',
 }

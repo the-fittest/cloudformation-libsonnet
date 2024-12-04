@@ -1,4 +1,4 @@
 {
-  SimpleAD: (import 'DirectoryService/SimpleAD.libsonnet'),
-  MicrosoftAD: (import 'DirectoryService/MicrosoftAD.libsonnet'),
+  SimpleAD: import 'DirectoryService/SimpleAD.libsonnet',
+  MicrosoftAD: import 'DirectoryService/MicrosoftAD.libsonnet',
 }

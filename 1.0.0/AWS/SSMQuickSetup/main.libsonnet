@@ -1,3 +1,3 @@
 {
-  ConfigurationManager: (import 'SSMQuickSetup/ConfigurationManager.libsonnet'),
+  ConfigurationManager: import 'SSMQuickSetup/ConfigurationManager.libsonnet',
 }

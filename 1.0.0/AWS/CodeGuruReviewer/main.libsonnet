@@ -1,3 +1,3 @@
 {
-  RepositoryAssociation: (import 'CodeGuruReviewer/RepositoryAssociation.libsonnet'),
+  RepositoryAssociation: import 'CodeGuruReviewer/RepositoryAssociation.libsonnet',
 }

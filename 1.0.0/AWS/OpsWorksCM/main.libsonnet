@@ -1,3 +1,3 @@
 {
-  Server: (import 'OpsWorksCM/Server.libsonnet'),
+  Server: import 'OpsWorksCM/Server.libsonnet',
 }

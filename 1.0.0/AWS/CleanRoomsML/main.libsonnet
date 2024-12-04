@@ -1,3 +1,3 @@
 {
-  TrainingDataset: (import 'CleanRoomsML/TrainingDataset.libsonnet'),
+  TrainingDataset: import 'CleanRoomsML/TrainingDataset.libsonnet',
 }

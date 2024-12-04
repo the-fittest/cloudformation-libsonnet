@@ -1,4 +1,4 @@
 {
-  Node: (import 'ManagedBlockchain/Node.libsonnet'),
-  Member: (import 'ManagedBlockchain/Member.libsonnet'),
+  Node: import 'ManagedBlockchain/Node.libsonnet',
+  Member: import 'ManagedBlockchain/Member.libsonnet',
 }

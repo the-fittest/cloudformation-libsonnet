@@ -1,4 +1,4 @@
 {
-  Certificate: (import 'CertificateManager/Certificate.libsonnet'),
-  Account: (import 'CertificateManager/Account.libsonnet'),
+  Certificate: import 'CertificateManager/Certificate.libsonnet',
+  Account: import 'CertificateManager/Account.libsonnet',
 }

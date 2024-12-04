@@ -1,4 +1,4 @@
 {
-  SigningProfile: (import 'Signer/SigningProfile.libsonnet'),
-  ProfilePermission: (import 'Signer/ProfilePermission.libsonnet'),
+  SigningProfile: import 'Signer/SigningProfile.libsonnet',
+  ProfilePermission: import 'Signer/ProfilePermission.libsonnet',
 }

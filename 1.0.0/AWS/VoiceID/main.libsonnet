@@ -1,3 +1,3 @@
 {
-  Domain: (import 'VoiceID/Domain.libsonnet'),
+  Domain: import 'VoiceID/Domain.libsonnet',
 }

@@ -1,4 +1,4 @@
 {
-  ScheduleGroup: (import 'Scheduler/ScheduleGroup.libsonnet'),
-  Schedule: (import 'Scheduler/Schedule.libsonnet'),
+  ScheduleGroup: import 'Scheduler/ScheduleGroup.libsonnet',
+  Schedule: import 'Scheduler/Schedule.libsonnet',
 }

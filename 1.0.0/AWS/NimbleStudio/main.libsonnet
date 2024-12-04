@@ -1,3 +1,3 @@
 {
-  Studio: (import 'NimbleStudio/Studio.libsonnet'),
+  Studio: import 'NimbleStudio/Studio.libsonnet',
 }

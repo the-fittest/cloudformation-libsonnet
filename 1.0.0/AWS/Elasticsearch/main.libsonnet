@@ -1,3 +1,3 @@
 {
-  Domain: (import 'Elasticsearch/Domain.libsonnet'),
+  Domain: import 'Elasticsearch/Domain.libsonnet',
 }

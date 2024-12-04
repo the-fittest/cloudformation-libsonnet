@@ -1,3 +1,3 @@
 {
-  AppMonitor: (import 'RUM/AppMonitor.libsonnet'),
+  AppMonitor: import 'RUM/AppMonitor.libsonnet',
 }

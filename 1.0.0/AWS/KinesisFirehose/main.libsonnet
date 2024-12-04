@@ -1,3 +1,3 @@
 {
-  DeliveryStream: (import 'KinesisFirehose/DeliveryStream.libsonnet'),
+  DeliveryStream: import 'KinesisFirehose/DeliveryStream.libsonnet',
 }

@@ -1,3 +1,3 @@
 {
-  Pipeline: (import 'OSIS/Pipeline.libsonnet'),
+  Pipeline: import 'OSIS/Pipeline.libsonnet',
 }

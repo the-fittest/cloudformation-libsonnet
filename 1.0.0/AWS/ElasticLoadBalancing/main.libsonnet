@@ -1,3 +1,3 @@
 {
-  LoadBalancer: (import 'ElasticLoadBalancing/LoadBalancer.libsonnet'),
+  LoadBalancer: import 'ElasticLoadBalancing/LoadBalancer.libsonnet',
 }

@@ -1,3 +1,3 @@
 {
-  Monitor: (import 'InternetMonitor/Monitor.libsonnet'),
+  Monitor: import 'InternetMonitor/Monitor.libsonnet',
 }

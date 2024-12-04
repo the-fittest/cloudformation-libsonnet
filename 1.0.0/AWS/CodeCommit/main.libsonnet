@@ -1,3 +1,3 @@
 {
-  Repository: (import 'CodeCommit/Repository.libsonnet'),
+  Repository: import 'CodeCommit/Repository.libsonnet',
 }

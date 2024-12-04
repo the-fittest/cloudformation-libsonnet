@@ -1,4 +1,4 @@
 {
-  ResourceShare: (import 'RAM/ResourceShare.libsonnet'),
-  Permission: (import 'RAM/Permission.libsonnet'),
+  ResourceShare: import 'RAM/ResourceShare.libsonnet',
+  Permission: import 'RAM/Permission.libsonnet',
 }

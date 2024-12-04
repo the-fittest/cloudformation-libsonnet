@@ -115,12 +115,12 @@ providerImports = _.uniqWith(providerImports, _.isEqual)
 
 for (let i = 0; i < providerImports.length; i++) {
   const providerImport = providerImports[i];
-  const providerImportFile = `${libsDir}/${providerImport[0]}/AWS.libsonnet`
+  const providerImportFile = `${libsDir}/${providerImport[0]}/main.libsonnet`
   if (i === 0) {
     writeFileSync(providerImportFile, `{\n`);
   }
 
-  appendFileSync(providerImportFile, `${providerImport[1]}: (import '${providerImport[1]}/main.libsonnet'),\n`);
+  appendFileSync(providerImportFile, `${providerImport[1]}: import '${providerImport[1]}/main.libsonnet',\n`);
 
   if (i === providerImports.length - 1) {
     appendFileSync(providerImportFile, `}\n`);
@@ -137,7 +137,7 @@ while (moduleImports.length) {
     writeFileSync(moduleImportFile, `{\n`);
   }
   const parts = _.split(moduleImport[0], '/');
-  appendFileSync(moduleImportFile, `${moduleImport[1]}: (import '${parts[1]}/${moduleImport[1]}.libsonnet'),\n`);
+  appendFileSync(moduleImportFile, `${moduleImport[1]}: import '${parts[1]}/${moduleImport[1]}.libsonnet',\n`);
 
   if (_.isEmpty(moduleImports) || _.last(moduleImports)[0] !== moduleImport[0]){
     appendFileSync(moduleImportFile, `}\n`);

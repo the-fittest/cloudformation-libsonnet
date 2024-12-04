@@ -1,3 +1,3 @@
 {
-  Environment: (import 'MWAA/Environment.libsonnet'),
+  Environment: import 'MWAA/Environment.libsonnet',
 }

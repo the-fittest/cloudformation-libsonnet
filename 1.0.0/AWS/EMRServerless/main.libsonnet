@@ -1,3 +1,3 @@
 {
-  Application: (import 'EMRServerless/Application.libsonnet'),
+  Application: import 'EMRServerless/Application.libsonnet',
 }
