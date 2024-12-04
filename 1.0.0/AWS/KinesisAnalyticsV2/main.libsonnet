@@ -1,6 +1,6 @@
 {
-  ApplicationReferenceDataSource: import 'KinesisAnalyticsV2/ApplicationReferenceDataSource.libsonnet',
-  ApplicationOutput: import 'KinesisAnalyticsV2/ApplicationOutput.libsonnet',
-  ApplicationCloudWatchLoggingOption: import 'KinesisAnalyticsV2/ApplicationCloudWatchLoggingOption.libsonnet',
-  Application: import 'KinesisAnalyticsV2/Application.libsonnet',
+  ApplicationReferenceDataSource: import 'ApplicationReferenceDataSource.libsonnet',
+  ApplicationOutput: import 'ApplicationOutput.libsonnet',
+  ApplicationCloudWatchLoggingOption: import 'ApplicationCloudWatchLoggingOption.libsonnet',
+  Application: import 'Application.libsonnet',
 }

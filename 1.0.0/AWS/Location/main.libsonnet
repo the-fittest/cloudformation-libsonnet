@@ -1,9 +1,9 @@
 {
-  TrackerConsumer: import 'Location/TrackerConsumer.libsonnet',
-  Tracker: import 'Location/Tracker.libsonnet',
-  RouteCalculator: import 'Location/RouteCalculator.libsonnet',
-  PlaceIndex: import 'Location/PlaceIndex.libsonnet',
-  Map: import 'Location/Map.libsonnet',
-  GeofenceCollection: import 'Location/GeofenceCollection.libsonnet',
-  APIKey: import 'Location/APIKey.libsonnet',
+  TrackerConsumer: import 'TrackerConsumer.libsonnet',
+  Tracker: import 'Tracker.libsonnet',
+  RouteCalculator: import 'RouteCalculator.libsonnet',
+  PlaceIndex: import 'PlaceIndex.libsonnet',
+  Map: import 'Map.libsonnet',
+  GeofenceCollection: import 'GeofenceCollection.libsonnet',
+  APIKey: import 'APIKey.libsonnet',
 }

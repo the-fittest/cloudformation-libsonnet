@@ -1,9 +1,9 @@
 {
-  VirtualService: import 'AppMesh/VirtualService.libsonnet',
-  VirtualRouter: import 'AppMesh/VirtualRouter.libsonnet',
-  VirtualNode: import 'AppMesh/VirtualNode.libsonnet',
-  VirtualGateway: import 'AppMesh/VirtualGateway.libsonnet',
-  Route: import 'AppMesh/Route.libsonnet',
-  Mesh: import 'AppMesh/Mesh.libsonnet',
-  GatewayRoute: import 'AppMesh/GatewayRoute.libsonnet',
+  VirtualService: import 'VirtualService.libsonnet',
+  VirtualRouter: import 'VirtualRouter.libsonnet',
+  VirtualNode: import 'VirtualNode.libsonnet',
+  VirtualGateway: import 'VirtualGateway.libsonnet',
+  Route: import 'Route.libsonnet',
+  Mesh: import 'Mesh.libsonnet',
+  GatewayRoute: import 'GatewayRoute.libsonnet',
 }

@@ -1,5 +1,5 @@
 {
-  ReplicaKey: import 'KMS/ReplicaKey.libsonnet',
-  Key: import 'KMS/Key.libsonnet',
-  Alias: import 'KMS/Alias.libsonnet',
+  ReplicaKey: import 'ReplicaKey.libsonnet',
+  Key: import 'Key.libsonnet',
+  Alias: import 'Alias.libsonnet',
 }

@@ -1,6 +1,6 @@
 {
-  ResourcePolicy: import 'Lex/ResourcePolicy.libsonnet',
-  BotVersion: import 'Lex/BotVersion.libsonnet',
-  BotAlias: import 'Lex/BotAlias.libsonnet',
-  Bot: import 'Lex/Bot.libsonnet',
+  ResourcePolicy: import 'ResourcePolicy.libsonnet',
+  BotVersion: import 'BotVersion.libsonnet',
+  BotAlias: import 'BotAlias.libsonnet',
+  Bot: import 'Bot.libsonnet',
 }

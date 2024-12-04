@@ -1,3 +1,3 @@
 {
-  Workspace: import 'Grafana/Workspace.libsonnet',
+  Workspace: import 'Workspace.libsonnet',
 }

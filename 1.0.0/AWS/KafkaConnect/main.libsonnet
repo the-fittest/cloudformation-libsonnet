@@ -1,5 +1,5 @@
 {
-  WorkerConfiguration: import 'KafkaConnect/WorkerConfiguration.libsonnet',
-  CustomPlugin: import 'KafkaConnect/CustomPlugin.libsonnet',
-  Connector: import 'KafkaConnect/Connector.libsonnet',
+  WorkerConfiguration: import 'WorkerConfiguration.libsonnet',
+  CustomPlugin: import 'CustomPlugin.libsonnet',
+  Connector: import 'Connector.libsonnet',
 }

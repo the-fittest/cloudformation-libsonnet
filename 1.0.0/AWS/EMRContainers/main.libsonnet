@@ -1,3 +1,3 @@
 {
-  VirtualCluster: import 'EMRContainers/VirtualCluster.libsonnet',
+  VirtualCluster: import 'VirtualCluster.libsonnet',
 }

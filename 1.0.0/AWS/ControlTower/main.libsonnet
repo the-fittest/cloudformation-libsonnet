@@ -1,5 +1,5 @@
 {
-  LandingZone: import 'ControlTower/LandingZone.libsonnet',
-  EnabledControl: import 'ControlTower/EnabledControl.libsonnet',
-  EnabledBaseline: import 'ControlTower/EnabledBaseline.libsonnet',
+  LandingZone: import 'LandingZone.libsonnet',
+  EnabledControl: import 'EnabledControl.libsonnet',
+  EnabledBaseline: import 'EnabledBaseline.libsonnet',
 }

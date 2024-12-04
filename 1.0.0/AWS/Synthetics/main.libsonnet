@@ -1,4 +1,4 @@
 {
-  Group: import 'Synthetics/Group.libsonnet',
-  Canary: import 'Synthetics/Canary.libsonnet',
+  Group: import 'Group.libsonnet',
+  Canary: import 'Canary.libsonnet',
 }

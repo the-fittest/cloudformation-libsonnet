@@ -1,4 +1,4 @@
 {
-  Stream: import 'KinesisVideo/Stream.libsonnet',
-  SignalingChannel: import 'KinesisVideo/SignalingChannel.libsonnet',
+  Stream: import 'Stream.libsonnet',
+  SignalingChannel: import 'SignalingChannel.libsonnet',
 }

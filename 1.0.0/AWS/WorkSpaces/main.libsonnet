@@ -1,5 +1,5 @@
 {
-  WorkspacesPool: import 'WorkSpaces/WorkspacesPool.libsonnet',
-  Workspace: import 'WorkSpaces/Workspace.libsonnet',
-  ConnectionAlias: import 'WorkSpaces/ConnectionAlias.libsonnet',
+  WorkspacesPool: import 'WorkspacesPool.libsonnet',
+  Workspace: import 'Workspace.libsonnet',
+  ConnectionAlias: import 'ConnectionAlias.libsonnet',
 }

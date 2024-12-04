@@ -1,4 +1,4 @@
 {
-  Workgroup: import 'RedshiftServerless/Workgroup.libsonnet',
-  Namespace: import 'RedshiftServerless/Namespace.libsonnet',
+  Workgroup: import 'Workgroup.libsonnet',
+  Namespace: import 'Namespace.libsonnet',
 }

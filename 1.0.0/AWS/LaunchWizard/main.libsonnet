@@ -1,3 +1,3 @@
 {
-  Deployment: import 'LaunchWizard/Deployment.libsonnet',
+  Deployment: import 'Deployment.libsonnet',
 }

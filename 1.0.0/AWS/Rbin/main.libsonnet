@@ -1,3 +1,3 @@
 {
-  Rule: import 'Rbin/Rule.libsonnet',
+  Rule: import 'Rule.libsonnet',
 }

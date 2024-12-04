@@ -1,3 +1,3 @@
 {
-  Environment: import 'WorkSpacesThinClient/Environment.libsonnet',
+  Environment: import 'Environment.libsonnet',
 }

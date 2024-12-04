@@ -1,8 +1,8 @@
 {
-  VodSource: import 'MediaTailor/VodSource.libsonnet',
-  SourceLocation: import 'MediaTailor/SourceLocation.libsonnet',
-  PlaybackConfiguration: import 'MediaTailor/PlaybackConfiguration.libsonnet',
-  LiveSource: import 'MediaTailor/LiveSource.libsonnet',
-  ChannelPolicy: import 'MediaTailor/ChannelPolicy.libsonnet',
-  Channel: import 'MediaTailor/Channel.libsonnet',
+  VodSource: import 'VodSource.libsonnet',
+  SourceLocation: import 'SourceLocation.libsonnet',
+  PlaybackConfiguration: import 'PlaybackConfiguration.libsonnet',
+  LiveSource: import 'LiveSource.libsonnet',
+  ChannelPolicy: import 'ChannelPolicy.libsonnet',
+  Channel: import 'Channel.libsonnet',
 }

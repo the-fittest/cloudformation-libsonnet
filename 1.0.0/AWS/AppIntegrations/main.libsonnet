@@ -1,5 +1,5 @@
 {
-  EventIntegration: import 'AppIntegrations/EventIntegration.libsonnet',
-  DataIntegration: import 'AppIntegrations/DataIntegration.libsonnet',
-  Application: import 'AppIntegrations/Application.libsonnet',
+  EventIntegration: import 'EventIntegration.libsonnet',
+  DataIntegration: import 'DataIntegration.libsonnet',
+  Application: import 'Application.libsonnet',
 }

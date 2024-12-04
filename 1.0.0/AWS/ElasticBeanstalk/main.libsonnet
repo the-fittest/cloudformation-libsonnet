@@ -1,6 +1,6 @@
 {
-  Environment: import 'ElasticBeanstalk/Environment.libsonnet',
-  ConfigurationTemplate: import 'ElasticBeanstalk/ConfigurationTemplate.libsonnet',
-  ApplicationVersion: import 'ElasticBeanstalk/ApplicationVersion.libsonnet',
-  Application: import 'ElasticBeanstalk/Application.libsonnet',
+  Environment: import 'Environment.libsonnet',
+  ConfigurationTemplate: import 'ConfigurationTemplate.libsonnet',
+  ApplicationVersion: import 'ApplicationVersion.libsonnet',
+  Application: import 'Application.libsonnet',
 }

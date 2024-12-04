@@ -1,5 +1,5 @@
 {
-  Flow: import 'AppFlow/Flow.libsonnet',
-  ConnectorProfile: import 'AppFlow/ConnectorProfile.libsonnet',
-  Connector: import 'AppFlow/Connector.libsonnet',
+  Flow: import 'Flow.libsonnet',
+  ConnectorProfile: import 'ConnectorProfile.libsonnet',
+  Connector: import 'Connector.libsonnet',
 }

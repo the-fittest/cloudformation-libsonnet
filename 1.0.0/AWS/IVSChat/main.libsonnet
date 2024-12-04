@@ -1,4 +1,4 @@
 {
-  Room: import 'IVSChat/Room.libsonnet',
-  LoggingConfiguration: import 'IVSChat/LoggingConfiguration.libsonnet',
+  Room: import 'Room.libsonnet',
+  LoggingConfiguration: import 'LoggingConfiguration.libsonnet',
 }

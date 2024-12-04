@@ -1,9 +1,9 @@
 {
-  Workflow: import 'Transfer/Workflow.libsonnet',
-  User: import 'Transfer/User.libsonnet',
-  Server: import 'Transfer/Server.libsonnet',
-  Profile: import 'Transfer/Profile.libsonnet',
-  Connector: import 'Transfer/Connector.libsonnet',
-  Certificate: import 'Transfer/Certificate.libsonnet',
-  Agreement: import 'Transfer/Agreement.libsonnet',
+  Workflow: import 'Workflow.libsonnet',
+  User: import 'User.libsonnet',
+  Server: import 'Server.libsonnet',
+  Profile: import 'Profile.libsonnet',
+  Connector: import 'Connector.libsonnet',
+  Certificate: import 'Certificate.libsonnet',
+  Agreement: import 'Agreement.libsonnet',
 }

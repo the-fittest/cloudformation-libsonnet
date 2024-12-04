@@ -1,6 +1,6 @@
 {
-  Session: import 'Macie/Session.libsonnet',
-  FindingsFilter: import 'Macie/FindingsFilter.libsonnet',
-  CustomDataIdentifier: import 'Macie/CustomDataIdentifier.libsonnet',
-  AllowList: import 'Macie/AllowList.libsonnet',
+  Session: import 'Session.libsonnet',
+  FindingsFilter: import 'FindingsFilter.libsonnet',
+  CustomDataIdentifier: import 'CustomDataIdentifier.libsonnet',
+  AllowList: import 'AllowList.libsonnet',
 }

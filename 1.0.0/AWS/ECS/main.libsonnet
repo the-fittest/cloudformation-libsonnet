@@ -1,9 +1,9 @@
 {
-  TaskSet: import 'ECS/TaskSet.libsonnet',
-  TaskDefinition: import 'ECS/TaskDefinition.libsonnet',
-  Service: import 'ECS/Service.libsonnet',
-  PrimaryTaskSet: import 'ECS/PrimaryTaskSet.libsonnet',
-  ClusterCapacityProviderAssociations: import 'ECS/ClusterCapacityProviderAssociations.libsonnet',
-  Cluster: import 'ECS/Cluster.libsonnet',
-  CapacityProvider: import 'ECS/CapacityProvider.libsonnet',
+  TaskSet: import 'TaskSet.libsonnet',
+  TaskDefinition: import 'TaskDefinition.libsonnet',
+  Service: import 'Service.libsonnet',
+  PrimaryTaskSet: import 'PrimaryTaskSet.libsonnet',
+  ClusterCapacityProviderAssociations: import 'ClusterCapacityProviderAssociations.libsonnet',
+  Cluster: import 'Cluster.libsonnet',
+  CapacityProvider: import 'CapacityProvider.libsonnet',
 }

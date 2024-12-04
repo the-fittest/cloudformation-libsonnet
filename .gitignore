@@ -1,3 +1,4 @@
+template.json
 schemas
 .idea
 schemas.zip
@@ -136,6 +137,3 @@ dist
 ### Jsonnet template
 # Dependency directories
 vendor/
-
-
-/tests/template.json

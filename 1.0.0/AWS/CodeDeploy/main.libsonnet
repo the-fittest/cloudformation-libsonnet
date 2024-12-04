@@ -1,5 +1,5 @@
 {
-  DeploymentGroup: import 'CodeDeploy/DeploymentGroup.libsonnet',
-  DeploymentConfig: import 'CodeDeploy/DeploymentConfig.libsonnet',
-  Application: import 'CodeDeploy/Application.libsonnet',
+  DeploymentGroup: import 'DeploymentGroup.libsonnet',
+  DeploymentConfig: import 'DeploymentConfig.libsonnet',
+  Application: import 'Application.libsonnet',
 }

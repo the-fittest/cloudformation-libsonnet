@@ -1,5 +1,5 @@
 {
-  ConfigurationAssociation: import 'AmazonMQ/ConfigurationAssociation.libsonnet',
-  Configuration: import 'AmazonMQ/Configuration.libsonnet',
-  Broker: import 'AmazonMQ/Broker.libsonnet',
+  ConfigurationAssociation: import 'ConfigurationAssociation.libsonnet',
+  Configuration: import 'Configuration.libsonnet',
+  Broker: import 'Broker.libsonnet',
 }

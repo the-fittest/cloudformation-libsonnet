@@ -1,6 +1,6 @@
 {
-  SourceCredential: import 'CodeBuild/SourceCredential.libsonnet',
-  ReportGroup: import 'CodeBuild/ReportGroup.libsonnet',
-  Project: import 'CodeBuild/Project.libsonnet',
-  Fleet: import 'CodeBuild/Fleet.libsonnet',
+  SourceCredential: import 'SourceCredential.libsonnet',
+  ReportGroup: import 'ReportGroup.libsonnet',
+  Project: import 'Project.libsonnet',
+  Fleet: import 'Fleet.libsonnet',
 }

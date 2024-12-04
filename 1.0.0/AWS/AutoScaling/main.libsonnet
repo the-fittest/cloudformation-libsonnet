@@ -1,8 +1,8 @@
 {
-  WarmPool: import 'AutoScaling/WarmPool.libsonnet',
-  ScheduledAction: import 'AutoScaling/ScheduledAction.libsonnet',
-  ScalingPolicy: import 'AutoScaling/ScalingPolicy.libsonnet',
-  LifecycleHook: import 'AutoScaling/LifecycleHook.libsonnet',
-  LaunchConfiguration: import 'AutoScaling/LaunchConfiguration.libsonnet',
-  AutoScalingGroup: import 'AutoScaling/AutoScalingGroup.libsonnet',
+  WarmPool: import 'WarmPool.libsonnet',
+  ScheduledAction: import 'ScheduledAction.libsonnet',
+  ScalingPolicy: import 'ScalingPolicy.libsonnet',
+  LifecycleHook: import 'LifecycleHook.libsonnet',
+  LaunchConfiguration: import 'LaunchConfiguration.libsonnet',
+  AutoScalingGroup: import 'AutoScalingGroup.libsonnet',
 }

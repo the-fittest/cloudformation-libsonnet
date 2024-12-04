@@ -1,5 +1,5 @@
 {
-  SlackWorkspaceConfiguration: import 'SupportApp/SlackWorkspaceConfiguration.libsonnet',
-  SlackChannelConfiguration: import 'SupportApp/SlackChannelConfiguration.libsonnet',
-  AccountAlias: import 'SupportApp/AccountAlias.libsonnet',
+  SlackWorkspaceConfiguration: import 'SlackWorkspaceConfiguration.libsonnet',
+  SlackChannelConfiguration: import 'SlackChannelConfiguration.libsonnet',
+  AccountAlias: import 'AccountAlias.libsonnet',
 }

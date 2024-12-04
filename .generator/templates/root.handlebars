@@ -1,6 +1,4 @@
 {
-    # {{Provider schema}} {{Module schema}} {{Resource schema}}
-    {{Resource schema}}: {
     {{#if (requiredProperties schema)}}
         new(
         {{#each (requiredProperties schema)}}
@@ -35,5 +33,4 @@
         {{> optionalArrayProperty Property='UpdatePolicy'}}
         {{> optionalArrayProperty Property='UpdateReplacePolicy'}}
         {{> optionalArrayProperty Property='Metadata'}}
-    }
 }

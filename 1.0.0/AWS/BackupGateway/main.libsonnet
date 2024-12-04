@@ -1,3 +1,3 @@
 {
-  Hypervisor: import 'BackupGateway/Hypervisor.libsonnet',
+  Hypervisor: import 'Hypervisor.libsonnet',
 }

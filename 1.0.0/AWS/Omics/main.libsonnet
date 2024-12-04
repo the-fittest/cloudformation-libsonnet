@@ -1,8 +1,8 @@
 {
-  Workflow: import 'Omics/Workflow.libsonnet',
-  VariantStore: import 'Omics/VariantStore.libsonnet',
-  SequenceStore: import 'Omics/SequenceStore.libsonnet',
-  RunGroup: import 'Omics/RunGroup.libsonnet',
-  ReferenceStore: import 'Omics/ReferenceStore.libsonnet',
-  AnnotationStore: import 'Omics/AnnotationStore.libsonnet',
+  Workflow: import 'Workflow.libsonnet',
+  VariantStore: import 'VariantStore.libsonnet',
+  SequenceStore: import 'SequenceStore.libsonnet',
+  RunGroup: import 'RunGroup.libsonnet',
+  ReferenceStore: import 'ReferenceStore.libsonnet',
+  AnnotationStore: import 'AnnotationStore.libsonnet',
 }

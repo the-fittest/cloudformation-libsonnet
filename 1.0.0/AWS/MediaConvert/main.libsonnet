@@ -1,5 +1,5 @@
 {
-  Queue: import 'MediaConvert/Queue.libsonnet',
-  Preset: import 'MediaConvert/Preset.libsonnet',
-  JobTemplate: import 'MediaConvert/JobTemplate.libsonnet',
+  Queue: import 'Queue.libsonnet',
+  Preset: import 'Preset.libsonnet',
+  JobTemplate: import 'JobTemplate.libsonnet',
 }

@@ -1,4 +1,4 @@
 {
-  GroupMembership: import 'IdentityStore/GroupMembership.libsonnet',
-  Group: import 'IdentityStore/Group.libsonnet',
+  GroupMembership: import 'GroupMembership.libsonnet',
+  Group: import 'Group.libsonnet',
 }

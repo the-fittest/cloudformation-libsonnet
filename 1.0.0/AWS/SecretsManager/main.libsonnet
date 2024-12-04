@@ -1,6 +1,6 @@
 {
-  SecretTargetAttachment: import 'SecretsManager/SecretTargetAttachment.libsonnet',
-  Secret: import 'SecretsManager/Secret.libsonnet',
-  RotationSchedule: import 'SecretsManager/RotationSchedule.libsonnet',
-  ResourcePolicy: import 'SecretsManager/ResourcePolicy.libsonnet',
+  SecretTargetAttachment: import 'SecretTargetAttachment.libsonnet',
+  Secret: import 'Secret.libsonnet',
+  RotationSchedule: import 'RotationSchedule.libsonnet',
+  ResourcePolicy: import 'ResourcePolicy.libsonnet',
 }

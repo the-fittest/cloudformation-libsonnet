@@ -1,6 +1,6 @@
 {
-  Service: import 'RefactorSpaces/Service.libsonnet',
-  Route: import 'RefactorSpaces/Route.libsonnet',
-  Environment: import 'RefactorSpaces/Environment.libsonnet',
-  Application: import 'RefactorSpaces/Application.libsonnet',
+  Service: import 'Service.libsonnet',
+  Route: import 'Route.libsonnet',
+  Environment: import 'Environment.libsonnet',
+  Application: import 'Application.libsonnet',
 }

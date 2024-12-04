@@ -1,5 +1,5 @@
 {
-  ServiceTemplate: import 'Proton/ServiceTemplate.libsonnet',
-  EnvironmentTemplate: import 'Proton/EnvironmentTemplate.libsonnet',
-  EnvironmentAccountConnection: import 'Proton/EnvironmentAccountConnection.libsonnet',
+  ServiceTemplate: import 'ServiceTemplate.libsonnet',
+  EnvironmentTemplate: import 'EnvironmentTemplate.libsonnet',
+  EnvironmentAccountConnection: import 'EnvironmentAccountConnection.libsonnet',
 }

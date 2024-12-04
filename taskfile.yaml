@@ -34,4 +34,9 @@ tasks:
       - node .generator/new.js
       - task: format
 
+  test:
+    cmds:
+      - jsonnet test.jsonnet -o template.json
+    env:
+      JSONNET_PATH: "lib/:vendor/"
 ...

@@ -1,3 +1,3 @@
 {
-  Cluster: import 'DocDBElastic/Cluster.libsonnet',
+  Cluster: import 'Cluster.libsonnet',
 }

@@ -1,4 +1,4 @@
 {
-  ResiliencyPolicy: import 'ResilienceHub/ResiliencyPolicy.libsonnet',
-  App: import 'ResilienceHub/App.libsonnet',
+  ResiliencyPolicy: import 'ResiliencyPolicy.libsonnet',
+  App: import 'App.libsonnet',
 }

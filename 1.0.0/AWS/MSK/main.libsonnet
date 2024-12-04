@@ -1,9 +1,9 @@
 {
-  VpcConnection: import 'MSK/VpcConnection.libsonnet',
-  ServerlessCluster: import 'MSK/ServerlessCluster.libsonnet',
-  Replicator: import 'MSK/Replicator.libsonnet',
-  Configuration: import 'MSK/Configuration.libsonnet',
-  ClusterPolicy: import 'MSK/ClusterPolicy.libsonnet',
-  Cluster: import 'MSK/Cluster.libsonnet',
-  BatchScramSecret: import 'MSK/BatchScramSecret.libsonnet',
+  VpcConnection: import 'VpcConnection.libsonnet',
+  ServerlessCluster: import 'ServerlessCluster.libsonnet',
+  Replicator: import 'Replicator.libsonnet',
+  Configuration: import 'Configuration.libsonnet',
+  ClusterPolicy: import 'ClusterPolicy.libsonnet',
+  Cluster: import 'Cluster.libsonnet',
+  BatchScramSecret: import 'BatchScramSecret.libsonnet',
 }

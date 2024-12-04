@@ -1,5 +1,5 @@
 {
-  ApplicationReferenceDataSource: import 'KinesisAnalytics/ApplicationReferenceDataSource.libsonnet',
-  ApplicationOutput: import 'KinesisAnalytics/ApplicationOutput.libsonnet',
-  Application: import 'KinesisAnalytics/Application.libsonnet',
+  ApplicationReferenceDataSource: import 'ApplicationReferenceDataSource.libsonnet',
+  ApplicationOutput: import 'ApplicationOutput.libsonnet',
+  Application: import 'Application.libsonnet',
 }

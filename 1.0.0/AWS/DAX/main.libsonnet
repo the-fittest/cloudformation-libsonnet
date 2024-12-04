@@ -1,5 +1,5 @@
 {
-  SubnetGroup: import 'DAX/SubnetGroup.libsonnet',
-  ParameterGroup: import 'DAX/ParameterGroup.libsonnet',
-  Cluster: import 'DAX/Cluster.libsonnet',
+  SubnetGroup: import 'SubnetGroup.libsonnet',
+  ParameterGroup: import 'ParameterGroup.libsonnet',
+  Cluster: import 'Cluster.libsonnet',
 }

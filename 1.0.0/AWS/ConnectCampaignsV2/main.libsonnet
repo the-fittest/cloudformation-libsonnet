@@ -1,3 +1,3 @@
 {
-  Campaign: import 'ConnectCampaignsV2/Campaign.libsonnet',
+  Campaign: import 'Campaign.libsonnet',
 }

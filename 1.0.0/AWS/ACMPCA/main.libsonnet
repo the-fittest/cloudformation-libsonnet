@@ -1,6 +1,6 @@
 {
-  Permission: import 'ACMPCA/Permission.libsonnet',
-  CertificateAuthorityActivation: import 'ACMPCA/CertificateAuthorityActivation.libsonnet',
-  CertificateAuthority: import 'ACMPCA/CertificateAuthority.libsonnet',
-  Certificate: import 'ACMPCA/Certificate.libsonnet',
+  Permission: import 'Permission.libsonnet',
+  CertificateAuthorityActivation: import 'CertificateAuthorityActivation.libsonnet',
+  CertificateAuthority: import 'CertificateAuthority.libsonnet',
+  Certificate: import 'Certificate.libsonnet',
 }

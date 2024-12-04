@@ -1,3 +1,3 @@
 {
-  Connection: import 'CodeConnections/Connection.libsonnet',
+  Connection: import 'Connection.libsonnet',
 }

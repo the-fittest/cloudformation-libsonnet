@@ -1,3 +1,3 @@
 {
-  Pipe: import 'Pipes/Pipe.libsonnet',
+  Pipe: import 'Pipe.libsonnet',
 }

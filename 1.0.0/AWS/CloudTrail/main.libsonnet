@@ -1,7 +1,7 @@
 {
-  Trail: import 'CloudTrail/Trail.libsonnet',
-  ResourcePolicy: import 'CloudTrail/ResourcePolicy.libsonnet',
-  EventDataStore: import 'CloudTrail/EventDataStore.libsonnet',
-  Dashboard: import 'CloudTrail/Dashboard.libsonnet',
-  Channel: import 'CloudTrail/Channel.libsonnet',
+  Trail: import 'Trail.libsonnet',
+  ResourcePolicy: import 'ResourcePolicy.libsonnet',
+  EventDataStore: import 'EventDataStore.libsonnet',
+  Dashboard: import 'Dashboard.libsonnet',
+  Channel: import 'Channel.libsonnet',
 }

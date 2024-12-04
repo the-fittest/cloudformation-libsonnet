@@ -1,7 +1,7 @@
 {
-  EventSubscription: import 'DocDB/EventSubscription.libsonnet',
-  DBSubnetGroup: import 'DocDB/DBSubnetGroup.libsonnet',
-  DBInstance: import 'DocDB/DBInstance.libsonnet',
-  DBClusterParameterGroup: import 'DocDB/DBClusterParameterGroup.libsonnet',
-  DBCluster: import 'DocDB/DBCluster.libsonnet',
+  EventSubscription: import 'EventSubscription.libsonnet',
+  DBSubnetGroup: import 'DBSubnetGroup.libsonnet',
+  DBInstance: import 'DBInstance.libsonnet',
+  DBClusterParameterGroup: import 'DBClusterParameterGroup.libsonnet',
+  DBCluster: import 'DBCluster.libsonnet',
 }

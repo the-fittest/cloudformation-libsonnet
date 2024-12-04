@@ -1,3 +1,3 @@
 {
-  InvoiceUnit: import 'Invoicing/InvoiceUnit.libsonnet',
+  InvoiceUnit: import 'InvoiceUnit.libsonnet',
 }

@@ -1,5 +1,5 @@
 {
-  SlackChannelConfiguration: import 'Chatbot/SlackChannelConfiguration.libsonnet',
-  MicrosoftTeamsChannelConfiguration: import 'Chatbot/MicrosoftTeamsChannelConfiguration.libsonnet',
-  CustomAction: import 'Chatbot/CustomAction.libsonnet',
+  SlackChannelConfiguration: import 'SlackChannelConfiguration.libsonnet',
+  MicrosoftTeamsChannelConfiguration: import 'MicrosoftTeamsChannelConfiguration.libsonnet',
+  CustomAction: import 'CustomAction.libsonnet',
 }

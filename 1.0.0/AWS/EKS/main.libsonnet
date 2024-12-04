@@ -1,9 +1,9 @@
 {
-  PodIdentityAssociation: import 'EKS/PodIdentityAssociation.libsonnet',
-  Nodegroup: import 'EKS/Nodegroup.libsonnet',
-  IdentityProviderConfig: import 'EKS/IdentityProviderConfig.libsonnet',
-  FargateProfile: import 'EKS/FargateProfile.libsonnet',
-  Cluster: import 'EKS/Cluster.libsonnet',
-  Addon: import 'EKS/Addon.libsonnet',
-  AccessEntry: import 'EKS/AccessEntry.libsonnet',
+  PodIdentityAssociation: import 'PodIdentityAssociation.libsonnet',
+  Nodegroup: import 'Nodegroup.libsonnet',
+  IdentityProviderConfig: import 'IdentityProviderConfig.libsonnet',
+  FargateProfile: import 'FargateProfile.libsonnet',
+  Cluster: import 'Cluster.libsonnet',
+  Addon: import 'Addon.libsonnet',
+  AccessEntry: import 'AccessEntry.libsonnet',
 }

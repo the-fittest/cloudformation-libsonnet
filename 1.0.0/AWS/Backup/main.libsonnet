@@ -1,10 +1,10 @@
 {
-  RestoreTestingSelection: import 'Backup/RestoreTestingSelection.libsonnet',
-  RestoreTestingPlan: import 'Backup/RestoreTestingPlan.libsonnet',
-  ReportPlan: import 'Backup/ReportPlan.libsonnet',
-  LogicallyAirGappedBackupVault: import 'Backup/LogicallyAirGappedBackupVault.libsonnet',
-  Framework: import 'Backup/Framework.libsonnet',
-  BackupVault: import 'Backup/BackupVault.libsonnet',
-  BackupSelection: import 'Backup/BackupSelection.libsonnet',
-  BackupPlan: import 'Backup/BackupPlan.libsonnet',
+  RestoreTestingSelection: import 'RestoreTestingSelection.libsonnet',
+  RestoreTestingPlan: import 'RestoreTestingPlan.libsonnet',
+  ReportPlan: import 'ReportPlan.libsonnet',
+  LogicallyAirGappedBackupVault: import 'LogicallyAirGappedBackupVault.libsonnet',
+  Framework: import 'Framework.libsonnet',
+  BackupVault: import 'BackupVault.libsonnet',
+  BackupSelection: import 'BackupSelection.libsonnet',
+  BackupPlan: import 'BackupPlan.libsonnet',
 }

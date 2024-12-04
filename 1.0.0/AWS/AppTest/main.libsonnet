@@ -1,3 +1,3 @@
 {
-  TestCase: import 'AppTest/TestCase.libsonnet',
+  TestCase: import 'TestCase.libsonnet',
 }

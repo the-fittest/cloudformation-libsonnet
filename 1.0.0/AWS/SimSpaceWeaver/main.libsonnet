@@ -1,3 +1,3 @@
 {
-  Simulation: import 'SimSpaceWeaver/Simulation.libsonnet',
+  Simulation: import 'Simulation.libsonnet',
 }

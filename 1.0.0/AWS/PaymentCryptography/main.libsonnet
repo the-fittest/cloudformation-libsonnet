@@ -1,4 +1,4 @@
 {
-  Key: import 'PaymentCryptography/Key.libsonnet',
-  Alias: import 'PaymentCryptography/Alias.libsonnet',
+  Key: import 'Key.libsonnet',
+  Alias: import 'Alias.libsonnet',
 }

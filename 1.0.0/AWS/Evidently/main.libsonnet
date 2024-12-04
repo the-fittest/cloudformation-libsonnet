@@ -1,7 +1,7 @@
 {
-  Segment: import 'Evidently/Segment.libsonnet',
-  Project: import 'Evidently/Project.libsonnet',
-  Launch: import 'Evidently/Launch.libsonnet',
-  Feature: import 'Evidently/Feature.libsonnet',
-  Experiment: import 'Evidently/Experiment.libsonnet',
+  Segment: import 'Segment.libsonnet',
+  Project: import 'Project.libsonnet',
+  Launch: import 'Launch.libsonnet',
+  Feature: import 'Feature.libsonnet',
+  Experiment: import 'Experiment.libsonnet',
 }

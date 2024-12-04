@@ -1,6 +1,6 @@
 {
-  Listener: import 'GlobalAccelerator/Listener.libsonnet',
-  EndpointGroup: import 'GlobalAccelerator/EndpointGroup.libsonnet',
-  CrossAccountAttachment: import 'GlobalAccelerator/CrossAccountAttachment.libsonnet',
-  Accelerator: import 'GlobalAccelerator/Accelerator.libsonnet',
+  Listener: import 'Listener.libsonnet',
+  EndpointGroup: import 'EndpointGroup.libsonnet',
+  CrossAccountAttachment: import 'CrossAccountAttachment.libsonnet',
+  Accelerator: import 'Accelerator.libsonnet',
 }

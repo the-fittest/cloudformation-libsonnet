@@ -1,3 +1,3 @@
 {
-  Assessment: import 'AuditManager/Assessment.libsonnet',
+  Assessment: import 'Assessment.libsonnet',
 }

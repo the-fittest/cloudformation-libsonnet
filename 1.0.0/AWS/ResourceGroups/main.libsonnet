@@ -1,4 +1,4 @@
 {
-  TagSyncTask: import 'ResourceGroups/TagSyncTask.libsonnet',
-  Group: import 'ResourceGroups/Group.libsonnet',
+  TagSyncTask: import 'TagSyncTask.libsonnet',
+  Group: import 'Group.libsonnet',
 }

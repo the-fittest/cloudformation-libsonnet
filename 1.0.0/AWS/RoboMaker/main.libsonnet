@@ -1,8 +1,8 @@
 {
-  SimulationApplicationVersion: import 'RoboMaker/SimulationApplicationVersion.libsonnet',
-  SimulationApplication: import 'RoboMaker/SimulationApplication.libsonnet',
-  RobotApplicationVersion: import 'RoboMaker/RobotApplicationVersion.libsonnet',
-  RobotApplication: import 'RoboMaker/RobotApplication.libsonnet',
-  Robot: import 'RoboMaker/Robot.libsonnet',
-  Fleet: import 'RoboMaker/Fleet.libsonnet',
+  SimulationApplicationVersion: import 'SimulationApplicationVersion.libsonnet',
+  SimulationApplication: import 'SimulationApplication.libsonnet',
+  RobotApplicationVersion: import 'RobotApplicationVersion.libsonnet',
+  RobotApplication: import 'RobotApplication.libsonnet',
+  Robot: import 'Robot.libsonnet',
+  Fleet: import 'Fleet.libsonnet',
 }

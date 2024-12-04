@@ -1,7 +1,7 @@
 {
-  Workspace: import 'IoTTwinMaker/Workspace.libsonnet',
-  SyncJob: import 'IoTTwinMaker/SyncJob.libsonnet',
-  Scene: import 'IoTTwinMaker/Scene.libsonnet',
-  Entity: import 'IoTTwinMaker/Entity.libsonnet',
-  ComponentType: import 'IoTTwinMaker/ComponentType.libsonnet',
+  Workspace: import 'Workspace.libsonnet',
+  SyncJob: import 'SyncJob.libsonnet',
+  Scene: import 'Scene.libsonnet',
+  Entity: import 'Entity.libsonnet',
+  ComponentType: import 'ComponentType.libsonnet',
 }

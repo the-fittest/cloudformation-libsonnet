@@ -1,5 +1,5 @@
 {
-  Theme: import 'AmplifyUIBuilder/Theme.libsonnet',
-  Form: import 'AmplifyUIBuilder/Form.libsonnet',
-  Component: import 'AmplifyUIBuilder/Component.libsonnet',
+  Theme: import 'Theme.libsonnet',
+  Form: import 'Form.libsonnet',
+  Component: import 'Component.libsonnet',
 }

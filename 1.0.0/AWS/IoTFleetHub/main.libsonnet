@@ -1,3 +1,3 @@
 {
-  Application: import 'IoTFleetHub/Application.libsonnet',
+  Application: import 'Application.libsonnet',
 }

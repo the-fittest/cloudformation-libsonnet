@@ -1,4 +1,4 @@
 {
-  TargetAccountConfiguration: import 'FIS/TargetAccountConfiguration.libsonnet',
-  ExperimentTemplate: import 'FIS/ExperimentTemplate.libsonnet',
+  TargetAccountConfiguration: import 'TargetAccountConfiguration.libsonnet',
+  ExperimentTemplate: import 'ExperimentTemplate.libsonnet',
 }

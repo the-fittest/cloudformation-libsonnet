@@ -1,3 +1,3 @@
 {
-  LifecyclePolicy: import 'DLM/LifecyclePolicy.libsonnet',
+  LifecyclePolicy: import 'LifecyclePolicy.libsonnet',
 }

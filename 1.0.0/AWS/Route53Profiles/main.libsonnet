@@ -1,5 +1,5 @@
 {
-  ProfileResourceAssociation: import 'Route53Profiles/ProfileResourceAssociation.libsonnet',
-  ProfileAssociation: import 'Route53Profiles/ProfileAssociation.libsonnet',
-  Profile: import 'Route53Profiles/Profile.libsonnet',
+  ProfileResourceAssociation: import 'ProfileResourceAssociation.libsonnet',
+  ProfileAssociation: import 'ProfileAssociation.libsonnet',
+  Profile: import 'Profile.libsonnet',
 }

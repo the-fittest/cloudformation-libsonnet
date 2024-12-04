@@ -1,4 +1,4 @@
 {
-  License: import 'LicenseManager/License.libsonnet',
-  Grant: import 'LicenseManager/Grant.libsonnet',
+  License: import 'License.libsonnet',
+  Grant: import 'Grant.libsonnet',
 }

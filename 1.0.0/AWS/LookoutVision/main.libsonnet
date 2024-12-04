@@ -1,3 +1,3 @@
 {
-  Project: import 'LookoutVision/Project.libsonnet',
+  Project: import 'Project.libsonnet',
 }

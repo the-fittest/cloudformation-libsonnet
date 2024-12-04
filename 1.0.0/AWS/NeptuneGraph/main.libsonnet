@@ -1,4 +1,4 @@
 {
-  PrivateGraphEndpoint: import 'NeptuneGraph/PrivateGraphEndpoint.libsonnet',
-  Graph: import 'NeptuneGraph/Graph.libsonnet',
+  PrivateGraphEndpoint: import 'PrivateGraphEndpoint.libsonnet',
+  Graph: import 'Graph.libsonnet',
 }

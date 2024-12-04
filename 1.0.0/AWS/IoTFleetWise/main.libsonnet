@@ -1,9 +1,9 @@
 {
-  Vehicle: import 'IoTFleetWise/Vehicle.libsonnet',
-  StateTemplate: import 'IoTFleetWise/StateTemplate.libsonnet',
-  SignalCatalog: import 'IoTFleetWise/SignalCatalog.libsonnet',
-  ModelManifest: import 'IoTFleetWise/ModelManifest.libsonnet',
-  Fleet: import 'IoTFleetWise/Fleet.libsonnet',
-  DecoderManifest: import 'IoTFleetWise/DecoderManifest.libsonnet',
-  Campaign: import 'IoTFleetWise/Campaign.libsonnet',
+  Vehicle: import 'Vehicle.libsonnet',
+  StateTemplate: import 'StateTemplate.libsonnet',
+  SignalCatalog: import 'SignalCatalog.libsonnet',
+  ModelManifest: import 'ModelManifest.libsonnet',
+  Fleet: import 'Fleet.libsonnet',
+  DecoderManifest: import 'DecoderManifest.libsonnet',
+  Campaign: import 'Campaign.libsonnet',
 }

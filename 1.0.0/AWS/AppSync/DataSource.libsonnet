@@ -1,153 +1,150 @@
 {
-  // AWS AppSync DataSource
-  DataSource: {
-    new(
-      Type,
-      ApiId,
-      Name,
-    ): {
-      local base = self,
-      Properties: {
-        assert std.isString(Type) : 'Type must be a string',
-        Type: Type,
-        assert std.isString(ApiId) : 'ApiId must be a string',
-        ApiId: ApiId,
-        assert std.isString(Name) : 'Name must be a string',
-        Name: Name,
-      },
-      DependsOn:: [],
-      CreationPolicy:: [],
-      DeletionPolicy:: [],
-      UpdatePolicy:: [],
-      UpdateReplacePolicy:: [],
-      Metadata:: [],
-      Type: 'AWS::AppSync::DataSource',
+  new(
+    Type,
+    ApiId,
+    Name,
+  ): {
+    local base = self,
+    Properties: {
+      assert std.isString(Type) : 'Type must be a string',
+      Type: Type,
+      assert std.isString(ApiId) : 'ApiId must be a string',
+      ApiId: ApiId,
+      assert std.isString(Name) : 'Name must be a string',
+      Name: Name,
     },
-    withDescription(Description): {
-      assert std.isString(Description) : 'Description must be a string',
-      Properties+::: {
-        Description: Description,
-      },
+    DependsOn:: [],
+    CreationPolicy:: [],
+    DeletionPolicy:: [],
+    UpdatePolicy:: [],
+    UpdateReplacePolicy:: [],
+    Metadata:: [],
+    Type: 'AWS::AppSync::DataSource',
+  },
+  withDescription(Description): {
+    assert std.isString(Description) : 'Description must be a string',
+    Properties+::: {
+      Description: Description,
     },
-    withDynamoDBConfig(DynamoDBConfig): {
-      assert std.isObject(DynamoDBConfig) : 'DynamoDBConfig must be a object',
-      Properties+::: {
-        DynamoDBConfig: DynamoDBConfig,
-      },
+  },
+  withDynamoDBConfig(DynamoDBConfig): {
+    assert std.isObject(DynamoDBConfig) : 'DynamoDBConfig must be a object',
+    Properties+::: {
+      DynamoDBConfig: DynamoDBConfig,
     },
-    withElasticsearchConfig(ElasticsearchConfig): {
-      assert std.isObject(ElasticsearchConfig) : 'ElasticsearchConfig must be a object',
-      Properties+::: {
-        ElasticsearchConfig: ElasticsearchConfig,
-      },
+  },
+  withElasticsearchConfig(ElasticsearchConfig): {
+    assert std.isObject(ElasticsearchConfig) : 'ElasticsearchConfig must be a object',
+    Properties+::: {
+      ElasticsearchConfig: ElasticsearchConfig,
     },
-    withEventBridgeConfig(EventBridgeConfig): {
-      assert std.isObject(EventBridgeConfig) : 'EventBridgeConfig must be a object',
-      Properties+::: {
-        EventBridgeConfig: EventBridgeConfig,
-      },
+  },
+  withEventBridgeConfig(EventBridgeConfig): {
+    assert std.isObject(EventBridgeConfig) : 'EventBridgeConfig must be a object',
+    Properties+::: {
+      EventBridgeConfig: EventBridgeConfig,
     },
-    withHttpConfig(HttpConfig): {
-      assert std.isObject(HttpConfig) : 'HttpConfig must be a object',
-      Properties+::: {
-        HttpConfig: HttpConfig,
-      },
+  },
+  withHttpConfig(HttpConfig): {
+    assert std.isObject(HttpConfig) : 'HttpConfig must be a object',
+    Properties+::: {
+      HttpConfig: HttpConfig,
     },
-    withLambdaConfig(LambdaConfig): {
-      assert std.isObject(LambdaConfig) : 'LambdaConfig must be a object',
-      Properties+::: {
-        LambdaConfig: LambdaConfig,
-      },
+  },
+  withLambdaConfig(LambdaConfig): {
+    assert std.isObject(LambdaConfig) : 'LambdaConfig must be a object',
+    Properties+::: {
+      LambdaConfig: LambdaConfig,
     },
-    withOpenSearchServiceConfig(OpenSearchServiceConfig): {
-      assert std.isObject(OpenSearchServiceConfig) : 'OpenSearchServiceConfig must be a object',
-      Properties+::: {
-        OpenSearchServiceConfig: OpenSearchServiceConfig,
-      },
+  },
+  withOpenSearchServiceConfig(OpenSearchServiceConfig): {
+    assert std.isObject(OpenSearchServiceConfig) : 'OpenSearchServiceConfig must be a object',
+    Properties+::: {
+      OpenSearchServiceConfig: OpenSearchServiceConfig,
     },
-    withRelationalDatabaseConfig(RelationalDatabaseConfig): {
-      assert std.isObject(RelationalDatabaseConfig) : 'RelationalDatabaseConfig must be a object',
-      Properties+::: {
-        RelationalDatabaseConfig: RelationalDatabaseConfig,
-      },
+  },
+  withRelationalDatabaseConfig(RelationalDatabaseConfig): {
+    assert std.isObject(RelationalDatabaseConfig) : 'RelationalDatabaseConfig must be a object',
+    Properties+::: {
+      RelationalDatabaseConfig: RelationalDatabaseConfig,
     },
-    withServiceRoleArn(ServiceRoleArn): {
-      assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
-      Properties+::: {
-        ServiceRoleArn: ServiceRoleArn,
-      },
+  },
+  withServiceRoleArn(ServiceRoleArn): {
+    assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
+    Properties+::: {
+      ServiceRoleArn: ServiceRoleArn,
     },
-    withDataSourceArn(DataSourceArn): {
-      assert std.isString(DataSourceArn) : 'DataSourceArn must be a string',
-      Properties+::: {
-        DataSourceArn: DataSourceArn,
-      },
+  },
+  withDataSourceArn(DataSourceArn): {
+    assert std.isString(DataSourceArn) : 'DataSourceArn must be a string',
+    Properties+::: {
+      DataSourceArn: DataSourceArn,
     },
-    withMetricsConfig(MetricsConfig): {
-      assert std.isString(MetricsConfig) : 'MetricsConfig must be a string',
-      Properties+::: {
-        MetricsConfig: MetricsConfig,
-      },
+  },
+  withMetricsConfig(MetricsConfig): {
+    assert std.isString(MetricsConfig) : 'MetricsConfig must be a string',
+    Properties+::: {
+      MetricsConfig: MetricsConfig,
     },
-    withDependsOn(DependsOn): {
-      Properties+::: {
-        DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
-      },
+  },
+  withDependsOn(DependsOn): {
+    Properties+::: {
+      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
     },
-    withDependsOnMixin(DependsOn): {
-      Properties+::: {
-        DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
-      },
+  },
+  withDependsOnMixin(DependsOn): {
+    Properties+::: {
+      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
     },
-    withCreationPolicy(CreationPolicy): {
-      Properties+::: {
-        CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
-      },
+  },
+  withCreationPolicy(CreationPolicy): {
+    Properties+::: {
+      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
     },
-    withCreationPolicyMixin(CreationPolicy): {
-      Properties+::: {
-        CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
-      },
+  },
+  withCreationPolicyMixin(CreationPolicy): {
+    Properties+::: {
+      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
     },
-    withDeletionPolicy(DeletionPolicy): {
-      Properties+::: {
-        DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
-      },
+  },
+  withDeletionPolicy(DeletionPolicy): {
+    Properties+::: {
+      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
     },
-    withDeletionPolicyMixin(DeletionPolicy): {
-      Properties+::: {
-        DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
-      },
+  },
+  withDeletionPolicyMixin(DeletionPolicy): {
+    Properties+::: {
+      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
     },
-    withUpdatePolicy(UpdatePolicy): {
-      Properties+::: {
-        UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
-      },
+  },
+  withUpdatePolicy(UpdatePolicy): {
+    Properties+::: {
+      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
     },
-    withUpdatePolicyMixin(UpdatePolicy): {
-      Properties+::: {
-        UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
-      },
+  },
+  withUpdatePolicyMixin(UpdatePolicy): {
+    Properties+::: {
+      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
     },
-    withUpdateReplacePolicy(UpdateReplacePolicy): {
-      Properties+::: {
-        UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
-      },
+  },
+  withUpdateReplacePolicy(UpdateReplacePolicy): {
+    Properties+::: {
+      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
     },
-    withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
-      Properties+::: {
-        UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
-      },
+  },
+  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+    Properties+::: {
+      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
     },
-    withMetadata(Metadata): {
-      Properties+::: {
-        Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
-      },
+  },
+  withMetadata(Metadata): {
+    Properties+::: {
+      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
     },
-    withMetadataMixin(Metadata): {
-      Properties+::: {
-        Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
-      },
+  },
+  withMetadataMixin(Metadata): {
+    Properties+::: {
+      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
     },
   },
 }

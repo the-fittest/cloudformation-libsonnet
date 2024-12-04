@@ -1,6 +1,6 @@
 {
-  Schema: import 'EventSchemas/Schema.libsonnet',
-  RegistryPolicy: import 'EventSchemas/RegistryPolicy.libsonnet',
-  Registry: import 'EventSchemas/Registry.libsonnet',
-  Discoverer: import 'EventSchemas/Discoverer.libsonnet',
+  Schema: import 'Schema.libsonnet',
+  RegistryPolicy: import 'RegistryPolicy.libsonnet',
+  Registry: import 'Registry.libsonnet',
+  Discoverer: import 'Discoverer.libsonnet',
 }

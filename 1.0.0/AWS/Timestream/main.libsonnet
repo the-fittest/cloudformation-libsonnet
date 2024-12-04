@@ -1,6 +1,6 @@
 {
-  Table: import 'Timestream/Table.libsonnet',
-  ScheduledQuery: import 'Timestream/ScheduledQuery.libsonnet',
-  InfluxDBInstance: import 'Timestream/InfluxDBInstance.libsonnet',
-  Database: import 'Timestream/Database.libsonnet',
+  Table: import 'Table.libsonnet',
+  ScheduledQuery: import 'ScheduledQuery.libsonnet',
+  InfluxDBInstance: import 'InfluxDBInstance.libsonnet',
+  Database: import 'Database.libsonnet',
 }

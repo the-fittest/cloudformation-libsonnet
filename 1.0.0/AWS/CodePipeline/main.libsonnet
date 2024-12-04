@@ -1,5 +1,5 @@
 {
-  Webhook: import 'CodePipeline/Webhook.libsonnet',
-  Pipeline: import 'CodePipeline/Pipeline.libsonnet',
-  CustomActionType: import 'CodePipeline/CustomActionType.libsonnet',
+  Webhook: import 'Webhook.libsonnet',
+  Pipeline: import 'Pipeline.libsonnet',
+  CustomActionType: import 'CustomActionType.libsonnet',
 }

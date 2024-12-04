@@ -1,3 +1,3 @@
 {
-  Pipeline: import 'DataPipeline/Pipeline.libsonnet',
+  Pipeline: import 'Pipeline.libsonnet',
 }

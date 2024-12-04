@@ -1,3 +1,3 @@
 {
-  NotificationRule: import 'CodeStarNotifications/NotificationRule.libsonnet',
+  NotificationRule: import 'NotificationRule.libsonnet',
 }

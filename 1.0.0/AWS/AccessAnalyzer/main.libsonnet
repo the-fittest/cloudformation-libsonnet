@@ -1,3 +1,3 @@
 {
-  Analyzer: import 'AccessAnalyzer/Analyzer.libsonnet',
+  Analyzer: import 'Analyzer.libsonnet',
 }

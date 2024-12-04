@@ -1,6 +1,6 @@
 {
-  Solution: import 'Personalize/Solution.libsonnet',
-  Schema: import 'Personalize/Schema.libsonnet',
-  DatasetGroup: import 'Personalize/DatasetGroup.libsonnet',
-  Dataset: import 'Personalize/Dataset.libsonnet',
+  Solution: import 'Solution.libsonnet',
+  Schema: import 'Schema.libsonnet',
+  DatasetGroup: import 'DatasetGroup.libsonnet',
+  Dataset: import 'Dataset.libsonnet',
 }

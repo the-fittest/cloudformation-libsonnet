@@ -1,9 +1,9 @@
 {
-  Project: import 'IoTSiteWise/Project.libsonnet',
-  Portal: import 'IoTSiteWise/Portal.libsonnet',
-  Gateway: import 'IoTSiteWise/Gateway.libsonnet',
-  Dashboard: import 'IoTSiteWise/Dashboard.libsonnet',
-  AssetModel: import 'IoTSiteWise/AssetModel.libsonnet',
-  Asset: import 'IoTSiteWise/Asset.libsonnet',
-  AccessPolicy: import 'IoTSiteWise/AccessPolicy.libsonnet',
+  Project: import 'Project.libsonnet',
+  Portal: import 'Portal.libsonnet',
+  Gateway: import 'Gateway.libsonnet',
+  Dashboard: import 'Dashboard.libsonnet',
+  AssetModel: import 'AssetModel.libsonnet',
+  Asset: import 'Asset.libsonnet',
+  AccessPolicy: import 'AccessPolicy.libsonnet',
 }

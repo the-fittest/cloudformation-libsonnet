@@ -1,6 +1,6 @@
 {
-  SubscriberNotification: import 'SecurityLake/SubscriberNotification.libsonnet',
-  Subscriber: import 'SecurityLake/Subscriber.libsonnet',
-  DataLake: import 'SecurityLake/DataLake.libsonnet',
-  AwsLogSource: import 'SecurityLake/AwsLogSource.libsonnet',
+  SubscriberNotification: import 'SubscriberNotification.libsonnet',
+  Subscriber: import 'Subscriber.libsonnet',
+  DataLake: import 'DataLake.libsonnet',
+  AwsLogSource: import 'AwsLogSource.libsonnet',
 }

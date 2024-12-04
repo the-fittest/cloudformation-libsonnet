@@ -1,5 +1,5 @@
 {
-  ResourceGroup: import 'Inspector/ResourceGroup.libsonnet',
-  AssessmentTemplate: import 'Inspector/AssessmentTemplate.libsonnet',
-  AssessmentTarget: import 'Inspector/AssessmentTarget.libsonnet',
+  ResourceGroup: import 'ResourceGroup.libsonnet',
+  AssessmentTemplate: import 'AssessmentTemplate.libsonnet',
+  AssessmentTarget: import 'AssessmentTarget.libsonnet',
 }

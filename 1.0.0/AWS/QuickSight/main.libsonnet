@@ -1,9 +1,9 @@
 {
-  VPCConnection: import 'QuickSight/VPCConnection.libsonnet',
-  Topic: import 'QuickSight/Topic.libsonnet',
-  Theme: import 'QuickSight/Theme.libsonnet',
-  RefreshSchedule: import 'QuickSight/RefreshSchedule.libsonnet',
-  Folder: import 'QuickSight/Folder.libsonnet',
-  DataSource: import 'QuickSight/DataSource.libsonnet',
-  DataSet: import 'QuickSight/DataSet.libsonnet',
+  VPCConnection: import 'VPCConnection.libsonnet',
+  Topic: import 'Topic.libsonnet',
+  Theme: import 'Theme.libsonnet',
+  RefreshSchedule: import 'RefreshSchedule.libsonnet',
+  Folder: import 'Folder.libsonnet',
+  DataSource: import 'DataSource.libsonnet',
+  DataSet: import 'DataSet.libsonnet',
 }

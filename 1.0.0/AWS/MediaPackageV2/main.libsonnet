@@ -1,7 +1,7 @@
 {
-  OriginEndpointPolicy: import 'MediaPackageV2/OriginEndpointPolicy.libsonnet',
-  OriginEndpoint: import 'MediaPackageV2/OriginEndpoint.libsonnet',
-  ChannelPolicy: import 'MediaPackageV2/ChannelPolicy.libsonnet',
-  ChannelGroup: import 'MediaPackageV2/ChannelGroup.libsonnet',
-  Channel: import 'MediaPackageV2/Channel.libsonnet',
+  OriginEndpointPolicy: import 'OriginEndpointPolicy.libsonnet',
+  OriginEndpoint: import 'OriginEndpoint.libsonnet',
+  ChannelPolicy: import 'ChannelPolicy.libsonnet',
+  ChannelGroup: import 'ChannelGroup.libsonnet',
+  Channel: import 'Channel.libsonnet',
 }

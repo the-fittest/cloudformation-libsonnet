@@ -1,9 +1,9 @@
 {
-  XssMatchSet: import 'WAF/XssMatchSet.libsonnet',
-  WebACL: import 'WAF/WebACL.libsonnet',
-  SqlInjectionMatchSet: import 'WAF/SqlInjectionMatchSet.libsonnet',
-  SizeConstraintSet: import 'WAF/SizeConstraintSet.libsonnet',
-  Rule: import 'WAF/Rule.libsonnet',
-  IPSet: import 'WAF/IPSet.libsonnet',
-  ByteMatchSet: import 'WAF/ByteMatchSet.libsonnet',
+  XssMatchSet: import 'XssMatchSet.libsonnet',
+  WebACL: import 'WebACL.libsonnet',
+  SqlInjectionMatchSet: import 'SqlInjectionMatchSet.libsonnet',
+  SizeConstraintSet: import 'SizeConstraintSet.libsonnet',
+  Rule: import 'Rule.libsonnet',
+  IPSet: import 'IPSet.libsonnet',
+  ByteMatchSet: import 'ByteMatchSet.libsonnet',
 }

@@ -1,3 +1,3 @@
 {
-  Application: import 'ApplicationInsights/Application.libsonnet',
+  Application: import 'Application.libsonnet',
 }

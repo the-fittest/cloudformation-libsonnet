@@ -1,9 +1,9 @@
 {
-  ThreatIntelSet: import 'GuardDuty/ThreatIntelSet.libsonnet',
-  Member: import 'GuardDuty/Member.libsonnet',
-  Master: import 'GuardDuty/Master.libsonnet',
-  MalwareProtectionPlan: import 'GuardDuty/MalwareProtectionPlan.libsonnet',
-  IPSet: import 'GuardDuty/IPSet.libsonnet',
-  Filter: import 'GuardDuty/Filter.libsonnet',
-  Detector: import 'GuardDuty/Detector.libsonnet',
+  ThreatIntelSet: import 'ThreatIntelSet.libsonnet',
+  Member: import 'Member.libsonnet',
+  Master: import 'Master.libsonnet',
+  MalwareProtectionPlan: import 'MalwareProtectionPlan.libsonnet',
+  IPSet: import 'IPSet.libsonnet',
+  Filter: import 'Filter.libsonnet',
+  Detector: import 'Detector.libsonnet',
 }

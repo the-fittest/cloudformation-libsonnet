@@ -1,5 +1,5 @@
 {
-  QueuePolicy: import 'SQS/QueuePolicy.libsonnet',
-  QueueInlinePolicy: import 'SQS/QueueInlinePolicy.libsonnet',
-  Queue: import 'SQS/Queue.libsonnet',
+  QueuePolicy: import 'QueuePolicy.libsonnet',
+  QueueInlinePolicy: import 'QueueInlinePolicy.libsonnet',
+  Queue: import 'Queue.libsonnet',
 }

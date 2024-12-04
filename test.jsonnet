@@ -1,6 +1,6 @@
-local AWS = import 'vendor/1.0.0/AWS/main.libsonnet';
+local AWS = import '1.0.0/AWS/main.libsonnet';
 
-local LogGroup = AWS.Logs;
+local LogGroup = AWS.Logs.LogGroup;
 local Role = AWS.IAM.Role;
 
 local StateMachineId = 'Tadaaa';

@@ -1,4 +1,4 @@
 {
-  ResponsePlan: import 'SSMIncidents/ResponsePlan.libsonnet',
-  ReplicationSet: import 'SSMIncidents/ReplicationSet.libsonnet',
+  ResponsePlan: import 'ResponsePlan.libsonnet',
+  ReplicationSet: import 'ReplicationSet.libsonnet',
 }

@@ -1,5 +1,5 @@
 {
-  TrustAnchor: import 'RolesAnywhere/TrustAnchor.libsonnet',
-  Profile: import 'RolesAnywhere/Profile.libsonnet',
-  CRL: import 'RolesAnywhere/CRL.libsonnet',
+  TrustAnchor: import 'TrustAnchor.libsonnet',
+  Profile: import 'Profile.libsonnet',
+  CRL: import 'CRL.libsonnet',
 }

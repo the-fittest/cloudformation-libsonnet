@@ -1,4 +1,4 @@
 {
-  Stream: import 'QLDB/Stream.libsonnet',
-  Ledger: import 'QLDB/Ledger.libsonnet',
+  Stream: import 'Stream.libsonnet',
+  Ledger: import 'Ledger.libsonnet',
 }

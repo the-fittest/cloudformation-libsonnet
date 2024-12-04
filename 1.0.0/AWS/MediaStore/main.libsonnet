@@ -1,3 +1,3 @@
 {
-  Container: import 'MediaStore/Container.libsonnet',
+  Container: import 'Container.libsonnet',
 }

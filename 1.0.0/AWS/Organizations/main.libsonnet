@@ -1,7 +1,7 @@
 {
-  ResourcePolicy: import 'Organizations/ResourcePolicy.libsonnet',
-  Policy: import 'Organizations/Policy.libsonnet',
-  OrganizationalUnit: import 'Organizations/OrganizationalUnit.libsonnet',
-  Organization: import 'Organizations/Organization.libsonnet',
-  Account: import 'Organizations/Account.libsonnet',
+  ResourcePolicy: import 'ResourcePolicy.libsonnet',
+  Policy: import 'Policy.libsonnet',
+  OrganizationalUnit: import 'OrganizationalUnit.libsonnet',
+  Organization: import 'Organization.libsonnet',
+  Account: import 'Account.libsonnet',
 }

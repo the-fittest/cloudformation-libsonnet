@@ -1,7 +1,7 @@
 {
-  Service: import 'ServiceDiscovery/Service.libsonnet',
-  PublicDnsNamespace: import 'ServiceDiscovery/PublicDnsNamespace.libsonnet',
-  PrivateDnsNamespace: import 'ServiceDiscovery/PrivateDnsNamespace.libsonnet',
-  Instance: import 'ServiceDiscovery/Instance.libsonnet',
-  HttpNamespace: import 'ServiceDiscovery/HttpNamespace.libsonnet',
+  Service: import 'Service.libsonnet',
+  PublicDnsNamespace: import 'PublicDnsNamespace.libsonnet',
+  PrivateDnsNamespace: import 'PrivateDnsNamespace.libsonnet',
+  Instance: import 'Instance.libsonnet',
+  HttpNamespace: import 'HttpNamespace.libsonnet',
 }

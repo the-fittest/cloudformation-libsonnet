@@ -1,7 +1,7 @@
 {
-  TemplateGroupAccessControlEntry: import 'PCAConnectorAD/TemplateGroupAccessControlEntry.libsonnet',
-  Template: import 'PCAConnectorAD/Template.libsonnet',
-  ServicePrincipalName: import 'PCAConnectorAD/ServicePrincipalName.libsonnet',
-  DirectoryRegistration: import 'PCAConnectorAD/DirectoryRegistration.libsonnet',
-  Connector: import 'PCAConnectorAD/Connector.libsonnet',
+  TemplateGroupAccessControlEntry: import 'TemplateGroupAccessControlEntry.libsonnet',
+  Template: import 'Template.libsonnet',
+  ServicePrincipalName: import 'ServicePrincipalName.libsonnet',
+  DirectoryRegistration: import 'DirectoryRegistration.libsonnet',
+  Connector: import 'Connector.libsonnet',
 }

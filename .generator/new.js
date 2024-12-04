@@ -136,8 +136,8 @@ while (moduleImports.length) {
   if (!existsSync(moduleImportFile)) {
     writeFileSync(moduleImportFile, `{\n`);
   }
-  const parts = _.split(moduleImport[0], '/');
-  appendFileSync(moduleImportFile, `${moduleImport[1]}: import '${parts[1]}/${moduleImport[1]}.libsonnet',\n`);
+
+  appendFileSync(moduleImportFile, `${moduleImport[1]}: import '${moduleImport[1]}.libsonnet',\n`);
 
   if (_.isEmpty(moduleImports) || _.last(moduleImports)[0] !== moduleImport[0]){
     appendFileSync(moduleImportFile, `}\n`);

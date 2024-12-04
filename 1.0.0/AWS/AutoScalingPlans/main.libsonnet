@@ -1,3 +1,3 @@
 {
-  ScalingPlan: import 'AutoScalingPlans/ScalingPlan.libsonnet',
+  ScalingPlan: import 'ScalingPlan.libsonnet',
 }

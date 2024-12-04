@@ -1,9 +1,9 @@
 {
-  Rule: import 'Events/Rule.libsonnet',
-  EventBusPolicy: import 'Events/EventBusPolicy.libsonnet',
-  EventBus: import 'Events/EventBus.libsonnet',
-  Endpoint: import 'Events/Endpoint.libsonnet',
-  Connection: import 'Events/Connection.libsonnet',
-  Archive: import 'Events/Archive.libsonnet',
-  ApiDestination: import 'Events/ApiDestination.libsonnet',
+  Rule: import 'Rule.libsonnet',
+  EventBusPolicy: import 'EventBusPolicy.libsonnet',
+  EventBus: import 'EventBus.libsonnet',
+  Endpoint: import 'Endpoint.libsonnet',
+  Connection: import 'Connection.libsonnet',
+  Archive: import 'Archive.libsonnet',
+  ApiDestination: import 'ApiDestination.libsonnet',
 }

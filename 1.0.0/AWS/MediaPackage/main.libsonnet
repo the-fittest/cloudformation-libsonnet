@@ -1,7 +1,7 @@
 {
-  PackagingGroup: import 'MediaPackage/PackagingGroup.libsonnet',
-  PackagingConfiguration: import 'MediaPackage/PackagingConfiguration.libsonnet',
-  OriginEndpoint: import 'MediaPackage/OriginEndpoint.libsonnet',
-  Channel: import 'MediaPackage/Channel.libsonnet',
-  Asset: import 'MediaPackage/Asset.libsonnet',
+  PackagingGroup: import 'PackagingGroup.libsonnet',
+  PackagingConfiguration: import 'PackagingConfiguration.libsonnet',
+  OriginEndpoint: import 'OriginEndpoint.libsonnet',
+  Channel: import 'Channel.libsonnet',
+  Asset: import 'Asset.libsonnet',
 }

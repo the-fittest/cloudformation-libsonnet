@@ -1,6 +1,6 @@
 {
-  Rotation: import 'SSMContacts/Rotation.libsonnet',
-  Plan: import 'SSMContacts/Plan.libsonnet',
-  ContactChannel: import 'SSMContacts/ContactChannel.libsonnet',
-  Contact: import 'SSMContacts/Contact.libsonnet',
+  Rotation: import 'Rotation.libsonnet',
+  Plan: import 'Plan.libsonnet',
+  ContactChannel: import 'ContactChannel.libsonnet',
+  Contact: import 'Contact.libsonnet',
 }
