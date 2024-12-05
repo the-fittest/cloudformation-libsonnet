@@ -1,10 +1,10 @@
-with{{Property}}({{Property}}): {
+set{{property}}({{property}}): {
     Properties+::: {
-        {{Property}}: (if std.isArray({{Property}}) then {{Property}} else [{{Property}}])
+        {{> (whichProperty this.type 'required') property=property parameters=parameters}}
     },
 },
-with{{Property}}Mixin({{Property}}): {
+set{{property}}Mixin({{property}}): {
     Properties+::: {
-        {{Property}}+: (if std.isArray({{Property}}) then {{Property}} else [{{Property}}])
+        {{property}}+: {{property}}
     },
 },

@@ -1,2 +1,2 @@
-assert std.isBoolean({{Property}}): '{{Property}} must be a boolean',
-{{Property}}: {{Property}},
+{{property}}:
+    if !std.isBoolean({{property}}) then (error '{{property}} must be a boolean') else {{property}},

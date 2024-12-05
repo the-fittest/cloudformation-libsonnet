@@ -1,3 +1,12 @@
-assert std.isNumber({{Property}}): '{{Property}} must be a number',
-{{~#if Enum}}assert {{#each Enum}} {{../Property}} == {{this}}{{#unless @last}} || {{/unless}}{{/each}}: "{{Property}} should be {{#each Enum}}{{this}}{{#unless @last}} or {{/unless}}{{/each}}",{{/if~}}
-{{Property}}: {{Property}},
+{{property}}:
+    if !std.isNumber({{property}}) then (error '{{property}} must be an number')
+{{#if parameters.enum}}
+    else if {{#each parameters.enum}} {{../property}} != {{this}}{{#unless @last}} && {{/unless}}{{/each}} then error("{{property}} should be {{#each parameters.enum}}{{this}}{{#unless @last}} or {{/unless}}{{/each}}")
+{{/if}}
+{{#if parameters.minimum}}
+    else if {{property}} < {{parameters.minimum}} then error("{{property}} should be at least {{parameters.minimum}}")
+{{/if}}
+{{#if parameters.maximum}}
+    else if {{property}} > {{parameters.maximum}} then error("{{property}} should be not more than {{parameters.maximum}}")
+{{/if}}
+    else {{property}},

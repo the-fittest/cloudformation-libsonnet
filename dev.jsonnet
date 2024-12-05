@@ -3,8 +3,10 @@ local AWS = import '1.0.0/AWS/main.libsonnet';
 local LogGroup = AWS.Logs.LogGroup;
 local Role = AWS.IAM.Role;
 local Parameter = AWS.SSM.Parameter;
+local Bucket = AWS.S3.Bucket;
+local Bot = AWS.Lex.Bot;
 
-local StateMachineId = 'Tadaaa';
+local StateMachineId = 'FooBar';
 
 {
   AWSTemplateFormatVersion: '2010-09-09',
@@ -12,14 +14,15 @@ local StateMachineId = 'Tadaaa';
   Resources: {
     [StateMachineId + 'LogGroup']:
       LogGroup.new()
-      + LogGroup.withLogGroupName('/aws/vendedlogs/states/TadaaStateMachine')
-      + LogGroup.withRetentionInDays(1)
+      + LogGroup.setLogGroupName('/aws/vendedlogs/states/' + StateMachineId + 'StateMachine')
+      + LogGroup.setRetentionInDays(1)
     ,
     [StateMachineId + 'Parameter']:
       Parameter.new(
         Value='12345',
-        Type='Beany')
-      + Parameter.withName('/dev/nasd')
+        Type='String'
+      )
+      + Parameter.setName('/dev/nasd')
     ,
     [StateMachineId + 'StateMachineRole']:
       Role.new(
@@ -36,7 +39,7 @@ local StateMachineId = 'Tadaaa';
           ],
         }
       )
-      + Role.withPolicies([
+      + Role.setPolicies([
         {
           PolicyName: 'CloudWatchLogsDeliveryFullAccessPolicy',
           PolicyDocument: {

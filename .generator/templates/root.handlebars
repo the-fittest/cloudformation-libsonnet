@@ -1,5 +1,9 @@
 {
-    {{#if (requiredProperties schema)}}
+    {{#unless (requiredProperties schema)}}
+        new(): {
+        local base = self,
+        Properties:: {},
+    {{else}}
         new(
         {{#each (requiredProperties schema)}}
             {{@key}},
@@ -8,29 +12,19 @@
             local base = self,
             Properties: {
             {{#each (requiredProperties schema)}}
-                {{> (whichProperty this.type 'required') Property=@key Enum=this.enum}}
+                {{> (whichProperty this.type 'required') property=@key parameters=this}}
             {{/each}}
             },
-        {{else}}
-            new(): {
-            local base = self,
-            Properties:: {},
-        {{/if}}
-            DependsOn:: [],
-            CreationPolicy:: [],
-            DeletionPolicy:: [],
-            UpdatePolicy:: [],
-            UpdateReplacePolicy:: [],
-            Metadata:: [],
+    {{/unless}}
+    {{#each (printArray "DependsOn" "CreationPolicy" "DeletionPolicy" "UpdatePolicy" "UpdateReplacePolicy" "Metadata") }}
+        {{this}}:: [],
+    {{/each}}
             Type: '{{schema.typeName}}',
         },
     {{#each (optionalProperties schema)}}
-        {{> (whichProperty this.type 'optional') Property=@key Enum=this.enum}}
+        {{> (whichProperty this.type 'optional') property=@key parameters=this}}
     {{/each}}
-        {{> optionalArrayProperty Property='DependsOn'}}
-        {{> optionalArrayProperty Property='CreationPolicy'}}
-        {{> optionalArrayProperty Property='DeletionPolicy'}}
-        {{> optionalArrayProperty Property='UpdatePolicy'}}
-        {{> optionalArrayProperty Property='UpdateReplacePolicy'}}
-        {{> optionalArrayProperty Property='Metadata'}}
+    {{#each (printArray "DependsOn" "CreationPolicy" "DeletionPolicy" "UpdatePolicy" "UpdateReplacePolicy" "Metadata") }}
+        {{> (whichProperty 'array' 'optional') property=this}}
+    {{/each}}
 }

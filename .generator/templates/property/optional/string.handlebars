@@ -1,7 +1,0 @@
-with{{Property}}({{Property}}): {
-    assert std.isString({{Property}}): '{{Property}} must be a string',
-{{~#if Enum}}assert {{#each Enum~}} {{../Property}} == "{{this}}"{{#unless @last}} || {{/unless}}{{/each~}}: "{{Property}} should be {{#each Enum~}}'{{this}}'{{#unless @last}} or {{/unless}}{{/each~}}",{{/if~}}
-    Properties+::: {
-        {{Property}}: {{Property}}
-    },
-},

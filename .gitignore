@@ -137,3 +137,4 @@ dist
 ### Jsonnet template
 # Dependency directories
 vendor/
+/dev.json

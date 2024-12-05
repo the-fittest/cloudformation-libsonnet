@@ -9,6 +9,12 @@ tasks:
       - rm -rf vendor
       - rm -rf node_modules
 
+  dev:
+    cmds:
+      - jsonnet dev.jsonnet -o dev.json
+    env:
+      JSONNET_PATH: "lib/:vendor/"
+
   install:
     cmds:
       - npm install
@@ -18,12 +24,15 @@ tasks:
     cmds:
       - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/**/*.libsonnet
       - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/main.libsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s tests/*.jsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s *.jsonnet
 
   schemas-download:
     deps: [install]
     cmds:
       - wget https://schema.cloudformation.eu-central-1.amazonaws.com/CloudformationSchema.zip -O schemas.zip
-      - unzip -o schemas.zip -d schemas
+      - mkdir -p schemas/cloudformation
+      - unzip -o schemas.zip -d schemas/cloudformation
     status:
       - test -d schemas
       - test -f schemas.zip
@@ -34,9 +43,20 @@ tasks:
       - node .generator/new.js
       - task: format
 
-  test:
+  install:test:
+    dir: 'tests'
     cmds:
-      - jsonnet test.jsonnet -o template.json
+      - jb install
+
+  test:
+    deps: [install:test]
+    dir: 'tests'
+    vars:
+      TEST_FILE:
+        sh: gfind -type f -name '*.test.jsonnet'
+    cmds:
+      - for: { var: TEST_FILE }
+        cmd: jsonnet {{.ITEM}}
     env:
       JSONNET_PATH: "lib/:vendor/"
 ...

@@ -1,5 +1,5 @@
-with{{Property}}({{Property}}): {
+set{{property}}({{property}}): {
     Properties+::: {
-        {{Property}}: {{Property}}
+        {{> (whichProperty this.type 'required') property=property parameters=parameters}}
     },
 },

@@ -1,2 +1,8 @@
-assert std.isObject({{Property}}): '{{Property}} must be an object',
-{{Property}}: {{Property}},
+{{property}}:
+if !std.isObject({{property}}) then (error '{{property}} must be an object')
+{{#if parameters.required}}
+    {{#each parameters.required}}
+        else if !std.objectHas({{../property}}, "{{this}}") then (error "{{property}} have attribute {{this}}")
+    {{/each}}
+{{/if}}
+else {{property}},

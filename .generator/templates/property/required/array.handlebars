@@ -1,1 +1,9 @@
-{{Property}}: (if std.isArray({{Property}}) then {{Property}} else [{{Property}}]),
+{{property}}:
+    if !std.isArray({{property}}) then (error '{{property}} must be an array')
+{{#if parameters.minItems}}
+    else if std.length({{property}}) < {{parameters.minItems}} then error("{{property}} cannot have less than {{parameters.minItems}} items")
+{{/if}}
+{{#if parameters.maxItems}}
+    else if std.length({{property}}) > {{parameters.maxItems}} then error("{{property}} cannot have more than {{parameters.maxItems}} items")
+{{/if}}
+    else {{property}},
