@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(LifecycleTransition) : 'LifecycleTransition must be a string',
-      LifecycleTransition: LifecycleTransition,
-      assert std.isString(AutoScalingGroupName) : 'AutoScalingGroupName must be a string',
-      AutoScalingGroupName: AutoScalingGroupName,
+      LifecycleTransition:
+        if !std.isString(LifecycleTransition) then (error 'LifecycleTransition must be a string')
+        else if std.isEmpty(LifecycleTransition) then (error 'LifecycleTransition must be not empty')
+        else LifecycleTransition,
+      AutoScalingGroupName:
+        if !std.isString(AutoScalingGroupName) then (error 'AutoScalingGroupName must be a string')
+        else if std.isEmpty(AutoScalingGroupName) then (error 'AutoScalingGroupName must be not empty')
+        else AutoScalingGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,100 +22,115 @@
     Metadata:: [],
     Type: 'AWS::AutoScaling::LifecycleHook',
   },
-  withDefaultResult(DefaultResult): {
-    assert std.isString(DefaultResult) : 'DefaultResult must be a string',
+  setDefaultResult(DefaultResult): {
     Properties+::: {
-      DefaultResult: DefaultResult,
+      DefaultResult:
+        if !std.isString(DefaultResult) then (error 'DefaultResult must be a string')
+        else if std.isEmpty(DefaultResult) then (error 'DefaultResult must be not empty')
+        else DefaultResult,
     },
   },
-  withHeartbeatTimeout(HeartbeatTimeout): {
-    assert std.isNumber(HeartbeatTimeout) : 'HeartbeatTimeout must be a number',
+  setHeartbeatTimeout(HeartbeatTimeout): {
     Properties+::: {
-      HeartbeatTimeout: HeartbeatTimeout,
+      HeartbeatTimeout:
+        if !std.isNumber(HeartbeatTimeout) then (error 'HeartbeatTimeout must be an number')
+        else HeartbeatTimeout,
     },
   },
-  withLifecycleHookName(LifecycleHookName): {
-    assert std.isString(LifecycleHookName) : 'LifecycleHookName must be a string',
+  setLifecycleHookName(LifecycleHookName): {
     Properties+::: {
-      LifecycleHookName: LifecycleHookName,
+      LifecycleHookName:
+        if !std.isString(LifecycleHookName) then (error 'LifecycleHookName must be a string')
+        else if std.isEmpty(LifecycleHookName) then (error 'LifecycleHookName must be not empty')
+        else if std.length(LifecycleHookName) < 1 then error ('LifecycleHookName should have at least 1 characters')
+        else if std.length(LifecycleHookName) > 255 then error ('LifecycleHookName should have not more than 255 characters')
+        else LifecycleHookName,
     },
   },
-  withNotificationMetadata(NotificationMetadata): {
-    assert std.isString(NotificationMetadata) : 'NotificationMetadata must be a string',
+  setNotificationMetadata(NotificationMetadata): {
     Properties+::: {
-      NotificationMetadata: NotificationMetadata,
+      NotificationMetadata:
+        if !std.isString(NotificationMetadata) then (error 'NotificationMetadata must be a string')
+        else if std.isEmpty(NotificationMetadata) then (error 'NotificationMetadata must be not empty')
+        else if std.length(NotificationMetadata) < 1 then error ('NotificationMetadata should have at least 1 characters')
+        else if std.length(NotificationMetadata) > 1023 then error ('NotificationMetadata should have not more than 1023 characters')
+        else NotificationMetadata,
     },
   },
-  withNotificationTargetARN(NotificationTargetARN): {
-    assert std.isString(NotificationTargetARN) : 'NotificationTargetARN must be a string',
+  setNotificationTargetARN(NotificationTargetARN): {
     Properties+::: {
-      NotificationTargetARN: NotificationTargetARN,
+      NotificationTargetARN:
+        if !std.isString(NotificationTargetARN) then (error 'NotificationTargetARN must be a string')
+        else if std.isEmpty(NotificationTargetARN) then (error 'NotificationTargetARN must be not empty')
+        else NotificationTargetARN,
     },
   },
-  withRoleARN(RoleARN): {
-    assert std.isString(RoleARN) : 'RoleARN must be a string',
+  setRoleARN(RoleARN): {
     Properties+::: {
-      RoleARN: RoleARN,
+      RoleARN:
+        if !std.isString(RoleARN) then (error 'RoleARN must be a string')
+        else if std.isEmpty(RoleARN) then (error 'RoleARN must be not empty')
+        else RoleARN,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

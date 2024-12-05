@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ServerlessCacheName) : 'ServerlessCacheName must be a string',
-      ServerlessCacheName: ServerlessCacheName,
-      assert std.isString(Engine) : 'Engine must be a string',
-      Engine: Engine,
+      ServerlessCacheName:
+        if !std.isString(ServerlessCacheName) then (error 'ServerlessCacheName must be a string')
+        else if std.isEmpty(ServerlessCacheName) then (error 'ServerlessCacheName must be not empty')
+        else ServerlessCacheName,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else Engine,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,188 +22,220 @@
     Metadata:: [],
     Type: 'AWS::ElastiCache::ServerlessCache',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withMajorEngineVersion(MajorEngineVersion): {
-    assert std.isString(MajorEngineVersion) : 'MajorEngineVersion must be a string',
+  setMajorEngineVersion(MajorEngineVersion): {
     Properties+::: {
-      MajorEngineVersion: MajorEngineVersion,
+      MajorEngineVersion:
+        if !std.isString(MajorEngineVersion) then (error 'MajorEngineVersion must be a string')
+        else if std.isEmpty(MajorEngineVersion) then (error 'MajorEngineVersion must be not empty')
+        else MajorEngineVersion,
     },
   },
-  withFullEngineVersion(FullEngineVersion): {
-    assert std.isString(FullEngineVersion) : 'FullEngineVersion must be a string',
+  setFullEngineVersion(FullEngineVersion): {
     Properties+::: {
-      FullEngineVersion: FullEngineVersion,
+      FullEngineVersion:
+        if !std.isString(FullEngineVersion) then (error 'FullEngineVersion must be a string')
+        else if std.isEmpty(FullEngineVersion) then (error 'FullEngineVersion must be not empty')
+        else FullEngineVersion,
     },
   },
-  withCacheUsageLimits(CacheUsageLimits): {
-    assert std.isObject(CacheUsageLimits) : 'CacheUsageLimits must be a object',
+  setCacheUsageLimits(CacheUsageLimits): {
     Properties+::: {
-      CacheUsageLimits: CacheUsageLimits,
+      CacheUsageLimits:
+        if !std.isObject(CacheUsageLimits) then (error 'CacheUsageLimits must be an object')
+        else CacheUsageLimits,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withSnapshotArnsToRestore(SnapshotArnsToRestore): {
+  setSnapshotArnsToRestore(SnapshotArnsToRestore): {
     Properties+::: {
-      SnapshotArnsToRestore: (if std.isArray(SnapshotArnsToRestore) then SnapshotArnsToRestore else [SnapshotArnsToRestore]),
+      SnapshotArnsToRestore:
+        if !std.isArray(SnapshotArnsToRestore) then (error 'SnapshotArnsToRestore must be an array')
+        else SnapshotArnsToRestore,
     },
   },
-  withSnapshotArnsToRestoreMixin(SnapshotArnsToRestore): {
+  setSnapshotArnsToRestoreMixin(SnapshotArnsToRestore): {
     Properties+::: {
-      SnapshotArnsToRestore+: (if std.isArray(SnapshotArnsToRestore) then SnapshotArnsToRestore else [SnapshotArnsToRestore]),
+      SnapshotArnsToRestore+: SnapshotArnsToRestore,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUserGroupId(UserGroupId): {
-    assert std.isString(UserGroupId) : 'UserGroupId must be a string',
+  setUserGroupId(UserGroupId): {
     Properties+::: {
-      UserGroupId: UserGroupId,
+      UserGroupId:
+        if !std.isString(UserGroupId) then (error 'UserGroupId must be a string')
+        else if std.isEmpty(UserGroupId) then (error 'UserGroupId must be not empty')
+        else UserGroupId,
     },
   },
-  withSubnetIds(SubnetIds): {
+  setSubnetIds(SubnetIds): {
     Properties+::: {
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else SubnetIds,
     },
   },
-  withSubnetIdsMixin(SubnetIds): {
+  setSubnetIdsMixin(SubnetIds): {
     Properties+::: {
-      SubnetIds+: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds+: SubnetIds,
     },
   },
-  withSnapshotRetentionLimit(SnapshotRetentionLimit): {
-    assert std.isNumber(SnapshotRetentionLimit) : 'SnapshotRetentionLimit must be a number',
+  setSnapshotRetentionLimit(SnapshotRetentionLimit): {
     Properties+::: {
-      SnapshotRetentionLimit: SnapshotRetentionLimit,
+      SnapshotRetentionLimit:
+        if !std.isNumber(SnapshotRetentionLimit) then (error 'SnapshotRetentionLimit must be an number')
+        else SnapshotRetentionLimit,
     },
   },
-  withDailySnapshotTime(DailySnapshotTime): {
-    assert std.isString(DailySnapshotTime) : 'DailySnapshotTime must be a string',
+  setDailySnapshotTime(DailySnapshotTime): {
     Properties+::: {
-      DailySnapshotTime: DailySnapshotTime,
+      DailySnapshotTime:
+        if !std.isString(DailySnapshotTime) then (error 'DailySnapshotTime must be a string')
+        else if std.isEmpty(DailySnapshotTime) then (error 'DailySnapshotTime must be not empty')
+        else DailySnapshotTime,
     },
   },
-  withCreateTime(CreateTime): {
-    assert std.isString(CreateTime) : 'CreateTime must be a string',
+  setCreateTime(CreateTime): {
     Properties+::: {
-      CreateTime: CreateTime,
+      CreateTime:
+        if !std.isString(CreateTime) then (error 'CreateTime must be a string')
+        else if std.isEmpty(CreateTime) then (error 'CreateTime must be not empty')
+        else CreateTime,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isObject(Endpoint) : 'Endpoint must be a object',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isObject(Endpoint) then (error 'Endpoint must be an object')
+        else Endpoint,
     },
   },
-  withReaderEndpoint(ReaderEndpoint): {
-    assert std.isObject(ReaderEndpoint) : 'ReaderEndpoint must be a object',
+  setReaderEndpoint(ReaderEndpoint): {
     Properties+::: {
-      ReaderEndpoint: ReaderEndpoint,
+      ReaderEndpoint:
+        if !std.isObject(ReaderEndpoint) then (error 'ReaderEndpoint must be an object')
+        else ReaderEndpoint,
     },
   },
-  withARN(ARN): {
-    assert std.isString(ARN) : 'ARN must be a string',
+  setARN(ARN): {
     Properties+::: {
-      ARN: ARN,
+      ARN:
+        if !std.isString(ARN) then (error 'ARN must be a string')
+        else if std.isEmpty(ARN) then (error 'ARN must be not empty')
+        else ARN,
     },
   },
-  withFinalSnapshotName(FinalSnapshotName): {
-    assert std.isString(FinalSnapshotName) : 'FinalSnapshotName must be a string',
+  setFinalSnapshotName(FinalSnapshotName): {
     Properties+::: {
-      FinalSnapshotName: FinalSnapshotName,
+      FinalSnapshotName:
+        if !std.isString(FinalSnapshotName) then (error 'FinalSnapshotName must be a string')
+        else if std.isEmpty(FinalSnapshotName) then (error 'FinalSnapshotName must be not empty')
+        else FinalSnapshotName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ProjectName) : 'ProjectName must be a string',
-      ProjectName: ProjectName,
-      assert std.isObject(ServiceCatalogProvisioningDetails) : 'ServiceCatalogProvisioningDetails must be an object',
-      ServiceCatalogProvisioningDetails: ServiceCatalogProvisioningDetails,
+      ProjectName:
+        if !std.isString(ProjectName) then (error 'ProjectName must be a string')
+        else if std.isEmpty(ProjectName) then (error 'ProjectName must be not empty')
+        else if std.length(ProjectName) < 1 then error ('ProjectName should have at least 1 characters')
+        else if std.length(ProjectName) > 32 then error ('ProjectName should have not more than 32 characters')
+        else ProjectName,
+      ServiceCatalogProvisioningDetails:
+        if !std.isObject(ServiceCatalogProvisioningDetails) then (error 'ServiceCatalogProvisioningDetails must be an object')
+        else if !std.objectHas(ServiceCatalogProvisioningDetails, 'ProductId') then (error ' have attribute ProductId')
+        else ServiceCatalogProvisioningDetails,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,111 +24,129 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Project',
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 40 then error ('Tags cannot have more than 40 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withProjectArn(ProjectArn): {
-    assert std.isString(ProjectArn) : 'ProjectArn must be a string',
+  setProjectArn(ProjectArn): {
     Properties+::: {
-      ProjectArn: ProjectArn,
+      ProjectArn:
+        if !std.isString(ProjectArn) then (error 'ProjectArn must be a string')
+        else if std.isEmpty(ProjectArn) then (error 'ProjectArn must be not empty')
+        else if std.length(ProjectArn) < 1 then error ('ProjectArn should have at least 1 characters')
+        else if std.length(ProjectArn) > 2048 then error ('ProjectArn should have not more than 2048 characters')
+        else ProjectArn,
     },
   },
-  withProjectId(ProjectId): {
-    assert std.isString(ProjectId) : 'ProjectId must be a string',
+  setProjectId(ProjectId): {
     Properties+::: {
-      ProjectId: ProjectId,
+      ProjectId:
+        if !std.isString(ProjectId) then (error 'ProjectId must be a string')
+        else if std.isEmpty(ProjectId) then (error 'ProjectId must be not empty')
+        else if std.length(ProjectId) > 20 then error ('ProjectId should have not more than 20 characters')
+        else ProjectId,
     },
   },
-  withProjectDescription(ProjectDescription): {
-    assert std.isString(ProjectDescription) : 'ProjectDescription must be a string',
+  setProjectDescription(ProjectDescription): {
     Properties+::: {
-      ProjectDescription: ProjectDescription,
+      ProjectDescription:
+        if !std.isString(ProjectDescription) then (error 'ProjectDescription must be a string')
+        else if std.isEmpty(ProjectDescription) then (error 'ProjectDescription must be not empty')
+        else if std.length(ProjectDescription) > 1024 then error ('ProjectDescription should have not more than 1024 characters')
+        else ProjectDescription,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withServiceCatalogProvisionedProductDetails(ServiceCatalogProvisionedProductDetails): {
-    assert std.isObject(ServiceCatalogProvisionedProductDetails) : 'ServiceCatalogProvisionedProductDetails must be a object',
+  setServiceCatalogProvisionedProductDetails(ServiceCatalogProvisionedProductDetails): {
     Properties+::: {
-      ServiceCatalogProvisionedProductDetails: ServiceCatalogProvisionedProductDetails,
+      ServiceCatalogProvisionedProductDetails:
+        if !std.isObject(ServiceCatalogProvisionedProductDetails) then (error 'ServiceCatalogProvisionedProductDetails must be an object')
+        else ServiceCatalogProvisionedProductDetails,
     },
   },
-  withProjectStatus(ProjectStatus): {
-    assert std.isString(ProjectStatus) : 'ProjectStatus must be a string',
-    assert ProjectStatus == 'Pending' || ProjectStatus == 'CreateInProgress' || ProjectStatus == 'CreateCompleted' || ProjectStatus == 'CreateFailed' || ProjectStatus == 'DeleteInProgress' || ProjectStatus == 'DeleteFailed' || ProjectStatus == 'DeleteCompleted' : "ProjectStatus should be 'Pending' or 'CreateInProgress' or 'CreateCompleted' or 'CreateFailed' or 'DeleteInProgress' or 'DeleteFailed' or 'DeleteCompleted'",
+  setProjectStatus(ProjectStatus): {
     Properties+::: {
-      ProjectStatus: ProjectStatus,
+      ProjectStatus:
+        if !std.isString(ProjectStatus) then (error 'ProjectStatus must be a string')
+        else if std.isEmpty(ProjectStatus) then (error 'ProjectStatus must be not empty')
+        else if ProjectStatus != 'Pending' && ProjectStatus != 'CreateInProgress' && ProjectStatus != 'CreateCompleted' && ProjectStatus != 'CreateFailed' && ProjectStatus != 'DeleteInProgress' && ProjectStatus != 'DeleteFailed' && ProjectStatus != 'DeleteCompleted' then (error "ProjectStatus should be 'Pending' or 'CreateInProgress' or 'CreateCompleted' or 'CreateFailed' or 'DeleteInProgress' or 'DeleteFailed' or 'DeleteCompleted'")
+        else ProjectStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

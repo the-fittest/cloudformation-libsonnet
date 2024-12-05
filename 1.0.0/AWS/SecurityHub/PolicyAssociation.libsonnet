@@ -6,13 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetId) : 'TargetId must be a string',
-      TargetId: TargetId,
-      assert std.isString(TargetType) : 'TargetType must be a string',
-      assert TargetType == 'ACCOUNT' || TargetType == 'ORGANIZATIONAL_UNIT' || TargetType == 'ROOT' : "TargetType should be 'ACCOUNT' or 'ORGANIZATIONAL_UNIT' or 'ROOT'",
-      TargetType: TargetType,
-      assert std.isString(ConfigurationPolicyId) : 'ConfigurationPolicyId must be a string',
-      ConfigurationPolicyId: ConfigurationPolicyId,
+      TargetId:
+        if !std.isString(TargetId) then (error 'TargetId must be a string')
+        else if std.isEmpty(TargetId) then (error 'TargetId must be not empty')
+        else TargetId,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else if TargetType != 'ACCOUNT' && TargetType != 'ORGANIZATIONAL_UNIT' && TargetType != 'ROOT' then (error "TargetType should be 'ACCOUNT' or 'ORGANIZATIONAL_UNIT' or 'ROOT'")
+        else TargetType,
+      ConfigurationPolicyId:
+        if !std.isString(ConfigurationPolicyId) then (error 'ConfigurationPolicyId must be a string')
+        else if std.isEmpty(ConfigurationPolicyId) then (error 'ConfigurationPolicyId must be not empty')
+        else ConfigurationPolicyId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,96 +28,106 @@
     Metadata:: [],
     Type: 'AWS::SecurityHub::PolicyAssociation',
   },
-  withAssociationStatus(AssociationStatus): {
-    assert std.isString(AssociationStatus) : 'AssociationStatus must be a string',
-    assert AssociationStatus == 'SUCCESS' || AssociationStatus == 'PENDING' || AssociationStatus == 'FAILED' : "AssociationStatus should be 'SUCCESS' or 'PENDING' or 'FAILED'",
+  setAssociationStatus(AssociationStatus): {
     Properties+::: {
-      AssociationStatus: AssociationStatus,
+      AssociationStatus:
+        if !std.isString(AssociationStatus) then (error 'AssociationStatus must be a string')
+        else if std.isEmpty(AssociationStatus) then (error 'AssociationStatus must be not empty')
+        else if AssociationStatus != 'SUCCESS' && AssociationStatus != 'PENDING' && AssociationStatus != 'FAILED' then (error "AssociationStatus should be 'SUCCESS' or 'PENDING' or 'FAILED'")
+        else AssociationStatus,
     },
   },
-  withAssociationType(AssociationType): {
-    assert std.isString(AssociationType) : 'AssociationType must be a string',
-    assert AssociationType == 'APPLIED' || AssociationType == 'INHERITED' : "AssociationType should be 'APPLIED' or 'INHERITED'",
+  setAssociationType(AssociationType): {
     Properties+::: {
-      AssociationType: AssociationType,
+      AssociationType:
+        if !std.isString(AssociationType) then (error 'AssociationType must be a string')
+        else if std.isEmpty(AssociationType) then (error 'AssociationType must be not empty')
+        else if AssociationType != 'APPLIED' && AssociationType != 'INHERITED' then (error "AssociationType should be 'APPLIED' or 'INHERITED'")
+        else AssociationType,
     },
   },
-  withAssociationStatusMessage(AssociationStatusMessage): {
-    assert std.isString(AssociationStatusMessage) : 'AssociationStatusMessage must be a string',
+  setAssociationStatusMessage(AssociationStatusMessage): {
     Properties+::: {
-      AssociationStatusMessage: AssociationStatusMessage,
+      AssociationStatusMessage:
+        if !std.isString(AssociationStatusMessage) then (error 'AssociationStatusMessage must be a string')
+        else if std.isEmpty(AssociationStatusMessage) then (error 'AssociationStatusMessage must be not empty')
+        else AssociationStatusMessage,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withAssociationIdentifier(AssociationIdentifier): {
-    assert std.isString(AssociationIdentifier) : 'AssociationIdentifier must be a string',
+  setAssociationIdentifier(AssociationIdentifier): {
     Properties+::: {
-      AssociationIdentifier: AssociationIdentifier,
+      AssociationIdentifier:
+        if !std.isString(AssociationIdentifier) then (error 'AssociationIdentifier must be a string')
+        else if std.isEmpty(AssociationIdentifier) then (error 'AssociationIdentifier must be not empty')
+        else AssociationIdentifier,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

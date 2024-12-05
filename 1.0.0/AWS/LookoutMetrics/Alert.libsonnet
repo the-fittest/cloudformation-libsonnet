@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AnomalyDetectorArn) : 'AnomalyDetectorArn must be a string',
-      AnomalyDetectorArn: AnomalyDetectorArn,
-      assert std.isNumber(AlertSensitivityThreshold) : 'AlertSensitivityThreshold must be a number',
-      AlertSensitivityThreshold: AlertSensitivityThreshold,
-      assert std.isObject(Action) : 'Action must be an object',
-      Action: Action,
+      AnomalyDetectorArn:
+        if !std.isString(AnomalyDetectorArn) then (error 'AnomalyDetectorArn must be a string')
+        else if std.isEmpty(AnomalyDetectorArn) then (error 'AnomalyDetectorArn must be not empty')
+        else if std.length(AnomalyDetectorArn) > 256 then error ('AnomalyDetectorArn should have not more than 256 characters')
+        else AnomalyDetectorArn,
+      AlertSensitivityThreshold:
+        if !std.isNumber(AlertSensitivityThreshold) then (error 'AlertSensitivityThreshold must be an number')
+        else if AlertSensitivityThreshold > 100 then error ('AlertSensitivityThreshold should be not more than 100')
+        else AlertSensitivityThreshold,
+      Action:
+        if !std.isObject(Action) then (error 'Action must be an object')
+        else Action,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,82 +27,92 @@
     Metadata:: [],
     Type: 'AWS::LookoutMetrics::Alert',
   },
-  withAlertName(AlertName): {
-    assert std.isString(AlertName) : 'AlertName must be a string',
+  setAlertName(AlertName): {
     Properties+::: {
-      AlertName: AlertName,
+      AlertName:
+        if !std.isString(AlertName) then (error 'AlertName must be a string')
+        else if std.isEmpty(AlertName) then (error 'AlertName must be not empty')
+        else if std.length(AlertName) < 1 then error ('AlertName should have at least 1 characters')
+        else if std.length(AlertName) > 63 then error ('AlertName should have not more than 63 characters')
+        else AlertName,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withAlertDescription(AlertDescription): {
-    assert std.isString(AlertDescription) : 'AlertDescription must be a string',
+  setAlertDescription(AlertDescription): {
     Properties+::: {
-      AlertDescription: AlertDescription,
+      AlertDescription:
+        if !std.isString(AlertDescription) then (error 'AlertDescription must be a string')
+        else if std.isEmpty(AlertDescription) then (error 'AlertDescription must be not empty')
+        else if std.length(AlertDescription) > 256 then error ('AlertDescription should have not more than 256 characters')
+        else AlertDescription,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

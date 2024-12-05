@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,456 +10,549 @@
     Metadata:: [],
     Type: 'AWS::RDS::DBCluster',
   },
-  withEndpoint(Endpoint): {
-    assert std.isObject(Endpoint) : 'Endpoint must be a object',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isObject(Endpoint) then (error 'Endpoint must be an object')
+        else Endpoint,
     },
   },
-  withReadEndpoint(ReadEndpoint): {
-    assert std.isObject(ReadEndpoint) : 'ReadEndpoint must be a object',
+  setReadEndpoint(ReadEndpoint): {
     Properties+::: {
-      ReadEndpoint: ReadEndpoint,
+      ReadEndpoint:
+        if !std.isObject(ReadEndpoint) then (error 'ReadEndpoint must be an object')
+        else ReadEndpoint,
     },
   },
-  withAllocatedStorage(AllocatedStorage): {
-    assert std.isNumber(AllocatedStorage) : 'AllocatedStorage must be a number',
+  setAllocatedStorage(AllocatedStorage): {
     Properties+::: {
-      AllocatedStorage: AllocatedStorage,
+      AllocatedStorage:
+        if !std.isNumber(AllocatedStorage) then (error 'AllocatedStorage must be an number')
+        else AllocatedStorage,
     },
   },
-  withAssociatedRoles(AssociatedRoles): {
+  setAssociatedRoles(AssociatedRoles): {
     Properties+::: {
-      AssociatedRoles: (if std.isArray(AssociatedRoles) then AssociatedRoles else [AssociatedRoles]),
+      AssociatedRoles:
+        if !std.isArray(AssociatedRoles) then (error 'AssociatedRoles must be an array')
+        else AssociatedRoles,
     },
   },
-  withAssociatedRolesMixin(AssociatedRoles): {
+  setAssociatedRolesMixin(AssociatedRoles): {
     Properties+::: {
-      AssociatedRoles+: (if std.isArray(AssociatedRoles) then AssociatedRoles else [AssociatedRoles]),
+      AssociatedRoles+: AssociatedRoles,
     },
   },
-  withAvailabilityZones(AvailabilityZones): {
+  setAvailabilityZones(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones:
+        if !std.isArray(AvailabilityZones) then (error 'AvailabilityZones must be an array')
+        else AvailabilityZones,
     },
   },
-  withAvailabilityZonesMixin(AvailabilityZones): {
+  setAvailabilityZonesMixin(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones+: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones+: AvailabilityZones,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withBacktrackWindow(BacktrackWindow): {
-    assert std.isNumber(BacktrackWindow) : 'BacktrackWindow must be a number',
+  setBacktrackWindow(BacktrackWindow): {
     Properties+::: {
-      BacktrackWindow: BacktrackWindow,
+      BacktrackWindow:
+        if !std.isNumber(BacktrackWindow) then (error 'BacktrackWindow must be an number')
+        else BacktrackWindow,
     },
   },
-  withBackupRetentionPeriod(BackupRetentionPeriod): {
-    assert std.isNumber(BackupRetentionPeriod) : 'BackupRetentionPeriod must be a number',
+  setBackupRetentionPeriod(BackupRetentionPeriod): {
     Properties+::: {
-      BackupRetentionPeriod: BackupRetentionPeriod,
+      BackupRetentionPeriod:
+        if !std.isNumber(BackupRetentionPeriod) then (error 'BackupRetentionPeriod must be an number')
+        else if BackupRetentionPeriod < 1 then error ('BackupRetentionPeriod should be at least 1')
+        else BackupRetentionPeriod,
     },
   },
-  withClusterScalabilityType(ClusterScalabilityType): {
-    assert std.isString(ClusterScalabilityType) : 'ClusterScalabilityType must be a string',
+  setClusterScalabilityType(ClusterScalabilityType): {
     Properties+::: {
-      ClusterScalabilityType: ClusterScalabilityType,
+      ClusterScalabilityType:
+        if !std.isString(ClusterScalabilityType) then (error 'ClusterScalabilityType must be a string')
+        else if std.isEmpty(ClusterScalabilityType) then (error 'ClusterScalabilityType must be not empty')
+        else ClusterScalabilityType,
     },
   },
-  withCopyTagsToSnapshot(CopyTagsToSnapshot): {
-    assert std.isBoolean(CopyTagsToSnapshot) : 'CopyTagsToSnapshot must be a boolean',
+  setCopyTagsToSnapshot(CopyTagsToSnapshot): {
     Properties+::: {
-      CopyTagsToSnapshot: CopyTagsToSnapshot,
+      CopyTagsToSnapshot:
+        if !std.isBoolean(CopyTagsToSnapshot) then (error 'CopyTagsToSnapshot must be a boolean') else CopyTagsToSnapshot,
     },
   },
-  withDatabaseName(DatabaseName): {
-    assert std.isString(DatabaseName) : 'DatabaseName must be a string',
+  setDatabaseName(DatabaseName): {
     Properties+::: {
-      DatabaseName: DatabaseName,
+      DatabaseName:
+        if !std.isString(DatabaseName) then (error 'DatabaseName must be a string')
+        else if std.isEmpty(DatabaseName) then (error 'DatabaseName must be not empty')
+        else DatabaseName,
     },
   },
-  withDBClusterArn(DBClusterArn): {
-    assert std.isString(DBClusterArn) : 'DBClusterArn must be a string',
+  setDBClusterArn(DBClusterArn): {
     Properties+::: {
-      DBClusterArn: DBClusterArn,
+      DBClusterArn:
+        if !std.isString(DBClusterArn) then (error 'DBClusterArn must be a string')
+        else if std.isEmpty(DBClusterArn) then (error 'DBClusterArn must be not empty')
+        else DBClusterArn,
     },
   },
-  withDBClusterInstanceClass(DBClusterInstanceClass): {
-    assert std.isString(DBClusterInstanceClass) : 'DBClusterInstanceClass must be a string',
+  setDBClusterInstanceClass(DBClusterInstanceClass): {
     Properties+::: {
-      DBClusterInstanceClass: DBClusterInstanceClass,
+      DBClusterInstanceClass:
+        if !std.isString(DBClusterInstanceClass) then (error 'DBClusterInstanceClass must be a string')
+        else if std.isEmpty(DBClusterInstanceClass) then (error 'DBClusterInstanceClass must be not empty')
+        else DBClusterInstanceClass,
     },
   },
-  withDBClusterResourceId(DBClusterResourceId): {
-    assert std.isString(DBClusterResourceId) : 'DBClusterResourceId must be a string',
+  setDBClusterResourceId(DBClusterResourceId): {
     Properties+::: {
-      DBClusterResourceId: DBClusterResourceId,
+      DBClusterResourceId:
+        if !std.isString(DBClusterResourceId) then (error 'DBClusterResourceId must be a string')
+        else if std.isEmpty(DBClusterResourceId) then (error 'DBClusterResourceId must be not empty')
+        else DBClusterResourceId,
     },
   },
-  withDBInstanceParameterGroupName(DBInstanceParameterGroupName): {
-    assert std.isString(DBInstanceParameterGroupName) : 'DBInstanceParameterGroupName must be a string',
+  setDBInstanceParameterGroupName(DBInstanceParameterGroupName): {
     Properties+::: {
-      DBInstanceParameterGroupName: DBInstanceParameterGroupName,
+      DBInstanceParameterGroupName:
+        if !std.isString(DBInstanceParameterGroupName) then (error 'DBInstanceParameterGroupName must be a string')
+        else if std.isEmpty(DBInstanceParameterGroupName) then (error 'DBInstanceParameterGroupName must be not empty')
+        else DBInstanceParameterGroupName,
     },
   },
-  withDBSystemId(DBSystemId): {
-    assert std.isString(DBSystemId) : 'DBSystemId must be a string',
+  setDBSystemId(DBSystemId): {
     Properties+::: {
-      DBSystemId: DBSystemId,
+      DBSystemId:
+        if !std.isString(DBSystemId) then (error 'DBSystemId must be a string')
+        else if std.isEmpty(DBSystemId) then (error 'DBSystemId must be not empty')
+        else DBSystemId,
     },
   },
-  withGlobalClusterIdentifier(GlobalClusterIdentifier): {
-    assert std.isString(GlobalClusterIdentifier) : 'GlobalClusterIdentifier must be a string',
+  setGlobalClusterIdentifier(GlobalClusterIdentifier): {
     Properties+::: {
-      GlobalClusterIdentifier: GlobalClusterIdentifier,
+      GlobalClusterIdentifier:
+        if !std.isString(GlobalClusterIdentifier) then (error 'GlobalClusterIdentifier must be a string')
+        else if std.isEmpty(GlobalClusterIdentifier) then (error 'GlobalClusterIdentifier must be not empty')
+        else if std.length(GlobalClusterIdentifier) > 63 then error ('GlobalClusterIdentifier should have not more than 63 characters')
+        else GlobalClusterIdentifier,
     },
   },
-  withDBClusterIdentifier(DBClusterIdentifier): {
-    assert std.isString(DBClusterIdentifier) : 'DBClusterIdentifier must be a string',
+  setDBClusterIdentifier(DBClusterIdentifier): {
     Properties+::: {
-      DBClusterIdentifier: DBClusterIdentifier,
+      DBClusterIdentifier:
+        if !std.isString(DBClusterIdentifier) then (error 'DBClusterIdentifier must be a string')
+        else if std.isEmpty(DBClusterIdentifier) then (error 'DBClusterIdentifier must be not empty')
+        else if std.length(DBClusterIdentifier) < 1 then error ('DBClusterIdentifier should have at least 1 characters')
+        else if std.length(DBClusterIdentifier) > 63 then error ('DBClusterIdentifier should have not more than 63 characters')
+        else DBClusterIdentifier,
     },
   },
-  withDBClusterParameterGroupName(DBClusterParameterGroupName): {
-    assert std.isString(DBClusterParameterGroupName) : 'DBClusterParameterGroupName must be a string',
+  setDBClusterParameterGroupName(DBClusterParameterGroupName): {
     Properties+::: {
-      DBClusterParameterGroupName: DBClusterParameterGroupName,
+      DBClusterParameterGroupName:
+        if !std.isString(DBClusterParameterGroupName) then (error 'DBClusterParameterGroupName must be a string')
+        else if std.isEmpty(DBClusterParameterGroupName) then (error 'DBClusterParameterGroupName must be not empty')
+        else DBClusterParameterGroupName,
     },
   },
-  withDBSubnetGroupName(DBSubnetGroupName): {
-    assert std.isString(DBSubnetGroupName) : 'DBSubnetGroupName must be a string',
+  setDBSubnetGroupName(DBSubnetGroupName): {
     Properties+::: {
-      DBSubnetGroupName: DBSubnetGroupName,
+      DBSubnetGroupName:
+        if !std.isString(DBSubnetGroupName) then (error 'DBSubnetGroupName must be a string')
+        else if std.isEmpty(DBSubnetGroupName) then (error 'DBSubnetGroupName must be not empty')
+        else DBSubnetGroupName,
     },
   },
-  withDeletionProtection(DeletionProtection): {
-    assert std.isBoolean(DeletionProtection) : 'DeletionProtection must be a boolean',
+  setDeletionProtection(DeletionProtection): {
     Properties+::: {
-      DeletionProtection: DeletionProtection,
+      DeletionProtection:
+        if !std.isBoolean(DeletionProtection) then (error 'DeletionProtection must be a boolean') else DeletionProtection,
     },
   },
-  withDomain(Domain): {
-    assert std.isString(Domain) : 'Domain must be a string',
+  setDomain(Domain): {
     Properties+::: {
-      Domain: Domain,
+      Domain:
+        if !std.isString(Domain) then (error 'Domain must be a string')
+        else if std.isEmpty(Domain) then (error 'Domain must be not empty')
+        else Domain,
     },
   },
-  withDomainIAMRoleName(DomainIAMRoleName): {
-    assert std.isString(DomainIAMRoleName) : 'DomainIAMRoleName must be a string',
+  setDomainIAMRoleName(DomainIAMRoleName): {
     Properties+::: {
-      DomainIAMRoleName: DomainIAMRoleName,
+      DomainIAMRoleName:
+        if !std.isString(DomainIAMRoleName) then (error 'DomainIAMRoleName must be a string')
+        else if std.isEmpty(DomainIAMRoleName) then (error 'DomainIAMRoleName must be not empty')
+        else DomainIAMRoleName,
     },
   },
-  withEnableCloudwatchLogsExports(EnableCloudwatchLogsExports): {
+  setEnableCloudwatchLogsExports(EnableCloudwatchLogsExports): {
     Properties+::: {
-      EnableCloudwatchLogsExports: (if std.isArray(EnableCloudwatchLogsExports) then EnableCloudwatchLogsExports else [EnableCloudwatchLogsExports]),
+      EnableCloudwatchLogsExports:
+        if !std.isArray(EnableCloudwatchLogsExports) then (error 'EnableCloudwatchLogsExports must be an array')
+        else EnableCloudwatchLogsExports,
     },
   },
-  withEnableCloudwatchLogsExportsMixin(EnableCloudwatchLogsExports): {
+  setEnableCloudwatchLogsExportsMixin(EnableCloudwatchLogsExports): {
     Properties+::: {
-      EnableCloudwatchLogsExports+: (if std.isArray(EnableCloudwatchLogsExports) then EnableCloudwatchLogsExports else [EnableCloudwatchLogsExports]),
+      EnableCloudwatchLogsExports+: EnableCloudwatchLogsExports,
     },
   },
-  withEnableGlobalWriteForwarding(EnableGlobalWriteForwarding): {
-    assert std.isBoolean(EnableGlobalWriteForwarding) : 'EnableGlobalWriteForwarding must be a boolean',
+  setEnableGlobalWriteForwarding(EnableGlobalWriteForwarding): {
     Properties+::: {
-      EnableGlobalWriteForwarding: EnableGlobalWriteForwarding,
+      EnableGlobalWriteForwarding:
+        if !std.isBoolean(EnableGlobalWriteForwarding) then (error 'EnableGlobalWriteForwarding must be a boolean') else EnableGlobalWriteForwarding,
     },
   },
-  withEnableHttpEndpoint(EnableHttpEndpoint): {
-    assert std.isBoolean(EnableHttpEndpoint) : 'EnableHttpEndpoint must be a boolean',
+  setEnableHttpEndpoint(EnableHttpEndpoint): {
     Properties+::: {
-      EnableHttpEndpoint: EnableHttpEndpoint,
+      EnableHttpEndpoint:
+        if !std.isBoolean(EnableHttpEndpoint) then (error 'EnableHttpEndpoint must be a boolean') else EnableHttpEndpoint,
     },
   },
-  withEnableIAMDatabaseAuthentication(EnableIAMDatabaseAuthentication): {
-    assert std.isBoolean(EnableIAMDatabaseAuthentication) : 'EnableIAMDatabaseAuthentication must be a boolean',
+  setEnableIAMDatabaseAuthentication(EnableIAMDatabaseAuthentication): {
     Properties+::: {
-      EnableIAMDatabaseAuthentication: EnableIAMDatabaseAuthentication,
+      EnableIAMDatabaseAuthentication:
+        if !std.isBoolean(EnableIAMDatabaseAuthentication) then (error 'EnableIAMDatabaseAuthentication must be a boolean') else EnableIAMDatabaseAuthentication,
     },
   },
-  withEnableLocalWriteForwarding(EnableLocalWriteForwarding): {
-    assert std.isBoolean(EnableLocalWriteForwarding) : 'EnableLocalWriteForwarding must be a boolean',
+  setEnableLocalWriteForwarding(EnableLocalWriteForwarding): {
     Properties+::: {
-      EnableLocalWriteForwarding: EnableLocalWriteForwarding,
+      EnableLocalWriteForwarding:
+        if !std.isBoolean(EnableLocalWriteForwarding) then (error 'EnableLocalWriteForwarding must be a boolean') else EnableLocalWriteForwarding,
     },
   },
-  withEngine(Engine): {
-    assert std.isString(Engine) : 'Engine must be a string',
+  setEngine(Engine): {
     Properties+::: {
-      Engine: Engine,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else Engine,
     },
   },
-  withEngineLifecycleSupport(EngineLifecycleSupport): {
-    assert std.isString(EngineLifecycleSupport) : 'EngineLifecycleSupport must be a string',
+  setEngineLifecycleSupport(EngineLifecycleSupport): {
     Properties+::: {
-      EngineLifecycleSupport: EngineLifecycleSupport,
+      EngineLifecycleSupport:
+        if !std.isString(EngineLifecycleSupport) then (error 'EngineLifecycleSupport must be a string')
+        else if std.isEmpty(EngineLifecycleSupport) then (error 'EngineLifecycleSupport must be not empty')
+        else EngineLifecycleSupport,
     },
   },
-  withEngineMode(EngineMode): {
-    assert std.isString(EngineMode) : 'EngineMode must be a string',
+  setEngineMode(EngineMode): {
     Properties+::: {
-      EngineMode: EngineMode,
+      EngineMode:
+        if !std.isString(EngineMode) then (error 'EngineMode must be a string')
+        else if std.isEmpty(EngineMode) then (error 'EngineMode must be not empty')
+        else EngineMode,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withManageMasterUserPassword(ManageMasterUserPassword): {
-    assert std.isBoolean(ManageMasterUserPassword) : 'ManageMasterUserPassword must be a boolean',
+  setManageMasterUserPassword(ManageMasterUserPassword): {
     Properties+::: {
-      ManageMasterUserPassword: ManageMasterUserPassword,
+      ManageMasterUserPassword:
+        if !std.isBoolean(ManageMasterUserPassword) then (error 'ManageMasterUserPassword must be a boolean') else ManageMasterUserPassword,
     },
   },
-  withIops(Iops): {
-    assert std.isNumber(Iops) : 'Iops must be a number',
+  setIops(Iops): {
     Properties+::: {
-      Iops: Iops,
+      Iops:
+        if !std.isNumber(Iops) then (error 'Iops must be an number')
+        else Iops,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withMasterUsername(MasterUsername): {
-    assert std.isString(MasterUsername) : 'MasterUsername must be a string',
+  setMasterUsername(MasterUsername): {
     Properties+::: {
-      MasterUsername: MasterUsername,
+      MasterUsername:
+        if !std.isString(MasterUsername) then (error 'MasterUsername must be a string')
+        else if std.isEmpty(MasterUsername) then (error 'MasterUsername must be not empty')
+        else if std.length(MasterUsername) < 1 then error ('MasterUsername should have at least 1 characters')
+        else MasterUsername,
     },
   },
-  withMasterUserPassword(MasterUserPassword): {
-    assert std.isString(MasterUserPassword) : 'MasterUserPassword must be a string',
+  setMasterUserPassword(MasterUserPassword): {
     Properties+::: {
-      MasterUserPassword: MasterUserPassword,
+      MasterUserPassword:
+        if !std.isString(MasterUserPassword) then (error 'MasterUserPassword must be a string')
+        else if std.isEmpty(MasterUserPassword) then (error 'MasterUserPassword must be not empty')
+        else MasterUserPassword,
     },
   },
-  withMasterUserSecret(MasterUserSecret): {
-    assert std.isObject(MasterUserSecret) : 'MasterUserSecret must be a object',
+  setMasterUserSecret(MasterUserSecret): {
     Properties+::: {
-      MasterUserSecret: MasterUserSecret,
+      MasterUserSecret:
+        if !std.isObject(MasterUserSecret) then (error 'MasterUserSecret must be an object')
+        else MasterUserSecret,
     },
   },
-  withMonitoringInterval(MonitoringInterval): {
-    assert std.isNumber(MonitoringInterval) : 'MonitoringInterval must be a number',
+  setMonitoringInterval(MonitoringInterval): {
     Properties+::: {
-      MonitoringInterval: MonitoringInterval,
+      MonitoringInterval:
+        if !std.isNumber(MonitoringInterval) then (error 'MonitoringInterval must be an number')
+        else MonitoringInterval,
     },
   },
-  withMonitoringRoleArn(MonitoringRoleArn): {
-    assert std.isString(MonitoringRoleArn) : 'MonitoringRoleArn must be a string',
+  setMonitoringRoleArn(MonitoringRoleArn): {
     Properties+::: {
-      MonitoringRoleArn: MonitoringRoleArn,
+      MonitoringRoleArn:
+        if !std.isString(MonitoringRoleArn) then (error 'MonitoringRoleArn must be a string')
+        else if std.isEmpty(MonitoringRoleArn) then (error 'MonitoringRoleArn must be not empty')
+        else MonitoringRoleArn,
     },
   },
-  withNetworkType(NetworkType): {
-    assert std.isString(NetworkType) : 'NetworkType must be a string',
+  setNetworkType(NetworkType): {
     Properties+::: {
-      NetworkType: NetworkType,
+      NetworkType:
+        if !std.isString(NetworkType) then (error 'NetworkType must be a string')
+        else if std.isEmpty(NetworkType) then (error 'NetworkType must be not empty')
+        else NetworkType,
     },
   },
-  withPerformanceInsightsEnabled(PerformanceInsightsEnabled): {
-    assert std.isBoolean(PerformanceInsightsEnabled) : 'PerformanceInsightsEnabled must be a boolean',
+  setPerformanceInsightsEnabled(PerformanceInsightsEnabled): {
     Properties+::: {
-      PerformanceInsightsEnabled: PerformanceInsightsEnabled,
+      PerformanceInsightsEnabled:
+        if !std.isBoolean(PerformanceInsightsEnabled) then (error 'PerformanceInsightsEnabled must be a boolean') else PerformanceInsightsEnabled,
     },
   },
-  withPerformanceInsightsKmsKeyId(PerformanceInsightsKmsKeyId): {
-    assert std.isString(PerformanceInsightsKmsKeyId) : 'PerformanceInsightsKmsKeyId must be a string',
+  setPerformanceInsightsKmsKeyId(PerformanceInsightsKmsKeyId): {
     Properties+::: {
-      PerformanceInsightsKmsKeyId: PerformanceInsightsKmsKeyId,
+      PerformanceInsightsKmsKeyId:
+        if !std.isString(PerformanceInsightsKmsKeyId) then (error 'PerformanceInsightsKmsKeyId must be a string')
+        else if std.isEmpty(PerformanceInsightsKmsKeyId) then (error 'PerformanceInsightsKmsKeyId must be not empty')
+        else PerformanceInsightsKmsKeyId,
     },
   },
-  withPerformanceInsightsRetentionPeriod(PerformanceInsightsRetentionPeriod): {
-    assert std.isNumber(PerformanceInsightsRetentionPeriod) : 'PerformanceInsightsRetentionPeriod must be a number',
+  setPerformanceInsightsRetentionPeriod(PerformanceInsightsRetentionPeriod): {
     Properties+::: {
-      PerformanceInsightsRetentionPeriod: PerformanceInsightsRetentionPeriod,
+      PerformanceInsightsRetentionPeriod:
+        if !std.isNumber(PerformanceInsightsRetentionPeriod) then (error 'PerformanceInsightsRetentionPeriod must be an number')
+        else PerformanceInsightsRetentionPeriod,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withPreferredBackupWindow(PreferredBackupWindow): {
-    assert std.isString(PreferredBackupWindow) : 'PreferredBackupWindow must be a string',
+  setPreferredBackupWindow(PreferredBackupWindow): {
     Properties+::: {
-      PreferredBackupWindow: PreferredBackupWindow,
+      PreferredBackupWindow:
+        if !std.isString(PreferredBackupWindow) then (error 'PreferredBackupWindow must be a string')
+        else if std.isEmpty(PreferredBackupWindow) then (error 'PreferredBackupWindow must be not empty')
+        else PreferredBackupWindow,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withReplicationSourceIdentifier(ReplicationSourceIdentifier): {
-    assert std.isString(ReplicationSourceIdentifier) : 'ReplicationSourceIdentifier must be a string',
+  setReplicationSourceIdentifier(ReplicationSourceIdentifier): {
     Properties+::: {
-      ReplicationSourceIdentifier: ReplicationSourceIdentifier,
+      ReplicationSourceIdentifier:
+        if !std.isString(ReplicationSourceIdentifier) then (error 'ReplicationSourceIdentifier must be a string')
+        else if std.isEmpty(ReplicationSourceIdentifier) then (error 'ReplicationSourceIdentifier must be not empty')
+        else ReplicationSourceIdentifier,
     },
   },
-  withRestoreToTime(RestoreToTime): {
-    assert std.isString(RestoreToTime) : 'RestoreToTime must be a string',
+  setRestoreToTime(RestoreToTime): {
     Properties+::: {
-      RestoreToTime: RestoreToTime,
+      RestoreToTime:
+        if !std.isString(RestoreToTime) then (error 'RestoreToTime must be a string')
+        else if std.isEmpty(RestoreToTime) then (error 'RestoreToTime must be not empty')
+        else RestoreToTime,
     },
   },
-  withRestoreType(RestoreType): {
-    assert std.isString(RestoreType) : 'RestoreType must be a string',
+  setRestoreType(RestoreType): {
     Properties+::: {
-      RestoreType: RestoreType,
+      RestoreType:
+        if !std.isString(RestoreType) then (error 'RestoreType must be a string')
+        else if std.isEmpty(RestoreType) then (error 'RestoreType must be not empty')
+        else RestoreType,
     },
   },
-  withServerlessV2ScalingConfiguration(ServerlessV2ScalingConfiguration): {
-    assert std.isObject(ServerlessV2ScalingConfiguration) : 'ServerlessV2ScalingConfiguration must be a object',
+  setServerlessV2ScalingConfiguration(ServerlessV2ScalingConfiguration): {
     Properties+::: {
-      ServerlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration,
+      ServerlessV2ScalingConfiguration:
+        if !std.isObject(ServerlessV2ScalingConfiguration) then (error 'ServerlessV2ScalingConfiguration must be an object')
+        else ServerlessV2ScalingConfiguration,
     },
   },
-  withScalingConfiguration(ScalingConfiguration): {
-    assert std.isObject(ScalingConfiguration) : 'ScalingConfiguration must be a object',
+  setScalingConfiguration(ScalingConfiguration): {
     Properties+::: {
-      ScalingConfiguration: ScalingConfiguration,
+      ScalingConfiguration:
+        if !std.isObject(ScalingConfiguration) then (error 'ScalingConfiguration must be an object')
+        else ScalingConfiguration,
     },
   },
-  withSnapshotIdentifier(SnapshotIdentifier): {
-    assert std.isString(SnapshotIdentifier) : 'SnapshotIdentifier must be a string',
+  setSnapshotIdentifier(SnapshotIdentifier): {
     Properties+::: {
-      SnapshotIdentifier: SnapshotIdentifier,
+      SnapshotIdentifier:
+        if !std.isString(SnapshotIdentifier) then (error 'SnapshotIdentifier must be a string')
+        else if std.isEmpty(SnapshotIdentifier) then (error 'SnapshotIdentifier must be not empty')
+        else SnapshotIdentifier,
     },
   },
-  withSourceDBClusterIdentifier(SourceDBClusterIdentifier): {
-    assert std.isString(SourceDBClusterIdentifier) : 'SourceDBClusterIdentifier must be a string',
+  setSourceDBClusterIdentifier(SourceDBClusterIdentifier): {
     Properties+::: {
-      SourceDBClusterIdentifier: SourceDBClusterIdentifier,
+      SourceDBClusterIdentifier:
+        if !std.isString(SourceDBClusterIdentifier) then (error 'SourceDBClusterIdentifier must be a string')
+        else if std.isEmpty(SourceDBClusterIdentifier) then (error 'SourceDBClusterIdentifier must be not empty')
+        else SourceDBClusterIdentifier,
     },
   },
-  withSourceRegion(SourceRegion): {
-    assert std.isString(SourceRegion) : 'SourceRegion must be a string',
+  setSourceRegion(SourceRegion): {
     Properties+::: {
-      SourceRegion: SourceRegion,
+      SourceRegion:
+        if !std.isString(SourceRegion) then (error 'SourceRegion must be a string')
+        else if std.isEmpty(SourceRegion) then (error 'SourceRegion must be not empty')
+        else SourceRegion,
     },
   },
-  withStorageEncrypted(StorageEncrypted): {
-    assert std.isBoolean(StorageEncrypted) : 'StorageEncrypted must be a boolean',
+  setStorageEncrypted(StorageEncrypted): {
     Properties+::: {
-      StorageEncrypted: StorageEncrypted,
+      StorageEncrypted:
+        if !std.isBoolean(StorageEncrypted) then (error 'StorageEncrypted must be a boolean') else StorageEncrypted,
     },
   },
-  withStorageThroughput(StorageThroughput): {
-    assert std.isNumber(StorageThroughput) : 'StorageThroughput must be a number',
+  setStorageThroughput(StorageThroughput): {
     Properties+::: {
-      StorageThroughput: StorageThroughput,
+      StorageThroughput:
+        if !std.isNumber(StorageThroughput) then (error 'StorageThroughput must be an number')
+        else StorageThroughput,
     },
   },
-  withStorageType(StorageType): {
-    assert std.isString(StorageType) : 'StorageType must be a string',
+  setStorageType(StorageType): {
     Properties+::: {
-      StorageType: StorageType,
+      StorageType:
+        if !std.isString(StorageType) then (error 'StorageType must be a string')
+        else if std.isEmpty(StorageType) then (error 'StorageType must be not empty')
+        else StorageType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUseLatestRestorableTime(UseLatestRestorableTime): {
-    assert std.isBoolean(UseLatestRestorableTime) : 'UseLatestRestorableTime must be a boolean',
+  setUseLatestRestorableTime(UseLatestRestorableTime): {
     Properties+::: {
-      UseLatestRestorableTime: UseLatestRestorableTime,
+      UseLatestRestorableTime:
+        if !std.isBoolean(UseLatestRestorableTime) then (error 'UseLatestRestorableTime must be a boolean') else UseLatestRestorableTime,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

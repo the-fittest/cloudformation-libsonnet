@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TemplateName) : 'TemplateName must be a string',
-      TemplateName: TemplateName,
+      TemplateName:
+        if !std.isString(TemplateName) then (error 'TemplateName must be a string')
+        else if std.isEmpty(TemplateName) then (error 'TemplateName must be not empty')
+        else TemplateName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,105 +17,115 @@
     Metadata:: [],
     Type: 'AWS::Pinpoint::InAppTemplate',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withContent(Content): {
+  setContent(Content): {
     Properties+::: {
-      Content: (if std.isArray(Content) then Content else [Content]),
+      Content:
+        if !std.isArray(Content) then (error 'Content must be an array')
+        else Content,
     },
   },
-  withContentMixin(Content): {
+  setContentMixin(Content): {
     Properties+::: {
-      Content+: (if std.isArray(Content) then Content else [Content]),
+      Content+: Content,
     },
   },
-  withCustomConfig(CustomConfig): {
-    assert std.isObject(CustomConfig) : 'CustomConfig must be a object',
+  setCustomConfig(CustomConfig): {
     Properties+::: {
-      CustomConfig: CustomConfig,
+      CustomConfig:
+        if !std.isObject(CustomConfig) then (error 'CustomConfig must be an object')
+        else CustomConfig,
     },
   },
-  withLayout(Layout): {
-    assert std.isString(Layout) : 'Layout must be a string',
-    assert Layout == 'BOTTOM_BANNER' || Layout == 'TOP_BANNER' || Layout == 'OVERLAYS' || Layout == 'MOBILE_FEED' || Layout == 'MIDDLE_BANNER' || Layout == 'CAROUSEL' : "Layout should be 'BOTTOM_BANNER' or 'TOP_BANNER' or 'OVERLAYS' or 'MOBILE_FEED' or 'MIDDLE_BANNER' or 'CAROUSEL'",
+  setLayout(Layout): {
     Properties+::: {
-      Layout: Layout,
+      Layout:
+        if !std.isString(Layout) then (error 'Layout must be a string')
+        else if std.isEmpty(Layout) then (error 'Layout must be not empty')
+        else if Layout != 'BOTTOM_BANNER' && Layout != 'TOP_BANNER' && Layout != 'OVERLAYS' && Layout != 'MOBILE_FEED' && Layout != 'MIDDLE_BANNER' && Layout != 'CAROUSEL' then (error "Layout should be 'BOTTOM_BANNER' or 'TOP_BANNER' or 'OVERLAYS' or 'MOBILE_FEED' or 'MIDDLE_BANNER' or 'CAROUSEL'")
+        else Layout,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withTemplateDescription(TemplateDescription): {
-    assert std.isString(TemplateDescription) : 'TemplateDescription must be a string',
+  setTemplateDescription(TemplateDescription): {
     Properties+::: {
-      TemplateDescription: TemplateDescription,
+      TemplateDescription:
+        if !std.isString(TemplateDescription) then (error 'TemplateDescription must be a string')
+        else if std.isEmpty(TemplateDescription) then (error 'TemplateDescription must be not empty')
+        else TemplateDescription,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

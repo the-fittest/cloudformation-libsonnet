@@ -4,7 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      InstanceGroups: (if std.isArray(InstanceGroups) then InstanceGroups else [InstanceGroups]),
+      InstanceGroups:
+        if !std.isArray(InstanceGroups) then (error 'InstanceGroups must be an array')
+        else if std.length(InstanceGroups) < 1 then error ('InstanceGroups cannot have less than 1 items')
+        else InstanceGroups,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,124 +17,147 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Cluster',
   },
-  withClusterName(ClusterName): {
-    assert std.isString(ClusterName) : 'ClusterName must be a string',
+  setClusterName(ClusterName): {
     Properties+::: {
-      ClusterName: ClusterName,
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else if std.length(ClusterName) < 1 then error ('ClusterName should have at least 1 characters')
+        else if std.length(ClusterName) > 63 then error ('ClusterName should have not more than 63 characters')
+        else ClusterName,
     },
   },
-  withClusterArn(ClusterArn): {
-    assert std.isString(ClusterArn) : 'ClusterArn must be a string',
+  setClusterArn(ClusterArn): {
     Properties+::: {
-      ClusterArn: ClusterArn,
+      ClusterArn:
+        if !std.isString(ClusterArn) then (error 'ClusterArn must be a string')
+        else if std.isEmpty(ClusterArn) then (error 'ClusterArn must be not empty')
+        else if std.length(ClusterArn) > 256 then error ('ClusterArn should have not more than 256 characters')
+        else ClusterArn,
     },
   },
-  withClusterStatus(ClusterStatus): {
-    assert std.isString(ClusterStatus) : 'ClusterStatus must be a string',
-    assert ClusterStatus == 'Creating' || ClusterStatus == 'Deleting' || ClusterStatus == 'Failed' || ClusterStatus == 'InService' || ClusterStatus == 'RollingBack' || ClusterStatus == 'SystemUpdating' || ClusterStatus == 'Updating' : "ClusterStatus should be 'Creating' or 'Deleting' or 'Failed' or 'InService' or 'RollingBack' or 'SystemUpdating' or 'Updating'",
+  setClusterStatus(ClusterStatus): {
     Properties+::: {
-      ClusterStatus: ClusterStatus,
+      ClusterStatus:
+        if !std.isString(ClusterStatus) then (error 'ClusterStatus must be a string')
+        else if std.isEmpty(ClusterStatus) then (error 'ClusterStatus must be not empty')
+        else if ClusterStatus != 'Creating' && ClusterStatus != 'Deleting' && ClusterStatus != 'Failed' && ClusterStatus != 'InService' && ClusterStatus != 'RollingBack' && ClusterStatus != 'SystemUpdating' && ClusterStatus != 'Updating' then (error "ClusterStatus should be 'Creating' or 'Deleting' or 'Failed' or 'InService' or 'RollingBack' or 'SystemUpdating' or 'Updating'")
+        else ClusterStatus,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withFailureMessage(FailureMessage): {
-    assert std.isString(FailureMessage) : 'FailureMessage must be a string',
+  setFailureMessage(FailureMessage): {
     Properties+::: {
-      FailureMessage: FailureMessage,
+      FailureMessage:
+        if !std.isString(FailureMessage) then (error 'FailureMessage must be a string')
+        else if std.isEmpty(FailureMessage) then (error 'FailureMessage must be not empty')
+        else FailureMessage,
     },
   },
-  withVpcConfig(VpcConfig): {
-    assert std.isObject(VpcConfig) : 'VpcConfig must be a object',
+  setVpcConfig(VpcConfig): {
     Properties+::: {
-      VpcConfig: VpcConfig,
+      VpcConfig:
+        if !std.isObject(VpcConfig) then (error 'VpcConfig must be an object')
+        else if !std.objectHas(VpcConfig, 'SecurityGroupIds') then (error ' have attribute SecurityGroupIds')
+        else if !std.objectHas(VpcConfig, 'Subnets') then (error ' have attribute Subnets')
+        else VpcConfig,
     },
   },
-  withOrchestrator(Orchestrator): {
-    assert std.isObject(Orchestrator) : 'Orchestrator must be a object',
+  setOrchestrator(Orchestrator): {
     Properties+::: {
-      Orchestrator: Orchestrator,
+      Orchestrator:
+        if !std.isObject(Orchestrator) then (error 'Orchestrator must be an object')
+        else if !std.objectHas(Orchestrator, 'Eks') then (error ' have attribute Eks')
+        else Orchestrator,
     },
   },
-  withNodeRecovery(NodeRecovery): {
-    assert std.isString(NodeRecovery) : 'NodeRecovery must be a string',
-    assert NodeRecovery == 'Automatic' || NodeRecovery == 'None' : "NodeRecovery should be 'Automatic' or 'None'",
+  setNodeRecovery(NodeRecovery): {
     Properties+::: {
-      NodeRecovery: NodeRecovery,
+      NodeRecovery:
+        if !std.isString(NodeRecovery) then (error 'NodeRecovery must be a string')
+        else if std.isEmpty(NodeRecovery) then (error 'NodeRecovery must be not empty')
+        else if NodeRecovery != 'Automatic' && NodeRecovery != 'None' then (error "NodeRecovery should be 'Automatic' or 'None'")
+        else NodeRecovery,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

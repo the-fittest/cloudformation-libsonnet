@@ -7,14 +7,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(NetworkAclId) : 'NetworkAclId must be a string',
-      NetworkAclId: NetworkAclId,
-      assert std.isString(RuleAction) : 'RuleAction must be a string',
-      RuleAction: RuleAction,
-      assert std.isNumber(RuleNumber) : 'RuleNumber must be a number',
-      RuleNumber: RuleNumber,
-      assert std.isNumber(Protocol) : 'Protocol must be a number',
-      Protocol: Protocol,
+      NetworkAclId:
+        if !std.isString(NetworkAclId) then (error 'NetworkAclId must be a string')
+        else if std.isEmpty(NetworkAclId) then (error 'NetworkAclId must be not empty')
+        else NetworkAclId,
+      RuleAction:
+        if !std.isString(RuleAction) then (error 'RuleAction must be a string')
+        else if std.isEmpty(RuleAction) then (error 'RuleAction must be not empty')
+        else RuleAction,
+      RuleNumber:
+        if !std.isNumber(RuleNumber) then (error 'RuleNumber must be an number')
+        else RuleNumber,
+      Protocol:
+        if !std.isNumber(Protocol) then (error 'Protocol must be an number')
+        else Protocol,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,100 +30,108 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkAclEntry',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withPortRange(PortRange): {
-    assert std.isObject(PortRange) : 'PortRange must be a object',
+  setPortRange(PortRange): {
     Properties+::: {
-      PortRange: PortRange,
+      PortRange:
+        if !std.isObject(PortRange) then (error 'PortRange must be an object')
+        else PortRange,
     },
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else CidrBlock,
     },
   },
-  withEgress(Egress): {
-    assert std.isBoolean(Egress) : 'Egress must be a boolean',
+  setEgress(Egress): {
     Properties+::: {
-      Egress: Egress,
+      Egress:
+        if !std.isBoolean(Egress) then (error 'Egress must be a boolean') else Egress,
     },
   },
-  withIpv6CidrBlock(Ipv6CidrBlock): {
-    assert std.isString(Ipv6CidrBlock) : 'Ipv6CidrBlock must be a string',
+  setIpv6CidrBlock(Ipv6CidrBlock): {
     Properties+::: {
-      Ipv6CidrBlock: Ipv6CidrBlock,
+      Ipv6CidrBlock:
+        if !std.isString(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be a string')
+        else if std.isEmpty(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be not empty')
+        else Ipv6CidrBlock,
     },
   },
-  withIcmp(Icmp): {
-    assert std.isObject(Icmp) : 'Icmp must be a object',
+  setIcmp(Icmp): {
     Properties+::: {
-      Icmp: Icmp,
+      Icmp:
+        if !std.isObject(Icmp) then (error 'Icmp must be an object')
+        else Icmp,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

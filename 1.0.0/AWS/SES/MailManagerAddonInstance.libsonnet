@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AddonSubscriptionId) : 'AddonSubscriptionId must be a string',
-      AddonSubscriptionId: AddonSubscriptionId,
+      AddonSubscriptionId:
+        if !std.isString(AddonSubscriptionId) then (error 'AddonSubscriptionId must be a string')
+        else if std.isEmpty(AddonSubscriptionId) then (error 'AddonSubscriptionId must be not empty')
+        else if std.length(AddonSubscriptionId) < 4 then error ('AddonSubscriptionId should have at least 4 characters')
+        else if std.length(AddonSubscriptionId) > 67 then error ('AddonSubscriptionId should have not more than 67 characters')
+        else AddonSubscriptionId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,92 +19,103 @@
     Metadata:: [],
     Type: 'AWS::SES::MailManagerAddonInstance',
   },
-  withAddonInstanceArn(AddonInstanceArn): {
-    assert std.isString(AddonInstanceArn) : 'AddonInstanceArn must be a string',
+  setAddonInstanceArn(AddonInstanceArn): {
     Properties+::: {
-      AddonInstanceArn: AddonInstanceArn,
+      AddonInstanceArn:
+        if !std.isString(AddonInstanceArn) then (error 'AddonInstanceArn must be a string')
+        else if std.isEmpty(AddonInstanceArn) then (error 'AddonInstanceArn must be not empty')
+        else AddonInstanceArn,
     },
   },
-  withAddonInstanceId(AddonInstanceId): {
-    assert std.isString(AddonInstanceId) : 'AddonInstanceId must be a string',
+  setAddonInstanceId(AddonInstanceId): {
     Properties+::: {
-      AddonInstanceId: AddonInstanceId,
+      AddonInstanceId:
+        if !std.isString(AddonInstanceId) then (error 'AddonInstanceId must be a string')
+        else if std.isEmpty(AddonInstanceId) then (error 'AddonInstanceId must be not empty')
+        else if std.length(AddonInstanceId) < 4 then error ('AddonInstanceId should have at least 4 characters')
+        else if std.length(AddonInstanceId) > 67 then error ('AddonInstanceId should have not more than 67 characters')
+        else AddonInstanceId,
     },
   },
-  withAddonName(AddonName): {
-    assert std.isString(AddonName) : 'AddonName must be a string',
+  setAddonName(AddonName): {
     Properties+::: {
-      AddonName: AddonName,
+      AddonName:
+        if !std.isString(AddonName) then (error 'AddonName must be a string')
+        else if std.isEmpty(AddonName) then (error 'AddonName must be not empty')
+        else AddonName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

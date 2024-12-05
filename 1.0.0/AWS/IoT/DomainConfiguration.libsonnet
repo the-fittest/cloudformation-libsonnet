@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,177 +10,210 @@
     Metadata:: [],
     Type: 'AWS::IoT::DomainConfiguration',
   },
-  withDomainConfigurationName(DomainConfigurationName): {
-    assert std.isString(DomainConfigurationName) : 'DomainConfigurationName must be a string',
+  setDomainConfigurationName(DomainConfigurationName): {
     Properties+::: {
-      DomainConfigurationName: DomainConfigurationName,
+      DomainConfigurationName:
+        if !std.isString(DomainConfigurationName) then (error 'DomainConfigurationName must be a string')
+        else if std.isEmpty(DomainConfigurationName) then (error 'DomainConfigurationName must be not empty')
+        else if std.length(DomainConfigurationName) < 1 then error ('DomainConfigurationName should have at least 1 characters')
+        else if std.length(DomainConfigurationName) > 128 then error ('DomainConfigurationName should have not more than 128 characters')
+        else DomainConfigurationName,
     },
   },
-  withAuthorizerConfig(AuthorizerConfig): {
-    assert std.isObject(AuthorizerConfig) : 'AuthorizerConfig must be a object',
+  setAuthorizerConfig(AuthorizerConfig): {
     Properties+::: {
-      AuthorizerConfig: AuthorizerConfig,
+      AuthorizerConfig:
+        if !std.isObject(AuthorizerConfig) then (error 'AuthorizerConfig must be an object')
+        else AuthorizerConfig,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 253 then error ('DomainName should have not more than 253 characters')
+        else DomainName,
     },
   },
-  withServerCertificateArns(ServerCertificateArns): {
+  setServerCertificateArns(ServerCertificateArns): {
     Properties+::: {
-      ServerCertificateArns: (if std.isArray(ServerCertificateArns) then ServerCertificateArns else [ServerCertificateArns]),
+      ServerCertificateArns:
+        if !std.isArray(ServerCertificateArns) then (error 'ServerCertificateArns must be an array')
+        else if std.length(ServerCertificateArns) > 1 then error ('ServerCertificateArns cannot have more than 1 items')
+        else ServerCertificateArns,
     },
   },
-  withServerCertificateArnsMixin(ServerCertificateArns): {
+  setServerCertificateArnsMixin(ServerCertificateArns): {
     Properties+::: {
-      ServerCertificateArns+: (if std.isArray(ServerCertificateArns) then ServerCertificateArns else [ServerCertificateArns]),
+      ServerCertificateArns+: ServerCertificateArns,
     },
   },
-  withServiceType(ServiceType): {
-    assert std.isString(ServiceType) : 'ServiceType must be a string',
-    assert ServiceType == 'DATA' || ServiceType == 'CREDENTIAL_PROVIDER' || ServiceType == 'JOBS' : "ServiceType should be 'DATA' or 'CREDENTIAL_PROVIDER' or 'JOBS'",
+  setServiceType(ServiceType): {
     Properties+::: {
-      ServiceType: ServiceType,
+      ServiceType:
+        if !std.isString(ServiceType) then (error 'ServiceType must be a string')
+        else if std.isEmpty(ServiceType) then (error 'ServiceType must be not empty')
+        else if ServiceType != 'DATA' && ServiceType != 'CREDENTIAL_PROVIDER' && ServiceType != 'JOBS' then (error "ServiceType should be 'DATA' or 'CREDENTIAL_PROVIDER' or 'JOBS'")
+        else ServiceType,
     },
   },
-  withValidationCertificateArn(ValidationCertificateArn): {
-    assert std.isString(ValidationCertificateArn) : 'ValidationCertificateArn must be a string',
+  setValidationCertificateArn(ValidationCertificateArn): {
     Properties+::: {
-      ValidationCertificateArn: ValidationCertificateArn,
+      ValidationCertificateArn:
+        if !std.isString(ValidationCertificateArn) then (error 'ValidationCertificateArn must be a string')
+        else if std.isEmpty(ValidationCertificateArn) then (error 'ValidationCertificateArn must be not empty')
+        else ValidationCertificateArn,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDomainConfigurationStatus(DomainConfigurationStatus): {
-    assert std.isString(DomainConfigurationStatus) : 'DomainConfigurationStatus must be a string',
-    assert DomainConfigurationStatus == 'ENABLED' || DomainConfigurationStatus == 'DISABLED' : "DomainConfigurationStatus should be 'ENABLED' or 'DISABLED'",
+  setDomainConfigurationStatus(DomainConfigurationStatus): {
     Properties+::: {
-      DomainConfigurationStatus: DomainConfigurationStatus,
+      DomainConfigurationStatus:
+        if !std.isString(DomainConfigurationStatus) then (error 'DomainConfigurationStatus must be a string')
+        else if std.isEmpty(DomainConfigurationStatus) then (error 'DomainConfigurationStatus must be not empty')
+        else if DomainConfigurationStatus != 'ENABLED' && DomainConfigurationStatus != 'DISABLED' then (error "DomainConfigurationStatus should be 'ENABLED' or 'DISABLED'")
+        else DomainConfigurationStatus,
     },
   },
-  withDomainType(DomainType): {
-    assert std.isString(DomainType) : 'DomainType must be a string',
-    assert DomainType == 'ENDPOINT' || DomainType == 'AWS_MANAGED' || DomainType == 'CUSTOMER_MANAGED' : "DomainType should be 'ENDPOINT' or 'AWS_MANAGED' or 'CUSTOMER_MANAGED'",
+  setDomainType(DomainType): {
     Properties+::: {
-      DomainType: DomainType,
+      DomainType:
+        if !std.isString(DomainType) then (error 'DomainType must be a string')
+        else if std.isEmpty(DomainType) then (error 'DomainType must be not empty')
+        else if DomainType != 'ENDPOINT' && DomainType != 'AWS_MANAGED' && DomainType != 'CUSTOMER_MANAGED' then (error "DomainType should be 'ENDPOINT' or 'AWS_MANAGED' or 'CUSTOMER_MANAGED'")
+        else DomainType,
     },
   },
-  withServerCertificateConfig(ServerCertificateConfig): {
-    assert std.isObject(ServerCertificateConfig) : 'ServerCertificateConfig must be a object',
+  setServerCertificateConfig(ServerCertificateConfig): {
     Properties+::: {
-      ServerCertificateConfig: ServerCertificateConfig,
+      ServerCertificateConfig:
+        if !std.isObject(ServerCertificateConfig) then (error 'ServerCertificateConfig must be an object')
+        else ServerCertificateConfig,
     },
   },
-  withServerCertificates(ServerCertificates): {
+  setServerCertificates(ServerCertificates): {
     Properties+::: {
-      ServerCertificates: (if std.isArray(ServerCertificates) then ServerCertificates else [ServerCertificates]),
+      ServerCertificates:
+        if !std.isArray(ServerCertificates) then (error 'ServerCertificates must be an array')
+        else ServerCertificates,
     },
   },
-  withServerCertificatesMixin(ServerCertificates): {
+  setServerCertificatesMixin(ServerCertificates): {
     Properties+::: {
-      ServerCertificates+: (if std.isArray(ServerCertificates) then ServerCertificates else [ServerCertificates]),
+      ServerCertificates+: ServerCertificates,
     },
   },
-  withTlsConfig(TlsConfig): {
-    assert std.isObject(TlsConfig) : 'TlsConfig must be a object',
+  setTlsConfig(TlsConfig): {
     Properties+::: {
-      TlsConfig: TlsConfig,
+      TlsConfig:
+        if !std.isObject(TlsConfig) then (error 'TlsConfig must be an object')
+        else TlsConfig,
     },
   },
-  withAuthenticationType(AuthenticationType): {
-    assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
-    assert AuthenticationType == 'AWS_X509' || AuthenticationType == 'CUSTOM_AUTH' || AuthenticationType == 'AWS_SIGV4' || AuthenticationType == 'CUSTOM_AUTH_X509' || AuthenticationType == 'DEFAULT' : "AuthenticationType should be 'AWS_X509' or 'CUSTOM_AUTH' or 'AWS_SIGV4' or 'CUSTOM_AUTH_X509' or 'DEFAULT'",
+  setAuthenticationType(AuthenticationType): {
     Properties+::: {
-      AuthenticationType: AuthenticationType,
+      AuthenticationType:
+        if !std.isString(AuthenticationType) then (error 'AuthenticationType must be a string')
+        else if std.isEmpty(AuthenticationType) then (error 'AuthenticationType must be not empty')
+        else if AuthenticationType != 'AWS_X509' && AuthenticationType != 'CUSTOM_AUTH' && AuthenticationType != 'AWS_SIGV4' && AuthenticationType != 'CUSTOM_AUTH_X509' && AuthenticationType != 'DEFAULT' then (error "AuthenticationType should be 'AWS_X509' or 'CUSTOM_AUTH' or 'AWS_SIGV4' or 'CUSTOM_AUTH_X509' or 'DEFAULT'")
+        else AuthenticationType,
     },
   },
-  withApplicationProtocol(ApplicationProtocol): {
-    assert std.isString(ApplicationProtocol) : 'ApplicationProtocol must be a string',
-    assert ApplicationProtocol == 'SECURE_MQTT' || ApplicationProtocol == 'MQTT_WSS' || ApplicationProtocol == 'HTTPS' || ApplicationProtocol == 'DEFAULT' : "ApplicationProtocol should be 'SECURE_MQTT' or 'MQTT_WSS' or 'HTTPS' or 'DEFAULT'",
+  setApplicationProtocol(ApplicationProtocol): {
     Properties+::: {
-      ApplicationProtocol: ApplicationProtocol,
+      ApplicationProtocol:
+        if !std.isString(ApplicationProtocol) then (error 'ApplicationProtocol must be a string')
+        else if std.isEmpty(ApplicationProtocol) then (error 'ApplicationProtocol must be not empty')
+        else if ApplicationProtocol != 'SECURE_MQTT' && ApplicationProtocol != 'MQTT_WSS' && ApplicationProtocol != 'HTTPS' && ApplicationProtocol != 'DEFAULT' then (error "ApplicationProtocol should be 'SECURE_MQTT' or 'MQTT_WSS' or 'HTTPS' or 'DEFAULT'")
+        else ApplicationProtocol,
     },
   },
-  withClientCertificateConfig(ClientCertificateConfig): {
-    assert std.isObject(ClientCertificateConfig) : 'ClientCertificateConfig must be a object',
+  setClientCertificateConfig(ClientCertificateConfig): {
     Properties+::: {
-      ClientCertificateConfig: ClientCertificateConfig,
+      ClientCertificateConfig:
+        if !std.isObject(ClientCertificateConfig) then (error 'ClientCertificateConfig must be an object')
+        else ClientCertificateConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

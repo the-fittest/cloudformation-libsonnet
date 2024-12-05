@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApplicationId) : 'ApplicationId must be a string',
-      ApplicationId: ApplicationId,
+      ApplicationId:
+        if !std.isString(ApplicationId) then (error 'ApplicationId must be a string')
+        else if std.isEmpty(ApplicationId) then (error 'ApplicationId must be not empty')
+        else ApplicationId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,94 +17,101 @@
     Metadata:: [],
     Type: 'AWS::Pinpoint::ApplicationSettings',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withQuietTime(QuietTime): {
-    assert std.isObject(QuietTime) : 'QuietTime must be a object',
+  setQuietTime(QuietTime): {
     Properties+::: {
-      QuietTime: QuietTime,
+      QuietTime:
+        if !std.isObject(QuietTime) then (error 'QuietTime must be an object')
+        else if !std.objectHas(QuietTime, 'Start') then (error ' have attribute Start')
+        else if !std.objectHas(QuietTime, 'End') then (error ' have attribute End')
+        else QuietTime,
     },
   },
-  withLimits(Limits): {
-    assert std.isObject(Limits) : 'Limits must be a object',
+  setLimits(Limits): {
     Properties+::: {
-      Limits: Limits,
+      Limits:
+        if !std.isObject(Limits) then (error 'Limits must be an object')
+        else Limits,
     },
   },
-  withCampaignHook(CampaignHook): {
-    assert std.isObject(CampaignHook) : 'CampaignHook must be a object',
+  setCampaignHook(CampaignHook): {
     Properties+::: {
-      CampaignHook: CampaignHook,
+      CampaignHook:
+        if !std.isObject(CampaignHook) then (error 'CampaignHook must be an object')
+        else CampaignHook,
     },
   },
-  withCloudWatchMetricsEnabled(CloudWatchMetricsEnabled): {
-    assert std.isBoolean(CloudWatchMetricsEnabled) : 'CloudWatchMetricsEnabled must be a boolean',
+  setCloudWatchMetricsEnabled(CloudWatchMetricsEnabled): {
     Properties+::: {
-      CloudWatchMetricsEnabled: CloudWatchMetricsEnabled,
+      CloudWatchMetricsEnabled:
+        if !std.isBoolean(CloudWatchMetricsEnabled) then (error 'CloudWatchMetricsEnabled must be a boolean') else CloudWatchMetricsEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

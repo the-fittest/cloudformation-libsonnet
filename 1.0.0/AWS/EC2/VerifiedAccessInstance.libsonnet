@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,130 +10,145 @@
     Metadata:: [],
     Type: 'AWS::EC2::VerifiedAccessInstance',
   },
-  withVerifiedAccessInstanceId(VerifiedAccessInstanceId): {
-    assert std.isString(VerifiedAccessInstanceId) : 'VerifiedAccessInstanceId must be a string',
+  setVerifiedAccessInstanceId(VerifiedAccessInstanceId): {
     Properties+::: {
-      VerifiedAccessInstanceId: VerifiedAccessInstanceId,
+      VerifiedAccessInstanceId:
+        if !std.isString(VerifiedAccessInstanceId) then (error 'VerifiedAccessInstanceId must be a string')
+        else if std.isEmpty(VerifiedAccessInstanceId) then (error 'VerifiedAccessInstanceId must be not empty')
+        else VerifiedAccessInstanceId,
     },
   },
-  withVerifiedAccessTrustProviders(VerifiedAccessTrustProviders): {
+  setVerifiedAccessTrustProviders(VerifiedAccessTrustProviders): {
     Properties+::: {
-      VerifiedAccessTrustProviders: (if std.isArray(VerifiedAccessTrustProviders) then VerifiedAccessTrustProviders else [VerifiedAccessTrustProviders]),
+      VerifiedAccessTrustProviders:
+        if !std.isArray(VerifiedAccessTrustProviders) then (error 'VerifiedAccessTrustProviders must be an array')
+        else VerifiedAccessTrustProviders,
     },
   },
-  withVerifiedAccessTrustProvidersMixin(VerifiedAccessTrustProviders): {
+  setVerifiedAccessTrustProvidersMixin(VerifiedAccessTrustProviders): {
     Properties+::: {
-      VerifiedAccessTrustProviders+: (if std.isArray(VerifiedAccessTrustProviders) then VerifiedAccessTrustProviders else [VerifiedAccessTrustProviders]),
+      VerifiedAccessTrustProviders+: VerifiedAccessTrustProviders,
     },
   },
-  withVerifiedAccessTrustProviderIds(VerifiedAccessTrustProviderIds): {
+  setVerifiedAccessTrustProviderIds(VerifiedAccessTrustProviderIds): {
     Properties+::: {
-      VerifiedAccessTrustProviderIds: (if std.isArray(VerifiedAccessTrustProviderIds) then VerifiedAccessTrustProviderIds else [VerifiedAccessTrustProviderIds]),
+      VerifiedAccessTrustProviderIds:
+        if !std.isArray(VerifiedAccessTrustProviderIds) then (error 'VerifiedAccessTrustProviderIds must be an array')
+        else VerifiedAccessTrustProviderIds,
     },
   },
-  withVerifiedAccessTrustProviderIdsMixin(VerifiedAccessTrustProviderIds): {
+  setVerifiedAccessTrustProviderIdsMixin(VerifiedAccessTrustProviderIds): {
     Properties+::: {
-      VerifiedAccessTrustProviderIds+: (if std.isArray(VerifiedAccessTrustProviderIds) then VerifiedAccessTrustProviderIds else [VerifiedAccessTrustProviderIds]),
+      VerifiedAccessTrustProviderIds+: VerifiedAccessTrustProviderIds,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastUpdatedTime(LastUpdatedTime): {
-    assert std.isString(LastUpdatedTime) : 'LastUpdatedTime must be a string',
+  setLastUpdatedTime(LastUpdatedTime): {
     Properties+::: {
-      LastUpdatedTime: LastUpdatedTime,
+      LastUpdatedTime:
+        if !std.isString(LastUpdatedTime) then (error 'LastUpdatedTime must be a string')
+        else if std.isEmpty(LastUpdatedTime) then (error 'LastUpdatedTime must be not empty')
+        else LastUpdatedTime,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withLoggingConfigurations(LoggingConfigurations): {
-    assert std.isObject(LoggingConfigurations) : 'LoggingConfigurations must be a object',
+  setLoggingConfigurations(LoggingConfigurations): {
     Properties+::: {
-      LoggingConfigurations: LoggingConfigurations,
+      LoggingConfigurations:
+        if !std.isObject(LoggingConfigurations) then (error 'LoggingConfigurations must be an object')
+        else LoggingConfigurations,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withFipsEnabled(FipsEnabled): {
-    assert std.isBoolean(FipsEnabled) : 'FipsEnabled must be a boolean',
+  setFipsEnabled(FipsEnabled): {
     Properties+::: {
-      FipsEnabled: FipsEnabled,
+      FipsEnabled:
+        if !std.isBoolean(FipsEnabled) then (error 'FipsEnabled must be a boolean') else FipsEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

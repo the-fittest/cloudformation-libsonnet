@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,130 +19,152 @@
     Metadata:: [],
     Type: 'AWS::GameLift::GameSessionQueue',
   },
-  withTimeoutInSeconds(TimeoutInSeconds): {
-    assert std.isNumber(TimeoutInSeconds) : 'TimeoutInSeconds must be a number',
+  setTimeoutInSeconds(TimeoutInSeconds): {
     Properties+::: {
-      TimeoutInSeconds: TimeoutInSeconds,
+      TimeoutInSeconds:
+        if !std.isNumber(TimeoutInSeconds) then (error 'TimeoutInSeconds must be an number')
+        else TimeoutInSeconds,
     },
   },
-  withDestinations(Destinations): {
+  setDestinations(Destinations): {
     Properties+::: {
-      Destinations: (if std.isArray(Destinations) then Destinations else [Destinations]),
+      Destinations:
+        if !std.isArray(Destinations) then (error 'Destinations must be an array')
+        else Destinations,
     },
   },
-  withDestinationsMixin(Destinations): {
+  setDestinationsMixin(Destinations): {
     Properties+::: {
-      Destinations+: (if std.isArray(Destinations) then Destinations else [Destinations]),
+      Destinations+: Destinations,
     },
   },
-  withPlayerLatencyPolicies(PlayerLatencyPolicies): {
+  setPlayerLatencyPolicies(PlayerLatencyPolicies): {
     Properties+::: {
-      PlayerLatencyPolicies: (if std.isArray(PlayerLatencyPolicies) then PlayerLatencyPolicies else [PlayerLatencyPolicies]),
+      PlayerLatencyPolicies:
+        if !std.isArray(PlayerLatencyPolicies) then (error 'PlayerLatencyPolicies must be an array')
+        else PlayerLatencyPolicies,
     },
   },
-  withPlayerLatencyPoliciesMixin(PlayerLatencyPolicies): {
+  setPlayerLatencyPoliciesMixin(PlayerLatencyPolicies): {
     Properties+::: {
-      PlayerLatencyPolicies+: (if std.isArray(PlayerLatencyPolicies) then PlayerLatencyPolicies else [PlayerLatencyPolicies]),
+      PlayerLatencyPolicies+: PlayerLatencyPolicies,
     },
   },
-  withCustomEventData(CustomEventData): {
-    assert std.isString(CustomEventData) : 'CustomEventData must be a string',
+  setCustomEventData(CustomEventData): {
     Properties+::: {
-      CustomEventData: CustomEventData,
+      CustomEventData:
+        if !std.isString(CustomEventData) then (error 'CustomEventData must be a string')
+        else if std.isEmpty(CustomEventData) then (error 'CustomEventData must be not empty')
+        else if std.length(CustomEventData) < 1 then error ('CustomEventData should have at least 1 characters')
+        else if std.length(CustomEventData) > 256 then error ('CustomEventData should have not more than 256 characters')
+        else CustomEventData,
     },
   },
-  withNotificationTarget(NotificationTarget): {
-    assert std.isString(NotificationTarget) : 'NotificationTarget must be a string',
+  setNotificationTarget(NotificationTarget): {
     Properties+::: {
-      NotificationTarget: NotificationTarget,
+      NotificationTarget:
+        if !std.isString(NotificationTarget) then (error 'NotificationTarget must be a string')
+        else if std.isEmpty(NotificationTarget) then (error 'NotificationTarget must be not empty')
+        else if std.length(NotificationTarget) < 1 then error ('NotificationTarget should have at least 1 characters')
+        else if std.length(NotificationTarget) > 300 then error ('NotificationTarget should have not more than 300 characters')
+        else NotificationTarget,
     },
   },
-  withFilterConfiguration(FilterConfiguration): {
-    assert std.isObject(FilterConfiguration) : 'FilterConfiguration must be a object',
+  setFilterConfiguration(FilterConfiguration): {
     Properties+::: {
-      FilterConfiguration: FilterConfiguration,
+      FilterConfiguration:
+        if !std.isObject(FilterConfiguration) then (error 'FilterConfiguration must be an object')
+        else FilterConfiguration,
     },
   },
-  withPriorityConfiguration(PriorityConfiguration): {
-    assert std.isObject(PriorityConfiguration) : 'PriorityConfiguration must be a object',
+  setPriorityConfiguration(PriorityConfiguration): {
     Properties+::: {
-      PriorityConfiguration: PriorityConfiguration,
+      PriorityConfiguration:
+        if !std.isObject(PriorityConfiguration) then (error 'PriorityConfiguration must be an object')
+        else PriorityConfiguration,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

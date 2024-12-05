@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(IntegrationType) : 'IntegrationType must be a string',
-      IntegrationType: IntegrationType,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      IntegrationType:
+        if !std.isString(IntegrationType) then (error 'IntegrationType must be a string')
+        else if std.isEmpty(IntegrationType) then (error 'IntegrationType must be not empty')
+        else IntegrationType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,166 +22,195 @@
     Metadata:: [],
     Type: 'AWS::ApiGatewayV2::Integration',
   },
-  withConnectionId(ConnectionId): {
-    assert std.isString(ConnectionId) : 'ConnectionId must be a string',
+  setConnectionId(ConnectionId): {
     Properties+::: {
-      ConnectionId: ConnectionId,
+      ConnectionId:
+        if !std.isString(ConnectionId) then (error 'ConnectionId must be a string')
+        else if std.isEmpty(ConnectionId) then (error 'ConnectionId must be not empty')
+        else ConnectionId,
     },
   },
-  withConnectionType(ConnectionType): {
-    assert std.isString(ConnectionType) : 'ConnectionType must be a string',
+  setConnectionType(ConnectionType): {
     Properties+::: {
-      ConnectionType: ConnectionType,
+      ConnectionType:
+        if !std.isString(ConnectionType) then (error 'ConnectionType must be a string')
+        else if std.isEmpty(ConnectionType) then (error 'ConnectionType must be not empty')
+        else ConnectionType,
     },
   },
-  withContentHandlingStrategy(ContentHandlingStrategy): {
-    assert std.isString(ContentHandlingStrategy) : 'ContentHandlingStrategy must be a string',
+  setContentHandlingStrategy(ContentHandlingStrategy): {
     Properties+::: {
-      ContentHandlingStrategy: ContentHandlingStrategy,
+      ContentHandlingStrategy:
+        if !std.isString(ContentHandlingStrategy) then (error 'ContentHandlingStrategy must be a string')
+        else if std.isEmpty(ContentHandlingStrategy) then (error 'ContentHandlingStrategy must be not empty')
+        else ContentHandlingStrategy,
     },
   },
-  withCredentialsArn(CredentialsArn): {
-    assert std.isString(CredentialsArn) : 'CredentialsArn must be a string',
+  setCredentialsArn(CredentialsArn): {
     Properties+::: {
-      CredentialsArn: CredentialsArn,
+      CredentialsArn:
+        if !std.isString(CredentialsArn) then (error 'CredentialsArn must be a string')
+        else if std.isEmpty(CredentialsArn) then (error 'CredentialsArn must be not empty')
+        else CredentialsArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withIntegrationMethod(IntegrationMethod): {
-    assert std.isString(IntegrationMethod) : 'IntegrationMethod must be a string',
+  setIntegrationMethod(IntegrationMethod): {
     Properties+::: {
-      IntegrationMethod: IntegrationMethod,
+      IntegrationMethod:
+        if !std.isString(IntegrationMethod) then (error 'IntegrationMethod must be a string')
+        else if std.isEmpty(IntegrationMethod) then (error 'IntegrationMethod must be not empty')
+        else IntegrationMethod,
     },
   },
-  withIntegrationSubtype(IntegrationSubtype): {
-    assert std.isString(IntegrationSubtype) : 'IntegrationSubtype must be a string',
+  setIntegrationSubtype(IntegrationSubtype): {
     Properties+::: {
-      IntegrationSubtype: IntegrationSubtype,
+      IntegrationSubtype:
+        if !std.isString(IntegrationSubtype) then (error 'IntegrationSubtype must be a string')
+        else if std.isEmpty(IntegrationSubtype) then (error 'IntegrationSubtype must be not empty')
+        else IntegrationSubtype,
     },
   },
-  withIntegrationId(IntegrationId): {
-    assert std.isString(IntegrationId) : 'IntegrationId must be a string',
+  setIntegrationId(IntegrationId): {
     Properties+::: {
-      IntegrationId: IntegrationId,
+      IntegrationId:
+        if !std.isString(IntegrationId) then (error 'IntegrationId must be a string')
+        else if std.isEmpty(IntegrationId) then (error 'IntegrationId must be not empty')
+        else IntegrationId,
     },
   },
-  withIntegrationUri(IntegrationUri): {
-    assert std.isString(IntegrationUri) : 'IntegrationUri must be a string',
+  setIntegrationUri(IntegrationUri): {
     Properties+::: {
-      IntegrationUri: IntegrationUri,
+      IntegrationUri:
+        if !std.isString(IntegrationUri) then (error 'IntegrationUri must be a string')
+        else if std.isEmpty(IntegrationUri) then (error 'IntegrationUri must be not empty')
+        else IntegrationUri,
     },
   },
-  withPassthroughBehavior(PassthroughBehavior): {
-    assert std.isString(PassthroughBehavior) : 'PassthroughBehavior must be a string',
+  setPassthroughBehavior(PassthroughBehavior): {
     Properties+::: {
-      PassthroughBehavior: PassthroughBehavior,
+      PassthroughBehavior:
+        if !std.isString(PassthroughBehavior) then (error 'PassthroughBehavior must be a string')
+        else if std.isEmpty(PassthroughBehavior) then (error 'PassthroughBehavior must be not empty')
+        else PassthroughBehavior,
     },
   },
-  withPayloadFormatVersion(PayloadFormatVersion): {
-    assert std.isString(PayloadFormatVersion) : 'PayloadFormatVersion must be a string',
+  setPayloadFormatVersion(PayloadFormatVersion): {
     Properties+::: {
-      PayloadFormatVersion: PayloadFormatVersion,
+      PayloadFormatVersion:
+        if !std.isString(PayloadFormatVersion) then (error 'PayloadFormatVersion must be a string')
+        else if std.isEmpty(PayloadFormatVersion) then (error 'PayloadFormatVersion must be not empty')
+        else PayloadFormatVersion,
     },
   },
-  withRequestParameters(RequestParameters): {
-    assert std.isObject(RequestParameters) : 'RequestParameters must be a object',
+  setRequestParameters(RequestParameters): {
     Properties+::: {
-      RequestParameters: RequestParameters,
+      RequestParameters:
+        if !std.isObject(RequestParameters) then (error 'RequestParameters must be an object')
+        else RequestParameters,
     },
   },
-  withRequestTemplates(RequestTemplates): {
-    assert std.isObject(RequestTemplates) : 'RequestTemplates must be a object',
+  setRequestTemplates(RequestTemplates): {
     Properties+::: {
-      RequestTemplates: RequestTemplates,
+      RequestTemplates:
+        if !std.isObject(RequestTemplates) then (error 'RequestTemplates must be an object')
+        else RequestTemplates,
     },
   },
-  withResponseParameters(ResponseParameters): {
-    assert std.isObject(ResponseParameters) : 'ResponseParameters must be a object',
+  setResponseParameters(ResponseParameters): {
     Properties+::: {
-      ResponseParameters: ResponseParameters,
+      ResponseParameters:
+        if !std.isObject(ResponseParameters) then (error 'ResponseParameters must be an object')
+        else ResponseParameters,
     },
   },
-  withTemplateSelectionExpression(TemplateSelectionExpression): {
-    assert std.isString(TemplateSelectionExpression) : 'TemplateSelectionExpression must be a string',
+  setTemplateSelectionExpression(TemplateSelectionExpression): {
     Properties+::: {
-      TemplateSelectionExpression: TemplateSelectionExpression,
+      TemplateSelectionExpression:
+        if !std.isString(TemplateSelectionExpression) then (error 'TemplateSelectionExpression must be a string')
+        else if std.isEmpty(TemplateSelectionExpression) then (error 'TemplateSelectionExpression must be not empty')
+        else TemplateSelectionExpression,
     },
   },
-  withTimeoutInMillis(TimeoutInMillis): {
-    assert std.isNumber(TimeoutInMillis) : 'TimeoutInMillis must be a number',
+  setTimeoutInMillis(TimeoutInMillis): {
     Properties+::: {
-      TimeoutInMillis: TimeoutInMillis,
+      TimeoutInMillis:
+        if !std.isNumber(TimeoutInMillis) then (error 'TimeoutInMillis must be an number')
+        else TimeoutInMillis,
     },
   },
-  withTlsConfig(TlsConfig): {
-    assert std.isObject(TlsConfig) : 'TlsConfig must be a object',
+  setTlsConfig(TlsConfig): {
     Properties+::: {
-      TlsConfig: TlsConfig,
+      TlsConfig:
+        if !std.isObject(TlsConfig) then (error 'TlsConfig must be an object')
+        else TlsConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

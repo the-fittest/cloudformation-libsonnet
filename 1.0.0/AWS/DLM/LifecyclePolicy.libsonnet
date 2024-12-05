@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,152 +10,171 @@
     Metadata:: [],
     Type: 'AWS::DLM::LifecyclePolicy',
   },
-  withCreateInterval(CreateInterval): {
-    assert std.isNumber(CreateInterval) : 'CreateInterval must be a number',
+  setCreateInterval(CreateInterval): {
     Properties+::: {
-      CreateInterval: CreateInterval,
+      CreateInterval:
+        if !std.isNumber(CreateInterval) then (error 'CreateInterval must be an number')
+        else CreateInterval,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withExtendDeletion(ExtendDeletion): {
-    assert std.isBoolean(ExtendDeletion) : 'ExtendDeletion must be a boolean',
+  setExtendDeletion(ExtendDeletion): {
     Properties+::: {
-      ExtendDeletion: ExtendDeletion,
+      ExtendDeletion:
+        if !std.isBoolean(ExtendDeletion) then (error 'ExtendDeletion must be a boolean') else ExtendDeletion,
     },
   },
-  withExclusions(Exclusions): {
-    assert std.isObject(Exclusions) : 'Exclusions must be a object',
+  setExclusions(Exclusions): {
     Properties+::: {
-      Exclusions: Exclusions,
+      Exclusions:
+        if !std.isObject(Exclusions) then (error 'Exclusions must be an object')
+        else Exclusions,
     },
   },
-  withRetainInterval(RetainInterval): {
-    assert std.isNumber(RetainInterval) : 'RetainInterval must be a number',
+  setRetainInterval(RetainInterval): {
     Properties+::: {
-      RetainInterval: RetainInterval,
+      RetainInterval:
+        if !std.isNumber(RetainInterval) then (error 'RetainInterval must be an number')
+        else RetainInterval,
     },
   },
-  withExecutionRoleArn(ExecutionRoleArn): {
-    assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
+  setExecutionRoleArn(ExecutionRoleArn): {
     Properties+::: {
-      ExecutionRoleArn: ExecutionRoleArn,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
     },
   },
-  withDefaultPolicy(DefaultPolicy): {
-    assert std.isString(DefaultPolicy) : 'DefaultPolicy must be a string',
+  setDefaultPolicy(DefaultPolicy): {
     Properties+::: {
-      DefaultPolicy: DefaultPolicy,
+      DefaultPolicy:
+        if !std.isString(DefaultPolicy) then (error 'DefaultPolicy must be a string')
+        else if std.isEmpty(DefaultPolicy) then (error 'DefaultPolicy must be not empty')
+        else DefaultPolicy,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withCrossRegionCopyTargets(CrossRegionCopyTargets): {
-    assert std.isObject(CrossRegionCopyTargets) : 'CrossRegionCopyTargets must be a object',
+  setCrossRegionCopyTargets(CrossRegionCopyTargets): {
     Properties+::: {
-      CrossRegionCopyTargets: CrossRegionCopyTargets,
+      CrossRegionCopyTargets:
+        if !std.isObject(CrossRegionCopyTargets) then (error 'CrossRegionCopyTargets must be an object')
+        else CrossRegionCopyTargets,
     },
   },
-  withPolicyDetails(PolicyDetails): {
-    assert std.isObject(PolicyDetails) : 'PolicyDetails must be a object',
+  setPolicyDetails(PolicyDetails): {
     Properties+::: {
-      PolicyDetails: PolicyDetails,
+      PolicyDetails:
+        if !std.isObject(PolicyDetails) then (error 'PolicyDetails must be an object')
+        else PolicyDetails,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCopyTags(CopyTags): {
-    assert std.isBoolean(CopyTags) : 'CopyTags must be a boolean',
+  setCopyTags(CopyTags): {
     Properties+::: {
-      CopyTags: CopyTags,
+      CopyTags:
+        if !std.isBoolean(CopyTags) then (error 'CopyTags must be a boolean') else CopyTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

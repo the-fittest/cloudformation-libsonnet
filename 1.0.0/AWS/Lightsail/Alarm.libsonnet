@@ -9,18 +9,28 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AlarmName) : 'AlarmName must be a string',
-      AlarmName: AlarmName,
-      assert std.isString(MonitoredResourceName) : 'MonitoredResourceName must be a string',
-      MonitoredResourceName: MonitoredResourceName,
-      assert std.isString(MetricName) : 'MetricName must be a string',
-      MetricName: MetricName,
-      assert std.isString(ComparisonOperator) : 'ComparisonOperator must be a string',
-      ComparisonOperator: ComparisonOperator,
-      assert std.isNumber(EvaluationPeriods) : 'EvaluationPeriods must be a number',
-      EvaluationPeriods: EvaluationPeriods,
-      assert std.isNumber(Threshold) : 'Threshold must be a number',
-      Threshold: Threshold,
+      AlarmName:
+        if !std.isString(AlarmName) then (error 'AlarmName must be a string')
+        else if std.isEmpty(AlarmName) then (error 'AlarmName must be not empty')
+        else AlarmName,
+      MonitoredResourceName:
+        if !std.isString(MonitoredResourceName) then (error 'MonitoredResourceName must be a string')
+        else if std.isEmpty(MonitoredResourceName) then (error 'MonitoredResourceName must be not empty')
+        else MonitoredResourceName,
+      MetricName:
+        if !std.isString(MetricName) then (error 'MetricName must be a string')
+        else if std.isEmpty(MetricName) then (error 'MetricName must be not empty')
+        else MetricName,
+      ComparisonOperator:
+        if !std.isString(ComparisonOperator) then (error 'ComparisonOperator must be a string')
+        else if std.isEmpty(ComparisonOperator) then (error 'ComparisonOperator must be not empty')
+        else ComparisonOperator,
+      EvaluationPeriods:
+        if !std.isNumber(EvaluationPeriods) then (error 'EvaluationPeriods must be an number')
+        else EvaluationPeriods,
+      Threshold:
+        if !std.isNumber(Threshold) then (error 'Threshold must be an number')
+        else Threshold,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -30,114 +40,125 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Alarm',
   },
-  withContactProtocols(ContactProtocols): {
+  setContactProtocols(ContactProtocols): {
     Properties+::: {
-      ContactProtocols: (if std.isArray(ContactProtocols) then ContactProtocols else [ContactProtocols]),
+      ContactProtocols:
+        if !std.isArray(ContactProtocols) then (error 'ContactProtocols must be an array')
+        else ContactProtocols,
     },
   },
-  withContactProtocolsMixin(ContactProtocols): {
+  setContactProtocolsMixin(ContactProtocols): {
     Properties+::: {
-      ContactProtocols+: (if std.isArray(ContactProtocols) then ContactProtocols else [ContactProtocols]),
+      ContactProtocols+: ContactProtocols,
     },
   },
-  withAlarmArn(AlarmArn): {
-    assert std.isString(AlarmArn) : 'AlarmArn must be a string',
+  setAlarmArn(AlarmArn): {
     Properties+::: {
-      AlarmArn: AlarmArn,
+      AlarmArn:
+        if !std.isString(AlarmArn) then (error 'AlarmArn must be a string')
+        else if std.isEmpty(AlarmArn) then (error 'AlarmArn must be not empty')
+        else AlarmArn,
     },
   },
-  withDatapointsToAlarm(DatapointsToAlarm): {
-    assert std.isNumber(DatapointsToAlarm) : 'DatapointsToAlarm must be a number',
+  setDatapointsToAlarm(DatapointsToAlarm): {
     Properties+::: {
-      DatapointsToAlarm: DatapointsToAlarm,
+      DatapointsToAlarm:
+        if !std.isNumber(DatapointsToAlarm) then (error 'DatapointsToAlarm must be an number')
+        else DatapointsToAlarm,
     },
   },
-  withNotificationEnabled(NotificationEnabled): {
-    assert std.isBoolean(NotificationEnabled) : 'NotificationEnabled must be a boolean',
+  setNotificationEnabled(NotificationEnabled): {
     Properties+::: {
-      NotificationEnabled: NotificationEnabled,
+      NotificationEnabled:
+        if !std.isBoolean(NotificationEnabled) then (error 'NotificationEnabled must be a boolean') else NotificationEnabled,
     },
   },
-  withNotificationTriggers(NotificationTriggers): {
+  setNotificationTriggers(NotificationTriggers): {
     Properties+::: {
-      NotificationTriggers: (if std.isArray(NotificationTriggers) then NotificationTriggers else [NotificationTriggers]),
+      NotificationTriggers:
+        if !std.isArray(NotificationTriggers) then (error 'NotificationTriggers must be an array')
+        else NotificationTriggers,
     },
   },
-  withNotificationTriggersMixin(NotificationTriggers): {
+  setNotificationTriggersMixin(NotificationTriggers): {
     Properties+::: {
-      NotificationTriggers+: (if std.isArray(NotificationTriggers) then NotificationTriggers else [NotificationTriggers]),
+      NotificationTriggers+: NotificationTriggers,
     },
   },
-  withTreatMissingData(TreatMissingData): {
-    assert std.isString(TreatMissingData) : 'TreatMissingData must be a string',
+  setTreatMissingData(TreatMissingData): {
     Properties+::: {
-      TreatMissingData: TreatMissingData,
+      TreatMissingData:
+        if !std.isString(TreatMissingData) then (error 'TreatMissingData must be a string')
+        else if std.isEmpty(TreatMissingData) then (error 'TreatMissingData must be not empty')
+        else TreatMissingData,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RuntimeEnvironment) : 'RuntimeEnvironment must be a string',
-      RuntimeEnvironment: RuntimeEnvironment,
-      assert std.isString(ServiceExecutionRole) : 'ServiceExecutionRole must be a string',
-      ServiceExecutionRole: ServiceExecutionRole,
+      RuntimeEnvironment:
+        if !std.isString(RuntimeEnvironment) then (error 'RuntimeEnvironment must be a string')
+        else if std.isEmpty(RuntimeEnvironment) then (error 'RuntimeEnvironment must be not empty')
+        else RuntimeEnvironment,
+      ServiceExecutionRole:
+        if !std.isString(ServiceExecutionRole) then (error 'ServiceExecutionRole must be a string')
+        else if std.isEmpty(ServiceExecutionRole) then (error 'ServiceExecutionRole must be not empty')
+        else if std.length(ServiceExecutionRole) < 1 then error ('ServiceExecutionRole should have at least 1 characters')
+        else if std.length(ServiceExecutionRole) > 2048 then error ('ServiceExecutionRole should have not more than 2048 characters')
+        else ServiceExecutionRole,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,111 +24,128 @@
     Metadata:: [],
     Type: 'AWS::KinesisAnalyticsV2::Application',
   },
-  withApplicationConfiguration(ApplicationConfiguration): {
-    assert std.isObject(ApplicationConfiguration) : 'ApplicationConfiguration must be a object',
+  setApplicationConfiguration(ApplicationConfiguration): {
     Properties+::: {
-      ApplicationConfiguration: ApplicationConfiguration,
+      ApplicationConfiguration:
+        if !std.isObject(ApplicationConfiguration) then (error 'ApplicationConfiguration must be an object')
+        else ApplicationConfiguration,
     },
   },
-  withApplicationDescription(ApplicationDescription): {
-    assert std.isString(ApplicationDescription) : 'ApplicationDescription must be a string',
+  setApplicationDescription(ApplicationDescription): {
     Properties+::: {
-      ApplicationDescription: ApplicationDescription,
+      ApplicationDescription:
+        if !std.isString(ApplicationDescription) then (error 'ApplicationDescription must be a string')
+        else if std.isEmpty(ApplicationDescription) then (error 'ApplicationDescription must be not empty')
+        else if std.length(ApplicationDescription) > 1024 then error ('ApplicationDescription should have not more than 1024 characters')
+        else ApplicationDescription,
     },
   },
-  withApplicationMode(ApplicationMode): {
-    assert std.isString(ApplicationMode) : 'ApplicationMode must be a string',
-    assert ApplicationMode == 'INTERACTIVE' || ApplicationMode == 'STREAMING' : "ApplicationMode should be 'INTERACTIVE' or 'STREAMING'",
+  setApplicationMode(ApplicationMode): {
     Properties+::: {
-      ApplicationMode: ApplicationMode,
+      ApplicationMode:
+        if !std.isString(ApplicationMode) then (error 'ApplicationMode must be a string')
+        else if std.isEmpty(ApplicationMode) then (error 'ApplicationMode must be not empty')
+        else if ApplicationMode != 'INTERACTIVE' && ApplicationMode != 'STREAMING' then (error "ApplicationMode should be 'INTERACTIVE' or 'STREAMING'")
+        else ApplicationMode,
     },
   },
-  withApplicationName(ApplicationName): {
-    assert std.isString(ApplicationName) : 'ApplicationName must be a string',
+  setApplicationName(ApplicationName): {
     Properties+::: {
-      ApplicationName: ApplicationName,
+      ApplicationName:
+        if !std.isString(ApplicationName) then (error 'ApplicationName must be a string')
+        else if std.isEmpty(ApplicationName) then (error 'ApplicationName must be not empty')
+        else if std.length(ApplicationName) < 1 then error ('ApplicationName should have at least 1 characters')
+        else if std.length(ApplicationName) > 128 then error ('ApplicationName should have not more than 128 characters')
+        else ApplicationName,
     },
   },
-  withRunConfiguration(RunConfiguration): {
-    assert std.isObject(RunConfiguration) : 'RunConfiguration must be a object',
+  setRunConfiguration(RunConfiguration): {
     Properties+::: {
-      RunConfiguration: RunConfiguration,
+      RunConfiguration:
+        if !std.isObject(RunConfiguration) then (error 'RunConfiguration must be an object')
+        else RunConfiguration,
     },
   },
-  withApplicationMaintenanceConfiguration(ApplicationMaintenanceConfiguration): {
-    assert std.isObject(ApplicationMaintenanceConfiguration) : 'ApplicationMaintenanceConfiguration must be a object',
+  setApplicationMaintenanceConfiguration(ApplicationMaintenanceConfiguration): {
     Properties+::: {
-      ApplicationMaintenanceConfiguration: ApplicationMaintenanceConfiguration,
+      ApplicationMaintenanceConfiguration:
+        if !std.isObject(ApplicationMaintenanceConfiguration) then (error 'ApplicationMaintenanceConfiguration must be an object')
+        else if !std.objectHas(ApplicationMaintenanceConfiguration, 'ApplicationMaintenanceWindowStartTime') then (error ' have attribute ApplicationMaintenanceWindowStartTime')
+        else ApplicationMaintenanceConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

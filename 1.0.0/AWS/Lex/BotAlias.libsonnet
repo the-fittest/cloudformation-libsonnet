@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(BotId) : 'BotId must be a string',
-      BotId: BotId,
-      assert std.isString(BotAliasName) : 'BotAliasName must be a string',
-      BotAliasName: BotAliasName,
+      BotId:
+        if !std.isString(BotId) then (error 'BotId must be a string')
+        else if std.isEmpty(BotId) then (error 'BotId must be not empty')
+        else if std.length(BotId) < 10 then error ('BotId should have at least 10 characters')
+        else if std.length(BotId) > 10 then error ('BotId should have not more than 10 characters')
+        else BotId,
+      BotAliasName:
+        if !std.isString(BotAliasName) then (error 'BotAliasName must be a string')
+        else if std.isEmpty(BotAliasName) then (error 'BotAliasName must be not empty')
+        else if std.length(BotAliasName) < 1 then error ('BotAliasName should have at least 1 characters')
+        else if std.length(BotAliasName) > 100 then error ('BotAliasName should have not more than 100 characters')
+        else BotAliasName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,127 +26,152 @@
     Metadata:: [],
     Type: 'AWS::Lex::BotAlias',
   },
-  withBotAliasId(BotAliasId): {
-    assert std.isString(BotAliasId) : 'BotAliasId must be a string',
+  setBotAliasId(BotAliasId): {
     Properties+::: {
-      BotAliasId: BotAliasId,
+      BotAliasId:
+        if !std.isString(BotAliasId) then (error 'BotAliasId must be a string')
+        else if std.isEmpty(BotAliasId) then (error 'BotAliasId must be not empty')
+        else if std.length(BotAliasId) < 10 then error ('BotAliasId should have at least 10 characters')
+        else if std.length(BotAliasId) > 10 then error ('BotAliasId should have not more than 10 characters')
+        else BotAliasId,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 1000 then error ('Arn should have not more than 1000 characters')
+        else Arn,
     },
   },
-  withBotAliasStatus(BotAliasStatus): {
-    assert std.isString(BotAliasStatus) : 'BotAliasStatus must be a string',
-    assert BotAliasStatus == 'Creating' || BotAliasStatus == 'Available' || BotAliasStatus == 'Deleting' || BotAliasStatus == 'Failed' : "BotAliasStatus should be 'Creating' or 'Available' or 'Deleting' or 'Failed'",
+  setBotAliasStatus(BotAliasStatus): {
     Properties+::: {
-      BotAliasStatus: BotAliasStatus,
+      BotAliasStatus:
+        if !std.isString(BotAliasStatus) then (error 'BotAliasStatus must be a string')
+        else if std.isEmpty(BotAliasStatus) then (error 'BotAliasStatus must be not empty')
+        else if BotAliasStatus != 'Creating' && BotAliasStatus != 'Available' && BotAliasStatus != 'Deleting' && BotAliasStatus != 'Failed' then (error "BotAliasStatus should be 'Creating' or 'Available' or 'Deleting' or 'Failed'")
+        else BotAliasStatus,
     },
   },
-  withBotAliasLocaleSettings(BotAliasLocaleSettings): {
+  setBotAliasLocaleSettings(BotAliasLocaleSettings): {
     Properties+::: {
-      BotAliasLocaleSettings: (if std.isArray(BotAliasLocaleSettings) then BotAliasLocaleSettings else [BotAliasLocaleSettings]),
+      BotAliasLocaleSettings:
+        if !std.isArray(BotAliasLocaleSettings) then (error 'BotAliasLocaleSettings must be an array')
+        else if std.length(BotAliasLocaleSettings) > 50 then error ('BotAliasLocaleSettings cannot have more than 50 items')
+        else BotAliasLocaleSettings,
     },
   },
-  withBotAliasLocaleSettingsMixin(BotAliasLocaleSettings): {
+  setBotAliasLocaleSettingsMixin(BotAliasLocaleSettings): {
     Properties+::: {
-      BotAliasLocaleSettings+: (if std.isArray(BotAliasLocaleSettings) then BotAliasLocaleSettings else [BotAliasLocaleSettings]),
+      BotAliasLocaleSettings+: BotAliasLocaleSettings,
     },
   },
-  withBotVersion(BotVersion): {
-    assert std.isString(BotVersion) : 'BotVersion must be a string',
+  setBotVersion(BotVersion): {
     Properties+::: {
-      BotVersion: BotVersion,
+      BotVersion:
+        if !std.isString(BotVersion) then (error 'BotVersion must be a string')
+        else if std.isEmpty(BotVersion) then (error 'BotVersion must be not empty')
+        else if std.length(BotVersion) < 1 then error ('BotVersion should have at least 1 characters')
+        else if std.length(BotVersion) > 5 then error ('BotVersion should have not more than 5 characters')
+        else BotVersion,
     },
   },
-  withConversationLogSettings(ConversationLogSettings): {
-    assert std.isObject(ConversationLogSettings) : 'ConversationLogSettings must be a object',
+  setConversationLogSettings(ConversationLogSettings): {
     Properties+::: {
-      ConversationLogSettings: ConversationLogSettings,
+      ConversationLogSettings:
+        if !std.isObject(ConversationLogSettings) then (error 'ConversationLogSettings must be an object')
+        else ConversationLogSettings,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withSentimentAnalysisSettings(SentimentAnalysisSettings): {
-    assert std.isObject(SentimentAnalysisSettings) : 'SentimentAnalysisSettings must be a object',
+  setSentimentAnalysisSettings(SentimentAnalysisSettings): {
     Properties+::: {
-      SentimentAnalysisSettings: SentimentAnalysisSettings,
+      SentimentAnalysisSettings:
+        if !std.isObject(SentimentAnalysisSettings) then (error 'SentimentAnalysisSettings must be an object')
+        else if !std.objectHas(SentimentAnalysisSettings, 'DetectSentiment') then (error ' have attribute DetectSentiment')
+        else SentimentAnalysisSettings,
     },
   },
-  withBotAliasTags(BotAliasTags): {
+  setBotAliasTags(BotAliasTags): {
     Properties+::: {
-      BotAliasTags: (if std.isArray(BotAliasTags) then BotAliasTags else [BotAliasTags]),
+      BotAliasTags:
+        if !std.isArray(BotAliasTags) then (error 'BotAliasTags must be an array')
+        else if std.length(BotAliasTags) > 200 then error ('BotAliasTags cannot have more than 200 items')
+        else BotAliasTags,
     },
   },
-  withBotAliasTagsMixin(BotAliasTags): {
+  setBotAliasTagsMixin(BotAliasTags): {
     Properties+::: {
-      BotAliasTags+: (if std.isArray(BotAliasTags) then BotAliasTags else [BotAliasTags]),
+      BotAliasTags+: BotAliasTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

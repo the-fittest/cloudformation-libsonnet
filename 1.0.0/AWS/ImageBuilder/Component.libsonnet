@@ -6,13 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Platform) : 'Platform must be a string',
-      assert Platform == 'Windows' || Platform == 'Linux' || Platform == 'macOS' : "Platform should be 'Windows' or 'Linux' or 'macOS'",
-      Platform: Platform,
-      assert std.isString(Version) : 'Version must be a string',
-      Version: Version,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Platform:
+        if !std.isString(Platform) then (error 'Platform must be a string')
+        else if std.isEmpty(Platform) then (error 'Platform must be not empty')
+        else if Platform != 'Windows' && Platform != 'Linux' && Platform != 'macOS' then (error "Platform should be 'Windows' or 'Linux' or 'macOS'")
+        else Platform,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,129 +28,148 @@
     Metadata:: [],
     Type: 'AWS::ImageBuilder::Component',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withChangeDescription(ChangeDescription): {
-    assert std.isString(ChangeDescription) : 'ChangeDescription must be a string',
+  setChangeDescription(ChangeDescription): {
     Properties+::: {
-      ChangeDescription: ChangeDescription,
+      ChangeDescription:
+        if !std.isString(ChangeDescription) then (error 'ChangeDescription must be a string')
+        else if std.isEmpty(ChangeDescription) then (error 'ChangeDescription must be not empty')
+        else ChangeDescription,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'BUILD' || Type == 'TEST' : "Type should be 'BUILD' or 'TEST'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'BUILD' && Type != 'TEST' then (error "Type should be 'BUILD' or 'TEST'")
+        else Type,
     },
   },
-  withData(Data): {
-    assert std.isString(Data) : 'Data must be a string',
+  setData(Data): {
     Properties+::: {
-      Data: Data,
+      Data:
+        if !std.isString(Data) then (error 'Data must be a string')
+        else if std.isEmpty(Data) then (error 'Data must be not empty')
+        else if std.length(Data) < 1 then error ('Data should have at least 1 characters')
+        else if std.length(Data) > 16000 then error ('Data should have not more than 16000 characters')
+        else Data,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withEncrypted(Encrypted): {
-    assert std.isBoolean(Encrypted) : 'Encrypted must be a boolean',
+  setEncrypted(Encrypted): {
     Properties+::: {
-      Encrypted: Encrypted,
+      Encrypted:
+        if !std.isBoolean(Encrypted) then (error 'Encrypted must be a boolean') else Encrypted,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withUri(Uri): {
-    assert std.isString(Uri) : 'Uri must be a string',
+  setUri(Uri): {
     Properties+::: {
-      Uri: Uri,
+      Uri:
+        if !std.isString(Uri) then (error 'Uri must be a string')
+        else if std.isEmpty(Uri) then (error 'Uri must be not empty')
+        else Uri,
     },
   },
-  withSupportedOsVersions(SupportedOsVersions): {
+  setSupportedOsVersions(SupportedOsVersions): {
     Properties+::: {
-      SupportedOsVersions: (if std.isArray(SupportedOsVersions) then SupportedOsVersions else [SupportedOsVersions]),
+      SupportedOsVersions:
+        if !std.isArray(SupportedOsVersions) then (error 'SupportedOsVersions must be an array')
+        else SupportedOsVersions,
     },
   },
-  withSupportedOsVersionsMixin(SupportedOsVersions): {
+  setSupportedOsVersionsMixin(SupportedOsVersions): {
     Properties+::: {
-      SupportedOsVersions+: (if std.isArray(SupportedOsVersions) then SupportedOsVersions else [SupportedOsVersions]),
+      SupportedOsVersions+: SupportedOsVersions,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

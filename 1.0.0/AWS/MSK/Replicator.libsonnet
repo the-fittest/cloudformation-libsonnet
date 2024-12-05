@@ -7,12 +7,26 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ReplicatorName) : 'ReplicatorName must be a string',
-      ReplicatorName: ReplicatorName,
-      ReplicationInfoList: (if std.isArray(ReplicationInfoList) then ReplicationInfoList else [ReplicationInfoList]),
-      KafkaClusters: (if std.isArray(KafkaClusters) then KafkaClusters else [KafkaClusters]),
-      assert std.isString(ServiceExecutionRoleArn) : 'ServiceExecutionRoleArn must be a string',
-      ServiceExecutionRoleArn: ServiceExecutionRoleArn,
+      ReplicatorName:
+        if !std.isString(ReplicatorName) then (error 'ReplicatorName must be a string')
+        else if std.isEmpty(ReplicatorName) then (error 'ReplicatorName must be not empty')
+        else if std.length(ReplicatorName) < 1 then error ('ReplicatorName should have at least 1 characters')
+        else if std.length(ReplicatorName) > 128 then error ('ReplicatorName should have not more than 128 characters')
+        else ReplicatorName,
+      ReplicationInfoList:
+        if !std.isArray(ReplicationInfoList) then (error 'ReplicationInfoList must be an array')
+        else if std.length(ReplicationInfoList) < 1 then error ('ReplicationInfoList cannot have less than 1 items')
+        else if std.length(ReplicationInfoList) > 1 then error ('ReplicationInfoList cannot have more than 1 items')
+        else ReplicationInfoList,
+      KafkaClusters:
+        if !std.isArray(KafkaClusters) then (error 'KafkaClusters must be an array')
+        else if std.length(KafkaClusters) < 2 then error ('KafkaClusters cannot have less than 2 items')
+        else if std.length(KafkaClusters) > 2 then error ('KafkaClusters cannot have more than 2 items')
+        else KafkaClusters,
+      ServiceExecutionRoleArn:
+        if !std.isString(ServiceExecutionRoleArn) then (error 'ServiceExecutionRoleArn must be a string')
+        else if std.isEmpty(ServiceExecutionRoleArn) then (error 'ServiceExecutionRoleArn must be not empty')
+        else ServiceExecutionRoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,92 +36,101 @@
     Metadata:: [],
     Type: 'AWS::MSK::Replicator',
   },
-  withReplicatorArn(ReplicatorArn): {
-    assert std.isString(ReplicatorArn) : 'ReplicatorArn must be a string',
+  setReplicatorArn(ReplicatorArn): {
     Properties+::: {
-      ReplicatorArn: ReplicatorArn,
+      ReplicatorArn:
+        if !std.isString(ReplicatorArn) then (error 'ReplicatorArn must be a string')
+        else if std.isEmpty(ReplicatorArn) then (error 'ReplicatorArn must be not empty')
+        else ReplicatorArn,
     },
   },
-  withCurrentVersion(CurrentVersion): {
-    assert std.isString(CurrentVersion) : 'CurrentVersion must be a string',
+  setCurrentVersion(CurrentVersion): {
     Properties+::: {
-      CurrentVersion: CurrentVersion,
+      CurrentVersion:
+        if !std.isString(CurrentVersion) then (error 'CurrentVersion must be a string')
+        else if std.isEmpty(CurrentVersion) then (error 'CurrentVersion must be not empty')
+        else CurrentVersion,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

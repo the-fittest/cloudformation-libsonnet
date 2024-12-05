@@ -6,13 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IntegrationName) : 'IntegrationName must be a string',
-      IntegrationName: IntegrationName,
-      assert std.isString(IntegrationType) : 'IntegrationType must be a string',
-      assert IntegrationType == 'OPENSEARCH' : "IntegrationType should be 'OPENSEARCH'",
-      IntegrationType: IntegrationType,
-      assert std.isObject(ResourceConfig) : 'ResourceConfig must be an object',
-      ResourceConfig: ResourceConfig,
+      IntegrationName:
+        if !std.isString(IntegrationName) then (error 'IntegrationName must be a string')
+        else if std.isEmpty(IntegrationName) then (error 'IntegrationName must be not empty')
+        else if std.length(IntegrationName) < 1 then error ('IntegrationName should have at least 1 characters')
+        else if std.length(IntegrationName) > 256 then error ('IntegrationName should have not more than 256 characters')
+        else IntegrationName,
+      IntegrationType:
+        if !std.isString(IntegrationType) then (error 'IntegrationType must be a string')
+        else if std.isEmpty(IntegrationType) then (error 'IntegrationType must be not empty')
+        else if IntegrationType != 'OPENSEARCH' then (error "IntegrationType should be 'OPENSEARCH'")
+        else IntegrationType,
+      ResourceConfig:
+        if !std.isObject(ResourceConfig) then (error 'ResourceConfig must be an object')
+        else ResourceConfig,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,71 +29,73 @@
     Metadata:: [],
     Type: 'AWS::Logs::Integration',
   },
-  withIntegrationStatus(IntegrationStatus): {
-    assert std.isString(IntegrationStatus) : 'IntegrationStatus must be a string',
-    assert IntegrationStatus == 'PROVISIONING' || IntegrationStatus == 'ACTIVE' || IntegrationStatus == 'FAILED' : "IntegrationStatus should be 'PROVISIONING' or 'ACTIVE' or 'FAILED'",
+  setIntegrationStatus(IntegrationStatus): {
     Properties+::: {
-      IntegrationStatus: IntegrationStatus,
+      IntegrationStatus:
+        if !std.isString(IntegrationStatus) then (error 'IntegrationStatus must be a string')
+        else if std.isEmpty(IntegrationStatus) then (error 'IntegrationStatus must be not empty')
+        else if IntegrationStatus != 'PROVISIONING' && IntegrationStatus != 'ACTIVE' && IntegrationStatus != 'FAILED' then (error "IntegrationStatus should be 'PROVISIONING' or 'ACTIVE' or 'FAILED'")
+        else IntegrationStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,205 +10,275 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::Portal',
   },
-  withAdditionalEncryptionContext(AdditionalEncryptionContext): {
-    assert std.isObject(AdditionalEncryptionContext) : 'AdditionalEncryptionContext must be a object',
+  setAdditionalEncryptionContext(AdditionalEncryptionContext): {
     Properties+::: {
-      AdditionalEncryptionContext: AdditionalEncryptionContext,
+      AdditionalEncryptionContext:
+        if !std.isObject(AdditionalEncryptionContext) then (error 'AdditionalEncryptionContext must be an object')
+        else AdditionalEncryptionContext,
     },
   },
-  withAuthenticationType(AuthenticationType): {
-    assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
-    assert AuthenticationType == 'Standard' || AuthenticationType == 'IAM_Identity_Center' : "AuthenticationType should be 'Standard' or 'IAM_Identity_Center'",
+  setAuthenticationType(AuthenticationType): {
     Properties+::: {
-      AuthenticationType: AuthenticationType,
+      AuthenticationType:
+        if !std.isString(AuthenticationType) then (error 'AuthenticationType must be a string')
+        else if std.isEmpty(AuthenticationType) then (error 'AuthenticationType must be not empty')
+        else if AuthenticationType != 'Standard' && AuthenticationType != 'IAM_Identity_Center' then (error "AuthenticationType should be 'Standard' or 'IAM_Identity_Center'")
+        else AuthenticationType,
     },
   },
-  withBrowserSettingsArn(BrowserSettingsArn): {
-    assert std.isString(BrowserSettingsArn) : 'BrowserSettingsArn must be a string',
+  setBrowserSettingsArn(BrowserSettingsArn): {
     Properties+::: {
-      BrowserSettingsArn: BrowserSettingsArn,
+      BrowserSettingsArn:
+        if !std.isString(BrowserSettingsArn) then (error 'BrowserSettingsArn must be a string')
+        else if std.isEmpty(BrowserSettingsArn) then (error 'BrowserSettingsArn must be not empty')
+        else if std.length(BrowserSettingsArn) < 20 then error ('BrowserSettingsArn should have at least 20 characters')
+        else if std.length(BrowserSettingsArn) > 2048 then error ('BrowserSettingsArn should have not more than 2048 characters')
+        else BrowserSettingsArn,
     },
   },
-  withBrowserType(BrowserType): {
-    assert std.isString(BrowserType) : 'BrowserType must be a string',
-    assert BrowserType == 'Chrome' : "BrowserType should be 'Chrome'",
+  setBrowserType(BrowserType): {
     Properties+::: {
-      BrowserType: BrowserType,
+      BrowserType:
+        if !std.isString(BrowserType) then (error 'BrowserType must be a string')
+        else if std.isEmpty(BrowserType) then (error 'BrowserType must be not empty')
+        else if BrowserType != 'Chrome' then (error "BrowserType should be 'Chrome'")
+        else BrowserType,
     },
   },
-  withCreationDate(CreationDate): {
-    assert std.isString(CreationDate) : 'CreationDate must be a string',
+  setCreationDate(CreationDate): {
     Properties+::: {
-      CreationDate: CreationDate,
+      CreationDate:
+        if !std.isString(CreationDate) then (error 'CreationDate must be a string')
+        else if std.isEmpty(CreationDate) then (error 'CreationDate must be not empty')
+        else CreationDate,
     },
   },
-  withCustomerManagedKey(CustomerManagedKey): {
-    assert std.isString(CustomerManagedKey) : 'CustomerManagedKey must be a string',
+  setCustomerManagedKey(CustomerManagedKey): {
     Properties+::: {
-      CustomerManagedKey: CustomerManagedKey,
+      CustomerManagedKey:
+        if !std.isString(CustomerManagedKey) then (error 'CustomerManagedKey must be a string')
+        else if std.isEmpty(CustomerManagedKey) then (error 'CustomerManagedKey must be not empty')
+        else if std.length(CustomerManagedKey) < 20 then error ('CustomerManagedKey should have at least 20 characters')
+        else if std.length(CustomerManagedKey) > 2048 then error ('CustomerManagedKey should have not more than 2048 characters')
+        else CustomerManagedKey,
     },
   },
-  withDataProtectionSettingsArn(DataProtectionSettingsArn): {
-    assert std.isString(DataProtectionSettingsArn) : 'DataProtectionSettingsArn must be a string',
+  setDataProtectionSettingsArn(DataProtectionSettingsArn): {
     Properties+::: {
-      DataProtectionSettingsArn: DataProtectionSettingsArn,
+      DataProtectionSettingsArn:
+        if !std.isString(DataProtectionSettingsArn) then (error 'DataProtectionSettingsArn must be a string')
+        else if std.isEmpty(DataProtectionSettingsArn) then (error 'DataProtectionSettingsArn must be not empty')
+        else if std.length(DataProtectionSettingsArn) < 20 then error ('DataProtectionSettingsArn should have at least 20 characters')
+        else if std.length(DataProtectionSettingsArn) > 2048 then error ('DataProtectionSettingsArn should have not more than 2048 characters')
+        else DataProtectionSettingsArn,
     },
   },
-  withDisplayName(DisplayName): {
-    assert std.isString(DisplayName) : 'DisplayName must be a string',
+  setDisplayName(DisplayName): {
     Properties+::: {
-      DisplayName: DisplayName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else if std.length(DisplayName) < 1 then error ('DisplayName should have at least 1 characters')
+        else if std.length(DisplayName) > 64 then error ('DisplayName should have not more than 64 characters')
+        else DisplayName,
     },
   },
-  withInstanceType(InstanceType): {
-    assert std.isString(InstanceType) : 'InstanceType must be a string',
-    assert InstanceType == 'standard.regular' || InstanceType == 'standard.large' || InstanceType == 'standard.xlarge' : "InstanceType should be 'standard.regular' or 'standard.large' or 'standard.xlarge'",
+  setInstanceType(InstanceType): {
     Properties+::: {
-      InstanceType: InstanceType,
+      InstanceType:
+        if !std.isString(InstanceType) then (error 'InstanceType must be a string')
+        else if std.isEmpty(InstanceType) then (error 'InstanceType must be not empty')
+        else if InstanceType != 'standard.regular' && InstanceType != 'standard.large' && InstanceType != 'standard.xlarge' then (error "InstanceType should be 'standard.regular' or 'standard.large' or 'standard.xlarge'")
+        else InstanceType,
     },
   },
-  withIpAccessSettingsArn(IpAccessSettingsArn): {
-    assert std.isString(IpAccessSettingsArn) : 'IpAccessSettingsArn must be a string',
+  setIpAccessSettingsArn(IpAccessSettingsArn): {
     Properties+::: {
-      IpAccessSettingsArn: IpAccessSettingsArn,
+      IpAccessSettingsArn:
+        if !std.isString(IpAccessSettingsArn) then (error 'IpAccessSettingsArn must be a string')
+        else if std.isEmpty(IpAccessSettingsArn) then (error 'IpAccessSettingsArn must be not empty')
+        else if std.length(IpAccessSettingsArn) < 20 then error ('IpAccessSettingsArn should have at least 20 characters')
+        else if std.length(IpAccessSettingsArn) > 2048 then error ('IpAccessSettingsArn should have not more than 2048 characters')
+        else IpAccessSettingsArn,
     },
   },
-  withMaxConcurrentSessions(MaxConcurrentSessions): {
-    assert std.isNumber(MaxConcurrentSessions) : 'MaxConcurrentSessions must be a number',
+  setMaxConcurrentSessions(MaxConcurrentSessions): {
     Properties+::: {
-      MaxConcurrentSessions: MaxConcurrentSessions,
+      MaxConcurrentSessions:
+        if !std.isNumber(MaxConcurrentSessions) then (error 'MaxConcurrentSessions must be an number')
+        else if MaxConcurrentSessions < 1 then error ('MaxConcurrentSessions should be at least 1')
+        else if MaxConcurrentSessions > 5000 then error ('MaxConcurrentSessions should be not more than 5000')
+        else MaxConcurrentSessions,
     },
   },
-  withNetworkSettingsArn(NetworkSettingsArn): {
-    assert std.isString(NetworkSettingsArn) : 'NetworkSettingsArn must be a string',
+  setNetworkSettingsArn(NetworkSettingsArn): {
     Properties+::: {
-      NetworkSettingsArn: NetworkSettingsArn,
+      NetworkSettingsArn:
+        if !std.isString(NetworkSettingsArn) then (error 'NetworkSettingsArn must be a string')
+        else if std.isEmpty(NetworkSettingsArn) then (error 'NetworkSettingsArn must be not empty')
+        else if std.length(NetworkSettingsArn) < 20 then error ('NetworkSettingsArn should have at least 20 characters')
+        else if std.length(NetworkSettingsArn) > 2048 then error ('NetworkSettingsArn should have not more than 2048 characters')
+        else NetworkSettingsArn,
     },
   },
-  withPortalArn(PortalArn): {
-    assert std.isString(PortalArn) : 'PortalArn must be a string',
+  setPortalArn(PortalArn): {
     Properties+::: {
-      PortalArn: PortalArn,
+      PortalArn:
+        if !std.isString(PortalArn) then (error 'PortalArn must be a string')
+        else if std.isEmpty(PortalArn) then (error 'PortalArn must be not empty')
+        else if std.length(PortalArn) < 20 then error ('PortalArn should have at least 20 characters')
+        else if std.length(PortalArn) > 2048 then error ('PortalArn should have not more than 2048 characters')
+        else PortalArn,
     },
   },
-  withPortalEndpoint(PortalEndpoint): {
-    assert std.isString(PortalEndpoint) : 'PortalEndpoint must be a string',
+  setPortalEndpoint(PortalEndpoint): {
     Properties+::: {
-      PortalEndpoint: PortalEndpoint,
+      PortalEndpoint:
+        if !std.isString(PortalEndpoint) then (error 'PortalEndpoint must be a string')
+        else if std.isEmpty(PortalEndpoint) then (error 'PortalEndpoint must be not empty')
+        else if std.length(PortalEndpoint) < 1 then error ('PortalEndpoint should have at least 1 characters')
+        else if std.length(PortalEndpoint) > 253 then error ('PortalEndpoint should have not more than 253 characters')
+        else PortalEndpoint,
     },
   },
-  withPortalStatus(PortalStatus): {
-    assert std.isString(PortalStatus) : 'PortalStatus must be a string',
-    assert PortalStatus == 'Incomplete' || PortalStatus == 'Pending' || PortalStatus == 'Active' : "PortalStatus should be 'Incomplete' or 'Pending' or 'Active'",
+  setPortalStatus(PortalStatus): {
     Properties+::: {
-      PortalStatus: PortalStatus,
+      PortalStatus:
+        if !std.isString(PortalStatus) then (error 'PortalStatus must be a string')
+        else if std.isEmpty(PortalStatus) then (error 'PortalStatus must be not empty')
+        else if PortalStatus != 'Incomplete' && PortalStatus != 'Pending' && PortalStatus != 'Active' then (error "PortalStatus should be 'Incomplete' or 'Pending' or 'Active'")
+        else PortalStatus,
     },
   },
-  withRendererType(RendererType): {
-    assert std.isString(RendererType) : 'RendererType must be a string',
-    assert RendererType == 'AppStream' : "RendererType should be 'AppStream'",
+  setRendererType(RendererType): {
     Properties+::: {
-      RendererType: RendererType,
+      RendererType:
+        if !std.isString(RendererType) then (error 'RendererType must be a string')
+        else if std.isEmpty(RendererType) then (error 'RendererType must be not empty')
+        else if RendererType != 'AppStream' then (error "RendererType should be 'AppStream'")
+        else RendererType,
     },
   },
-  withServiceProviderSamlMetadata(ServiceProviderSamlMetadata): {
-    assert std.isString(ServiceProviderSamlMetadata) : 'ServiceProviderSamlMetadata must be a string',
+  setServiceProviderSamlMetadata(ServiceProviderSamlMetadata): {
     Properties+::: {
-      ServiceProviderSamlMetadata: ServiceProviderSamlMetadata,
+      ServiceProviderSamlMetadata:
+        if !std.isString(ServiceProviderSamlMetadata) then (error 'ServiceProviderSamlMetadata must be a string')
+        else if std.isEmpty(ServiceProviderSamlMetadata) then (error 'ServiceProviderSamlMetadata must be not empty')
+        else if std.length(ServiceProviderSamlMetadata) > 204800 then error ('ServiceProviderSamlMetadata should have not more than 204800 characters')
+        else ServiceProviderSamlMetadata,
     },
   },
-  withStatusReason(StatusReason): {
-    assert std.isString(StatusReason) : 'StatusReason must be a string',
+  setStatusReason(StatusReason): {
     Properties+::: {
-      StatusReason: StatusReason,
+      StatusReason:
+        if !std.isString(StatusReason) then (error 'StatusReason must be a string')
+        else if std.isEmpty(StatusReason) then (error 'StatusReason must be not empty')
+        else if std.length(StatusReason) < 1 then error ('StatusReason should have at least 1 characters')
+        else if std.length(StatusReason) > 1024 then error ('StatusReason should have not more than 1024 characters')
+        else StatusReason,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrustStoreArn(TrustStoreArn): {
-    assert std.isString(TrustStoreArn) : 'TrustStoreArn must be a string',
+  setTrustStoreArn(TrustStoreArn): {
     Properties+::: {
-      TrustStoreArn: TrustStoreArn,
+      TrustStoreArn:
+        if !std.isString(TrustStoreArn) then (error 'TrustStoreArn must be a string')
+        else if std.isEmpty(TrustStoreArn) then (error 'TrustStoreArn must be not empty')
+        else if std.length(TrustStoreArn) < 20 then error ('TrustStoreArn should have at least 20 characters')
+        else if std.length(TrustStoreArn) > 2048 then error ('TrustStoreArn should have not more than 2048 characters')
+        else TrustStoreArn,
     },
   },
-  withUserAccessLoggingSettingsArn(UserAccessLoggingSettingsArn): {
-    assert std.isString(UserAccessLoggingSettingsArn) : 'UserAccessLoggingSettingsArn must be a string',
+  setUserAccessLoggingSettingsArn(UserAccessLoggingSettingsArn): {
     Properties+::: {
-      UserAccessLoggingSettingsArn: UserAccessLoggingSettingsArn,
+      UserAccessLoggingSettingsArn:
+        if !std.isString(UserAccessLoggingSettingsArn) then (error 'UserAccessLoggingSettingsArn must be a string')
+        else if std.isEmpty(UserAccessLoggingSettingsArn) then (error 'UserAccessLoggingSettingsArn must be not empty')
+        else if std.length(UserAccessLoggingSettingsArn) < 20 then error ('UserAccessLoggingSettingsArn should have at least 20 characters')
+        else if std.length(UserAccessLoggingSettingsArn) > 2048 then error ('UserAccessLoggingSettingsArn should have not more than 2048 characters')
+        else UserAccessLoggingSettingsArn,
     },
   },
-  withUserSettingsArn(UserSettingsArn): {
-    assert std.isString(UserSettingsArn) : 'UserSettingsArn must be a string',
+  setUserSettingsArn(UserSettingsArn): {
     Properties+::: {
-      UserSettingsArn: UserSettingsArn,
+      UserSettingsArn:
+        if !std.isString(UserSettingsArn) then (error 'UserSettingsArn must be a string')
+        else if std.isEmpty(UserSettingsArn) then (error 'UserSettingsArn must be not empty')
+        else if std.length(UserSettingsArn) < 20 then error ('UserSettingsArn should have at least 20 characters')
+        else if std.length(UserSettingsArn) > 2048 then error ('UserSettingsArn should have not more than 2048 characters')
+        else UserSettingsArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

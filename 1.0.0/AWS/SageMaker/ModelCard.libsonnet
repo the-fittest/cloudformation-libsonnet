@@ -6,13 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ModelCardName) : 'ModelCardName must be a string',
-      ModelCardName: ModelCardName,
-      assert std.isObject(Content) : 'Content must be an object',
-      Content: Content,
-      assert std.isString(ModelCardStatus) : 'ModelCardStatus must be a string',
-      assert ModelCardStatus == 'Draft' || ModelCardStatus == 'PendingReview' || ModelCardStatus == 'Approved' || ModelCardStatus == 'Archived' : "ModelCardStatus should be 'Draft' or 'PendingReview' or 'Approved' or 'Archived'",
-      ModelCardStatus: ModelCardStatus,
+      ModelCardName:
+        if !std.isString(ModelCardName) then (error 'ModelCardName must be a string')
+        else if std.isEmpty(ModelCardName) then (error 'ModelCardName must be not empty')
+        else if std.length(ModelCardName) > 63 then error ('ModelCardName should have not more than 63 characters')
+        else ModelCardName,
+      Content:
+        if !std.isObject(Content) then (error 'Content must be an object')
+        else Content,
+      ModelCardStatus:
+        if !std.isString(ModelCardStatus) then (error 'ModelCardStatus must be a string')
+        else if std.isEmpty(ModelCardStatus) then (error 'ModelCardStatus must be not empty')
+        else if ModelCardStatus != 'Draft' && ModelCardStatus != 'PendingReview' && ModelCardStatus != 'Approved' && ModelCardStatus != 'Archived' then (error "ModelCardStatus should be 'Draft' or 'PendingReview' or 'Approved' or 'Archived'")
+        else ModelCardStatus,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,123 +28,142 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::ModelCard',
   },
-  withModelCardArn(ModelCardArn): {
-    assert std.isString(ModelCardArn) : 'ModelCardArn must be a string',
+  setModelCardArn(ModelCardArn): {
     Properties+::: {
-      ModelCardArn: ModelCardArn,
+      ModelCardArn:
+        if !std.isString(ModelCardArn) then (error 'ModelCardArn must be a string')
+        else if std.isEmpty(ModelCardArn) then (error 'ModelCardArn must be not empty')
+        else if std.length(ModelCardArn) < 1 then error ('ModelCardArn should have at least 1 characters')
+        else if std.length(ModelCardArn) > 256 then error ('ModelCardArn should have not more than 256 characters')
+        else ModelCardArn,
     },
   },
-  withModelCardVersion(ModelCardVersion): {
-    assert std.isNumber(ModelCardVersion) : 'ModelCardVersion must be a number',
+  setModelCardVersion(ModelCardVersion): {
     Properties+::: {
-      ModelCardVersion: ModelCardVersion,
+      ModelCardVersion:
+        if !std.isNumber(ModelCardVersion) then (error 'ModelCardVersion must be an number')
+        else if ModelCardVersion < 1 then error ('ModelCardVersion should be at least 1')
+        else ModelCardVersion,
     },
   },
-  withSecurityConfig(SecurityConfig): {
-    assert std.isObject(SecurityConfig) : 'SecurityConfig must be a object',
+  setSecurityConfig(SecurityConfig): {
     Properties+::: {
-      SecurityConfig: SecurityConfig,
+      SecurityConfig:
+        if !std.isObject(SecurityConfig) then (error 'SecurityConfig must be an object')
+        else SecurityConfig,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withCreatedBy(CreatedBy): {
-    assert std.isObject(CreatedBy) : 'CreatedBy must be a object',
+  setCreatedBy(CreatedBy): {
     Properties+::: {
-      CreatedBy: CreatedBy,
+      CreatedBy:
+        if !std.isObject(CreatedBy) then (error 'CreatedBy must be an object')
+        else CreatedBy,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isString(LastModifiedTime) : 'LastModifiedTime must be a string',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isString(LastModifiedTime) then (error 'LastModifiedTime must be a string')
+        else if std.isEmpty(LastModifiedTime) then (error 'LastModifiedTime must be not empty')
+        else LastModifiedTime,
     },
   },
-  withLastModifiedBy(LastModifiedBy): {
-    assert std.isObject(LastModifiedBy) : 'LastModifiedBy must be a object',
+  setLastModifiedBy(LastModifiedBy): {
     Properties+::: {
-      LastModifiedBy: LastModifiedBy,
+      LastModifiedBy:
+        if !std.isObject(LastModifiedBy) then (error 'LastModifiedBy must be an object')
+        else LastModifiedBy,
     },
   },
-  withModelCardProcessingStatus(ModelCardProcessingStatus): {
-    assert std.isString(ModelCardProcessingStatus) : 'ModelCardProcessingStatus must be a string',
-    assert ModelCardProcessingStatus == 'UnsetValue' || ModelCardProcessingStatus == 'DeleteInProgress' || ModelCardProcessingStatus == 'DeletePending' || ModelCardProcessingStatus == 'ContentDeleted' || ModelCardProcessingStatus == 'ExportJobsDeleted' || ModelCardProcessingStatus == 'DeleteCompleted' || ModelCardProcessingStatus == 'DeleteFailed' : "ModelCardProcessingStatus should be 'UnsetValue' or 'DeleteInProgress' or 'DeletePending' or 'ContentDeleted' or 'ExportJobsDeleted' or 'DeleteCompleted' or 'DeleteFailed'",
+  setModelCardProcessingStatus(ModelCardProcessingStatus): {
     Properties+::: {
-      ModelCardProcessingStatus: ModelCardProcessingStatus,
+      ModelCardProcessingStatus:
+        if !std.isString(ModelCardProcessingStatus) then (error 'ModelCardProcessingStatus must be a string')
+        else if std.isEmpty(ModelCardProcessingStatus) then (error 'ModelCardProcessingStatus must be not empty')
+        else if ModelCardProcessingStatus != 'UnsetValue' && ModelCardProcessingStatus != 'DeleteInProgress' && ModelCardProcessingStatus != 'DeletePending' && ModelCardProcessingStatus != 'ContentDeleted' && ModelCardProcessingStatus != 'ExportJobsDeleted' && ModelCardProcessingStatus != 'DeleteCompleted' && ModelCardProcessingStatus != 'DeleteFailed' then (error "ModelCardProcessingStatus should be 'UnsetValue' or 'DeleteInProgress' or 'DeletePending' or 'ContentDeleted' or 'ExportJobsDeleted' or 'DeleteCompleted' or 'DeleteFailed'")
+        else ModelCardProcessingStatus,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

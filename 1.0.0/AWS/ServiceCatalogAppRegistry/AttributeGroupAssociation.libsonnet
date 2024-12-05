@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Application) : 'Application must be a string',
-      Application: Application,
-      assert std.isString(AttributeGroup) : 'AttributeGroup must be a string',
-      AttributeGroup: AttributeGroup,
+      Application:
+        if !std.isString(Application) then (error 'Application must be a string')
+        else if std.isEmpty(Application) then (error 'Application must be not empty')
+        else if std.length(Application) < 1 then error ('Application should have at least 1 characters')
+        else if std.length(Application) > 256 then error ('Application should have not more than 256 characters')
+        else Application,
+      AttributeGroup:
+        if !std.isString(AttributeGroup) then (error 'AttributeGroup must be a string')
+        else if std.isEmpty(AttributeGroup) then (error 'AttributeGroup must be not empty')
+        else if std.length(AttributeGroup) < 1 then error ('AttributeGroup should have at least 1 characters')
+        else if std.length(AttributeGroup) > 256 then error ('AttributeGroup should have not more than 256 characters')
+        else AttributeGroup,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,76 +26,80 @@
     Metadata:: [],
     Type: 'AWS::ServiceCatalogAppRegistry::AttributeGroupAssociation',
   },
-  withApplicationArn(ApplicationArn): {
-    assert std.isString(ApplicationArn) : 'ApplicationArn must be a string',
+  setApplicationArn(ApplicationArn): {
     Properties+::: {
-      ApplicationArn: ApplicationArn,
+      ApplicationArn:
+        if !std.isString(ApplicationArn) then (error 'ApplicationArn must be a string')
+        else if std.isEmpty(ApplicationArn) then (error 'ApplicationArn must be not empty')
+        else ApplicationArn,
     },
   },
-  withAttributeGroupArn(AttributeGroupArn): {
-    assert std.isString(AttributeGroupArn) : 'AttributeGroupArn must be a string',
+  setAttributeGroupArn(AttributeGroupArn): {
     Properties+::: {
-      AttributeGroupArn: AttributeGroupArn,
+      AttributeGroupArn:
+        if !std.isString(AttributeGroupArn) then (error 'AttributeGroupArn must be a string')
+        else if std.isEmpty(AttributeGroupArn) then (error 'AttributeGroupArn must be not empty')
+        else AttributeGroupArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

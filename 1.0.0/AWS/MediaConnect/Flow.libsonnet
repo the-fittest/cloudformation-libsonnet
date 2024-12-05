@@ -5,10 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(Source) : 'Source must be an object',
-      Source: Source,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Source:
+        if !std.isObject(Source) then (error 'Source must be an object')
+        else Source,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,126 +21,144 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::Flow',
   },
-  withFlowArn(FlowArn): {
-    assert std.isString(FlowArn) : 'FlowArn must be a string',
+  setFlowArn(FlowArn): {
     Properties+::: {
-      FlowArn: FlowArn,
+      FlowArn:
+        if !std.isString(FlowArn) then (error 'FlowArn must be a string')
+        else if std.isEmpty(FlowArn) then (error 'FlowArn must be not empty')
+        else FlowArn,
     },
   },
-  withEgressIp(EgressIp): {
-    assert std.isString(EgressIp) : 'EgressIp must be a string',
+  setEgressIp(EgressIp): {
     Properties+::: {
-      EgressIp: EgressIp,
+      EgressIp:
+        if !std.isString(EgressIp) then (error 'EgressIp must be a string')
+        else if std.isEmpty(EgressIp) then (error 'EgressIp must be not empty')
+        else EgressIp,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withFlowAvailabilityZone(FlowAvailabilityZone): {
-    assert std.isString(FlowAvailabilityZone) : 'FlowAvailabilityZone must be a string',
+  setFlowAvailabilityZone(FlowAvailabilityZone): {
     Properties+::: {
-      FlowAvailabilityZone: FlowAvailabilityZone,
+      FlowAvailabilityZone:
+        if !std.isString(FlowAvailabilityZone) then (error 'FlowAvailabilityZone must be a string')
+        else if std.isEmpty(FlowAvailabilityZone) then (error 'FlowAvailabilityZone must be not empty')
+        else FlowAvailabilityZone,
     },
   },
-  withSourceFailoverConfig(SourceFailoverConfig): {
-    assert std.isObject(SourceFailoverConfig) : 'SourceFailoverConfig must be a object',
+  setSourceFailoverConfig(SourceFailoverConfig): {
     Properties+::: {
-      SourceFailoverConfig: SourceFailoverConfig,
+      SourceFailoverConfig:
+        if !std.isObject(SourceFailoverConfig) then (error 'SourceFailoverConfig must be an object')
+        else SourceFailoverConfig,
     },
   },
-  withVpcInterfaces(VpcInterfaces): {
+  setVpcInterfaces(VpcInterfaces): {
     Properties+::: {
-      VpcInterfaces: (if std.isArray(VpcInterfaces) then VpcInterfaces else [VpcInterfaces]),
+      VpcInterfaces:
+        if !std.isArray(VpcInterfaces) then (error 'VpcInterfaces must be an array')
+        else VpcInterfaces,
     },
   },
-  withVpcInterfacesMixin(VpcInterfaces): {
+  setVpcInterfacesMixin(VpcInterfaces): {
     Properties+::: {
-      VpcInterfaces+: (if std.isArray(VpcInterfaces) then VpcInterfaces else [VpcInterfaces]),
+      VpcInterfaces+: VpcInterfaces,
     },
   },
-  withMediaStreams(MediaStreams): {
+  setMediaStreams(MediaStreams): {
     Properties+::: {
-      MediaStreams: (if std.isArray(MediaStreams) then MediaStreams else [MediaStreams]),
+      MediaStreams:
+        if !std.isArray(MediaStreams) then (error 'MediaStreams must be an array')
+        else MediaStreams,
     },
   },
-  withMediaStreamsMixin(MediaStreams): {
+  setMediaStreamsMixin(MediaStreams): {
     Properties+::: {
-      MediaStreams+: (if std.isArray(MediaStreams) then MediaStreams else [MediaStreams]),
+      MediaStreams+: MediaStreams,
     },
   },
-  withMaintenance(Maintenance): {
-    assert std.isObject(Maintenance) : 'Maintenance must be a object',
+  setMaintenance(Maintenance): {
     Properties+::: {
-      Maintenance: Maintenance,
+      Maintenance:
+        if !std.isObject(Maintenance) then (error 'Maintenance must be an object')
+        else if !std.objectHas(Maintenance, 'MaintenanceDay') then (error ' have attribute MaintenanceDay')
+        else if !std.objectHas(Maintenance, 'MaintenanceStartHour') then (error ' have attribute MaintenanceStartHour')
+        else Maintenance,
     },
   },
-  withSourceMonitoringConfig(SourceMonitoringConfig): {
-    assert std.isObject(SourceMonitoringConfig) : 'SourceMonitoringConfig must be a object',
+  setSourceMonitoringConfig(SourceMonitoringConfig): {
     Properties+::: {
-      SourceMonitoringConfig: SourceMonitoringConfig,
+      SourceMonitoringConfig:
+        if !std.isObject(SourceMonitoringConfig) then (error 'SourceMonitoringConfig must be an object')
+        else if !std.objectHas(SourceMonitoringConfig, 'ThumbnailState') then (error ' have attribute ThumbnailState')
+        else SourceMonitoringConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

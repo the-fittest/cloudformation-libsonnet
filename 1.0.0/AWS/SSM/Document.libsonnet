@@ -14,133 +14,154 @@
     Metadata:: [],
     Type: 'AWS::SSM::Document',
   },
-  withAttachments(Attachments): {
+  setAttachments(Attachments): {
     Properties+::: {
-      Attachments: (if std.isArray(Attachments) then Attachments else [Attachments]),
+      Attachments:
+        if !std.isArray(Attachments) then (error 'Attachments must be an array')
+        else if std.length(Attachments) > 20 then error ('Attachments cannot have more than 20 items')
+        else Attachments,
     },
   },
-  withAttachmentsMixin(Attachments): {
+  setAttachmentsMixin(Attachments): {
     Properties+::: {
-      Attachments+: (if std.isArray(Attachments) then Attachments else [Attachments]),
+      Attachments+: Attachments,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withVersionName(VersionName): {
-    assert std.isString(VersionName) : 'VersionName must be a string',
+  setVersionName(VersionName): {
     Properties+::: {
-      VersionName: VersionName,
+      VersionName:
+        if !std.isString(VersionName) then (error 'VersionName must be a string')
+        else if std.isEmpty(VersionName) then (error 'VersionName must be not empty')
+        else VersionName,
     },
   },
-  withDocumentType(DocumentType): {
-    assert std.isString(DocumentType) : 'DocumentType must be a string',
-    assert DocumentType == 'ApplicationConfiguration' || DocumentType == 'ApplicationConfigurationSchema' || DocumentType == 'Automation' || DocumentType == 'Automation.ChangeTemplate' || DocumentType == 'ChangeCalendar' || DocumentType == 'CloudFormation' || DocumentType == 'Command' || DocumentType == 'DeploymentStrategy' || DocumentType == 'Package' || DocumentType == 'Policy' || DocumentType == 'ProblemAnalysis' || DocumentType == 'ProblemAnalysisTemplate' || DocumentType == 'Session' : "DocumentType should be 'ApplicationConfiguration' or 'ApplicationConfigurationSchema' or 'Automation' or 'Automation.ChangeTemplate' or 'ChangeCalendar' or 'CloudFormation' or 'Command' or 'DeploymentStrategy' or 'Package' or 'Policy' or 'ProblemAnalysis' or 'ProblemAnalysisTemplate' or 'Session'",
+  setDocumentType(DocumentType): {
     Properties+::: {
-      DocumentType: DocumentType,
+      DocumentType:
+        if !std.isString(DocumentType) then (error 'DocumentType must be a string')
+        else if std.isEmpty(DocumentType) then (error 'DocumentType must be not empty')
+        else if DocumentType != 'ApplicationConfiguration' && DocumentType != 'ApplicationConfigurationSchema' && DocumentType != 'Automation' && DocumentType != 'Automation.ChangeTemplate' && DocumentType != 'ChangeCalendar' && DocumentType != 'CloudFormation' && DocumentType != 'Command' && DocumentType != 'DeploymentStrategy' && DocumentType != 'Package' && DocumentType != 'Policy' && DocumentType != 'ProblemAnalysis' && DocumentType != 'ProblemAnalysisTemplate' && DocumentType != 'Session' then (error "DocumentType should be 'ApplicationConfiguration' or 'ApplicationConfigurationSchema' or 'Automation' or 'Automation.ChangeTemplate' or 'ChangeCalendar' or 'CloudFormation' or 'Command' or 'DeploymentStrategy' or 'Package' or 'Policy' or 'ProblemAnalysis' or 'ProblemAnalysisTemplate' or 'Session'")
+        else DocumentType,
     },
   },
-  withDocumentFormat(DocumentFormat): {
-    assert std.isString(DocumentFormat) : 'DocumentFormat must be a string',
-    assert DocumentFormat == 'YAML' || DocumentFormat == 'JSON' || DocumentFormat == 'TEXT' : "DocumentFormat should be 'YAML' or 'JSON' or 'TEXT'",
+  setDocumentFormat(DocumentFormat): {
     Properties+::: {
-      DocumentFormat: DocumentFormat,
+      DocumentFormat:
+        if !std.isString(DocumentFormat) then (error 'DocumentFormat must be a string')
+        else if std.isEmpty(DocumentFormat) then (error 'DocumentFormat must be not empty')
+        else if DocumentFormat != 'YAML' && DocumentFormat != 'JSON' && DocumentFormat != 'TEXT' then (error "DocumentFormat should be 'YAML' or 'JSON' or 'TEXT'")
+        else DocumentFormat,
     },
   },
-  withTargetType(TargetType): {
-    assert std.isString(TargetType) : 'TargetType must be a string',
+  setTargetType(TargetType): {
     Properties+::: {
-      TargetType: TargetType,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else TargetType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 1000 then error ('Tags cannot have more than 1000 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withRequires(Requires): {
+  setRequires(Requires): {
     Properties+::: {
-      Requires: (if std.isArray(Requires) then Requires else [Requires]),
+      Requires:
+        if !std.isArray(Requires) then (error 'Requires must be an array')
+        else if std.length(Requires) < 1 then error ('Requires cannot have less than 1 items')
+        else Requires,
     },
   },
-  withRequiresMixin(Requires): {
+  setRequiresMixin(Requires): {
     Properties+::: {
-      Requires+: (if std.isArray(Requires) then Requires else [Requires]),
+      Requires+: Requires,
     },
   },
-  withUpdateMethod(UpdateMethod): {
-    assert std.isString(UpdateMethod) : 'UpdateMethod must be a string',
-    assert UpdateMethod == 'Replace' || UpdateMethod == 'NewVersion' : "UpdateMethod should be 'Replace' or 'NewVersion'",
+  setUpdateMethod(UpdateMethod): {
     Properties+::: {
-      UpdateMethod: UpdateMethod,
+      UpdateMethod:
+        if !std.isString(UpdateMethod) then (error 'UpdateMethod must be a string')
+        else if std.isEmpty(UpdateMethod) then (error 'UpdateMethod must be not empty')
+        else if UpdateMethod != 'Replace' && UpdateMethod != 'NewVersion' then (error "UpdateMethod should be 'Replace' or 'NewVersion'")
+        else UpdateMethod,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

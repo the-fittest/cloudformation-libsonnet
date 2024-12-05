@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(SourceArn) : 'SourceArn must be a string',
-      SourceArn: SourceArn,
-      assert std.isString(TargetArn) : 'TargetArn must be a string',
-      TargetArn: TargetArn,
+      SourceArn:
+        if !std.isString(SourceArn) then (error 'SourceArn must be a string')
+        else if std.isEmpty(SourceArn) then (error 'SourceArn must be not empty')
+        else SourceArn,
+      TargetArn:
+        if !std.isString(TargetArn) then (error 'TargetArn must be a string')
+        else if std.isEmpty(TargetArn) then (error 'TargetArn must be not empty')
+        else TargetArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,116 +22,138 @@
     Metadata:: [],
     Type: 'AWS::RDS::Integration',
   },
-  withIntegrationName(IntegrationName): {
-    assert std.isString(IntegrationName) : 'IntegrationName must be a string',
+  setIntegrationName(IntegrationName): {
     Properties+::: {
-      IntegrationName: IntegrationName,
+      IntegrationName:
+        if !std.isString(IntegrationName) then (error 'IntegrationName must be a string')
+        else if std.isEmpty(IntegrationName) then (error 'IntegrationName must be not empty')
+        else if std.length(IntegrationName) < 1 then error ('IntegrationName should have at least 1 characters')
+        else if std.length(IntegrationName) > 64 then error ('IntegrationName should have not more than 64 characters')
+        else IntegrationName,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDataFilter(DataFilter): {
-    assert std.isString(DataFilter) : 'DataFilter must be a string',
+  setDataFilter(DataFilter): {
     Properties+::: {
-      DataFilter: DataFilter,
+      DataFilter:
+        if !std.isString(DataFilter) then (error 'DataFilter must be a string')
+        else if std.isEmpty(DataFilter) then (error 'DataFilter must be not empty')
+        else if std.length(DataFilter) < 1 then error ('DataFilter should have at least 1 characters')
+        else if std.length(DataFilter) > 25600 then error ('DataFilter should have not more than 25600 characters')
+        else DataFilter,
     },
   },
-  withIntegrationArn(IntegrationArn): {
-    assert std.isString(IntegrationArn) : 'IntegrationArn must be a string',
+  setIntegrationArn(IntegrationArn): {
     Properties+::: {
-      IntegrationArn: IntegrationArn,
+      IntegrationArn:
+        if !std.isString(IntegrationArn) then (error 'IntegrationArn must be a string')
+        else if std.isEmpty(IntegrationArn) then (error 'IntegrationArn must be not empty')
+        else IntegrationArn,
     },
   },
-  withKMSKeyId(KMSKeyId): {
-    assert std.isString(KMSKeyId) : 'KMSKeyId must be a string',
+  setKMSKeyId(KMSKeyId): {
     Properties+::: {
-      KMSKeyId: KMSKeyId,
+      KMSKeyId:
+        if !std.isString(KMSKeyId) then (error 'KMSKeyId must be a string')
+        else if std.isEmpty(KMSKeyId) then (error 'KMSKeyId must be not empty')
+        else KMSKeyId,
     },
   },
-  withAdditionalEncryptionContext(AdditionalEncryptionContext): {
-    assert std.isObject(AdditionalEncryptionContext) : 'AdditionalEncryptionContext must be a object',
+  setAdditionalEncryptionContext(AdditionalEncryptionContext): {
     Properties+::: {
-      AdditionalEncryptionContext: AdditionalEncryptionContext,
+      AdditionalEncryptionContext:
+        if !std.isObject(AdditionalEncryptionContext) then (error 'AdditionalEncryptionContext must be an object')
+        else AdditionalEncryptionContext,
     },
   },
-  withCreateTime(CreateTime): {
-    assert std.isString(CreateTime) : 'CreateTime must be a string',
+  setCreateTime(CreateTime): {
     Properties+::: {
-      CreateTime: CreateTime,
+      CreateTime:
+        if !std.isString(CreateTime) then (error 'CreateTime must be a string')
+        else if std.isEmpty(CreateTime) then (error 'CreateTime must be not empty')
+        else CreateTime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DiscoveryEntryPointArn) : 'DiscoveryEntryPointArn must be a string',
-      DiscoveryEntryPointArn: DiscoveryEntryPointArn,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      DiscoveryEntryPointArn:
+        if !std.isString(DiscoveryEntryPointArn) then (error 'DiscoveryEntryPointArn must be a string')
+        else if std.isEmpty(DiscoveryEntryPointArn) then (error 'DiscoveryEntryPointArn must be not empty')
+        else if std.length(DiscoveryEntryPointArn) < 1 then error ('DiscoveryEntryPointArn should have at least 1 characters')
+        else if std.length(DiscoveryEntryPointArn) > 2048 then error ('DiscoveryEntryPointArn should have not more than 2048 characters')
+        else DiscoveryEntryPointArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 255 then error ('Name should have not more than 255 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,201 +26,240 @@
     Metadata:: [],
     Type: 'AWS::MediaLive::SignalMap',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCloudWatchAlarmTemplateGroupIdentifiers(CloudWatchAlarmTemplateGroupIdentifiers): {
+  setCloudWatchAlarmTemplateGroupIdentifiers(CloudWatchAlarmTemplateGroupIdentifiers): {
     Properties+::: {
-      CloudWatchAlarmTemplateGroupIdentifiers: (if std.isArray(CloudWatchAlarmTemplateGroupIdentifiers) then CloudWatchAlarmTemplateGroupIdentifiers else [CloudWatchAlarmTemplateGroupIdentifiers]),
+      CloudWatchAlarmTemplateGroupIdentifiers:
+        if !std.isArray(CloudWatchAlarmTemplateGroupIdentifiers) then (error 'CloudWatchAlarmTemplateGroupIdentifiers must be an array')
+        else CloudWatchAlarmTemplateGroupIdentifiers,
     },
   },
-  withCloudWatchAlarmTemplateGroupIdentifiersMixin(CloudWatchAlarmTemplateGroupIdentifiers): {
+  setCloudWatchAlarmTemplateGroupIdentifiersMixin(CloudWatchAlarmTemplateGroupIdentifiers): {
     Properties+::: {
-      CloudWatchAlarmTemplateGroupIdentifiers+: (if std.isArray(CloudWatchAlarmTemplateGroupIdentifiers) then CloudWatchAlarmTemplateGroupIdentifiers else [CloudWatchAlarmTemplateGroupIdentifiers]),
+      CloudWatchAlarmTemplateGroupIdentifiers+: CloudWatchAlarmTemplateGroupIdentifiers,
     },
   },
-  withCloudWatchAlarmTemplateGroupIds(CloudWatchAlarmTemplateGroupIds): {
+  setCloudWatchAlarmTemplateGroupIds(CloudWatchAlarmTemplateGroupIds): {
     Properties+::: {
-      CloudWatchAlarmTemplateGroupIds: (if std.isArray(CloudWatchAlarmTemplateGroupIds) then CloudWatchAlarmTemplateGroupIds else [CloudWatchAlarmTemplateGroupIds]),
+      CloudWatchAlarmTemplateGroupIds:
+        if !std.isArray(CloudWatchAlarmTemplateGroupIds) then (error 'CloudWatchAlarmTemplateGroupIds must be an array')
+        else CloudWatchAlarmTemplateGroupIds,
     },
   },
-  withCloudWatchAlarmTemplateGroupIdsMixin(CloudWatchAlarmTemplateGroupIds): {
+  setCloudWatchAlarmTemplateGroupIdsMixin(CloudWatchAlarmTemplateGroupIds): {
     Properties+::: {
-      CloudWatchAlarmTemplateGroupIds+: (if std.isArray(CloudWatchAlarmTemplateGroupIds) then CloudWatchAlarmTemplateGroupIds else [CloudWatchAlarmTemplateGroupIds]),
+      CloudWatchAlarmTemplateGroupIds+: CloudWatchAlarmTemplateGroupIds,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withErrorMessage(ErrorMessage): {
-    assert std.isString(ErrorMessage) : 'ErrorMessage must be a string',
+  setErrorMessage(ErrorMessage): {
     Properties+::: {
-      ErrorMessage: ErrorMessage,
+      ErrorMessage:
+        if !std.isString(ErrorMessage) then (error 'ErrorMessage must be a string')
+        else if std.isEmpty(ErrorMessage) then (error 'ErrorMessage must be not empty')
+        else if std.length(ErrorMessage) < 1 then error ('ErrorMessage should have at least 1 characters')
+        else if std.length(ErrorMessage) > 2048 then error ('ErrorMessage should have not more than 2048 characters')
+        else ErrorMessage,
     },
   },
-  withEventBridgeRuleTemplateGroupIdentifiers(EventBridgeRuleTemplateGroupIdentifiers): {
+  setEventBridgeRuleTemplateGroupIdentifiers(EventBridgeRuleTemplateGroupIdentifiers): {
     Properties+::: {
-      EventBridgeRuleTemplateGroupIdentifiers: (if std.isArray(EventBridgeRuleTemplateGroupIdentifiers) then EventBridgeRuleTemplateGroupIdentifiers else [EventBridgeRuleTemplateGroupIdentifiers]),
+      EventBridgeRuleTemplateGroupIdentifiers:
+        if !std.isArray(EventBridgeRuleTemplateGroupIdentifiers) then (error 'EventBridgeRuleTemplateGroupIdentifiers must be an array')
+        else EventBridgeRuleTemplateGroupIdentifiers,
     },
   },
-  withEventBridgeRuleTemplateGroupIdentifiersMixin(EventBridgeRuleTemplateGroupIdentifiers): {
+  setEventBridgeRuleTemplateGroupIdentifiersMixin(EventBridgeRuleTemplateGroupIdentifiers): {
     Properties+::: {
-      EventBridgeRuleTemplateGroupIdentifiers+: (if std.isArray(EventBridgeRuleTemplateGroupIdentifiers) then EventBridgeRuleTemplateGroupIdentifiers else [EventBridgeRuleTemplateGroupIdentifiers]),
+      EventBridgeRuleTemplateGroupIdentifiers+: EventBridgeRuleTemplateGroupIdentifiers,
     },
   },
-  withEventBridgeRuleTemplateGroupIds(EventBridgeRuleTemplateGroupIds): {
+  setEventBridgeRuleTemplateGroupIds(EventBridgeRuleTemplateGroupIds): {
     Properties+::: {
-      EventBridgeRuleTemplateGroupIds: (if std.isArray(EventBridgeRuleTemplateGroupIds) then EventBridgeRuleTemplateGroupIds else [EventBridgeRuleTemplateGroupIds]),
+      EventBridgeRuleTemplateGroupIds:
+        if !std.isArray(EventBridgeRuleTemplateGroupIds) then (error 'EventBridgeRuleTemplateGroupIds must be an array')
+        else EventBridgeRuleTemplateGroupIds,
     },
   },
-  withEventBridgeRuleTemplateGroupIdsMixin(EventBridgeRuleTemplateGroupIds): {
+  setEventBridgeRuleTemplateGroupIdsMixin(EventBridgeRuleTemplateGroupIds): {
     Properties+::: {
-      EventBridgeRuleTemplateGroupIds+: (if std.isArray(EventBridgeRuleTemplateGroupIds) then EventBridgeRuleTemplateGroupIds else [EventBridgeRuleTemplateGroupIds]),
+      EventBridgeRuleTemplateGroupIds+: EventBridgeRuleTemplateGroupIds,
     },
   },
-  withFailedMediaResourceMap(FailedMediaResourceMap): {
-    assert std.isObject(FailedMediaResourceMap) : 'FailedMediaResourceMap must be a object',
+  setFailedMediaResourceMap(FailedMediaResourceMap): {
     Properties+::: {
-      FailedMediaResourceMap: FailedMediaResourceMap,
+      FailedMediaResourceMap:
+        if !std.isObject(FailedMediaResourceMap) then (error 'FailedMediaResourceMap must be an object')
+        else FailedMediaResourceMap,
     },
   },
-  withForceRediscovery(ForceRediscovery): {
-    assert std.isBoolean(ForceRediscovery) : 'ForceRediscovery must be a boolean',
+  setForceRediscovery(ForceRediscovery): {
     Properties+::: {
-      ForceRediscovery: ForceRediscovery,
+      ForceRediscovery:
+        if !std.isBoolean(ForceRediscovery) then (error 'ForceRediscovery must be a boolean') else ForceRediscovery,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 7 then error ('Id should have at least 7 characters')
+        else if std.length(Id) > 11 then error ('Id should have not more than 11 characters')
+        else Id,
     },
   },
-  withIdentifier(Identifier): {
-    assert std.isString(Identifier) : 'Identifier must be a string',
+  setIdentifier(Identifier): {
     Properties+::: {
-      Identifier: Identifier,
+      Identifier:
+        if !std.isString(Identifier) then (error 'Identifier must be a string')
+        else if std.isEmpty(Identifier) then (error 'Identifier must be not empty')
+        else Identifier,
     },
   },
-  withLastDiscoveredAt(LastDiscoveredAt): {
-    assert std.isString(LastDiscoveredAt) : 'LastDiscoveredAt must be a string',
+  setLastDiscoveredAt(LastDiscoveredAt): {
     Properties+::: {
-      LastDiscoveredAt: LastDiscoveredAt,
+      LastDiscoveredAt:
+        if !std.isString(LastDiscoveredAt) then (error 'LastDiscoveredAt must be a string')
+        else if std.isEmpty(LastDiscoveredAt) then (error 'LastDiscoveredAt must be not empty')
+        else LastDiscoveredAt,
     },
   },
-  withLastSuccessfulMonitorDeployment(LastSuccessfulMonitorDeployment): {
-    assert std.isObject(LastSuccessfulMonitorDeployment) : 'LastSuccessfulMonitorDeployment must be a object',
+  setLastSuccessfulMonitorDeployment(LastSuccessfulMonitorDeployment): {
     Properties+::: {
-      LastSuccessfulMonitorDeployment: LastSuccessfulMonitorDeployment,
+      LastSuccessfulMonitorDeployment:
+        if !std.isObject(LastSuccessfulMonitorDeployment) then (error 'LastSuccessfulMonitorDeployment must be an object')
+        else if !std.objectHas(LastSuccessfulMonitorDeployment, 'DetailsUri') then (error ' have attribute DetailsUri')
+        else if !std.objectHas(LastSuccessfulMonitorDeployment, 'Status') then (error ' have attribute Status')
+        else LastSuccessfulMonitorDeployment,
     },
   },
-  withMediaResourceMap(MediaResourceMap): {
-    assert std.isObject(MediaResourceMap) : 'MediaResourceMap must be a object',
+  setMediaResourceMap(MediaResourceMap): {
     Properties+::: {
-      MediaResourceMap: MediaResourceMap,
+      MediaResourceMap:
+        if !std.isObject(MediaResourceMap) then (error 'MediaResourceMap must be an object')
+        else MediaResourceMap,
     },
   },
-  withModifiedAt(ModifiedAt): {
-    assert std.isString(ModifiedAt) : 'ModifiedAt must be a string',
+  setModifiedAt(ModifiedAt): {
     Properties+::: {
-      ModifiedAt: ModifiedAt,
+      ModifiedAt:
+        if !std.isString(ModifiedAt) then (error 'ModifiedAt must be a string')
+        else if std.isEmpty(ModifiedAt) then (error 'ModifiedAt must be not empty')
+        else ModifiedAt,
     },
   },
-  withMonitorChangesPendingDeployment(MonitorChangesPendingDeployment): {
-    assert std.isBoolean(MonitorChangesPendingDeployment) : 'MonitorChangesPendingDeployment must be a boolean',
+  setMonitorChangesPendingDeployment(MonitorChangesPendingDeployment): {
     Properties+::: {
-      MonitorChangesPendingDeployment: MonitorChangesPendingDeployment,
+      MonitorChangesPendingDeployment:
+        if !std.isBoolean(MonitorChangesPendingDeployment) then (error 'MonitorChangesPendingDeployment must be a boolean') else MonitorChangesPendingDeployment,
     },
   },
-  withMonitorDeployment(MonitorDeployment): {
-    assert std.isObject(MonitorDeployment) : 'MonitorDeployment must be a object',
+  setMonitorDeployment(MonitorDeployment): {
     Properties+::: {
-      MonitorDeployment: MonitorDeployment,
+      MonitorDeployment:
+        if !std.isObject(MonitorDeployment) then (error 'MonitorDeployment must be an object')
+        else if !std.objectHas(MonitorDeployment, 'Status') then (error ' have attribute Status')
+        else MonitorDeployment,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATE_IN_PROGRESS' || Status == 'CREATE_COMPLETE' || Status == 'CREATE_FAILED' || Status == 'UPDATE_IN_PROGRESS' || Status == 'UPDATE_COMPLETE' || Status == 'UPDATE_REVERTED' || Status == 'UPDATE_FAILED' || Status == 'READY' || Status == 'NOT_READY' : "Status should be 'CREATE_IN_PROGRESS' or 'CREATE_COMPLETE' or 'CREATE_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_COMPLETE' or 'UPDATE_REVERTED' or 'UPDATE_FAILED' or 'READY' or 'NOT_READY'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATE_IN_PROGRESS' && Status != 'CREATE_COMPLETE' && Status != 'CREATE_FAILED' && Status != 'UPDATE_IN_PROGRESS' && Status != 'UPDATE_COMPLETE' && Status != 'UPDATE_REVERTED' && Status != 'UPDATE_FAILED' && Status != 'READY' && Status != 'NOT_READY' then (error "Status should be 'CREATE_IN_PROGRESS' or 'CREATE_COMPLETE' or 'CREATE_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_COMPLETE' or 'UPDATE_REVERTED' or 'UPDATE_FAILED' or 'READY' or 'NOT_READY'")
+        else Status,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

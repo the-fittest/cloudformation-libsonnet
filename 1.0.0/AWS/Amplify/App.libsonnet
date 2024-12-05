@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 255 then error ('Name should have not more than 255 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,191 +19,239 @@
     Metadata:: [],
     Type: 'AWS::Amplify::App',
   },
-  withAccessToken(AccessToken): {
-    assert std.isString(AccessToken) : 'AccessToken must be a string',
+  setAccessToken(AccessToken): {
     Properties+::: {
-      AccessToken: AccessToken,
+      AccessToken:
+        if !std.isString(AccessToken) then (error 'AccessToken must be a string')
+        else if std.isEmpty(AccessToken) then (error 'AccessToken must be not empty')
+        else if std.length(AccessToken) < 1 then error ('AccessToken should have at least 1 characters')
+        else if std.length(AccessToken) > 255 then error ('AccessToken should have not more than 255 characters')
+        else AccessToken,
     },
   },
-  withAppId(AppId): {
-    assert std.isString(AppId) : 'AppId must be a string',
+  setAppId(AppId): {
     Properties+::: {
-      AppId: AppId,
+      AppId:
+        if !std.isString(AppId) then (error 'AppId must be a string')
+        else if std.isEmpty(AppId) then (error 'AppId must be not empty')
+        else if std.length(AppId) < 1 then error ('AppId should have at least 1 characters')
+        else if std.length(AppId) > 20 then error ('AppId should have not more than 20 characters')
+        else AppId,
     },
   },
-  withAppName(AppName): {
-    assert std.isString(AppName) : 'AppName must be a string',
+  setAppName(AppName): {
     Properties+::: {
-      AppName: AppName,
+      AppName:
+        if !std.isString(AppName) then (error 'AppName must be a string')
+        else if std.isEmpty(AppName) then (error 'AppName must be not empty')
+        else if std.length(AppName) < 1 then error ('AppName should have at least 1 characters')
+        else if std.length(AppName) > 255 then error ('AppName should have not more than 255 characters')
+        else AppName,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 1000 then error ('Arn should have not more than 1000 characters')
+        else Arn,
     },
   },
-  withAutoBranchCreationConfig(AutoBranchCreationConfig): {
-    assert std.isObject(AutoBranchCreationConfig) : 'AutoBranchCreationConfig must be a object',
+  setAutoBranchCreationConfig(AutoBranchCreationConfig): {
     Properties+::: {
-      AutoBranchCreationConfig: AutoBranchCreationConfig,
+      AutoBranchCreationConfig:
+        if !std.isObject(AutoBranchCreationConfig) then (error 'AutoBranchCreationConfig must be an object')
+        else AutoBranchCreationConfig,
     },
   },
-  withBasicAuthConfig(BasicAuthConfig): {
-    assert std.isObject(BasicAuthConfig) : 'BasicAuthConfig must be a object',
+  setBasicAuthConfig(BasicAuthConfig): {
     Properties+::: {
-      BasicAuthConfig: BasicAuthConfig,
+      BasicAuthConfig:
+        if !std.isObject(BasicAuthConfig) then (error 'BasicAuthConfig must be an object')
+        else BasicAuthConfig,
     },
   },
-  withBuildSpec(BuildSpec): {
-    assert std.isString(BuildSpec) : 'BuildSpec must be a string',
+  setBuildSpec(BuildSpec): {
     Properties+::: {
-      BuildSpec: BuildSpec,
+      BuildSpec:
+        if !std.isString(BuildSpec) then (error 'BuildSpec must be a string')
+        else if std.isEmpty(BuildSpec) then (error 'BuildSpec must be not empty')
+        else if std.length(BuildSpec) < 1 then error ('BuildSpec should have at least 1 characters')
+        else if std.length(BuildSpec) > 25000 then error ('BuildSpec should have not more than 25000 characters')
+        else BuildSpec,
     },
   },
-  withCacheConfig(CacheConfig): {
-    assert std.isObject(CacheConfig) : 'CacheConfig must be a object',
+  setCacheConfig(CacheConfig): {
     Properties+::: {
-      CacheConfig: CacheConfig,
+      CacheConfig:
+        if !std.isObject(CacheConfig) then (error 'CacheConfig must be an object')
+        else CacheConfig,
     },
   },
-  withCustomHeaders(CustomHeaders): {
-    assert std.isString(CustomHeaders) : 'CustomHeaders must be a string',
+  setCustomHeaders(CustomHeaders): {
     Properties+::: {
-      CustomHeaders: CustomHeaders,
+      CustomHeaders:
+        if !std.isString(CustomHeaders) then (error 'CustomHeaders must be a string')
+        else if std.isEmpty(CustomHeaders) then (error 'CustomHeaders must be not empty')
+        else if std.length(CustomHeaders) > 25000 then error ('CustomHeaders should have not more than 25000 characters')
+        else CustomHeaders,
     },
   },
-  withCustomRules(CustomRules): {
+  setCustomRules(CustomRules): {
     Properties+::: {
-      CustomRules: (if std.isArray(CustomRules) then CustomRules else [CustomRules]),
+      CustomRules:
+        if !std.isArray(CustomRules) then (error 'CustomRules must be an array')
+        else CustomRules,
     },
   },
-  withCustomRulesMixin(CustomRules): {
+  setCustomRulesMixin(CustomRules): {
     Properties+::: {
-      CustomRules+: (if std.isArray(CustomRules) then CustomRules else [CustomRules]),
+      CustomRules+: CustomRules,
     },
   },
-  withDefaultDomain(DefaultDomain): {
-    assert std.isString(DefaultDomain) : 'DefaultDomain must be a string',
+  setDefaultDomain(DefaultDomain): {
     Properties+::: {
-      DefaultDomain: DefaultDomain,
+      DefaultDomain:
+        if !std.isString(DefaultDomain) then (error 'DefaultDomain must be a string')
+        else if std.isEmpty(DefaultDomain) then (error 'DefaultDomain must be not empty')
+        else if std.length(DefaultDomain) > 1000 then error ('DefaultDomain should have not more than 1000 characters')
+        else DefaultDomain,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withEnableBranchAutoDeletion(EnableBranchAutoDeletion): {
-    assert std.isBoolean(EnableBranchAutoDeletion) : 'EnableBranchAutoDeletion must be a boolean',
+  setEnableBranchAutoDeletion(EnableBranchAutoDeletion): {
     Properties+::: {
-      EnableBranchAutoDeletion: EnableBranchAutoDeletion,
+      EnableBranchAutoDeletion:
+        if !std.isBoolean(EnableBranchAutoDeletion) then (error 'EnableBranchAutoDeletion must be a boolean') else EnableBranchAutoDeletion,
     },
   },
-  withEnvironmentVariables(EnvironmentVariables): {
+  setEnvironmentVariables(EnvironmentVariables): {
     Properties+::: {
-      EnvironmentVariables: (if std.isArray(EnvironmentVariables) then EnvironmentVariables else [EnvironmentVariables]),
+      EnvironmentVariables:
+        if !std.isArray(EnvironmentVariables) then (error 'EnvironmentVariables must be an array')
+        else EnvironmentVariables,
     },
   },
-  withEnvironmentVariablesMixin(EnvironmentVariables): {
+  setEnvironmentVariablesMixin(EnvironmentVariables): {
     Properties+::: {
-      EnvironmentVariables+: (if std.isArray(EnvironmentVariables) then EnvironmentVariables else [EnvironmentVariables]),
+      EnvironmentVariables+: EnvironmentVariables,
     },
   },
-  withIAMServiceRole(IAMServiceRole): {
-    assert std.isString(IAMServiceRole) : 'IAMServiceRole must be a string',
+  setIAMServiceRole(IAMServiceRole): {
     Properties+::: {
-      IAMServiceRole: IAMServiceRole,
+      IAMServiceRole:
+        if !std.isString(IAMServiceRole) then (error 'IAMServiceRole must be a string')
+        else if std.isEmpty(IAMServiceRole) then (error 'IAMServiceRole must be not empty')
+        else if std.length(IAMServiceRole) < 1 then error ('IAMServiceRole should have at least 1 characters')
+        else if std.length(IAMServiceRole) > 1000 then error ('IAMServiceRole should have not more than 1000 characters')
+        else IAMServiceRole,
     },
   },
-  withOauthToken(OauthToken): {
-    assert std.isString(OauthToken) : 'OauthToken must be a string',
+  setOauthToken(OauthToken): {
     Properties+::: {
-      OauthToken: OauthToken,
+      OauthToken:
+        if !std.isString(OauthToken) then (error 'OauthToken must be a string')
+        else if std.isEmpty(OauthToken) then (error 'OauthToken must be not empty')
+        else if std.length(OauthToken) > 1000 then error ('OauthToken should have not more than 1000 characters')
+        else OauthToken,
     },
   },
-  withPlatform(Platform): {
-    assert std.isString(Platform) : 'Platform must be a string',
-    assert Platform == 'WEB' || Platform == 'WEB_DYNAMIC' || Platform == 'WEB_COMPUTE' : "Platform should be 'WEB' or 'WEB_DYNAMIC' or 'WEB_COMPUTE'",
+  setPlatform(Platform): {
     Properties+::: {
-      Platform: Platform,
+      Platform:
+        if !std.isString(Platform) then (error 'Platform must be a string')
+        else if std.isEmpty(Platform) then (error 'Platform must be not empty')
+        else if Platform != 'WEB' && Platform != 'WEB_DYNAMIC' && Platform != 'WEB_COMPUTE' then (error "Platform should be 'WEB' or 'WEB_DYNAMIC' or 'WEB_COMPUTE'")
+        else Platform,
     },
   },
-  withRepository(Repository): {
-    assert std.isString(Repository) : 'Repository must be a string',
+  setRepository(Repository): {
     Properties+::: {
-      Repository: Repository,
+      Repository:
+        if !std.isString(Repository) then (error 'Repository must be a string')
+        else if std.isEmpty(Repository) then (error 'Repository must be not empty')
+        else Repository,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

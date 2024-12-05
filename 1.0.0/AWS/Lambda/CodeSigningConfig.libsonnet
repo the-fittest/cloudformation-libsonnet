@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(AllowedPublishers) : 'AllowedPublishers must be an object',
-      AllowedPublishers: AllowedPublishers,
+      AllowedPublishers:
+        if !std.isObject(AllowedPublishers) then (error 'AllowedPublishers must be an object')
+        else if !std.objectHas(AllowedPublishers, 'SigningProfileVersionArns') then (error ' have attribute SigningProfileVersionArns')
+        else AllowedPublishers,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,98 +17,109 @@
     Metadata:: [],
     Type: 'AWS::Lambda::CodeSigningConfig',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 256 then error ('Description should have not more than 256 characters')
+        else Description,
     },
   },
-  withCodeSigningPolicies(CodeSigningPolicies): {
-    assert std.isObject(CodeSigningPolicies) : 'CodeSigningPolicies must be a object',
+  setCodeSigningPolicies(CodeSigningPolicies): {
     Properties+::: {
-      CodeSigningPolicies: CodeSigningPolicies,
+      CodeSigningPolicies:
+        if !std.isObject(CodeSigningPolicies) then (error 'CodeSigningPolicies must be an object')
+        else if !std.objectHas(CodeSigningPolicies, 'UntrustedArtifactOnDeployment') then (error ' have attribute UntrustedArtifactOnDeployment')
+        else CodeSigningPolicies,
     },
   },
-  withCodeSigningConfigId(CodeSigningConfigId): {
-    assert std.isString(CodeSigningConfigId) : 'CodeSigningConfigId must be a string',
+  setCodeSigningConfigId(CodeSigningConfigId): {
     Properties+::: {
-      CodeSigningConfigId: CodeSigningConfigId,
+      CodeSigningConfigId:
+        if !std.isString(CodeSigningConfigId) then (error 'CodeSigningConfigId must be a string')
+        else if std.isEmpty(CodeSigningConfigId) then (error 'CodeSigningConfigId must be not empty')
+        else CodeSigningConfigId,
     },
   },
-  withCodeSigningConfigArn(CodeSigningConfigArn): {
-    assert std.isString(CodeSigningConfigArn) : 'CodeSigningConfigArn must be a string',
+  setCodeSigningConfigArn(CodeSigningConfigArn): {
     Properties+::: {
-      CodeSigningConfigArn: CodeSigningConfigArn,
+      CodeSigningConfigArn:
+        if !std.isString(CodeSigningConfigArn) then (error 'CodeSigningConfigArn must be a string')
+        else if std.isEmpty(CodeSigningConfigArn) then (error 'CodeSigningConfigArn must be not empty')
+        else CodeSigningConfigArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GreengrassGroupId) : 'GreengrassGroupId must be a string',
-      GreengrassGroupId: GreengrassGroupId,
-      assert std.isString(Architecture) : 'Architecture must be a string',
-      assert Architecture == 'X86_64' || Architecture == 'ARM64' || Architecture == 'ARMHF' : "Architecture should be 'X86_64' or 'ARM64' or 'ARMHF'",
-      Architecture: Architecture,
+      GreengrassGroupId:
+        if !std.isString(GreengrassGroupId) then (error 'GreengrassGroupId must be a string')
+        else if std.isEmpty(GreengrassGroupId) then (error 'GreengrassGroupId must be not empty')
+        else if std.length(GreengrassGroupId) < 1 then error ('GreengrassGroupId should have at least 1 characters')
+        else if std.length(GreengrassGroupId) > 1224 then error ('GreengrassGroupId should have not more than 1224 characters')
+        else GreengrassGroupId,
+      Architecture:
+        if !std.isString(Architecture) then (error 'Architecture must be a string')
+        else if std.isEmpty(Architecture) then (error 'Architecture must be not empty')
+        else if Architecture != 'X86_64' && Architecture != 'ARM64' && Architecture != 'ARMHF' then (error "Architecture should be 'X86_64' or 'ARM64' or 'ARMHF'")
+        else Architecture,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,88 +25,99 @@
     Metadata:: [],
     Type: 'AWS::RoboMaker::Robot',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withFleet(Fleet): {
-    assert std.isString(Fleet) : 'Fleet must be a string',
+  setFleet(Fleet): {
     Properties+::: {
-      Fleet: Fleet,
+      Fleet:
+        if !std.isString(Fleet) then (error 'Fleet must be a string')
+        else if std.isEmpty(Fleet) then (error 'Fleet must be not empty')
+        else if std.length(Fleet) < 1 then error ('Fleet should have at least 1 characters')
+        else if std.length(Fleet) > 1224 then error ('Fleet should have not more than 1224 characters')
+        else Fleet,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 255 then error ('Name should have not more than 255 characters')
+        else Name,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

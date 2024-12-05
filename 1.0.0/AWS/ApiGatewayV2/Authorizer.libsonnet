@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AuthorizerType) : 'AuthorizerType must be a string',
-      AuthorizerType: AuthorizerType,
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      AuthorizerType:
+        if !std.isString(AuthorizerType) then (error 'AuthorizerType must be a string')
+        else if std.isEmpty(AuthorizerType) then (error 'AuthorizerType must be not empty')
+        else AuthorizerType,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,122 +27,136 @@
     Metadata:: [],
     Type: 'AWS::ApiGatewayV2::Authorizer',
   },
-  withIdentityValidationExpression(IdentityValidationExpression): {
-    assert std.isString(IdentityValidationExpression) : 'IdentityValidationExpression must be a string',
+  setIdentityValidationExpression(IdentityValidationExpression): {
     Properties+::: {
-      IdentityValidationExpression: IdentityValidationExpression,
+      IdentityValidationExpression:
+        if !std.isString(IdentityValidationExpression) then (error 'IdentityValidationExpression must be a string')
+        else if std.isEmpty(IdentityValidationExpression) then (error 'IdentityValidationExpression must be not empty')
+        else IdentityValidationExpression,
     },
   },
-  withAuthorizerUri(AuthorizerUri): {
-    assert std.isString(AuthorizerUri) : 'AuthorizerUri must be a string',
+  setAuthorizerUri(AuthorizerUri): {
     Properties+::: {
-      AuthorizerUri: AuthorizerUri,
+      AuthorizerUri:
+        if !std.isString(AuthorizerUri) then (error 'AuthorizerUri must be a string')
+        else if std.isEmpty(AuthorizerUri) then (error 'AuthorizerUri must be not empty')
+        else AuthorizerUri,
     },
   },
-  withAuthorizerCredentialsArn(AuthorizerCredentialsArn): {
-    assert std.isString(AuthorizerCredentialsArn) : 'AuthorizerCredentialsArn must be a string',
+  setAuthorizerCredentialsArn(AuthorizerCredentialsArn): {
     Properties+::: {
-      AuthorizerCredentialsArn: AuthorizerCredentialsArn,
+      AuthorizerCredentialsArn:
+        if !std.isString(AuthorizerCredentialsArn) then (error 'AuthorizerCredentialsArn must be a string')
+        else if std.isEmpty(AuthorizerCredentialsArn) then (error 'AuthorizerCredentialsArn must be not empty')
+        else AuthorizerCredentialsArn,
     },
   },
-  withJwtConfiguration(JwtConfiguration): {
-    assert std.isObject(JwtConfiguration) : 'JwtConfiguration must be a object',
+  setJwtConfiguration(JwtConfiguration): {
     Properties+::: {
-      JwtConfiguration: JwtConfiguration,
+      JwtConfiguration:
+        if !std.isObject(JwtConfiguration) then (error 'JwtConfiguration must be an object')
+        else JwtConfiguration,
     },
   },
-  withAuthorizerResultTtlInSeconds(AuthorizerResultTtlInSeconds): {
-    assert std.isNumber(AuthorizerResultTtlInSeconds) : 'AuthorizerResultTtlInSeconds must be a number',
+  setAuthorizerResultTtlInSeconds(AuthorizerResultTtlInSeconds): {
     Properties+::: {
-      AuthorizerResultTtlInSeconds: AuthorizerResultTtlInSeconds,
+      AuthorizerResultTtlInSeconds:
+        if !std.isNumber(AuthorizerResultTtlInSeconds) then (error 'AuthorizerResultTtlInSeconds must be an number')
+        else AuthorizerResultTtlInSeconds,
     },
   },
-  withIdentitySource(IdentitySource): {
+  setIdentitySource(IdentitySource): {
     Properties+::: {
-      IdentitySource: (if std.isArray(IdentitySource) then IdentitySource else [IdentitySource]),
+      IdentitySource:
+        if !std.isArray(IdentitySource) then (error 'IdentitySource must be an array')
+        else IdentitySource,
     },
   },
-  withIdentitySourceMixin(IdentitySource): {
+  setIdentitySourceMixin(IdentitySource): {
     Properties+::: {
-      IdentitySource+: (if std.isArray(IdentitySource) then IdentitySource else [IdentitySource]),
+      IdentitySource+: IdentitySource,
     },
   },
-  withAuthorizerPayloadFormatVersion(AuthorizerPayloadFormatVersion): {
-    assert std.isString(AuthorizerPayloadFormatVersion) : 'AuthorizerPayloadFormatVersion must be a string',
+  setAuthorizerPayloadFormatVersion(AuthorizerPayloadFormatVersion): {
     Properties+::: {
-      AuthorizerPayloadFormatVersion: AuthorizerPayloadFormatVersion,
+      AuthorizerPayloadFormatVersion:
+        if !std.isString(AuthorizerPayloadFormatVersion) then (error 'AuthorizerPayloadFormatVersion must be a string')
+        else if std.isEmpty(AuthorizerPayloadFormatVersion) then (error 'AuthorizerPayloadFormatVersion must be not empty')
+        else AuthorizerPayloadFormatVersion,
     },
   },
-  withEnableSimpleResponses(EnableSimpleResponses): {
-    assert std.isBoolean(EnableSimpleResponses) : 'EnableSimpleResponses must be a boolean',
+  setEnableSimpleResponses(EnableSimpleResponses): {
     Properties+::: {
-      EnableSimpleResponses: EnableSimpleResponses,
+      EnableSimpleResponses:
+        if !std.isBoolean(EnableSimpleResponses) then (error 'EnableSimpleResponses must be a boolean') else EnableSimpleResponses,
     },
   },
-  withAuthorizerId(AuthorizerId): {
-    assert std.isString(AuthorizerId) : 'AuthorizerId must be a string',
+  setAuthorizerId(AuthorizerId): {
     Properties+::: {
-      AuthorizerId: AuthorizerId,
+      AuthorizerId:
+        if !std.isString(AuthorizerId) then (error 'AuthorizerId must be a string')
+        else if std.isEmpty(AuthorizerId) then (error 'AuthorizerId must be not empty')
+        else AuthorizerId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

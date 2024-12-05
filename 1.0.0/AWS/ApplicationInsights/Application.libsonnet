@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ResourceGroupName) : 'ResourceGroupName must be a string',
-      ResourceGroupName: ResourceGroupName,
+      ResourceGroupName:
+        if !std.isString(ResourceGroupName) then (error 'ResourceGroupName must be a string')
+        else if std.isEmpty(ResourceGroupName) then (error 'ResourceGroupName must be not empty')
+        else if std.length(ResourceGroupName) < 1 then error ('ResourceGroupName should have at least 1 characters')
+        else if std.length(ResourceGroupName) > 256 then error ('ResourceGroupName should have not more than 256 characters')
+        else ResourceGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,153 +19,177 @@
     Metadata:: [],
     Type: 'AWS::ApplicationInsights::Application',
   },
-  withApplicationARN(ApplicationARN): {
-    assert std.isString(ApplicationARN) : 'ApplicationARN must be a string',
+  setApplicationARN(ApplicationARN): {
     Properties+::: {
-      ApplicationARN: ApplicationARN,
+      ApplicationARN:
+        if !std.isString(ApplicationARN) then (error 'ApplicationARN must be a string')
+        else if std.isEmpty(ApplicationARN) then (error 'ApplicationARN must be not empty')
+        else ApplicationARN,
     },
   },
-  withCWEMonitorEnabled(CWEMonitorEnabled): {
-    assert std.isBoolean(CWEMonitorEnabled) : 'CWEMonitorEnabled must be a boolean',
+  setCWEMonitorEnabled(CWEMonitorEnabled): {
     Properties+::: {
-      CWEMonitorEnabled: CWEMonitorEnabled,
+      CWEMonitorEnabled:
+        if !std.isBoolean(CWEMonitorEnabled) then (error 'CWEMonitorEnabled must be a boolean') else CWEMonitorEnabled,
     },
   },
-  withOpsCenterEnabled(OpsCenterEnabled): {
-    assert std.isBoolean(OpsCenterEnabled) : 'OpsCenterEnabled must be a boolean',
+  setOpsCenterEnabled(OpsCenterEnabled): {
     Properties+::: {
-      OpsCenterEnabled: OpsCenterEnabled,
+      OpsCenterEnabled:
+        if !std.isBoolean(OpsCenterEnabled) then (error 'OpsCenterEnabled must be a boolean') else OpsCenterEnabled,
     },
   },
-  withOpsItemSNSTopicArn(OpsItemSNSTopicArn): {
-    assert std.isString(OpsItemSNSTopicArn) : 'OpsItemSNSTopicArn must be a string',
+  setOpsItemSNSTopicArn(OpsItemSNSTopicArn): {
     Properties+::: {
-      OpsItemSNSTopicArn: OpsItemSNSTopicArn,
+      OpsItemSNSTopicArn:
+        if !std.isString(OpsItemSNSTopicArn) then (error 'OpsItemSNSTopicArn must be a string')
+        else if std.isEmpty(OpsItemSNSTopicArn) then (error 'OpsItemSNSTopicArn must be not empty')
+        else if std.length(OpsItemSNSTopicArn) < 20 then error ('OpsItemSNSTopicArn should have at least 20 characters')
+        else if std.length(OpsItemSNSTopicArn) > 300 then error ('OpsItemSNSTopicArn should have not more than 300 characters')
+        else OpsItemSNSTopicArn,
     },
   },
-  withSNSNotificationArn(SNSNotificationArn): {
-    assert std.isString(SNSNotificationArn) : 'SNSNotificationArn must be a string',
+  setSNSNotificationArn(SNSNotificationArn): {
     Properties+::: {
-      SNSNotificationArn: SNSNotificationArn,
+      SNSNotificationArn:
+        if !std.isString(SNSNotificationArn) then (error 'SNSNotificationArn must be a string')
+        else if std.isEmpty(SNSNotificationArn) then (error 'SNSNotificationArn must be not empty')
+        else if std.length(SNSNotificationArn) < 20 then error ('SNSNotificationArn should have at least 20 characters')
+        else if std.length(SNSNotificationArn) > 300 then error ('SNSNotificationArn should have not more than 300 characters')
+        else SNSNotificationArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCustomComponents(CustomComponents): {
+  setCustomComponents(CustomComponents): {
     Properties+::: {
-      CustomComponents: (if std.isArray(CustomComponents) then CustomComponents else [CustomComponents]),
+      CustomComponents:
+        if !std.isArray(CustomComponents) then (error 'CustomComponents must be an array')
+        else if std.length(CustomComponents) < 1 then error ('CustomComponents cannot have less than 1 items')
+        else CustomComponents,
     },
   },
-  withCustomComponentsMixin(CustomComponents): {
+  setCustomComponentsMixin(CustomComponents): {
     Properties+::: {
-      CustomComponents+: (if std.isArray(CustomComponents) then CustomComponents else [CustomComponents]),
+      CustomComponents+: CustomComponents,
     },
   },
-  withLogPatternSets(LogPatternSets): {
+  setLogPatternSets(LogPatternSets): {
     Properties+::: {
-      LogPatternSets: (if std.isArray(LogPatternSets) then LogPatternSets else [LogPatternSets]),
+      LogPatternSets:
+        if !std.isArray(LogPatternSets) then (error 'LogPatternSets must be an array')
+        else if std.length(LogPatternSets) < 1 then error ('LogPatternSets cannot have less than 1 items')
+        else LogPatternSets,
     },
   },
-  withLogPatternSetsMixin(LogPatternSets): {
+  setLogPatternSetsMixin(LogPatternSets): {
     Properties+::: {
-      LogPatternSets+: (if std.isArray(LogPatternSets) then LogPatternSets else [LogPatternSets]),
+      LogPatternSets+: LogPatternSets,
     },
   },
-  withAutoConfigurationEnabled(AutoConfigurationEnabled): {
-    assert std.isBoolean(AutoConfigurationEnabled) : 'AutoConfigurationEnabled must be a boolean',
+  setAutoConfigurationEnabled(AutoConfigurationEnabled): {
     Properties+::: {
-      AutoConfigurationEnabled: AutoConfigurationEnabled,
+      AutoConfigurationEnabled:
+        if !std.isBoolean(AutoConfigurationEnabled) then (error 'AutoConfigurationEnabled must be a boolean') else AutoConfigurationEnabled,
     },
   },
-  withComponentMonitoringSettings(ComponentMonitoringSettings): {
+  setComponentMonitoringSettings(ComponentMonitoringSettings): {
     Properties+::: {
-      ComponentMonitoringSettings: (if std.isArray(ComponentMonitoringSettings) then ComponentMonitoringSettings else [ComponentMonitoringSettings]),
+      ComponentMonitoringSettings:
+        if !std.isArray(ComponentMonitoringSettings) then (error 'ComponentMonitoringSettings must be an array')
+        else if std.length(ComponentMonitoringSettings) < 1 then error ('ComponentMonitoringSettings cannot have less than 1 items')
+        else ComponentMonitoringSettings,
     },
   },
-  withComponentMonitoringSettingsMixin(ComponentMonitoringSettings): {
+  setComponentMonitoringSettingsMixin(ComponentMonitoringSettings): {
     Properties+::: {
-      ComponentMonitoringSettings+: (if std.isArray(ComponentMonitoringSettings) then ComponentMonitoringSettings else [ComponentMonitoringSettings]),
+      ComponentMonitoringSettings+: ComponentMonitoringSettings,
     },
   },
-  withGroupingType(GroupingType): {
-    assert std.isString(GroupingType) : 'GroupingType must be a string',
-    assert GroupingType == 'ACCOUNT_BASED' : "GroupingType should be 'ACCOUNT_BASED'",
+  setGroupingType(GroupingType): {
     Properties+::: {
-      GroupingType: GroupingType,
+      GroupingType:
+        if !std.isString(GroupingType) then (error 'GroupingType must be a string')
+        else if std.isEmpty(GroupingType) then (error 'GroupingType must be not empty')
+        else if GroupingType != 'ACCOUNT_BASED' then (error "GroupingType should be 'ACCOUNT_BASED'")
+        else GroupingType,
     },
   },
-  withAttachMissingPermission(AttachMissingPermission): {
-    assert std.isBoolean(AttachMissingPermission) : 'AttachMissingPermission must be a boolean',
+  setAttachMissingPermission(AttachMissingPermission): {
     Properties+::: {
-      AttachMissingPermission: AttachMissingPermission,
+      AttachMissingPermission:
+        if !std.isBoolean(AttachMissingPermission) then (error 'AttachMissingPermission must be a boolean') else AttachMissingPermission,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

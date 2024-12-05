@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AppImageConfigName) : 'AppImageConfigName must be a string',
-      AppImageConfigName: AppImageConfigName,
+      AppImageConfigName:
+        if !std.isString(AppImageConfigName) then (error 'AppImageConfigName must be a string')
+        else if std.isEmpty(AppImageConfigName) then (error 'AppImageConfigName must be not empty')
+        else if std.length(AppImageConfigName) < 1 then error ('AppImageConfigName should have at least 1 characters')
+        else if std.length(AppImageConfigName) > 63 then error ('AppImageConfigName should have not more than 63 characters')
+        else AppImageConfigName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,98 +19,109 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::AppImageConfig',
   },
-  withAppImageConfigArn(AppImageConfigArn): {
-    assert std.isString(AppImageConfigArn) : 'AppImageConfigArn must be a string',
+  setAppImageConfigArn(AppImageConfigArn): {
     Properties+::: {
-      AppImageConfigArn: AppImageConfigArn,
+      AppImageConfigArn:
+        if !std.isString(AppImageConfigArn) then (error 'AppImageConfigArn must be a string')
+        else if std.isEmpty(AppImageConfigArn) then (error 'AppImageConfigArn must be not empty')
+        else if std.length(AppImageConfigArn) < 1 then error ('AppImageConfigArn should have at least 1 characters')
+        else if std.length(AppImageConfigArn) > 256 then error ('AppImageConfigArn should have not more than 256 characters')
+        else AppImageConfigArn,
     },
   },
-  withKernelGatewayImageConfig(KernelGatewayImageConfig): {
-    assert std.isObject(KernelGatewayImageConfig) : 'KernelGatewayImageConfig must be a object',
+  setKernelGatewayImageConfig(KernelGatewayImageConfig): {
     Properties+::: {
-      KernelGatewayImageConfig: KernelGatewayImageConfig,
+      KernelGatewayImageConfig:
+        if !std.isObject(KernelGatewayImageConfig) then (error 'KernelGatewayImageConfig must be an object')
+        else if !std.objectHas(KernelGatewayImageConfig, 'KernelSpecs') then (error ' have attribute KernelSpecs')
+        else KernelGatewayImageConfig,
     },
   },
-  withJupyterLabAppImageConfig(JupyterLabAppImageConfig): {
-    assert std.isObject(JupyterLabAppImageConfig) : 'JupyterLabAppImageConfig must be a object',
+  setJupyterLabAppImageConfig(JupyterLabAppImageConfig): {
     Properties+::: {
-      JupyterLabAppImageConfig: JupyterLabAppImageConfig,
+      JupyterLabAppImageConfig:
+        if !std.isObject(JupyterLabAppImageConfig) then (error 'JupyterLabAppImageConfig must be an object')
+        else JupyterLabAppImageConfig,
     },
   },
-  withCodeEditorAppImageConfig(CodeEditorAppImageConfig): {
-    assert std.isObject(CodeEditorAppImageConfig) : 'CodeEditorAppImageConfig must be a object',
+  setCodeEditorAppImageConfig(CodeEditorAppImageConfig): {
     Properties+::: {
-      CodeEditorAppImageConfig: CodeEditorAppImageConfig,
+      CodeEditorAppImageConfig:
+        if !std.isObject(CodeEditorAppImageConfig) then (error 'CodeEditorAppImageConfig must be an object')
+        else CodeEditorAppImageConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,7 +4,9 @@
   ): {
     local base = self,
     Properties: {
-      FrameworkControls: (if std.isArray(FrameworkControls) then FrameworkControls else [FrameworkControls]),
+      FrameworkControls:
+        if !std.isArray(FrameworkControls) then (error 'FrameworkControls must be an array')
+        else FrameworkControls,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,110 +16,127 @@
     Metadata:: [],
     Type: 'AWS::Backup::Framework',
   },
-  withFrameworkName(FrameworkName): {
-    assert std.isString(FrameworkName) : 'FrameworkName must be a string',
+  setFrameworkName(FrameworkName): {
     Properties+::: {
-      FrameworkName: FrameworkName,
+      FrameworkName:
+        if !std.isString(FrameworkName) then (error 'FrameworkName must be a string')
+        else if std.isEmpty(FrameworkName) then (error 'FrameworkName must be not empty')
+        else if std.length(FrameworkName) < 1 then error ('FrameworkName should have at least 1 characters')
+        else if std.length(FrameworkName) > 256 then error ('FrameworkName should have not more than 256 characters')
+        else FrameworkName,
     },
   },
-  withFrameworkDescription(FrameworkDescription): {
-    assert std.isString(FrameworkDescription) : 'FrameworkDescription must be a string',
+  setFrameworkDescription(FrameworkDescription): {
     Properties+::: {
-      FrameworkDescription: FrameworkDescription,
+      FrameworkDescription:
+        if !std.isString(FrameworkDescription) then (error 'FrameworkDescription must be a string')
+        else if std.isEmpty(FrameworkDescription) then (error 'FrameworkDescription must be not empty')
+        else if std.length(FrameworkDescription) > 1024 then error ('FrameworkDescription should have not more than 1024 characters')
+        else FrameworkDescription,
     },
   },
-  withFrameworkArn(FrameworkArn): {
-    assert std.isString(FrameworkArn) : 'FrameworkArn must be a string',
+  setFrameworkArn(FrameworkArn): {
     Properties+::: {
-      FrameworkArn: FrameworkArn,
+      FrameworkArn:
+        if !std.isString(FrameworkArn) then (error 'FrameworkArn must be a string')
+        else if std.isEmpty(FrameworkArn) then (error 'FrameworkArn must be not empty')
+        else FrameworkArn,
     },
   },
-  withDeploymentStatus(DeploymentStatus): {
-    assert std.isString(DeploymentStatus) : 'DeploymentStatus must be a string',
+  setDeploymentStatus(DeploymentStatus): {
     Properties+::: {
-      DeploymentStatus: DeploymentStatus,
+      DeploymentStatus:
+        if !std.isString(DeploymentStatus) then (error 'DeploymentStatus must be a string')
+        else if std.isEmpty(DeploymentStatus) then (error 'DeploymentStatus must be not empty')
+        else DeploymentStatus,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withFrameworkStatus(FrameworkStatus): {
-    assert std.isString(FrameworkStatus) : 'FrameworkStatus must be a string',
+  setFrameworkStatus(FrameworkStatus): {
     Properties+::: {
-      FrameworkStatus: FrameworkStatus,
+      FrameworkStatus:
+        if !std.isString(FrameworkStatus) then (error 'FrameworkStatus must be a string')
+        else if std.isEmpty(FrameworkStatus) then (error 'FrameworkStatus must be not empty')
+        else FrameworkStatus,
     },
   },
-  withFrameworkTags(FrameworkTags): {
+  setFrameworkTags(FrameworkTags): {
     Properties+::: {
-      FrameworkTags: (if std.isArray(FrameworkTags) then FrameworkTags else [FrameworkTags]),
+      FrameworkTags:
+        if !std.isArray(FrameworkTags) then (error 'FrameworkTags must be an array')
+        else FrameworkTags,
     },
   },
-  withFrameworkTagsMixin(FrameworkTags): {
+  setFrameworkTagsMixin(FrameworkTags): {
     Properties+::: {
-      FrameworkTags+: (if std.isArray(FrameworkTags) then FrameworkTags else [FrameworkTags]),
+      FrameworkTags+: FrameworkTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

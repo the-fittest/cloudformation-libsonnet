@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,116 +10,131 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancingV2::TrustStore',
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withCaCertificatesBundleS3Bucket(CaCertificatesBundleS3Bucket): {
-    assert std.isString(CaCertificatesBundleS3Bucket) : 'CaCertificatesBundleS3Bucket must be a string',
+  setCaCertificatesBundleS3Bucket(CaCertificatesBundleS3Bucket): {
     Properties+::: {
-      CaCertificatesBundleS3Bucket: CaCertificatesBundleS3Bucket,
+      CaCertificatesBundleS3Bucket:
+        if !std.isString(CaCertificatesBundleS3Bucket) then (error 'CaCertificatesBundleS3Bucket must be a string')
+        else if std.isEmpty(CaCertificatesBundleS3Bucket) then (error 'CaCertificatesBundleS3Bucket must be not empty')
+        else CaCertificatesBundleS3Bucket,
     },
   },
-  withCaCertificatesBundleS3Key(CaCertificatesBundleS3Key): {
-    assert std.isString(CaCertificatesBundleS3Key) : 'CaCertificatesBundleS3Key must be a string',
+  setCaCertificatesBundleS3Key(CaCertificatesBundleS3Key): {
     Properties+::: {
-      CaCertificatesBundleS3Key: CaCertificatesBundleS3Key,
+      CaCertificatesBundleS3Key:
+        if !std.isString(CaCertificatesBundleS3Key) then (error 'CaCertificatesBundleS3Key must be a string')
+        else if std.isEmpty(CaCertificatesBundleS3Key) then (error 'CaCertificatesBundleS3Key must be not empty')
+        else CaCertificatesBundleS3Key,
     },
   },
-  withCaCertificatesBundleS3ObjectVersion(CaCertificatesBundleS3ObjectVersion): {
-    assert std.isString(CaCertificatesBundleS3ObjectVersion) : 'CaCertificatesBundleS3ObjectVersion must be a string',
+  setCaCertificatesBundleS3ObjectVersion(CaCertificatesBundleS3ObjectVersion): {
     Properties+::: {
-      CaCertificatesBundleS3ObjectVersion: CaCertificatesBundleS3ObjectVersion,
+      CaCertificatesBundleS3ObjectVersion:
+        if !std.isString(CaCertificatesBundleS3ObjectVersion) then (error 'CaCertificatesBundleS3ObjectVersion must be a string')
+        else if std.isEmpty(CaCertificatesBundleS3ObjectVersion) then (error 'CaCertificatesBundleS3ObjectVersion must be not empty')
+        else CaCertificatesBundleS3ObjectVersion,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withNumberOfCaCertificates(NumberOfCaCertificates): {
-    assert std.isNumber(NumberOfCaCertificates) : 'NumberOfCaCertificates must be a number',
+  setNumberOfCaCertificates(NumberOfCaCertificates): {
     Properties+::: {
-      NumberOfCaCertificates: NumberOfCaCertificates,
+      NumberOfCaCertificates:
+        if !std.isNumber(NumberOfCaCertificates) then (error 'NumberOfCaCertificates must be an number')
+        else NumberOfCaCertificates,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrustStoreArn(TrustStoreArn): {
-    assert std.isString(TrustStoreArn) : 'TrustStoreArn must be a string',
+  setTrustStoreArn(TrustStoreArn): {
     Properties+::: {
-      TrustStoreArn: TrustStoreArn,
+      TrustStoreArn:
+        if !std.isString(TrustStoreArn) then (error 'TrustStoreArn must be a string')
+        else if std.isEmpty(TrustStoreArn) then (error 'TrustStoreArn must be not empty')
+        else TrustStoreArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

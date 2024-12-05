@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(BridgeArn) : 'BridgeArn must be a string',
-      BridgeArn: BridgeArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      BridgeArn:
+        if !std.isString(BridgeArn) then (error 'BridgeArn must be a string')
+        else if std.isEmpty(BridgeArn) then (error 'BridgeArn must be not empty')
+        else BridgeArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,76 +22,83 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::BridgeSource',
   },
-  withFlowSource(FlowSource): {
-    assert std.isObject(FlowSource) : 'FlowSource must be a object',
+  setFlowSource(FlowSource): {
     Properties+::: {
-      FlowSource: FlowSource,
+      FlowSource:
+        if !std.isObject(FlowSource) then (error 'FlowSource must be an object')
+        else if !std.objectHas(FlowSource, 'FlowArn') then (error ' have attribute FlowArn')
+        else FlowSource,
     },
   },
-  withNetworkSource(NetworkSource): {
-    assert std.isObject(NetworkSource) : 'NetworkSource must be a object',
+  setNetworkSource(NetworkSource): {
     Properties+::: {
-      NetworkSource: NetworkSource,
+      NetworkSource:
+        if !std.isObject(NetworkSource) then (error 'NetworkSource must be an object')
+        else if !std.objectHas(NetworkSource, 'Protocol') then (error ' have attribute Protocol')
+        else if !std.objectHas(NetworkSource, 'MulticastIp') then (error ' have attribute MulticastIp')
+        else if !std.objectHas(NetworkSource, 'Port') then (error ' have attribute Port')
+        else if !std.objectHas(NetworkSource, 'NetworkName') then (error ' have attribute NetworkName')
+        else NetworkSource,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -6,8 +6,12 @@
     local base = self,
     Properties: {
       Manifest: Manifest,
-      assert std.isString(Version) : 'Version must be a string',
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else if std.length(Version) < 3 then error ('Version should have at least 3 characters')
+        else if std.length(Version) > 10 then error ('Version should have not more than 10 characters')
+        else Version,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,106 +21,122 @@
     Metadata:: [],
     Type: 'AWS::ControlTower::LandingZone',
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' || Status == 'PROCESSING' || Status == 'FAILED' : "Status should be 'ACTIVE' or 'PROCESSING' or 'FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'PROCESSING' && Status != 'FAILED' then (error "Status should be 'ACTIVE' or 'PROCESSING' or 'FAILED'")
+        else Status,
     },
   },
-  withLatestAvailableVersion(LatestAvailableVersion): {
-    assert std.isString(LatestAvailableVersion) : 'LatestAvailableVersion must be a string',
+  setLatestAvailableVersion(LatestAvailableVersion): {
     Properties+::: {
-      LatestAvailableVersion: LatestAvailableVersion,
+      LatestAvailableVersion:
+        if !std.isString(LatestAvailableVersion) then (error 'LatestAvailableVersion must be a string')
+        else if std.isEmpty(LatestAvailableVersion) then (error 'LatestAvailableVersion must be not empty')
+        else if std.length(LatestAvailableVersion) < 3 then error ('LatestAvailableVersion should have at least 3 characters')
+        else if std.length(LatestAvailableVersion) > 10 then error ('LatestAvailableVersion should have not more than 10 characters')
+        else LatestAvailableVersion,
     },
   },
-  withDriftStatus(DriftStatus): {
-    assert std.isString(DriftStatus) : 'DriftStatus must be a string',
-    assert DriftStatus == 'DRIFTED' || DriftStatus == 'IN_SYNC' : "DriftStatus should be 'DRIFTED' or 'IN_SYNC'",
+  setDriftStatus(DriftStatus): {
     Properties+::: {
-      DriftStatus: DriftStatus,
+      DriftStatus:
+        if !std.isString(DriftStatus) then (error 'DriftStatus must be a string')
+        else if std.isEmpty(DriftStatus) then (error 'DriftStatus must be not empty')
+        else if DriftStatus != 'DRIFTED' && DriftStatus != 'IN_SYNC' then (error "DriftStatus should be 'DRIFTED' or 'IN_SYNC'")
+        else DriftStatus,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withLandingZoneIdentifier(LandingZoneIdentifier): {
-    assert std.isString(LandingZoneIdentifier) : 'LandingZoneIdentifier must be a string',
+  setLandingZoneIdentifier(LandingZoneIdentifier): {
     Properties+::: {
-      LandingZoneIdentifier: LandingZoneIdentifier,
+      LandingZoneIdentifier:
+        if !std.isString(LandingZoneIdentifier) then (error 'LandingZoneIdentifier must be a string')
+        else if std.isEmpty(LandingZoneIdentifier) then (error 'LandingZoneIdentifier must be not empty')
+        else LandingZoneIdentifier,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

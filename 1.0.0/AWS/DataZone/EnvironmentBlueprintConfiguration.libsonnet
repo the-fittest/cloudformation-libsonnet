@@ -6,11 +6,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainIdentifier) : 'DomainIdentifier must be a string',
-      DomainIdentifier: DomainIdentifier,
-      assert std.isString(EnvironmentBlueprintIdentifier) : 'EnvironmentBlueprintIdentifier must be a string',
-      EnvironmentBlueprintIdentifier: EnvironmentBlueprintIdentifier,
-      EnabledRegions: (if std.isArray(EnabledRegions) then EnabledRegions else [EnabledRegions]),
+      DomainIdentifier:
+        if !std.isString(DomainIdentifier) then (error 'DomainIdentifier must be a string')
+        else if std.isEmpty(DomainIdentifier) then (error 'DomainIdentifier must be not empty')
+        else DomainIdentifier,
+      EnvironmentBlueprintIdentifier:
+        if !std.isString(EnvironmentBlueprintIdentifier) then (error 'EnvironmentBlueprintIdentifier must be a string')
+        else if std.isEmpty(EnvironmentBlueprintIdentifier) then (error 'EnvironmentBlueprintIdentifier must be not empty')
+        else EnvironmentBlueprintIdentifier,
+      EnabledRegions:
+        if !std.isArray(EnabledRegions) then (error 'EnabledRegions must be an array')
+        else EnabledRegions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,110 +26,124 @@
     Metadata:: [],
     Type: 'AWS::DataZone::EnvironmentBlueprintConfiguration',
   },
-  withRegionalParameters(RegionalParameters): {
+  setRegionalParameters(RegionalParameters): {
     Properties+::: {
-      RegionalParameters: (if std.isArray(RegionalParameters) then RegionalParameters else [RegionalParameters]),
+      RegionalParameters:
+        if !std.isArray(RegionalParameters) then (error 'RegionalParameters must be an array')
+        else RegionalParameters,
     },
   },
-  withRegionalParametersMixin(RegionalParameters): {
+  setRegionalParametersMixin(RegionalParameters): {
     Properties+::: {
-      RegionalParameters+: (if std.isArray(RegionalParameters) then RegionalParameters else [RegionalParameters]),
+      RegionalParameters+: RegionalParameters,
     },
   },
-  withProvisioningRoleArn(ProvisioningRoleArn): {
-    assert std.isString(ProvisioningRoleArn) : 'ProvisioningRoleArn must be a string',
+  setProvisioningRoleArn(ProvisioningRoleArn): {
     Properties+::: {
-      ProvisioningRoleArn: ProvisioningRoleArn,
+      ProvisioningRoleArn:
+        if !std.isString(ProvisioningRoleArn) then (error 'ProvisioningRoleArn must be a string')
+        else if std.isEmpty(ProvisioningRoleArn) then (error 'ProvisioningRoleArn must be not empty')
+        else ProvisioningRoleArn,
     },
   },
-  withDomainId(DomainId): {
-    assert std.isString(DomainId) : 'DomainId must be a string',
+  setDomainId(DomainId): {
     Properties+::: {
-      DomainId: DomainId,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else DomainId,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withEnvironmentBlueprintId(EnvironmentBlueprintId): {
-    assert std.isString(EnvironmentBlueprintId) : 'EnvironmentBlueprintId must be a string',
+  setEnvironmentBlueprintId(EnvironmentBlueprintId): {
     Properties+::: {
-      EnvironmentBlueprintId: EnvironmentBlueprintId,
+      EnvironmentBlueprintId:
+        if !std.isString(EnvironmentBlueprintId) then (error 'EnvironmentBlueprintId must be a string')
+        else if std.isEmpty(EnvironmentBlueprintId) then (error 'EnvironmentBlueprintId must be not empty')
+        else EnvironmentBlueprintId,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withManageAccessRoleArn(ManageAccessRoleArn): {
-    assert std.isString(ManageAccessRoleArn) : 'ManageAccessRoleArn must be a string',
+  setManageAccessRoleArn(ManageAccessRoleArn): {
     Properties+::: {
-      ManageAccessRoleArn: ManageAccessRoleArn,
+      ManageAccessRoleArn:
+        if !std.isString(ManageAccessRoleArn) then (error 'ManageAccessRoleArn must be a string')
+        else if std.isEmpty(ManageAccessRoleArn) then (error 'ManageAccessRoleArn must be not empty')
+        else ManageAccessRoleArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

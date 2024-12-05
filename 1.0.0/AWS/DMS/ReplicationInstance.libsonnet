@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ReplicationInstanceClass) : 'ReplicationInstanceClass must be a string',
-      ReplicationInstanceClass: ReplicationInstanceClass,
+      ReplicationInstanceClass:
+        if !std.isString(ReplicationInstanceClass) then (error 'ReplicationInstanceClass must be a string')
+        else if std.isEmpty(ReplicationInstanceClass) then (error 'ReplicationInstanceClass must be not empty')
+        else ReplicationInstanceClass,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,180 +17,207 @@
     Metadata:: [],
     Type: 'AWS::DMS::ReplicationInstance',
   },
-  withReplicationInstanceIdentifier(ReplicationInstanceIdentifier): {
-    assert std.isString(ReplicationInstanceIdentifier) : 'ReplicationInstanceIdentifier must be a string',
+  setReplicationInstanceIdentifier(ReplicationInstanceIdentifier): {
     Properties+::: {
-      ReplicationInstanceIdentifier: ReplicationInstanceIdentifier,
+      ReplicationInstanceIdentifier:
+        if !std.isString(ReplicationInstanceIdentifier) then (error 'ReplicationInstanceIdentifier must be a string')
+        else if std.isEmpty(ReplicationInstanceIdentifier) then (error 'ReplicationInstanceIdentifier must be not empty')
+        else ReplicationInstanceIdentifier,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withReplicationSubnetGroupIdentifier(ReplicationSubnetGroupIdentifier): {
-    assert std.isString(ReplicationSubnetGroupIdentifier) : 'ReplicationSubnetGroupIdentifier must be a string',
+  setReplicationSubnetGroupIdentifier(ReplicationSubnetGroupIdentifier): {
     Properties+::: {
-      ReplicationSubnetGroupIdentifier: ReplicationSubnetGroupIdentifier,
+      ReplicationSubnetGroupIdentifier:
+        if !std.isString(ReplicationSubnetGroupIdentifier) then (error 'ReplicationSubnetGroupIdentifier must be a string')
+        else if std.isEmpty(ReplicationSubnetGroupIdentifier) then (error 'ReplicationSubnetGroupIdentifier must be not empty')
+        else ReplicationSubnetGroupIdentifier,
     },
   },
-  withReplicationInstancePrivateIpAddresses(ReplicationInstancePrivateIpAddresses): {
-    assert std.isString(ReplicationInstancePrivateIpAddresses) : 'ReplicationInstancePrivateIpAddresses must be a string',
+  setReplicationInstancePrivateIpAddresses(ReplicationInstancePrivateIpAddresses): {
     Properties+::: {
-      ReplicationInstancePrivateIpAddresses: ReplicationInstancePrivateIpAddresses,
+      ReplicationInstancePrivateIpAddresses:
+        if !std.isString(ReplicationInstancePrivateIpAddresses) then (error 'ReplicationInstancePrivateIpAddresses must be a string')
+        else if std.isEmpty(ReplicationInstancePrivateIpAddresses) then (error 'ReplicationInstancePrivateIpAddresses must be not empty')
+        else ReplicationInstancePrivateIpAddresses,
     },
   },
-  withAllocatedStorage(AllocatedStorage): {
-    assert std.isNumber(AllocatedStorage) : 'AllocatedStorage must be a number',
+  setAllocatedStorage(AllocatedStorage): {
     Properties+::: {
-      AllocatedStorage: AllocatedStorage,
+      AllocatedStorage:
+        if !std.isNumber(AllocatedStorage) then (error 'AllocatedStorage must be an number')
+        else AllocatedStorage,
     },
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else ResourceIdentifier,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withNetworkType(NetworkType): {
-    assert std.isString(NetworkType) : 'NetworkType must be a string',
+  setNetworkType(NetworkType): {
     Properties+::: {
-      NetworkType: NetworkType,
+      NetworkType:
+        if !std.isString(NetworkType) then (error 'NetworkType must be a string')
+        else if std.isEmpty(NetworkType) then (error 'NetworkType must be not empty')
+        else NetworkType,
     },
   },
-  withAllowMajorVersionUpgrade(AllowMajorVersionUpgrade): {
-    assert std.isBoolean(AllowMajorVersionUpgrade) : 'AllowMajorVersionUpgrade must be a boolean',
+  setAllowMajorVersionUpgrade(AllowMajorVersionUpgrade): {
     Properties+::: {
-      AllowMajorVersionUpgrade: AllowMajorVersionUpgrade,
+      AllowMajorVersionUpgrade:
+        if !std.isBoolean(AllowMajorVersionUpgrade) then (error 'AllowMajorVersionUpgrade must be a boolean') else AllowMajorVersionUpgrade,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withMultiAZ(MultiAZ): {
-    assert std.isBoolean(MultiAZ) : 'MultiAZ must be a boolean',
+  setMultiAZ(MultiAZ): {
     Properties+::: {
-      MultiAZ: MultiAZ,
+      MultiAZ:
+        if !std.isBoolean(MultiAZ) then (error 'MultiAZ must be a boolean') else MultiAZ,
     },
   },
-  withReplicationInstancePublicIpAddresses(ReplicationInstancePublicIpAddresses): {
-    assert std.isString(ReplicationInstancePublicIpAddresses) : 'ReplicationInstancePublicIpAddresses must be a string',
+  setReplicationInstancePublicIpAddresses(ReplicationInstancePublicIpAddresses): {
     Properties+::: {
-      ReplicationInstancePublicIpAddresses: ReplicationInstancePublicIpAddresses,
+      ReplicationInstancePublicIpAddresses:
+        if !std.isString(ReplicationInstancePublicIpAddresses) then (error 'ReplicationInstancePublicIpAddresses must be a string')
+        else if std.isEmpty(ReplicationInstancePublicIpAddresses) then (error 'ReplicationInstancePublicIpAddresses must be not empty')
+        else ReplicationInstancePublicIpAddresses,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

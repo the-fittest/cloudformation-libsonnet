@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,184 +10,209 @@
     Metadata:: [],
     Type: 'AWS::CloudTrail::EventDataStore',
   },
-  withAdvancedEventSelectors(AdvancedEventSelectors): {
+  setAdvancedEventSelectors(AdvancedEventSelectors): {
     Properties+::: {
-      AdvancedEventSelectors: (if std.isArray(AdvancedEventSelectors) then AdvancedEventSelectors else [AdvancedEventSelectors]),
+      AdvancedEventSelectors:
+        if !std.isArray(AdvancedEventSelectors) then (error 'AdvancedEventSelectors must be an array')
+        else AdvancedEventSelectors,
     },
   },
-  withAdvancedEventSelectorsMixin(AdvancedEventSelectors): {
+  setAdvancedEventSelectorsMixin(AdvancedEventSelectors): {
     Properties+::: {
-      AdvancedEventSelectors+: (if std.isArray(AdvancedEventSelectors) then AdvancedEventSelectors else [AdvancedEventSelectors]),
+      AdvancedEventSelectors+: AdvancedEventSelectors,
     },
   },
-  withCreatedTimestamp(CreatedTimestamp): {
-    assert std.isString(CreatedTimestamp) : 'CreatedTimestamp must be a string',
+  setCreatedTimestamp(CreatedTimestamp): {
     Properties+::: {
-      CreatedTimestamp: CreatedTimestamp,
+      CreatedTimestamp:
+        if !std.isString(CreatedTimestamp) then (error 'CreatedTimestamp must be a string')
+        else if std.isEmpty(CreatedTimestamp) then (error 'CreatedTimestamp must be not empty')
+        else CreatedTimestamp,
     },
   },
-  withEventDataStoreArn(EventDataStoreArn): {
-    assert std.isString(EventDataStoreArn) : 'EventDataStoreArn must be a string',
+  setEventDataStoreArn(EventDataStoreArn): {
     Properties+::: {
-      EventDataStoreArn: EventDataStoreArn,
+      EventDataStoreArn:
+        if !std.isString(EventDataStoreArn) then (error 'EventDataStoreArn must be a string')
+        else if std.isEmpty(EventDataStoreArn) then (error 'EventDataStoreArn must be not empty')
+        else EventDataStoreArn,
     },
   },
-  withFederationEnabled(FederationEnabled): {
-    assert std.isBoolean(FederationEnabled) : 'FederationEnabled must be a boolean',
+  setFederationEnabled(FederationEnabled): {
     Properties+::: {
-      FederationEnabled: FederationEnabled,
+      FederationEnabled:
+        if !std.isBoolean(FederationEnabled) then (error 'FederationEnabled must be a boolean') else FederationEnabled,
     },
   },
-  withFederationRoleArn(FederationRoleArn): {
-    assert std.isString(FederationRoleArn) : 'FederationRoleArn must be a string',
+  setFederationRoleArn(FederationRoleArn): {
     Properties+::: {
-      FederationRoleArn: FederationRoleArn,
+      FederationRoleArn:
+        if !std.isString(FederationRoleArn) then (error 'FederationRoleArn must be a string')
+        else if std.isEmpty(FederationRoleArn) then (error 'FederationRoleArn must be not empty')
+        else FederationRoleArn,
     },
   },
-  withMultiRegionEnabled(MultiRegionEnabled): {
-    assert std.isBoolean(MultiRegionEnabled) : 'MultiRegionEnabled must be a boolean',
+  setMultiRegionEnabled(MultiRegionEnabled): {
     Properties+::: {
-      MultiRegionEnabled: MultiRegionEnabled,
+      MultiRegionEnabled:
+        if !std.isBoolean(MultiRegionEnabled) then (error 'MultiRegionEnabled must be a boolean') else MultiRegionEnabled,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withOrganizationEnabled(OrganizationEnabled): {
-    assert std.isBoolean(OrganizationEnabled) : 'OrganizationEnabled must be a boolean',
+  setOrganizationEnabled(OrganizationEnabled): {
     Properties+::: {
-      OrganizationEnabled: OrganizationEnabled,
+      OrganizationEnabled:
+        if !std.isBoolean(OrganizationEnabled) then (error 'OrganizationEnabled must be a boolean') else OrganizationEnabled,
     },
   },
-  withBillingMode(BillingMode): {
-    assert std.isString(BillingMode) : 'BillingMode must be a string',
+  setBillingMode(BillingMode): {
     Properties+::: {
-      BillingMode: BillingMode,
+      BillingMode:
+        if !std.isString(BillingMode) then (error 'BillingMode must be a string')
+        else if std.isEmpty(BillingMode) then (error 'BillingMode must be not empty')
+        else BillingMode,
     },
   },
-  withRetentionPeriod(RetentionPeriod): {
-    assert std.isNumber(RetentionPeriod) : 'RetentionPeriod must be a number',
+  setRetentionPeriod(RetentionPeriod): {
     Properties+::: {
-      RetentionPeriod: RetentionPeriod,
+      RetentionPeriod:
+        if !std.isNumber(RetentionPeriod) then (error 'RetentionPeriod must be an number')
+        else RetentionPeriod,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withTerminationProtectionEnabled(TerminationProtectionEnabled): {
-    assert std.isBoolean(TerminationProtectionEnabled) : 'TerminationProtectionEnabled must be a boolean',
+  setTerminationProtectionEnabled(TerminationProtectionEnabled): {
     Properties+::: {
-      TerminationProtectionEnabled: TerminationProtectionEnabled,
+      TerminationProtectionEnabled:
+        if !std.isBoolean(TerminationProtectionEnabled) then (error 'TerminationProtectionEnabled must be a boolean') else TerminationProtectionEnabled,
     },
   },
-  withUpdatedTimestamp(UpdatedTimestamp): {
-    assert std.isString(UpdatedTimestamp) : 'UpdatedTimestamp must be a string',
+  setUpdatedTimestamp(UpdatedTimestamp): {
     Properties+::: {
-      UpdatedTimestamp: UpdatedTimestamp,
+      UpdatedTimestamp:
+        if !std.isString(UpdatedTimestamp) then (error 'UpdatedTimestamp must be a string')
+        else if std.isEmpty(UpdatedTimestamp) then (error 'UpdatedTimestamp must be not empty')
+        else UpdatedTimestamp,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withInsightSelectors(InsightSelectors): {
+  setInsightSelectors(InsightSelectors): {
     Properties+::: {
-      InsightSelectors: (if std.isArray(InsightSelectors) then InsightSelectors else [InsightSelectors]),
+      InsightSelectors:
+        if !std.isArray(InsightSelectors) then (error 'InsightSelectors must be an array')
+        else InsightSelectors,
     },
   },
-  withInsightSelectorsMixin(InsightSelectors): {
+  setInsightSelectorsMixin(InsightSelectors): {
     Properties+::: {
-      InsightSelectors+: (if std.isArray(InsightSelectors) then InsightSelectors else [InsightSelectors]),
+      InsightSelectors+: InsightSelectors,
     },
   },
-  withInsightsDestination(InsightsDestination): {
-    assert std.isString(InsightsDestination) : 'InsightsDestination must be a string',
+  setInsightsDestination(InsightsDestination): {
     Properties+::: {
-      InsightsDestination: InsightsDestination,
+      InsightsDestination:
+        if !std.isString(InsightsDestination) then (error 'InsightsDestination must be a string')
+        else if std.isEmpty(InsightsDestination) then (error 'InsightsDestination must be not empty')
+        else InsightsDestination,
     },
   },
-  withIngestionEnabled(IngestionEnabled): {
-    assert std.isBoolean(IngestionEnabled) : 'IngestionEnabled must be a boolean',
+  setIngestionEnabled(IngestionEnabled): {
     Properties+::: {
-      IngestionEnabled: IngestionEnabled,
+      IngestionEnabled:
+        if !std.isBoolean(IngestionEnabled) then (error 'IngestionEnabled must be a boolean') else IngestionEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(MonitoringScheduleConfig) : 'MonitoringScheduleConfig must be an object',
-      MonitoringScheduleConfig: MonitoringScheduleConfig,
-      assert std.isString(MonitoringScheduleName) : 'MonitoringScheduleName must be a string',
-      MonitoringScheduleName: MonitoringScheduleName,
+      MonitoringScheduleConfig:
+        if !std.isObject(MonitoringScheduleConfig) then (error 'MonitoringScheduleConfig must be an object')
+        else MonitoringScheduleConfig,
+      MonitoringScheduleName:
+        if !std.isString(MonitoringScheduleName) then (error 'MonitoringScheduleName must be a string')
+        else if std.isEmpty(MonitoringScheduleName) then (error 'MonitoringScheduleName must be not empty')
+        else if std.length(MonitoringScheduleName) > 63 then error ('MonitoringScheduleName should have not more than 63 characters')
+        else MonitoringScheduleName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,117 +22,143 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::MonitoringSchedule',
   },
-  withMonitoringScheduleArn(MonitoringScheduleArn): {
-    assert std.isString(MonitoringScheduleArn) : 'MonitoringScheduleArn must be a string',
+  setMonitoringScheduleArn(MonitoringScheduleArn): {
     Properties+::: {
-      MonitoringScheduleArn: MonitoringScheduleArn,
+      MonitoringScheduleArn:
+        if !std.isString(MonitoringScheduleArn) then (error 'MonitoringScheduleArn must be a string')
+        else if std.isEmpty(MonitoringScheduleArn) then (error 'MonitoringScheduleArn must be not empty')
+        else if std.length(MonitoringScheduleArn) < 1 then error ('MonitoringScheduleArn should have at least 1 characters')
+        else if std.length(MonitoringScheduleArn) > 256 then error ('MonitoringScheduleArn should have not more than 256 characters')
+        else MonitoringScheduleArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withEndpointName(EndpointName): {
-    assert std.isString(EndpointName) : 'EndpointName must be a string',
+  setEndpointName(EndpointName): {
     Properties+::: {
-      EndpointName: EndpointName,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else if std.length(EndpointName) > 63 then error ('EndpointName should have not more than 63 characters')
+        else EndpointName,
     },
   },
-  withFailureReason(FailureReason): {
-    assert std.isString(FailureReason) : 'FailureReason must be a string',
+  setFailureReason(FailureReason): {
     Properties+::: {
-      FailureReason: FailureReason,
+      FailureReason:
+        if !std.isString(FailureReason) then (error 'FailureReason must be a string')
+        else if std.isEmpty(FailureReason) then (error 'FailureReason must be not empty')
+        else if std.length(FailureReason) < 1 then error ('FailureReason should have at least 1 characters')
+        else if std.length(FailureReason) > 1024 then error ('FailureReason should have not more than 1024 characters')
+        else FailureReason,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isString(LastModifiedTime) : 'LastModifiedTime must be a string',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isString(LastModifiedTime) then (error 'LastModifiedTime must be a string')
+        else if std.isEmpty(LastModifiedTime) then (error 'LastModifiedTime must be not empty')
+        else LastModifiedTime,
     },
   },
-  withLastMonitoringExecutionSummary(LastMonitoringExecutionSummary): {
-    assert std.isObject(LastMonitoringExecutionSummary) : 'LastMonitoringExecutionSummary must be a object',
+  setLastMonitoringExecutionSummary(LastMonitoringExecutionSummary): {
     Properties+::: {
-      LastMonitoringExecutionSummary: LastMonitoringExecutionSummary,
+      LastMonitoringExecutionSummary:
+        if !std.isObject(LastMonitoringExecutionSummary) then (error 'LastMonitoringExecutionSummary must be an object')
+        else if !std.objectHas(LastMonitoringExecutionSummary, 'CreationTime') then (error ' have attribute CreationTime')
+        else if !std.objectHas(LastMonitoringExecutionSummary, 'LastModifiedTime') then (error ' have attribute LastModifiedTime')
+        else if !std.objectHas(LastMonitoringExecutionSummary, 'MonitoringExecutionStatus') then (error ' have attribute MonitoringExecutionStatus')
+        else if !std.objectHas(LastMonitoringExecutionSummary, 'MonitoringScheduleName') then (error ' have attribute MonitoringScheduleName')
+        else if !std.objectHas(LastMonitoringExecutionSummary, 'ScheduledTime') then (error ' have attribute ScheduledTime')
+        else LastMonitoringExecutionSummary,
     },
   },
-  withMonitoringScheduleStatus(MonitoringScheduleStatus): {
-    assert std.isString(MonitoringScheduleStatus) : 'MonitoringScheduleStatus must be a string',
-    assert MonitoringScheduleStatus == 'Pending' || MonitoringScheduleStatus == 'Failed' || MonitoringScheduleStatus == 'Scheduled' || MonitoringScheduleStatus == 'Stopped' : "MonitoringScheduleStatus should be 'Pending' or 'Failed' or 'Scheduled' or 'Stopped'",
+  setMonitoringScheduleStatus(MonitoringScheduleStatus): {
     Properties+::: {
-      MonitoringScheduleStatus: MonitoringScheduleStatus,
+      MonitoringScheduleStatus:
+        if !std.isString(MonitoringScheduleStatus) then (error 'MonitoringScheduleStatus must be a string')
+        else if std.isEmpty(MonitoringScheduleStatus) then (error 'MonitoringScheduleStatus must be not empty')
+        else if MonitoringScheduleStatus != 'Pending' && MonitoringScheduleStatus != 'Failed' && MonitoringScheduleStatus != 'Scheduled' && MonitoringScheduleStatus != 'Stopped' then (error "MonitoringScheduleStatus should be 'Pending' or 'Failed' or 'Scheduled' or 'Stopped'")
+        else MonitoringScheduleStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

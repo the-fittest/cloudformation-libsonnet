@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,128 +10,145 @@
     Metadata:: [],
     Type: 'AWS::MediaLive::Cluster',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withChannelIds(ChannelIds): {
+  setChannelIds(ChannelIds): {
     Properties+::: {
-      ChannelIds: (if std.isArray(ChannelIds) then ChannelIds else [ChannelIds]),
+      ChannelIds:
+        if !std.isArray(ChannelIds) then (error 'ChannelIds must be an array')
+        else ChannelIds,
     },
   },
-  withChannelIdsMixin(ChannelIds): {
+  setChannelIdsMixin(ChannelIds): {
     Properties+::: {
-      ChannelIds+: (if std.isArray(ChannelIds) then ChannelIds else [ChannelIds]),
+      ChannelIds+: ChannelIds,
     },
   },
-  withClusterType(ClusterType): {
-    assert std.isString(ClusterType) : 'ClusterType must be a string',
-    assert ClusterType == 'ON_PREMISES' || ClusterType == 'OUTPOSTS_RACK' || ClusterType == 'OUTPOSTS_SERVER' || ClusterType == 'EC2' : "ClusterType should be 'ON_PREMISES' or 'OUTPOSTS_RACK' or 'OUTPOSTS_SERVER' or 'EC2'",
+  setClusterType(ClusterType): {
     Properties+::: {
-      ClusterType: ClusterType,
+      ClusterType:
+        if !std.isString(ClusterType) then (error 'ClusterType must be a string')
+        else if std.isEmpty(ClusterType) then (error 'ClusterType must be not empty')
+        else if ClusterType != 'ON_PREMISES' && ClusterType != 'OUTPOSTS_RACK' && ClusterType != 'OUTPOSTS_SERVER' && ClusterType != 'EC2' then (error "ClusterType should be 'ON_PREMISES' or 'OUTPOSTS_RACK' or 'OUTPOSTS_SERVER' or 'EC2'")
+        else ClusterType,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withInstanceRoleArn(InstanceRoleArn): {
-    assert std.isString(InstanceRoleArn) : 'InstanceRoleArn must be a string',
+  setInstanceRoleArn(InstanceRoleArn): {
     Properties+::: {
-      InstanceRoleArn: InstanceRoleArn,
+      InstanceRoleArn:
+        if !std.isString(InstanceRoleArn) then (error 'InstanceRoleArn must be a string')
+        else if std.isEmpty(InstanceRoleArn) then (error 'InstanceRoleArn must be not empty')
+        else InstanceRoleArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withNetworkSettings(NetworkSettings): {
-    assert std.isObject(NetworkSettings) : 'NetworkSettings must be a object',
+  setNetworkSettings(NetworkSettings): {
     Properties+::: {
-      NetworkSettings: NetworkSettings,
+      NetworkSettings:
+        if !std.isObject(NetworkSettings) then (error 'NetworkSettings must be an object')
+        else NetworkSettings,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'CREATING' || State == 'CREATE_FAILED' || State == 'ACTIVE' || State == 'DELETING' || State == 'DELETED' : "State should be 'CREATING' or 'CREATE_FAILED' or 'ACTIVE' or 'DELETING' or 'DELETED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'CREATING' && State != 'CREATE_FAILED' && State != 'ACTIVE' && State != 'DELETING' && State != 'DELETED' then (error "State should be 'CREATING' or 'CREATE_FAILED' or 'ACTIVE' or 'DELETING' or 'DELETED'")
+        else State,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

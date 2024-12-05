@@ -8,15 +8,25 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
-      StopConditions: (if std.isArray(StopConditions) then StopConditions else [StopConditions]),
-      assert std.isObject(Targets) : 'Targets must be an object',
-      Targets: Targets,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isObject(Tags) : 'Tags must be an object',
-      Tags: Tags,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 512 then error ('Description should have not more than 512 characters')
+        else Description,
+      StopConditions:
+        if !std.isArray(StopConditions) then (error 'StopConditions must be an array')
+        else StopConditions,
+      Targets:
+        if !std.isObject(Targets) then (error 'Targets must be an object')
+        else Targets,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) > 1224 then error ('RoleArn should have not more than 1224 characters')
+        else RoleArn,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -26,94 +36,103 @@
     Metadata:: [],
     Type: 'AWS::FIS::ExperimentTemplate',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withActions(Actions): {
-    assert std.isObject(Actions) : 'Actions must be a object',
+  setActions(Actions): {
     Properties+::: {
-      Actions: Actions,
+      Actions:
+        if !std.isObject(Actions) then (error 'Actions must be an object')
+        else Actions,
     },
   },
-  withLogConfiguration(LogConfiguration): {
-    assert std.isObject(LogConfiguration) : 'LogConfiguration must be a object',
+  setLogConfiguration(LogConfiguration): {
     Properties+::: {
-      LogConfiguration: LogConfiguration,
+      LogConfiguration:
+        if !std.isObject(LogConfiguration) then (error 'LogConfiguration must be an object')
+        else if !std.objectHas(LogConfiguration, 'LogSchemaVersion') then (error ' have attribute LogSchemaVersion')
+        else LogConfiguration,
     },
   },
-  withExperimentOptions(ExperimentOptions): {
-    assert std.isObject(ExperimentOptions) : 'ExperimentOptions must be a object',
+  setExperimentOptions(ExperimentOptions): {
     Properties+::: {
-      ExperimentOptions: ExperimentOptions,
+      ExperimentOptions:
+        if !std.isObject(ExperimentOptions) then (error 'ExperimentOptions must be an object')
+        else ExperimentOptions,
     },
   },
-  withExperimentReportConfiguration(ExperimentReportConfiguration): {
-    assert std.isObject(ExperimentReportConfiguration) : 'ExperimentReportConfiguration must be a object',
+  setExperimentReportConfiguration(ExperimentReportConfiguration): {
     Properties+::: {
-      ExperimentReportConfiguration: ExperimentReportConfiguration,
+      ExperimentReportConfiguration:
+        if !std.isObject(ExperimentReportConfiguration) then (error 'ExperimentReportConfiguration must be an object')
+        else if !std.objectHas(ExperimentReportConfiguration, 'Outputs') then (error ' have attribute Outputs')
+        else if !std.objectHas(ExperimentReportConfiguration, 'DataSources') then (error ' have attribute DataSources')
+        else ExperimentReportConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

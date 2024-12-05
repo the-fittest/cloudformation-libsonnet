@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,134 +10,152 @@
     Metadata:: [],
     Type: 'AWS::IAM::User',
   },
-  withPath(Path): {
-    assert std.isString(Path) : 'Path must be a string',
+  setPath(Path): {
     Properties+::: {
-      Path: Path,
+      Path:
+        if !std.isString(Path) then (error 'Path must be a string')
+        else if std.isEmpty(Path) then (error 'Path must be not empty')
+        else Path,
     },
   },
-  withManagedPolicyArns(ManagedPolicyArns): {
+  setManagedPolicyArns(ManagedPolicyArns): {
     Properties+::: {
-      ManagedPolicyArns: (if std.isArray(ManagedPolicyArns) then ManagedPolicyArns else [ManagedPolicyArns]),
+      ManagedPolicyArns:
+        if !std.isArray(ManagedPolicyArns) then (error 'ManagedPolicyArns must be an array')
+        else ManagedPolicyArns,
     },
   },
-  withManagedPolicyArnsMixin(ManagedPolicyArns): {
+  setManagedPolicyArnsMixin(ManagedPolicyArns): {
     Properties+::: {
-      ManagedPolicyArns+: (if std.isArray(ManagedPolicyArns) then ManagedPolicyArns else [ManagedPolicyArns]),
+      ManagedPolicyArns+: ManagedPolicyArns,
     },
   },
-  withPolicies(Policies): {
+  setPolicies(Policies): {
     Properties+::: {
-      Policies: (if std.isArray(Policies) then Policies else [Policies]),
+      Policies:
+        if !std.isArray(Policies) then (error 'Policies must be an array')
+        else Policies,
     },
   },
-  withPoliciesMixin(Policies): {
+  setPoliciesMixin(Policies): {
     Properties+::: {
-      Policies+: (if std.isArray(Policies) then Policies else [Policies]),
+      Policies+: Policies,
     },
   },
-  withUserName(UserName): {
-    assert std.isString(UserName) : 'UserName must be a string',
+  setUserName(UserName): {
     Properties+::: {
-      UserName: UserName,
+      UserName:
+        if !std.isString(UserName) then (error 'UserName must be a string')
+        else if std.isEmpty(UserName) then (error 'UserName must be not empty')
+        else UserName,
     },
   },
-  withGroups(Groups): {
+  setGroups(Groups): {
     Properties+::: {
-      Groups: (if std.isArray(Groups) then Groups else [Groups]),
+      Groups:
+        if !std.isArray(Groups) then (error 'Groups must be an array')
+        else Groups,
     },
   },
-  withGroupsMixin(Groups): {
+  setGroupsMixin(Groups): {
     Properties+::: {
-      Groups+: (if std.isArray(Groups) then Groups else [Groups]),
+      Groups+: Groups,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withLoginProfile(LoginProfile): {
-    assert std.isObject(LoginProfile) : 'LoginProfile must be a object',
+  setLoginProfile(LoginProfile): {
     Properties+::: {
-      LoginProfile: LoginProfile,
+      LoginProfile:
+        if !std.isObject(LoginProfile) then (error 'LoginProfile must be an object')
+        else if !std.objectHas(LoginProfile, 'Password') then (error ' have attribute Password')
+        else LoginProfile,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withPermissionsBoundary(PermissionsBoundary): {
-    assert std.isString(PermissionsBoundary) : 'PermissionsBoundary must be a string',
+  setPermissionsBoundary(PermissionsBoundary): {
     Properties+::: {
-      PermissionsBoundary: PermissionsBoundary,
+      PermissionsBoundary:
+        if !std.isString(PermissionsBoundary) then (error 'PermissionsBoundary must be a string')
+        else if std.isEmpty(PermissionsBoundary) then (error 'PermissionsBoundary must be not empty')
+        else PermissionsBoundary,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

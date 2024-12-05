@@ -5,10 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ComparisonOperator) : 'ComparisonOperator must be a string',
-      ComparisonOperator: ComparisonOperator,
-      assert std.isNumber(EvaluationPeriods) : 'EvaluationPeriods must be a number',
-      EvaluationPeriods: EvaluationPeriods,
+      ComparisonOperator:
+        if !std.isString(ComparisonOperator) then (error 'ComparisonOperator must be a string')
+        else if std.isEmpty(ComparisonOperator) then (error 'ComparisonOperator must be not empty')
+        else ComparisonOperator,
+      EvaluationPeriods:
+        if !std.isNumber(EvaluationPeriods) then (error 'EvaluationPeriods must be an number')
+        else EvaluationPeriods,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,214 +21,252 @@
     Metadata:: [],
     Type: 'AWS::CloudWatch::Alarm',
   },
-  withThresholdMetricId(ThresholdMetricId): {
-    assert std.isString(ThresholdMetricId) : 'ThresholdMetricId must be a string',
+  setThresholdMetricId(ThresholdMetricId): {
     Properties+::: {
-      ThresholdMetricId: ThresholdMetricId,
+      ThresholdMetricId:
+        if !std.isString(ThresholdMetricId) then (error 'ThresholdMetricId must be a string')
+        else if std.isEmpty(ThresholdMetricId) then (error 'ThresholdMetricId must be not empty')
+        else ThresholdMetricId,
     },
   },
-  withEvaluateLowSampleCountPercentile(EvaluateLowSampleCountPercentile): {
-    assert std.isString(EvaluateLowSampleCountPercentile) : 'EvaluateLowSampleCountPercentile must be a string',
+  setEvaluateLowSampleCountPercentile(EvaluateLowSampleCountPercentile): {
     Properties+::: {
-      EvaluateLowSampleCountPercentile: EvaluateLowSampleCountPercentile,
+      EvaluateLowSampleCountPercentile:
+        if !std.isString(EvaluateLowSampleCountPercentile) then (error 'EvaluateLowSampleCountPercentile must be a string')
+        else if std.isEmpty(EvaluateLowSampleCountPercentile) then (error 'EvaluateLowSampleCountPercentile must be not empty')
+        else EvaluateLowSampleCountPercentile,
     },
   },
-  withExtendedStatistic(ExtendedStatistic): {
-    assert std.isString(ExtendedStatistic) : 'ExtendedStatistic must be a string',
+  setExtendedStatistic(ExtendedStatistic): {
     Properties+::: {
-      ExtendedStatistic: ExtendedStatistic,
+      ExtendedStatistic:
+        if !std.isString(ExtendedStatistic) then (error 'ExtendedStatistic must be a string')
+        else if std.isEmpty(ExtendedStatistic) then (error 'ExtendedStatistic must be not empty')
+        else ExtendedStatistic,
     },
   },
-  withTreatMissingData(TreatMissingData): {
-    assert std.isString(TreatMissingData) : 'TreatMissingData must be a string',
+  setTreatMissingData(TreatMissingData): {
     Properties+::: {
-      TreatMissingData: TreatMissingData,
+      TreatMissingData:
+        if !std.isString(TreatMissingData) then (error 'TreatMissingData must be a string')
+        else if std.isEmpty(TreatMissingData) then (error 'TreatMissingData must be not empty')
+        else TreatMissingData,
     },
   },
-  withDimensions(Dimensions): {
+  setDimensions(Dimensions): {
     Properties+::: {
-      Dimensions: (if std.isArray(Dimensions) then Dimensions else [Dimensions]),
+      Dimensions:
+        if !std.isArray(Dimensions) then (error 'Dimensions must be an array')
+        else Dimensions,
     },
   },
-  withDimensionsMixin(Dimensions): {
+  setDimensionsMixin(Dimensions): {
     Properties+::: {
-      Dimensions+: (if std.isArray(Dimensions) then Dimensions else [Dimensions]),
+      Dimensions+: Dimensions,
     },
   },
-  withPeriod(Period): {
-    assert std.isNumber(Period) : 'Period must be a number',
+  setPeriod(Period): {
     Properties+::: {
-      Period: Period,
+      Period:
+        if !std.isNumber(Period) then (error 'Period must be an number')
+        else Period,
     },
   },
-  withUnit(Unit): {
-    assert std.isString(Unit) : 'Unit must be a string',
+  setUnit(Unit): {
     Properties+::: {
-      Unit: Unit,
+      Unit:
+        if !std.isString(Unit) then (error 'Unit must be a string')
+        else if std.isEmpty(Unit) then (error 'Unit must be not empty')
+        else Unit,
     },
   },
-  withNamespace(Namespace): {
-    assert std.isString(Namespace) : 'Namespace must be a string',
+  setNamespace(Namespace): {
     Properties+::: {
-      Namespace: Namespace,
+      Namespace:
+        if !std.isString(Namespace) then (error 'Namespace must be a string')
+        else if std.isEmpty(Namespace) then (error 'Namespace must be not empty')
+        else Namespace,
     },
   },
-  withOKActions(OKActions): {
+  setOKActions(OKActions): {
     Properties+::: {
-      OKActions: (if std.isArray(OKActions) then OKActions else [OKActions]),
+      OKActions:
+        if !std.isArray(OKActions) then (error 'OKActions must be an array')
+        else OKActions,
     },
   },
-  withOKActionsMixin(OKActions): {
+  setOKActionsMixin(OKActions): {
     Properties+::: {
-      OKActions+: (if std.isArray(OKActions) then OKActions else [OKActions]),
+      OKActions+: OKActions,
     },
   },
-  withAlarmActions(AlarmActions): {
+  setAlarmActions(AlarmActions): {
     Properties+::: {
-      AlarmActions: (if std.isArray(AlarmActions) then AlarmActions else [AlarmActions]),
+      AlarmActions:
+        if !std.isArray(AlarmActions) then (error 'AlarmActions must be an array')
+        else AlarmActions,
     },
   },
-  withAlarmActionsMixin(AlarmActions): {
+  setAlarmActionsMixin(AlarmActions): {
     Properties+::: {
-      AlarmActions+: (if std.isArray(AlarmActions) then AlarmActions else [AlarmActions]),
+      AlarmActions+: AlarmActions,
     },
   },
-  withMetricName(MetricName): {
-    assert std.isString(MetricName) : 'MetricName must be a string',
+  setMetricName(MetricName): {
     Properties+::: {
-      MetricName: MetricName,
+      MetricName:
+        if !std.isString(MetricName) then (error 'MetricName must be a string')
+        else if std.isEmpty(MetricName) then (error 'MetricName must be not empty')
+        else MetricName,
     },
   },
-  withActionsEnabled(ActionsEnabled): {
-    assert std.isBoolean(ActionsEnabled) : 'ActionsEnabled must be a boolean',
+  setActionsEnabled(ActionsEnabled): {
     Properties+::: {
-      ActionsEnabled: ActionsEnabled,
+      ActionsEnabled:
+        if !std.isBoolean(ActionsEnabled) then (error 'ActionsEnabled must be a boolean') else ActionsEnabled,
     },
   },
-  withMetrics(Metrics): {
+  setMetrics(Metrics): {
     Properties+::: {
-      Metrics: (if std.isArray(Metrics) then Metrics else [Metrics]),
+      Metrics:
+        if !std.isArray(Metrics) then (error 'Metrics must be an array')
+        else Metrics,
     },
   },
-  withMetricsMixin(Metrics): {
+  setMetricsMixin(Metrics): {
     Properties+::: {
-      Metrics+: (if std.isArray(Metrics) then Metrics else [Metrics]),
+      Metrics+: Metrics,
     },
   },
-  withAlarmDescription(AlarmDescription): {
-    assert std.isString(AlarmDescription) : 'AlarmDescription must be a string',
+  setAlarmDescription(AlarmDescription): {
     Properties+::: {
-      AlarmDescription: AlarmDescription,
+      AlarmDescription:
+        if !std.isString(AlarmDescription) then (error 'AlarmDescription must be a string')
+        else if std.isEmpty(AlarmDescription) then (error 'AlarmDescription must be not empty')
+        else AlarmDescription,
     },
   },
-  withAlarmName(AlarmName): {
-    assert std.isString(AlarmName) : 'AlarmName must be a string',
+  setAlarmName(AlarmName): {
     Properties+::: {
-      AlarmName: AlarmName,
+      AlarmName:
+        if !std.isString(AlarmName) then (error 'AlarmName must be a string')
+        else if std.isEmpty(AlarmName) then (error 'AlarmName must be not empty')
+        else AlarmName,
     },
   },
-  withStatistic(Statistic): {
-    assert std.isString(Statistic) : 'Statistic must be a string',
+  setStatistic(Statistic): {
     Properties+::: {
-      Statistic: Statistic,
+      Statistic:
+        if !std.isString(Statistic) then (error 'Statistic must be a string')
+        else if std.isEmpty(Statistic) then (error 'Statistic must be not empty')
+        else Statistic,
     },
   },
-  withInsufficientDataActions(InsufficientDataActions): {
+  setInsufficientDataActions(InsufficientDataActions): {
     Properties+::: {
-      InsufficientDataActions: (if std.isArray(InsufficientDataActions) then InsufficientDataActions else [InsufficientDataActions]),
+      InsufficientDataActions:
+        if !std.isArray(InsufficientDataActions) then (error 'InsufficientDataActions must be an array')
+        else InsufficientDataActions,
     },
   },
-  withInsufficientDataActionsMixin(InsufficientDataActions): {
+  setInsufficientDataActionsMixin(InsufficientDataActions): {
     Properties+::: {
-      InsufficientDataActions+: (if std.isArray(InsufficientDataActions) then InsufficientDataActions else [InsufficientDataActions]),
+      InsufficientDataActions+: InsufficientDataActions,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDatapointsToAlarm(DatapointsToAlarm): {
-    assert std.isNumber(DatapointsToAlarm) : 'DatapointsToAlarm must be a number',
+  setDatapointsToAlarm(DatapointsToAlarm): {
     Properties+::: {
-      DatapointsToAlarm: DatapointsToAlarm,
+      DatapointsToAlarm:
+        if !std.isNumber(DatapointsToAlarm) then (error 'DatapointsToAlarm must be an number')
+        else DatapointsToAlarm,
     },
   },
-  withThreshold(Threshold): {
-    assert std.isNumber(Threshold) : 'Threshold must be a number',
+  setThreshold(Threshold): {
     Properties+::: {
-      Threshold: Threshold,
+      Threshold:
+        if !std.isNumber(Threshold) then (error 'Threshold must be an number')
+        else Threshold,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ServiceArn) : 'ServiceArn must be a string',
-      ServiceArn: ServiceArn,
-      assert std.isObject(IngressVpcConfiguration) : 'IngressVpcConfiguration must be an object',
-      IngressVpcConfiguration: IngressVpcConfiguration,
+      ServiceArn:
+        if !std.isString(ServiceArn) then (error 'ServiceArn must be a string')
+        else if std.isEmpty(ServiceArn) then (error 'ServiceArn must be not empty')
+        else if std.length(ServiceArn) < 1 then error ('ServiceArn should have at least 1 characters')
+        else if std.length(ServiceArn) > 1011 then error ('ServiceArn should have not more than 1011 characters')
+        else ServiceArn,
+      IngressVpcConfiguration:
+        if !std.isObject(IngressVpcConfiguration) then (error 'IngressVpcConfiguration must be an object')
+        else if !std.objectHas(IngressVpcConfiguration, 'VpcId') then (error ' have attribute VpcId')
+        else if !std.objectHas(IngressVpcConfiguration, 'VpcEndpointId') then (error ' have attribute VpcEndpointId')
+        else IngressVpcConfiguration,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,99 +25,115 @@
     Metadata:: [],
     Type: 'AWS::AppRunner::VpcIngressConnection',
   },
-  withVpcIngressConnectionArn(VpcIngressConnectionArn): {
-    assert std.isString(VpcIngressConnectionArn) : 'VpcIngressConnectionArn must be a string',
+  setVpcIngressConnectionArn(VpcIngressConnectionArn): {
     Properties+::: {
-      VpcIngressConnectionArn: VpcIngressConnectionArn,
+      VpcIngressConnectionArn:
+        if !std.isString(VpcIngressConnectionArn) then (error 'VpcIngressConnectionArn must be a string')
+        else if std.isEmpty(VpcIngressConnectionArn) then (error 'VpcIngressConnectionArn must be not empty')
+        else if std.length(VpcIngressConnectionArn) < 1 then error ('VpcIngressConnectionArn should have at least 1 characters')
+        else if std.length(VpcIngressConnectionArn) > 1011 then error ('VpcIngressConnectionArn should have not more than 1011 characters')
+        else VpcIngressConnectionArn,
     },
   },
-  withVpcIngressConnectionName(VpcIngressConnectionName): {
-    assert std.isString(VpcIngressConnectionName) : 'VpcIngressConnectionName must be a string',
+  setVpcIngressConnectionName(VpcIngressConnectionName): {
     Properties+::: {
-      VpcIngressConnectionName: VpcIngressConnectionName,
+      VpcIngressConnectionName:
+        if !std.isString(VpcIngressConnectionName) then (error 'VpcIngressConnectionName must be a string')
+        else if std.isEmpty(VpcIngressConnectionName) then (error 'VpcIngressConnectionName must be not empty')
+        else if std.length(VpcIngressConnectionName) < 4 then error ('VpcIngressConnectionName should have at least 4 characters')
+        else if std.length(VpcIngressConnectionName) > 40 then error ('VpcIngressConnectionName should have not more than 40 characters')
+        else VpcIngressConnectionName,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'AVAILABLE' || Status == 'PENDING_CREATION' || Status == 'PENDING_UPDATE' || Status == 'PENDING_DELETION' || Status == 'FAILED_CREATION' || Status == 'FAILED_UPDATE' || Status == 'FAILED_DELETION' || Status == 'DELETED' : "Status should be 'AVAILABLE' or 'PENDING_CREATION' or 'PENDING_UPDATE' or 'PENDING_DELETION' or 'FAILED_CREATION' or 'FAILED_UPDATE' or 'FAILED_DELETION' or 'DELETED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'AVAILABLE' && Status != 'PENDING_CREATION' && Status != 'PENDING_UPDATE' && Status != 'PENDING_DELETION' && Status != 'FAILED_CREATION' && Status != 'FAILED_UPDATE' && Status != 'FAILED_DELETION' && Status != 'DELETED' then (error "Status should be 'AVAILABLE' or 'PENDING_CREATION' or 'PENDING_UPDATE' or 'PENDING_DELETION' or 'FAILED_CREATION' or 'FAILED_UPDATE' or 'FAILED_DELETION' or 'DELETED'")
+        else Status,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 255 then error ('DomainName should have not more than 255 characters')
+        else DomainName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

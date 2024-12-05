@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AppId) : 'AppId must be a string',
-      AppId: AppId,
-      assert std.isString(BranchName) : 'BranchName must be a string',
-      BranchName: BranchName,
+      AppId:
+        if !std.isString(AppId) then (error 'AppId must be a string')
+        else if std.isEmpty(AppId) then (error 'AppId must be not empty')
+        else if std.length(AppId) < 1 then error ('AppId should have at least 1 characters')
+        else if std.length(AppId) > 20 then error ('AppId should have not more than 20 characters')
+        else AppId,
+      BranchName:
+        if !std.isString(BranchName) then (error 'BranchName must be a string')
+        else if std.isEmpty(BranchName) then (error 'BranchName must be not empty')
+        else if std.length(BranchName) < 1 then error ('BranchName should have at least 1 characters')
+        else if std.length(BranchName) > 255 then error ('BranchName should have not more than 255 characters')
+        else BranchName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,151 +26,177 @@
     Metadata:: [],
     Type: 'AWS::Amplify::Branch',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 1000 then error ('Arn should have not more than 1000 characters')
+        else Arn,
     },
   },
-  withBasicAuthConfig(BasicAuthConfig): {
-    assert std.isObject(BasicAuthConfig) : 'BasicAuthConfig must be a object',
+  setBasicAuthConfig(BasicAuthConfig): {
     Properties+::: {
-      BasicAuthConfig: BasicAuthConfig,
+      BasicAuthConfig:
+        if !std.isObject(BasicAuthConfig) then (error 'BasicAuthConfig must be an object')
+        else if !std.objectHas(BasicAuthConfig, 'Username') then (error ' have attribute Username')
+        else if !std.objectHas(BasicAuthConfig, 'Password') then (error ' have attribute Password')
+        else BasicAuthConfig,
     },
   },
-  withBackend(Backend): {
-    assert std.isObject(Backend) : 'Backend must be a object',
+  setBackend(Backend): {
     Properties+::: {
-      Backend: Backend,
+      Backend:
+        if !std.isObject(Backend) then (error 'Backend must be an object')
+        else Backend,
     },
   },
-  withBuildSpec(BuildSpec): {
-    assert std.isString(BuildSpec) : 'BuildSpec must be a string',
+  setBuildSpec(BuildSpec): {
     Properties+::: {
-      BuildSpec: BuildSpec,
+      BuildSpec:
+        if !std.isString(BuildSpec) then (error 'BuildSpec must be a string')
+        else if std.isEmpty(BuildSpec) then (error 'BuildSpec must be not empty')
+        else if std.length(BuildSpec) < 1 then error ('BuildSpec should have at least 1 characters')
+        else if std.length(BuildSpec) > 25000 then error ('BuildSpec should have not more than 25000 characters')
+        else BuildSpec,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withEnableAutoBuild(EnableAutoBuild): {
-    assert std.isBoolean(EnableAutoBuild) : 'EnableAutoBuild must be a boolean',
+  setEnableAutoBuild(EnableAutoBuild): {
     Properties+::: {
-      EnableAutoBuild: EnableAutoBuild,
+      EnableAutoBuild:
+        if !std.isBoolean(EnableAutoBuild) then (error 'EnableAutoBuild must be a boolean') else EnableAutoBuild,
     },
   },
-  withEnablePerformanceMode(EnablePerformanceMode): {
-    assert std.isBoolean(EnablePerformanceMode) : 'EnablePerformanceMode must be a boolean',
+  setEnablePerformanceMode(EnablePerformanceMode): {
     Properties+::: {
-      EnablePerformanceMode: EnablePerformanceMode,
+      EnablePerformanceMode:
+        if !std.isBoolean(EnablePerformanceMode) then (error 'EnablePerformanceMode must be a boolean') else EnablePerformanceMode,
     },
   },
-  withEnablePullRequestPreview(EnablePullRequestPreview): {
-    assert std.isBoolean(EnablePullRequestPreview) : 'EnablePullRequestPreview must be a boolean',
+  setEnablePullRequestPreview(EnablePullRequestPreview): {
     Properties+::: {
-      EnablePullRequestPreview: EnablePullRequestPreview,
+      EnablePullRequestPreview:
+        if !std.isBoolean(EnablePullRequestPreview) then (error 'EnablePullRequestPreview must be a boolean') else EnablePullRequestPreview,
     },
   },
-  withEnvironmentVariables(EnvironmentVariables): {
+  setEnvironmentVariables(EnvironmentVariables): {
     Properties+::: {
-      EnvironmentVariables: (if std.isArray(EnvironmentVariables) then EnvironmentVariables else [EnvironmentVariables]),
+      EnvironmentVariables:
+        if !std.isArray(EnvironmentVariables) then (error 'EnvironmentVariables must be an array')
+        else EnvironmentVariables,
     },
   },
-  withEnvironmentVariablesMixin(EnvironmentVariables): {
+  setEnvironmentVariablesMixin(EnvironmentVariables): {
     Properties+::: {
-      EnvironmentVariables+: (if std.isArray(EnvironmentVariables) then EnvironmentVariables else [EnvironmentVariables]),
+      EnvironmentVariables+: EnvironmentVariables,
     },
   },
-  withFramework(Framework): {
-    assert std.isString(Framework) : 'Framework must be a string',
+  setFramework(Framework): {
     Properties+::: {
-      Framework: Framework,
+      Framework:
+        if !std.isString(Framework) then (error 'Framework must be a string')
+        else if std.isEmpty(Framework) then (error 'Framework must be not empty')
+        else if std.length(Framework) > 255 then error ('Framework should have not more than 255 characters')
+        else Framework,
     },
   },
-  withPullRequestEnvironmentName(PullRequestEnvironmentName): {
-    assert std.isString(PullRequestEnvironmentName) : 'PullRequestEnvironmentName must be a string',
+  setPullRequestEnvironmentName(PullRequestEnvironmentName): {
     Properties+::: {
-      PullRequestEnvironmentName: PullRequestEnvironmentName,
+      PullRequestEnvironmentName:
+        if !std.isString(PullRequestEnvironmentName) then (error 'PullRequestEnvironmentName must be a string')
+        else if std.isEmpty(PullRequestEnvironmentName) then (error 'PullRequestEnvironmentName must be not empty')
+        else if std.length(PullRequestEnvironmentName) > 20 then error ('PullRequestEnvironmentName should have not more than 20 characters')
+        else PullRequestEnvironmentName,
     },
   },
-  withStage(Stage): {
-    assert std.isString(Stage) : 'Stage must be a string',
-    assert Stage == 'EXPERIMENTAL' || Stage == 'BETA' || Stage == 'PULL_REQUEST' || Stage == 'PRODUCTION' || Stage == 'DEVELOPMENT' : "Stage should be 'EXPERIMENTAL' or 'BETA' or 'PULL_REQUEST' or 'PRODUCTION' or 'DEVELOPMENT'",
+  setStage(Stage): {
     Properties+::: {
-      Stage: Stage,
+      Stage:
+        if !std.isString(Stage) then (error 'Stage must be a string')
+        else if std.isEmpty(Stage) then (error 'Stage must be not empty')
+        else if Stage != 'EXPERIMENTAL' && Stage != 'BETA' && Stage != 'PULL_REQUEST' && Stage != 'PRODUCTION' && Stage != 'DEVELOPMENT' then (error "Stage should be 'EXPERIMENTAL' or 'BETA' or 'PULL_REQUEST' or 'PRODUCTION' or 'DEVELOPMENT'")
+        else Stage,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

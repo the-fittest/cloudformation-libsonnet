@@ -4,8 +4,9 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(LaunchTemplateData) : 'LaunchTemplateData must be an object',
-      LaunchTemplateData: LaunchTemplateData,
+      LaunchTemplateData:
+        if !std.isObject(LaunchTemplateData) then (error 'LaunchTemplateData must be an object')
+        else LaunchTemplateData,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,104 +16,116 @@
     Metadata:: [],
     Type: 'AWS::EC2::LaunchTemplate',
   },
-  withLaunchTemplateName(LaunchTemplateName): {
-    assert std.isString(LaunchTemplateName) : 'LaunchTemplateName must be a string',
+  setLaunchTemplateName(LaunchTemplateName): {
     Properties+::: {
-      LaunchTemplateName: LaunchTemplateName,
+      LaunchTemplateName:
+        if !std.isString(LaunchTemplateName) then (error 'LaunchTemplateName must be a string')
+        else if std.isEmpty(LaunchTemplateName) then (error 'LaunchTemplateName must be not empty')
+        else LaunchTemplateName,
     },
   },
-  withVersionDescription(VersionDescription): {
-    assert std.isString(VersionDescription) : 'VersionDescription must be a string',
+  setVersionDescription(VersionDescription): {
     Properties+::: {
-      VersionDescription: VersionDescription,
+      VersionDescription:
+        if !std.isString(VersionDescription) then (error 'VersionDescription must be a string')
+        else if std.isEmpty(VersionDescription) then (error 'VersionDescription must be not empty')
+        else VersionDescription,
     },
   },
-  withTagSpecifications(TagSpecifications): {
+  setTagSpecifications(TagSpecifications): {
     Properties+::: {
-      TagSpecifications: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications:
+        if !std.isArray(TagSpecifications) then (error 'TagSpecifications must be an array')
+        else TagSpecifications,
     },
   },
-  withTagSpecificationsMixin(TagSpecifications): {
+  setTagSpecificationsMixin(TagSpecifications): {
     Properties+::: {
-      TagSpecifications+: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications+: TagSpecifications,
     },
   },
-  withLatestVersionNumber(LatestVersionNumber): {
-    assert std.isString(LatestVersionNumber) : 'LatestVersionNumber must be a string',
+  setLatestVersionNumber(LatestVersionNumber): {
     Properties+::: {
-      LatestVersionNumber: LatestVersionNumber,
+      LatestVersionNumber:
+        if !std.isString(LatestVersionNumber) then (error 'LatestVersionNumber must be a string')
+        else if std.isEmpty(LatestVersionNumber) then (error 'LatestVersionNumber must be not empty')
+        else LatestVersionNumber,
     },
   },
-  withLaunchTemplateId(LaunchTemplateId): {
-    assert std.isString(LaunchTemplateId) : 'LaunchTemplateId must be a string',
+  setLaunchTemplateId(LaunchTemplateId): {
     Properties+::: {
-      LaunchTemplateId: LaunchTemplateId,
+      LaunchTemplateId:
+        if !std.isString(LaunchTemplateId) then (error 'LaunchTemplateId must be a string')
+        else if std.isEmpty(LaunchTemplateId) then (error 'LaunchTemplateId must be not empty')
+        else LaunchTemplateId,
     },
   },
-  withDefaultVersionNumber(DefaultVersionNumber): {
-    assert std.isString(DefaultVersionNumber) : 'DefaultVersionNumber must be a string',
+  setDefaultVersionNumber(DefaultVersionNumber): {
     Properties+::: {
-      DefaultVersionNumber: DefaultVersionNumber,
+      DefaultVersionNumber:
+        if !std.isString(DefaultVersionNumber) then (error 'DefaultVersionNumber must be a string')
+        else if std.isEmpty(DefaultVersionNumber) then (error 'DefaultVersionNumber must be not empty')
+        else DefaultVersionNumber,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

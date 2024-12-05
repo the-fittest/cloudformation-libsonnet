@@ -6,13 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainNameArn) : 'DomainNameArn must be a string',
-      DomainNameArn: DomainNameArn,
-      assert std.isString(AccessAssociationSource) : 'AccessAssociationSource must be a string',
-      AccessAssociationSource: AccessAssociationSource,
-      assert std.isString(AccessAssociationSourceType) : 'AccessAssociationSourceType must be a string',
-      assert AccessAssociationSourceType == 'VPCE' : "AccessAssociationSourceType should be 'VPCE'",
-      AccessAssociationSourceType: AccessAssociationSourceType,
+      DomainNameArn:
+        if !std.isString(DomainNameArn) then (error 'DomainNameArn must be a string')
+        else if std.isEmpty(DomainNameArn) then (error 'DomainNameArn must be not empty')
+        else DomainNameArn,
+      AccessAssociationSource:
+        if !std.isString(AccessAssociationSource) then (error 'AccessAssociationSource must be a string')
+        else if std.isEmpty(AccessAssociationSource) then (error 'AccessAssociationSource must be not empty')
+        else AccessAssociationSource,
+      AccessAssociationSourceType:
+        if !std.isString(AccessAssociationSourceType) then (error 'AccessAssociationSourceType must be a string')
+        else if std.isEmpty(AccessAssociationSourceType) then (error 'AccessAssociationSourceType must be not empty')
+        else if AccessAssociationSourceType != 'VPCE' then (error "AccessAssociationSourceType should be 'VPCE'")
+        else AccessAssociationSourceType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,80 +28,84 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::DomainNameAccessAssociation',
   },
-  withDomainNameAccessAssociationArn(DomainNameAccessAssociationArn): {
-    assert std.isString(DomainNameAccessAssociationArn) : 'DomainNameAccessAssociationArn must be a string',
+  setDomainNameAccessAssociationArn(DomainNameAccessAssociationArn): {
     Properties+::: {
-      DomainNameAccessAssociationArn: DomainNameAccessAssociationArn,
+      DomainNameAccessAssociationArn:
+        if !std.isString(DomainNameAccessAssociationArn) then (error 'DomainNameAccessAssociationArn must be a string')
+        else if std.isEmpty(DomainNameAccessAssociationArn) then (error 'DomainNameAccessAssociationArn must be not empty')
+        else DomainNameAccessAssociationArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

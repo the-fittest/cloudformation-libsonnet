@@ -7,15 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EnvironmentIdentifier) : 'EnvironmentIdentifier must be a string',
-      EnvironmentIdentifier: EnvironmentIdentifier,
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(ProxyType) : 'ProxyType must be a string',
-      assert ProxyType == 'API_GATEWAY' : "ProxyType should be 'API_GATEWAY'",
-      ProxyType: ProxyType,
+      EnvironmentIdentifier:
+        if !std.isString(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be a string')
+        else if std.isEmpty(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be not empty')
+        else if std.length(EnvironmentIdentifier) < 14 then error ('EnvironmentIdentifier should have at least 14 characters')
+        else if std.length(EnvironmentIdentifier) > 14 then error ('EnvironmentIdentifier should have not more than 14 characters')
+        else EnvironmentIdentifier,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else if std.length(VpcId) < 12 then error ('VpcId should have at least 12 characters')
+        else if std.length(VpcId) > 21 then error ('VpcId should have not more than 21 characters')
+        else VpcId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 3 then error ('Name should have at least 3 characters')
+        else if std.length(Name) > 63 then error ('Name should have not more than 63 characters')
+        else Name,
+      ProxyType:
+        if !std.isString(ProxyType) then (error 'ProxyType must be a string')
+        else if std.isEmpty(ProxyType) then (error 'ProxyType must be not empty')
+        else if ProxyType != 'API_GATEWAY' then (error "ProxyType should be 'API_GATEWAY'")
+        else ProxyType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,128 +39,163 @@
     Metadata:: [],
     Type: 'AWS::RefactorSpaces::Application',
   },
-  withApiGatewayProxy(ApiGatewayProxy): {
-    assert std.isObject(ApiGatewayProxy) : 'ApiGatewayProxy must be a object',
+  setApiGatewayProxy(ApiGatewayProxy): {
     Properties+::: {
-      ApiGatewayProxy: ApiGatewayProxy,
+      ApiGatewayProxy:
+        if !std.isObject(ApiGatewayProxy) then (error 'ApiGatewayProxy must be an object')
+        else ApiGatewayProxy,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withApiGatewayId(ApiGatewayId): {
-    assert std.isString(ApiGatewayId) : 'ApiGatewayId must be a string',
+  setApiGatewayId(ApiGatewayId): {
     Properties+::: {
-      ApiGatewayId: ApiGatewayId,
+      ApiGatewayId:
+        if !std.isString(ApiGatewayId) then (error 'ApiGatewayId must be a string')
+        else if std.isEmpty(ApiGatewayId) then (error 'ApiGatewayId must be not empty')
+        else if std.length(ApiGatewayId) < 10 then error ('ApiGatewayId should have at least 10 characters')
+        else if std.length(ApiGatewayId) > 10 then error ('ApiGatewayId should have not more than 10 characters')
+        else ApiGatewayId,
     },
   },
-  withVpcLinkId(VpcLinkId): {
-    assert std.isString(VpcLinkId) : 'VpcLinkId must be a string',
+  setVpcLinkId(VpcLinkId): {
     Properties+::: {
-      VpcLinkId: VpcLinkId,
+      VpcLinkId:
+        if !std.isString(VpcLinkId) then (error 'VpcLinkId must be a string')
+        else if std.isEmpty(VpcLinkId) then (error 'VpcLinkId must be not empty')
+        else if std.length(VpcLinkId) < 10 then error ('VpcLinkId should have at least 10 characters')
+        else if std.length(VpcLinkId) > 10 then error ('VpcLinkId should have not more than 10 characters')
+        else VpcLinkId,
     },
   },
-  withNlbArn(NlbArn): {
-    assert std.isString(NlbArn) : 'NlbArn must be a string',
+  setNlbArn(NlbArn): {
     Properties+::: {
-      NlbArn: NlbArn,
+      NlbArn:
+        if !std.isString(NlbArn) then (error 'NlbArn must be a string')
+        else if std.isEmpty(NlbArn) then (error 'NlbArn must be not empty')
+        else if std.length(NlbArn) < 20 then error ('NlbArn should have at least 20 characters')
+        else if std.length(NlbArn) > 2048 then error ('NlbArn should have not more than 2048 characters')
+        else NlbArn,
     },
   },
-  withNlbName(NlbName): {
-    assert std.isString(NlbName) : 'NlbName must be a string',
+  setNlbName(NlbName): {
     Properties+::: {
-      NlbName: NlbName,
+      NlbName:
+        if !std.isString(NlbName) then (error 'NlbName must be a string')
+        else if std.isEmpty(NlbName) then (error 'NlbName must be not empty')
+        else if std.length(NlbName) < 1 then error ('NlbName should have at least 1 characters')
+        else if std.length(NlbName) > 32 then error ('NlbName should have not more than 32 characters')
+        else NlbName,
     },
   },
-  withApplicationIdentifier(ApplicationIdentifier): {
-    assert std.isString(ApplicationIdentifier) : 'ApplicationIdentifier must be a string',
+  setApplicationIdentifier(ApplicationIdentifier): {
     Properties+::: {
-      ApplicationIdentifier: ApplicationIdentifier,
+      ApplicationIdentifier:
+        if !std.isString(ApplicationIdentifier) then (error 'ApplicationIdentifier must be a string')
+        else if std.isEmpty(ApplicationIdentifier) then (error 'ApplicationIdentifier must be not empty')
+        else if std.length(ApplicationIdentifier) < 14 then error ('ApplicationIdentifier should have at least 14 characters')
+        else if std.length(ApplicationIdentifier) > 14 then error ('ApplicationIdentifier should have not more than 14 characters')
+        else ApplicationIdentifier,
     },
   },
-  withStageName(StageName): {
-    assert std.isString(StageName) : 'StageName must be a string',
+  setStageName(StageName): {
     Properties+::: {
-      StageName: StageName,
+      StageName:
+        if !std.isString(StageName) then (error 'StageName must be a string')
+        else if std.isEmpty(StageName) then (error 'StageName must be not empty')
+        else if std.length(StageName) < 1 then error ('StageName should have at least 1 characters')
+        else if std.length(StageName) > 128 then error ('StageName should have not more than 128 characters')
+        else StageName,
     },
   },
-  withProxyUrl(ProxyUrl): {
-    assert std.isString(ProxyUrl) : 'ProxyUrl must be a string',
+  setProxyUrl(ProxyUrl): {
     Properties+::: {
-      ProxyUrl: ProxyUrl,
+      ProxyUrl:
+        if !std.isString(ProxyUrl) then (error 'ProxyUrl must be a string')
+        else if std.isEmpty(ProxyUrl) then (error 'ProxyUrl must be not empty')
+        else if std.length(ProxyUrl) < 1 then error ('ProxyUrl should have at least 1 characters')
+        else if std.length(ProxyUrl) > 2048 then error ('ProxyUrl should have not more than 2048 characters')
+        else ProxyUrl,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

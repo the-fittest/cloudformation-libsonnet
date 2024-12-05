@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RestApiId) : 'RestApiId must be a string',
-      RestApiId: RestApiId,
-      assert std.isString(ResourceId) : 'ResourceId must be a string',
-      ResourceId: ResourceId,
-      assert std.isString(HttpMethod) : 'HttpMethod must be a string',
-      HttpMethod: HttpMethod,
+      RestApiId:
+        if !std.isString(RestApiId) then (error 'RestApiId must be a string')
+        else if std.isEmpty(RestApiId) then (error 'RestApiId must be not empty')
+        else RestApiId,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else ResourceId,
+      HttpMethod:
+        if !std.isString(HttpMethod) then (error 'HttpMethod must be a string')
+        else if std.isEmpty(HttpMethod) then (error 'HttpMethod must be not empty')
+        else HttpMethod,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,132 +27,148 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::Method',
   },
-  withIntegration(Integration): {
-    assert std.isObject(Integration) : 'Integration must be a object',
+  setIntegration(Integration): {
     Properties+::: {
-      Integration: Integration,
+      Integration:
+        if !std.isObject(Integration) then (error 'Integration must be an object')
+        else if !std.objectHas(Integration, 'Type') then (error ' have attribute Type')
+        else Integration,
     },
   },
-  withOperationName(OperationName): {
-    assert std.isString(OperationName) : 'OperationName must be a string',
+  setOperationName(OperationName): {
     Properties+::: {
-      OperationName: OperationName,
+      OperationName:
+        if !std.isString(OperationName) then (error 'OperationName must be a string')
+        else if std.isEmpty(OperationName) then (error 'OperationName must be not empty')
+        else OperationName,
     },
   },
-  withRequestModels(RequestModels): {
-    assert std.isObject(RequestModels) : 'RequestModels must be a object',
+  setRequestModels(RequestModels): {
     Properties+::: {
-      RequestModels: RequestModels,
+      RequestModels:
+        if !std.isObject(RequestModels) then (error 'RequestModels must be an object')
+        else RequestModels,
     },
   },
-  withAuthorizationScopes(AuthorizationScopes): {
+  setAuthorizationScopes(AuthorizationScopes): {
     Properties+::: {
-      AuthorizationScopes: (if std.isArray(AuthorizationScopes) then AuthorizationScopes else [AuthorizationScopes]),
+      AuthorizationScopes:
+        if !std.isArray(AuthorizationScopes) then (error 'AuthorizationScopes must be an array')
+        else AuthorizationScopes,
     },
   },
-  withAuthorizationScopesMixin(AuthorizationScopes): {
+  setAuthorizationScopesMixin(AuthorizationScopes): {
     Properties+::: {
-      AuthorizationScopes+: (if std.isArray(AuthorizationScopes) then AuthorizationScopes else [AuthorizationScopes]),
+      AuthorizationScopes+: AuthorizationScopes,
     },
   },
-  withRequestValidatorId(RequestValidatorId): {
-    assert std.isString(RequestValidatorId) : 'RequestValidatorId must be a string',
+  setRequestValidatorId(RequestValidatorId): {
     Properties+::: {
-      RequestValidatorId: RequestValidatorId,
+      RequestValidatorId:
+        if !std.isString(RequestValidatorId) then (error 'RequestValidatorId must be a string')
+        else if std.isEmpty(RequestValidatorId) then (error 'RequestValidatorId must be not empty')
+        else RequestValidatorId,
     },
   },
-  withRequestParameters(RequestParameters): {
-    assert std.isObject(RequestParameters) : 'RequestParameters must be a object',
+  setRequestParameters(RequestParameters): {
     Properties+::: {
-      RequestParameters: RequestParameters,
+      RequestParameters:
+        if !std.isObject(RequestParameters) then (error 'RequestParameters must be an object')
+        else RequestParameters,
     },
   },
-  withMethodResponses(MethodResponses): {
+  setMethodResponses(MethodResponses): {
     Properties+::: {
-      MethodResponses: (if std.isArray(MethodResponses) then MethodResponses else [MethodResponses]),
+      MethodResponses:
+        if !std.isArray(MethodResponses) then (error 'MethodResponses must be an array')
+        else MethodResponses,
     },
   },
-  withMethodResponsesMixin(MethodResponses): {
+  setMethodResponsesMixin(MethodResponses): {
     Properties+::: {
-      MethodResponses+: (if std.isArray(MethodResponses) then MethodResponses else [MethodResponses]),
+      MethodResponses+: MethodResponses,
     },
   },
-  withAuthorizerId(AuthorizerId): {
-    assert std.isString(AuthorizerId) : 'AuthorizerId must be a string',
+  setAuthorizerId(AuthorizerId): {
     Properties+::: {
-      AuthorizerId: AuthorizerId,
+      AuthorizerId:
+        if !std.isString(AuthorizerId) then (error 'AuthorizerId must be a string')
+        else if std.isEmpty(AuthorizerId) then (error 'AuthorizerId must be not empty')
+        else AuthorizerId,
     },
   },
-  withApiKeyRequired(ApiKeyRequired): {
-    assert std.isBoolean(ApiKeyRequired) : 'ApiKeyRequired must be a boolean',
+  setApiKeyRequired(ApiKeyRequired): {
     Properties+::: {
-      ApiKeyRequired: ApiKeyRequired,
+      ApiKeyRequired:
+        if !std.isBoolean(ApiKeyRequired) then (error 'ApiKeyRequired must be a boolean') else ApiKeyRequired,
     },
   },
-  withAuthorizationType(AuthorizationType): {
-    assert std.isString(AuthorizationType) : 'AuthorizationType must be a string',
+  setAuthorizationType(AuthorizationType): {
     Properties+::: {
-      AuthorizationType: AuthorizationType,
+      AuthorizationType:
+        if !std.isString(AuthorizationType) then (error 'AuthorizationType must be a string')
+        else if std.isEmpty(AuthorizationType) then (error 'AuthorizationType must be not empty')
+        else AuthorizationType,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

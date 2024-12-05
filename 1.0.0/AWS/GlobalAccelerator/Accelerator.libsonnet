@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,135 +19,151 @@
     Metadata:: [],
     Type: 'AWS::GlobalAccelerator::Accelerator',
   },
-  withIpAddressType(IpAddressType): {
-    assert std.isString(IpAddressType) : 'IpAddressType must be a string',
-    assert IpAddressType == 'IPV4' || IpAddressType == 'DUAL_STACK' : "IpAddressType should be 'IPV4' or 'DUAL_STACK'",
+  setIpAddressType(IpAddressType): {
     Properties+::: {
-      IpAddressType: IpAddressType,
+      IpAddressType:
+        if !std.isString(IpAddressType) then (error 'IpAddressType must be a string')
+        else if std.isEmpty(IpAddressType) then (error 'IpAddressType must be not empty')
+        else if IpAddressType != 'IPV4' && IpAddressType != 'DUAL_STACK' then (error "IpAddressType should be 'IPV4' or 'DUAL_STACK'")
+        else IpAddressType,
     },
   },
-  withIpAddresses(IpAddresses): {
+  setIpAddresses(IpAddresses): {
     Properties+::: {
-      IpAddresses: (if std.isArray(IpAddresses) then IpAddresses else [IpAddresses]),
+      IpAddresses:
+        if !std.isArray(IpAddresses) then (error 'IpAddresses must be an array')
+        else IpAddresses,
     },
   },
-  withIpAddressesMixin(IpAddresses): {
+  setIpAddressesMixin(IpAddresses): {
     Properties+::: {
-      IpAddresses+: (if std.isArray(IpAddresses) then IpAddresses else [IpAddresses]),
+      IpAddresses+: IpAddresses,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withDnsName(DnsName): {
-    assert std.isString(DnsName) : 'DnsName must be a string',
+  setDnsName(DnsName): {
     Properties+::: {
-      DnsName: DnsName,
+      DnsName:
+        if !std.isString(DnsName) then (error 'DnsName must be a string')
+        else if std.isEmpty(DnsName) then (error 'DnsName must be not empty')
+        else DnsName,
     },
   },
-  withIpv4Addresses(Ipv4Addresses): {
+  setIpv4Addresses(Ipv4Addresses): {
     Properties+::: {
-      Ipv4Addresses: (if std.isArray(Ipv4Addresses) then Ipv4Addresses else [Ipv4Addresses]),
+      Ipv4Addresses:
+        if !std.isArray(Ipv4Addresses) then (error 'Ipv4Addresses must be an array')
+        else Ipv4Addresses,
     },
   },
-  withIpv4AddressesMixin(Ipv4Addresses): {
+  setIpv4AddressesMixin(Ipv4Addresses): {
     Properties+::: {
-      Ipv4Addresses+: (if std.isArray(Ipv4Addresses) then Ipv4Addresses else [Ipv4Addresses]),
+      Ipv4Addresses+: Ipv4Addresses,
     },
   },
-  withIpv6Addresses(Ipv6Addresses): {
+  setIpv6Addresses(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses:
+        if !std.isArray(Ipv6Addresses) then (error 'Ipv6Addresses must be an array')
+        else Ipv6Addresses,
     },
   },
-  withIpv6AddressesMixin(Ipv6Addresses): {
+  setIpv6AddressesMixin(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses+: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses+: Ipv6Addresses,
     },
   },
-  withDualStackDnsName(DualStackDnsName): {
-    assert std.isString(DualStackDnsName) : 'DualStackDnsName must be a string',
+  setDualStackDnsName(DualStackDnsName): {
     Properties+::: {
-      DualStackDnsName: DualStackDnsName,
+      DualStackDnsName:
+        if !std.isString(DualStackDnsName) then (error 'DualStackDnsName must be a string')
+        else if std.isEmpty(DualStackDnsName) then (error 'DualStackDnsName must be not empty')
+        else DualStackDnsName,
     },
   },
-  withAcceleratorArn(AcceleratorArn): {
-    assert std.isString(AcceleratorArn) : 'AcceleratorArn must be a string',
+  setAcceleratorArn(AcceleratorArn): {
     Properties+::: {
-      AcceleratorArn: AcceleratorArn,
+      AcceleratorArn:
+        if !std.isString(AcceleratorArn) then (error 'AcceleratorArn must be a string')
+        else if std.isEmpty(AcceleratorArn) then (error 'AcceleratorArn must be not empty')
+        else AcceleratorArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

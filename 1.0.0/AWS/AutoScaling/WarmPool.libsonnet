@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AutoScalingGroupName) : 'AutoScalingGroupName must be a string',
-      AutoScalingGroupName: AutoScalingGroupName,
+      AutoScalingGroupName:
+        if !std.isString(AutoScalingGroupName) then (error 'AutoScalingGroupName must be a string')
+        else if std.isEmpty(AutoScalingGroupName) then (error 'AutoScalingGroupName must be not empty')
+        else AutoScalingGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +17,93 @@
     Metadata:: [],
     Type: 'AWS::AutoScaling::WarmPool',
   },
-  withMaxGroupPreparedCapacity(MaxGroupPreparedCapacity): {
-    assert std.isNumber(MaxGroupPreparedCapacity) : 'MaxGroupPreparedCapacity must be a number',
+  setMaxGroupPreparedCapacity(MaxGroupPreparedCapacity): {
     Properties+::: {
-      MaxGroupPreparedCapacity: MaxGroupPreparedCapacity,
+      MaxGroupPreparedCapacity:
+        if !std.isNumber(MaxGroupPreparedCapacity) then (error 'MaxGroupPreparedCapacity must be an number')
+        else MaxGroupPreparedCapacity,
     },
   },
-  withMinSize(MinSize): {
-    assert std.isNumber(MinSize) : 'MinSize must be a number',
+  setMinSize(MinSize): {
     Properties+::: {
-      MinSize: MinSize,
+      MinSize:
+        if !std.isNumber(MinSize) then (error 'MinSize must be an number')
+        else MinSize,
     },
   },
-  withPoolState(PoolState): {
-    assert std.isString(PoolState) : 'PoolState must be a string',
+  setPoolState(PoolState): {
     Properties+::: {
-      PoolState: PoolState,
+      PoolState:
+        if !std.isString(PoolState) then (error 'PoolState must be a string')
+        else if std.isEmpty(PoolState) then (error 'PoolState must be not empty')
+        else PoolState,
     },
   },
-  withInstanceReusePolicy(InstanceReusePolicy): {
-    assert std.isObject(InstanceReusePolicy) : 'InstanceReusePolicy must be a object',
+  setInstanceReusePolicy(InstanceReusePolicy): {
     Properties+::: {
-      InstanceReusePolicy: InstanceReusePolicy,
+      InstanceReusePolicy:
+        if !std.isObject(InstanceReusePolicy) then (error 'InstanceReusePolicy must be an object')
+        else InstanceReusePolicy,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

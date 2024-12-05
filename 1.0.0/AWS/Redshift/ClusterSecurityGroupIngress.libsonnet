@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterSecurityGroupName) : 'ClusterSecurityGroupName must be a string',
-      ClusterSecurityGroupName: ClusterSecurityGroupName,
+      ClusterSecurityGroupName:
+        if !std.isString(ClusterSecurityGroupName) then (error 'ClusterSecurityGroupName must be a string')
+        else if std.isEmpty(ClusterSecurityGroupName) then (error 'ClusterSecurityGroupName must be not empty')
+        else ClusterSecurityGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +17,96 @@
     Metadata:: [],
     Type: 'AWS::Redshift::ClusterSecurityGroupIngress',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withCIDRIP(CIDRIP): {
-    assert std.isString(CIDRIP) : 'CIDRIP must be a string',
+  setCIDRIP(CIDRIP): {
     Properties+::: {
-      CIDRIP: CIDRIP,
+      CIDRIP:
+        if !std.isString(CIDRIP) then (error 'CIDRIP must be a string')
+        else if std.isEmpty(CIDRIP) then (error 'CIDRIP must be not empty')
+        else CIDRIP,
     },
   },
-  withEC2SecurityGroupName(EC2SecurityGroupName): {
-    assert std.isString(EC2SecurityGroupName) : 'EC2SecurityGroupName must be a string',
+  setEC2SecurityGroupName(EC2SecurityGroupName): {
     Properties+::: {
-      EC2SecurityGroupName: EC2SecurityGroupName,
+      EC2SecurityGroupName:
+        if !std.isString(EC2SecurityGroupName) then (error 'EC2SecurityGroupName must be a string')
+        else if std.isEmpty(EC2SecurityGroupName) then (error 'EC2SecurityGroupName must be not empty')
+        else EC2SecurityGroupName,
     },
   },
-  withEC2SecurityGroupOwnerId(EC2SecurityGroupOwnerId): {
-    assert std.isString(EC2SecurityGroupOwnerId) : 'EC2SecurityGroupOwnerId must be a string',
+  setEC2SecurityGroupOwnerId(EC2SecurityGroupOwnerId): {
     Properties+::: {
-      EC2SecurityGroupOwnerId: EC2SecurityGroupOwnerId,
+      EC2SecurityGroupOwnerId:
+        if !std.isString(EC2SecurityGroupOwnerId) then (error 'EC2SecurityGroupOwnerId must be a string')
+        else if std.isEmpty(EC2SecurityGroupOwnerId) then (error 'EC2SecurityGroupOwnerId must be not empty')
+        else EC2SecurityGroupOwnerId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

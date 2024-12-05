@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AgentName) : 'AgentName must be a string',
-      AgentName: AgentName,
+      AgentName:
+        if !std.isString(AgentName) then (error 'AgentName must be a string')
+        else if std.isEmpty(AgentName) then (error 'AgentName must be not empty')
+        else AgentName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,219 +17,272 @@
     Metadata:: [],
     Type: 'AWS::Bedrock::Agent',
   },
-  withActionGroups(ActionGroups): {
+  setActionGroups(ActionGroups): {
     Properties+::: {
-      ActionGroups: (if std.isArray(ActionGroups) then ActionGroups else [ActionGroups]),
+      ActionGroups:
+        if !std.isArray(ActionGroups) then (error 'ActionGroups must be an array')
+        else ActionGroups,
     },
   },
-  withActionGroupsMixin(ActionGroups): {
+  setActionGroupsMixin(ActionGroups): {
     Properties+::: {
-      ActionGroups+: (if std.isArray(ActionGroups) then ActionGroups else [ActionGroups]),
+      ActionGroups+: ActionGroups,
     },
   },
-  withAgentArn(AgentArn): {
-    assert std.isString(AgentArn) : 'AgentArn must be a string',
+  setAgentArn(AgentArn): {
     Properties+::: {
-      AgentArn: AgentArn,
+      AgentArn:
+        if !std.isString(AgentArn) then (error 'AgentArn must be a string')
+        else if std.isEmpty(AgentArn) then (error 'AgentArn must be not empty')
+        else if std.length(AgentArn) > 2048 then error ('AgentArn should have not more than 2048 characters')
+        else AgentArn,
     },
   },
-  withAgentId(AgentId): {
-    assert std.isString(AgentId) : 'AgentId must be a string',
+  setAgentId(AgentId): {
     Properties+::: {
-      AgentId: AgentId,
+      AgentId:
+        if !std.isString(AgentId) then (error 'AgentId must be a string')
+        else if std.isEmpty(AgentId) then (error 'AgentId must be not empty')
+        else AgentId,
     },
   },
-  withAgentResourceRoleArn(AgentResourceRoleArn): {
-    assert std.isString(AgentResourceRoleArn) : 'AgentResourceRoleArn must be a string',
+  setAgentResourceRoleArn(AgentResourceRoleArn): {
     Properties+::: {
-      AgentResourceRoleArn: AgentResourceRoleArn,
+      AgentResourceRoleArn:
+        if !std.isString(AgentResourceRoleArn) then (error 'AgentResourceRoleArn must be a string')
+        else if std.isEmpty(AgentResourceRoleArn) then (error 'AgentResourceRoleArn must be not empty')
+        else if std.length(AgentResourceRoleArn) > 2048 then error ('AgentResourceRoleArn should have not more than 2048 characters')
+        else AgentResourceRoleArn,
     },
   },
-  withAgentStatus(AgentStatus): {
-    assert std.isString(AgentStatus) : 'AgentStatus must be a string',
-    assert AgentStatus == 'CREATING' || AgentStatus == 'PREPARING' || AgentStatus == 'PREPARED' || AgentStatus == 'NOT_PREPARED' || AgentStatus == 'DELETING' || AgentStatus == 'FAILED' || AgentStatus == 'VERSIONING' || AgentStatus == 'UPDATING' : "AgentStatus should be 'CREATING' or 'PREPARING' or 'PREPARED' or 'NOT_PREPARED' or 'DELETING' or 'FAILED' or 'VERSIONING' or 'UPDATING'",
+  setAgentStatus(AgentStatus): {
     Properties+::: {
-      AgentStatus: AgentStatus,
+      AgentStatus:
+        if !std.isString(AgentStatus) then (error 'AgentStatus must be a string')
+        else if std.isEmpty(AgentStatus) then (error 'AgentStatus must be not empty')
+        else if AgentStatus != 'CREATING' && AgentStatus != 'PREPARING' && AgentStatus != 'PREPARED' && AgentStatus != 'NOT_PREPARED' && AgentStatus != 'DELETING' && AgentStatus != 'FAILED' && AgentStatus != 'VERSIONING' && AgentStatus != 'UPDATING' then (error "AgentStatus should be 'CREATING' or 'PREPARING' or 'PREPARED' or 'NOT_PREPARED' or 'DELETING' or 'FAILED' or 'VERSIONING' or 'UPDATING'")
+        else AgentStatus,
     },
   },
-  withAgentVersion(AgentVersion): {
-    assert std.isString(AgentVersion) : 'AgentVersion must be a string',
+  setAgentVersion(AgentVersion): {
     Properties+::: {
-      AgentVersion: AgentVersion,
+      AgentVersion:
+        if !std.isString(AgentVersion) then (error 'AgentVersion must be a string')
+        else if std.isEmpty(AgentVersion) then (error 'AgentVersion must be not empty')
+        else if std.length(AgentVersion) < 5 then error ('AgentVersion should have at least 5 characters')
+        else if std.length(AgentVersion) > 5 then error ('AgentVersion should have not more than 5 characters')
+        else AgentVersion,
     },
   },
-  withAutoPrepare(AutoPrepare): {
-    assert std.isBoolean(AutoPrepare) : 'AutoPrepare must be a boolean',
+  setAutoPrepare(AutoPrepare): {
     Properties+::: {
-      AutoPrepare: AutoPrepare,
+      AutoPrepare:
+        if !std.isBoolean(AutoPrepare) then (error 'AutoPrepare must be a boolean') else AutoPrepare,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withCustomerEncryptionKeyArn(CustomerEncryptionKeyArn): {
-    assert std.isString(CustomerEncryptionKeyArn) : 'CustomerEncryptionKeyArn must be a string',
+  setCustomerEncryptionKeyArn(CustomerEncryptionKeyArn): {
     Properties+::: {
-      CustomerEncryptionKeyArn: CustomerEncryptionKeyArn,
+      CustomerEncryptionKeyArn:
+        if !std.isString(CustomerEncryptionKeyArn) then (error 'CustomerEncryptionKeyArn must be a string')
+        else if std.isEmpty(CustomerEncryptionKeyArn) then (error 'CustomerEncryptionKeyArn must be not empty')
+        else if std.length(CustomerEncryptionKeyArn) < 1 then error ('CustomerEncryptionKeyArn should have at least 1 characters')
+        else if std.length(CustomerEncryptionKeyArn) > 2048 then error ('CustomerEncryptionKeyArn should have not more than 2048 characters')
+        else CustomerEncryptionKeyArn,
     },
   },
-  withSkipResourceInUseCheckOnDelete(SkipResourceInUseCheckOnDelete): {
-    assert std.isBoolean(SkipResourceInUseCheckOnDelete) : 'SkipResourceInUseCheckOnDelete must be a boolean',
+  setSkipResourceInUseCheckOnDelete(SkipResourceInUseCheckOnDelete): {
     Properties+::: {
-      SkipResourceInUseCheckOnDelete: SkipResourceInUseCheckOnDelete,
+      SkipResourceInUseCheckOnDelete:
+        if !std.isBoolean(SkipResourceInUseCheckOnDelete) then (error 'SkipResourceInUseCheckOnDelete must be a boolean') else SkipResourceInUseCheckOnDelete,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withFailureReasons(FailureReasons): {
+  setFailureReasons(FailureReasons): {
     Properties+::: {
-      FailureReasons: (if std.isArray(FailureReasons) then FailureReasons else [FailureReasons]),
+      FailureReasons:
+        if !std.isArray(FailureReasons) then (error 'FailureReasons must be an array')
+        else if std.length(FailureReasons) > 2048 then error ('FailureReasons cannot have more than 2048 items')
+        else FailureReasons,
     },
   },
-  withFailureReasonsMixin(FailureReasons): {
+  setFailureReasonsMixin(FailureReasons): {
     Properties+::: {
-      FailureReasons+: (if std.isArray(FailureReasons) then FailureReasons else [FailureReasons]),
+      FailureReasons+: FailureReasons,
     },
   },
-  withFoundationModel(FoundationModel): {
-    assert std.isString(FoundationModel) : 'FoundationModel must be a string',
+  setFoundationModel(FoundationModel): {
     Properties+::: {
-      FoundationModel: FoundationModel,
+      FoundationModel:
+        if !std.isString(FoundationModel) then (error 'FoundationModel must be a string')
+        else if std.isEmpty(FoundationModel) then (error 'FoundationModel must be not empty')
+        else if std.length(FoundationModel) < 1 then error ('FoundationModel should have at least 1 characters')
+        else if std.length(FoundationModel) > 2048 then error ('FoundationModel should have not more than 2048 characters')
+        else FoundationModel,
     },
   },
-  withGuardrailConfiguration(GuardrailConfiguration): {
-    assert std.isObject(GuardrailConfiguration) : 'GuardrailConfiguration must be a object',
+  setGuardrailConfiguration(GuardrailConfiguration): {
     Properties+::: {
-      GuardrailConfiguration: GuardrailConfiguration,
+      GuardrailConfiguration:
+        if !std.isObject(GuardrailConfiguration) then (error 'GuardrailConfiguration must be an object')
+        else GuardrailConfiguration,
     },
   },
-  withIdleSessionTTLInSeconds(IdleSessionTTLInSeconds): {
-    assert std.isNumber(IdleSessionTTLInSeconds) : 'IdleSessionTTLInSeconds must be a number',
+  setIdleSessionTTLInSeconds(IdleSessionTTLInSeconds): {
     Properties+::: {
-      IdleSessionTTLInSeconds: IdleSessionTTLInSeconds,
+      IdleSessionTTLInSeconds:
+        if !std.isNumber(IdleSessionTTLInSeconds) then (error 'IdleSessionTTLInSeconds must be an number')
+        else if IdleSessionTTLInSeconds < 60 then error ('IdleSessionTTLInSeconds should be at least 60')
+        else if IdleSessionTTLInSeconds > 3600 then error ('IdleSessionTTLInSeconds should be not more than 3600')
+        else IdleSessionTTLInSeconds,
     },
   },
-  withInstruction(Instruction): {
-    assert std.isString(Instruction) : 'Instruction must be a string',
+  setInstruction(Instruction): {
     Properties+::: {
-      Instruction: Instruction,
+      Instruction:
+        if !std.isString(Instruction) then (error 'Instruction must be a string')
+        else if std.isEmpty(Instruction) then (error 'Instruction must be not empty')
+        else if std.length(Instruction) < 40 then error ('Instruction should have at least 40 characters')
+        else Instruction,
     },
   },
-  withKnowledgeBases(KnowledgeBases): {
+  setKnowledgeBases(KnowledgeBases): {
     Properties+::: {
-      KnowledgeBases: (if std.isArray(KnowledgeBases) then KnowledgeBases else [KnowledgeBases]),
+      KnowledgeBases:
+        if !std.isArray(KnowledgeBases) then (error 'KnowledgeBases must be an array')
+        else KnowledgeBases,
     },
   },
-  withKnowledgeBasesMixin(KnowledgeBases): {
+  setKnowledgeBasesMixin(KnowledgeBases): {
     Properties+::: {
-      KnowledgeBases+: (if std.isArray(KnowledgeBases) then KnowledgeBases else [KnowledgeBases]),
+      KnowledgeBases+: KnowledgeBases,
     },
   },
-  withPreparedAt(PreparedAt): {
-    assert std.isString(PreparedAt) : 'PreparedAt must be a string',
+  setPreparedAt(PreparedAt): {
     Properties+::: {
-      PreparedAt: PreparedAt,
+      PreparedAt:
+        if !std.isString(PreparedAt) then (error 'PreparedAt must be a string')
+        else if std.isEmpty(PreparedAt) then (error 'PreparedAt must be not empty')
+        else PreparedAt,
     },
   },
-  withPromptOverrideConfiguration(PromptOverrideConfiguration): {
-    assert std.isObject(PromptOverrideConfiguration) : 'PromptOverrideConfiguration must be a object',
+  setPromptOverrideConfiguration(PromptOverrideConfiguration): {
     Properties+::: {
-      PromptOverrideConfiguration: PromptOverrideConfiguration,
+      PromptOverrideConfiguration:
+        if !std.isObject(PromptOverrideConfiguration) then (error 'PromptOverrideConfiguration must be an object')
+        else if !std.objectHas(PromptOverrideConfiguration, 'PromptConfigurations') then (error ' have attribute PromptConfigurations')
+        else PromptOverrideConfiguration,
     },
   },
-  withRecommendedActions(RecommendedActions): {
+  setRecommendedActions(RecommendedActions): {
     Properties+::: {
-      RecommendedActions: (if std.isArray(RecommendedActions) then RecommendedActions else [RecommendedActions]),
+      RecommendedActions:
+        if !std.isArray(RecommendedActions) then (error 'RecommendedActions must be an array')
+        else if std.length(RecommendedActions) > 2048 then error ('RecommendedActions cannot have more than 2048 items')
+        else RecommendedActions,
     },
   },
-  withRecommendedActionsMixin(RecommendedActions): {
+  setRecommendedActionsMixin(RecommendedActions): {
     Properties+::: {
-      RecommendedActions+: (if std.isArray(RecommendedActions) then RecommendedActions else [RecommendedActions]),
+      RecommendedActions+: RecommendedActions,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withTestAliasTags(TestAliasTags): {
-    assert std.isObject(TestAliasTags) : 'TestAliasTags must be a object',
+  setTestAliasTags(TestAliasTags): {
     Properties+::: {
-      TestAliasTags: TestAliasTags,
+      TestAliasTags:
+        if !std.isObject(TestAliasTags) then (error 'TestAliasTags must be an object')
+        else TestAliasTags,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

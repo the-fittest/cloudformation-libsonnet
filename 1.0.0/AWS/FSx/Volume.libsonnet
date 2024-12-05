@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,116 +17,132 @@
     Metadata:: [],
     Type: 'AWS::FSx::Volume',
   },
-  withOpenZFSConfiguration(OpenZFSConfiguration): {
-    assert std.isObject(OpenZFSConfiguration) : 'OpenZFSConfiguration must be a object',
+  setOpenZFSConfiguration(OpenZFSConfiguration): {
     Properties+::: {
-      OpenZFSConfiguration: OpenZFSConfiguration,
+      OpenZFSConfiguration:
+        if !std.isObject(OpenZFSConfiguration) then (error 'OpenZFSConfiguration must be an object')
+        else if !std.objectHas(OpenZFSConfiguration, 'ParentVolumeId') then (error ' have attribute ParentVolumeId')
+        else OpenZFSConfiguration,
     },
   },
-  withResourceARN(ResourceARN): {
-    assert std.isString(ResourceARN) : 'ResourceARN must be a string',
+  setResourceARN(ResourceARN): {
     Properties+::: {
-      ResourceARN: ResourceARN,
+      ResourceARN:
+        if !std.isString(ResourceARN) then (error 'ResourceARN must be a string')
+        else if std.isEmpty(ResourceARN) then (error 'ResourceARN must be not empty')
+        else ResourceARN,
     },
   },
-  withVolumeId(VolumeId): {
-    assert std.isString(VolumeId) : 'VolumeId must be a string',
+  setVolumeId(VolumeId): {
     Properties+::: {
-      VolumeId: VolumeId,
+      VolumeId:
+        if !std.isString(VolumeId) then (error 'VolumeId must be a string')
+        else if std.isEmpty(VolumeId) then (error 'VolumeId must be not empty')
+        else VolumeId,
     },
   },
-  withVolumeType(VolumeType): {
-    assert std.isString(VolumeType) : 'VolumeType must be a string',
+  setVolumeType(VolumeType): {
     Properties+::: {
-      VolumeType: VolumeType,
+      VolumeType:
+        if !std.isString(VolumeType) then (error 'VolumeType must be a string')
+        else if std.isEmpty(VolumeType) then (error 'VolumeType must be not empty')
+        else VolumeType,
     },
   },
-  withBackupId(BackupId): {
-    assert std.isString(BackupId) : 'BackupId must be a string',
+  setBackupId(BackupId): {
     Properties+::: {
-      BackupId: BackupId,
+      BackupId:
+        if !std.isString(BackupId) then (error 'BackupId must be a string')
+        else if std.isEmpty(BackupId) then (error 'BackupId must be not empty')
+        else BackupId,
     },
   },
-  withOntapConfiguration(OntapConfiguration): {
-    assert std.isObject(OntapConfiguration) : 'OntapConfiguration must be a object',
+  setOntapConfiguration(OntapConfiguration): {
     Properties+::: {
-      OntapConfiguration: OntapConfiguration,
+      OntapConfiguration:
+        if !std.isObject(OntapConfiguration) then (error 'OntapConfiguration must be an object')
+        else if !std.objectHas(OntapConfiguration, 'StorageVirtualMachineId') then (error ' have attribute StorageVirtualMachineId')
+        else OntapConfiguration,
     },
   },
-  withUUID(UUID): {
-    assert std.isString(UUID) : 'UUID must be a string',
+  setUUID(UUID): {
     Properties+::: {
-      UUID: UUID,
+      UUID:
+        if !std.isString(UUID) then (error 'UUID must be a string')
+        else if std.isEmpty(UUID) then (error 'UUID must be not empty')
+        else UUID,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -6,13 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(IdentityProviderDetails) : 'IdentityProviderDetails must be an object',
-      IdentityProviderDetails: IdentityProviderDetails,
-      assert std.isString(IdentityProviderName) : 'IdentityProviderName must be a string',
-      IdentityProviderName: IdentityProviderName,
-      assert std.isString(IdentityProviderType) : 'IdentityProviderType must be a string',
-      assert IdentityProviderType == 'SAML' || IdentityProviderType == 'Facebook' || IdentityProviderType == 'Google' || IdentityProviderType == 'LoginWithAmazon' || IdentityProviderType == 'SignInWithApple' || IdentityProviderType == 'OIDC' : "IdentityProviderType should be 'SAML' or 'Facebook' or 'Google' or 'LoginWithAmazon' or 'SignInWithApple' or 'OIDC'",
-      IdentityProviderType: IdentityProviderType,
+      IdentityProviderDetails:
+        if !std.isObject(IdentityProviderDetails) then (error 'IdentityProviderDetails must be an object')
+        else IdentityProviderDetails,
+      IdentityProviderName:
+        if !std.isString(IdentityProviderName) then (error 'IdentityProviderName must be a string')
+        else if std.isEmpty(IdentityProviderName) then (error 'IdentityProviderName must be not empty')
+        else if std.length(IdentityProviderName) < 1 then error ('IdentityProviderName should have at least 1 characters')
+        else if std.length(IdentityProviderName) > 32 then error ('IdentityProviderName should have not more than 32 characters')
+        else IdentityProviderName,
+      IdentityProviderType:
+        if !std.isString(IdentityProviderType) then (error 'IdentityProviderType must be a string')
+        else if std.isEmpty(IdentityProviderType) then (error 'IdentityProviderType must be not empty')
+        else if IdentityProviderType != 'SAML' && IdentityProviderType != 'Facebook' && IdentityProviderType != 'Google' && IdentityProviderType != 'LoginWithAmazon' && IdentityProviderType != 'SignInWithApple' && IdentityProviderType != 'OIDC' then (error "IdentityProviderType should be 'SAML' or 'Facebook' or 'Google' or 'LoginWithAmazon' or 'SignInWithApple' or 'OIDC'")
+        else IdentityProviderType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,86 +29,97 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::IdentityProvider',
   },
-  withIdentityProviderArn(IdentityProviderArn): {
-    assert std.isString(IdentityProviderArn) : 'IdentityProviderArn must be a string',
+  setIdentityProviderArn(IdentityProviderArn): {
     Properties+::: {
-      IdentityProviderArn: IdentityProviderArn,
+      IdentityProviderArn:
+        if !std.isString(IdentityProviderArn) then (error 'IdentityProviderArn must be a string')
+        else if std.isEmpty(IdentityProviderArn) then (error 'IdentityProviderArn must be not empty')
+        else if std.length(IdentityProviderArn) < 20 then error ('IdentityProviderArn should have at least 20 characters')
+        else if std.length(IdentityProviderArn) > 2048 then error ('IdentityProviderArn should have not more than 2048 characters')
+        else IdentityProviderArn,
     },
   },
-  withPortalArn(PortalArn): {
-    assert std.isString(PortalArn) : 'PortalArn must be a string',
+  setPortalArn(PortalArn): {
     Properties+::: {
-      PortalArn: PortalArn,
+      PortalArn:
+        if !std.isString(PortalArn) then (error 'PortalArn must be a string')
+        else if std.isEmpty(PortalArn) then (error 'PortalArn must be not empty')
+        else if std.length(PortalArn) < 20 then error ('PortalArn should have at least 20 characters')
+        else if std.length(PortalArn) > 2048 then error ('PortalArn should have not more than 2048 characters')
+        else PortalArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

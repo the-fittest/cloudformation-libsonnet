@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(S3BucketName) : 'S3BucketName must be a string',
-      S3BucketName: S3BucketName,
+      S3BucketName:
+        if !std.isString(S3BucketName) then (error 'S3BucketName must be a string')
+        else if std.isEmpty(S3BucketName) then (error 'S3BucketName must be not empty')
+        else S3BucketName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,100 +17,111 @@
     Metadata:: [],
     Type: 'AWS::Config::DeliveryChannel',
   },
-  withS3KeyPrefix(S3KeyPrefix): {
-    assert std.isString(S3KeyPrefix) : 'S3KeyPrefix must be a string',
+  setS3KeyPrefix(S3KeyPrefix): {
     Properties+::: {
-      S3KeyPrefix: S3KeyPrefix,
+      S3KeyPrefix:
+        if !std.isString(S3KeyPrefix) then (error 'S3KeyPrefix must be a string')
+        else if std.isEmpty(S3KeyPrefix) then (error 'S3KeyPrefix must be not empty')
+        else S3KeyPrefix,
     },
   },
-  withConfigSnapshotDeliveryProperties(ConfigSnapshotDeliveryProperties): {
-    assert std.isObject(ConfigSnapshotDeliveryProperties) : 'ConfigSnapshotDeliveryProperties must be a object',
+  setConfigSnapshotDeliveryProperties(ConfigSnapshotDeliveryProperties): {
     Properties+::: {
-      ConfigSnapshotDeliveryProperties: ConfigSnapshotDeliveryProperties,
+      ConfigSnapshotDeliveryProperties:
+        if !std.isObject(ConfigSnapshotDeliveryProperties) then (error 'ConfigSnapshotDeliveryProperties must be an object')
+        else ConfigSnapshotDeliveryProperties,
     },
   },
-  withSnsTopicARN(SnsTopicARN): {
-    assert std.isString(SnsTopicARN) : 'SnsTopicARN must be a string',
+  setSnsTopicARN(SnsTopicARN): {
     Properties+::: {
-      SnsTopicARN: SnsTopicARN,
+      SnsTopicARN:
+        if !std.isString(SnsTopicARN) then (error 'SnsTopicARN must be a string')
+        else if std.isEmpty(SnsTopicARN) then (error 'SnsTopicARN must be not empty')
+        else SnsTopicARN,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withS3KmsKeyArn(S3KmsKeyArn): {
-    assert std.isString(S3KmsKeyArn) : 'S3KmsKeyArn must be a string',
+  setS3KmsKeyArn(S3KmsKeyArn): {
     Properties+::: {
-      S3KmsKeyArn: S3KmsKeyArn,
+      S3KmsKeyArn:
+        if !std.isString(S3KmsKeyArn) then (error 'S3KmsKeyArn must be a string')
+        else if std.isEmpty(S3KmsKeyArn) then (error 'S3KmsKeyArn must be not empty')
+        else S3KmsKeyArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

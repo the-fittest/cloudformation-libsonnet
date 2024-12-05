@@ -5,10 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(Source) : 'Source must be an object',
-      Source: Source,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Source:
+        if !std.isObject(Source) then (error 'Source must be an object')
+        else Source,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,102 +21,112 @@
     Metadata:: [],
     Type: 'AWS::RolesAnywhere::TrustAnchor',
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withNotificationSettings(NotificationSettings): {
+  setNotificationSettings(NotificationSettings): {
     Properties+::: {
-      NotificationSettings: (if std.isArray(NotificationSettings) then NotificationSettings else [NotificationSettings]),
+      NotificationSettings:
+        if !std.isArray(NotificationSettings) then (error 'NotificationSettings must be an array')
+        else if std.length(NotificationSettings) > 50 then error ('NotificationSettings cannot have more than 50 items')
+        else NotificationSettings,
     },
   },
-  withNotificationSettingsMixin(NotificationSettings): {
+  setNotificationSettingsMixin(NotificationSettings): {
     Properties+::: {
-      NotificationSettings+: (if std.isArray(NotificationSettings) then NotificationSettings else [NotificationSettings]),
+      NotificationSettings+: NotificationSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrustAnchorId(TrustAnchorId): {
-    assert std.isString(TrustAnchorId) : 'TrustAnchorId must be a string',
+  setTrustAnchorId(TrustAnchorId): {
     Properties+::: {
-      TrustAnchorId: TrustAnchorId,
+      TrustAnchorId:
+        if !std.isString(TrustAnchorId) then (error 'TrustAnchorId must be a string')
+        else if std.isEmpty(TrustAnchorId) then (error 'TrustAnchorId must be not empty')
+        else TrustAnchorId,
     },
   },
-  withTrustAnchorArn(TrustAnchorArn): {
-    assert std.isString(TrustAnchorArn) : 'TrustAnchorArn must be a string',
+  setTrustAnchorArn(TrustAnchorArn): {
     Properties+::: {
-      TrustAnchorArn: TrustAnchorArn,
+      TrustAnchorArn:
+        if !std.isString(TrustAnchorArn) then (error 'TrustAnchorArn must be a string')
+        else if std.isEmpty(TrustAnchorArn) then (error 'TrustAnchorArn must be not empty')
+        else TrustAnchorArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

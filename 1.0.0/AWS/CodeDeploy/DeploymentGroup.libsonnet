@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApplicationName) : 'ApplicationName must be a string',
-      ApplicationName: ApplicationName,
-      assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
-      ServiceRoleArn: ServiceRoleArn,
+      ApplicationName:
+        if !std.isString(ApplicationName) then (error 'ApplicationName must be a string')
+        else if std.isEmpty(ApplicationName) then (error 'ApplicationName must be not empty')
+        else ApplicationName,
+      ServiceRoleArn:
+        if !std.isString(ServiceRoleArn) then (error 'ServiceRoleArn must be a string')
+        else if std.isEmpty(ServiceRoleArn) then (error 'ServiceRoleArn must be not empty')
+        else ServiceRoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,202 +22,231 @@
     Metadata:: [],
     Type: 'AWS::CodeDeploy::DeploymentGroup',
   },
-  withOnPremisesTagSet(OnPremisesTagSet): {
-    assert std.isObject(OnPremisesTagSet) : 'OnPremisesTagSet must be a object',
+  setOnPremisesTagSet(OnPremisesTagSet): {
     Properties+::: {
-      OnPremisesTagSet: OnPremisesTagSet,
+      OnPremisesTagSet:
+        if !std.isObject(OnPremisesTagSet) then (error 'OnPremisesTagSet must be an object')
+        else OnPremisesTagSet,
     },
   },
-  withDeploymentStyle(DeploymentStyle): {
-    assert std.isObject(DeploymentStyle) : 'DeploymentStyle must be a object',
+  setDeploymentStyle(DeploymentStyle): {
     Properties+::: {
-      DeploymentStyle: DeploymentStyle,
+      DeploymentStyle:
+        if !std.isObject(DeploymentStyle) then (error 'DeploymentStyle must be an object')
+        else DeploymentStyle,
     },
   },
-  withBlueGreenDeploymentConfiguration(BlueGreenDeploymentConfiguration): {
-    assert std.isObject(BlueGreenDeploymentConfiguration) : 'BlueGreenDeploymentConfiguration must be a object',
+  setBlueGreenDeploymentConfiguration(BlueGreenDeploymentConfiguration): {
     Properties+::: {
-      BlueGreenDeploymentConfiguration: BlueGreenDeploymentConfiguration,
+      BlueGreenDeploymentConfiguration:
+        if !std.isObject(BlueGreenDeploymentConfiguration) then (error 'BlueGreenDeploymentConfiguration must be an object')
+        else BlueGreenDeploymentConfiguration,
     },
   },
-  withAutoScalingGroups(AutoScalingGroups): {
+  setAutoScalingGroups(AutoScalingGroups): {
     Properties+::: {
-      AutoScalingGroups: (if std.isArray(AutoScalingGroups) then AutoScalingGroups else [AutoScalingGroups]),
+      AutoScalingGroups:
+        if !std.isArray(AutoScalingGroups) then (error 'AutoScalingGroups must be an array')
+        else AutoScalingGroups,
     },
   },
-  withAutoScalingGroupsMixin(AutoScalingGroups): {
+  setAutoScalingGroupsMixin(AutoScalingGroups): {
     Properties+::: {
-      AutoScalingGroups+: (if std.isArray(AutoScalingGroups) then AutoScalingGroups else [AutoScalingGroups]),
+      AutoScalingGroups+: AutoScalingGroups,
     },
   },
-  withEc2TagSet(Ec2TagSet): {
-    assert std.isObject(Ec2TagSet) : 'Ec2TagSet must be a object',
+  setEc2TagSet(Ec2TagSet): {
     Properties+::: {
-      Ec2TagSet: Ec2TagSet,
+      Ec2TagSet:
+        if !std.isObject(Ec2TagSet) then (error 'Ec2TagSet must be an object')
+        else Ec2TagSet,
     },
   },
-  withOutdatedInstancesStrategy(OutdatedInstancesStrategy): {
-    assert std.isString(OutdatedInstancesStrategy) : 'OutdatedInstancesStrategy must be a string',
+  setOutdatedInstancesStrategy(OutdatedInstancesStrategy): {
     Properties+::: {
-      OutdatedInstancesStrategy: OutdatedInstancesStrategy,
+      OutdatedInstancesStrategy:
+        if !std.isString(OutdatedInstancesStrategy) then (error 'OutdatedInstancesStrategy must be a string')
+        else if std.isEmpty(OutdatedInstancesStrategy) then (error 'OutdatedInstancesStrategy must be not empty')
+        else OutdatedInstancesStrategy,
     },
   },
-  withTriggerConfigurations(TriggerConfigurations): {
+  setTriggerConfigurations(TriggerConfigurations): {
     Properties+::: {
-      TriggerConfigurations: (if std.isArray(TriggerConfigurations) then TriggerConfigurations else [TriggerConfigurations]),
+      TriggerConfigurations:
+        if !std.isArray(TriggerConfigurations) then (error 'TriggerConfigurations must be an array')
+        else TriggerConfigurations,
     },
   },
-  withTriggerConfigurationsMixin(TriggerConfigurations): {
+  setTriggerConfigurationsMixin(TriggerConfigurations): {
     Properties+::: {
-      TriggerConfigurations+: (if std.isArray(TriggerConfigurations) then TriggerConfigurations else [TriggerConfigurations]),
+      TriggerConfigurations+: TriggerConfigurations,
     },
   },
-  withDeployment(Deployment): {
-    assert std.isObject(Deployment) : 'Deployment must be a object',
+  setDeployment(Deployment): {
     Properties+::: {
-      Deployment: Deployment,
+      Deployment:
+        if !std.isObject(Deployment) then (error 'Deployment must be an object')
+        else if !std.objectHas(Deployment, 'Revision') then (error ' have attribute Revision')
+        else Deployment,
     },
   },
-  withDeploymentConfigName(DeploymentConfigName): {
-    assert std.isString(DeploymentConfigName) : 'DeploymentConfigName must be a string',
+  setDeploymentConfigName(DeploymentConfigName): {
     Properties+::: {
-      DeploymentConfigName: DeploymentConfigName,
+      DeploymentConfigName:
+        if !std.isString(DeploymentConfigName) then (error 'DeploymentConfigName must be a string')
+        else if std.isEmpty(DeploymentConfigName) then (error 'DeploymentConfigName must be not empty')
+        else DeploymentConfigName,
     },
   },
-  withAlarmConfiguration(AlarmConfiguration): {
-    assert std.isObject(AlarmConfiguration) : 'AlarmConfiguration must be a object',
+  setAlarmConfiguration(AlarmConfiguration): {
     Properties+::: {
-      AlarmConfiguration: AlarmConfiguration,
+      AlarmConfiguration:
+        if !std.isObject(AlarmConfiguration) then (error 'AlarmConfiguration must be an object')
+        else AlarmConfiguration,
     },
   },
-  withEc2TagFilters(Ec2TagFilters): {
+  setEc2TagFilters(Ec2TagFilters): {
     Properties+::: {
-      Ec2TagFilters: (if std.isArray(Ec2TagFilters) then Ec2TagFilters else [Ec2TagFilters]),
+      Ec2TagFilters:
+        if !std.isArray(Ec2TagFilters) then (error 'Ec2TagFilters must be an array')
+        else Ec2TagFilters,
     },
   },
-  withEc2TagFiltersMixin(Ec2TagFilters): {
+  setEc2TagFiltersMixin(Ec2TagFilters): {
     Properties+::: {
-      Ec2TagFilters+: (if std.isArray(Ec2TagFilters) then Ec2TagFilters else [Ec2TagFilters]),
+      Ec2TagFilters+: Ec2TagFilters,
     },
   },
-  withTerminationHookEnabled(TerminationHookEnabled): {
-    assert std.isBoolean(TerminationHookEnabled) : 'TerminationHookEnabled must be a boolean',
+  setTerminationHookEnabled(TerminationHookEnabled): {
     Properties+::: {
-      TerminationHookEnabled: TerminationHookEnabled,
+      TerminationHookEnabled:
+        if !std.isBoolean(TerminationHookEnabled) then (error 'TerminationHookEnabled must be a boolean') else TerminationHookEnabled,
     },
   },
-  withECSServices(ECSServices): {
+  setECSServices(ECSServices): {
     Properties+::: {
-      ECSServices: (if std.isArray(ECSServices) then ECSServices else [ECSServices]),
+      ECSServices:
+        if !std.isArray(ECSServices) then (error 'ECSServices must be an array')
+        else ECSServices,
     },
   },
-  withECSServicesMixin(ECSServices): {
+  setECSServicesMixin(ECSServices): {
     Properties+::: {
-      ECSServices+: (if std.isArray(ECSServices) then ECSServices else [ECSServices]),
+      ECSServices+: ECSServices,
     },
   },
-  withAutoRollbackConfiguration(AutoRollbackConfiguration): {
-    assert std.isObject(AutoRollbackConfiguration) : 'AutoRollbackConfiguration must be a object',
+  setAutoRollbackConfiguration(AutoRollbackConfiguration): {
     Properties+::: {
-      AutoRollbackConfiguration: AutoRollbackConfiguration,
+      AutoRollbackConfiguration:
+        if !std.isObject(AutoRollbackConfiguration) then (error 'AutoRollbackConfiguration must be an object')
+        else AutoRollbackConfiguration,
     },
   },
-  withLoadBalancerInfo(LoadBalancerInfo): {
-    assert std.isObject(LoadBalancerInfo) : 'LoadBalancerInfo must be a object',
+  setLoadBalancerInfo(LoadBalancerInfo): {
     Properties+::: {
-      LoadBalancerInfo: LoadBalancerInfo,
+      LoadBalancerInfo:
+        if !std.isObject(LoadBalancerInfo) then (error 'LoadBalancerInfo must be an object')
+        else LoadBalancerInfo,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDeploymentGroupName(DeploymentGroupName): {
-    assert std.isString(DeploymentGroupName) : 'DeploymentGroupName must be a string',
+  setDeploymentGroupName(DeploymentGroupName): {
     Properties+::: {
-      DeploymentGroupName: DeploymentGroupName,
+      DeploymentGroupName:
+        if !std.isString(DeploymentGroupName) then (error 'DeploymentGroupName must be a string')
+        else if std.isEmpty(DeploymentGroupName) then (error 'DeploymentGroupName must be not empty')
+        else DeploymentGroupName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withOnPremisesInstanceTagFilters(OnPremisesInstanceTagFilters): {
+  setOnPremisesInstanceTagFilters(OnPremisesInstanceTagFilters): {
     Properties+::: {
-      OnPremisesInstanceTagFilters: (if std.isArray(OnPremisesInstanceTagFilters) then OnPremisesInstanceTagFilters else [OnPremisesInstanceTagFilters]),
+      OnPremisesInstanceTagFilters:
+        if !std.isArray(OnPremisesInstanceTagFilters) then (error 'OnPremisesInstanceTagFilters must be an array')
+        else OnPremisesInstanceTagFilters,
     },
   },
-  withOnPremisesInstanceTagFiltersMixin(OnPremisesInstanceTagFilters): {
+  setOnPremisesInstanceTagFiltersMixin(OnPremisesInstanceTagFilters): {
     Properties+::: {
-      OnPremisesInstanceTagFilters+: (if std.isArray(OnPremisesInstanceTagFilters) then OnPremisesInstanceTagFilters else [OnPremisesInstanceTagFilters]),
+      OnPremisesInstanceTagFilters+: OnPremisesInstanceTagFilters,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

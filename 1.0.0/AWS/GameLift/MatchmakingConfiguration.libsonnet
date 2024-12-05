@@ -7,14 +7,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(AcceptanceRequired) : 'AcceptanceRequired must be a boolean',
-      AcceptanceRequired: AcceptanceRequired,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isNumber(RequestTimeoutSeconds) : 'RequestTimeoutSeconds must be a number',
-      RequestTimeoutSeconds: RequestTimeoutSeconds,
-      assert std.isString(RuleSetName) : 'RuleSetName must be a string',
-      RuleSetName: RuleSetName,
+      AcceptanceRequired:
+        if !std.isBoolean(AcceptanceRequired) then (error 'AcceptanceRequired must be a boolean') else AcceptanceRequired,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      RequestTimeoutSeconds:
+        if !std.isNumber(RequestTimeoutSeconds) then (error 'RequestTimeoutSeconds must be an number')
+        else if RequestTimeoutSeconds < 1 then error ('RequestTimeoutSeconds should be at least 1')
+        else if RequestTimeoutSeconds > 43200 then error ('RequestTimeoutSeconds should be not more than 43200')
+        else RequestTimeoutSeconds,
+      RuleSetName:
+        if !std.isString(RuleSetName) then (error 'RuleSetName must be a string')
+        else if std.isEmpty(RuleSetName) then (error 'RuleSetName must be not empty')
+        else if std.length(RuleSetName) > 128 then error ('RuleSetName should have not more than 128 characters')
+        else RuleSetName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,162 +33,198 @@
     Metadata:: [],
     Type: 'AWS::GameLift::MatchmakingConfiguration',
   },
-  withAcceptanceTimeoutSeconds(AcceptanceTimeoutSeconds): {
-    assert std.isNumber(AcceptanceTimeoutSeconds) : 'AcceptanceTimeoutSeconds must be a number',
+  setAcceptanceTimeoutSeconds(AcceptanceTimeoutSeconds): {
     Properties+::: {
-      AcceptanceTimeoutSeconds: AcceptanceTimeoutSeconds,
+      AcceptanceTimeoutSeconds:
+        if !std.isNumber(AcceptanceTimeoutSeconds) then (error 'AcceptanceTimeoutSeconds must be an number')
+        else if AcceptanceTimeoutSeconds < 1 then error ('AcceptanceTimeoutSeconds should be at least 1')
+        else if AcceptanceTimeoutSeconds > 600 then error ('AcceptanceTimeoutSeconds should be not more than 600')
+        else AcceptanceTimeoutSeconds,
     },
   },
-  withAdditionalPlayerCount(AdditionalPlayerCount): {
-    assert std.isNumber(AdditionalPlayerCount) : 'AdditionalPlayerCount must be a number',
+  setAdditionalPlayerCount(AdditionalPlayerCount): {
     Properties+::: {
-      AdditionalPlayerCount: AdditionalPlayerCount,
+      AdditionalPlayerCount:
+        if !std.isNumber(AdditionalPlayerCount) then (error 'AdditionalPlayerCount must be an number')
+        else AdditionalPlayerCount,
     },
   },
-  withBackfillMode(BackfillMode): {
-    assert std.isString(BackfillMode) : 'BackfillMode must be a string',
-    assert BackfillMode == 'AUTOMATIC' || BackfillMode == 'MANUAL' : "BackfillMode should be 'AUTOMATIC' or 'MANUAL'",
+  setBackfillMode(BackfillMode): {
     Properties+::: {
-      BackfillMode: BackfillMode,
+      BackfillMode:
+        if !std.isString(BackfillMode) then (error 'BackfillMode must be a string')
+        else if std.isEmpty(BackfillMode) then (error 'BackfillMode must be not empty')
+        else if BackfillMode != 'AUTOMATIC' && BackfillMode != 'MANUAL' then (error "BackfillMode should be 'AUTOMATIC' or 'MANUAL'")
+        else BackfillMode,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withCustomEventData(CustomEventData): {
-    assert std.isString(CustomEventData) : 'CustomEventData must be a string',
+  setCustomEventData(CustomEventData): {
     Properties+::: {
-      CustomEventData: CustomEventData,
+      CustomEventData:
+        if !std.isString(CustomEventData) then (error 'CustomEventData must be a string')
+        else if std.isEmpty(CustomEventData) then (error 'CustomEventData must be not empty')
+        else if std.length(CustomEventData) > 256 then error ('CustomEventData should have not more than 256 characters')
+        else CustomEventData,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withFlexMatchMode(FlexMatchMode): {
-    assert std.isString(FlexMatchMode) : 'FlexMatchMode must be a string',
-    assert FlexMatchMode == 'STANDALONE' || FlexMatchMode == 'WITH_QUEUE' : "FlexMatchMode should be 'STANDALONE' or 'WITH_QUEUE'",
+  setFlexMatchMode(FlexMatchMode): {
     Properties+::: {
-      FlexMatchMode: FlexMatchMode,
+      FlexMatchMode:
+        if !std.isString(FlexMatchMode) then (error 'FlexMatchMode must be a string')
+        else if std.isEmpty(FlexMatchMode) then (error 'FlexMatchMode must be not empty')
+        else if FlexMatchMode != 'STANDALONE' && FlexMatchMode != 'WITH_QUEUE' then (error "FlexMatchMode should be 'STANDALONE' or 'WITH_QUEUE'")
+        else FlexMatchMode,
     },
   },
-  withGameProperties(GameProperties): {
+  setGameProperties(GameProperties): {
     Properties+::: {
-      GameProperties: (if std.isArray(GameProperties) then GameProperties else [GameProperties]),
+      GameProperties:
+        if !std.isArray(GameProperties) then (error 'GameProperties must be an array')
+        else if std.length(GameProperties) > 16 then error ('GameProperties cannot have more than 16 items')
+        else GameProperties,
     },
   },
-  withGamePropertiesMixin(GameProperties): {
+  setGamePropertiesMixin(GameProperties): {
     Properties+::: {
-      GameProperties+: (if std.isArray(GameProperties) then GameProperties else [GameProperties]),
+      GameProperties+: GameProperties,
     },
   },
-  withGameSessionData(GameSessionData): {
-    assert std.isString(GameSessionData) : 'GameSessionData must be a string',
+  setGameSessionData(GameSessionData): {
     Properties+::: {
-      GameSessionData: GameSessionData,
+      GameSessionData:
+        if !std.isString(GameSessionData) then (error 'GameSessionData must be a string')
+        else if std.isEmpty(GameSessionData) then (error 'GameSessionData must be not empty')
+        else if std.length(GameSessionData) < 1 then error ('GameSessionData should have at least 1 characters')
+        else if std.length(GameSessionData) > 4096 then error ('GameSessionData should have not more than 4096 characters')
+        else GameSessionData,
     },
   },
-  withGameSessionQueueArns(GameSessionQueueArns): {
+  setGameSessionQueueArns(GameSessionQueueArns): {
     Properties+::: {
-      GameSessionQueueArns: (if std.isArray(GameSessionQueueArns) then GameSessionQueueArns else [GameSessionQueueArns]),
+      GameSessionQueueArns:
+        if !std.isArray(GameSessionQueueArns) then (error 'GameSessionQueueArns must be an array')
+        else GameSessionQueueArns,
     },
   },
-  withGameSessionQueueArnsMixin(GameSessionQueueArns): {
+  setGameSessionQueueArnsMixin(GameSessionQueueArns): {
     Properties+::: {
-      GameSessionQueueArns+: (if std.isArray(GameSessionQueueArns) then GameSessionQueueArns else [GameSessionQueueArns]),
+      GameSessionQueueArns+: GameSessionQueueArns,
     },
   },
-  withNotificationTarget(NotificationTarget): {
-    assert std.isString(NotificationTarget) : 'NotificationTarget must be a string',
+  setNotificationTarget(NotificationTarget): {
     Properties+::: {
-      NotificationTarget: NotificationTarget,
+      NotificationTarget:
+        if !std.isString(NotificationTarget) then (error 'NotificationTarget must be a string')
+        else if std.isEmpty(NotificationTarget) then (error 'NotificationTarget must be not empty')
+        else if std.length(NotificationTarget) > 300 then error ('NotificationTarget should have not more than 300 characters')
+        else NotificationTarget,
     },
   },
-  withRuleSetArn(RuleSetArn): {
-    assert std.isString(RuleSetArn) : 'RuleSetArn must be a string',
+  setRuleSetArn(RuleSetArn): {
     Properties+::: {
-      RuleSetArn: RuleSetArn,
+      RuleSetArn:
+        if !std.isString(RuleSetArn) then (error 'RuleSetArn must be a string')
+        else if std.isEmpty(RuleSetArn) then (error 'RuleSetArn must be not empty')
+        else RuleSetArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

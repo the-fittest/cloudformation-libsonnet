@@ -6,12 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PipelineName) : 'PipelineName must be a string',
-      PipelineName: PipelineName,
-      assert std.isObject(PipelineDefinition) : 'PipelineDefinition must be an object',
-      PipelineDefinition: PipelineDefinition,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      PipelineName:
+        if !std.isString(PipelineName) then (error 'PipelineName must be a string')
+        else if std.isEmpty(PipelineName) then (error 'PipelineName must be not empty')
+        else if std.length(PipelineName) < 1 then error ('PipelineName should have at least 1 characters')
+        else if std.length(PipelineName) > 256 then error ('PipelineName should have not more than 256 characters')
+        else PipelineName,
+      PipelineDefinition:
+        if !std.isObject(PipelineDefinition) then (error 'PipelineDefinition must be an object')
+        else PipelineDefinition,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,92 +30,103 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Pipeline',
   },
-  withPipelineDisplayName(PipelineDisplayName): {
-    assert std.isString(PipelineDisplayName) : 'PipelineDisplayName must be a string',
+  setPipelineDisplayName(PipelineDisplayName): {
     Properties+::: {
-      PipelineDisplayName: PipelineDisplayName,
+      PipelineDisplayName:
+        if !std.isString(PipelineDisplayName) then (error 'PipelineDisplayName must be a string')
+        else if std.isEmpty(PipelineDisplayName) then (error 'PipelineDisplayName must be not empty')
+        else if std.length(PipelineDisplayName) < 1 then error ('PipelineDisplayName should have at least 1 characters')
+        else if std.length(PipelineDisplayName) > 256 then error ('PipelineDisplayName should have not more than 256 characters')
+        else PipelineDisplayName,
     },
   },
-  withPipelineDescription(PipelineDescription): {
-    assert std.isString(PipelineDescription) : 'PipelineDescription must be a string',
+  setPipelineDescription(PipelineDescription): {
     Properties+::: {
-      PipelineDescription: PipelineDescription,
+      PipelineDescription:
+        if !std.isString(PipelineDescription) then (error 'PipelineDescription must be a string')
+        else if std.isEmpty(PipelineDescription) then (error 'PipelineDescription must be not empty')
+        else if std.length(PipelineDescription) > 3072 then error ('PipelineDescription should have not more than 3072 characters')
+        else PipelineDescription,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withParallelismConfiguration(ParallelismConfiguration): {
-    assert std.isObject(ParallelismConfiguration) : 'ParallelismConfiguration must be a object',
+  setParallelismConfiguration(ParallelismConfiguration): {
     Properties+::: {
-      ParallelismConfiguration: ParallelismConfiguration,
+      ParallelismConfiguration:
+        if !std.isObject(ParallelismConfiguration) then (error 'ParallelismConfiguration must be an object')
+        else if !std.objectHas(ParallelismConfiguration, 'MaxParallelExecutionSteps') then (error ' have attribute MaxParallelExecutionSteps')
+        else ParallelismConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

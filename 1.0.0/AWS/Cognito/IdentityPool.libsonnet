@@ -4,8 +4,8 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(AllowUnauthenticatedIdentities) : 'AllowUnauthenticatedIdentities must be a boolean',
-      AllowUnauthenticatedIdentities: AllowUnauthenticatedIdentities,
+      AllowUnauthenticatedIdentities:
+        if !std.isBoolean(AllowUnauthenticatedIdentities) then (error 'AllowUnauthenticatedIdentities must be a boolean') else AllowUnauthenticatedIdentities,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,158 +15,178 @@
     Metadata:: [],
     Type: 'AWS::Cognito::IdentityPool',
   },
-  withPushSync(PushSync): {
-    assert std.isObject(PushSync) : 'PushSync must be a object',
+  setPushSync(PushSync): {
     Properties+::: {
-      PushSync: PushSync,
+      PushSync:
+        if !std.isObject(PushSync) then (error 'PushSync must be an object')
+        else PushSync,
     },
   },
-  withCognitoIdentityProviders(CognitoIdentityProviders): {
+  setCognitoIdentityProviders(CognitoIdentityProviders): {
     Properties+::: {
-      CognitoIdentityProviders: (if std.isArray(CognitoIdentityProviders) then CognitoIdentityProviders else [CognitoIdentityProviders]),
+      CognitoIdentityProviders:
+        if !std.isArray(CognitoIdentityProviders) then (error 'CognitoIdentityProviders must be an array')
+        else CognitoIdentityProviders,
     },
   },
-  withCognitoIdentityProvidersMixin(CognitoIdentityProviders): {
+  setCognitoIdentityProvidersMixin(CognitoIdentityProviders): {
     Properties+::: {
-      CognitoIdentityProviders+: (if std.isArray(CognitoIdentityProviders) then CognitoIdentityProviders else [CognitoIdentityProviders]),
+      CognitoIdentityProviders+: CognitoIdentityProviders,
     },
   },
-  withDeveloperProviderName(DeveloperProviderName): {
-    assert std.isString(DeveloperProviderName) : 'DeveloperProviderName must be a string',
+  setDeveloperProviderName(DeveloperProviderName): {
     Properties+::: {
-      DeveloperProviderName: DeveloperProviderName,
+      DeveloperProviderName:
+        if !std.isString(DeveloperProviderName) then (error 'DeveloperProviderName must be a string')
+        else if std.isEmpty(DeveloperProviderName) then (error 'DeveloperProviderName must be not empty')
+        else DeveloperProviderName,
     },
   },
-  withCognitoStreams(CognitoStreams): {
-    assert std.isObject(CognitoStreams) : 'CognitoStreams must be a object',
+  setCognitoStreams(CognitoStreams): {
     Properties+::: {
-      CognitoStreams: CognitoStreams,
+      CognitoStreams:
+        if !std.isObject(CognitoStreams) then (error 'CognitoStreams must be an object')
+        else CognitoStreams,
     },
   },
-  withSupportedLoginProviders(SupportedLoginProviders): {
-    assert std.isObject(SupportedLoginProviders) : 'SupportedLoginProviders must be a object',
+  setSupportedLoginProviders(SupportedLoginProviders): {
     Properties+::: {
-      SupportedLoginProviders: SupportedLoginProviders,
+      SupportedLoginProviders:
+        if !std.isObject(SupportedLoginProviders) then (error 'SupportedLoginProviders must be an object')
+        else SupportedLoginProviders,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withCognitoEvents(CognitoEvents): {
-    assert std.isObject(CognitoEvents) : 'CognitoEvents must be a object',
+  setCognitoEvents(CognitoEvents): {
     Properties+::: {
-      CognitoEvents: CognitoEvents,
+      CognitoEvents:
+        if !std.isObject(CognitoEvents) then (error 'CognitoEvents must be an object')
+        else CognitoEvents,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withIdentityPoolName(IdentityPoolName): {
-    assert std.isString(IdentityPoolName) : 'IdentityPoolName must be a string',
+  setIdentityPoolName(IdentityPoolName): {
     Properties+::: {
-      IdentityPoolName: IdentityPoolName,
+      IdentityPoolName:
+        if !std.isString(IdentityPoolName) then (error 'IdentityPoolName must be a string')
+        else if std.isEmpty(IdentityPoolName) then (error 'IdentityPoolName must be not empty')
+        else IdentityPoolName,
     },
   },
-  withSamlProviderARNs(SamlProviderARNs): {
+  setSamlProviderARNs(SamlProviderARNs): {
     Properties+::: {
-      SamlProviderARNs: (if std.isArray(SamlProviderARNs) then SamlProviderARNs else [SamlProviderARNs]),
+      SamlProviderARNs:
+        if !std.isArray(SamlProviderARNs) then (error 'SamlProviderARNs must be an array')
+        else SamlProviderARNs,
     },
   },
-  withSamlProviderARNsMixin(SamlProviderARNs): {
+  setSamlProviderARNsMixin(SamlProviderARNs): {
     Properties+::: {
-      SamlProviderARNs+: (if std.isArray(SamlProviderARNs) then SamlProviderARNs else [SamlProviderARNs]),
+      SamlProviderARNs+: SamlProviderARNs,
     },
   },
-  withOpenIdConnectProviderARNs(OpenIdConnectProviderARNs): {
+  setOpenIdConnectProviderARNs(OpenIdConnectProviderARNs): {
     Properties+::: {
-      OpenIdConnectProviderARNs: (if std.isArray(OpenIdConnectProviderARNs) then OpenIdConnectProviderARNs else [OpenIdConnectProviderARNs]),
+      OpenIdConnectProviderARNs:
+        if !std.isArray(OpenIdConnectProviderARNs) then (error 'OpenIdConnectProviderARNs must be an array')
+        else OpenIdConnectProviderARNs,
     },
   },
-  withOpenIdConnectProviderARNsMixin(OpenIdConnectProviderARNs): {
+  setOpenIdConnectProviderARNsMixin(OpenIdConnectProviderARNs): {
     Properties+::: {
-      OpenIdConnectProviderARNs+: (if std.isArray(OpenIdConnectProviderARNs) then OpenIdConnectProviderARNs else [OpenIdConnectProviderARNs]),
+      OpenIdConnectProviderARNs+: OpenIdConnectProviderARNs,
     },
   },
-  withAllowClassicFlow(AllowClassicFlow): {
-    assert std.isBoolean(AllowClassicFlow) : 'AllowClassicFlow must be a boolean',
+  setAllowClassicFlow(AllowClassicFlow): {
     Properties+::: {
-      AllowClassicFlow: AllowClassicFlow,
+      AllowClassicFlow:
+        if !std.isBoolean(AllowClassicFlow) then (error 'AllowClassicFlow must be a boolean') else AllowClassicFlow,
     },
   },
-  withIdentityPoolTags(IdentityPoolTags): {
+  setIdentityPoolTags(IdentityPoolTags): {
     Properties+::: {
-      IdentityPoolTags: (if std.isArray(IdentityPoolTags) then IdentityPoolTags else [IdentityPoolTags]),
+      IdentityPoolTags:
+        if !std.isArray(IdentityPoolTags) then (error 'IdentityPoolTags must be an array')
+        else IdentityPoolTags,
     },
   },
-  withIdentityPoolTagsMixin(IdentityPoolTags): {
+  setIdentityPoolTagsMixin(IdentityPoolTags): {
     Properties+::: {
-      IdentityPoolTags+: (if std.isArray(IdentityPoolTags) then IdentityPoolTags else [IdentityPoolTags]),
+      IdentityPoolTags+: IdentityPoolTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

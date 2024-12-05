@@ -9,18 +9,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Branch) : 'Branch must be a string',
-      Branch: Branch,
-      assert std.isString(ConfigFile) : 'ConfigFile must be a string',
-      ConfigFile: ConfigFile,
-      assert std.isString(RepositoryLinkId) : 'RepositoryLinkId must be a string',
-      RepositoryLinkId: RepositoryLinkId,
-      assert std.isString(ResourceName) : 'ResourceName must be a string',
-      ResourceName: ResourceName,
-      assert std.isString(SyncType) : 'SyncType must be a string',
-      SyncType: SyncType,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      Branch:
+        if !std.isString(Branch) then (error 'Branch must be a string')
+        else if std.isEmpty(Branch) then (error 'Branch must be not empty')
+        else Branch,
+      ConfigFile:
+        if !std.isString(ConfigFile) then (error 'ConfigFile must be a string')
+        else if std.isEmpty(ConfigFile) then (error 'ConfigFile must be not empty')
+        else ConfigFile,
+      RepositoryLinkId:
+        if !std.isString(RepositoryLinkId) then (error 'RepositoryLinkId must be a string')
+        else if std.isEmpty(RepositoryLinkId) then (error 'RepositoryLinkId must be not empty')
+        else RepositoryLinkId,
+      ResourceName:
+        if !std.isString(ResourceName) then (error 'ResourceName must be a string')
+        else if std.isEmpty(ResourceName) then (error 'ResourceName must be not empty')
+        else ResourceName,
+      SyncType:
+        if !std.isString(SyncType) then (error 'SyncType must be a string')
+        else if std.isEmpty(SyncType) then (error 'SyncType must be not empty')
+        else SyncType,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -30,97 +42,107 @@
     Metadata:: [],
     Type: 'AWS::CodeStarConnections::SyncConfiguration',
   },
-  withOwnerId(OwnerId): {
-    assert std.isString(OwnerId) : 'OwnerId must be a string',
+  setOwnerId(OwnerId): {
     Properties+::: {
-      OwnerId: OwnerId,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else OwnerId,
     },
   },
-  withRepositoryName(RepositoryName): {
-    assert std.isString(RepositoryName) : 'RepositoryName must be a string',
+  setRepositoryName(RepositoryName): {
     Properties+::: {
-      RepositoryName: RepositoryName,
+      RepositoryName:
+        if !std.isString(RepositoryName) then (error 'RepositoryName must be a string')
+        else if std.isEmpty(RepositoryName) then (error 'RepositoryName must be not empty')
+        else RepositoryName,
     },
   },
-  withProviderType(ProviderType): {
-    assert std.isString(ProviderType) : 'ProviderType must be a string',
-    assert ProviderType == 'GitHub' || ProviderType == 'Bitbucket' || ProviderType == 'GitHubEnterprise' || ProviderType == 'GitLab' || ProviderType == 'GitLabSelfManaged' : "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'",
+  setProviderType(ProviderType): {
     Properties+::: {
-      ProviderType: ProviderType,
+      ProviderType:
+        if !std.isString(ProviderType) then (error 'ProviderType must be a string')
+        else if std.isEmpty(ProviderType) then (error 'ProviderType must be not empty')
+        else if ProviderType != 'GitHub' && ProviderType != 'Bitbucket' && ProviderType != 'GitHubEnterprise' && ProviderType != 'GitLab' && ProviderType != 'GitLabSelfManaged' then (error "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'")
+        else ProviderType,
     },
   },
-  withPublishDeploymentStatus(PublishDeploymentStatus): {
-    assert std.isString(PublishDeploymentStatus) : 'PublishDeploymentStatus must be a string',
-    assert PublishDeploymentStatus == 'ENABLED' || PublishDeploymentStatus == 'DISABLED' : "PublishDeploymentStatus should be 'ENABLED' or 'DISABLED'",
+  setPublishDeploymentStatus(PublishDeploymentStatus): {
     Properties+::: {
-      PublishDeploymentStatus: PublishDeploymentStatus,
+      PublishDeploymentStatus:
+        if !std.isString(PublishDeploymentStatus) then (error 'PublishDeploymentStatus must be a string')
+        else if std.isEmpty(PublishDeploymentStatus) then (error 'PublishDeploymentStatus must be not empty')
+        else if PublishDeploymentStatus != 'ENABLED' && PublishDeploymentStatus != 'DISABLED' then (error "PublishDeploymentStatus should be 'ENABLED' or 'DISABLED'")
+        else PublishDeploymentStatus,
     },
   },
-  withTriggerResourceUpdateOn(TriggerResourceUpdateOn): {
-    assert std.isString(TriggerResourceUpdateOn) : 'TriggerResourceUpdateOn must be a string',
-    assert TriggerResourceUpdateOn == 'ANY_CHANGE' || TriggerResourceUpdateOn == 'FILE_CHANGE' : "TriggerResourceUpdateOn should be 'ANY_CHANGE' or 'FILE_CHANGE'",
+  setTriggerResourceUpdateOn(TriggerResourceUpdateOn): {
     Properties+::: {
-      TriggerResourceUpdateOn: TriggerResourceUpdateOn,
+      TriggerResourceUpdateOn:
+        if !std.isString(TriggerResourceUpdateOn) then (error 'TriggerResourceUpdateOn must be a string')
+        else if std.isEmpty(TriggerResourceUpdateOn) then (error 'TriggerResourceUpdateOn must be not empty')
+        else if TriggerResourceUpdateOn != 'ANY_CHANGE' && TriggerResourceUpdateOn != 'FILE_CHANGE' then (error "TriggerResourceUpdateOn should be 'ANY_CHANGE' or 'FILE_CHANGE'")
+        else TriggerResourceUpdateOn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

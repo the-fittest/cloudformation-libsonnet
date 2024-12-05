@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,108 +10,126 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::BrowserSettings',
   },
-  withAdditionalEncryptionContext(AdditionalEncryptionContext): {
-    assert std.isObject(AdditionalEncryptionContext) : 'AdditionalEncryptionContext must be a object',
+  setAdditionalEncryptionContext(AdditionalEncryptionContext): {
     Properties+::: {
-      AdditionalEncryptionContext: AdditionalEncryptionContext,
+      AdditionalEncryptionContext:
+        if !std.isObject(AdditionalEncryptionContext) then (error 'AdditionalEncryptionContext must be an object')
+        else AdditionalEncryptionContext,
     },
   },
-  withAssociatedPortalArns(AssociatedPortalArns): {
+  setAssociatedPortalArns(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns:
+        if !std.isArray(AssociatedPortalArns) then (error 'AssociatedPortalArns must be an array')
+        else AssociatedPortalArns,
     },
   },
-  withAssociatedPortalArnsMixin(AssociatedPortalArns): {
+  setAssociatedPortalArnsMixin(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns+: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns+: AssociatedPortalArns,
     },
   },
-  withBrowserPolicy(BrowserPolicy): {
-    assert std.isString(BrowserPolicy) : 'BrowserPolicy must be a string',
+  setBrowserPolicy(BrowserPolicy): {
     Properties+::: {
-      BrowserPolicy: BrowserPolicy,
+      BrowserPolicy:
+        if !std.isString(BrowserPolicy) then (error 'BrowserPolicy must be a string')
+        else if std.isEmpty(BrowserPolicy) then (error 'BrowserPolicy must be not empty')
+        else if std.length(BrowserPolicy) < 2 then error ('BrowserPolicy should have at least 2 characters')
+        else if std.length(BrowserPolicy) > 131072 then error ('BrowserPolicy should have not more than 131072 characters')
+        else BrowserPolicy,
     },
   },
-  withBrowserSettingsArn(BrowserSettingsArn): {
-    assert std.isString(BrowserSettingsArn) : 'BrowserSettingsArn must be a string',
+  setBrowserSettingsArn(BrowserSettingsArn): {
     Properties+::: {
-      BrowserSettingsArn: BrowserSettingsArn,
+      BrowserSettingsArn:
+        if !std.isString(BrowserSettingsArn) then (error 'BrowserSettingsArn must be a string')
+        else if std.isEmpty(BrowserSettingsArn) then (error 'BrowserSettingsArn must be not empty')
+        else if std.length(BrowserSettingsArn) < 20 then error ('BrowserSettingsArn should have at least 20 characters')
+        else if std.length(BrowserSettingsArn) > 2048 then error ('BrowserSettingsArn should have not more than 2048 characters')
+        else BrowserSettingsArn,
     },
   },
-  withCustomerManagedKey(CustomerManagedKey): {
-    assert std.isString(CustomerManagedKey) : 'CustomerManagedKey must be a string',
+  setCustomerManagedKey(CustomerManagedKey): {
     Properties+::: {
-      CustomerManagedKey: CustomerManagedKey,
+      CustomerManagedKey:
+        if !std.isString(CustomerManagedKey) then (error 'CustomerManagedKey must be a string')
+        else if std.isEmpty(CustomerManagedKey) then (error 'CustomerManagedKey must be not empty')
+        else if std.length(CustomerManagedKey) < 20 then error ('CustomerManagedKey should have at least 20 characters')
+        else if std.length(CustomerManagedKey) > 2048 then error ('CustomerManagedKey should have not more than 2048 characters')
+        else CustomerManagedKey,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(KinesisStreamArn) : 'KinesisStreamArn must be a string',
-      KinesisStreamArn: KinesisStreamArn,
+      KinesisStreamArn:
+        if !std.isString(KinesisStreamArn) then (error 'KinesisStreamArn must be a string')
+        else if std.isEmpty(KinesisStreamArn) then (error 'KinesisStreamArn must be not empty')
+        else if std.length(KinesisStreamArn) < 20 then error ('KinesisStreamArn should have at least 20 characters')
+        else if std.length(KinesisStreamArn) > 2048 then error ('KinesisStreamArn should have not more than 2048 characters')
+        else KinesisStreamArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,90 +19,99 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::UserAccessLoggingSettings',
   },
-  withAssociatedPortalArns(AssociatedPortalArns): {
+  setAssociatedPortalArns(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns:
+        if !std.isArray(AssociatedPortalArns) then (error 'AssociatedPortalArns must be an array')
+        else AssociatedPortalArns,
     },
   },
-  withAssociatedPortalArnsMixin(AssociatedPortalArns): {
+  setAssociatedPortalArnsMixin(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns+: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns+: AssociatedPortalArns,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUserAccessLoggingSettingsArn(UserAccessLoggingSettingsArn): {
-    assert std.isString(UserAccessLoggingSettingsArn) : 'UserAccessLoggingSettingsArn must be a string',
+  setUserAccessLoggingSettingsArn(UserAccessLoggingSettingsArn): {
     Properties+::: {
-      UserAccessLoggingSettingsArn: UserAccessLoggingSettingsArn,
+      UserAccessLoggingSettingsArn:
+        if !std.isString(UserAccessLoggingSettingsArn) then (error 'UserAccessLoggingSettingsArn must be a string')
+        else if std.isEmpty(UserAccessLoggingSettingsArn) then (error 'UserAccessLoggingSettingsArn must be not empty')
+        else if std.length(UserAccessLoggingSettingsArn) < 20 then error ('UserAccessLoggingSettingsArn should have at least 20 characters')
+        else if std.length(UserAccessLoggingSettingsArn) > 2048 then error ('UserAccessLoggingSettingsArn should have not more than 2048 characters')
+        else UserAccessLoggingSettingsArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

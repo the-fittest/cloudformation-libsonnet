@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,174 +10,194 @@
     Metadata:: [],
     Type: 'AWS::SQS::Queue',
   },
-  withQueueUrl(QueueUrl): {
-    assert std.isString(QueueUrl) : 'QueueUrl must be a string',
+  setQueueUrl(QueueUrl): {
     Properties+::: {
-      QueueUrl: QueueUrl,
+      QueueUrl:
+        if !std.isString(QueueUrl) then (error 'QueueUrl must be a string')
+        else if std.isEmpty(QueueUrl) then (error 'QueueUrl must be not empty')
+        else QueueUrl,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withContentBasedDeduplication(ContentBasedDeduplication): {
-    assert std.isBoolean(ContentBasedDeduplication) : 'ContentBasedDeduplication must be a boolean',
+  setContentBasedDeduplication(ContentBasedDeduplication): {
     Properties+::: {
-      ContentBasedDeduplication: ContentBasedDeduplication,
+      ContentBasedDeduplication:
+        if !std.isBoolean(ContentBasedDeduplication) then (error 'ContentBasedDeduplication must be a boolean') else ContentBasedDeduplication,
     },
   },
-  withDeduplicationScope(DeduplicationScope): {
-    assert std.isString(DeduplicationScope) : 'DeduplicationScope must be a string',
+  setDeduplicationScope(DeduplicationScope): {
     Properties+::: {
-      DeduplicationScope: DeduplicationScope,
+      DeduplicationScope:
+        if !std.isString(DeduplicationScope) then (error 'DeduplicationScope must be a string')
+        else if std.isEmpty(DeduplicationScope) then (error 'DeduplicationScope must be not empty')
+        else DeduplicationScope,
     },
   },
-  withDelaySeconds(DelaySeconds): {
-    assert std.isNumber(DelaySeconds) : 'DelaySeconds must be a number',
+  setDelaySeconds(DelaySeconds): {
     Properties+::: {
-      DelaySeconds: DelaySeconds,
+      DelaySeconds:
+        if !std.isNumber(DelaySeconds) then (error 'DelaySeconds must be an number')
+        else DelaySeconds,
     },
   },
-  withFifoQueue(FifoQueue): {
-    assert std.isBoolean(FifoQueue) : 'FifoQueue must be a boolean',
+  setFifoQueue(FifoQueue): {
     Properties+::: {
-      FifoQueue: FifoQueue,
+      FifoQueue:
+        if !std.isBoolean(FifoQueue) then (error 'FifoQueue must be a boolean') else FifoQueue,
     },
   },
-  withFifoThroughputLimit(FifoThroughputLimit): {
-    assert std.isString(FifoThroughputLimit) : 'FifoThroughputLimit must be a string',
+  setFifoThroughputLimit(FifoThroughputLimit): {
     Properties+::: {
-      FifoThroughputLimit: FifoThroughputLimit,
+      FifoThroughputLimit:
+        if !std.isString(FifoThroughputLimit) then (error 'FifoThroughputLimit must be a string')
+        else if std.isEmpty(FifoThroughputLimit) then (error 'FifoThroughputLimit must be not empty')
+        else FifoThroughputLimit,
     },
   },
-  withKmsDataKeyReusePeriodSeconds(KmsDataKeyReusePeriodSeconds): {
-    assert std.isNumber(KmsDataKeyReusePeriodSeconds) : 'KmsDataKeyReusePeriodSeconds must be a number',
+  setKmsDataKeyReusePeriodSeconds(KmsDataKeyReusePeriodSeconds): {
     Properties+::: {
-      KmsDataKeyReusePeriodSeconds: KmsDataKeyReusePeriodSeconds,
+      KmsDataKeyReusePeriodSeconds:
+        if !std.isNumber(KmsDataKeyReusePeriodSeconds) then (error 'KmsDataKeyReusePeriodSeconds must be an number')
+        else KmsDataKeyReusePeriodSeconds,
     },
   },
-  withKmsMasterKeyId(KmsMasterKeyId): {
-    assert std.isString(KmsMasterKeyId) : 'KmsMasterKeyId must be a string',
+  setKmsMasterKeyId(KmsMasterKeyId): {
     Properties+::: {
-      KmsMasterKeyId: KmsMasterKeyId,
+      KmsMasterKeyId:
+        if !std.isString(KmsMasterKeyId) then (error 'KmsMasterKeyId must be a string')
+        else if std.isEmpty(KmsMasterKeyId) then (error 'KmsMasterKeyId must be not empty')
+        else KmsMasterKeyId,
     },
   },
-  withSqsManagedSseEnabled(SqsManagedSseEnabled): {
-    assert std.isBoolean(SqsManagedSseEnabled) : 'SqsManagedSseEnabled must be a boolean',
+  setSqsManagedSseEnabled(SqsManagedSseEnabled): {
     Properties+::: {
-      SqsManagedSseEnabled: SqsManagedSseEnabled,
+      SqsManagedSseEnabled:
+        if !std.isBoolean(SqsManagedSseEnabled) then (error 'SqsManagedSseEnabled must be a boolean') else SqsManagedSseEnabled,
     },
   },
-  withMaximumMessageSize(MaximumMessageSize): {
-    assert std.isNumber(MaximumMessageSize) : 'MaximumMessageSize must be a number',
+  setMaximumMessageSize(MaximumMessageSize): {
     Properties+::: {
-      MaximumMessageSize: MaximumMessageSize,
+      MaximumMessageSize:
+        if !std.isNumber(MaximumMessageSize) then (error 'MaximumMessageSize must be an number')
+        else MaximumMessageSize,
     },
   },
-  withMessageRetentionPeriod(MessageRetentionPeriod): {
-    assert std.isNumber(MessageRetentionPeriod) : 'MessageRetentionPeriod must be a number',
+  setMessageRetentionPeriod(MessageRetentionPeriod): {
     Properties+::: {
-      MessageRetentionPeriod: MessageRetentionPeriod,
+      MessageRetentionPeriod:
+        if !std.isNumber(MessageRetentionPeriod) then (error 'MessageRetentionPeriod must be an number')
+        else MessageRetentionPeriod,
     },
   },
-  withQueueName(QueueName): {
-    assert std.isString(QueueName) : 'QueueName must be a string',
+  setQueueName(QueueName): {
     Properties+::: {
-      QueueName: QueueName,
+      QueueName:
+        if !std.isString(QueueName) then (error 'QueueName must be a string')
+        else if std.isEmpty(QueueName) then (error 'QueueName must be not empty')
+        else QueueName,
     },
   },
-  withReceiveMessageWaitTimeSeconds(ReceiveMessageWaitTimeSeconds): {
-    assert std.isNumber(ReceiveMessageWaitTimeSeconds) : 'ReceiveMessageWaitTimeSeconds must be a number',
+  setReceiveMessageWaitTimeSeconds(ReceiveMessageWaitTimeSeconds): {
     Properties+::: {
-      ReceiveMessageWaitTimeSeconds: ReceiveMessageWaitTimeSeconds,
+      ReceiveMessageWaitTimeSeconds:
+        if !std.isNumber(ReceiveMessageWaitTimeSeconds) then (error 'ReceiveMessageWaitTimeSeconds must be an number')
+        else ReceiveMessageWaitTimeSeconds,
     },
   },
-  withRedriveAllowPolicy(RedriveAllowPolicy): {
+  setRedriveAllowPolicy(RedriveAllowPolicy): {
     Properties+::: {
       RedriveAllowPolicy: RedriveAllowPolicy,
     },
   },
-  withRedrivePolicy(RedrivePolicy): {
+  setRedrivePolicy(RedrivePolicy): {
     Properties+::: {
       RedrivePolicy: RedrivePolicy,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVisibilityTimeout(VisibilityTimeout): {
-    assert std.isNumber(VisibilityTimeout) : 'VisibilityTimeout must be a number',
+  setVisibilityTimeout(VisibilityTimeout): {
     Properties+::: {
-      VisibilityTimeout: VisibilityTimeout,
+      VisibilityTimeout:
+        if !std.isNumber(VisibilityTimeout) then (error 'VisibilityTimeout must be an number')
+        else VisibilityTimeout,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

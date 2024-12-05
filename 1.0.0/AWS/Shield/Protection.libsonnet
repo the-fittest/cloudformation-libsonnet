@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(ResourceArn) : 'ResourceArn must be a string',
-      ResourceArn: ResourceArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      ResourceArn:
+        if !std.isString(ResourceArn) then (error 'ResourceArn must be a string')
+        else if std.isEmpty(ResourceArn) then (error 'ResourceArn must be not empty')
+        else if std.length(ResourceArn) < 1 then error ('ResourceArn should have at least 1 characters')
+        else if std.length(ResourceArn) > 2048 then error ('ResourceArn should have not more than 2048 characters')
+        else ResourceArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,102 +26,115 @@
     Metadata:: [],
     Type: 'AWS::Shield::Protection',
   },
-  withProtectionId(ProtectionId): {
-    assert std.isString(ProtectionId) : 'ProtectionId must be a string',
+  setProtectionId(ProtectionId): {
     Properties+::: {
-      ProtectionId: ProtectionId,
+      ProtectionId:
+        if !std.isString(ProtectionId) then (error 'ProtectionId must be a string')
+        else if std.isEmpty(ProtectionId) then (error 'ProtectionId must be not empty')
+        else ProtectionId,
     },
   },
-  withProtectionArn(ProtectionArn): {
-    assert std.isString(ProtectionArn) : 'ProtectionArn must be a string',
+  setProtectionArn(ProtectionArn): {
     Properties+::: {
-      ProtectionArn: ProtectionArn,
+      ProtectionArn:
+        if !std.isString(ProtectionArn) then (error 'ProtectionArn must be a string')
+        else if std.isEmpty(ProtectionArn) then (error 'ProtectionArn must be not empty')
+        else ProtectionArn,
     },
   },
-  withHealthCheckArns(HealthCheckArns): {
+  setHealthCheckArns(HealthCheckArns): {
     Properties+::: {
-      HealthCheckArns: (if std.isArray(HealthCheckArns) then HealthCheckArns else [HealthCheckArns]),
+      HealthCheckArns:
+        if !std.isArray(HealthCheckArns) then (error 'HealthCheckArns must be an array')
+        else if std.length(HealthCheckArns) > 1 then error ('HealthCheckArns cannot have more than 1 items')
+        else HealthCheckArns,
     },
   },
-  withHealthCheckArnsMixin(HealthCheckArns): {
+  setHealthCheckArnsMixin(HealthCheckArns): {
     Properties+::: {
-      HealthCheckArns+: (if std.isArray(HealthCheckArns) then HealthCheckArns else [HealthCheckArns]),
+      HealthCheckArns+: HealthCheckArns,
     },
   },
-  withApplicationLayerAutomaticResponseConfiguration(ApplicationLayerAutomaticResponseConfiguration): {
-    assert std.isObject(ApplicationLayerAutomaticResponseConfiguration) : 'ApplicationLayerAutomaticResponseConfiguration must be a object',
+  setApplicationLayerAutomaticResponseConfiguration(ApplicationLayerAutomaticResponseConfiguration): {
     Properties+::: {
-      ApplicationLayerAutomaticResponseConfiguration: ApplicationLayerAutomaticResponseConfiguration,
+      ApplicationLayerAutomaticResponseConfiguration:
+        if !std.isObject(ApplicationLayerAutomaticResponseConfiguration) then (error 'ApplicationLayerAutomaticResponseConfiguration must be an object')
+        else if !std.objectHas(ApplicationLayerAutomaticResponseConfiguration, 'Action') then (error ' have attribute Action')
+        else if !std.objectHas(ApplicationLayerAutomaticResponseConfiguration, 'Status') then (error ' have attribute Status')
+        else ApplicationLayerAutomaticResponseConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

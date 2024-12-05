@@ -7,12 +7,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(Principal) : 'Principal must be an object',
-      Principal: Principal,
-      assert std.isObject(Resource) : 'Resource must be an object',
-      Resource: Resource,
-      Permissions: (if std.isArray(Permissions) then Permissions else [Permissions]),
-      PermissionsWithGrantOption: (if std.isArray(PermissionsWithGrantOption) then PermissionsWithGrantOption else [PermissionsWithGrantOption]),
+      Principal:
+        if !std.isObject(Principal) then (error 'Principal must be an object')
+        else Principal,
+      Resource:
+        if !std.isObject(Resource) then (error 'Resource must be an object')
+        else Resource,
+      Permissions:
+        if !std.isArray(Permissions) then (error 'Permissions must be an array')
+        else Permissions,
+      PermissionsWithGrantOption:
+        if !std.isArray(PermissionsWithGrantOption) then (error 'PermissionsWithGrantOption must be an array')
+        else PermissionsWithGrantOption,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,82 +28,90 @@
     Metadata:: [],
     Type: 'AWS::LakeFormation::PrincipalPermissions',
   },
-  withCatalog(Catalog): {
-    assert std.isString(Catalog) : 'Catalog must be a string',
+  setCatalog(Catalog): {
     Properties+::: {
-      Catalog: Catalog,
+      Catalog:
+        if !std.isString(Catalog) then (error 'Catalog must be a string')
+        else if std.isEmpty(Catalog) then (error 'Catalog must be not empty')
+        else if std.length(Catalog) < 12 then error ('Catalog should have at least 12 characters')
+        else if std.length(Catalog) > 12 then error ('Catalog should have not more than 12 characters')
+        else Catalog,
     },
   },
-  withPrincipalIdentifier(PrincipalIdentifier): {
-    assert std.isString(PrincipalIdentifier) : 'PrincipalIdentifier must be a string',
+  setPrincipalIdentifier(PrincipalIdentifier): {
     Properties+::: {
-      PrincipalIdentifier: PrincipalIdentifier,
+      PrincipalIdentifier:
+        if !std.isString(PrincipalIdentifier) then (error 'PrincipalIdentifier must be a string')
+        else if std.isEmpty(PrincipalIdentifier) then (error 'PrincipalIdentifier must be not empty')
+        else PrincipalIdentifier,
     },
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else ResourceIdentifier,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -7,14 +7,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TransitGatewayId) : 'TransitGatewayId must be a string',
-      TransitGatewayId: TransitGatewayId,
-      assert std.isString(PeerTransitGatewayId) : 'PeerTransitGatewayId must be a string',
-      PeerTransitGatewayId: PeerTransitGatewayId,
-      assert std.isString(PeerAccountId) : 'PeerAccountId must be a string',
-      PeerAccountId: PeerAccountId,
-      assert std.isString(PeerRegion) : 'PeerRegion must be a string',
-      PeerRegion: PeerRegion,
+      TransitGatewayId:
+        if !std.isString(TransitGatewayId) then (error 'TransitGatewayId must be a string')
+        else if std.isEmpty(TransitGatewayId) then (error 'TransitGatewayId must be not empty')
+        else TransitGatewayId,
+      PeerTransitGatewayId:
+        if !std.isString(PeerTransitGatewayId) then (error 'PeerTransitGatewayId must be a string')
+        else if std.isEmpty(PeerTransitGatewayId) then (error 'PeerTransitGatewayId must be not empty')
+        else PeerTransitGatewayId,
+      PeerAccountId:
+        if !std.isString(PeerAccountId) then (error 'PeerAccountId must be a string')
+        else if std.isEmpty(PeerAccountId) then (error 'PeerAccountId must be not empty')
+        else PeerAccountId,
+      PeerRegion:
+        if !std.isString(PeerRegion) then (error 'PeerRegion must be a string')
+        else if std.isEmpty(PeerRegion) then (error 'PeerRegion must be not empty')
+        else PeerRegion,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,98 +32,107 @@
     Metadata:: [],
     Type: 'AWS::EC2::TransitGatewayPeeringAttachment',
   },
-  withStatus(Status): {
-    assert std.isObject(Status) : 'Status must be a object',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isObject(Status) then (error 'Status must be an object')
+        else Status,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTransitGatewayAttachmentId(TransitGatewayAttachmentId): {
-    assert std.isString(TransitGatewayAttachmentId) : 'TransitGatewayAttachmentId must be a string',
+  setTransitGatewayAttachmentId(TransitGatewayAttachmentId): {
     Properties+::: {
-      TransitGatewayAttachmentId: TransitGatewayAttachmentId,
+      TransitGatewayAttachmentId:
+        if !std.isString(TransitGatewayAttachmentId) then (error 'TransitGatewayAttachmentId must be a string')
+        else if std.isEmpty(TransitGatewayAttachmentId) then (error 'TransitGatewayAttachmentId must be not empty')
+        else TransitGatewayAttachmentId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

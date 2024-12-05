@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ResourceId) : 'ResourceId must be a string',
-      ResourceId: ResourceId,
-      assert std.isString(AutodefinedReverseFlag) : 'AutodefinedReverseFlag must be a string',
-      assert AutodefinedReverseFlag == 'DISABLE' : "AutodefinedReverseFlag should be 'DISABLE'",
-      AutodefinedReverseFlag: AutodefinedReverseFlag,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else if std.length(ResourceId) < 1 then error ('ResourceId should have at least 1 characters')
+        else if std.length(ResourceId) > 64 then error ('ResourceId should have not more than 64 characters')
+        else ResourceId,
+      AutodefinedReverseFlag:
+        if !std.isString(AutodefinedReverseFlag) then (error 'AutodefinedReverseFlag must be a string')
+        else if std.isEmpty(AutodefinedReverseFlag) then (error 'AutodefinedReverseFlag must be not empty')
+        else if AutodefinedReverseFlag != 'DISABLE' then (error "AutodefinedReverseFlag should be 'DISABLE'")
+        else AutodefinedReverseFlag,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,83 +25,93 @@
     Metadata:: [],
     Type: 'AWS::Route53Resolver::ResolverConfig',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 1 then error ('Id should have at least 1 characters')
+        else if std.length(Id) > 64 then error ('Id should have not more than 64 characters')
+        else Id,
     },
   },
-  withOwnerId(OwnerId): {
-    assert std.isString(OwnerId) : 'OwnerId must be a string',
+  setOwnerId(OwnerId): {
     Properties+::: {
-      OwnerId: OwnerId,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else if std.length(OwnerId) < 12 then error ('OwnerId should have at least 12 characters')
+        else if std.length(OwnerId) > 32 then error ('OwnerId should have not more than 32 characters')
+        else OwnerId,
     },
   },
-  withAutodefinedReverse(AutodefinedReverse): {
-    assert std.isString(AutodefinedReverse) : 'AutodefinedReverse must be a string',
-    assert AutodefinedReverse == 'ENABLING' || AutodefinedReverse == 'ENABLED' || AutodefinedReverse == 'DISABLING' || AutodefinedReverse == 'DISABLED' : "AutodefinedReverse should be 'ENABLING' or 'ENABLED' or 'DISABLING' or 'DISABLED'",
+  setAutodefinedReverse(AutodefinedReverse): {
     Properties+::: {
-      AutodefinedReverse: AutodefinedReverse,
+      AutodefinedReverse:
+        if !std.isString(AutodefinedReverse) then (error 'AutodefinedReverse must be a string')
+        else if std.isEmpty(AutodefinedReverse) then (error 'AutodefinedReverse must be not empty')
+        else if AutodefinedReverse != 'ENABLING' && AutodefinedReverse != 'ENABLED' && AutodefinedReverse != 'DISABLING' && AutodefinedReverse != 'DISABLED' then (error "AutodefinedReverse should be 'ENABLING' or 'ENABLED' or 'DISABLING' or 'DISABLED'")
+        else AutodefinedReverse,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

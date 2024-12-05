@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RepositoryName) : 'RepositoryName must be a string',
-      RepositoryName: RepositoryName,
-      assert std.isString(ConnectionArn) : 'ConnectionArn must be a string',
-      ConnectionArn: ConnectionArn,
-      assert std.isString(OwnerId) : 'OwnerId must be a string',
-      OwnerId: OwnerId,
+      RepositoryName:
+        if !std.isString(RepositoryName) then (error 'RepositoryName must be a string')
+        else if std.isEmpty(RepositoryName) then (error 'RepositoryName must be not empty')
+        else RepositoryName,
+      ConnectionArn:
+        if !std.isString(ConnectionArn) then (error 'ConnectionArn must be a string')
+        else if std.isEmpty(ConnectionArn) then (error 'ConnectionArn must be not empty')
+        else ConnectionArn,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else OwnerId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,99 +27,109 @@
     Metadata:: [],
     Type: 'AWS::CodeStarConnections::RepositoryLink',
   },
-  withProviderType(ProviderType): {
-    assert std.isString(ProviderType) : 'ProviderType must be a string',
-    assert ProviderType == 'GitHub' || ProviderType == 'Bitbucket' || ProviderType == 'GitHubEnterprise' || ProviderType == 'GitLab' || ProviderType == 'GitLabSelfManaged' : "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'",
+  setProviderType(ProviderType): {
     Properties+::: {
-      ProviderType: ProviderType,
+      ProviderType:
+        if !std.isString(ProviderType) then (error 'ProviderType must be a string')
+        else if std.isEmpty(ProviderType) then (error 'ProviderType must be not empty')
+        else if ProviderType != 'GitHub' && ProviderType != 'Bitbucket' && ProviderType != 'GitHubEnterprise' && ProviderType != 'GitLab' && ProviderType != 'GitLabSelfManaged' then (error "ProviderType should be 'GitHub' or 'Bitbucket' or 'GitHubEnterprise' or 'GitLab' or 'GitLabSelfManaged'")
+        else ProviderType,
     },
   },
-  withEncryptionKeyArn(EncryptionKeyArn): {
-    assert std.isString(EncryptionKeyArn) : 'EncryptionKeyArn must be a string',
+  setEncryptionKeyArn(EncryptionKeyArn): {
     Properties+::: {
-      EncryptionKeyArn: EncryptionKeyArn,
+      EncryptionKeyArn:
+        if !std.isString(EncryptionKeyArn) then (error 'EncryptionKeyArn must be a string')
+        else if std.isEmpty(EncryptionKeyArn) then (error 'EncryptionKeyArn must be not empty')
+        else EncryptionKeyArn,
     },
   },
-  withRepositoryLinkId(RepositoryLinkId): {
-    assert std.isString(RepositoryLinkId) : 'RepositoryLinkId must be a string',
+  setRepositoryLinkId(RepositoryLinkId): {
     Properties+::: {
-      RepositoryLinkId: RepositoryLinkId,
+      RepositoryLinkId:
+        if !std.isString(RepositoryLinkId) then (error 'RepositoryLinkId must be a string')
+        else if std.isEmpty(RepositoryLinkId) then (error 'RepositoryLinkId must be not empty')
+        else RepositoryLinkId,
     },
   },
-  withRepositoryLinkArn(RepositoryLinkArn): {
-    assert std.isString(RepositoryLinkArn) : 'RepositoryLinkArn must be a string',
+  setRepositoryLinkArn(RepositoryLinkArn): {
     Properties+::: {
-      RepositoryLinkArn: RepositoryLinkArn,
+      RepositoryLinkArn:
+        if !std.isString(RepositoryLinkArn) then (error 'RepositoryLinkArn must be a string')
+        else if std.isEmpty(RepositoryLinkArn) then (error 'RepositoryLinkArn must be not empty')
+        else RepositoryLinkArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

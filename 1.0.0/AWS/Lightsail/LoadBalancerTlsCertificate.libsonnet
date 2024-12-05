@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(LoadBalancerName) : 'LoadBalancerName must be a string',
-      LoadBalancerName: LoadBalancerName,
-      assert std.isString(CertificateName) : 'CertificateName must be a string',
-      CertificateName: CertificateName,
-      assert std.isString(CertificateDomainName) : 'CertificateDomainName must be a string',
-      CertificateDomainName: CertificateDomainName,
+      LoadBalancerName:
+        if !std.isString(LoadBalancerName) then (error 'LoadBalancerName must be a string')
+        else if std.isEmpty(LoadBalancerName) then (error 'LoadBalancerName must be not empty')
+        else LoadBalancerName,
+      CertificateName:
+        if !std.isString(CertificateName) then (error 'CertificateName must be a string')
+        else if std.isEmpty(CertificateName) then (error 'CertificateName must be not empty')
+        else CertificateName,
+      CertificateDomainName:
+        if !std.isString(CertificateDomainName) then (error 'CertificateDomainName must be a string')
+        else if std.isEmpty(CertificateDomainName) then (error 'CertificateDomainName must be not empty')
+        else CertificateDomainName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,98 +27,104 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::LoadBalancerTlsCertificate',
   },
-  withCertificateAlternativeNames(CertificateAlternativeNames): {
+  setCertificateAlternativeNames(CertificateAlternativeNames): {
     Properties+::: {
-      CertificateAlternativeNames: (if std.isArray(CertificateAlternativeNames) then CertificateAlternativeNames else [CertificateAlternativeNames]),
+      CertificateAlternativeNames:
+        if !std.isArray(CertificateAlternativeNames) then (error 'CertificateAlternativeNames must be an array')
+        else CertificateAlternativeNames,
     },
   },
-  withCertificateAlternativeNamesMixin(CertificateAlternativeNames): {
+  setCertificateAlternativeNamesMixin(CertificateAlternativeNames): {
     Properties+::: {
-      CertificateAlternativeNames+: (if std.isArray(CertificateAlternativeNames) then CertificateAlternativeNames else [CertificateAlternativeNames]),
+      CertificateAlternativeNames+: CertificateAlternativeNames,
     },
   },
-  withLoadBalancerTlsCertificateArn(LoadBalancerTlsCertificateArn): {
-    assert std.isString(LoadBalancerTlsCertificateArn) : 'LoadBalancerTlsCertificateArn must be a string',
+  setLoadBalancerTlsCertificateArn(LoadBalancerTlsCertificateArn): {
     Properties+::: {
-      LoadBalancerTlsCertificateArn: LoadBalancerTlsCertificateArn,
+      LoadBalancerTlsCertificateArn:
+        if !std.isString(LoadBalancerTlsCertificateArn) then (error 'LoadBalancerTlsCertificateArn must be a string')
+        else if std.isEmpty(LoadBalancerTlsCertificateArn) then (error 'LoadBalancerTlsCertificateArn must be not empty')
+        else LoadBalancerTlsCertificateArn,
     },
   },
-  withIsAttached(IsAttached): {
-    assert std.isBoolean(IsAttached) : 'IsAttached must be a boolean',
+  setIsAttached(IsAttached): {
     Properties+::: {
-      IsAttached: IsAttached,
+      IsAttached:
+        if !std.isBoolean(IsAttached) then (error 'IsAttached must be a boolean') else IsAttached,
     },
   },
-  withHttpsRedirectionEnabled(HttpsRedirectionEnabled): {
-    assert std.isBoolean(HttpsRedirectionEnabled) : 'HttpsRedirectionEnabled must be a boolean',
+  setHttpsRedirectionEnabled(HttpsRedirectionEnabled): {
     Properties+::: {
-      HttpsRedirectionEnabled: HttpsRedirectionEnabled,
+      HttpsRedirectionEnabled:
+        if !std.isBoolean(HttpsRedirectionEnabled) then (error 'HttpsRedirectionEnabled must be a boolean') else HttpsRedirectionEnabled,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

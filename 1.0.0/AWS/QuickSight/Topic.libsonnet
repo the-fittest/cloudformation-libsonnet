@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,111 +10,131 @@
     Metadata:: [],
     Type: 'AWS::QuickSight::Topic',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withAwsAccountId(AwsAccountId): {
-    assert std.isString(AwsAccountId) : 'AwsAccountId must be a string',
+  setAwsAccountId(AwsAccountId): {
     Properties+::: {
-      AwsAccountId: AwsAccountId,
+      AwsAccountId:
+        if !std.isString(AwsAccountId) then (error 'AwsAccountId must be a string')
+        else if std.isEmpty(AwsAccountId) then (error 'AwsAccountId must be not empty')
+        else if std.length(AwsAccountId) < 12 then error ('AwsAccountId should have at least 12 characters')
+        else if std.length(AwsAccountId) > 12 then error ('AwsAccountId should have not more than 12 characters')
+        else AwsAccountId,
     },
   },
-  withDataSets(DataSets): {
+  setDataSets(DataSets): {
     Properties+::: {
-      DataSets: (if std.isArray(DataSets) then DataSets else [DataSets]),
+      DataSets:
+        if !std.isArray(DataSets) then (error 'DataSets must be an array')
+        else DataSets,
     },
   },
-  withDataSetsMixin(DataSets): {
+  setDataSetsMixin(DataSets): {
     Properties+::: {
-      DataSets+: (if std.isArray(DataSets) then DataSets else [DataSets]),
+      DataSets+: DataSets,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 256 then error ('Description should have not more than 256 characters')
+        else Description,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withTopicId(TopicId): {
-    assert std.isString(TopicId) : 'TopicId must be a string',
+  setTopicId(TopicId): {
     Properties+::: {
-      TopicId: TopicId,
+      TopicId:
+        if !std.isString(TopicId) then (error 'TopicId must be a string')
+        else if std.isEmpty(TopicId) then (error 'TopicId must be not empty')
+        else if std.length(TopicId) > 256 then error ('TopicId should have not more than 256 characters')
+        else TopicId,
     },
   },
-  withUserExperienceVersion(UserExperienceVersion): {
-    assert std.isString(UserExperienceVersion) : 'UserExperienceVersion must be a string',
-    assert UserExperienceVersion == 'LEGACY' || UserExperienceVersion == 'NEW_READER_EXPERIENCE' : "UserExperienceVersion should be 'LEGACY' or 'NEW_READER_EXPERIENCE'",
+  setUserExperienceVersion(UserExperienceVersion): {
     Properties+::: {
-      UserExperienceVersion: UserExperienceVersion,
+      UserExperienceVersion:
+        if !std.isString(UserExperienceVersion) then (error 'UserExperienceVersion must be a string')
+        else if std.isEmpty(UserExperienceVersion) then (error 'UserExperienceVersion must be not empty')
+        else if UserExperienceVersion != 'LEGACY' && UserExperienceVersion != 'NEW_READER_EXPERIENCE' then (error "UserExperienceVersion should be 'LEGACY' or 'NEW_READER_EXPERIENCE'")
+        else UserExperienceVersion,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

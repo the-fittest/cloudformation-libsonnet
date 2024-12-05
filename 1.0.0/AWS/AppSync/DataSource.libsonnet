@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,131 +27,156 @@
     Metadata:: [],
     Type: 'AWS::AppSync::DataSource',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withDynamoDBConfig(DynamoDBConfig): {
-    assert std.isObject(DynamoDBConfig) : 'DynamoDBConfig must be a object',
+  setDynamoDBConfig(DynamoDBConfig): {
     Properties+::: {
-      DynamoDBConfig: DynamoDBConfig,
+      DynamoDBConfig:
+        if !std.isObject(DynamoDBConfig) then (error 'DynamoDBConfig must be an object')
+        else if !std.objectHas(DynamoDBConfig, 'TableName') then (error ' have attribute TableName')
+        else if !std.objectHas(DynamoDBConfig, 'AwsRegion') then (error ' have attribute AwsRegion')
+        else DynamoDBConfig,
     },
   },
-  withElasticsearchConfig(ElasticsearchConfig): {
-    assert std.isObject(ElasticsearchConfig) : 'ElasticsearchConfig must be a object',
+  setElasticsearchConfig(ElasticsearchConfig): {
     Properties+::: {
-      ElasticsearchConfig: ElasticsearchConfig,
+      ElasticsearchConfig:
+        if !std.isObject(ElasticsearchConfig) then (error 'ElasticsearchConfig must be an object')
+        else if !std.objectHas(ElasticsearchConfig, 'AwsRegion') then (error ' have attribute AwsRegion')
+        else if !std.objectHas(ElasticsearchConfig, 'Endpoint') then (error ' have attribute Endpoint')
+        else ElasticsearchConfig,
     },
   },
-  withEventBridgeConfig(EventBridgeConfig): {
-    assert std.isObject(EventBridgeConfig) : 'EventBridgeConfig must be a object',
+  setEventBridgeConfig(EventBridgeConfig): {
     Properties+::: {
-      EventBridgeConfig: EventBridgeConfig,
+      EventBridgeConfig:
+        if !std.isObject(EventBridgeConfig) then (error 'EventBridgeConfig must be an object')
+        else if !std.objectHas(EventBridgeConfig, 'EventBusArn') then (error ' have attribute EventBusArn')
+        else EventBridgeConfig,
     },
   },
-  withHttpConfig(HttpConfig): {
-    assert std.isObject(HttpConfig) : 'HttpConfig must be a object',
+  setHttpConfig(HttpConfig): {
     Properties+::: {
-      HttpConfig: HttpConfig,
+      HttpConfig:
+        if !std.isObject(HttpConfig) then (error 'HttpConfig must be an object')
+        else if !std.objectHas(HttpConfig, 'Endpoint') then (error ' have attribute Endpoint')
+        else HttpConfig,
     },
   },
-  withLambdaConfig(LambdaConfig): {
-    assert std.isObject(LambdaConfig) : 'LambdaConfig must be a object',
+  setLambdaConfig(LambdaConfig): {
     Properties+::: {
-      LambdaConfig: LambdaConfig,
+      LambdaConfig:
+        if !std.isObject(LambdaConfig) then (error 'LambdaConfig must be an object')
+        else if !std.objectHas(LambdaConfig, 'LambdaFunctionArn') then (error ' have attribute LambdaFunctionArn')
+        else LambdaConfig,
     },
   },
-  withOpenSearchServiceConfig(OpenSearchServiceConfig): {
-    assert std.isObject(OpenSearchServiceConfig) : 'OpenSearchServiceConfig must be a object',
+  setOpenSearchServiceConfig(OpenSearchServiceConfig): {
     Properties+::: {
-      OpenSearchServiceConfig: OpenSearchServiceConfig,
+      OpenSearchServiceConfig:
+        if !std.isObject(OpenSearchServiceConfig) then (error 'OpenSearchServiceConfig must be an object')
+        else if !std.objectHas(OpenSearchServiceConfig, 'AwsRegion') then (error ' have attribute AwsRegion')
+        else if !std.objectHas(OpenSearchServiceConfig, 'Endpoint') then (error ' have attribute Endpoint')
+        else OpenSearchServiceConfig,
     },
   },
-  withRelationalDatabaseConfig(RelationalDatabaseConfig): {
-    assert std.isObject(RelationalDatabaseConfig) : 'RelationalDatabaseConfig must be a object',
+  setRelationalDatabaseConfig(RelationalDatabaseConfig): {
     Properties+::: {
-      RelationalDatabaseConfig: RelationalDatabaseConfig,
+      RelationalDatabaseConfig:
+        if !std.isObject(RelationalDatabaseConfig) then (error 'RelationalDatabaseConfig must be an object')
+        else if !std.objectHas(RelationalDatabaseConfig, 'RelationalDatabaseSourceType') then (error ' have attribute RelationalDatabaseSourceType')
+        else RelationalDatabaseConfig,
     },
   },
-  withServiceRoleArn(ServiceRoleArn): {
-    assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
+  setServiceRoleArn(ServiceRoleArn): {
     Properties+::: {
-      ServiceRoleArn: ServiceRoleArn,
+      ServiceRoleArn:
+        if !std.isString(ServiceRoleArn) then (error 'ServiceRoleArn must be a string')
+        else if std.isEmpty(ServiceRoleArn) then (error 'ServiceRoleArn must be not empty')
+        else ServiceRoleArn,
     },
   },
-  withDataSourceArn(DataSourceArn): {
-    assert std.isString(DataSourceArn) : 'DataSourceArn must be a string',
+  setDataSourceArn(DataSourceArn): {
     Properties+::: {
-      DataSourceArn: DataSourceArn,
+      DataSourceArn:
+        if !std.isString(DataSourceArn) then (error 'DataSourceArn must be a string')
+        else if std.isEmpty(DataSourceArn) then (error 'DataSourceArn must be not empty')
+        else DataSourceArn,
     },
   },
-  withMetricsConfig(MetricsConfig): {
-    assert std.isString(MetricsConfig) : 'MetricsConfig must be a string',
-    assert MetricsConfig == 'DISABLED' || MetricsConfig == 'ENABLED' : "MetricsConfig should be 'DISABLED' or 'ENABLED'",
+  setMetricsConfig(MetricsConfig): {
     Properties+::: {
-      MetricsConfig: MetricsConfig,
+      MetricsConfig:
+        if !std.isString(MetricsConfig) then (error 'MetricsConfig must be a string')
+        else if std.isEmpty(MetricsConfig) then (error 'MetricsConfig must be not empty')
+        else if MetricsConfig != 'DISABLED' && MetricsConfig != 'ENABLED' then (error "MetricsConfig should be 'DISABLED' or 'ENABLED'")
+        else MetricsConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

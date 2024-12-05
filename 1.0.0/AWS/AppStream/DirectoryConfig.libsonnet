@@ -6,11 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DirectoryName) : 'DirectoryName must be a string',
-      DirectoryName: DirectoryName,
-      OrganizationalUnitDistinguishedNames: (if std.isArray(OrganizationalUnitDistinguishedNames) then OrganizationalUnitDistinguishedNames else [OrganizationalUnitDistinguishedNames]),
-      assert std.isObject(ServiceAccountCredentials) : 'ServiceAccountCredentials must be an object',
-      ServiceAccountCredentials: ServiceAccountCredentials,
+      DirectoryName:
+        if !std.isString(DirectoryName) then (error 'DirectoryName must be a string')
+        else if std.isEmpty(DirectoryName) then (error 'DirectoryName must be not empty')
+        else DirectoryName,
+      OrganizationalUnitDistinguishedNames:
+        if !std.isArray(OrganizationalUnitDistinguishedNames) then (error 'OrganizationalUnitDistinguishedNames must be an array')
+        else OrganizationalUnitDistinguishedNames,
+      ServiceAccountCredentials:
+        if !std.isObject(ServiceAccountCredentials) then (error 'ServiceAccountCredentials must be an object')
+        else if !std.objectHas(ServiceAccountCredentials, 'AccountName') then (error ' have attribute AccountName')
+        else if !std.objectHas(ServiceAccountCredentials, 'AccountPassword') then (error ' have attribute AccountPassword')
+        else ServiceAccountCredentials,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,70 +27,71 @@
     Metadata:: [],
     Type: 'AWS::AppStream::DirectoryConfig',
   },
-  withCertificateBasedAuthProperties(CertificateBasedAuthProperties): {
-    assert std.isObject(CertificateBasedAuthProperties) : 'CertificateBasedAuthProperties must be a object',
+  setCertificateBasedAuthProperties(CertificateBasedAuthProperties): {
     Properties+::: {
-      CertificateBasedAuthProperties: CertificateBasedAuthProperties,
+      CertificateBasedAuthProperties:
+        if !std.isObject(CertificateBasedAuthProperties) then (error 'CertificateBasedAuthProperties must be an object')
+        else CertificateBasedAuthProperties,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -7,15 +7,27 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
-      assert OperatingSystem == 'AMAZON_LINUX_2023' : "OperatingSystem should be 'AMAZON_LINUX_2023'",
-      OperatingSystem: OperatingSystem,
-      assert std.isNumber(TotalMemoryLimitMebibytes) : 'TotalMemoryLimitMebibytes must be a number',
-      TotalMemoryLimitMebibytes: TotalMemoryLimitMebibytes,
-      assert std.isNumber(TotalVcpuLimit) : 'TotalVcpuLimit must be a number',
-      TotalVcpuLimit: TotalVcpuLimit,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      OperatingSystem:
+        if !std.isString(OperatingSystem) then (error 'OperatingSystem must be a string')
+        else if std.isEmpty(OperatingSystem) then (error 'OperatingSystem must be not empty')
+        else if OperatingSystem != 'AMAZON_LINUX_2023' then (error "OperatingSystem should be 'AMAZON_LINUX_2023'")
+        else OperatingSystem,
+      TotalMemoryLimitMebibytes:
+        if !std.isNumber(TotalMemoryLimitMebibytes) then (error 'TotalMemoryLimitMebibytes must be an number')
+        else if TotalMemoryLimitMebibytes < 4 then error ('TotalMemoryLimitMebibytes should be at least 4')
+        else if TotalMemoryLimitMebibytes > 1024000 then error ('TotalMemoryLimitMebibytes should be not more than 1024000')
+        else TotalMemoryLimitMebibytes,
+      TotalVcpuLimit:
+        if !std.isNumber(TotalVcpuLimit) then (error 'TotalVcpuLimit must be an number')
+        else if TotalVcpuLimit < 0.125 then error ('TotalVcpuLimit should be at least 0.125')
+        else if TotalVcpuLimit > 10 then error ('TotalVcpuLimit should be not more than 10')
+        else TotalVcpuLimit,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,140 +37,169 @@
     Metadata:: [],
     Type: 'AWS::GameLift::ContainerGroupDefinition',
   },
-  withContainerGroupDefinitionArn(ContainerGroupDefinitionArn): {
-    assert std.isString(ContainerGroupDefinitionArn) : 'ContainerGroupDefinitionArn must be a string',
+  setContainerGroupDefinitionArn(ContainerGroupDefinitionArn): {
     Properties+::: {
-      ContainerGroupDefinitionArn: ContainerGroupDefinitionArn,
+      ContainerGroupDefinitionArn:
+        if !std.isString(ContainerGroupDefinitionArn) then (error 'ContainerGroupDefinitionArn must be a string')
+        else if std.isEmpty(ContainerGroupDefinitionArn) then (error 'ContainerGroupDefinitionArn must be not empty')
+        else if std.length(ContainerGroupDefinitionArn) < 1 then error ('ContainerGroupDefinitionArn should have at least 1 characters')
+        else if std.length(ContainerGroupDefinitionArn) > 512 then error ('ContainerGroupDefinitionArn should have not more than 512 characters')
+        else ContainerGroupDefinitionArn,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withContainerGroupType(ContainerGroupType): {
-    assert std.isString(ContainerGroupType) : 'ContainerGroupType must be a string',
-    assert ContainerGroupType == 'GAME_SERVER' || ContainerGroupType == 'PER_INSTANCE' : "ContainerGroupType should be 'GAME_SERVER' or 'PER_INSTANCE'",
+  setContainerGroupType(ContainerGroupType): {
     Properties+::: {
-      ContainerGroupType: ContainerGroupType,
+      ContainerGroupType:
+        if !std.isString(ContainerGroupType) then (error 'ContainerGroupType must be a string')
+        else if std.isEmpty(ContainerGroupType) then (error 'ContainerGroupType must be not empty')
+        else if ContainerGroupType != 'GAME_SERVER' && ContainerGroupType != 'PER_INSTANCE' then (error "ContainerGroupType should be 'GAME_SERVER' or 'PER_INSTANCE'")
+        else ContainerGroupType,
     },
   },
-  withGameServerContainerDefinition(GameServerContainerDefinition): {
-    assert std.isObject(GameServerContainerDefinition) : 'GameServerContainerDefinition must be a object',
+  setGameServerContainerDefinition(GameServerContainerDefinition): {
     Properties+::: {
-      GameServerContainerDefinition: GameServerContainerDefinition,
+      GameServerContainerDefinition:
+        if !std.isObject(GameServerContainerDefinition) then (error 'GameServerContainerDefinition must be an object')
+        else if !std.objectHas(GameServerContainerDefinition, 'ContainerName') then (error ' have attribute ContainerName')
+        else if !std.objectHas(GameServerContainerDefinition, 'ImageUri') then (error ' have attribute ImageUri')
+        else if !std.objectHas(GameServerContainerDefinition, 'ServerSdkVersion') then (error ' have attribute ServerSdkVersion')
+        else GameServerContainerDefinition,
     },
   },
-  withSupportContainerDefinitions(SupportContainerDefinitions): {
+  setSupportContainerDefinitions(SupportContainerDefinitions): {
     Properties+::: {
-      SupportContainerDefinitions: (if std.isArray(SupportContainerDefinitions) then SupportContainerDefinitions else [SupportContainerDefinitions]),
+      SupportContainerDefinitions:
+        if !std.isArray(SupportContainerDefinitions) then (error 'SupportContainerDefinitions must be an array')
+        else if std.length(SupportContainerDefinitions) < 1 then error ('SupportContainerDefinitions cannot have less than 1 items')
+        else if std.length(SupportContainerDefinitions) > 10 then error ('SupportContainerDefinitions cannot have more than 10 items')
+        else SupportContainerDefinitions,
     },
   },
-  withSupportContainerDefinitionsMixin(SupportContainerDefinitions): {
+  setSupportContainerDefinitionsMixin(SupportContainerDefinitions): {
     Properties+::: {
-      SupportContainerDefinitions+: (if std.isArray(SupportContainerDefinitions) then SupportContainerDefinitions else [SupportContainerDefinitions]),
+      SupportContainerDefinitions+: SupportContainerDefinitions,
     },
   },
-  withVersionNumber(VersionNumber): {
-    assert std.isNumber(VersionNumber) : 'VersionNumber must be a number',
+  setVersionNumber(VersionNumber): {
     Properties+::: {
-      VersionNumber: VersionNumber,
+      VersionNumber:
+        if !std.isNumber(VersionNumber) then (error 'VersionNumber must be an number')
+        else VersionNumber,
     },
   },
-  withSourceVersionNumber(SourceVersionNumber): {
-    assert std.isNumber(SourceVersionNumber) : 'SourceVersionNumber must be a number',
+  setSourceVersionNumber(SourceVersionNumber): {
     Properties+::: {
-      SourceVersionNumber: SourceVersionNumber,
+      SourceVersionNumber:
+        if !std.isNumber(SourceVersionNumber) then (error 'SourceVersionNumber must be an number')
+        else SourceVersionNumber,
     },
   },
-  withVersionDescription(VersionDescription): {
-    assert std.isString(VersionDescription) : 'VersionDescription must be a string',
+  setVersionDescription(VersionDescription): {
     Properties+::: {
-      VersionDescription: VersionDescription,
+      VersionDescription:
+        if !std.isString(VersionDescription) then (error 'VersionDescription must be a string')
+        else if std.isEmpty(VersionDescription) then (error 'VersionDescription must be not empty')
+        else if std.length(VersionDescription) < 1 then error ('VersionDescription should have at least 1 characters')
+        else if std.length(VersionDescription) > 1024 then error ('VersionDescription should have not more than 1024 characters')
+        else VersionDescription,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'READY' || Status == 'COPYING' || Status == 'FAILED' : "Status should be 'READY' or 'COPYING' or 'FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'READY' && Status != 'COPYING' && Status != 'FAILED' then (error "Status should be 'READY' or 'COPYING' or 'FAILED'")
+        else Status,
     },
   },
-  withStatusReason(StatusReason): {
-    assert std.isString(StatusReason) : 'StatusReason must be a string',
+  setStatusReason(StatusReason): {
     Properties+::: {
-      StatusReason: StatusReason,
+      StatusReason:
+        if !std.isString(StatusReason) then (error 'StatusReason must be a string')
+        else if std.isEmpty(StatusReason) then (error 'StatusReason must be not empty')
+        else StatusReason,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

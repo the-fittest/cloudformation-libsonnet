@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,116 +10,145 @@
     Metadata:: [],
     Type: 'AWS::BackupGateway::Hypervisor',
   },
-  withHost(Host): {
-    assert std.isString(Host) : 'Host must be a string',
+  setHost(Host): {
     Properties+::: {
-      Host: Host,
+      Host:
+        if !std.isString(Host) then (error 'Host must be a string')
+        else if std.isEmpty(Host) then (error 'Host must be not empty')
+        else if std.length(Host) < 3 then error ('Host should have at least 3 characters')
+        else if std.length(Host) > 128 then error ('Host should have not more than 128 characters')
+        else Host,
     },
   },
-  withHypervisorArn(HypervisorArn): {
-    assert std.isString(HypervisorArn) : 'HypervisorArn must be a string',
+  setHypervisorArn(HypervisorArn): {
     Properties+::: {
-      HypervisorArn: HypervisorArn,
+      HypervisorArn:
+        if !std.isString(HypervisorArn) then (error 'HypervisorArn must be a string')
+        else if std.isEmpty(HypervisorArn) then (error 'HypervisorArn must be not empty')
+        else if std.length(HypervisorArn) < 50 then error ('HypervisorArn should have at least 50 characters')
+        else if std.length(HypervisorArn) > 500 then error ('HypervisorArn should have not more than 500 characters')
+        else HypervisorArn,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 50 then error ('KmsKeyArn should have at least 50 characters')
+        else if std.length(KmsKeyArn) > 500 then error ('KmsKeyArn should have not more than 500 characters')
+        else KmsKeyArn,
     },
   },
-  withLogGroupArn(LogGroupArn): {
-    assert std.isString(LogGroupArn) : 'LogGroupArn must be a string',
+  setLogGroupArn(LogGroupArn): {
     Properties+::: {
-      LogGroupArn: LogGroupArn,
+      LogGroupArn:
+        if !std.isString(LogGroupArn) then (error 'LogGroupArn must be a string')
+        else if std.isEmpty(LogGroupArn) then (error 'LogGroupArn must be not empty')
+        else if std.length(LogGroupArn) > 2048 then error ('LogGroupArn should have not more than 2048 characters')
+        else LogGroupArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 100 then error ('Name should have not more than 100 characters')
+        else Name,
     },
   },
-  withPassword(Password): {
-    assert std.isString(Password) : 'Password must be a string',
+  setPassword(Password): {
     Properties+::: {
-      Password: Password,
+      Password:
+        if !std.isString(Password) then (error 'Password must be a string')
+        else if std.isEmpty(Password) then (error 'Password must be not empty')
+        else if std.length(Password) < 1 then error ('Password should have at least 1 characters')
+        else if std.length(Password) > 100 then error ('Password should have not more than 100 characters')
+        else Password,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUsername(Username): {
-    assert std.isString(Username) : 'Username must be a string',
+  setUsername(Username): {
     Properties+::: {
-      Username: Username,
+      Username:
+        if !std.isString(Username) then (error 'Username must be a string')
+        else if std.isEmpty(Username) then (error 'Username must be not empty')
+        else if std.length(Username) < 1 then error ('Username should have at least 1 characters')
+        else if std.length(Username) > 100 then error ('Username should have not more than 100 characters')
+        else Username,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

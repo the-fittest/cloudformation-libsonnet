@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
-      assert std.isString(SecurityProfileName) : 'SecurityProfileName must be a string',
-      SecurityProfileName: SecurityProfileName,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else InstanceArn,
+      SecurityProfileName:
+        if !std.isString(SecurityProfileName) then (error 'SecurityProfileName must be a string')
+        else if std.isEmpty(SecurityProfileName) then (error 'SecurityProfileName must be not empty')
+        else if std.length(SecurityProfileName) < 1 then error ('SecurityProfileName should have at least 1 characters')
+        else if std.length(SecurityProfileName) > 127 then error ('SecurityProfileName should have not more than 127 characters')
+        else SecurityProfileName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,154 +24,183 @@
     Metadata:: [],
     Type: 'AWS::Connect::SecurityProfile',
   },
-  withAllowedAccessControlTags(AllowedAccessControlTags): {
+  setAllowedAccessControlTags(AllowedAccessControlTags): {
     Properties+::: {
-      AllowedAccessControlTags: (if std.isArray(AllowedAccessControlTags) then AllowedAccessControlTags else [AllowedAccessControlTags]),
+      AllowedAccessControlTags:
+        if !std.isArray(AllowedAccessControlTags) then (error 'AllowedAccessControlTags must be an array')
+        else if std.length(AllowedAccessControlTags) > 2 then error ('AllowedAccessControlTags cannot have more than 2 items')
+        else AllowedAccessControlTags,
     },
   },
-  withAllowedAccessControlTagsMixin(AllowedAccessControlTags): {
+  setAllowedAccessControlTagsMixin(AllowedAccessControlTags): {
     Properties+::: {
-      AllowedAccessControlTags+: (if std.isArray(AllowedAccessControlTags) then AllowedAccessControlTags else [AllowedAccessControlTags]),
+      AllowedAccessControlTags+: AllowedAccessControlTags,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 250 then error ('Description should have not more than 250 characters')
+        else Description,
     },
   },
-  withPermissions(Permissions): {
+  setPermissions(Permissions): {
     Properties+::: {
-      Permissions: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions:
+        if !std.isArray(Permissions) then (error 'Permissions must be an array')
+        else if std.length(Permissions) > 500 then error ('Permissions cannot have more than 500 items')
+        else Permissions,
     },
   },
-  withPermissionsMixin(Permissions): {
+  setPermissionsMixin(Permissions): {
     Properties+::: {
-      Permissions+: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions+: Permissions,
     },
   },
-  withSecurityProfileArn(SecurityProfileArn): {
-    assert std.isString(SecurityProfileArn) : 'SecurityProfileArn must be a string',
+  setSecurityProfileArn(SecurityProfileArn): {
     Properties+::: {
-      SecurityProfileArn: SecurityProfileArn,
+      SecurityProfileArn:
+        if !std.isString(SecurityProfileArn) then (error 'SecurityProfileArn must be a string')
+        else if std.isEmpty(SecurityProfileArn) then (error 'SecurityProfileArn must be not empty')
+        else SecurityProfileArn,
     },
   },
-  withTagRestrictedResources(TagRestrictedResources): {
+  setTagRestrictedResources(TagRestrictedResources): {
     Properties+::: {
-      TagRestrictedResources: (if std.isArray(TagRestrictedResources) then TagRestrictedResources else [TagRestrictedResources]),
+      TagRestrictedResources:
+        if !std.isArray(TagRestrictedResources) then (error 'TagRestrictedResources must be an array')
+        else if std.length(TagRestrictedResources) > 10 then error ('TagRestrictedResources cannot have more than 10 items')
+        else TagRestrictedResources,
     },
   },
-  withTagRestrictedResourcesMixin(TagRestrictedResources): {
+  setTagRestrictedResourcesMixin(TagRestrictedResources): {
     Properties+::: {
-      TagRestrictedResources+: (if std.isArray(TagRestrictedResources) then TagRestrictedResources else [TagRestrictedResources]),
+      TagRestrictedResources+: TagRestrictedResources,
     },
   },
-  withHierarchyRestrictedResources(HierarchyRestrictedResources): {
+  setHierarchyRestrictedResources(HierarchyRestrictedResources): {
     Properties+::: {
-      HierarchyRestrictedResources: (if std.isArray(HierarchyRestrictedResources) then HierarchyRestrictedResources else [HierarchyRestrictedResources]),
+      HierarchyRestrictedResources:
+        if !std.isArray(HierarchyRestrictedResources) then (error 'HierarchyRestrictedResources must be an array')
+        else if std.length(HierarchyRestrictedResources) > 10 then error ('HierarchyRestrictedResources cannot have more than 10 items')
+        else HierarchyRestrictedResources,
     },
   },
-  withHierarchyRestrictedResourcesMixin(HierarchyRestrictedResources): {
+  setHierarchyRestrictedResourcesMixin(HierarchyRestrictedResources): {
     Properties+::: {
-      HierarchyRestrictedResources+: (if std.isArray(HierarchyRestrictedResources) then HierarchyRestrictedResources else [HierarchyRestrictedResources]),
+      HierarchyRestrictedResources+: HierarchyRestrictedResources,
     },
   },
-  withAllowedAccessControlHierarchyGroupId(AllowedAccessControlHierarchyGroupId): {
-    assert std.isString(AllowedAccessControlHierarchyGroupId) : 'AllowedAccessControlHierarchyGroupId must be a string',
+  setAllowedAccessControlHierarchyGroupId(AllowedAccessControlHierarchyGroupId): {
     Properties+::: {
-      AllowedAccessControlHierarchyGroupId: AllowedAccessControlHierarchyGroupId,
+      AllowedAccessControlHierarchyGroupId:
+        if !std.isString(AllowedAccessControlHierarchyGroupId) then (error 'AllowedAccessControlHierarchyGroupId must be a string')
+        else if std.isEmpty(AllowedAccessControlHierarchyGroupId) then (error 'AllowedAccessControlHierarchyGroupId must be not empty')
+        else if std.length(AllowedAccessControlHierarchyGroupId) > 127 then error ('AllowedAccessControlHierarchyGroupId should have not more than 127 characters')
+        else AllowedAccessControlHierarchyGroupId,
     },
   },
-  withApplications(Applications): {
+  setApplications(Applications): {
     Properties+::: {
-      Applications: (if std.isArray(Applications) then Applications else [Applications]),
+      Applications:
+        if !std.isArray(Applications) then (error 'Applications must be an array')
+        else if std.length(Applications) > 10 then error ('Applications cannot have more than 10 items')
+        else Applications,
     },
   },
-  withApplicationsMixin(Applications): {
+  setApplicationsMixin(Applications): {
     Properties+::: {
-      Applications+: (if std.isArray(Applications) then Applications else [Applications]),
+      Applications+: Applications,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLastModifiedRegion(LastModifiedRegion): {
-    assert std.isString(LastModifiedRegion) : 'LastModifiedRegion must be a string',
+  setLastModifiedRegion(LastModifiedRegion): {
     Properties+::: {
-      LastModifiedRegion: LastModifiedRegion,
+      LastModifiedRegion:
+        if !std.isString(LastModifiedRegion) then (error 'LastModifiedRegion must be a string')
+        else if std.isEmpty(LastModifiedRegion) then (error 'LastModifiedRegion must be not empty')
+        else LastModifiedRegion,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isNumber(LastModifiedTime) : 'LastModifiedTime must be a number',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isNumber(LastModifiedTime) then (error 'LastModifiedTime must be an number')
+        else LastModifiedTime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

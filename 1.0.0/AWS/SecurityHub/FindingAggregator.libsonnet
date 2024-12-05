@@ -4,9 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RegionLinkingMode) : 'RegionLinkingMode must be a string',
-      assert RegionLinkingMode == 'ALL_REGIONS' || RegionLinkingMode == 'ALL_REGIONS_EXCEPT_SPECIFIED' || RegionLinkingMode == 'SPECIFIED_REGIONS' : "RegionLinkingMode should be 'ALL_REGIONS' or 'ALL_REGIONS_EXCEPT_SPECIFIED' or 'SPECIFIED_REGIONS'",
-      RegionLinkingMode: RegionLinkingMode,
+      RegionLinkingMode:
+        if !std.isString(RegionLinkingMode) then (error 'RegionLinkingMode must be a string')
+        else if std.isEmpty(RegionLinkingMode) then (error 'RegionLinkingMode must be not empty')
+        else if RegionLinkingMode != 'ALL_REGIONS' && RegionLinkingMode != 'ALL_REGIONS_EXCEPT_SPECIFIED' && RegionLinkingMode != 'SPECIFIED_REGIONS' then (error "RegionLinkingMode should be 'ALL_REGIONS' or 'ALL_REGIONS_EXCEPT_SPECIFIED' or 'SPECIFIED_REGIONS'")
+        else RegionLinkingMode,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -16,86 +18,94 @@
     Metadata:: [],
     Type: 'AWS::SecurityHub::FindingAggregator',
   },
-  withFindingAggregatorArn(FindingAggregatorArn): {
-    assert std.isString(FindingAggregatorArn) : 'FindingAggregatorArn must be a string',
+  setFindingAggregatorArn(FindingAggregatorArn): {
     Properties+::: {
-      FindingAggregatorArn: FindingAggregatorArn,
+      FindingAggregatorArn:
+        if !std.isString(FindingAggregatorArn) then (error 'FindingAggregatorArn must be a string')
+        else if std.isEmpty(FindingAggregatorArn) then (error 'FindingAggregatorArn must be not empty')
+        else FindingAggregatorArn,
     },
   },
-  withRegions(Regions): {
+  setRegions(Regions): {
     Properties+::: {
-      Regions: (if std.isArray(Regions) then Regions else [Regions]),
+      Regions:
+        if !std.isArray(Regions) then (error 'Regions must be an array')
+        else if std.length(Regions) < 1 then error ('Regions cannot have less than 1 items')
+        else if std.length(Regions) > 50 then error ('Regions cannot have more than 50 items')
+        else Regions,
     },
   },
-  withRegionsMixin(Regions): {
+  setRegionsMixin(Regions): {
     Properties+::: {
-      Regions+: (if std.isArray(Regions) then Regions else [Regions]),
+      Regions+: Regions,
     },
   },
-  withFindingAggregationRegion(FindingAggregationRegion): {
-    assert std.isString(FindingAggregationRegion) : 'FindingAggregationRegion must be a string',
+  setFindingAggregationRegion(FindingAggregationRegion): {
     Properties+::: {
-      FindingAggregationRegion: FindingAggregationRegion,
+      FindingAggregationRegion:
+        if !std.isString(FindingAggregationRegion) then (error 'FindingAggregationRegion must be a string')
+        else if std.isEmpty(FindingAggregationRegion) then (error 'FindingAggregationRegion must be not empty')
+        else FindingAggregationRegion,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

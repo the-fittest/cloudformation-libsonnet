@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceFleetType) : 'InstanceFleetType must be a string',
-      InstanceFleetType: InstanceFleetType,
-      assert std.isString(ClusterId) : 'ClusterId must be a string',
-      ClusterId: ClusterId,
+      InstanceFleetType:
+        if !std.isString(InstanceFleetType) then (error 'InstanceFleetType must be a string')
+        else if std.isEmpty(InstanceFleetType) then (error 'InstanceFleetType must be not empty')
+        else InstanceFleetType,
+      ClusterId:
+        if !std.isString(ClusterId) then (error 'ClusterId must be a string')
+        else if std.isEmpty(ClusterId) then (error 'ClusterId must be not empty')
+        else ClusterId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,110 +22,120 @@
     Metadata:: [],
     Type: 'AWS::EMR::InstanceFleetConfig',
   },
-  withTargetOnDemandCapacity(TargetOnDemandCapacity): {
-    assert std.isNumber(TargetOnDemandCapacity) : 'TargetOnDemandCapacity must be a number',
+  setTargetOnDemandCapacity(TargetOnDemandCapacity): {
     Properties+::: {
-      TargetOnDemandCapacity: TargetOnDemandCapacity,
+      TargetOnDemandCapacity:
+        if !std.isNumber(TargetOnDemandCapacity) then (error 'TargetOnDemandCapacity must be an number')
+        else TargetOnDemandCapacity,
     },
   },
-  withTargetSpotCapacity(TargetSpotCapacity): {
-    assert std.isNumber(TargetSpotCapacity) : 'TargetSpotCapacity must be a number',
+  setTargetSpotCapacity(TargetSpotCapacity): {
     Properties+::: {
-      TargetSpotCapacity: TargetSpotCapacity,
+      TargetSpotCapacity:
+        if !std.isNumber(TargetSpotCapacity) then (error 'TargetSpotCapacity must be an number')
+        else TargetSpotCapacity,
     },
   },
-  withLaunchSpecifications(LaunchSpecifications): {
-    assert std.isObject(LaunchSpecifications) : 'LaunchSpecifications must be a object',
+  setLaunchSpecifications(LaunchSpecifications): {
     Properties+::: {
-      LaunchSpecifications: LaunchSpecifications,
+      LaunchSpecifications:
+        if !std.isObject(LaunchSpecifications) then (error 'LaunchSpecifications must be an object')
+        else LaunchSpecifications,
     },
   },
-  withResizeSpecifications(ResizeSpecifications): {
-    assert std.isObject(ResizeSpecifications) : 'ResizeSpecifications must be a object',
+  setResizeSpecifications(ResizeSpecifications): {
     Properties+::: {
-      ResizeSpecifications: ResizeSpecifications,
+      ResizeSpecifications:
+        if !std.isObject(ResizeSpecifications) then (error 'ResizeSpecifications must be an object')
+        else ResizeSpecifications,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withInstanceTypeConfigs(InstanceTypeConfigs): {
+  setInstanceTypeConfigs(InstanceTypeConfigs): {
     Properties+::: {
-      InstanceTypeConfigs: (if std.isArray(InstanceTypeConfigs) then InstanceTypeConfigs else [InstanceTypeConfigs]),
+      InstanceTypeConfigs:
+        if !std.isArray(InstanceTypeConfigs) then (error 'InstanceTypeConfigs must be an array')
+        else InstanceTypeConfigs,
     },
   },
-  withInstanceTypeConfigsMixin(InstanceTypeConfigs): {
+  setInstanceTypeConfigsMixin(InstanceTypeConfigs): {
     Properties+::: {
-      InstanceTypeConfigs+: (if std.isArray(InstanceTypeConfigs) then InstanceTypeConfigs else [InstanceTypeConfigs]),
+      InstanceTypeConfigs+: InstanceTypeConfigs,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

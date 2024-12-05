@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DestinationLocationArn) : 'DestinationLocationArn must be a string',
-      DestinationLocationArn: DestinationLocationArn,
-      assert std.isString(SourceLocationArn) : 'SourceLocationArn must be a string',
-      SourceLocationArn: SourceLocationArn,
+      DestinationLocationArn:
+        if !std.isString(DestinationLocationArn) then (error 'DestinationLocationArn must be a string')
+        else if std.isEmpty(DestinationLocationArn) then (error 'DestinationLocationArn must be not empty')
+        else if std.length(DestinationLocationArn) > 128 then error ('DestinationLocationArn should have not more than 128 characters')
+        else DestinationLocationArn,
+      SourceLocationArn:
+        if !std.isString(SourceLocationArn) then (error 'SourceLocationArn must be a string')
+        else if std.isEmpty(SourceLocationArn) then (error 'SourceLocationArn must be not empty')
+        else if std.length(SourceLocationArn) > 128 then error ('SourceLocationArn should have not more than 128 characters')
+        else SourceLocationArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,170 +24,206 @@
     Metadata:: [],
     Type: 'AWS::DataSync::Task',
   },
-  withExcludes(Excludes): {
+  setExcludes(Excludes): {
     Properties+::: {
-      Excludes: (if std.isArray(Excludes) then Excludes else [Excludes]),
+      Excludes:
+        if !std.isArray(Excludes) then (error 'Excludes must be an array')
+        else if std.length(Excludes) > 1 then error ('Excludes cannot have more than 1 items')
+        else Excludes,
     },
   },
-  withExcludesMixin(Excludes): {
+  setExcludesMixin(Excludes): {
     Properties+::: {
-      Excludes+: (if std.isArray(Excludes) then Excludes else [Excludes]),
+      Excludes+: Excludes,
     },
   },
-  withIncludes(Includes): {
+  setIncludes(Includes): {
     Properties+::: {
-      Includes: (if std.isArray(Includes) then Includes else [Includes]),
+      Includes:
+        if !std.isArray(Includes) then (error 'Includes must be an array')
+        else if std.length(Includes) > 1 then error ('Includes cannot have more than 1 items')
+        else Includes,
     },
   },
-  withIncludesMixin(Includes): {
+  setIncludesMixin(Includes): {
     Properties+::: {
-      Includes+: (if std.isArray(Includes) then Includes else [Includes]),
+      Includes+: Includes,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCloudWatchLogGroupArn(CloudWatchLogGroupArn): {
-    assert std.isString(CloudWatchLogGroupArn) : 'CloudWatchLogGroupArn must be a string',
+  setCloudWatchLogGroupArn(CloudWatchLogGroupArn): {
     Properties+::: {
-      CloudWatchLogGroupArn: CloudWatchLogGroupArn,
+      CloudWatchLogGroupArn:
+        if !std.isString(CloudWatchLogGroupArn) then (error 'CloudWatchLogGroupArn must be a string')
+        else if std.isEmpty(CloudWatchLogGroupArn) then (error 'CloudWatchLogGroupArn must be not empty')
+        else if std.length(CloudWatchLogGroupArn) > 562 then error ('CloudWatchLogGroupArn should have not more than 562 characters')
+        else CloudWatchLogGroupArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 256 then error ('Name should have not more than 256 characters')
+        else Name,
     },
   },
-  withOptions(Options): {
-    assert std.isObject(Options) : 'Options must be a object',
+  setOptions(Options): {
     Properties+::: {
-      Options: Options,
+      Options:
+        if !std.isObject(Options) then (error 'Options must be an object')
+        else Options,
     },
   },
-  withTaskReportConfig(TaskReportConfig): {
-    assert std.isObject(TaskReportConfig) : 'TaskReportConfig must be a object',
+  setTaskReportConfig(TaskReportConfig): {
     Properties+::: {
-      TaskReportConfig: TaskReportConfig,
+      TaskReportConfig:
+        if !std.isObject(TaskReportConfig) then (error 'TaskReportConfig must be an object')
+        else if !std.objectHas(TaskReportConfig, 'Destination') then (error ' have attribute Destination')
+        else if !std.objectHas(TaskReportConfig, 'OutputType') then (error ' have attribute OutputType')
+        else TaskReportConfig,
     },
   },
-  withManifestConfig(ManifestConfig): {
-    assert std.isObject(ManifestConfig) : 'ManifestConfig must be a object',
+  setManifestConfig(ManifestConfig): {
     Properties+::: {
-      ManifestConfig: ManifestConfig,
+      ManifestConfig:
+        if !std.isObject(ManifestConfig) then (error 'ManifestConfig must be an object')
+        else if !std.objectHas(ManifestConfig, 'Source') then (error ' have attribute Source')
+        else ManifestConfig,
     },
   },
-  withSchedule(Schedule): {
-    assert std.isObject(Schedule) : 'Schedule must be a object',
+  setSchedule(Schedule): {
     Properties+::: {
-      Schedule: Schedule,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else Schedule,
     },
   },
-  withTaskArn(TaskArn): {
-    assert std.isString(TaskArn) : 'TaskArn must be a string',
+  setTaskArn(TaskArn): {
     Properties+::: {
-      TaskArn: TaskArn,
+      TaskArn:
+        if !std.isString(TaskArn) then (error 'TaskArn must be a string')
+        else if std.isEmpty(TaskArn) then (error 'TaskArn must be not empty')
+        else if std.length(TaskArn) > 128 then error ('TaskArn should have not more than 128 characters')
+        else TaskArn,
     },
   },
-  withTaskMode(TaskMode): {
-    assert std.isString(TaskMode) : 'TaskMode must be a string',
-    assert TaskMode == 'BASIC' || TaskMode == 'ENHANCED' : "TaskMode should be 'BASIC' or 'ENHANCED'",
+  setTaskMode(TaskMode): {
     Properties+::: {
-      TaskMode: TaskMode,
+      TaskMode:
+        if !std.isString(TaskMode) then (error 'TaskMode must be a string')
+        else if std.isEmpty(TaskMode) then (error 'TaskMode must be not empty')
+        else if TaskMode != 'BASIC' && TaskMode != 'ENHANCED' then (error "TaskMode should be 'BASIC' or 'ENHANCED'")
+        else TaskMode,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'AVAILABLE' || Status == 'CREATING' || Status == 'QUEUED' || Status == 'RUNNING' || Status == 'UNAVAILABLE' : "Status should be 'AVAILABLE' or 'CREATING' or 'QUEUED' or 'RUNNING' or 'UNAVAILABLE'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'AVAILABLE' && Status != 'CREATING' && Status != 'QUEUED' && Status != 'RUNNING' && Status != 'UNAVAILABLE' then (error "Status should be 'AVAILABLE' or 'CREATING' or 'QUEUED' or 'RUNNING' or 'UNAVAILABLE'")
+        else Status,
     },
   },
-  withSourceNetworkInterfaceArns(SourceNetworkInterfaceArns): {
+  setSourceNetworkInterfaceArns(SourceNetworkInterfaceArns): {
     Properties+::: {
-      SourceNetworkInterfaceArns: (if std.isArray(SourceNetworkInterfaceArns) then SourceNetworkInterfaceArns else [SourceNetworkInterfaceArns]),
+      SourceNetworkInterfaceArns:
+        if !std.isArray(SourceNetworkInterfaceArns) then (error 'SourceNetworkInterfaceArns must be an array')
+        else if std.length(SourceNetworkInterfaceArns) > 128 then error ('SourceNetworkInterfaceArns cannot have more than 128 items')
+        else SourceNetworkInterfaceArns,
     },
   },
-  withSourceNetworkInterfaceArnsMixin(SourceNetworkInterfaceArns): {
+  setSourceNetworkInterfaceArnsMixin(SourceNetworkInterfaceArns): {
     Properties+::: {
-      SourceNetworkInterfaceArns+: (if std.isArray(SourceNetworkInterfaceArns) then SourceNetworkInterfaceArns else [SourceNetworkInterfaceArns]),
+      SourceNetworkInterfaceArns+: SourceNetworkInterfaceArns,
     },
   },
-  withDestinationNetworkInterfaceArns(DestinationNetworkInterfaceArns): {
+  setDestinationNetworkInterfaceArns(DestinationNetworkInterfaceArns): {
     Properties+::: {
-      DestinationNetworkInterfaceArns: (if std.isArray(DestinationNetworkInterfaceArns) then DestinationNetworkInterfaceArns else [DestinationNetworkInterfaceArns]),
+      DestinationNetworkInterfaceArns:
+        if !std.isArray(DestinationNetworkInterfaceArns) then (error 'DestinationNetworkInterfaceArns must be an array')
+        else if std.length(DestinationNetworkInterfaceArns) > 128 then error ('DestinationNetworkInterfaceArns cannot have more than 128 items')
+        else DestinationNetworkInterfaceArns,
     },
   },
-  withDestinationNetworkInterfaceArnsMixin(DestinationNetworkInterfaceArns): {
+  setDestinationNetworkInterfaceArnsMixin(DestinationNetworkInterfaceArns): {
     Properties+::: {
-      DestinationNetworkInterfaceArns+: (if std.isArray(DestinationNetworkInterfaceArns) then DestinationNetworkInterfaceArns else [DestinationNetworkInterfaceArns]),
+      DestinationNetworkInterfaceArns+: DestinationNetworkInterfaceArns,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

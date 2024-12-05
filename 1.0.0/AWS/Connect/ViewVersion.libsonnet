@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ViewArn) : 'ViewArn must be a string',
-      ViewArn: ViewArn,
+      ViewArn:
+        if !std.isString(ViewArn) then (error 'ViewArn must be a string')
+        else if std.isEmpty(ViewArn) then (error 'ViewArn must be not empty')
+        else if std.length(ViewArn) < 1 then error ('ViewArn should have at least 1 characters')
+        else if std.length(ViewArn) > 255 then error ('ViewArn should have not more than 255 characters')
+        else ViewArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +19,101 @@
     Metadata:: [],
     Type: 'AWS::Connect::ViewVersion',
   },
-  withViewVersionArn(ViewVersionArn): {
-    assert std.isString(ViewVersionArn) : 'ViewVersionArn must be a string',
+  setViewVersionArn(ViewVersionArn): {
     Properties+::: {
-      ViewVersionArn: ViewVersionArn,
+      ViewVersionArn:
+        if !std.isString(ViewVersionArn) then (error 'ViewVersionArn must be a string')
+        else if std.isEmpty(ViewVersionArn) then (error 'ViewVersionArn must be not empty')
+        else if std.length(ViewVersionArn) < 1 then error ('ViewVersionArn should have at least 1 characters')
+        else if std.length(ViewVersionArn) > 255 then error ('ViewVersionArn should have not more than 255 characters')
+        else ViewVersionArn,
     },
   },
-  withVersionDescription(VersionDescription): {
-    assert std.isString(VersionDescription) : 'VersionDescription must be a string',
+  setVersionDescription(VersionDescription): {
     Properties+::: {
-      VersionDescription: VersionDescription,
+      VersionDescription:
+        if !std.isString(VersionDescription) then (error 'VersionDescription must be a string')
+        else if std.isEmpty(VersionDescription) then (error 'VersionDescription must be not empty')
+        else if std.length(VersionDescription) < 1 then error ('VersionDescription should have at least 1 characters')
+        else if std.length(VersionDescription) > 4096 then error ('VersionDescription should have not more than 4096 characters')
+        else VersionDescription,
     },
   },
-  withViewContentSha256(ViewContentSha256): {
-    assert std.isString(ViewContentSha256) : 'ViewContentSha256 must be a string',
+  setViewContentSha256(ViewContentSha256): {
     Properties+::: {
-      ViewContentSha256: ViewContentSha256,
+      ViewContentSha256:
+        if !std.isString(ViewContentSha256) then (error 'ViewContentSha256 must be a string')
+        else if std.isEmpty(ViewContentSha256) then (error 'ViewContentSha256 must be not empty')
+        else if std.length(ViewContentSha256) < 1 then error ('ViewContentSha256 should have at least 1 characters')
+        else if std.length(ViewContentSha256) > 64 then error ('ViewContentSha256 should have not more than 64 characters')
+        else ViewContentSha256,
     },
   },
-  withVersion(Version): {
-    assert std.isNumber(Version) : 'Version must be a number',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isNumber(Version) then (error 'Version must be an number')
+        else Version,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

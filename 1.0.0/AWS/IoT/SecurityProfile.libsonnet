@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,134 +10,156 @@
     Metadata:: [],
     Type: 'AWS::IoT::SecurityProfile',
   },
-  withSecurityProfileName(SecurityProfileName): {
-    assert std.isString(SecurityProfileName) : 'SecurityProfileName must be a string',
+  setSecurityProfileName(SecurityProfileName): {
     Properties+::: {
-      SecurityProfileName: SecurityProfileName,
+      SecurityProfileName:
+        if !std.isString(SecurityProfileName) then (error 'SecurityProfileName must be a string')
+        else if std.isEmpty(SecurityProfileName) then (error 'SecurityProfileName must be not empty')
+        else if std.length(SecurityProfileName) < 1 then error ('SecurityProfileName should have at least 1 characters')
+        else if std.length(SecurityProfileName) > 128 then error ('SecurityProfileName should have not more than 128 characters')
+        else SecurityProfileName,
     },
   },
-  withSecurityProfileDescription(SecurityProfileDescription): {
-    assert std.isString(SecurityProfileDescription) : 'SecurityProfileDescription must be a string',
+  setSecurityProfileDescription(SecurityProfileDescription): {
     Properties+::: {
-      SecurityProfileDescription: SecurityProfileDescription,
+      SecurityProfileDescription:
+        if !std.isString(SecurityProfileDescription) then (error 'SecurityProfileDescription must be a string')
+        else if std.isEmpty(SecurityProfileDescription) then (error 'SecurityProfileDescription must be not empty')
+        else if std.length(SecurityProfileDescription) > 1000 then error ('SecurityProfileDescription should have not more than 1000 characters')
+        else SecurityProfileDescription,
     },
   },
-  withBehaviors(Behaviors): {
+  setBehaviors(Behaviors): {
     Properties+::: {
-      Behaviors: (if std.isArray(Behaviors) then Behaviors else [Behaviors]),
+      Behaviors:
+        if !std.isArray(Behaviors) then (error 'Behaviors must be an array')
+        else Behaviors,
     },
   },
-  withBehaviorsMixin(Behaviors): {
+  setBehaviorsMixin(Behaviors): {
     Properties+::: {
-      Behaviors+: (if std.isArray(Behaviors) then Behaviors else [Behaviors]),
+      Behaviors+: Behaviors,
     },
   },
-  withAlertTargets(AlertTargets): {
-    assert std.isObject(AlertTargets) : 'AlertTargets must be a object',
+  setAlertTargets(AlertTargets): {
     Properties+::: {
-      AlertTargets: AlertTargets,
+      AlertTargets:
+        if !std.isObject(AlertTargets) then (error 'AlertTargets must be an object')
+        else AlertTargets,
     },
   },
-  withAdditionalMetricsToRetainV2(AdditionalMetricsToRetainV2): {
+  setAdditionalMetricsToRetainV2(AdditionalMetricsToRetainV2): {
     Properties+::: {
-      AdditionalMetricsToRetainV2: (if std.isArray(AdditionalMetricsToRetainV2) then AdditionalMetricsToRetainV2 else [AdditionalMetricsToRetainV2]),
+      AdditionalMetricsToRetainV2:
+        if !std.isArray(AdditionalMetricsToRetainV2) then (error 'AdditionalMetricsToRetainV2 must be an array')
+        else AdditionalMetricsToRetainV2,
     },
   },
-  withAdditionalMetricsToRetainV2Mixin(AdditionalMetricsToRetainV2): {
+  setAdditionalMetricsToRetainV2Mixin(AdditionalMetricsToRetainV2): {
     Properties+::: {
-      AdditionalMetricsToRetainV2+: (if std.isArray(AdditionalMetricsToRetainV2) then AdditionalMetricsToRetainV2 else [AdditionalMetricsToRetainV2]),
+      AdditionalMetricsToRetainV2+: AdditionalMetricsToRetainV2,
     },
   },
-  withMetricsExportConfig(MetricsExportConfig): {
-    assert std.isObject(MetricsExportConfig) : 'MetricsExportConfig must be a object',
+  setMetricsExportConfig(MetricsExportConfig): {
     Properties+::: {
-      MetricsExportConfig: MetricsExportConfig,
+      MetricsExportConfig:
+        if !std.isObject(MetricsExportConfig) then (error 'MetricsExportConfig must be an object')
+        else if !std.objectHas(MetricsExportConfig, 'MqttTopic') then (error ' have attribute MqttTopic')
+        else if !std.objectHas(MetricsExportConfig, 'RoleArn') then (error ' have attribute RoleArn')
+        else MetricsExportConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTargetArns(TargetArns): {
+  setTargetArns(TargetArns): {
     Properties+::: {
-      TargetArns: (if std.isArray(TargetArns) then TargetArns else [TargetArns]),
+      TargetArns:
+        if !std.isArray(TargetArns) then (error 'TargetArns must be an array')
+        else TargetArns,
     },
   },
-  withTargetArnsMixin(TargetArns): {
+  setTargetArnsMixin(TargetArns): {
     Properties+::: {
-      TargetArns+: (if std.isArray(TargetArns) then TargetArns else [TargetArns]),
+      TargetArns+: TargetArns,
     },
   },
-  withSecurityProfileArn(SecurityProfileArn): {
-    assert std.isString(SecurityProfileArn) : 'SecurityProfileArn must be a string',
+  setSecurityProfileArn(SecurityProfileArn): {
     Properties+::: {
-      SecurityProfileArn: SecurityProfileArn,
+      SecurityProfileArn:
+        if !std.isString(SecurityProfileArn) then (error 'SecurityProfileArn must be a string')
+        else if std.isEmpty(SecurityProfileArn) then (error 'SecurityProfileArn must be not empty')
+        else SecurityProfileArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Type) : 'Type must be a string',
-      assert Type == 'ADOBE_ANALYTICS' || Type == 'AMAZON_ELASTICSEARCH' || Type == 'AMAZON_OPENSEARCH' || Type == 'ATHENA' || Type == 'AURORA' || Type == 'AURORA_POSTGRESQL' || Type == 'AWS_IOT_ANALYTICS' || Type == 'DATABRICKS' || Type == 'DENODO' || Type == 'DREMIO' || Type == 'DYNAMODB' || Type == 'SAPHANA' || Type == 'DB2_AS400' || Type == 'EXASOL' || Type == 'FILE' || Type == 'GITHUB' || Type == 'JIRA' || Type == 'MARIADB' || Type == 'MYSQL' || Type == 'ORACLE' || Type == 'POSTGRESQL' || Type == 'PRESTO' || Type == 'REDSHIFT' || Type == 'S3' || Type == 'S3_TABLES' || Type == 'SALESFORCE' || Type == 'SERVICENOW' || Type == 'SNOWFLAKE' || Type == 'SPARK' || Type == 'SQLSERVER' || Type == 'TERADATA' || Type == 'TIMESTREAM' || Type == 'TWITTER' || Type == 'BIGQUERY' || Type == 'GOOGLE_ANALYTICS' || Type == 'TRINO' || Type == 'STARBURST' || Type == 'MONGO' || Type == 'MONGO_ATLAS' || Type == 'DOCUMENTDB' || Type == 'APPFLOW' || Type == 'IMPALA' || Type == 'GLUE' : "Type should be 'ADOBE_ANALYTICS' or 'AMAZON_ELASTICSEARCH' or 'AMAZON_OPENSEARCH' or 'ATHENA' or 'AURORA' or 'AURORA_POSTGRESQL' or 'AWS_IOT_ANALYTICS' or 'DATABRICKS' or 'DENODO' or 'DREMIO' or 'DYNAMODB' or 'SAPHANA' or 'DB2_AS400' or 'EXASOL' or 'FILE' or 'GITHUB' or 'JIRA' or 'MARIADB' or 'MYSQL' or 'ORACLE' or 'POSTGRESQL' or 'PRESTO' or 'REDSHIFT' or 'S3' or 'S3_TABLES' or 'SALESFORCE' or 'SERVICENOW' or 'SNOWFLAKE' or 'SPARK' or 'SQLSERVER' or 'TERADATA' or 'TIMESTREAM' or 'TWITTER' or 'BIGQUERY' or 'GOOGLE_ANALYTICS' or 'TRINO' or 'STARBURST' or 'MONGO' or 'MONGO_ATLAS' or 'DOCUMENTDB' or 'APPFLOW' or 'IMPALA' or 'GLUE'",
-      Type: Type,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'ADOBE_ANALYTICS' && Type != 'AMAZON_ELASTICSEARCH' && Type != 'AMAZON_OPENSEARCH' && Type != 'ATHENA' && Type != 'AURORA' && Type != 'AURORA_POSTGRESQL' && Type != 'AWS_IOT_ANALYTICS' && Type != 'DATABRICKS' && Type != 'DENODO' && Type != 'DREMIO' && Type != 'DYNAMODB' && Type != 'SAPHANA' && Type != 'DB2_AS400' && Type != 'EXASOL' && Type != 'FILE' && Type != 'GITHUB' && Type != 'JIRA' && Type != 'MARIADB' && Type != 'MYSQL' && Type != 'ORACLE' && Type != 'POSTGRESQL' && Type != 'PRESTO' && Type != 'REDSHIFT' && Type != 'S3' && Type != 'S3_TABLES' && Type != 'SALESFORCE' && Type != 'SERVICENOW' && Type != 'SNOWFLAKE' && Type != 'SPARK' && Type != 'SQLSERVER' && Type != 'TERADATA' && Type != 'TIMESTREAM' && Type != 'TWITTER' && Type != 'BIGQUERY' && Type != 'GOOGLE_ANALYTICS' && Type != 'TRINO' && Type != 'STARBURST' && Type != 'MONGO' && Type != 'MONGO_ATLAS' && Type != 'DOCUMENTDB' && Type != 'APPFLOW' && Type != 'IMPALA' && Type != 'GLUE' then (error "Type should be 'ADOBE_ANALYTICS' or 'AMAZON_ELASTICSEARCH' or 'AMAZON_OPENSEARCH' or 'ATHENA' or 'AURORA' or 'AURORA_POSTGRESQL' or 'AWS_IOT_ANALYTICS' or 'DATABRICKS' or 'DENODO' or 'DREMIO' or 'DYNAMODB' or 'SAPHANA' or 'DB2_AS400' or 'EXASOL' or 'FILE' or 'GITHUB' or 'JIRA' or 'MARIADB' or 'MYSQL' or 'ORACLE' or 'POSTGRESQL' or 'PRESTO' or 'REDSHIFT' or 'S3' or 'S3_TABLES' or 'SALESFORCE' or 'SERVICENOW' or 'SNOWFLAKE' or 'SPARK' or 'SQLSERVER' or 'TERADATA' or 'TIMESTREAM' or 'TWITTER' or 'BIGQUERY' or 'GOOGLE_ANALYTICS' or 'TRINO' or 'STARBURST' or 'MONGO' or 'MONGO_ATLAS' or 'DOCUMENTDB' or 'APPFLOW' or 'IMPALA' or 'GLUE'")
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,171 +25,206 @@
     Metadata:: [],
     Type: 'AWS::QuickSight::DataSource',
   },
-  withAlternateDataSourceParameters(AlternateDataSourceParameters): {
+  setAlternateDataSourceParameters(AlternateDataSourceParameters): {
     Properties+::: {
-      AlternateDataSourceParameters: (if std.isArray(AlternateDataSourceParameters) then AlternateDataSourceParameters else [AlternateDataSourceParameters]),
+      AlternateDataSourceParameters:
+        if !std.isArray(AlternateDataSourceParameters) then (error 'AlternateDataSourceParameters must be an array')
+        else if std.length(AlternateDataSourceParameters) < 1 then error ('AlternateDataSourceParameters cannot have less than 1 items')
+        else if std.length(AlternateDataSourceParameters) > 50 then error ('AlternateDataSourceParameters cannot have more than 50 items')
+        else AlternateDataSourceParameters,
     },
   },
-  withAlternateDataSourceParametersMixin(AlternateDataSourceParameters): {
+  setAlternateDataSourceParametersMixin(AlternateDataSourceParameters): {
     Properties+::: {
-      AlternateDataSourceParameters+: (if std.isArray(AlternateDataSourceParameters) then AlternateDataSourceParameters else [AlternateDataSourceParameters]),
+      AlternateDataSourceParameters+: AlternateDataSourceParameters,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withAwsAccountId(AwsAccountId): {
-    assert std.isString(AwsAccountId) : 'AwsAccountId must be a string',
+  setAwsAccountId(AwsAccountId): {
     Properties+::: {
-      AwsAccountId: AwsAccountId,
+      AwsAccountId:
+        if !std.isString(AwsAccountId) then (error 'AwsAccountId must be a string')
+        else if std.isEmpty(AwsAccountId) then (error 'AwsAccountId must be not empty')
+        else if std.length(AwsAccountId) < 12 then error ('AwsAccountId should have at least 12 characters')
+        else if std.length(AwsAccountId) > 12 then error ('AwsAccountId should have not more than 12 characters')
+        else AwsAccountId,
     },
   },
-  withCreatedTime(CreatedTime): {
-    assert std.isString(CreatedTime) : 'CreatedTime must be a string',
+  setCreatedTime(CreatedTime): {
     Properties+::: {
-      CreatedTime: CreatedTime,
+      CreatedTime:
+        if !std.isString(CreatedTime) then (error 'CreatedTime must be a string')
+        else if std.isEmpty(CreatedTime) then (error 'CreatedTime must be not empty')
+        else CreatedTime,
     },
   },
-  withCredentials(Credentials): {
-    assert std.isObject(Credentials) : 'Credentials must be a object',
+  setCredentials(Credentials): {
     Properties+::: {
-      Credentials: Credentials,
+      Credentials:
+        if !std.isObject(Credentials) then (error 'Credentials must be an object')
+        else Credentials,
     },
   },
-  withDataSourceId(DataSourceId): {
-    assert std.isString(DataSourceId) : 'DataSourceId must be a string',
+  setDataSourceId(DataSourceId): {
     Properties+::: {
-      DataSourceId: DataSourceId,
+      DataSourceId:
+        if !std.isString(DataSourceId) then (error 'DataSourceId must be a string')
+        else if std.isEmpty(DataSourceId) then (error 'DataSourceId must be not empty')
+        else DataSourceId,
     },
   },
-  withDataSourceParameters(DataSourceParameters): {
-    assert std.isObject(DataSourceParameters) : 'DataSourceParameters must be a object',
+  setDataSourceParameters(DataSourceParameters): {
     Properties+::: {
-      DataSourceParameters: DataSourceParameters,
+      DataSourceParameters:
+        if !std.isObject(DataSourceParameters) then (error 'DataSourceParameters must be an object')
+        else DataSourceParameters,
     },
   },
-  withErrorInfo(ErrorInfo): {
-    assert std.isObject(ErrorInfo) : 'ErrorInfo must be a object',
+  setErrorInfo(ErrorInfo): {
     Properties+::: {
-      ErrorInfo: ErrorInfo,
+      ErrorInfo:
+        if !std.isObject(ErrorInfo) then (error 'ErrorInfo must be an object')
+        else ErrorInfo,
     },
   },
-  withFolderArns(FolderArns): {
+  setFolderArns(FolderArns): {
     Properties+::: {
-      FolderArns: (if std.isArray(FolderArns) then FolderArns else [FolderArns]),
+      FolderArns:
+        if !std.isArray(FolderArns) then (error 'FolderArns must be an array')
+        else if std.length(FolderArns) > 10 then error ('FolderArns cannot have more than 10 items')
+        else FolderArns,
     },
   },
-  withFolderArnsMixin(FolderArns): {
+  setFolderArnsMixin(FolderArns): {
     Properties+::: {
-      FolderArns+: (if std.isArray(FolderArns) then FolderArns else [FolderArns]),
+      FolderArns+: FolderArns,
     },
   },
-  withLastUpdatedTime(LastUpdatedTime): {
-    assert std.isString(LastUpdatedTime) : 'LastUpdatedTime must be a string',
+  setLastUpdatedTime(LastUpdatedTime): {
     Properties+::: {
-      LastUpdatedTime: LastUpdatedTime,
+      LastUpdatedTime:
+        if !std.isString(LastUpdatedTime) then (error 'LastUpdatedTime must be a string')
+        else if std.isEmpty(LastUpdatedTime) then (error 'LastUpdatedTime must be not empty')
+        else LastUpdatedTime,
     },
   },
-  withPermissions(Permissions): {
+  setPermissions(Permissions): {
     Properties+::: {
-      Permissions: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions:
+        if !std.isArray(Permissions) then (error 'Permissions must be an array')
+        else if std.length(Permissions) < 1 then error ('Permissions cannot have less than 1 items')
+        else if std.length(Permissions) > 64 then error ('Permissions cannot have more than 64 items')
+        else Permissions,
     },
   },
-  withPermissionsMixin(Permissions): {
+  setPermissionsMixin(Permissions): {
     Properties+::: {
-      Permissions+: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions+: Permissions,
     },
   },
-  withSslProperties(SslProperties): {
-    assert std.isObject(SslProperties) : 'SslProperties must be a object',
+  setSslProperties(SslProperties): {
     Properties+::: {
-      SslProperties: SslProperties,
+      SslProperties:
+        if !std.isObject(SslProperties) then (error 'SslProperties must be an object')
+        else SslProperties,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATION_IN_PROGRESS' || Status == 'CREATION_SUCCESSFUL' || Status == 'CREATION_FAILED' || Status == 'UPDATE_IN_PROGRESS' || Status == 'UPDATE_SUCCESSFUL' || Status == 'UPDATE_FAILED' || Status == 'DELETED' : "Status should be 'CREATION_IN_PROGRESS' or 'CREATION_SUCCESSFUL' or 'CREATION_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_SUCCESSFUL' or 'UPDATE_FAILED' or 'DELETED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATION_IN_PROGRESS' && Status != 'CREATION_SUCCESSFUL' && Status != 'CREATION_FAILED' && Status != 'UPDATE_IN_PROGRESS' && Status != 'UPDATE_SUCCESSFUL' && Status != 'UPDATE_FAILED' && Status != 'DELETED' then (error "Status should be 'CREATION_IN_PROGRESS' or 'CREATION_SUCCESSFUL' or 'CREATION_FAILED' or 'UPDATE_IN_PROGRESS' or 'UPDATE_SUCCESSFUL' or 'UPDATE_FAILED' or 'DELETED'")
+        else Status,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVpcConnectionProperties(VpcConnectionProperties): {
-    assert std.isObject(VpcConnectionProperties) : 'VpcConnectionProperties must be a object',
+  setVpcConnectionProperties(VpcConnectionProperties): {
     Properties+::: {
-      VpcConnectionProperties: VpcConnectionProperties,
+      VpcConnectionProperties:
+        if !std.isObject(VpcConnectionProperties) then (error 'VpcConnectionProperties must be an object')
+        else if !std.objectHas(VpcConnectionProperties, 'VpcConnectionArn') then (error ' have attribute VpcConnectionArn')
+        else VpcConnectionProperties,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

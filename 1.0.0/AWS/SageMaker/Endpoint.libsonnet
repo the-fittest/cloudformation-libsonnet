@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EndpointConfigName) : 'EndpointConfigName must be a string',
-      EndpointConfigName: EndpointConfigName,
+      EndpointConfigName:
+        if !std.isString(EndpointConfigName) then (error 'EndpointConfigName must be a string')
+        else if std.isEmpty(EndpointConfigName) then (error 'EndpointConfigName must be not empty')
+        else EndpointConfigName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,114 +17,123 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Endpoint',
   },
-  withDeploymentConfig(DeploymentConfig): {
-    assert std.isObject(DeploymentConfig) : 'DeploymentConfig must be a object',
+  setDeploymentConfig(DeploymentConfig): {
     Properties+::: {
-      DeploymentConfig: DeploymentConfig,
+      DeploymentConfig:
+        if !std.isObject(DeploymentConfig) then (error 'DeploymentConfig must be an object')
+        else DeploymentConfig,
     },
   },
-  withEndpointArn(EndpointArn): {
-    assert std.isString(EndpointArn) : 'EndpointArn must be a string',
+  setEndpointArn(EndpointArn): {
     Properties+::: {
-      EndpointArn: EndpointArn,
+      EndpointArn:
+        if !std.isString(EndpointArn) then (error 'EndpointArn must be a string')
+        else if std.isEmpty(EndpointArn) then (error 'EndpointArn must be not empty')
+        else EndpointArn,
     },
   },
-  withEndpointName(EndpointName): {
-    assert std.isString(EndpointName) : 'EndpointName must be a string',
+  setEndpointName(EndpointName): {
     Properties+::: {
-      EndpointName: EndpointName,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else EndpointName,
     },
   },
-  withExcludeRetainedVariantProperties(ExcludeRetainedVariantProperties): {
+  setExcludeRetainedVariantProperties(ExcludeRetainedVariantProperties): {
     Properties+::: {
-      ExcludeRetainedVariantProperties: (if std.isArray(ExcludeRetainedVariantProperties) then ExcludeRetainedVariantProperties else [ExcludeRetainedVariantProperties]),
+      ExcludeRetainedVariantProperties:
+        if !std.isArray(ExcludeRetainedVariantProperties) then (error 'ExcludeRetainedVariantProperties must be an array')
+        else ExcludeRetainedVariantProperties,
     },
   },
-  withExcludeRetainedVariantPropertiesMixin(ExcludeRetainedVariantProperties): {
+  setExcludeRetainedVariantPropertiesMixin(ExcludeRetainedVariantProperties): {
     Properties+::: {
-      ExcludeRetainedVariantProperties+: (if std.isArray(ExcludeRetainedVariantProperties) then ExcludeRetainedVariantProperties else [ExcludeRetainedVariantProperties]),
+      ExcludeRetainedVariantProperties+: ExcludeRetainedVariantProperties,
     },
   },
-  withRetainAllVariantProperties(RetainAllVariantProperties): {
-    assert std.isBoolean(RetainAllVariantProperties) : 'RetainAllVariantProperties must be a boolean',
+  setRetainAllVariantProperties(RetainAllVariantProperties): {
     Properties+::: {
-      RetainAllVariantProperties: RetainAllVariantProperties,
+      RetainAllVariantProperties:
+        if !std.isBoolean(RetainAllVariantProperties) then (error 'RetainAllVariantProperties must be a boolean') else RetainAllVariantProperties,
     },
   },
-  withRetainDeploymentConfig(RetainDeploymentConfig): {
-    assert std.isBoolean(RetainDeploymentConfig) : 'RetainDeploymentConfig must be a boolean',
+  setRetainDeploymentConfig(RetainDeploymentConfig): {
     Properties+::: {
-      RetainDeploymentConfig: RetainDeploymentConfig,
+      RetainDeploymentConfig:
+        if !std.isBoolean(RetainDeploymentConfig) then (error 'RetainDeploymentConfig must be a boolean') else RetainDeploymentConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

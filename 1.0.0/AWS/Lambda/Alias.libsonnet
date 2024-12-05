@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FunctionName) : 'FunctionName must be a string',
-      FunctionName: FunctionName,
-      assert std.isString(FunctionVersion) : 'FunctionVersion must be a string',
-      FunctionVersion: FunctionVersion,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      FunctionName:
+        if !std.isString(FunctionName) then (error 'FunctionName must be a string')
+        else if std.isEmpty(FunctionName) then (error 'FunctionName must be not empty')
+        else FunctionName,
+      FunctionVersion:
+        if !std.isString(FunctionVersion) then (error 'FunctionVersion must be a string')
+        else if std.isEmpty(FunctionVersion) then (error 'FunctionVersion must be not empty')
+        else FunctionVersion,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,88 +27,95 @@
     Metadata:: [],
     Type: 'AWS::Lambda::Alias',
   },
-  withAliasArn(AliasArn): {
-    assert std.isString(AliasArn) : 'AliasArn must be a string',
+  setAliasArn(AliasArn): {
     Properties+::: {
-      AliasArn: AliasArn,
+      AliasArn:
+        if !std.isString(AliasArn) then (error 'AliasArn must be a string')
+        else if std.isEmpty(AliasArn) then (error 'AliasArn must be not empty')
+        else AliasArn,
     },
   },
-  withProvisionedConcurrencyConfig(ProvisionedConcurrencyConfig): {
-    assert std.isObject(ProvisionedConcurrencyConfig) : 'ProvisionedConcurrencyConfig must be a object',
+  setProvisionedConcurrencyConfig(ProvisionedConcurrencyConfig): {
     Properties+::: {
-      ProvisionedConcurrencyConfig: ProvisionedConcurrencyConfig,
+      ProvisionedConcurrencyConfig:
+        if !std.isObject(ProvisionedConcurrencyConfig) then (error 'ProvisionedConcurrencyConfig must be an object')
+        else if !std.objectHas(ProvisionedConcurrencyConfig, 'ProvisionedConcurrentExecutions') then (error ' have attribute ProvisionedConcurrentExecutions')
+        else ProvisionedConcurrencyConfig,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withRoutingConfig(RoutingConfig): {
-    assert std.isObject(RoutingConfig) : 'RoutingConfig must be a object',
+  setRoutingConfig(RoutingConfig): {
     Properties+::: {
-      RoutingConfig: RoutingConfig,
+      RoutingConfig:
+        if !std.isObject(RoutingConfig) then (error 'RoutingConfig must be an object')
+        else RoutingConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

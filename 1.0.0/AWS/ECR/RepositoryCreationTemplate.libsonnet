@@ -5,9 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Prefix) : 'Prefix must be a string',
-      Prefix: Prefix,
-      AppliedFor: (if std.isArray(AppliedFor) then AppliedFor else [AppliedFor]),
+      Prefix:
+        if !std.isString(Prefix) then (error 'Prefix must be a string')
+        else if std.isEmpty(Prefix) then (error 'Prefix must be not empty')
+        else if std.length(Prefix) < 1 then error ('Prefix should have at least 1 characters')
+        else if std.length(Prefix) > 256 then error ('Prefix should have not more than 256 characters')
+        else Prefix,
+      AppliedFor:
+        if !std.isArray(AppliedFor) then (error 'AppliedFor must be an array')
+        else AppliedFor,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,123 +23,146 @@
     Metadata:: [],
     Type: 'AWS::ECR::RepositoryCreationTemplate',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 256 then error ('Description should have not more than 256 characters')
+        else Description,
     },
   },
-  withImageTagMutability(ImageTagMutability): {
-    assert std.isString(ImageTagMutability) : 'ImageTagMutability must be a string',
-    assert ImageTagMutability == 'MUTABLE' || ImageTagMutability == 'IMMUTABLE' : "ImageTagMutability should be 'MUTABLE' or 'IMMUTABLE'",
+  setImageTagMutability(ImageTagMutability): {
     Properties+::: {
-      ImageTagMutability: ImageTagMutability,
+      ImageTagMutability:
+        if !std.isString(ImageTagMutability) then (error 'ImageTagMutability must be a string')
+        else if std.isEmpty(ImageTagMutability) then (error 'ImageTagMutability must be not empty')
+        else if ImageTagMutability != 'MUTABLE' && ImageTagMutability != 'IMMUTABLE' then (error "ImageTagMutability should be 'MUTABLE' or 'IMMUTABLE'")
+        else ImageTagMutability,
     },
   },
-  withRepositoryPolicy(RepositoryPolicy): {
-    assert std.isString(RepositoryPolicy) : 'RepositoryPolicy must be a string',
+  setRepositoryPolicy(RepositoryPolicy): {
     Properties+::: {
-      RepositoryPolicy: RepositoryPolicy,
+      RepositoryPolicy:
+        if !std.isString(RepositoryPolicy) then (error 'RepositoryPolicy must be a string')
+        else if std.isEmpty(RepositoryPolicy) then (error 'RepositoryPolicy must be not empty')
+        else RepositoryPolicy,
     },
   },
-  withLifecyclePolicy(LifecyclePolicy): {
-    assert std.isString(LifecyclePolicy) : 'LifecyclePolicy must be a string',
+  setLifecyclePolicy(LifecyclePolicy): {
     Properties+::: {
-      LifecyclePolicy: LifecyclePolicy,
+      LifecyclePolicy:
+        if !std.isString(LifecyclePolicy) then (error 'LifecyclePolicy must be a string')
+        else if std.isEmpty(LifecyclePolicy) then (error 'LifecyclePolicy must be not empty')
+        else if std.length(LifecyclePolicy) < 100 then error ('LifecyclePolicy should have at least 100 characters')
+        else if std.length(LifecyclePolicy) > 30720 then error ('LifecyclePolicy should have not more than 30720 characters')
+        else LifecyclePolicy,
     },
   },
-  withEncryptionConfiguration(EncryptionConfiguration): {
-    assert std.isObject(EncryptionConfiguration) : 'EncryptionConfiguration must be a object',
+  setEncryptionConfiguration(EncryptionConfiguration): {
     Properties+::: {
-      EncryptionConfiguration: EncryptionConfiguration,
+      EncryptionConfiguration:
+        if !std.isObject(EncryptionConfiguration) then (error 'EncryptionConfiguration must be an object')
+        else if !std.objectHas(EncryptionConfiguration, 'EncryptionType') then (error ' have attribute EncryptionType')
+        else EncryptionConfiguration,
     },
   },
-  withResourceTags(ResourceTags): {
+  setResourceTags(ResourceTags): {
     Properties+::: {
-      ResourceTags: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags:
+        if !std.isArray(ResourceTags) then (error 'ResourceTags must be an array')
+        else if std.length(ResourceTags) > 50 then error ('ResourceTags cannot have more than 50 items')
+        else ResourceTags,
     },
   },
-  withResourceTagsMixin(ResourceTags): {
+  setResourceTagsMixin(ResourceTags): {
     Properties+::: {
-      ResourceTags+: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags+: ResourceTags,
     },
   },
-  withCustomRoleArn(CustomRoleArn): {
-    assert std.isString(CustomRoleArn) : 'CustomRoleArn must be a string',
+  setCustomRoleArn(CustomRoleArn): {
     Properties+::: {
-      CustomRoleArn: CustomRoleArn,
+      CustomRoleArn:
+        if !std.isString(CustomRoleArn) then (error 'CustomRoleArn must be a string')
+        else if std.isEmpty(CustomRoleArn) then (error 'CustomRoleArn must be not empty')
+        else if std.length(CustomRoleArn) > 2048 then error ('CustomRoleArn should have not more than 2048 characters')
+        else CustomRoleArn,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

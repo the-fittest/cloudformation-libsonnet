@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DashboardDefinition) : 'DashboardDefinition must be a string',
-      DashboardDefinition: DashboardDefinition,
-      assert std.isString(DashboardDescription) : 'DashboardDescription must be a string',
-      DashboardDescription: DashboardDescription,
-      assert std.isString(DashboardName) : 'DashboardName must be a string',
-      DashboardName: DashboardName,
+      DashboardDefinition:
+        if !std.isString(DashboardDefinition) then (error 'DashboardDefinition must be a string')
+        else if std.isEmpty(DashboardDefinition) then (error 'DashboardDefinition must be not empty')
+        else DashboardDefinition,
+      DashboardDescription:
+        if !std.isString(DashboardDescription) then (error 'DashboardDescription must be a string')
+        else if std.isEmpty(DashboardDescription) then (error 'DashboardDescription must be not empty')
+        else DashboardDescription,
+      DashboardName:
+        if !std.isString(DashboardName) then (error 'DashboardName must be a string')
+        else if std.isEmpty(DashboardName) then (error 'DashboardName must be not empty')
+        else DashboardName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,92 +27,100 @@
     Metadata:: [],
     Type: 'AWS::IoTSiteWise::Dashboard',
   },
-  withProjectId(ProjectId): {
-    assert std.isString(ProjectId) : 'ProjectId must be a string',
+  setProjectId(ProjectId): {
     Properties+::: {
-      ProjectId: ProjectId,
+      ProjectId:
+        if !std.isString(ProjectId) then (error 'ProjectId must be a string')
+        else if std.isEmpty(ProjectId) then (error 'ProjectId must be not empty')
+        else ProjectId,
     },
   },
-  withDashboardId(DashboardId): {
-    assert std.isString(DashboardId) : 'DashboardId must be a string',
+  setDashboardId(DashboardId): {
     Properties+::: {
-      DashboardId: DashboardId,
+      DashboardId:
+        if !std.isString(DashboardId) then (error 'DashboardId must be a string')
+        else if std.isEmpty(DashboardId) then (error 'DashboardId must be not empty')
+        else DashboardId,
     },
   },
-  withDashboardArn(DashboardArn): {
-    assert std.isString(DashboardArn) : 'DashboardArn must be a string',
+  setDashboardArn(DashboardArn): {
     Properties+::: {
-      DashboardArn: DashboardArn,
+      DashboardArn:
+        if !std.isString(DashboardArn) then (error 'DashboardArn must be a string')
+        else if std.isEmpty(DashboardArn) then (error 'DashboardArn must be not empty')
+        else DashboardArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

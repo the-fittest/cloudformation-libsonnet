@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,104 +10,117 @@
     Metadata:: [],
     Type: 'AWS::AppRunner::ObservabilityConfiguration',
   },
-  withObservabilityConfigurationArn(ObservabilityConfigurationArn): {
-    assert std.isString(ObservabilityConfigurationArn) : 'ObservabilityConfigurationArn must be a string',
+  setObservabilityConfigurationArn(ObservabilityConfigurationArn): {
     Properties+::: {
-      ObservabilityConfigurationArn: ObservabilityConfigurationArn,
+      ObservabilityConfigurationArn:
+        if !std.isString(ObservabilityConfigurationArn) then (error 'ObservabilityConfigurationArn must be a string')
+        else if std.isEmpty(ObservabilityConfigurationArn) then (error 'ObservabilityConfigurationArn must be not empty')
+        else if std.length(ObservabilityConfigurationArn) < 1 then error ('ObservabilityConfigurationArn should have at least 1 characters')
+        else if std.length(ObservabilityConfigurationArn) > 1011 then error ('ObservabilityConfigurationArn should have not more than 1011 characters')
+        else ObservabilityConfigurationArn,
     },
   },
-  withObservabilityConfigurationName(ObservabilityConfigurationName): {
-    assert std.isString(ObservabilityConfigurationName) : 'ObservabilityConfigurationName must be a string',
+  setObservabilityConfigurationName(ObservabilityConfigurationName): {
     Properties+::: {
-      ObservabilityConfigurationName: ObservabilityConfigurationName,
+      ObservabilityConfigurationName:
+        if !std.isString(ObservabilityConfigurationName) then (error 'ObservabilityConfigurationName must be a string')
+        else if std.isEmpty(ObservabilityConfigurationName) then (error 'ObservabilityConfigurationName must be not empty')
+        else if std.length(ObservabilityConfigurationName) < 4 then error ('ObservabilityConfigurationName should have at least 4 characters')
+        else if std.length(ObservabilityConfigurationName) > 32 then error ('ObservabilityConfigurationName should have not more than 32 characters')
+        else ObservabilityConfigurationName,
     },
   },
-  withObservabilityConfigurationRevision(ObservabilityConfigurationRevision): {
-    assert std.isNumber(ObservabilityConfigurationRevision) : 'ObservabilityConfigurationRevision must be a number',
+  setObservabilityConfigurationRevision(ObservabilityConfigurationRevision): {
     Properties+::: {
-      ObservabilityConfigurationRevision: ObservabilityConfigurationRevision,
+      ObservabilityConfigurationRevision:
+        if !std.isNumber(ObservabilityConfigurationRevision) then (error 'ObservabilityConfigurationRevision must be an number')
+        else ObservabilityConfigurationRevision,
     },
   },
-  withLatest(Latest): {
-    assert std.isBoolean(Latest) : 'Latest must be a boolean',
+  setLatest(Latest): {
     Properties+::: {
-      Latest: Latest,
+      Latest:
+        if !std.isBoolean(Latest) then (error 'Latest must be a boolean') else Latest,
     },
   },
-  withTraceConfiguration(TraceConfiguration): {
-    assert std.isObject(TraceConfiguration) : 'TraceConfiguration must be a object',
+  setTraceConfiguration(TraceConfiguration): {
     Properties+::: {
-      TraceConfiguration: TraceConfiguration,
+      TraceConfiguration:
+        if !std.isObject(TraceConfiguration) then (error 'TraceConfiguration must be an object')
+        else if !std.objectHas(TraceConfiguration, 'Vendor') then (error ' have attribute Vendor')
+        else TraceConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

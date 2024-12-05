@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MessageTemplateArn) : 'MessageTemplateArn must be a string',
-      MessageTemplateArn: MessageTemplateArn,
+      MessageTemplateArn:
+        if !std.isString(MessageTemplateArn) then (error 'MessageTemplateArn must be a string')
+        else if std.isEmpty(MessageTemplateArn) then (error 'MessageTemplateArn must be not empty')
+        else MessageTemplateArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,82 +17,89 @@
     Metadata:: [],
     Type: 'AWS::Wisdom::MessageTemplateVersion',
   },
-  withMessageTemplateVersionArn(MessageTemplateVersionArn): {
-    assert std.isString(MessageTemplateVersionArn) : 'MessageTemplateVersionArn must be a string',
+  setMessageTemplateVersionArn(MessageTemplateVersionArn): {
     Properties+::: {
-      MessageTemplateVersionArn: MessageTemplateVersionArn,
+      MessageTemplateVersionArn:
+        if !std.isString(MessageTemplateVersionArn) then (error 'MessageTemplateVersionArn must be a string')
+        else if std.isEmpty(MessageTemplateVersionArn) then (error 'MessageTemplateVersionArn must be not empty')
+        else MessageTemplateVersionArn,
     },
   },
-  withMessageTemplateContentSha256(MessageTemplateContentSha256): {
-    assert std.isString(MessageTemplateContentSha256) : 'MessageTemplateContentSha256 must be a string',
+  setMessageTemplateContentSha256(MessageTemplateContentSha256): {
     Properties+::: {
-      MessageTemplateContentSha256: MessageTemplateContentSha256,
+      MessageTemplateContentSha256:
+        if !std.isString(MessageTemplateContentSha256) then (error 'MessageTemplateContentSha256 must be a string')
+        else if std.isEmpty(MessageTemplateContentSha256) then (error 'MessageTemplateContentSha256 must be not empty')
+        else if std.length(MessageTemplateContentSha256) < 1 then error ('MessageTemplateContentSha256 should have at least 1 characters')
+        else if std.length(MessageTemplateContentSha256) > 64 then error ('MessageTemplateContentSha256 should have not more than 64 characters')
+        else MessageTemplateContentSha256,
     },
   },
-  withMessageTemplateVersionNumber(MessageTemplateVersionNumber): {
-    assert std.isNumber(MessageTemplateVersionNumber) : 'MessageTemplateVersionNumber must be a number',
+  setMessageTemplateVersionNumber(MessageTemplateVersionNumber): {
     Properties+::: {
-      MessageTemplateVersionNumber: MessageTemplateVersionNumber,
+      MessageTemplateVersionNumber:
+        if !std.isNumber(MessageTemplateVersionNumber) then (error 'MessageTemplateVersionNumber must be an number')
+        else MessageTemplateVersionNumber,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

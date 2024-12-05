@@ -6,8 +6,12 @@
     local base = self,
     Properties: {
       Configuration: Configuration,
-      assert std.isString(PolicyStoreId) : 'PolicyStoreId must be a string',
-      PolicyStoreId: PolicyStoreId,
+      PolicyStoreId:
+        if !std.isString(PolicyStoreId) then (error 'PolicyStoreId must be a string')
+        else if std.isEmpty(PolicyStoreId) then (error 'PolicyStoreId must be not empty')
+        else if std.length(PolicyStoreId) < 1 then error ('PolicyStoreId should have at least 1 characters')
+        else if std.length(PolicyStoreId) > 200 then error ('PolicyStoreId should have not more than 200 characters')
+        else PolicyStoreId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,82 +21,91 @@
     Metadata:: [],
     Type: 'AWS::VerifiedPermissions::IdentitySource',
   },
-  withDetails(Details): {
-    assert std.isObject(Details) : 'Details must be a object',
+  setDetails(Details): {
     Properties+::: {
-      Details: Details,
+      Details:
+        if !std.isObject(Details) then (error 'Details must be an object')
+        else Details,
     },
   },
-  withIdentitySourceId(IdentitySourceId): {
-    assert std.isString(IdentitySourceId) : 'IdentitySourceId must be a string',
+  setIdentitySourceId(IdentitySourceId): {
     Properties+::: {
-      IdentitySourceId: IdentitySourceId,
+      IdentitySourceId:
+        if !std.isString(IdentitySourceId) then (error 'IdentitySourceId must be a string')
+        else if std.isEmpty(IdentitySourceId) then (error 'IdentitySourceId must be not empty')
+        else if std.length(IdentitySourceId) < 1 then error ('IdentitySourceId should have at least 1 characters')
+        else if std.length(IdentitySourceId) > 200 then error ('IdentitySourceId should have not more than 200 characters')
+        else IdentitySourceId,
     },
   },
-  withPrincipalEntityType(PrincipalEntityType): {
-    assert std.isString(PrincipalEntityType) : 'PrincipalEntityType must be a string',
+  setPrincipalEntityType(PrincipalEntityType): {
     Properties+::: {
-      PrincipalEntityType: PrincipalEntityType,
+      PrincipalEntityType:
+        if !std.isString(PrincipalEntityType) then (error 'PrincipalEntityType must be a string')
+        else if std.isEmpty(PrincipalEntityType) then (error 'PrincipalEntityType must be not empty')
+        else if std.length(PrincipalEntityType) < 1 then error ('PrincipalEntityType should have at least 1 characters')
+        else if std.length(PrincipalEntityType) > 200 then error ('PrincipalEntityType should have not more than 200 characters')
+        else PrincipalEntityType,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

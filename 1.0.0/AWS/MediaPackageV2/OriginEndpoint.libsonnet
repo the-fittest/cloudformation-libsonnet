@@ -7,15 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ChannelGroupName) : 'ChannelGroupName must be a string',
-      ChannelGroupName: ChannelGroupName,
-      assert std.isString(ChannelName) : 'ChannelName must be a string',
-      ChannelName: ChannelName,
-      assert std.isString(OriginEndpointName) : 'OriginEndpointName must be a string',
-      OriginEndpointName: OriginEndpointName,
-      assert std.isString(ContainerType) : 'ContainerType must be a string',
-      assert ContainerType == 'TS' || ContainerType == 'CMAF' : "ContainerType should be 'TS' or 'CMAF'",
-      ContainerType: ContainerType,
+      ChannelGroupName:
+        if !std.isString(ChannelGroupName) then (error 'ChannelGroupName must be a string')
+        else if std.isEmpty(ChannelGroupName) then (error 'ChannelGroupName must be not empty')
+        else if std.length(ChannelGroupName) < 1 then error ('ChannelGroupName should have at least 1 characters')
+        else if std.length(ChannelGroupName) > 256 then error ('ChannelGroupName should have not more than 256 characters')
+        else ChannelGroupName,
+      ChannelName:
+        if !std.isString(ChannelName) then (error 'ChannelName must be a string')
+        else if std.isEmpty(ChannelName) then (error 'ChannelName must be not empty')
+        else if std.length(ChannelName) < 1 then error ('ChannelName should have at least 1 characters')
+        else if std.length(ChannelName) > 256 then error ('ChannelName should have not more than 256 characters')
+        else ChannelName,
+      OriginEndpointName:
+        if !std.isString(OriginEndpointName) then (error 'OriginEndpointName must be a string')
+        else if std.isEmpty(OriginEndpointName) then (error 'OriginEndpointName must be not empty')
+        else if std.length(OriginEndpointName) < 1 then error ('OriginEndpointName should have at least 1 characters')
+        else if std.length(OriginEndpointName) > 256 then error ('OriginEndpointName should have not more than 256 characters')
+        else OriginEndpointName,
+      ContainerType:
+        if !std.isString(ContainerType) then (error 'ContainerType must be a string')
+        else if std.isEmpty(ContainerType) then (error 'ContainerType must be not empty')
+        else if ContainerType != 'TS' && ContainerType != 'CMAF' then (error "ContainerType should be 'TS' or 'CMAF'")
+        else ContainerType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,176 +39,204 @@
     Metadata:: [],
     Type: 'AWS::MediaPackageV2::OriginEndpoint',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withDashManifests(DashManifests): {
+  setDashManifests(DashManifests): {
     Properties+::: {
-      DashManifests: (if std.isArray(DashManifests) then DashManifests else [DashManifests]),
+      DashManifests:
+        if !std.isArray(DashManifests) then (error 'DashManifests must be an array')
+        else DashManifests,
     },
   },
-  withDashManifestsMixin(DashManifests): {
+  setDashManifestsMixin(DashManifests): {
     Properties+::: {
-      DashManifests+: (if std.isArray(DashManifests) then DashManifests else [DashManifests]),
+      DashManifests+: DashManifests,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withForceEndpointErrorConfiguration(ForceEndpointErrorConfiguration): {
-    assert std.isObject(ForceEndpointErrorConfiguration) : 'ForceEndpointErrorConfiguration must be a object',
+  setForceEndpointErrorConfiguration(ForceEndpointErrorConfiguration): {
     Properties+::: {
-      ForceEndpointErrorConfiguration: ForceEndpointErrorConfiguration,
+      ForceEndpointErrorConfiguration:
+        if !std.isObject(ForceEndpointErrorConfiguration) then (error 'ForceEndpointErrorConfiguration must be an object')
+        else ForceEndpointErrorConfiguration,
     },
   },
-  withHlsManifests(HlsManifests): {
+  setHlsManifests(HlsManifests): {
     Properties+::: {
-      HlsManifests: (if std.isArray(HlsManifests) then HlsManifests else [HlsManifests]),
+      HlsManifests:
+        if !std.isArray(HlsManifests) then (error 'HlsManifests must be an array')
+        else HlsManifests,
     },
   },
-  withHlsManifestsMixin(HlsManifests): {
+  setHlsManifestsMixin(HlsManifests): {
     Properties+::: {
-      HlsManifests+: (if std.isArray(HlsManifests) then HlsManifests else [HlsManifests]),
+      HlsManifests+: HlsManifests,
     },
   },
-  withLowLatencyHlsManifests(LowLatencyHlsManifests): {
+  setLowLatencyHlsManifests(LowLatencyHlsManifests): {
     Properties+::: {
-      LowLatencyHlsManifests: (if std.isArray(LowLatencyHlsManifests) then LowLatencyHlsManifests else [LowLatencyHlsManifests]),
+      LowLatencyHlsManifests:
+        if !std.isArray(LowLatencyHlsManifests) then (error 'LowLatencyHlsManifests must be an array')
+        else LowLatencyHlsManifests,
     },
   },
-  withLowLatencyHlsManifestsMixin(LowLatencyHlsManifests): {
+  setLowLatencyHlsManifestsMixin(LowLatencyHlsManifests): {
     Properties+::: {
-      LowLatencyHlsManifests+: (if std.isArray(LowLatencyHlsManifests) then LowLatencyHlsManifests else [LowLatencyHlsManifests]),
+      LowLatencyHlsManifests+: LowLatencyHlsManifests,
     },
   },
-  withModifiedAt(ModifiedAt): {
-    assert std.isString(ModifiedAt) : 'ModifiedAt must be a string',
+  setModifiedAt(ModifiedAt): {
     Properties+::: {
-      ModifiedAt: ModifiedAt,
+      ModifiedAt:
+        if !std.isString(ModifiedAt) then (error 'ModifiedAt must be a string')
+        else if std.isEmpty(ModifiedAt) then (error 'ModifiedAt must be not empty')
+        else ModifiedAt,
     },
   },
-  withSegment(Segment): {
-    assert std.isObject(Segment) : 'Segment must be a object',
+  setSegment(Segment): {
     Properties+::: {
-      Segment: Segment,
+      Segment:
+        if !std.isObject(Segment) then (error 'Segment must be an object')
+        else Segment,
     },
   },
-  withStartoverWindowSeconds(StartoverWindowSeconds): {
-    assert std.isNumber(StartoverWindowSeconds) : 'StartoverWindowSeconds must be a number',
+  setStartoverWindowSeconds(StartoverWindowSeconds): {
     Properties+::: {
-      StartoverWindowSeconds: StartoverWindowSeconds,
+      StartoverWindowSeconds:
+        if !std.isNumber(StartoverWindowSeconds) then (error 'StartoverWindowSeconds must be an number')
+        else if StartoverWindowSeconds < 60 then error ('StartoverWindowSeconds should be at least 60')
+        else if StartoverWindowSeconds > 1209600 then error ('StartoverWindowSeconds should be not more than 1209600')
+        else StartoverWindowSeconds,
     },
   },
-  withDashManifestUrls(DashManifestUrls): {
+  setDashManifestUrls(DashManifestUrls): {
     Properties+::: {
-      DashManifestUrls: (if std.isArray(DashManifestUrls) then DashManifestUrls else [DashManifestUrls]),
+      DashManifestUrls:
+        if !std.isArray(DashManifestUrls) then (error 'DashManifestUrls must be an array')
+        else DashManifestUrls,
     },
   },
-  withDashManifestUrlsMixin(DashManifestUrls): {
+  setDashManifestUrlsMixin(DashManifestUrls): {
     Properties+::: {
-      DashManifestUrls+: (if std.isArray(DashManifestUrls) then DashManifestUrls else [DashManifestUrls]),
+      DashManifestUrls+: DashManifestUrls,
     },
   },
-  withHlsManifestUrls(HlsManifestUrls): {
+  setHlsManifestUrls(HlsManifestUrls): {
     Properties+::: {
-      HlsManifestUrls: (if std.isArray(HlsManifestUrls) then HlsManifestUrls else [HlsManifestUrls]),
+      HlsManifestUrls:
+        if !std.isArray(HlsManifestUrls) then (error 'HlsManifestUrls must be an array')
+        else HlsManifestUrls,
     },
   },
-  withHlsManifestUrlsMixin(HlsManifestUrls): {
+  setHlsManifestUrlsMixin(HlsManifestUrls): {
     Properties+::: {
-      HlsManifestUrls+: (if std.isArray(HlsManifestUrls) then HlsManifestUrls else [HlsManifestUrls]),
+      HlsManifestUrls+: HlsManifestUrls,
     },
   },
-  withLowLatencyHlsManifestUrls(LowLatencyHlsManifestUrls): {
+  setLowLatencyHlsManifestUrls(LowLatencyHlsManifestUrls): {
     Properties+::: {
-      LowLatencyHlsManifestUrls: (if std.isArray(LowLatencyHlsManifestUrls) then LowLatencyHlsManifestUrls else [LowLatencyHlsManifestUrls]),
+      LowLatencyHlsManifestUrls:
+        if !std.isArray(LowLatencyHlsManifestUrls) then (error 'LowLatencyHlsManifestUrls must be an array')
+        else LowLatencyHlsManifestUrls,
     },
   },
-  withLowLatencyHlsManifestUrlsMixin(LowLatencyHlsManifestUrls): {
+  setLowLatencyHlsManifestUrlsMixin(LowLatencyHlsManifestUrls): {
     Properties+::: {
-      LowLatencyHlsManifestUrls+: (if std.isArray(LowLatencyHlsManifestUrls) then LowLatencyHlsManifestUrls else [LowLatencyHlsManifestUrls]),
+      LowLatencyHlsManifestUrls+: LowLatencyHlsManifestUrls,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

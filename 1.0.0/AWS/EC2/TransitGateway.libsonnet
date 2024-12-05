@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,162 +10,191 @@
     Metadata:: [],
     Type: 'AWS::EC2::TransitGateway',
   },
-  withDefaultRouteTablePropagation(DefaultRouteTablePropagation): {
-    assert std.isString(DefaultRouteTablePropagation) : 'DefaultRouteTablePropagation must be a string',
+  setDefaultRouteTablePropagation(DefaultRouteTablePropagation): {
     Properties+::: {
-      DefaultRouteTablePropagation: DefaultRouteTablePropagation,
+      DefaultRouteTablePropagation:
+        if !std.isString(DefaultRouteTablePropagation) then (error 'DefaultRouteTablePropagation must be a string')
+        else if std.isEmpty(DefaultRouteTablePropagation) then (error 'DefaultRouteTablePropagation must be not empty')
+        else DefaultRouteTablePropagation,
     },
   },
-  withTransitGatewayArn(TransitGatewayArn): {
-    assert std.isString(TransitGatewayArn) : 'TransitGatewayArn must be a string',
+  setTransitGatewayArn(TransitGatewayArn): {
     Properties+::: {
-      TransitGatewayArn: TransitGatewayArn,
+      TransitGatewayArn:
+        if !std.isString(TransitGatewayArn) then (error 'TransitGatewayArn must be a string')
+        else if std.isEmpty(TransitGatewayArn) then (error 'TransitGatewayArn must be not empty')
+        else TransitGatewayArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withAutoAcceptSharedAttachments(AutoAcceptSharedAttachments): {
-    assert std.isString(AutoAcceptSharedAttachments) : 'AutoAcceptSharedAttachments must be a string',
+  setAutoAcceptSharedAttachments(AutoAcceptSharedAttachments): {
     Properties+::: {
-      AutoAcceptSharedAttachments: AutoAcceptSharedAttachments,
+      AutoAcceptSharedAttachments:
+        if !std.isString(AutoAcceptSharedAttachments) then (error 'AutoAcceptSharedAttachments must be a string')
+        else if std.isEmpty(AutoAcceptSharedAttachments) then (error 'AutoAcceptSharedAttachments must be not empty')
+        else AutoAcceptSharedAttachments,
     },
   },
-  withDefaultRouteTableAssociation(DefaultRouteTableAssociation): {
-    assert std.isString(DefaultRouteTableAssociation) : 'DefaultRouteTableAssociation must be a string',
+  setDefaultRouteTableAssociation(DefaultRouteTableAssociation): {
     Properties+::: {
-      DefaultRouteTableAssociation: DefaultRouteTableAssociation,
+      DefaultRouteTableAssociation:
+        if !std.isString(DefaultRouteTableAssociation) then (error 'DefaultRouteTableAssociation must be a string')
+        else if std.isEmpty(DefaultRouteTableAssociation) then (error 'DefaultRouteTableAssociation must be not empty')
+        else DefaultRouteTableAssociation,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withVpnEcmpSupport(VpnEcmpSupport): {
-    assert std.isString(VpnEcmpSupport) : 'VpnEcmpSupport must be a string',
+  setVpnEcmpSupport(VpnEcmpSupport): {
     Properties+::: {
-      VpnEcmpSupport: VpnEcmpSupport,
+      VpnEcmpSupport:
+        if !std.isString(VpnEcmpSupport) then (error 'VpnEcmpSupport must be a string')
+        else if std.isEmpty(VpnEcmpSupport) then (error 'VpnEcmpSupport must be not empty')
+        else VpnEcmpSupport,
     },
   },
-  withDnsSupport(DnsSupport): {
-    assert std.isString(DnsSupport) : 'DnsSupport must be a string',
+  setDnsSupport(DnsSupport): {
     Properties+::: {
-      DnsSupport: DnsSupport,
+      DnsSupport:
+        if !std.isString(DnsSupport) then (error 'DnsSupport must be a string')
+        else if std.isEmpty(DnsSupport) then (error 'DnsSupport must be not empty')
+        else DnsSupport,
     },
   },
-  withSecurityGroupReferencingSupport(SecurityGroupReferencingSupport): {
-    assert std.isString(SecurityGroupReferencingSupport) : 'SecurityGroupReferencingSupport must be a string',
+  setSecurityGroupReferencingSupport(SecurityGroupReferencingSupport): {
     Properties+::: {
-      SecurityGroupReferencingSupport: SecurityGroupReferencingSupport,
+      SecurityGroupReferencingSupport:
+        if !std.isString(SecurityGroupReferencingSupport) then (error 'SecurityGroupReferencingSupport must be a string')
+        else if std.isEmpty(SecurityGroupReferencingSupport) then (error 'SecurityGroupReferencingSupport must be not empty')
+        else SecurityGroupReferencingSupport,
     },
   },
-  withMulticastSupport(MulticastSupport): {
-    assert std.isString(MulticastSupport) : 'MulticastSupport must be a string',
+  setMulticastSupport(MulticastSupport): {
     Properties+::: {
-      MulticastSupport: MulticastSupport,
+      MulticastSupport:
+        if !std.isString(MulticastSupport) then (error 'MulticastSupport must be a string')
+        else if std.isEmpty(MulticastSupport) then (error 'MulticastSupport must be not empty')
+        else MulticastSupport,
     },
   },
-  withAmazonSideAsn(AmazonSideAsn): {
-    assert std.isNumber(AmazonSideAsn) : 'AmazonSideAsn must be a number',
+  setAmazonSideAsn(AmazonSideAsn): {
     Properties+::: {
-      AmazonSideAsn: AmazonSideAsn,
+      AmazonSideAsn:
+        if !std.isNumber(AmazonSideAsn) then (error 'AmazonSideAsn must be an number')
+        else AmazonSideAsn,
     },
   },
-  withTransitGatewayCidrBlocks(TransitGatewayCidrBlocks): {
+  setTransitGatewayCidrBlocks(TransitGatewayCidrBlocks): {
     Properties+::: {
-      TransitGatewayCidrBlocks: (if std.isArray(TransitGatewayCidrBlocks) then TransitGatewayCidrBlocks else [TransitGatewayCidrBlocks]),
+      TransitGatewayCidrBlocks:
+        if !std.isArray(TransitGatewayCidrBlocks) then (error 'TransitGatewayCidrBlocks must be an array')
+        else TransitGatewayCidrBlocks,
     },
   },
-  withTransitGatewayCidrBlocksMixin(TransitGatewayCidrBlocks): {
+  setTransitGatewayCidrBlocksMixin(TransitGatewayCidrBlocks): {
     Properties+::: {
-      TransitGatewayCidrBlocks+: (if std.isArray(TransitGatewayCidrBlocks) then TransitGatewayCidrBlocks else [TransitGatewayCidrBlocks]),
+      TransitGatewayCidrBlocks+: TransitGatewayCidrBlocks,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAssociationDefaultRouteTableId(AssociationDefaultRouteTableId): {
-    assert std.isString(AssociationDefaultRouteTableId) : 'AssociationDefaultRouteTableId must be a string',
+  setAssociationDefaultRouteTableId(AssociationDefaultRouteTableId): {
     Properties+::: {
-      AssociationDefaultRouteTableId: AssociationDefaultRouteTableId,
+      AssociationDefaultRouteTableId:
+        if !std.isString(AssociationDefaultRouteTableId) then (error 'AssociationDefaultRouteTableId must be a string')
+        else if std.isEmpty(AssociationDefaultRouteTableId) then (error 'AssociationDefaultRouteTableId must be not empty')
+        else AssociationDefaultRouteTableId,
     },
   },
-  withPropagationDefaultRouteTableId(PropagationDefaultRouteTableId): {
-    assert std.isString(PropagationDefaultRouteTableId) : 'PropagationDefaultRouteTableId must be a string',
+  setPropagationDefaultRouteTableId(PropagationDefaultRouteTableId): {
     Properties+::: {
-      PropagationDefaultRouteTableId: PropagationDefaultRouteTableId,
+      PropagationDefaultRouteTableId:
+        if !std.isString(PropagationDefaultRouteTableId) then (error 'PropagationDefaultRouteTableId must be a string')
+        else if std.isEmpty(PropagationDefaultRouteTableId) then (error 'PropagationDefaultRouteTableId must be not empty')
+        else PropagationDefaultRouteTableId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

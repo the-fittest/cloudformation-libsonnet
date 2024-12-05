@@ -5,11 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(StackSetName) : 'StackSetName must be a string',
-      StackSetName: StackSetName,
-      assert std.isString(PermissionModel) : 'PermissionModel must be a string',
-      assert PermissionModel == 'SERVICE_MANAGED' || PermissionModel == 'SELF_MANAGED' : "PermissionModel should be 'SERVICE_MANAGED' or 'SELF_MANAGED'",
-      PermissionModel: PermissionModel,
+      StackSetName:
+        if !std.isString(StackSetName) then (error 'StackSetName must be a string')
+        else if std.isEmpty(StackSetName) then (error 'StackSetName must be not empty')
+        else if std.length(StackSetName) > 128 then error ('StackSetName should have not more than 128 characters')
+        else StackSetName,
+      PermissionModel:
+        if !std.isString(PermissionModel) then (error 'PermissionModel must be a string')
+        else if std.isEmpty(PermissionModel) then (error 'PermissionModel must be not empty')
+        else if PermissionModel != 'SERVICE_MANAGED' && PermissionModel != 'SELF_MANAGED' then (error "PermissionModel should be 'SERVICE_MANAGED' or 'SELF_MANAGED'")
+        else PermissionModel,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,165 +24,201 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::StackSet',
   },
-  withStackSetId(StackSetId): {
-    assert std.isString(StackSetId) : 'StackSetId must be a string',
+  setStackSetId(StackSetId): {
     Properties+::: {
-      StackSetId: StackSetId,
+      StackSetId:
+        if !std.isString(StackSetId) then (error 'StackSetId must be a string')
+        else if std.isEmpty(StackSetId) then (error 'StackSetId must be not empty')
+        else StackSetId,
     },
   },
-  withAdministrationRoleARN(AdministrationRoleARN): {
-    assert std.isString(AdministrationRoleARN) : 'AdministrationRoleARN must be a string',
+  setAdministrationRoleARN(AdministrationRoleARN): {
     Properties+::: {
-      AdministrationRoleARN: AdministrationRoleARN,
+      AdministrationRoleARN:
+        if !std.isString(AdministrationRoleARN) then (error 'AdministrationRoleARN must be a string')
+        else if std.isEmpty(AdministrationRoleARN) then (error 'AdministrationRoleARN must be not empty')
+        else if std.length(AdministrationRoleARN) < 20 then error ('AdministrationRoleARN should have at least 20 characters')
+        else if std.length(AdministrationRoleARN) > 2048 then error ('AdministrationRoleARN should have not more than 2048 characters')
+        else AdministrationRoleARN,
     },
   },
-  withAutoDeployment(AutoDeployment): {
-    assert std.isObject(AutoDeployment) : 'AutoDeployment must be a object',
+  setAutoDeployment(AutoDeployment): {
     Properties+::: {
-      AutoDeployment: AutoDeployment,
+      AutoDeployment:
+        if !std.isObject(AutoDeployment) then (error 'AutoDeployment must be an object')
+        else AutoDeployment,
     },
   },
-  withCapabilities(Capabilities): {
+  setCapabilities(Capabilities): {
     Properties+::: {
-      Capabilities: (if std.isArray(Capabilities) then Capabilities else [Capabilities]),
+      Capabilities:
+        if !std.isArray(Capabilities) then (error 'Capabilities must be an array')
+        else Capabilities,
     },
   },
-  withCapabilitiesMixin(Capabilities): {
+  setCapabilitiesMixin(Capabilities): {
     Properties+::: {
-      Capabilities+: (if std.isArray(Capabilities) then Capabilities else [Capabilities]),
+      Capabilities+: Capabilities,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withExecutionRoleName(ExecutionRoleName): {
-    assert std.isString(ExecutionRoleName) : 'ExecutionRoleName must be a string',
+  setExecutionRoleName(ExecutionRoleName): {
     Properties+::: {
-      ExecutionRoleName: ExecutionRoleName,
+      ExecutionRoleName:
+        if !std.isString(ExecutionRoleName) then (error 'ExecutionRoleName must be a string')
+        else if std.isEmpty(ExecutionRoleName) then (error 'ExecutionRoleName must be not empty')
+        else if std.length(ExecutionRoleName) < 1 then error ('ExecutionRoleName should have at least 1 characters')
+        else if std.length(ExecutionRoleName) > 64 then error ('ExecutionRoleName should have not more than 64 characters')
+        else ExecutionRoleName,
     },
   },
-  withOperationPreferences(OperationPreferences): {
-    assert std.isObject(OperationPreferences) : 'OperationPreferences must be a object',
+  setOperationPreferences(OperationPreferences): {
     Properties+::: {
-      OperationPreferences: OperationPreferences,
+      OperationPreferences:
+        if !std.isObject(OperationPreferences) then (error 'OperationPreferences must be an object')
+        else OperationPreferences,
     },
   },
-  withStackInstancesGroup(StackInstancesGroup): {
+  setStackInstancesGroup(StackInstancesGroup): {
     Properties+::: {
-      StackInstancesGroup: (if std.isArray(StackInstancesGroup) then StackInstancesGroup else [StackInstancesGroup]),
+      StackInstancesGroup:
+        if !std.isArray(StackInstancesGroup) then (error 'StackInstancesGroup must be an array')
+        else StackInstancesGroup,
     },
   },
-  withStackInstancesGroupMixin(StackInstancesGroup): {
+  setStackInstancesGroupMixin(StackInstancesGroup): {
     Properties+::: {
-      StackInstancesGroup+: (if std.isArray(StackInstancesGroup) then StackInstancesGroup else [StackInstancesGroup]),
+      StackInstancesGroup+: StackInstancesGroup,
     },
   },
-  withParameters(Parameters): {
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters:
+        if !std.isArray(Parameters) then (error 'Parameters must be an array')
+        else Parameters,
     },
   },
-  withParametersMixin(Parameters): {
+  setParametersMixin(Parameters): {
     Properties+::: {
-      Parameters+: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters+: Parameters,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTemplateBody(TemplateBody): {
-    assert std.isString(TemplateBody) : 'TemplateBody must be a string',
+  setTemplateBody(TemplateBody): {
     Properties+::: {
-      TemplateBody: TemplateBody,
+      TemplateBody:
+        if !std.isString(TemplateBody) then (error 'TemplateBody must be a string')
+        else if std.isEmpty(TemplateBody) then (error 'TemplateBody must be not empty')
+        else if std.length(TemplateBody) < 1 then error ('TemplateBody should have at least 1 characters')
+        else if std.length(TemplateBody) > 51200 then error ('TemplateBody should have not more than 51200 characters')
+        else TemplateBody,
     },
   },
-  withTemplateURL(TemplateURL): {
-    assert std.isString(TemplateURL) : 'TemplateURL must be a string',
+  setTemplateURL(TemplateURL): {
     Properties+::: {
-      TemplateURL: TemplateURL,
+      TemplateURL:
+        if !std.isString(TemplateURL) then (error 'TemplateURL must be a string')
+        else if std.isEmpty(TemplateURL) then (error 'TemplateURL must be not empty')
+        else if std.length(TemplateURL) < 1 then error ('TemplateURL should have at least 1 characters')
+        else if std.length(TemplateURL) > 5120 then error ('TemplateURL should have not more than 5120 characters')
+        else TemplateURL,
     },
   },
-  withCallAs(CallAs): {
-    assert std.isString(CallAs) : 'CallAs must be a string',
-    assert CallAs == 'SELF' || CallAs == 'DELEGATED_ADMIN' : "CallAs should be 'SELF' or 'DELEGATED_ADMIN'",
+  setCallAs(CallAs): {
     Properties+::: {
-      CallAs: CallAs,
+      CallAs:
+        if !std.isString(CallAs) then (error 'CallAs must be a string')
+        else if std.isEmpty(CallAs) then (error 'CallAs must be not empty')
+        else if CallAs != 'SELF' && CallAs != 'DELEGATED_ADMIN' then (error "CallAs should be 'SELF' or 'DELEGATED_ADMIN'")
+        else CallAs,
     },
   },
-  withManagedExecution(ManagedExecution): {
-    assert std.isObject(ManagedExecution) : 'ManagedExecution must be a object',
+  setManagedExecution(ManagedExecution): {
     Properties+::: {
-      ManagedExecution: ManagedExecution,
+      ManagedExecution:
+        if !std.isObject(ManagedExecution) then (error 'ManagedExecution must be an object')
+        else ManagedExecution,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

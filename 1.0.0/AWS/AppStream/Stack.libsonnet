@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,178 +10,205 @@
     Metadata:: [],
     Type: 'AWS::AppStream::Stack',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withStorageConnectors(StorageConnectors): {
+  setStorageConnectors(StorageConnectors): {
     Properties+::: {
-      StorageConnectors: (if std.isArray(StorageConnectors) then StorageConnectors else [StorageConnectors]),
+      StorageConnectors:
+        if !std.isArray(StorageConnectors) then (error 'StorageConnectors must be an array')
+        else StorageConnectors,
     },
   },
-  withStorageConnectorsMixin(StorageConnectors): {
+  setStorageConnectorsMixin(StorageConnectors): {
     Properties+::: {
-      StorageConnectors+: (if std.isArray(StorageConnectors) then StorageConnectors else [StorageConnectors]),
+      StorageConnectors+: StorageConnectors,
     },
   },
-  withDeleteStorageConnectors(DeleteStorageConnectors): {
-    assert std.isBoolean(DeleteStorageConnectors) : 'DeleteStorageConnectors must be a boolean',
+  setDeleteStorageConnectors(DeleteStorageConnectors): {
     Properties+::: {
-      DeleteStorageConnectors: DeleteStorageConnectors,
+      DeleteStorageConnectors:
+        if !std.isBoolean(DeleteStorageConnectors) then (error 'DeleteStorageConnectors must be a boolean') else DeleteStorageConnectors,
     },
   },
-  withEmbedHostDomains(EmbedHostDomains): {
+  setEmbedHostDomains(EmbedHostDomains): {
     Properties+::: {
-      EmbedHostDomains: (if std.isArray(EmbedHostDomains) then EmbedHostDomains else [EmbedHostDomains]),
+      EmbedHostDomains:
+        if !std.isArray(EmbedHostDomains) then (error 'EmbedHostDomains must be an array')
+        else EmbedHostDomains,
     },
   },
-  withEmbedHostDomainsMixin(EmbedHostDomains): {
+  setEmbedHostDomainsMixin(EmbedHostDomains): {
     Properties+::: {
-      EmbedHostDomains+: (if std.isArray(EmbedHostDomains) then EmbedHostDomains else [EmbedHostDomains]),
+      EmbedHostDomains+: EmbedHostDomains,
     },
   },
-  withUserSettings(UserSettings): {
+  setUserSettings(UserSettings): {
     Properties+::: {
-      UserSettings: (if std.isArray(UserSettings) then UserSettings else [UserSettings]),
+      UserSettings:
+        if !std.isArray(UserSettings) then (error 'UserSettings must be an array')
+        else UserSettings,
     },
   },
-  withUserSettingsMixin(UserSettings): {
+  setUserSettingsMixin(UserSettings): {
     Properties+::: {
-      UserSettings+: (if std.isArray(UserSettings) then UserSettings else [UserSettings]),
+      UserSettings+: UserSettings,
     },
   },
-  withAttributesToDelete(AttributesToDelete): {
+  setAttributesToDelete(AttributesToDelete): {
     Properties+::: {
-      AttributesToDelete: (if std.isArray(AttributesToDelete) then AttributesToDelete else [AttributesToDelete]),
+      AttributesToDelete:
+        if !std.isArray(AttributesToDelete) then (error 'AttributesToDelete must be an array')
+        else AttributesToDelete,
     },
   },
-  withAttributesToDeleteMixin(AttributesToDelete): {
+  setAttributesToDeleteMixin(AttributesToDelete): {
     Properties+::: {
-      AttributesToDelete+: (if std.isArray(AttributesToDelete) then AttributesToDelete else [AttributesToDelete]),
+      AttributesToDelete+: AttributesToDelete,
     },
   },
-  withRedirectURL(RedirectURL): {
-    assert std.isString(RedirectURL) : 'RedirectURL must be a string',
+  setRedirectURL(RedirectURL): {
     Properties+::: {
-      RedirectURL: RedirectURL,
+      RedirectURL:
+        if !std.isString(RedirectURL) then (error 'RedirectURL must be a string')
+        else if std.isEmpty(RedirectURL) then (error 'RedirectURL must be not empty')
+        else RedirectURL,
     },
   },
-  withStreamingExperienceSettings(StreamingExperienceSettings): {
-    assert std.isObject(StreamingExperienceSettings) : 'StreamingExperienceSettings must be a object',
+  setStreamingExperienceSettings(StreamingExperienceSettings): {
     Properties+::: {
-      StreamingExperienceSettings: StreamingExperienceSettings,
+      StreamingExperienceSettings:
+        if !std.isObject(StreamingExperienceSettings) then (error 'StreamingExperienceSettings must be an object')
+        else StreamingExperienceSettings,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withFeedbackURL(FeedbackURL): {
-    assert std.isString(FeedbackURL) : 'FeedbackURL must be a string',
+  setFeedbackURL(FeedbackURL): {
     Properties+::: {
-      FeedbackURL: FeedbackURL,
+      FeedbackURL:
+        if !std.isString(FeedbackURL) then (error 'FeedbackURL must be a string')
+        else if std.isEmpty(FeedbackURL) then (error 'FeedbackURL must be not empty')
+        else FeedbackURL,
     },
   },
-  withApplicationSettings(ApplicationSettings): {
-    assert std.isObject(ApplicationSettings) : 'ApplicationSettings must be a object',
+  setApplicationSettings(ApplicationSettings): {
     Properties+::: {
-      ApplicationSettings: ApplicationSettings,
+      ApplicationSettings:
+        if !std.isObject(ApplicationSettings) then (error 'ApplicationSettings must be an object')
+        else if !std.objectHas(ApplicationSettings, 'Enabled') then (error ' have attribute Enabled')
+        else ApplicationSettings,
     },
   },
-  withDisplayName(DisplayName): {
-    assert std.isString(DisplayName) : 'DisplayName must be a string',
+  setDisplayName(DisplayName): {
     Properties+::: {
-      DisplayName: DisplayName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else DisplayName,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAccessEndpoints(AccessEndpoints): {
+  setAccessEndpoints(AccessEndpoints): {
     Properties+::: {
-      AccessEndpoints: (if std.isArray(AccessEndpoints) then AccessEndpoints else [AccessEndpoints]),
+      AccessEndpoints:
+        if !std.isArray(AccessEndpoints) then (error 'AccessEndpoints must be an array')
+        else AccessEndpoints,
     },
   },
-  withAccessEndpointsMixin(AccessEndpoints): {
+  setAccessEndpointsMixin(AccessEndpoints): {
     Properties+::: {
-      AccessEndpoints+: (if std.isArray(AccessEndpoints) then AccessEndpoints else [AccessEndpoints]),
+      AccessEndpoints+: AccessEndpoints,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

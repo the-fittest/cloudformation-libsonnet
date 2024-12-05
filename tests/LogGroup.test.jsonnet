@@ -1,4 +1,4 @@
-local AWS = import '../1.0.0/AWS/main.libsonnet';
+local AWS = import '../1.0.0/main.libsonnet';
 local test = import 'github.com/jsonnet-libs/testonnet/main.libsonnet';
 local LogGroup = AWS.Logs.LogGroup;
 

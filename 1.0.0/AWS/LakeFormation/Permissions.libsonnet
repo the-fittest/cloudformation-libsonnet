@@ -5,10 +5,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(DataLakePrincipal) : 'DataLakePrincipal must be an object',
-      DataLakePrincipal: DataLakePrincipal,
-      assert std.isObject(Resource) : 'Resource must be an object',
-      Resource: Resource,
+      DataLakePrincipal:
+        if !std.isObject(DataLakePrincipal) then (error 'DataLakePrincipal must be an object')
+        else DataLakePrincipal,
+      Resource:
+        if !std.isObject(Resource) then (error 'Resource must be an object')
+        else Resource,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,90 +20,96 @@
     Metadata:: [],
     Type: 'AWS::LakeFormation::Permissions',
   },
-  withPermissions(Permissions): {
+  setPermissions(Permissions): {
     Properties+::: {
-      Permissions: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions:
+        if !std.isArray(Permissions) then (error 'Permissions must be an array')
+        else Permissions,
     },
   },
-  withPermissionsMixin(Permissions): {
+  setPermissionsMixin(Permissions): {
     Properties+::: {
-      Permissions+: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions+: Permissions,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withPermissionsWithGrantOption(PermissionsWithGrantOption): {
+  setPermissionsWithGrantOption(PermissionsWithGrantOption): {
     Properties+::: {
-      PermissionsWithGrantOption: (if std.isArray(PermissionsWithGrantOption) then PermissionsWithGrantOption else [PermissionsWithGrantOption]),
+      PermissionsWithGrantOption:
+        if !std.isArray(PermissionsWithGrantOption) then (error 'PermissionsWithGrantOption must be an array')
+        else PermissionsWithGrantOption,
     },
   },
-  withPermissionsWithGrantOptionMixin(PermissionsWithGrantOption): {
+  setPermissionsWithGrantOptionMixin(PermissionsWithGrantOption): {
     Properties+::: {
-      PermissionsWithGrantOption+: (if std.isArray(PermissionsWithGrantOption) then PermissionsWithGrantOption else [PermissionsWithGrantOption]),
+      PermissionsWithGrantOption+: PermissionsWithGrantOption,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

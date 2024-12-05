@@ -5,10 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isObject(KinesisVideoStream) : 'KinesisVideoStream must be an object',
-      KinesisVideoStream: KinesisVideoStream,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
+      KinesisVideoStream:
+        if !std.isObject(KinesisVideoStream) then (error 'KinesisVideoStream must be an object')
+        else if !std.objectHas(KinesisVideoStream, 'Arn') then (error ' have attribute Arn')
+        else KinesisVideoStream,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,160 +23,192 @@
     Metadata:: [],
     Type: 'AWS::Rekognition::StreamProcessor',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withFaceSearchSettings(FaceSearchSettings): {
-    assert std.isObject(FaceSearchSettings) : 'FaceSearchSettings must be a object',
+  setFaceSearchSettings(FaceSearchSettings): {
     Properties+::: {
-      FaceSearchSettings: FaceSearchSettings,
+      FaceSearchSettings:
+        if !std.isObject(FaceSearchSettings) then (error 'FaceSearchSettings must be an object')
+        else if !std.objectHas(FaceSearchSettings, 'CollectionId') then (error ' have attribute CollectionId')
+        else FaceSearchSettings,
     },
   },
-  withConnectedHomeSettings(ConnectedHomeSettings): {
-    assert std.isObject(ConnectedHomeSettings) : 'ConnectedHomeSettings must be a object',
+  setConnectedHomeSettings(ConnectedHomeSettings): {
     Properties+::: {
-      ConnectedHomeSettings: ConnectedHomeSettings,
+      ConnectedHomeSettings:
+        if !std.isObject(ConnectedHomeSettings) then (error 'ConnectedHomeSettings must be an object')
+        else if !std.objectHas(ConnectedHomeSettings, 'Labels') then (error ' have attribute Labels')
+        else ConnectedHomeSettings,
     },
   },
-  withKinesisDataStream(KinesisDataStream): {
-    assert std.isObject(KinesisDataStream) : 'KinesisDataStream must be a object',
+  setKinesisDataStream(KinesisDataStream): {
     Properties+::: {
-      KinesisDataStream: KinesisDataStream,
+      KinesisDataStream:
+        if !std.isObject(KinesisDataStream) then (error 'KinesisDataStream must be an object')
+        else if !std.objectHas(KinesisDataStream, 'Arn') then (error ' have attribute Arn')
+        else KinesisDataStream,
     },
   },
-  withS3Destination(S3Destination): {
-    assert std.isObject(S3Destination) : 'S3Destination must be a object',
+  setS3Destination(S3Destination): {
     Properties+::: {
-      S3Destination: S3Destination,
+      S3Destination:
+        if !std.isObject(S3Destination) then (error 'S3Destination must be an object')
+        else if !std.objectHas(S3Destination, 'BucketName') then (error ' have attribute BucketName')
+        else S3Destination,
     },
   },
-  withNotificationChannel(NotificationChannel): {
-    assert std.isObject(NotificationChannel) : 'NotificationChannel must be a object',
+  setNotificationChannel(NotificationChannel): {
     Properties+::: {
-      NotificationChannel: NotificationChannel,
+      NotificationChannel:
+        if !std.isObject(NotificationChannel) then (error 'NotificationChannel must be an object')
+        else if !std.objectHas(NotificationChannel, 'Arn') then (error ' have attribute Arn')
+        else NotificationChannel,
     },
   },
-  withDataSharingPreference(DataSharingPreference): {
-    assert std.isObject(DataSharingPreference) : 'DataSharingPreference must be a object',
+  setDataSharingPreference(DataSharingPreference): {
     Properties+::: {
-      DataSharingPreference: DataSharingPreference,
+      DataSharingPreference:
+        if !std.isObject(DataSharingPreference) then (error 'DataSharingPreference must be an object')
+        else if !std.objectHas(DataSharingPreference, 'OptIn') then (error ' have attribute OptIn')
+        else DataSharingPreference,
     },
   },
-  withPolygonRegionsOfInterest(PolygonRegionsOfInterest): {
+  setPolygonRegionsOfInterest(PolygonRegionsOfInterest): {
     Properties+::: {
-      PolygonRegionsOfInterest: (if std.isArray(PolygonRegionsOfInterest) then PolygonRegionsOfInterest else [PolygonRegionsOfInterest]),
+      PolygonRegionsOfInterest:
+        if !std.isArray(PolygonRegionsOfInterest) then (error 'PolygonRegionsOfInterest must be an array')
+        else PolygonRegionsOfInterest,
     },
   },
-  withPolygonRegionsOfInterestMixin(PolygonRegionsOfInterest): {
+  setPolygonRegionsOfInterestMixin(PolygonRegionsOfInterest): {
     Properties+::: {
-      PolygonRegionsOfInterest+: (if std.isArray(PolygonRegionsOfInterest) then PolygonRegionsOfInterest else [PolygonRegionsOfInterest]),
+      PolygonRegionsOfInterest+: PolygonRegionsOfInterest,
     },
   },
-  withBoundingBoxRegionsOfInterest(BoundingBoxRegionsOfInterest): {
+  setBoundingBoxRegionsOfInterest(BoundingBoxRegionsOfInterest): {
     Properties+::: {
-      BoundingBoxRegionsOfInterest: (if std.isArray(BoundingBoxRegionsOfInterest) then BoundingBoxRegionsOfInterest else [BoundingBoxRegionsOfInterest]),
+      BoundingBoxRegionsOfInterest:
+        if !std.isArray(BoundingBoxRegionsOfInterest) then (error 'BoundingBoxRegionsOfInterest must be an array')
+        else BoundingBoxRegionsOfInterest,
     },
   },
-  withBoundingBoxRegionsOfInterestMixin(BoundingBoxRegionsOfInterest): {
+  setBoundingBoxRegionsOfInterestMixin(BoundingBoxRegionsOfInterest): {
     Properties+::: {
-      BoundingBoxRegionsOfInterest+: (if std.isArray(BoundingBoxRegionsOfInterest) then BoundingBoxRegionsOfInterest else [BoundingBoxRegionsOfInterest]),
+      BoundingBoxRegionsOfInterest+: BoundingBoxRegionsOfInterest,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withStatusMessage(StatusMessage): {
-    assert std.isString(StatusMessage) : 'StatusMessage must be a string',
+  setStatusMessage(StatusMessage): {
     Properties+::: {
-      StatusMessage: StatusMessage,
+      StatusMessage:
+        if !std.isString(StatusMessage) then (error 'StatusMessage must be a string')
+        else if std.isEmpty(StatusMessage) then (error 'StatusMessage must be not empty')
+        else StatusMessage,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

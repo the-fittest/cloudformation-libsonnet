@@ -6,13 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isString(Type) : 'Type must be a string',
-      assert Type == 'PROFILE' || Type == 'RECIPE' : "Type should be 'PROFILE' or 'RECIPE'",
-      Type: Type,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 255 then error ('Name should have not more than 255 characters')
+        else Name,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'PROFILE' && Type != 'RECIPE' then (error "Type should be 'PROFILE' or 'RECIPE'")
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,188 +30,223 @@
     Metadata:: [],
     Type: 'AWS::DataBrew::Job',
   },
-  withDatasetName(DatasetName): {
-    assert std.isString(DatasetName) : 'DatasetName must be a string',
+  setDatasetName(DatasetName): {
     Properties+::: {
-      DatasetName: DatasetName,
+      DatasetName:
+        if !std.isString(DatasetName) then (error 'DatasetName must be a string')
+        else if std.isEmpty(DatasetName) then (error 'DatasetName must be not empty')
+        else if std.length(DatasetName) < 1 then error ('DatasetName should have at least 1 characters')
+        else if std.length(DatasetName) > 255 then error ('DatasetName should have not more than 255 characters')
+        else DatasetName,
     },
   },
-  withEncryptionKeyArn(EncryptionKeyArn): {
-    assert std.isString(EncryptionKeyArn) : 'EncryptionKeyArn must be a string',
+  setEncryptionKeyArn(EncryptionKeyArn): {
     Properties+::: {
-      EncryptionKeyArn: EncryptionKeyArn,
+      EncryptionKeyArn:
+        if !std.isString(EncryptionKeyArn) then (error 'EncryptionKeyArn must be a string')
+        else if std.isEmpty(EncryptionKeyArn) then (error 'EncryptionKeyArn must be not empty')
+        else if std.length(EncryptionKeyArn) < 20 then error ('EncryptionKeyArn should have at least 20 characters')
+        else if std.length(EncryptionKeyArn) > 2048 then error ('EncryptionKeyArn should have not more than 2048 characters')
+        else EncryptionKeyArn,
     },
   },
-  withEncryptionMode(EncryptionMode): {
-    assert std.isString(EncryptionMode) : 'EncryptionMode must be a string',
-    assert EncryptionMode == 'SSE-KMS' || EncryptionMode == 'SSE-S3' : "EncryptionMode should be 'SSE-KMS' or 'SSE-S3'",
+  setEncryptionMode(EncryptionMode): {
     Properties+::: {
-      EncryptionMode: EncryptionMode,
+      EncryptionMode:
+        if !std.isString(EncryptionMode) then (error 'EncryptionMode must be a string')
+        else if std.isEmpty(EncryptionMode) then (error 'EncryptionMode must be not empty')
+        else if EncryptionMode != 'SSE-KMS' && EncryptionMode != 'SSE-S3' then (error "EncryptionMode should be 'SSE-KMS' or 'SSE-S3'")
+        else EncryptionMode,
     },
   },
-  withLogSubscription(LogSubscription): {
-    assert std.isString(LogSubscription) : 'LogSubscription must be a string',
-    assert LogSubscription == 'ENABLE' || LogSubscription == 'DISABLE' : "LogSubscription should be 'ENABLE' or 'DISABLE'",
+  setLogSubscription(LogSubscription): {
     Properties+::: {
-      LogSubscription: LogSubscription,
+      LogSubscription:
+        if !std.isString(LogSubscription) then (error 'LogSubscription must be a string')
+        else if std.isEmpty(LogSubscription) then (error 'LogSubscription must be not empty')
+        else if LogSubscription != 'ENABLE' && LogSubscription != 'DISABLE' then (error "LogSubscription should be 'ENABLE' or 'DISABLE'")
+        else LogSubscription,
     },
   },
-  withMaxCapacity(MaxCapacity): {
-    assert std.isNumber(MaxCapacity) : 'MaxCapacity must be a number',
+  setMaxCapacity(MaxCapacity): {
     Properties+::: {
-      MaxCapacity: MaxCapacity,
+      MaxCapacity:
+        if !std.isNumber(MaxCapacity) then (error 'MaxCapacity must be an number')
+        else MaxCapacity,
     },
   },
-  withMaxRetries(MaxRetries): {
-    assert std.isNumber(MaxRetries) : 'MaxRetries must be a number',
+  setMaxRetries(MaxRetries): {
     Properties+::: {
-      MaxRetries: MaxRetries,
+      MaxRetries:
+        if !std.isNumber(MaxRetries) then (error 'MaxRetries must be an number')
+        else MaxRetries,
     },
   },
-  withOutputs(Outputs): {
+  setOutputs(Outputs): {
     Properties+::: {
-      Outputs: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs:
+        if !std.isArray(Outputs) then (error 'Outputs must be an array')
+        else Outputs,
     },
   },
-  withOutputsMixin(Outputs): {
+  setOutputsMixin(Outputs): {
     Properties+::: {
-      Outputs+: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs+: Outputs,
     },
   },
-  withDataCatalogOutputs(DataCatalogOutputs): {
+  setDataCatalogOutputs(DataCatalogOutputs): {
     Properties+::: {
-      DataCatalogOutputs: (if std.isArray(DataCatalogOutputs) then DataCatalogOutputs else [DataCatalogOutputs]),
+      DataCatalogOutputs:
+        if !std.isArray(DataCatalogOutputs) then (error 'DataCatalogOutputs must be an array')
+        else DataCatalogOutputs,
     },
   },
-  withDataCatalogOutputsMixin(DataCatalogOutputs): {
+  setDataCatalogOutputsMixin(DataCatalogOutputs): {
     Properties+::: {
-      DataCatalogOutputs+: (if std.isArray(DataCatalogOutputs) then DataCatalogOutputs else [DataCatalogOutputs]),
+      DataCatalogOutputs+: DataCatalogOutputs,
     },
   },
-  withDatabaseOutputs(DatabaseOutputs): {
+  setDatabaseOutputs(DatabaseOutputs): {
     Properties+::: {
-      DatabaseOutputs: (if std.isArray(DatabaseOutputs) then DatabaseOutputs else [DatabaseOutputs]),
+      DatabaseOutputs:
+        if !std.isArray(DatabaseOutputs) then (error 'DatabaseOutputs must be an array')
+        else DatabaseOutputs,
     },
   },
-  withDatabaseOutputsMixin(DatabaseOutputs): {
+  setDatabaseOutputsMixin(DatabaseOutputs): {
     Properties+::: {
-      DatabaseOutputs+: (if std.isArray(DatabaseOutputs) then DatabaseOutputs else [DatabaseOutputs]),
+      DatabaseOutputs+: DatabaseOutputs,
     },
   },
-  withOutputLocation(OutputLocation): {
-    assert std.isObject(OutputLocation) : 'OutputLocation must be a object',
+  setOutputLocation(OutputLocation): {
     Properties+::: {
-      OutputLocation: OutputLocation,
+      OutputLocation:
+        if !std.isObject(OutputLocation) then (error 'OutputLocation must be an object')
+        else if !std.objectHas(OutputLocation, 'Bucket') then (error ' have attribute Bucket')
+        else OutputLocation,
     },
   },
-  withProjectName(ProjectName): {
-    assert std.isString(ProjectName) : 'ProjectName must be a string',
+  setProjectName(ProjectName): {
     Properties+::: {
-      ProjectName: ProjectName,
+      ProjectName:
+        if !std.isString(ProjectName) then (error 'ProjectName must be a string')
+        else if std.isEmpty(ProjectName) then (error 'ProjectName must be not empty')
+        else if std.length(ProjectName) < 1 then error ('ProjectName should have at least 1 characters')
+        else if std.length(ProjectName) > 255 then error ('ProjectName should have not more than 255 characters')
+        else ProjectName,
     },
   },
-  withRecipe(Recipe): {
-    assert std.isObject(Recipe) : 'Recipe must be a object',
+  setRecipe(Recipe): {
     Properties+::: {
-      Recipe: Recipe,
+      Recipe:
+        if !std.isObject(Recipe) then (error 'Recipe must be an object')
+        else if !std.objectHas(Recipe, 'Name') then (error ' have attribute Name')
+        else Recipe,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTimeout(Timeout): {
-    assert std.isNumber(Timeout) : 'Timeout must be a number',
+  setTimeout(Timeout): {
     Properties+::: {
-      Timeout: Timeout,
+      Timeout:
+        if !std.isNumber(Timeout) then (error 'Timeout must be an number')
+        else Timeout,
     },
   },
-  withJobSample(JobSample): {
-    assert std.isObject(JobSample) : 'JobSample must be a object',
+  setJobSample(JobSample): {
     Properties+::: {
-      JobSample: JobSample,
+      JobSample:
+        if !std.isObject(JobSample) then (error 'JobSample must be an object')
+        else JobSample,
     },
   },
-  withProfileConfiguration(ProfileConfiguration): {
-    assert std.isObject(ProfileConfiguration) : 'ProfileConfiguration must be a object',
+  setProfileConfiguration(ProfileConfiguration): {
     Properties+::: {
-      ProfileConfiguration: ProfileConfiguration,
+      ProfileConfiguration:
+        if !std.isObject(ProfileConfiguration) then (error 'ProfileConfiguration must be an object')
+        else ProfileConfiguration,
     },
   },
-  withValidationConfigurations(ValidationConfigurations): {
+  setValidationConfigurations(ValidationConfigurations): {
     Properties+::: {
-      ValidationConfigurations: (if std.isArray(ValidationConfigurations) then ValidationConfigurations else [ValidationConfigurations]),
+      ValidationConfigurations:
+        if !std.isArray(ValidationConfigurations) then (error 'ValidationConfigurations must be an array')
+        else ValidationConfigurations,
     },
   },
-  withValidationConfigurationsMixin(ValidationConfigurations): {
+  setValidationConfigurationsMixin(ValidationConfigurations): {
     Properties+::: {
-      ValidationConfigurations+: (if std.isArray(ValidationConfigurations) then ValidationConfigurations else [ValidationConfigurations]),
+      ValidationConfigurations+: ValidationConfigurations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

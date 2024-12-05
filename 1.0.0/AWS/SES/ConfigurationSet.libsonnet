@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,106 +10,114 @@
     Metadata:: [],
     Type: 'AWS::SES::ConfigurationSet',
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withTrackingOptions(TrackingOptions): {
-    assert std.isObject(TrackingOptions) : 'TrackingOptions must be a object',
+  setTrackingOptions(TrackingOptions): {
     Properties+::: {
-      TrackingOptions: TrackingOptions,
+      TrackingOptions:
+        if !std.isObject(TrackingOptions) then (error 'TrackingOptions must be an object')
+        else TrackingOptions,
     },
   },
-  withDeliveryOptions(DeliveryOptions): {
-    assert std.isObject(DeliveryOptions) : 'DeliveryOptions must be a object',
+  setDeliveryOptions(DeliveryOptions): {
     Properties+::: {
-      DeliveryOptions: DeliveryOptions,
+      DeliveryOptions:
+        if !std.isObject(DeliveryOptions) then (error 'DeliveryOptions must be an object')
+        else DeliveryOptions,
     },
   },
-  withReputationOptions(ReputationOptions): {
-    assert std.isObject(ReputationOptions) : 'ReputationOptions must be a object',
+  setReputationOptions(ReputationOptions): {
     Properties+::: {
-      ReputationOptions: ReputationOptions,
+      ReputationOptions:
+        if !std.isObject(ReputationOptions) then (error 'ReputationOptions must be an object')
+        else ReputationOptions,
     },
   },
-  withSendingOptions(SendingOptions): {
-    assert std.isObject(SendingOptions) : 'SendingOptions must be a object',
+  setSendingOptions(SendingOptions): {
     Properties+::: {
-      SendingOptions: SendingOptions,
+      SendingOptions:
+        if !std.isObject(SendingOptions) then (error 'SendingOptions must be an object')
+        else SendingOptions,
     },
   },
-  withSuppressionOptions(SuppressionOptions): {
-    assert std.isObject(SuppressionOptions) : 'SuppressionOptions must be a object',
+  setSuppressionOptions(SuppressionOptions): {
     Properties+::: {
-      SuppressionOptions: SuppressionOptions,
+      SuppressionOptions:
+        if !std.isObject(SuppressionOptions) then (error 'SuppressionOptions must be an object')
+        else SuppressionOptions,
     },
   },
-  withVdmOptions(VdmOptions): {
-    assert std.isObject(VdmOptions) : 'VdmOptions must be a object',
+  setVdmOptions(VdmOptions): {
     Properties+::: {
-      VdmOptions: VdmOptions,
+      VdmOptions:
+        if !std.isObject(VdmOptions) then (error 'VdmOptions must be an object')
+        else VdmOptions,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

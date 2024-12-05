@@ -4,7 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      AgentArns: (if std.isArray(AgentArns) then AgentArns else [AgentArns]),
+      AgentArns:
+        if !std.isArray(AgentArns) then (error 'AgentArns must be an array')
+        else if std.length(AgentArns) < 1 then error ('AgentArns cannot have less than 1 items')
+        else if std.length(AgentArns) > 4 then error ('AgentArns cannot have more than 4 items')
+        else AgentArns,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,135 +18,170 @@
     Metadata:: [],
     Type: 'AWS::DataSync::LocationObjectStorage',
   },
-  withAccessKey(AccessKey): {
-    assert std.isString(AccessKey) : 'AccessKey must be a string',
+  setAccessKey(AccessKey): {
     Properties+::: {
-      AccessKey: AccessKey,
+      AccessKey:
+        if !std.isString(AccessKey) then (error 'AccessKey must be a string')
+        else if std.isEmpty(AccessKey) then (error 'AccessKey must be not empty')
+        else if std.length(AccessKey) < 1 then error ('AccessKey should have at least 1 characters')
+        else if std.length(AccessKey) > 200 then error ('AccessKey should have not more than 200 characters')
+        else AccessKey,
     },
   },
-  withBucketName(BucketName): {
-    assert std.isString(BucketName) : 'BucketName must be a string',
+  setBucketName(BucketName): {
     Properties+::: {
-      BucketName: BucketName,
+      BucketName:
+        if !std.isString(BucketName) then (error 'BucketName must be a string')
+        else if std.isEmpty(BucketName) then (error 'BucketName must be not empty')
+        else if std.length(BucketName) < 3 then error ('BucketName should have at least 3 characters')
+        else if std.length(BucketName) > 63 then error ('BucketName should have not more than 63 characters')
+        else BucketName,
     },
   },
-  withSecretKey(SecretKey): {
-    assert std.isString(SecretKey) : 'SecretKey must be a string',
+  setSecretKey(SecretKey): {
     Properties+::: {
-      SecretKey: SecretKey,
+      SecretKey:
+        if !std.isString(SecretKey) then (error 'SecretKey must be a string')
+        else if std.isEmpty(SecretKey) then (error 'SecretKey must be not empty')
+        else if std.length(SecretKey) < 8 then error ('SecretKey should have at least 8 characters')
+        else if std.length(SecretKey) > 200 then error ('SecretKey should have not more than 200 characters')
+        else SecretKey,
     },
   },
-  withServerCertificate(ServerCertificate): {
-    assert std.isString(ServerCertificate) : 'ServerCertificate must be a string',
+  setServerCertificate(ServerCertificate): {
     Properties+::: {
-      ServerCertificate: ServerCertificate,
+      ServerCertificate:
+        if !std.isString(ServerCertificate) then (error 'ServerCertificate must be a string')
+        else if std.isEmpty(ServerCertificate) then (error 'ServerCertificate must be not empty')
+        else if std.length(ServerCertificate) > 32768 then error ('ServerCertificate should have not more than 32768 characters')
+        else ServerCertificate,
     },
   },
-  withServerHostname(ServerHostname): {
-    assert std.isString(ServerHostname) : 'ServerHostname must be a string',
+  setServerHostname(ServerHostname): {
     Properties+::: {
-      ServerHostname: ServerHostname,
+      ServerHostname:
+        if !std.isString(ServerHostname) then (error 'ServerHostname must be a string')
+        else if std.isEmpty(ServerHostname) then (error 'ServerHostname must be not empty')
+        else if std.length(ServerHostname) > 255 then error ('ServerHostname should have not more than 255 characters')
+        else ServerHostname,
     },
   },
-  withServerPort(ServerPort): {
-    assert std.isNumber(ServerPort) : 'ServerPort must be a number',
+  setServerPort(ServerPort): {
     Properties+::: {
-      ServerPort: ServerPort,
+      ServerPort:
+        if !std.isNumber(ServerPort) then (error 'ServerPort must be an number')
+        else if ServerPort < 1 then error ('ServerPort should be at least 1')
+        else if ServerPort > 65536 then error ('ServerPort should be not more than 65536')
+        else ServerPort,
     },
   },
-  withServerProtocol(ServerProtocol): {
-    assert std.isString(ServerProtocol) : 'ServerProtocol must be a string',
-    assert ServerProtocol == 'HTTPS' || ServerProtocol == 'HTTP' : "ServerProtocol should be 'HTTPS' or 'HTTP'",
+  setServerProtocol(ServerProtocol): {
     Properties+::: {
-      ServerProtocol: ServerProtocol,
+      ServerProtocol:
+        if !std.isString(ServerProtocol) then (error 'ServerProtocol must be a string')
+        else if std.isEmpty(ServerProtocol) then (error 'ServerProtocol must be not empty')
+        else if ServerProtocol != 'HTTPS' && ServerProtocol != 'HTTP' then (error "ServerProtocol should be 'HTTPS' or 'HTTP'")
+        else ServerProtocol,
     },
   },
-  withSubdirectory(Subdirectory): {
-    assert std.isString(Subdirectory) : 'Subdirectory must be a string',
+  setSubdirectory(Subdirectory): {
     Properties+::: {
-      Subdirectory: Subdirectory,
+      Subdirectory:
+        if !std.isString(Subdirectory) then (error 'Subdirectory must be a string')
+        else if std.isEmpty(Subdirectory) then (error 'Subdirectory must be not empty')
+        else if std.length(Subdirectory) > 4096 then error ('Subdirectory should have not more than 4096 characters')
+        else Subdirectory,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLocationArn(LocationArn): {
-    assert std.isString(LocationArn) : 'LocationArn must be a string',
+  setLocationArn(LocationArn): {
     Properties+::: {
-      LocationArn: LocationArn,
+      LocationArn:
+        if !std.isString(LocationArn) then (error 'LocationArn must be a string')
+        else if std.isEmpty(LocationArn) then (error 'LocationArn must be not empty')
+        else if std.length(LocationArn) > 128 then error ('LocationArn should have not more than 128 characters')
+        else LocationArn,
     },
   },
-  withLocationUri(LocationUri): {
-    assert std.isString(LocationUri) : 'LocationUri must be a string',
+  setLocationUri(LocationUri): {
     Properties+::: {
-      LocationUri: LocationUri,
+      LocationUri:
+        if !std.isString(LocationUri) then (error 'LocationUri must be a string')
+        else if std.isEmpty(LocationUri) then (error 'LocationUri must be not empty')
+        else if std.length(LocationUri) > 4356 then error ('LocationUri should have not more than 4356 characters')
+        else LocationUri,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

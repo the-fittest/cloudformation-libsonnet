@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainNameArn) : 'DomainNameArn must be a string',
-      DomainNameArn: DomainNameArn,
-      assert std.isString(RestApiId) : 'RestApiId must be a string',
-      RestApiId: RestApiId,
+      DomainNameArn:
+        if !std.isString(DomainNameArn) then (error 'DomainNameArn must be a string')
+        else if std.isEmpty(DomainNameArn) then (error 'DomainNameArn must be not empty')
+        else DomainNameArn,
+      RestApiId:
+        if !std.isString(RestApiId) then (error 'RestApiId must be a string')
+        else if std.isEmpty(RestApiId) then (error 'RestApiId must be not empty')
+        else RestApiId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,82 +22,88 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::BasePathMappingV2',
   },
-  withBasePath(BasePath): {
-    assert std.isString(BasePath) : 'BasePath must be a string',
+  setBasePath(BasePath): {
     Properties+::: {
-      BasePath: BasePath,
+      BasePath:
+        if !std.isString(BasePath) then (error 'BasePath must be a string')
+        else if std.isEmpty(BasePath) then (error 'BasePath must be not empty')
+        else BasePath,
     },
   },
-  withStage(Stage): {
-    assert std.isString(Stage) : 'Stage must be a string',
+  setStage(Stage): {
     Properties+::: {
-      Stage: Stage,
+      Stage:
+        if !std.isString(Stage) then (error 'Stage must be a string')
+        else if std.isEmpty(Stage) then (error 'Stage must be not empty')
+        else Stage,
     },
   },
-  withBasePathMappingArn(BasePathMappingArn): {
-    assert std.isString(BasePathMappingArn) : 'BasePathMappingArn must be a string',
+  setBasePathMappingArn(BasePathMappingArn): {
     Properties+::: {
-      BasePathMappingArn: BasePathMappingArn,
+      BasePathMappingArn:
+        if !std.isString(BasePathMappingArn) then (error 'BasePathMappingArn must be a string')
+        else if std.isEmpty(BasePathMappingArn) then (error 'BasePathMappingArn must be not empty')
+        else BasePathMappingArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

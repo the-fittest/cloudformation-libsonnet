@@ -1,0 +1,3 @@
+{
+  Wait:: import 'Wait.libsonnet',
+}

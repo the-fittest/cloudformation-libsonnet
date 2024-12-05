@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InferenceProfileName) : 'InferenceProfileName must be a string',
-      InferenceProfileName: InferenceProfileName,
+      InferenceProfileName:
+        if !std.isString(InferenceProfileName) then (error 'InferenceProfileName must be a string')
+        else if std.isEmpty(InferenceProfileName) then (error 'InferenceProfileName must be not empty')
+        else if std.length(InferenceProfileName) < 1 then error ('InferenceProfileName should have at least 1 characters')
+        else if std.length(InferenceProfileName) > 64 then error ('InferenceProfileName should have not more than 64 characters')
+        else InferenceProfileName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,139 +19,170 @@
     Metadata:: [],
     Type: 'AWS::Bedrock::ApplicationInferenceProfile',
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withInferenceProfileArn(InferenceProfileArn): {
-    assert std.isString(InferenceProfileArn) : 'InferenceProfileArn must be a string',
+  setInferenceProfileArn(InferenceProfileArn): {
     Properties+::: {
-      InferenceProfileArn: InferenceProfileArn,
+      InferenceProfileArn:
+        if !std.isString(InferenceProfileArn) then (error 'InferenceProfileArn must be a string')
+        else if std.isEmpty(InferenceProfileArn) then (error 'InferenceProfileArn must be not empty')
+        else if std.length(InferenceProfileArn) < 1 then error ('InferenceProfileArn should have at least 1 characters')
+        else if std.length(InferenceProfileArn) > 2048 then error ('InferenceProfileArn should have not more than 2048 characters')
+        else InferenceProfileArn,
     },
   },
-  withInferenceProfileId(InferenceProfileId): {
-    assert std.isString(InferenceProfileId) : 'InferenceProfileId must be a string',
+  setInferenceProfileId(InferenceProfileId): {
     Properties+::: {
-      InferenceProfileId: InferenceProfileId,
+      InferenceProfileId:
+        if !std.isString(InferenceProfileId) then (error 'InferenceProfileId must be a string')
+        else if std.isEmpty(InferenceProfileId) then (error 'InferenceProfileId must be not empty')
+        else if std.length(InferenceProfileId) < 1 then error ('InferenceProfileId should have at least 1 characters')
+        else if std.length(InferenceProfileId) > 64 then error ('InferenceProfileId should have not more than 64 characters')
+        else InferenceProfileId,
     },
   },
-  withInferenceProfileIdentifier(InferenceProfileIdentifier): {
-    assert std.isString(InferenceProfileIdentifier) : 'InferenceProfileIdentifier must be a string',
+  setInferenceProfileIdentifier(InferenceProfileIdentifier): {
     Properties+::: {
-      InferenceProfileIdentifier: InferenceProfileIdentifier,
+      InferenceProfileIdentifier:
+        if !std.isString(InferenceProfileIdentifier) then (error 'InferenceProfileIdentifier must be a string')
+        else if std.isEmpty(InferenceProfileIdentifier) then (error 'InferenceProfileIdentifier must be not empty')
+        else if std.length(InferenceProfileIdentifier) < 1 then error ('InferenceProfileIdentifier should have at least 1 characters')
+        else if std.length(InferenceProfileIdentifier) > 2048 then error ('InferenceProfileIdentifier should have not more than 2048 characters')
+        else InferenceProfileIdentifier,
     },
   },
-  withModelSource(ModelSource): {
+  setModelSource(ModelSource): {
     Properties+::: {
       ModelSource: ModelSource,
     },
   },
-  withModels(Models): {
+  setModels(Models): {
     Properties+::: {
-      Models: (if std.isArray(Models) then Models else [Models]),
+      Models:
+        if !std.isArray(Models) then (error 'Models must be an array')
+        else if std.length(Models) < 1 then error ('Models cannot have less than 1 items')
+        else if std.length(Models) > 5 then error ('Models cannot have more than 5 items')
+        else Models,
     },
   },
-  withModelsMixin(Models): {
+  setModelsMixin(Models): {
     Properties+::: {
-      Models+: (if std.isArray(Models) then Models else [Models]),
+      Models+: Models,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' : "Status should be 'ACTIVE'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' then (error "Status should be 'ACTIVE'")
+        else Status,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'APPLICATION' || Type == 'SYSTEM_DEFINED' : "Type should be 'APPLICATION' or 'SYSTEM_DEFINED'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'APPLICATION' && Type != 'SYSTEM_DEFINED' then (error "Type should be 'APPLICATION' or 'SYSTEM_DEFINED'")
+        else Type,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

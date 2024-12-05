@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceType) : 'InstanceType must be a string',
-      InstanceType: InstanceType,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      InstanceType:
+        if !std.isString(InstanceType) then (error 'InstanceType must be a string')
+        else if std.isEmpty(InstanceType) then (error 'InstanceType must be not empty')
+        else InstanceType,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,170 +22,199 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::NotebookInstance',
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withVolumeSizeInGB(VolumeSizeInGB): {
-    assert std.isNumber(VolumeSizeInGB) : 'VolumeSizeInGB must be a number',
+  setVolumeSizeInGB(VolumeSizeInGB): {
     Properties+::: {
-      VolumeSizeInGB: VolumeSizeInGB,
+      VolumeSizeInGB:
+        if !std.isNumber(VolumeSizeInGB) then (error 'VolumeSizeInGB must be an number')
+        else VolumeSizeInGB,
     },
   },
-  withAdditionalCodeRepositories(AdditionalCodeRepositories): {
+  setAdditionalCodeRepositories(AdditionalCodeRepositories): {
     Properties+::: {
-      AdditionalCodeRepositories: (if std.isArray(AdditionalCodeRepositories) then AdditionalCodeRepositories else [AdditionalCodeRepositories]),
+      AdditionalCodeRepositories:
+        if !std.isArray(AdditionalCodeRepositories) then (error 'AdditionalCodeRepositories must be an array')
+        else AdditionalCodeRepositories,
     },
   },
-  withAdditionalCodeRepositoriesMixin(AdditionalCodeRepositories): {
+  setAdditionalCodeRepositoriesMixin(AdditionalCodeRepositories): {
     Properties+::: {
-      AdditionalCodeRepositories+: (if std.isArray(AdditionalCodeRepositories) then AdditionalCodeRepositories else [AdditionalCodeRepositories]),
+      AdditionalCodeRepositories+: AdditionalCodeRepositories,
     },
   },
-  withDefaultCodeRepository(DefaultCodeRepository): {
-    assert std.isString(DefaultCodeRepository) : 'DefaultCodeRepository must be a string',
+  setDefaultCodeRepository(DefaultCodeRepository): {
     Properties+::: {
-      DefaultCodeRepository: DefaultCodeRepository,
+      DefaultCodeRepository:
+        if !std.isString(DefaultCodeRepository) then (error 'DefaultCodeRepository must be a string')
+        else if std.isEmpty(DefaultCodeRepository) then (error 'DefaultCodeRepository must be not empty')
+        else DefaultCodeRepository,
     },
   },
-  withDirectInternetAccess(DirectInternetAccess): {
-    assert std.isString(DirectInternetAccess) : 'DirectInternetAccess must be a string',
+  setDirectInternetAccess(DirectInternetAccess): {
     Properties+::: {
-      DirectInternetAccess: DirectInternetAccess,
+      DirectInternetAccess:
+        if !std.isString(DirectInternetAccess) then (error 'DirectInternetAccess must be a string')
+        else if std.isEmpty(DirectInternetAccess) then (error 'DirectInternetAccess must be not empty')
+        else DirectInternetAccess,
     },
   },
-  withPlatformIdentifier(PlatformIdentifier): {
-    assert std.isString(PlatformIdentifier) : 'PlatformIdentifier must be a string',
+  setPlatformIdentifier(PlatformIdentifier): {
     Properties+::: {
-      PlatformIdentifier: PlatformIdentifier,
+      PlatformIdentifier:
+        if !std.isString(PlatformIdentifier) then (error 'PlatformIdentifier must be a string')
+        else if std.isEmpty(PlatformIdentifier) then (error 'PlatformIdentifier must be not empty')
+        else PlatformIdentifier,
     },
   },
-  withAcceleratorTypes(AcceleratorTypes): {
+  setAcceleratorTypes(AcceleratorTypes): {
     Properties+::: {
-      AcceleratorTypes: (if std.isArray(AcceleratorTypes) then AcceleratorTypes else [AcceleratorTypes]),
+      AcceleratorTypes:
+        if !std.isArray(AcceleratorTypes) then (error 'AcceleratorTypes must be an array')
+        else AcceleratorTypes,
     },
   },
-  withAcceleratorTypesMixin(AcceleratorTypes): {
+  setAcceleratorTypesMixin(AcceleratorTypes): {
     Properties+::: {
-      AcceleratorTypes+: (if std.isArray(AcceleratorTypes) then AcceleratorTypes else [AcceleratorTypes]),
+      AcceleratorTypes+: AcceleratorTypes,
     },
   },
-  withSubnetId(SubnetId): {
-    assert std.isString(SubnetId) : 'SubnetId must be a string',
+  setSubnetId(SubnetId): {
     Properties+::: {
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withInstanceMetadataServiceConfiguration(InstanceMetadataServiceConfiguration): {
-    assert std.isObject(InstanceMetadataServiceConfiguration) : 'InstanceMetadataServiceConfiguration must be a object',
+  setInstanceMetadataServiceConfiguration(InstanceMetadataServiceConfiguration): {
     Properties+::: {
-      InstanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration,
+      InstanceMetadataServiceConfiguration:
+        if !std.isObject(InstanceMetadataServiceConfiguration) then (error 'InstanceMetadataServiceConfiguration must be an object')
+        else if !std.objectHas(InstanceMetadataServiceConfiguration, 'MinimumInstanceMetadataServiceVersion') then (error ' have attribute MinimumInstanceMetadataServiceVersion')
+        else InstanceMetadataServiceConfiguration,
     },
   },
-  withRootAccess(RootAccess): {
-    assert std.isString(RootAccess) : 'RootAccess must be a string',
+  setRootAccess(RootAccess): {
     Properties+::: {
-      RootAccess: RootAccess,
+      RootAccess:
+        if !std.isString(RootAccess) then (error 'RootAccess must be a string')
+        else if std.isEmpty(RootAccess) then (error 'RootAccess must be not empty')
+        else RootAccess,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withNotebookInstanceName(NotebookInstanceName): {
-    assert std.isString(NotebookInstanceName) : 'NotebookInstanceName must be a string',
+  setNotebookInstanceName(NotebookInstanceName): {
     Properties+::: {
-      NotebookInstanceName: NotebookInstanceName,
+      NotebookInstanceName:
+        if !std.isString(NotebookInstanceName) then (error 'NotebookInstanceName must be a string')
+        else if std.isEmpty(NotebookInstanceName) then (error 'NotebookInstanceName must be not empty')
+        else NotebookInstanceName,
     },
   },
-  withLifecycleConfigName(LifecycleConfigName): {
-    assert std.isString(LifecycleConfigName) : 'LifecycleConfigName must be a string',
+  setLifecycleConfigName(LifecycleConfigName): {
     Properties+::: {
-      LifecycleConfigName: LifecycleConfigName,
+      LifecycleConfigName:
+        if !std.isString(LifecycleConfigName) then (error 'LifecycleConfigName must be a string')
+        else if std.isEmpty(LifecycleConfigName) then (error 'LifecycleConfigName must be not empty')
+        else LifecycleConfigName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

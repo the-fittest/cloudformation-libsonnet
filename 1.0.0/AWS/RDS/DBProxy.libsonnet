@@ -8,15 +8,28 @@
   ): {
     local base = self,
     Properties: {
-      Auth: (if std.isArray(Auth) then Auth else [Auth]),
-      assert std.isString(DBProxyName) : 'DBProxyName must be a string',
-      DBProxyName: DBProxyName,
-      assert std.isString(EngineFamily) : 'EngineFamily must be a string',
-      assert EngineFamily == 'MYSQL' || EngineFamily == 'POSTGRESQL' || EngineFamily == 'SQLSERVER' : "EngineFamily should be 'MYSQL' or 'POSTGRESQL' or 'SQLSERVER'",
-      EngineFamily: EngineFamily,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      VpcSubnetIds: (if std.isArray(VpcSubnetIds) then VpcSubnetIds else [VpcSubnetIds]),
+      Auth:
+        if !std.isArray(Auth) then (error 'Auth must be an array')
+        else if std.length(Auth) < 1 then error ('Auth cannot have less than 1 items')
+        else Auth,
+      DBProxyName:
+        if !std.isString(DBProxyName) then (error 'DBProxyName must be a string')
+        else if std.isEmpty(DBProxyName) then (error 'DBProxyName must be not empty')
+        else if std.length(DBProxyName) > 64 then error ('DBProxyName should have not more than 64 characters')
+        else DBProxyName,
+      EngineFamily:
+        if !std.isString(EngineFamily) then (error 'EngineFamily must be a string')
+        else if std.isEmpty(EngineFamily) then (error 'EngineFamily must be not empty')
+        else if EngineFamily != 'MYSQL' && EngineFamily != 'POSTGRESQL' && EngineFamily != 'SQLSERVER' then (error "EngineFamily should be 'MYSQL' or 'POSTGRESQL' or 'SQLSERVER'")
+        else EngineFamily,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
+      VpcSubnetIds:
+        if !std.isArray(VpcSubnetIds) then (error 'VpcSubnetIds must be an array')
+        else if std.length(VpcSubnetIds) < 2 then error ('VpcSubnetIds cannot have less than 2 items')
+        else VpcSubnetIds,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -26,120 +39,132 @@
     Metadata:: [],
     Type: 'AWS::RDS::DBProxy',
   },
-  withDBProxyArn(DBProxyArn): {
-    assert std.isString(DBProxyArn) : 'DBProxyArn must be a string',
+  setDBProxyArn(DBProxyArn): {
     Properties+::: {
-      DBProxyArn: DBProxyArn,
+      DBProxyArn:
+        if !std.isString(DBProxyArn) then (error 'DBProxyArn must be a string')
+        else if std.isEmpty(DBProxyArn) then (error 'DBProxyArn must be not empty')
+        else DBProxyArn,
     },
   },
-  withDebugLogging(DebugLogging): {
-    assert std.isBoolean(DebugLogging) : 'DebugLogging must be a boolean',
+  setDebugLogging(DebugLogging): {
     Properties+::: {
-      DebugLogging: DebugLogging,
+      DebugLogging:
+        if !std.isBoolean(DebugLogging) then (error 'DebugLogging must be a boolean') else DebugLogging,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withIdleClientTimeout(IdleClientTimeout): {
-    assert std.isNumber(IdleClientTimeout) : 'IdleClientTimeout must be a number',
+  setIdleClientTimeout(IdleClientTimeout): {
     Properties+::: {
-      IdleClientTimeout: IdleClientTimeout,
+      IdleClientTimeout:
+        if !std.isNumber(IdleClientTimeout) then (error 'IdleClientTimeout must be an number')
+        else IdleClientTimeout,
     },
   },
-  withRequireTLS(RequireTLS): {
-    assert std.isBoolean(RequireTLS) : 'RequireTLS must be a boolean',
+  setRequireTLS(RequireTLS): {
     Properties+::: {
-      RequireTLS: RequireTLS,
+      RequireTLS:
+        if !std.isBoolean(RequireTLS) then (error 'RequireTLS must be a boolean') else RequireTLS,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else if std.length(VpcSecurityGroupIds) < 1 then error ('VpcSecurityGroupIds cannot have less than 1 items')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

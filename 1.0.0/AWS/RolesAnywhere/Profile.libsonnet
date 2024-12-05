@@ -5,9 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      RoleArns: (if std.isArray(RoleArns) then RoleArns else [RoleArns]),
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      RoleArns:
+        if !std.isArray(RoleArns) then (error 'RoleArns must be an array')
+        else RoleArns,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,136 +21,152 @@
     Metadata:: [],
     Type: 'AWS::RolesAnywhere::Profile',
   },
-  withDurationSeconds(DurationSeconds): {
-    assert std.isNumber(DurationSeconds) : 'DurationSeconds must be a number',
+  setDurationSeconds(DurationSeconds): {
     Properties+::: {
-      DurationSeconds: DurationSeconds,
+      DurationSeconds:
+        if !std.isNumber(DurationSeconds) then (error 'DurationSeconds must be an number')
+        else if DurationSeconds < 900 then error ('DurationSeconds should be at least 900')
+        else if DurationSeconds > 43200 then error ('DurationSeconds should be not more than 43200')
+        else DurationSeconds,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withManagedPolicyArns(ManagedPolicyArns): {
+  setManagedPolicyArns(ManagedPolicyArns): {
     Properties+::: {
-      ManagedPolicyArns: (if std.isArray(ManagedPolicyArns) then ManagedPolicyArns else [ManagedPolicyArns]),
+      ManagedPolicyArns:
+        if !std.isArray(ManagedPolicyArns) then (error 'ManagedPolicyArns must be an array')
+        else ManagedPolicyArns,
     },
   },
-  withManagedPolicyArnsMixin(ManagedPolicyArns): {
+  setManagedPolicyArnsMixin(ManagedPolicyArns): {
     Properties+::: {
-      ManagedPolicyArns+: (if std.isArray(ManagedPolicyArns) then ManagedPolicyArns else [ManagedPolicyArns]),
+      ManagedPolicyArns+: ManagedPolicyArns,
     },
   },
-  withProfileArn(ProfileArn): {
-    assert std.isString(ProfileArn) : 'ProfileArn must be a string',
+  setProfileArn(ProfileArn): {
     Properties+::: {
-      ProfileArn: ProfileArn,
+      ProfileArn:
+        if !std.isString(ProfileArn) then (error 'ProfileArn must be a string')
+        else if std.isEmpty(ProfileArn) then (error 'ProfileArn must be not empty')
+        else ProfileArn,
     },
   },
-  withProfileId(ProfileId): {
-    assert std.isString(ProfileId) : 'ProfileId must be a string',
+  setProfileId(ProfileId): {
     Properties+::: {
-      ProfileId: ProfileId,
+      ProfileId:
+        if !std.isString(ProfileId) then (error 'ProfileId must be a string')
+        else if std.isEmpty(ProfileId) then (error 'ProfileId must be not empty')
+        else ProfileId,
     },
   },
-  withRequireInstanceProperties(RequireInstanceProperties): {
-    assert std.isBoolean(RequireInstanceProperties) : 'RequireInstanceProperties must be a boolean',
+  setRequireInstanceProperties(RequireInstanceProperties): {
     Properties+::: {
-      RequireInstanceProperties: RequireInstanceProperties,
+      RequireInstanceProperties:
+        if !std.isBoolean(RequireInstanceProperties) then (error 'RequireInstanceProperties must be a boolean') else RequireInstanceProperties,
     },
   },
-  withSessionPolicy(SessionPolicy): {
-    assert std.isString(SessionPolicy) : 'SessionPolicy must be a string',
+  setSessionPolicy(SessionPolicy): {
     Properties+::: {
-      SessionPolicy: SessionPolicy,
+      SessionPolicy:
+        if !std.isString(SessionPolicy) then (error 'SessionPolicy must be a string')
+        else if std.isEmpty(SessionPolicy) then (error 'SessionPolicy must be not empty')
+        else SessionPolicy,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAttributeMappings(AttributeMappings): {
+  setAttributeMappings(AttributeMappings): {
     Properties+::: {
-      AttributeMappings: (if std.isArray(AttributeMappings) then AttributeMappings else [AttributeMappings]),
+      AttributeMappings:
+        if !std.isArray(AttributeMappings) then (error 'AttributeMappings must be an array')
+        else AttributeMappings,
     },
   },
-  withAttributeMappingsMixin(AttributeMappings): {
+  setAttributeMappingsMixin(AttributeMappings): {
     Properties+::: {
-      AttributeMappings+: (if std.isArray(AttributeMappings) then AttributeMappings else [AttributeMappings]),
+      AttributeMappings+: AttributeMappings,
     },
   },
-  withAcceptRoleSessionName(AcceptRoleSessionName): {
-    assert std.isBoolean(AcceptRoleSessionName) : 'AcceptRoleSessionName must be a boolean',
+  setAcceptRoleSessionName(AcceptRoleSessionName): {
     Properties+::: {
-      AcceptRoleSessionName: AcceptRoleSessionName,
+      AcceptRoleSessionName:
+        if !std.isBoolean(AcceptRoleSessionName) then (error 'AcceptRoleSessionName must be a boolean') else AcceptRoleSessionName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,154 +10,175 @@
     Metadata:: [],
     Type: 'AWS::KMS::Key',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 8192 then error ('Description should have not more than 8192 characters')
+        else Description,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withEnableKeyRotation(EnableKeyRotation): {
-    assert std.isBoolean(EnableKeyRotation) : 'EnableKeyRotation must be a boolean',
+  setEnableKeyRotation(EnableKeyRotation): {
     Properties+::: {
-      EnableKeyRotation: EnableKeyRotation,
+      EnableKeyRotation:
+        if !std.isBoolean(EnableKeyRotation) then (error 'EnableKeyRotation must be a boolean') else EnableKeyRotation,
     },
   },
-  withKeyPolicy(KeyPolicy): {
+  setKeyPolicy(KeyPolicy): {
     Properties+::: {
       KeyPolicy: KeyPolicy,
     },
   },
-  withKeyUsage(KeyUsage): {
-    assert std.isString(KeyUsage) : 'KeyUsage must be a string',
-    assert KeyUsage == 'ENCRYPT_DECRYPT' || KeyUsage == 'SIGN_VERIFY' || KeyUsage == 'GENERATE_VERIFY_MAC' || KeyUsage == 'KEY_AGREEMENT' : "KeyUsage should be 'ENCRYPT_DECRYPT' or 'SIGN_VERIFY' or 'GENERATE_VERIFY_MAC' or 'KEY_AGREEMENT'",
+  setKeyUsage(KeyUsage): {
     Properties+::: {
-      KeyUsage: KeyUsage,
+      KeyUsage:
+        if !std.isString(KeyUsage) then (error 'KeyUsage must be a string')
+        else if std.isEmpty(KeyUsage) then (error 'KeyUsage must be not empty')
+        else if KeyUsage != 'ENCRYPT_DECRYPT' && KeyUsage != 'SIGN_VERIFY' && KeyUsage != 'GENERATE_VERIFY_MAC' && KeyUsage != 'KEY_AGREEMENT' then (error "KeyUsage should be 'ENCRYPT_DECRYPT' or 'SIGN_VERIFY' or 'GENERATE_VERIFY_MAC' or 'KEY_AGREEMENT'")
+        else KeyUsage,
     },
   },
-  withOrigin(Origin): {
-    assert std.isString(Origin) : 'Origin must be a string',
-    assert Origin == 'AWS_KMS' || Origin == 'EXTERNAL' : "Origin should be 'AWS_KMS' or 'EXTERNAL'",
+  setOrigin(Origin): {
     Properties+::: {
-      Origin: Origin,
+      Origin:
+        if !std.isString(Origin) then (error 'Origin must be a string')
+        else if std.isEmpty(Origin) then (error 'Origin must be not empty')
+        else if Origin != 'AWS_KMS' && Origin != 'EXTERNAL' then (error "Origin should be 'AWS_KMS' or 'EXTERNAL'")
+        else Origin,
     },
   },
-  withKeySpec(KeySpec): {
-    assert std.isString(KeySpec) : 'KeySpec must be a string',
-    assert KeySpec == 'SYMMETRIC_DEFAULT' || KeySpec == 'RSA_2048' || KeySpec == 'RSA_3072' || KeySpec == 'RSA_4096' || KeySpec == 'ECC_NIST_P256' || KeySpec == 'ECC_NIST_P384' || KeySpec == 'ECC_NIST_P521' || KeySpec == 'ECC_SECG_P256K1' || KeySpec == 'HMAC_224' || KeySpec == 'HMAC_256' || KeySpec == 'HMAC_384' || KeySpec == 'HMAC_512' || KeySpec == 'SM2' : "KeySpec should be 'SYMMETRIC_DEFAULT' or 'RSA_2048' or 'RSA_3072' or 'RSA_4096' or 'ECC_NIST_P256' or 'ECC_NIST_P384' or 'ECC_NIST_P521' or 'ECC_SECG_P256K1' or 'HMAC_224' or 'HMAC_256' or 'HMAC_384' or 'HMAC_512' or 'SM2'",
+  setKeySpec(KeySpec): {
     Properties+::: {
-      KeySpec: KeySpec,
+      KeySpec:
+        if !std.isString(KeySpec) then (error 'KeySpec must be a string')
+        else if std.isEmpty(KeySpec) then (error 'KeySpec must be not empty')
+        else if KeySpec != 'SYMMETRIC_DEFAULT' && KeySpec != 'RSA_2048' && KeySpec != 'RSA_3072' && KeySpec != 'RSA_4096' && KeySpec != 'ECC_NIST_P256' && KeySpec != 'ECC_NIST_P384' && KeySpec != 'ECC_NIST_P521' && KeySpec != 'ECC_SECG_P256K1' && KeySpec != 'HMAC_224' && KeySpec != 'HMAC_256' && KeySpec != 'HMAC_384' && KeySpec != 'HMAC_512' && KeySpec != 'SM2' then (error "KeySpec should be 'SYMMETRIC_DEFAULT' or 'RSA_2048' or 'RSA_3072' or 'RSA_4096' or 'ECC_NIST_P256' or 'ECC_NIST_P384' or 'ECC_NIST_P521' or 'ECC_SECG_P256K1' or 'HMAC_224' or 'HMAC_256' or 'HMAC_384' or 'HMAC_512' or 'SM2'")
+        else KeySpec,
     },
   },
-  withMultiRegion(MultiRegion): {
-    assert std.isBoolean(MultiRegion) : 'MultiRegion must be a boolean',
+  setMultiRegion(MultiRegion): {
     Properties+::: {
-      MultiRegion: MultiRegion,
+      MultiRegion:
+        if !std.isBoolean(MultiRegion) then (error 'MultiRegion must be a boolean') else MultiRegion,
     },
   },
-  withPendingWindowInDays(PendingWindowInDays): {
-    assert std.isNumber(PendingWindowInDays) : 'PendingWindowInDays must be a number',
+  setPendingWindowInDays(PendingWindowInDays): {
     Properties+::: {
-      PendingWindowInDays: PendingWindowInDays,
+      PendingWindowInDays:
+        if !std.isNumber(PendingWindowInDays) then (error 'PendingWindowInDays must be an number')
+        else if PendingWindowInDays < 7 then error ('PendingWindowInDays should be at least 7')
+        else if PendingWindowInDays > 30 then error ('PendingWindowInDays should be not more than 30')
+        else PendingWindowInDays,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withKeyId(KeyId): {
-    assert std.isString(KeyId) : 'KeyId must be a string',
+  setKeyId(KeyId): {
     Properties+::: {
-      KeyId: KeyId,
+      KeyId:
+        if !std.isString(KeyId) then (error 'KeyId must be a string')
+        else if std.isEmpty(KeyId) then (error 'KeyId must be not empty')
+        else KeyId,
     },
   },
-  withBypassPolicyLockoutSafetyCheck(BypassPolicyLockoutSafetyCheck): {
-    assert std.isBoolean(BypassPolicyLockoutSafetyCheck) : 'BypassPolicyLockoutSafetyCheck must be a boolean',
+  setBypassPolicyLockoutSafetyCheck(BypassPolicyLockoutSafetyCheck): {
     Properties+::: {
-      BypassPolicyLockoutSafetyCheck: BypassPolicyLockoutSafetyCheck,
+      BypassPolicyLockoutSafetyCheck:
+        if !std.isBoolean(BypassPolicyLockoutSafetyCheck) then (error 'BypassPolicyLockoutSafetyCheck must be a boolean') else BypassPolicyLockoutSafetyCheck,
     },
   },
-  withRotationPeriodInDays(RotationPeriodInDays): {
-    assert std.isNumber(RotationPeriodInDays) : 'RotationPeriodInDays must be a number',
+  setRotationPeriodInDays(RotationPeriodInDays): {
     Properties+::: {
-      RotationPeriodInDays: RotationPeriodInDays,
+      RotationPeriodInDays:
+        if !std.isNumber(RotationPeriodInDays) then (error 'RotationPeriodInDays must be an number')
+        else if RotationPeriodInDays < 90 then error ('RotationPeriodInDays should be at least 90')
+        else if RotationPeriodInDays > 2560 then error ('RotationPeriodInDays should be not more than 2560')
+        else RotationPeriodInDays,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

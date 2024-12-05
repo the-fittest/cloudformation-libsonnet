@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterIdentifier) : 'ClusterIdentifier must be a string',
-      ClusterIdentifier: ClusterIdentifier,
-      assert std.isString(Account) : 'Account must be a string',
-      Account: Account,
+      ClusterIdentifier:
+        if !std.isString(ClusterIdentifier) then (error 'ClusterIdentifier must be a string')
+        else if std.isEmpty(ClusterIdentifier) then (error 'ClusterIdentifier must be not empty')
+        else ClusterIdentifier,
+      Account:
+        if !std.isString(Account) then (error 'Account must be a string')
+        else if std.isEmpty(Account) then (error 'Account must be not empty')
+        else Account,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,132 +22,147 @@
     Metadata:: [],
     Type: 'AWS::Redshift::EndpointAuthorization',
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withGrantee(Grantee): {
-    assert std.isString(Grantee) : 'Grantee must be a string',
+  setGrantee(Grantee): {
     Properties+::: {
-      Grantee: Grantee,
+      Grantee:
+        if !std.isString(Grantee) then (error 'Grantee must be a string')
+        else if std.isEmpty(Grantee) then (error 'Grantee must be not empty')
+        else Grantee,
     },
   },
-  withGrantor(Grantor): {
-    assert std.isString(Grantor) : 'Grantor must be a string',
+  setGrantor(Grantor): {
     Properties+::: {
-      Grantor: Grantor,
+      Grantor:
+        if !std.isString(Grantor) then (error 'Grantor must be a string')
+        else if std.isEmpty(Grantor) then (error 'Grantor must be not empty')
+        else Grantor,
     },
   },
-  withEndpointCount(EndpointCount): {
-    assert std.isNumber(EndpointCount) : 'EndpointCount must be a number',
+  setEndpointCount(EndpointCount): {
     Properties+::: {
-      EndpointCount: EndpointCount,
+      EndpointCount:
+        if !std.isNumber(EndpointCount) then (error 'EndpointCount must be an number')
+        else EndpointCount,
     },
   },
-  withAuthorizeTime(AuthorizeTime): {
-    assert std.isString(AuthorizeTime) : 'AuthorizeTime must be a string',
+  setAuthorizeTime(AuthorizeTime): {
     Properties+::: {
-      AuthorizeTime: AuthorizeTime,
+      AuthorizeTime:
+        if !std.isString(AuthorizeTime) then (error 'AuthorizeTime must be a string')
+        else if std.isEmpty(AuthorizeTime) then (error 'AuthorizeTime must be not empty')
+        else AuthorizeTime,
     },
   },
-  withAllowedVPCs(AllowedVPCs): {
+  setAllowedVPCs(AllowedVPCs): {
     Properties+::: {
-      AllowedVPCs: (if std.isArray(AllowedVPCs) then AllowedVPCs else [AllowedVPCs]),
+      AllowedVPCs:
+        if !std.isArray(AllowedVPCs) then (error 'AllowedVPCs must be an array')
+        else AllowedVPCs,
     },
   },
-  withAllowedVPCsMixin(AllowedVPCs): {
+  setAllowedVPCsMixin(AllowedVPCs): {
     Properties+::: {
-      AllowedVPCs+: (if std.isArray(AllowedVPCs) then AllowedVPCs else [AllowedVPCs]),
+      AllowedVPCs+: AllowedVPCs,
     },
   },
-  withForce(Force): {
-    assert std.isBoolean(Force) : 'Force must be a boolean',
+  setForce(Force): {
     Properties+::: {
-      Force: Force,
+      Force:
+        if !std.isBoolean(Force) then (error 'Force must be a boolean') else Force,
     },
   },
-  withAllowedAllVPCs(AllowedAllVPCs): {
-    assert std.isBoolean(AllowedAllVPCs) : 'AllowedAllVPCs must be a boolean',
+  setAllowedAllVPCs(AllowedAllVPCs): {
     Properties+::: {
-      AllowedAllVPCs: AllowedAllVPCs,
+      AllowedAllVPCs:
+        if !std.isBoolean(AllowedAllVPCs) then (error 'AllowedAllVPCs must be a boolean') else AllowedAllVPCs,
     },
   },
-  withVpcIds(VpcIds): {
+  setVpcIds(VpcIds): {
     Properties+::: {
-      VpcIds: (if std.isArray(VpcIds) then VpcIds else [VpcIds]),
+      VpcIds:
+        if !std.isArray(VpcIds) then (error 'VpcIds must be an array')
+        else VpcIds,
     },
   },
-  withVpcIdsMixin(VpcIds): {
+  setVpcIdsMixin(VpcIds): {
     Properties+::: {
-      VpcIds+: (if std.isArray(VpcIds) then VpcIds else [VpcIds]),
+      VpcIds+: VpcIds,
     },
   },
-  withClusterStatus(ClusterStatus): {
-    assert std.isString(ClusterStatus) : 'ClusterStatus must be a string',
+  setClusterStatus(ClusterStatus): {
     Properties+::: {
-      ClusterStatus: ClusterStatus,
+      ClusterStatus:
+        if !std.isString(ClusterStatus) then (error 'ClusterStatus must be a string')
+        else if std.isEmpty(ClusterStatus) then (error 'ClusterStatus must be not empty')
+        else ClusterStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

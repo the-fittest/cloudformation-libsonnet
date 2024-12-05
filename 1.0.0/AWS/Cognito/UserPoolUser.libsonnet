@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(UserPoolId) : 'UserPoolId must be a string',
-      UserPoolId: UserPoolId,
+      UserPoolId:
+        if !std.isString(UserPoolId) then (error 'UserPoolId must be a string')
+        else if std.isEmpty(UserPoolId) then (error 'UserPoolId must be not empty')
+        else UserPoolId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,118 +17,129 @@
     Metadata:: [],
     Type: 'AWS::Cognito::UserPoolUser',
   },
-  withDesiredDeliveryMediums(DesiredDeliveryMediums): {
+  setDesiredDeliveryMediums(DesiredDeliveryMediums): {
     Properties+::: {
-      DesiredDeliveryMediums: (if std.isArray(DesiredDeliveryMediums) then DesiredDeliveryMediums else [DesiredDeliveryMediums]),
+      DesiredDeliveryMediums:
+        if !std.isArray(DesiredDeliveryMediums) then (error 'DesiredDeliveryMediums must be an array')
+        else DesiredDeliveryMediums,
     },
   },
-  withDesiredDeliveryMediumsMixin(DesiredDeliveryMediums): {
+  setDesiredDeliveryMediumsMixin(DesiredDeliveryMediums): {
     Properties+::: {
-      DesiredDeliveryMediums+: (if std.isArray(DesiredDeliveryMediums) then DesiredDeliveryMediums else [DesiredDeliveryMediums]),
+      DesiredDeliveryMediums+: DesiredDeliveryMediums,
     },
   },
-  withForceAliasCreation(ForceAliasCreation): {
-    assert std.isBoolean(ForceAliasCreation) : 'ForceAliasCreation must be a boolean',
+  setForceAliasCreation(ForceAliasCreation): {
     Properties+::: {
-      ForceAliasCreation: ForceAliasCreation,
+      ForceAliasCreation:
+        if !std.isBoolean(ForceAliasCreation) then (error 'ForceAliasCreation must be a boolean') else ForceAliasCreation,
     },
   },
-  withUserAttributes(UserAttributes): {
+  setUserAttributes(UserAttributes): {
     Properties+::: {
-      UserAttributes: (if std.isArray(UserAttributes) then UserAttributes else [UserAttributes]),
+      UserAttributes:
+        if !std.isArray(UserAttributes) then (error 'UserAttributes must be an array')
+        else UserAttributes,
     },
   },
-  withUserAttributesMixin(UserAttributes): {
+  setUserAttributesMixin(UserAttributes): {
     Properties+::: {
-      UserAttributes+: (if std.isArray(UserAttributes) then UserAttributes else [UserAttributes]),
+      UserAttributes+: UserAttributes,
     },
   },
-  withMessageAction(MessageAction): {
-    assert std.isString(MessageAction) : 'MessageAction must be a string',
+  setMessageAction(MessageAction): {
     Properties+::: {
-      MessageAction: MessageAction,
+      MessageAction:
+        if !std.isString(MessageAction) then (error 'MessageAction must be a string')
+        else if std.isEmpty(MessageAction) then (error 'MessageAction must be not empty')
+        else MessageAction,
     },
   },
-  withUsername(Username): {
-    assert std.isString(Username) : 'Username must be a string',
+  setUsername(Username): {
     Properties+::: {
-      Username: Username,
+      Username:
+        if !std.isString(Username) then (error 'Username must be a string')
+        else if std.isEmpty(Username) then (error 'Username must be not empty')
+        else Username,
     },
   },
-  withValidationData(ValidationData): {
+  setValidationData(ValidationData): {
     Properties+::: {
-      ValidationData: (if std.isArray(ValidationData) then ValidationData else [ValidationData]),
+      ValidationData:
+        if !std.isArray(ValidationData) then (error 'ValidationData must be an array')
+        else ValidationData,
     },
   },
-  withValidationDataMixin(ValidationData): {
+  setValidationDataMixin(ValidationData): {
     Properties+::: {
-      ValidationData+: (if std.isArray(ValidationData) then ValidationData else [ValidationData]),
+      ValidationData+: ValidationData,
     },
   },
-  withClientMetadata(ClientMetadata): {
-    assert std.isObject(ClientMetadata) : 'ClientMetadata must be a object',
+  setClientMetadata(ClientMetadata): {
     Properties+::: {
-      ClientMetadata: ClientMetadata,
+      ClientMetadata:
+        if !std.isObject(ClientMetadata) then (error 'ClientMetadata must be an object')
+        else ClientMetadata,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

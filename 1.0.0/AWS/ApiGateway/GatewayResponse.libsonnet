@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ResponseType) : 'ResponseType must be a string',
-      ResponseType: ResponseType,
-      assert std.isString(RestApiId) : 'RestApiId must be a string',
-      RestApiId: RestApiId,
+      ResponseType:
+        if !std.isString(ResponseType) then (error 'ResponseType must be a string')
+        else if std.isEmpty(ResponseType) then (error 'ResponseType must be not empty')
+        else ResponseType,
+      RestApiId:
+        if !std.isString(RestApiId) then (error 'RestApiId must be a string')
+        else if std.isEmpty(RestApiId) then (error 'RestApiId must be not empty')
+        else RestApiId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,88 +22,94 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::GatewayResponse',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withStatusCode(StatusCode): {
-    assert std.isString(StatusCode) : 'StatusCode must be a string',
+  setStatusCode(StatusCode): {
     Properties+::: {
-      StatusCode: StatusCode,
+      StatusCode:
+        if !std.isString(StatusCode) then (error 'StatusCode must be a string')
+        else if std.isEmpty(StatusCode) then (error 'StatusCode must be not empty')
+        else StatusCode,
     },
   },
-  withResponseParameters(ResponseParameters): {
-    assert std.isObject(ResponseParameters) : 'ResponseParameters must be a object',
+  setResponseParameters(ResponseParameters): {
     Properties+::: {
-      ResponseParameters: ResponseParameters,
+      ResponseParameters:
+        if !std.isObject(ResponseParameters) then (error 'ResponseParameters must be an object')
+        else ResponseParameters,
     },
   },
-  withResponseTemplates(ResponseTemplates): {
-    assert std.isObject(ResponseTemplates) : 'ResponseTemplates must be a object',
+  setResponseTemplates(ResponseTemplates): {
     Properties+::: {
-      ResponseTemplates: ResponseTemplates,
+      ResponseTemplates:
+        if !std.isObject(ResponseTemplates) then (error 'ResponseTemplates must be an object')
+        else ResponseTemplates,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

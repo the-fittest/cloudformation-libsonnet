@@ -7,14 +7,26 @@
   ): {
     local base = self,
     Properties: {
-      AllowedColumns: (if std.isArray(AllowedColumns) then AllowedColumns else [AllowedColumns]),
-      assert std.isString(AnalysisMethod) : 'AnalysisMethod must be a string',
-      assert AnalysisMethod == 'DIRECT_QUERY' : "AnalysisMethod should be 'DIRECT_QUERY'",
-      AnalysisMethod: AnalysisMethod,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(TableReference) : 'TableReference must be an object',
-      TableReference: TableReference,
+      AllowedColumns:
+        if !std.isArray(AllowedColumns) then (error 'AllowedColumns must be an array')
+        else if std.length(AllowedColumns) < 1 then error ('AllowedColumns cannot have less than 1 items')
+        else if std.length(AllowedColumns) > 100 then error ('AllowedColumns cannot have more than 100 items')
+        else AllowedColumns,
+      AnalysisMethod:
+        if !std.isString(AnalysisMethod) then (error 'AnalysisMethod must be a string')
+        else if std.isEmpty(AnalysisMethod) then (error 'AnalysisMethod must be not empty')
+        else if AnalysisMethod != 'DIRECT_QUERY' then (error "AnalysisMethod should be 'DIRECT_QUERY'")
+        else AnalysisMethod,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 100 then error ('Name should have not more than 100 characters')
+        else Name,
+      TableReference:
+        if !std.isObject(TableReference) then (error 'TableReference must be an object')
+        else if !std.objectHas(TableReference, 'Glue') then (error ' have attribute Glue')
+        else TableReference,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,102 +36,118 @@
     Metadata:: [],
     Type: 'AWS::CleanRooms::ConfiguredTable',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 100 then error ('Arn should have not more than 100 characters')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withConfiguredTableIdentifier(ConfiguredTableIdentifier): {
-    assert std.isString(ConfiguredTableIdentifier) : 'ConfiguredTableIdentifier must be a string',
+  setConfiguredTableIdentifier(ConfiguredTableIdentifier): {
     Properties+::: {
-      ConfiguredTableIdentifier: ConfiguredTableIdentifier,
+      ConfiguredTableIdentifier:
+        if !std.isString(ConfiguredTableIdentifier) then (error 'ConfiguredTableIdentifier must be a string')
+        else if std.isEmpty(ConfiguredTableIdentifier) then (error 'ConfiguredTableIdentifier must be not empty')
+        else if std.length(ConfiguredTableIdentifier) < 36 then error ('ConfiguredTableIdentifier should have at least 36 characters')
+        else if std.length(ConfiguredTableIdentifier) > 36 then error ('ConfiguredTableIdentifier should have not more than 36 characters')
+        else ConfiguredTableIdentifier,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withAnalysisRules(AnalysisRules): {
+  setAnalysisRules(AnalysisRules): {
     Properties+::: {
-      AnalysisRules: (if std.isArray(AnalysisRules) then AnalysisRules else [AnalysisRules]),
+      AnalysisRules:
+        if !std.isArray(AnalysisRules) then (error 'AnalysisRules must be an array')
+        else if std.length(AnalysisRules) < 1 then error ('AnalysisRules cannot have less than 1 items')
+        else if std.length(AnalysisRules) > 1 then error ('AnalysisRules cannot have more than 1 items')
+        else AnalysisRules,
     },
   },
-  withAnalysisRulesMixin(AnalysisRules): {
+  setAnalysisRulesMixin(AnalysisRules): {
     Properties+::: {
-      AnalysisRules+: (if std.isArray(AnalysisRules) then AnalysisRules else [AnalysisRules]),
+      AnalysisRules+: AnalysisRules,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

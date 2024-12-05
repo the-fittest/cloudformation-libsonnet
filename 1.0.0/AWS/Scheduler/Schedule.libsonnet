@@ -6,12 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(FlexibleTimeWindow) : 'FlexibleTimeWindow must be an object',
-      FlexibleTimeWindow: FlexibleTimeWindow,
-      assert std.isString(ScheduleExpression) : 'ScheduleExpression must be a string',
-      ScheduleExpression: ScheduleExpression,
-      assert std.isObject(Target) : 'Target must be an object',
-      Target: Target,
+      FlexibleTimeWindow:
+        if !std.isObject(FlexibleTimeWindow) then (error 'FlexibleTimeWindow must be an object')
+        else if !std.objectHas(FlexibleTimeWindow, 'Mode') then (error ' have attribute Mode')
+        else FlexibleTimeWindow,
+      ScheduleExpression:
+        if !std.isString(ScheduleExpression) then (error 'ScheduleExpression must be a string')
+        else if std.isEmpty(ScheduleExpression) then (error 'ScheduleExpression must be not empty')
+        else if std.length(ScheduleExpression) < 1 then error ('ScheduleExpression should have at least 1 characters')
+        else if std.length(ScheduleExpression) > 256 then error ('ScheduleExpression should have not more than 256 characters')
+        else ScheduleExpression,
+      Target:
+        if !std.isObject(Target) then (error 'Target must be an object')
+        else if !std.objectHas(Target, 'Arn') then (error ' have attribute Arn')
+        else if !std.objectHas(Target, 'RoleArn') then (error ' have attribute RoleArn')
+        else Target,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,119 +30,148 @@
     Metadata:: [],
     Type: 'AWS::Scheduler::Schedule',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 1224 then error ('Arn should have not more than 1224 characters')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 512 then error ('Description should have not more than 512 characters')
+        else Description,
     },
   },
-  withEndDate(EndDate): {
-    assert std.isString(EndDate) : 'EndDate must be a string',
+  setEndDate(EndDate): {
     Properties+::: {
-      EndDate: EndDate,
+      EndDate:
+        if !std.isString(EndDate) then (error 'EndDate must be a string')
+        else if std.isEmpty(EndDate) then (error 'EndDate must be not empty')
+        else EndDate,
     },
   },
-  withGroupName(GroupName): {
-    assert std.isString(GroupName) : 'GroupName must be a string',
+  setGroupName(GroupName): {
     Properties+::: {
-      GroupName: GroupName,
+      GroupName:
+        if !std.isString(GroupName) then (error 'GroupName must be a string')
+        else if std.isEmpty(GroupName) then (error 'GroupName must be not empty')
+        else if std.length(GroupName) < 1 then error ('GroupName should have at least 1 characters')
+        else if std.length(GroupName) > 64 then error ('GroupName should have not more than 64 characters')
+        else GroupName,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 1 then error ('KmsKeyArn should have at least 1 characters')
+        else if std.length(KmsKeyArn) > 2048 then error ('KmsKeyArn should have not more than 2048 characters')
+        else KmsKeyArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
   },
-  withScheduleExpressionTimezone(ScheduleExpressionTimezone): {
-    assert std.isString(ScheduleExpressionTimezone) : 'ScheduleExpressionTimezone must be a string',
+  setScheduleExpressionTimezone(ScheduleExpressionTimezone): {
     Properties+::: {
-      ScheduleExpressionTimezone: ScheduleExpressionTimezone,
+      ScheduleExpressionTimezone:
+        if !std.isString(ScheduleExpressionTimezone) then (error 'ScheduleExpressionTimezone must be a string')
+        else if std.isEmpty(ScheduleExpressionTimezone) then (error 'ScheduleExpressionTimezone must be not empty')
+        else if std.length(ScheduleExpressionTimezone) < 1 then error ('ScheduleExpressionTimezone should have at least 1 characters')
+        else if std.length(ScheduleExpressionTimezone) > 50 then error ('ScheduleExpressionTimezone should have not more than 50 characters')
+        else ScheduleExpressionTimezone,
     },
   },
-  withStartDate(StartDate): {
-    assert std.isString(StartDate) : 'StartDate must be a string',
+  setStartDate(StartDate): {
     Properties+::: {
-      StartDate: StartDate,
+      StartDate:
+        if !std.isString(StartDate) then (error 'StartDate must be a string')
+        else if std.isEmpty(StartDate) then (error 'StartDate must be not empty')
+        else StartDate,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'ENABLED' || State == 'DISABLED' : "State should be 'ENABLED' or 'DISABLED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'ENABLED' && State != 'DISABLED' then (error "State should be 'ENABLED' or 'DISABLED'")
+        else State,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

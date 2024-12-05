@@ -7,15 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
-      assert std.isString(Content) : 'Content must be a string',
-      Content: Content,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Type) : 'Type must be a string',
-      assert Type == 'CONTACT_FLOW' || Type == 'CUSTOMER_QUEUE' || Type == 'CUSTOMER_HOLD' || Type == 'CUSTOMER_WHISPER' || Type == 'AGENT_HOLD' || Type == 'AGENT_WHISPER' || Type == 'OUTBOUND_WHISPER' || Type == 'AGENT_TRANSFER' || Type == 'QUEUE_TRANSFER' || Type == 'CAMPAIGN' : "Type should be 'CONTACT_FLOW' or 'CUSTOMER_QUEUE' or 'CUSTOMER_HOLD' or 'CUSTOMER_WHISPER' or 'AGENT_HOLD' or 'AGENT_WHISPER' or 'OUTBOUND_WHISPER' or 'AGENT_TRANSFER' or 'QUEUE_TRANSFER' or 'CAMPAIGN'",
-      Type: Type,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else if std.length(InstanceArn) < 1 then error ('InstanceArn should have at least 1 characters')
+        else if std.length(InstanceArn) > 256 then error ('InstanceArn should have not more than 256 characters')
+        else InstanceArn,
+      Content:
+        if !std.isString(Content) then (error 'Content must be a string')
+        else if std.isEmpty(Content) then (error 'Content must be not empty')
+        else if std.length(Content) < 1 then error ('Content should have at least 1 characters')
+        else if std.length(Content) > 256000 then error ('Content should have not more than 256000 characters')
+        else Content,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 127 then error ('Name should have not more than 127 characters')
+        else Name,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'CONTACT_FLOW' && Type != 'CUSTOMER_QUEUE' && Type != 'CUSTOMER_HOLD' && Type != 'CUSTOMER_WHISPER' && Type != 'AGENT_HOLD' && Type != 'AGENT_WHISPER' && Type != 'OUTBOUND_WHISPER' && Type != 'AGENT_TRANSFER' && Type != 'QUEUE_TRANSFER' && Type != 'CAMPAIGN' then (error "Type should be 'CONTACT_FLOW' or 'CUSTOMER_QUEUE' or 'CUSTOMER_HOLD' or 'CUSTOMER_WHISPER' or 'AGENT_HOLD' or 'AGENT_WHISPER' or 'OUTBOUND_WHISPER' or 'AGENT_TRANSFER' or 'QUEUE_TRANSFER' or 'CAMPAIGN'")
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,93 +39,105 @@
     Metadata:: [],
     Type: 'AWS::Connect::ContactFlow',
   },
-  withContactFlowArn(ContactFlowArn): {
-    assert std.isString(ContactFlowArn) : 'ContactFlowArn must be a string',
+  setContactFlowArn(ContactFlowArn): {
     Properties+::: {
-      ContactFlowArn: ContactFlowArn,
+      ContactFlowArn:
+        if !std.isString(ContactFlowArn) then (error 'ContactFlowArn must be a string')
+        else if std.isEmpty(ContactFlowArn) then (error 'ContactFlowArn must be not empty')
+        else if std.length(ContactFlowArn) < 1 then error ('ContactFlowArn should have at least 1 characters')
+        else if std.length(ContactFlowArn) > 500 then error ('ContactFlowArn should have not more than 500 characters')
+        else ContactFlowArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 500 then error ('Description should have not more than 500 characters')
+        else Description,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'ACTIVE' || State == 'ARCHIVED' : "State should be 'ACTIVE' or 'ARCHIVED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'ACTIVE' && State != 'ARCHIVED' then (error "State should be 'ACTIVE' or 'ARCHIVED'")
+        else State,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

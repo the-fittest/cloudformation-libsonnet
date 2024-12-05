@@ -5,9 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      SecurityGroupArns: (if std.isArray(SecurityGroupArns) then SecurityGroupArns else [SecurityGroupArns]),
-      assert std.isString(StorageVirtualMachineArn) : 'StorageVirtualMachineArn must be a string',
-      StorageVirtualMachineArn: StorageVirtualMachineArn,
+      SecurityGroupArns:
+        if !std.isArray(SecurityGroupArns) then (error 'SecurityGroupArns must be an array')
+        else if std.length(SecurityGroupArns) < 1 then error ('SecurityGroupArns cannot have less than 1 items')
+        else if std.length(SecurityGroupArns) > 5 then error ('SecurityGroupArns cannot have more than 5 items')
+        else SecurityGroupArns,
+      StorageVirtualMachineArn:
+        if !std.isString(StorageVirtualMachineArn) then (error 'StorageVirtualMachineArn must be a string')
+        else if std.isEmpty(StorageVirtualMachineArn) then (error 'StorageVirtualMachineArn must be not empty')
+        else if std.length(StorageVirtualMachineArn) > 162 then error ('StorageVirtualMachineArn should have not more than 162 characters')
+        else StorageVirtualMachineArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,104 +24,120 @@
     Metadata:: [],
     Type: 'AWS::DataSync::LocationFSxONTAP',
   },
-  withFsxFilesystemArn(FsxFilesystemArn): {
-    assert std.isString(FsxFilesystemArn) : 'FsxFilesystemArn must be a string',
+  setFsxFilesystemArn(FsxFilesystemArn): {
     Properties+::: {
-      FsxFilesystemArn: FsxFilesystemArn,
+      FsxFilesystemArn:
+        if !std.isString(FsxFilesystemArn) then (error 'FsxFilesystemArn must be a string')
+        else if std.isEmpty(FsxFilesystemArn) then (error 'FsxFilesystemArn must be not empty')
+        else if std.length(FsxFilesystemArn) > 128 then error ('FsxFilesystemArn should have not more than 128 characters')
+        else FsxFilesystemArn,
     },
   },
-  withProtocol(Protocol): {
-    assert std.isObject(Protocol) : 'Protocol must be a object',
+  setProtocol(Protocol): {
     Properties+::: {
-      Protocol: Protocol,
+      Protocol:
+        if !std.isObject(Protocol) then (error 'Protocol must be an object')
+        else Protocol,
     },
   },
-  withSubdirectory(Subdirectory): {
-    assert std.isString(Subdirectory) : 'Subdirectory must be a string',
+  setSubdirectory(Subdirectory): {
     Properties+::: {
-      Subdirectory: Subdirectory,
+      Subdirectory:
+        if !std.isString(Subdirectory) then (error 'Subdirectory must be a string')
+        else if std.isEmpty(Subdirectory) then (error 'Subdirectory must be not empty')
+        else if std.length(Subdirectory) > 4096 then error ('Subdirectory should have not more than 4096 characters')
+        else Subdirectory,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLocationArn(LocationArn): {
-    assert std.isString(LocationArn) : 'LocationArn must be a string',
+  setLocationArn(LocationArn): {
     Properties+::: {
-      LocationArn: LocationArn,
+      LocationArn:
+        if !std.isString(LocationArn) then (error 'LocationArn must be a string')
+        else if std.isEmpty(LocationArn) then (error 'LocationArn must be not empty')
+        else if std.length(LocationArn) > 128 then error ('LocationArn should have not more than 128 characters')
+        else LocationArn,
     },
   },
-  withLocationUri(LocationUri): {
-    assert std.isString(LocationUri) : 'LocationUri must be a string',
+  setLocationUri(LocationUri): {
     Properties+::: {
-      LocationUri: LocationUri,
+      LocationUri:
+        if !std.isString(LocationUri) then (error 'LocationUri must be a string')
+        else if std.isEmpty(LocationUri) then (error 'LocationUri must be not empty')
+        else if std.length(LocationUri) > 4360 then error ('LocationUri should have not more than 4360 characters')
+        else LocationUri,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

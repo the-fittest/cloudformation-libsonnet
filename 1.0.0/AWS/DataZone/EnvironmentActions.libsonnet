@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,112 +19,136 @@
     Metadata:: [],
     Type: 'AWS::DataZone::EnvironmentActions',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withDomainId(DomainId): {
-    assert std.isString(DomainId) : 'DomainId must be a string',
+  setDomainId(DomainId): {
     Properties+::: {
-      DomainId: DomainId,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else DomainId,
     },
   },
-  withDomainIdentifier(DomainIdentifier): {
-    assert std.isString(DomainIdentifier) : 'DomainIdentifier must be a string',
+  setDomainIdentifier(DomainIdentifier): {
     Properties+::: {
-      DomainIdentifier: DomainIdentifier,
+      DomainIdentifier:
+        if !std.isString(DomainIdentifier) then (error 'DomainIdentifier must be a string')
+        else if std.isEmpty(DomainIdentifier) then (error 'DomainIdentifier must be not empty')
+        else DomainIdentifier,
     },
   },
-  withEnvironmentId(EnvironmentId): {
-    assert std.isString(EnvironmentId) : 'EnvironmentId must be a string',
+  setEnvironmentId(EnvironmentId): {
     Properties+::: {
-      EnvironmentId: EnvironmentId,
+      EnvironmentId:
+        if !std.isString(EnvironmentId) then (error 'EnvironmentId must be a string')
+        else if std.isEmpty(EnvironmentId) then (error 'EnvironmentId must be not empty')
+        else if std.length(EnvironmentId) < 1 then error ('EnvironmentId should have at least 1 characters')
+        else if std.length(EnvironmentId) > 36 then error ('EnvironmentId should have not more than 36 characters')
+        else EnvironmentId,
     },
   },
-  withEnvironmentIdentifier(EnvironmentIdentifier): {
-    assert std.isString(EnvironmentIdentifier) : 'EnvironmentIdentifier must be a string',
+  setEnvironmentIdentifier(EnvironmentIdentifier): {
     Properties+::: {
-      EnvironmentIdentifier: EnvironmentIdentifier,
+      EnvironmentIdentifier:
+        if !std.isString(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be a string')
+        else if std.isEmpty(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be not empty')
+        else if std.length(EnvironmentIdentifier) < 1 then error ('EnvironmentIdentifier should have at least 1 characters')
+        else if std.length(EnvironmentIdentifier) > 36 then error ('EnvironmentIdentifier should have not more than 36 characters')
+        else EnvironmentIdentifier,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 1 then error ('Id should have at least 1 characters')
+        else if std.length(Id) > 36 then error ('Id should have not more than 36 characters')
+        else Id,
     },
   },
-  withIdentifier(Identifier): {
-    assert std.isString(Identifier) : 'Identifier must be a string',
+  setIdentifier(Identifier): {
     Properties+::: {
-      Identifier: Identifier,
+      Identifier:
+        if !std.isString(Identifier) then (error 'Identifier must be a string')
+        else if std.isEmpty(Identifier) then (error 'Identifier must be not empty')
+        else if std.length(Identifier) < 1 then error ('Identifier should have at least 1 characters')
+        else if std.length(Identifier) > 36 then error ('Identifier should have not more than 36 characters')
+        else Identifier,
     },
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

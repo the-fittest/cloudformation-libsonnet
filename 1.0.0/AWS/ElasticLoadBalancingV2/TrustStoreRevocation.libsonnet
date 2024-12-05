@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,96 +10,103 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancingV2::TrustStoreRevocation',
   },
-  withRevocationContents(RevocationContents): {
+  setRevocationContents(RevocationContents): {
     Properties+::: {
-      RevocationContents: (if std.isArray(RevocationContents) then RevocationContents else [RevocationContents]),
+      RevocationContents:
+        if !std.isArray(RevocationContents) then (error 'RevocationContents must be an array')
+        else RevocationContents,
     },
   },
-  withRevocationContentsMixin(RevocationContents): {
+  setRevocationContentsMixin(RevocationContents): {
     Properties+::: {
-      RevocationContents+: (if std.isArray(RevocationContents) then RevocationContents else [RevocationContents]),
+      RevocationContents+: RevocationContents,
     },
   },
-  withTrustStoreArn(TrustStoreArn): {
-    assert std.isString(TrustStoreArn) : 'TrustStoreArn must be a string',
+  setTrustStoreArn(TrustStoreArn): {
     Properties+::: {
-      TrustStoreArn: TrustStoreArn,
+      TrustStoreArn:
+        if !std.isString(TrustStoreArn) then (error 'TrustStoreArn must be a string')
+        else if std.isEmpty(TrustStoreArn) then (error 'TrustStoreArn must be not empty')
+        else TrustStoreArn,
     },
   },
-  withRevocationId(RevocationId): {
-    assert std.isNumber(RevocationId) : 'RevocationId must be a number',
+  setRevocationId(RevocationId): {
     Properties+::: {
-      RevocationId: RevocationId,
+      RevocationId:
+        if !std.isNumber(RevocationId) then (error 'RevocationId must be an number')
+        else RevocationId,
     },
   },
-  withTrustStoreRevocations(TrustStoreRevocations): {
+  setTrustStoreRevocations(TrustStoreRevocations): {
     Properties+::: {
-      TrustStoreRevocations: (if std.isArray(TrustStoreRevocations) then TrustStoreRevocations else [TrustStoreRevocations]),
+      TrustStoreRevocations:
+        if !std.isArray(TrustStoreRevocations) then (error 'TrustStoreRevocations must be an array')
+        else TrustStoreRevocations,
     },
   },
-  withTrustStoreRevocationsMixin(TrustStoreRevocations): {
+  setTrustStoreRevocationsMixin(TrustStoreRevocations): {
     Properties+::: {
-      TrustStoreRevocations+: (if std.isArray(TrustStoreRevocations) then TrustStoreRevocations else [TrustStoreRevocations]),
+      TrustStoreRevocations+: TrustStoreRevocations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

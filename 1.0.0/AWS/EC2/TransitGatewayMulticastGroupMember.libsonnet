@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GroupIpAddress) : 'GroupIpAddress must be a string',
-      GroupIpAddress: GroupIpAddress,
-      assert std.isString(NetworkInterfaceId) : 'NetworkInterfaceId must be a string',
-      NetworkInterfaceId: NetworkInterfaceId,
-      assert std.isString(TransitGatewayMulticastDomainId) : 'TransitGatewayMulticastDomainId must be a string',
-      TransitGatewayMulticastDomainId: TransitGatewayMulticastDomainId,
+      GroupIpAddress:
+        if !std.isString(GroupIpAddress) then (error 'GroupIpAddress must be a string')
+        else if std.isEmpty(GroupIpAddress) then (error 'GroupIpAddress must be not empty')
+        else GroupIpAddress,
+      NetworkInterfaceId:
+        if !std.isString(NetworkInterfaceId) then (error 'NetworkInterfaceId must be a string')
+        else if std.isEmpty(NetworkInterfaceId) then (error 'NetworkInterfaceId must be not empty')
+        else NetworkInterfaceId,
+      TransitGatewayMulticastDomainId:
+        if !std.isString(TransitGatewayMulticastDomainId) then (error 'TransitGatewayMulticastDomainId must be a string')
+        else if std.isEmpty(TransitGatewayMulticastDomainId) then (error 'TransitGatewayMulticastDomainId must be not empty')
+        else TransitGatewayMulticastDomainId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,106 +27,116 @@
     Metadata:: [],
     Type: 'AWS::EC2::TransitGatewayMulticastGroupMember',
   },
-  withTransitGatewayAttachmentId(TransitGatewayAttachmentId): {
-    assert std.isString(TransitGatewayAttachmentId) : 'TransitGatewayAttachmentId must be a string',
+  setTransitGatewayAttachmentId(TransitGatewayAttachmentId): {
     Properties+::: {
-      TransitGatewayAttachmentId: TransitGatewayAttachmentId,
+      TransitGatewayAttachmentId:
+        if !std.isString(TransitGatewayAttachmentId) then (error 'TransitGatewayAttachmentId must be a string')
+        else if std.isEmpty(TransitGatewayAttachmentId) then (error 'TransitGatewayAttachmentId must be not empty')
+        else TransitGatewayAttachmentId,
     },
   },
-  withSubnetId(SubnetId): {
-    assert std.isString(SubnetId) : 'SubnetId must be a string',
+  setSubnetId(SubnetId): {
     Properties+::: {
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
   },
-  withResourceId(ResourceId): {
-    assert std.isString(ResourceId) : 'ResourceId must be a string',
+  setResourceId(ResourceId): {
     Properties+::: {
-      ResourceId: ResourceId,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else ResourceId,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else ResourceType,
     },
   },
-  withGroupMember(GroupMember): {
-    assert std.isBoolean(GroupMember) : 'GroupMember must be a boolean',
+  setGroupMember(GroupMember): {
     Properties+::: {
-      GroupMember: GroupMember,
+      GroupMember:
+        if !std.isBoolean(GroupMember) then (error 'GroupMember must be a boolean') else GroupMember,
     },
   },
-  withGroupSource(GroupSource): {
-    assert std.isBoolean(GroupSource) : 'GroupSource must be a boolean',
+  setGroupSource(GroupSource): {
     Properties+::: {
-      GroupSource: GroupSource,
+      GroupSource:
+        if !std.isBoolean(GroupSource) then (error 'GroupSource must be a boolean') else GroupSource,
     },
   },
-  withMemberType(MemberType): {
-    assert std.isString(MemberType) : 'MemberType must be a string',
+  setMemberType(MemberType): {
     Properties+::: {
-      MemberType: MemberType,
+      MemberType:
+        if !std.isString(MemberType) then (error 'MemberType must be a string')
+        else if std.isEmpty(MemberType) then (error 'MemberType must be not empty')
+        else MemberType,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

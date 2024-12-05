@@ -7,14 +7,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PoolName) : 'PoolName must be a string',
-      PoolName: PoolName,
-      assert std.isString(BundleId) : 'BundleId must be a string',
-      BundleId: BundleId,
-      assert std.isString(DirectoryId) : 'DirectoryId must be a string',
-      DirectoryId: DirectoryId,
-      assert std.isObject(Capacity) : 'Capacity must be an object',
-      Capacity: Capacity,
+      PoolName:
+        if !std.isString(PoolName) then (error 'PoolName must be a string')
+        else if std.isEmpty(PoolName) then (error 'PoolName must be not empty')
+        else PoolName,
+      BundleId:
+        if !std.isString(BundleId) then (error 'BundleId must be a string')
+        else if std.isEmpty(BundleId) then (error 'BundleId must be not empty')
+        else BundleId,
+      DirectoryId:
+        if !std.isString(DirectoryId) then (error 'DirectoryId must be a string')
+        else if std.isEmpty(DirectoryId) then (error 'DirectoryId must be not empty')
+        else if std.length(DirectoryId) < 10 then error ('DirectoryId should have at least 10 characters')
+        else if std.length(DirectoryId) > 65 then error ('DirectoryId should have not more than 65 characters')
+        else DirectoryId,
+      Capacity:
+        if !std.isObject(Capacity) then (error 'Capacity must be an object')
+        else if !std.objectHas(Capacity, 'DesiredUserSessions') then (error ' have attribute DesiredUserSessions')
+        else Capacity,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,110 +34,125 @@
     Metadata:: [],
     Type: 'AWS::WorkSpaces::WorkspacesPool',
   },
-  withPoolId(PoolId): {
-    assert std.isString(PoolId) : 'PoolId must be a string',
+  setPoolId(PoolId): {
     Properties+::: {
-      PoolId: PoolId,
+      PoolId:
+        if !std.isString(PoolId) then (error 'PoolId must be a string')
+        else if std.isEmpty(PoolId) then (error 'PoolId must be not empty')
+        else PoolId,
     },
   },
-  withPoolArn(PoolArn): {
-    assert std.isString(PoolArn) : 'PoolArn must be a string',
+  setPoolArn(PoolArn): {
     Properties+::: {
-      PoolArn: PoolArn,
+      PoolArn:
+        if !std.isString(PoolArn) then (error 'PoolArn must be a string')
+        else if std.isEmpty(PoolArn) then (error 'PoolArn must be not empty')
+        else PoolArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withApplicationSettings(ApplicationSettings): {
-    assert std.isObject(ApplicationSettings) : 'ApplicationSettings must be a object',
+  setApplicationSettings(ApplicationSettings): {
     Properties+::: {
-      ApplicationSettings: ApplicationSettings,
+      ApplicationSettings:
+        if !std.isObject(ApplicationSettings) then (error 'ApplicationSettings must be an object')
+        else if !std.objectHas(ApplicationSettings, 'Status') then (error ' have attribute Status')
+        else ApplicationSettings,
     },
   },
-  withTimeoutSettings(TimeoutSettings): {
-    assert std.isObject(TimeoutSettings) : 'TimeoutSettings must be a object',
+  setTimeoutSettings(TimeoutSettings): {
     Properties+::: {
-      TimeoutSettings: TimeoutSettings,
+      TimeoutSettings:
+        if !std.isObject(TimeoutSettings) then (error 'TimeoutSettings must be an object')
+        else TimeoutSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

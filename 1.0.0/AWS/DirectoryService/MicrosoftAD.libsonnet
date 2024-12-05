@@ -6,12 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(VpcSettings) : 'VpcSettings must be an object',
-      VpcSettings: VpcSettings,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Password) : 'Password must be a string',
-      Password: Password,
+      VpcSettings:
+        if !std.isObject(VpcSettings) then (error 'VpcSettings must be an object')
+        else if !std.objectHas(VpcSettings, 'VpcId') then (error ' have attribute VpcId')
+        else if !std.objectHas(VpcSettings, 'SubnetIds') then (error ' have attribute SubnetIds')
+        else VpcSettings,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Password:
+        if !std.isString(Password) then (error 'Password must be a string')
+        else if std.isEmpty(Password) then (error 'Password must be not empty')
+        else Password,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,110 +28,120 @@
     Metadata:: [],
     Type: 'AWS::DirectoryService::MicrosoftAD',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAlias(Alias): {
-    assert std.isString(Alias) : 'Alias must be a string',
+  setAlias(Alias): {
     Properties+::: {
-      Alias: Alias,
+      Alias:
+        if !std.isString(Alias) then (error 'Alias must be a string')
+        else if std.isEmpty(Alias) then (error 'Alias must be not empty')
+        else Alias,
     },
   },
-  withDnsIpAddresses(DnsIpAddresses): {
+  setDnsIpAddresses(DnsIpAddresses): {
     Properties+::: {
-      DnsIpAddresses: (if std.isArray(DnsIpAddresses) then DnsIpAddresses else [DnsIpAddresses]),
+      DnsIpAddresses:
+        if !std.isArray(DnsIpAddresses) then (error 'DnsIpAddresses must be an array')
+        else DnsIpAddresses,
     },
   },
-  withDnsIpAddressesMixin(DnsIpAddresses): {
+  setDnsIpAddressesMixin(DnsIpAddresses): {
     Properties+::: {
-      DnsIpAddresses+: (if std.isArray(DnsIpAddresses) then DnsIpAddresses else [DnsIpAddresses]),
+      DnsIpAddresses+: DnsIpAddresses,
     },
   },
-  withCreateAlias(CreateAlias): {
-    assert std.isBoolean(CreateAlias) : 'CreateAlias must be a boolean',
+  setCreateAlias(CreateAlias): {
     Properties+::: {
-      CreateAlias: CreateAlias,
+      CreateAlias:
+        if !std.isBoolean(CreateAlias) then (error 'CreateAlias must be a boolean') else CreateAlias,
     },
   },
-  withEdition(Edition): {
-    assert std.isString(Edition) : 'Edition must be a string',
+  setEdition(Edition): {
     Properties+::: {
-      Edition: Edition,
+      Edition:
+        if !std.isString(Edition) then (error 'Edition must be a string')
+        else if std.isEmpty(Edition) then (error 'Edition must be not empty')
+        else Edition,
     },
   },
-  withEnableSso(EnableSso): {
-    assert std.isBoolean(EnableSso) : 'EnableSso must be a boolean',
+  setEnableSso(EnableSso): {
     Properties+::: {
-      EnableSso: EnableSso,
+      EnableSso:
+        if !std.isBoolean(EnableSso) then (error 'EnableSso must be a boolean') else EnableSso,
     },
   },
-  withShortName(ShortName): {
-    assert std.isString(ShortName) : 'ShortName must be a string',
+  setShortName(ShortName): {
     Properties+::: {
-      ShortName: ShortName,
+      ShortName:
+        if !std.isString(ShortName) then (error 'ShortName must be a string')
+        else if std.isEmpty(ShortName) then (error 'ShortName must be not empty')
+        else ShortName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

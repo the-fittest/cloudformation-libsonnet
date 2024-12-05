@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 256 then error ('RoleArn should have not more than 256 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,147 +19,180 @@
     Metadata:: [],
     Type: 'AWS::StepFunctions::StateMachine',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 80 then error ('Name should have not more than 80 characters')
+        else Name,
     },
   },
-  withDefinitionString(DefinitionString): {
-    assert std.isString(DefinitionString) : 'DefinitionString must be a string',
+  setDefinitionString(DefinitionString): {
     Properties+::: {
-      DefinitionString: DefinitionString,
+      DefinitionString:
+        if !std.isString(DefinitionString) then (error 'DefinitionString must be a string')
+        else if std.isEmpty(DefinitionString) then (error 'DefinitionString must be not empty')
+        else if std.length(DefinitionString) < 1 then error ('DefinitionString should have at least 1 characters')
+        else if std.length(DefinitionString) > 1048576 then error ('DefinitionString should have not more than 1048576 characters')
+        else DefinitionString,
     },
   },
-  withStateMachineName(StateMachineName): {
-    assert std.isString(StateMachineName) : 'StateMachineName must be a string',
+  setStateMachineName(StateMachineName): {
     Properties+::: {
-      StateMachineName: StateMachineName,
+      StateMachineName:
+        if !std.isString(StateMachineName) then (error 'StateMachineName must be a string')
+        else if std.isEmpty(StateMachineName) then (error 'StateMachineName must be not empty')
+        else if std.length(StateMachineName) < 1 then error ('StateMachineName should have at least 1 characters')
+        else if std.length(StateMachineName) > 80 then error ('StateMachineName should have not more than 80 characters')
+        else StateMachineName,
     },
   },
-  withStateMachineType(StateMachineType): {
-    assert std.isString(StateMachineType) : 'StateMachineType must be a string',
-    assert StateMachineType == 'STANDARD' || StateMachineType == 'EXPRESS' : "StateMachineType should be 'STANDARD' or 'EXPRESS'",
+  setStateMachineType(StateMachineType): {
     Properties+::: {
-      StateMachineType: StateMachineType,
+      StateMachineType:
+        if !std.isString(StateMachineType) then (error 'StateMachineType must be a string')
+        else if std.isEmpty(StateMachineType) then (error 'StateMachineType must be not empty')
+        else if StateMachineType != 'STANDARD' && StateMachineType != 'EXPRESS' then (error "StateMachineType should be 'STANDARD' or 'EXPRESS'")
+        else StateMachineType,
     },
   },
-  withStateMachineRevisionId(StateMachineRevisionId): {
-    assert std.isString(StateMachineRevisionId) : 'StateMachineRevisionId must be a string',
+  setStateMachineRevisionId(StateMachineRevisionId): {
     Properties+::: {
-      StateMachineRevisionId: StateMachineRevisionId,
+      StateMachineRevisionId:
+        if !std.isString(StateMachineRevisionId) then (error 'StateMachineRevisionId must be a string')
+        else if std.isEmpty(StateMachineRevisionId) then (error 'StateMachineRevisionId must be not empty')
+        else if std.length(StateMachineRevisionId) < 1 then error ('StateMachineRevisionId should have at least 1 characters')
+        else if std.length(StateMachineRevisionId) > 256 then error ('StateMachineRevisionId should have not more than 256 characters')
+        else StateMachineRevisionId,
     },
   },
-  withLoggingConfiguration(LoggingConfiguration): {
-    assert std.isObject(LoggingConfiguration) : 'LoggingConfiguration must be a object',
+  setLoggingConfiguration(LoggingConfiguration): {
     Properties+::: {
-      LoggingConfiguration: LoggingConfiguration,
+      LoggingConfiguration:
+        if !std.isObject(LoggingConfiguration) then (error 'LoggingConfiguration must be an object')
+        else LoggingConfiguration,
     },
   },
-  withTracingConfiguration(TracingConfiguration): {
-    assert std.isObject(TracingConfiguration) : 'TracingConfiguration must be a object',
+  setTracingConfiguration(TracingConfiguration): {
     Properties+::: {
-      TracingConfiguration: TracingConfiguration,
+      TracingConfiguration:
+        if !std.isObject(TracingConfiguration) then (error 'TracingConfiguration must be an object')
+        else TracingConfiguration,
     },
   },
-  withEncryptionConfiguration(EncryptionConfiguration): {
-    assert std.isObject(EncryptionConfiguration) : 'EncryptionConfiguration must be a object',
+  setEncryptionConfiguration(EncryptionConfiguration): {
     Properties+::: {
-      EncryptionConfiguration: EncryptionConfiguration,
+      EncryptionConfiguration:
+        if !std.isObject(EncryptionConfiguration) then (error 'EncryptionConfiguration must be an object')
+        else if !std.objectHas(EncryptionConfiguration, 'Type') then (error ' have attribute Type')
+        else EncryptionConfiguration,
     },
   },
-  withDefinitionS3Location(DefinitionS3Location): {
-    assert std.isObject(DefinitionS3Location) : 'DefinitionS3Location must be a object',
+  setDefinitionS3Location(DefinitionS3Location): {
     Properties+::: {
-      DefinitionS3Location: DefinitionS3Location,
+      DefinitionS3Location:
+        if !std.isObject(DefinitionS3Location) then (error 'DefinitionS3Location must be an object')
+        else if !std.objectHas(DefinitionS3Location, 'Bucket') then (error ' have attribute Bucket')
+        else if !std.objectHas(DefinitionS3Location, 'Key') then (error ' have attribute Key')
+        else DefinitionS3Location,
     },
   },
-  withDefinitionSubstitutions(DefinitionSubstitutions): {
-    assert std.isObject(DefinitionSubstitutions) : 'DefinitionSubstitutions must be a object',
+  setDefinitionSubstitutions(DefinitionSubstitutions): {
     Properties+::: {
-      DefinitionSubstitutions: DefinitionSubstitutions,
+      DefinitionSubstitutions:
+        if !std.isObject(DefinitionSubstitutions) then (error 'DefinitionSubstitutions must be an object')
+        else DefinitionSubstitutions,
     },
   },
-  withDefinition(Definition): {
-    assert std.isObject(Definition) : 'Definition must be a object',
+  setDefinition(Definition): {
     Properties+::: {
-      Definition: Definition,
+      Definition:
+        if !std.isObject(Definition) then (error 'Definition must be an object')
+        else Definition,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

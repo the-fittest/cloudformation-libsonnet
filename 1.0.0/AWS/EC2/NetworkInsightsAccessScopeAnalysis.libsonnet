@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(NetworkInsightsAccessScopeId) : 'NetworkInsightsAccessScopeId must be a string',
-      NetworkInsightsAccessScopeId: NetworkInsightsAccessScopeId,
+      NetworkInsightsAccessScopeId:
+        if !std.isString(NetworkInsightsAccessScopeId) then (error 'NetworkInsightsAccessScopeId must be a string')
+        else if std.isEmpty(NetworkInsightsAccessScopeId) then (error 'NetworkInsightsAccessScopeId must be not empty')
+        else NetworkInsightsAccessScopeId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,124 +17,141 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkInsightsAccessScopeAnalysis',
   },
-  withNetworkInsightsAccessScopeAnalysisId(NetworkInsightsAccessScopeAnalysisId): {
-    assert std.isString(NetworkInsightsAccessScopeAnalysisId) : 'NetworkInsightsAccessScopeAnalysisId must be a string',
+  setNetworkInsightsAccessScopeAnalysisId(NetworkInsightsAccessScopeAnalysisId): {
     Properties+::: {
-      NetworkInsightsAccessScopeAnalysisId: NetworkInsightsAccessScopeAnalysisId,
+      NetworkInsightsAccessScopeAnalysisId:
+        if !std.isString(NetworkInsightsAccessScopeAnalysisId) then (error 'NetworkInsightsAccessScopeAnalysisId must be a string')
+        else if std.isEmpty(NetworkInsightsAccessScopeAnalysisId) then (error 'NetworkInsightsAccessScopeAnalysisId must be not empty')
+        else NetworkInsightsAccessScopeAnalysisId,
     },
   },
-  withNetworkInsightsAccessScopeAnalysisArn(NetworkInsightsAccessScopeAnalysisArn): {
-    assert std.isString(NetworkInsightsAccessScopeAnalysisArn) : 'NetworkInsightsAccessScopeAnalysisArn must be a string',
+  setNetworkInsightsAccessScopeAnalysisArn(NetworkInsightsAccessScopeAnalysisArn): {
     Properties+::: {
-      NetworkInsightsAccessScopeAnalysisArn: NetworkInsightsAccessScopeAnalysisArn,
+      NetworkInsightsAccessScopeAnalysisArn:
+        if !std.isString(NetworkInsightsAccessScopeAnalysisArn) then (error 'NetworkInsightsAccessScopeAnalysisArn must be a string')
+        else if std.isEmpty(NetworkInsightsAccessScopeAnalysisArn) then (error 'NetworkInsightsAccessScopeAnalysisArn must be not empty')
+        else NetworkInsightsAccessScopeAnalysisArn,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'running' || Status == 'failed' || Status == 'succeeded' : "Status should be 'running' or 'failed' or 'succeeded'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'running' && Status != 'failed' && Status != 'succeeded' then (error "Status should be 'running' or 'failed' or 'succeeded'")
+        else Status,
     },
   },
-  withStatusMessage(StatusMessage): {
-    assert std.isString(StatusMessage) : 'StatusMessage must be a string',
+  setStatusMessage(StatusMessage): {
     Properties+::: {
-      StatusMessage: StatusMessage,
+      StatusMessage:
+        if !std.isString(StatusMessage) then (error 'StatusMessage must be a string')
+        else if std.isEmpty(StatusMessage) then (error 'StatusMessage must be not empty')
+        else StatusMessage,
     },
   },
-  withStartDate(StartDate): {
-    assert std.isString(StartDate) : 'StartDate must be a string',
+  setStartDate(StartDate): {
     Properties+::: {
-      StartDate: StartDate,
+      StartDate:
+        if !std.isString(StartDate) then (error 'StartDate must be a string')
+        else if std.isEmpty(StartDate) then (error 'StartDate must be not empty')
+        else StartDate,
     },
   },
-  withEndDate(EndDate): {
-    assert std.isString(EndDate) : 'EndDate must be a string',
+  setEndDate(EndDate): {
     Properties+::: {
-      EndDate: EndDate,
+      EndDate:
+        if !std.isString(EndDate) then (error 'EndDate must be a string')
+        else if std.isEmpty(EndDate) then (error 'EndDate must be not empty')
+        else EndDate,
     },
   },
-  withFindingsFound(FindingsFound): {
-    assert std.isString(FindingsFound) : 'FindingsFound must be a string',
-    assert FindingsFound == 'true' || FindingsFound == 'false' || FindingsFound == 'unknown' : "FindingsFound should be 'true' or 'false' or 'unknown'",
+  setFindingsFound(FindingsFound): {
     Properties+::: {
-      FindingsFound: FindingsFound,
+      FindingsFound:
+        if !std.isString(FindingsFound) then (error 'FindingsFound must be a string')
+        else if std.isEmpty(FindingsFound) then (error 'FindingsFound must be not empty')
+        else if FindingsFound != 'true' && FindingsFound != 'false' && FindingsFound != 'unknown' then (error "FindingsFound should be 'true' or 'false' or 'unknown'")
+        else FindingsFound,
     },
   },
-  withAnalyzedEniCount(AnalyzedEniCount): {
-    assert std.isNumber(AnalyzedEniCount) : 'AnalyzedEniCount must be a number',
+  setAnalyzedEniCount(AnalyzedEniCount): {
     Properties+::: {
-      AnalyzedEniCount: AnalyzedEniCount,
+      AnalyzedEniCount:
+        if !std.isNumber(AnalyzedEniCount) then (error 'AnalyzedEniCount must be an number')
+        else AnalyzedEniCount,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

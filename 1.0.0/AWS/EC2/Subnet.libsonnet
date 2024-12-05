@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,186 +17,212 @@
     Metadata:: [],
     Type: 'AWS::EC2::Subnet',
   },
-  withAssignIpv6AddressOnCreation(AssignIpv6AddressOnCreation): {
-    assert std.isBoolean(AssignIpv6AddressOnCreation) : 'AssignIpv6AddressOnCreation must be a boolean',
+  setAssignIpv6AddressOnCreation(AssignIpv6AddressOnCreation): {
     Properties+::: {
-      AssignIpv6AddressOnCreation: AssignIpv6AddressOnCreation,
+      AssignIpv6AddressOnCreation:
+        if !std.isBoolean(AssignIpv6AddressOnCreation) then (error 'AssignIpv6AddressOnCreation must be a boolean') else AssignIpv6AddressOnCreation,
     },
   },
-  withMapPublicIpOnLaunch(MapPublicIpOnLaunch): {
-    assert std.isBoolean(MapPublicIpOnLaunch) : 'MapPublicIpOnLaunch must be a boolean',
+  setMapPublicIpOnLaunch(MapPublicIpOnLaunch): {
     Properties+::: {
-      MapPublicIpOnLaunch: MapPublicIpOnLaunch,
+      MapPublicIpOnLaunch:
+        if !std.isBoolean(MapPublicIpOnLaunch) then (error 'MapPublicIpOnLaunch must be a boolean') else MapPublicIpOnLaunch,
     },
   },
-  withEnableLniAtDeviceIndex(EnableLniAtDeviceIndex): {
-    assert std.isNumber(EnableLniAtDeviceIndex) : 'EnableLniAtDeviceIndex must be a number',
+  setEnableLniAtDeviceIndex(EnableLniAtDeviceIndex): {
     Properties+::: {
-      EnableLniAtDeviceIndex: EnableLniAtDeviceIndex,
+      EnableLniAtDeviceIndex:
+        if !std.isNumber(EnableLniAtDeviceIndex) then (error 'EnableLniAtDeviceIndex must be an number')
+        else EnableLniAtDeviceIndex,
     },
   },
-  withNetworkAclAssociationId(NetworkAclAssociationId): {
-    assert std.isString(NetworkAclAssociationId) : 'NetworkAclAssociationId must be a string',
+  setNetworkAclAssociationId(NetworkAclAssociationId): {
     Properties+::: {
-      NetworkAclAssociationId: NetworkAclAssociationId,
+      NetworkAclAssociationId:
+        if !std.isString(NetworkAclAssociationId) then (error 'NetworkAclAssociationId must be a string')
+        else if std.isEmpty(NetworkAclAssociationId) then (error 'NetworkAclAssociationId must be not empty')
+        else NetworkAclAssociationId,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withAvailabilityZoneId(AvailabilityZoneId): {
-    assert std.isString(AvailabilityZoneId) : 'AvailabilityZoneId must be a string',
+  setAvailabilityZoneId(AvailabilityZoneId): {
     Properties+::: {
-      AvailabilityZoneId: AvailabilityZoneId,
+      AvailabilityZoneId:
+        if !std.isString(AvailabilityZoneId) then (error 'AvailabilityZoneId must be a string')
+        else if std.isEmpty(AvailabilityZoneId) then (error 'AvailabilityZoneId must be not empty')
+        else AvailabilityZoneId,
     },
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else CidrBlock,
     },
   },
-  withSubnetId(SubnetId): {
-    assert std.isString(SubnetId) : 'SubnetId must be a string',
+  setSubnetId(SubnetId): {
     Properties+::: {
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
   },
-  withIpv6CidrBlocks(Ipv6CidrBlocks): {
+  setIpv6CidrBlocks(Ipv6CidrBlocks): {
     Properties+::: {
-      Ipv6CidrBlocks: (if std.isArray(Ipv6CidrBlocks) then Ipv6CidrBlocks else [Ipv6CidrBlocks]),
+      Ipv6CidrBlocks:
+        if !std.isArray(Ipv6CidrBlocks) then (error 'Ipv6CidrBlocks must be an array')
+        else Ipv6CidrBlocks,
     },
   },
-  withIpv6CidrBlocksMixin(Ipv6CidrBlocks): {
+  setIpv6CidrBlocksMixin(Ipv6CidrBlocks): {
     Properties+::: {
-      Ipv6CidrBlocks+: (if std.isArray(Ipv6CidrBlocks) then Ipv6CidrBlocks else [Ipv6CidrBlocks]),
+      Ipv6CidrBlocks+: Ipv6CidrBlocks,
     },
   },
-  withIpv6CidrBlock(Ipv6CidrBlock): {
-    assert std.isString(Ipv6CidrBlock) : 'Ipv6CidrBlock must be a string',
+  setIpv6CidrBlock(Ipv6CidrBlock): {
     Properties+::: {
-      Ipv6CidrBlock: Ipv6CidrBlock,
+      Ipv6CidrBlock:
+        if !std.isString(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be a string')
+        else if std.isEmpty(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be not empty')
+        else Ipv6CidrBlock,
     },
   },
-  withOutpostArn(OutpostArn): {
-    assert std.isString(OutpostArn) : 'OutpostArn must be a string',
+  setOutpostArn(OutpostArn): {
     Properties+::: {
-      OutpostArn: OutpostArn,
+      OutpostArn:
+        if !std.isString(OutpostArn) then (error 'OutpostArn must be a string')
+        else if std.isEmpty(OutpostArn) then (error 'OutpostArn must be not empty')
+        else OutpostArn,
     },
   },
-  withIpv6Native(Ipv6Native): {
-    assert std.isBoolean(Ipv6Native) : 'Ipv6Native must be a boolean',
+  setIpv6Native(Ipv6Native): {
     Properties+::: {
-      Ipv6Native: Ipv6Native,
+      Ipv6Native:
+        if !std.isBoolean(Ipv6Native) then (error 'Ipv6Native must be a boolean') else Ipv6Native,
     },
   },
-  withEnableDns64(EnableDns64): {
-    assert std.isBoolean(EnableDns64) : 'EnableDns64 must be a boolean',
+  setEnableDns64(EnableDns64): {
     Properties+::: {
-      EnableDns64: EnableDns64,
+      EnableDns64:
+        if !std.isBoolean(EnableDns64) then (error 'EnableDns64 must be a boolean') else EnableDns64,
     },
   },
-  withPrivateDnsNameOptionsOnLaunch(PrivateDnsNameOptionsOnLaunch): {
-    assert std.isObject(PrivateDnsNameOptionsOnLaunch) : 'PrivateDnsNameOptionsOnLaunch must be a object',
+  setPrivateDnsNameOptionsOnLaunch(PrivateDnsNameOptionsOnLaunch): {
     Properties+::: {
-      PrivateDnsNameOptionsOnLaunch: PrivateDnsNameOptionsOnLaunch,
+      PrivateDnsNameOptionsOnLaunch:
+        if !std.isObject(PrivateDnsNameOptionsOnLaunch) then (error 'PrivateDnsNameOptionsOnLaunch must be an object')
+        else PrivateDnsNameOptionsOnLaunch,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withIpv4IpamPoolId(Ipv4IpamPoolId): {
-    assert std.isString(Ipv4IpamPoolId) : 'Ipv4IpamPoolId must be a string',
+  setIpv4IpamPoolId(Ipv4IpamPoolId): {
     Properties+::: {
-      Ipv4IpamPoolId: Ipv4IpamPoolId,
+      Ipv4IpamPoolId:
+        if !std.isString(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be a string')
+        else if std.isEmpty(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be not empty')
+        else Ipv4IpamPoolId,
     },
   },
-  withIpv4NetmaskLength(Ipv4NetmaskLength): {
-    assert std.isNumber(Ipv4NetmaskLength) : 'Ipv4NetmaskLength must be a number',
+  setIpv4NetmaskLength(Ipv4NetmaskLength): {
     Properties+::: {
-      Ipv4NetmaskLength: Ipv4NetmaskLength,
+      Ipv4NetmaskLength:
+        if !std.isNumber(Ipv4NetmaskLength) then (error 'Ipv4NetmaskLength must be an number')
+        else Ipv4NetmaskLength,
     },
   },
-  withIpv6IpamPoolId(Ipv6IpamPoolId): {
-    assert std.isString(Ipv6IpamPoolId) : 'Ipv6IpamPoolId must be a string',
+  setIpv6IpamPoolId(Ipv6IpamPoolId): {
     Properties+::: {
-      Ipv6IpamPoolId: Ipv6IpamPoolId,
+      Ipv6IpamPoolId:
+        if !std.isString(Ipv6IpamPoolId) then (error 'Ipv6IpamPoolId must be a string')
+        else if std.isEmpty(Ipv6IpamPoolId) then (error 'Ipv6IpamPoolId must be not empty')
+        else Ipv6IpamPoolId,
     },
   },
-  withIpv6NetmaskLength(Ipv6NetmaskLength): {
-    assert std.isNumber(Ipv6NetmaskLength) : 'Ipv6NetmaskLength must be a number',
+  setIpv6NetmaskLength(Ipv6NetmaskLength): {
     Properties+::: {
-      Ipv6NetmaskLength: Ipv6NetmaskLength,
+      Ipv6NetmaskLength:
+        if !std.isNumber(Ipv6NetmaskLength) then (error 'Ipv6NetmaskLength must be an number')
+        else Ipv6NetmaskLength,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

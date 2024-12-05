@@ -7,14 +7,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CertificateAuthorityArn) : 'CertificateAuthorityArn must be a string',
-      CertificateAuthorityArn: CertificateAuthorityArn,
-      assert std.isString(CertificateSigningRequest) : 'CertificateSigningRequest must be a string',
-      CertificateSigningRequest: CertificateSigningRequest,
-      assert std.isString(SigningAlgorithm) : 'SigningAlgorithm must be a string',
-      SigningAlgorithm: SigningAlgorithm,
-      assert std.isObject(Validity) : 'Validity must be an object',
-      Validity: Validity,
+      CertificateAuthorityArn:
+        if !std.isString(CertificateAuthorityArn) then (error 'CertificateAuthorityArn must be a string')
+        else if std.isEmpty(CertificateAuthorityArn) then (error 'CertificateAuthorityArn must be not empty')
+        else CertificateAuthorityArn,
+      CertificateSigningRequest:
+        if !std.isString(CertificateSigningRequest) then (error 'CertificateSigningRequest must be a string')
+        else if std.isEmpty(CertificateSigningRequest) then (error 'CertificateSigningRequest must be not empty')
+        else if std.length(CertificateSigningRequest) < 1 then error ('CertificateSigningRequest should have at least 1 characters')
+        else CertificateSigningRequest,
+      SigningAlgorithm:
+        if !std.isString(SigningAlgorithm) then (error 'SigningAlgorithm must be a string')
+        else if std.isEmpty(SigningAlgorithm) then (error 'SigningAlgorithm must be not empty')
+        else SigningAlgorithm,
+      Validity:
+        if !std.isObject(Validity) then (error 'Validity must be an object')
+        else if !std.objectHas(Validity, 'Value') then (error ' have attribute Value')
+        else if !std.objectHas(Validity, 'Type') then (error ' have attribute Type')
+        else Validity,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,94 +34,104 @@
     Metadata:: [],
     Type: 'AWS::ACMPCA::Certificate',
   },
-  withApiPassthrough(ApiPassthrough): {
-    assert std.isObject(ApiPassthrough) : 'ApiPassthrough must be a object',
+  setApiPassthrough(ApiPassthrough): {
     Properties+::: {
-      ApiPassthrough: ApiPassthrough,
+      ApiPassthrough:
+        if !std.isObject(ApiPassthrough) then (error 'ApiPassthrough must be an object')
+        else ApiPassthrough,
     },
   },
-  withTemplateArn(TemplateArn): {
-    assert std.isString(TemplateArn) : 'TemplateArn must be a string',
+  setTemplateArn(TemplateArn): {
     Properties+::: {
-      TemplateArn: TemplateArn,
+      TemplateArn:
+        if !std.isString(TemplateArn) then (error 'TemplateArn must be a string')
+        else if std.isEmpty(TemplateArn) then (error 'TemplateArn must be not empty')
+        else TemplateArn,
     },
   },
-  withValidityNotBefore(ValidityNotBefore): {
-    assert std.isObject(ValidityNotBefore) : 'ValidityNotBefore must be a object',
+  setValidityNotBefore(ValidityNotBefore): {
     Properties+::: {
-      ValidityNotBefore: ValidityNotBefore,
+      ValidityNotBefore:
+        if !std.isObject(ValidityNotBefore) then (error 'ValidityNotBefore must be an object')
+        else if !std.objectHas(ValidityNotBefore, 'Value') then (error ' have attribute Value')
+        else if !std.objectHas(ValidityNotBefore, 'Type') then (error ' have attribute Type')
+        else ValidityNotBefore,
     },
   },
-  withCertificate(Certificate): {
-    assert std.isString(Certificate) : 'Certificate must be a string',
+  setCertificate(Certificate): {
     Properties+::: {
-      Certificate: Certificate,
+      Certificate:
+        if !std.isString(Certificate) then (error 'Certificate must be a string')
+        else if std.isEmpty(Certificate) then (error 'Certificate must be not empty')
+        else Certificate,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

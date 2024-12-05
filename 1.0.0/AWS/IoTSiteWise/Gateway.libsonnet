@@ -5,10 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GatewayName) : 'GatewayName must be a string',
-      GatewayName: GatewayName,
-      assert std.isObject(GatewayPlatform) : 'GatewayPlatform must be an object',
-      GatewayPlatform: GatewayPlatform,
+      GatewayName:
+        if !std.isString(GatewayName) then (error 'GatewayName must be a string')
+        else if std.isEmpty(GatewayName) then (error 'GatewayName must be not empty')
+        else GatewayName,
+      GatewayPlatform:
+        if !std.isObject(GatewayPlatform) then (error 'GatewayPlatform must be an object')
+        else GatewayPlatform,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,90 +21,96 @@
     Metadata:: [],
     Type: 'AWS::IoTSiteWise::Gateway',
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withGatewayId(GatewayId): {
-    assert std.isString(GatewayId) : 'GatewayId must be a string',
+  setGatewayId(GatewayId): {
     Properties+::: {
-      GatewayId: GatewayId,
+      GatewayId:
+        if !std.isString(GatewayId) then (error 'GatewayId must be a string')
+        else if std.isEmpty(GatewayId) then (error 'GatewayId must be not empty')
+        else GatewayId,
     },
   },
-  withGatewayCapabilitySummaries(GatewayCapabilitySummaries): {
+  setGatewayCapabilitySummaries(GatewayCapabilitySummaries): {
     Properties+::: {
-      GatewayCapabilitySummaries: (if std.isArray(GatewayCapabilitySummaries) then GatewayCapabilitySummaries else [GatewayCapabilitySummaries]),
+      GatewayCapabilitySummaries:
+        if !std.isArray(GatewayCapabilitySummaries) then (error 'GatewayCapabilitySummaries must be an array')
+        else GatewayCapabilitySummaries,
     },
   },
-  withGatewayCapabilitySummariesMixin(GatewayCapabilitySummaries): {
+  setGatewayCapabilitySummariesMixin(GatewayCapabilitySummaries): {
     Properties+::: {
-      GatewayCapabilitySummaries+: (if std.isArray(GatewayCapabilitySummaries) then GatewayCapabilitySummaries else [GatewayCapabilitySummaries]),
+      GatewayCapabilitySummaries+: GatewayCapabilitySummaries,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

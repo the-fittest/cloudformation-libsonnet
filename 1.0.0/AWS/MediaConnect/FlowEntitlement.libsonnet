@@ -7,13 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FlowArn) : 'FlowArn must be a string',
-      FlowArn: FlowArn,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      Subscribers: (if std.isArray(Subscribers) then Subscribers else [Subscribers]),
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
+      FlowArn:
+        if !std.isString(FlowArn) then (error 'FlowArn must be a string')
+        else if std.isEmpty(FlowArn) then (error 'FlowArn must be not empty')
+        else FlowArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Subscribers:
+        if !std.isArray(Subscribers) then (error 'Subscribers must be an array')
+        else Subscribers,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,89 +31,97 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::FlowEntitlement',
   },
-  withEntitlementArn(EntitlementArn): {
-    assert std.isString(EntitlementArn) : 'EntitlementArn must be a string',
+  setEntitlementArn(EntitlementArn): {
     Properties+::: {
-      EntitlementArn: EntitlementArn,
+      EntitlementArn:
+        if !std.isString(EntitlementArn) then (error 'EntitlementArn must be a string')
+        else if std.isEmpty(EntitlementArn) then (error 'EntitlementArn must be not empty')
+        else EntitlementArn,
     },
   },
-  withDataTransferSubscriberFeePercent(DataTransferSubscriberFeePercent): {
-    assert std.isNumber(DataTransferSubscriberFeePercent) : 'DataTransferSubscriberFeePercent must be a number',
+  setDataTransferSubscriberFeePercent(DataTransferSubscriberFeePercent): {
     Properties+::: {
-      DataTransferSubscriberFeePercent: DataTransferSubscriberFeePercent,
+      DataTransferSubscriberFeePercent:
+        if !std.isNumber(DataTransferSubscriberFeePercent) then (error 'DataTransferSubscriberFeePercent must be an number')
+        else DataTransferSubscriberFeePercent,
     },
   },
-  withEncryption(Encryption): {
-    assert std.isObject(Encryption) : 'Encryption must be a object',
+  setEncryption(Encryption): {
     Properties+::: {
-      Encryption: Encryption,
+      Encryption:
+        if !std.isObject(Encryption) then (error 'Encryption must be an object')
+        else if !std.objectHas(Encryption, 'Algorithm') then (error ' have attribute Algorithm')
+        else if !std.objectHas(Encryption, 'RoleArn') then (error ' have attribute RoleArn')
+        else Encryption,
     },
   },
-  withEntitlementStatus(EntitlementStatus): {
-    assert std.isString(EntitlementStatus) : 'EntitlementStatus must be a string',
-    assert EntitlementStatus == 'ENABLED' || EntitlementStatus == 'DISABLED' : "EntitlementStatus should be 'ENABLED' or 'DISABLED'",
+  setEntitlementStatus(EntitlementStatus): {
     Properties+::: {
-      EntitlementStatus: EntitlementStatus,
+      EntitlementStatus:
+        if !std.isString(EntitlementStatus) then (error 'EntitlementStatus must be a string')
+        else if std.isEmpty(EntitlementStatus) then (error 'EntitlementStatus must be not empty')
+        else if EntitlementStatus != 'ENABLED' && EntitlementStatus != 'DISABLED' then (error "EntitlementStatus should be 'ENABLED' or 'DISABLED'")
+        else EntitlementStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

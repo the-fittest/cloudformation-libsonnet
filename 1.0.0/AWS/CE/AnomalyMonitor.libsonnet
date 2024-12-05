@@ -5,11 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MonitorName) : 'MonitorName must be a string',
-      MonitorName: MonitorName,
-      assert std.isString(MonitorType) : 'MonitorType must be a string',
-      assert MonitorType == 'DIMENSIONAL' || MonitorType == 'CUSTOM' : "MonitorType should be 'DIMENSIONAL' or 'CUSTOM'",
-      MonitorType: MonitorType,
+      MonitorName:
+        if !std.isString(MonitorName) then (error 'MonitorName must be a string')
+        else if std.isEmpty(MonitorName) then (error 'MonitorName must be not empty')
+        else if std.length(MonitorName) > 1024 then error ('MonitorName should have not more than 1024 characters')
+        else MonitorName,
+      MonitorType:
+        if !std.isString(MonitorType) then (error 'MonitorType must be a string')
+        else if std.isEmpty(MonitorType) then (error 'MonitorType must be not empty')
+        else if MonitorType != 'DIMENSIONAL' && MonitorType != 'CUSTOM' then (error "MonitorType should be 'DIMENSIONAL' or 'CUSTOM'")
+        else MonitorType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,117 +24,136 @@
     Metadata:: [],
     Type: 'AWS::CE::AnomalyMonitor',
   },
-  withMonitorArn(MonitorArn): {
-    assert std.isString(MonitorArn) : 'MonitorArn must be a string',
+  setMonitorArn(MonitorArn): {
     Properties+::: {
-      MonitorArn: MonitorArn,
+      MonitorArn:
+        if !std.isString(MonitorArn) then (error 'MonitorArn must be a string')
+        else if std.isEmpty(MonitorArn) then (error 'MonitorArn must be not empty')
+        else MonitorArn,
     },
   },
-  withCreationDate(CreationDate): {
-    assert std.isString(CreationDate) : 'CreationDate must be a string',
+  setCreationDate(CreationDate): {
     Properties+::: {
-      CreationDate: CreationDate,
+      CreationDate:
+        if !std.isString(CreationDate) then (error 'CreationDate must be a string')
+        else if std.isEmpty(CreationDate) then (error 'CreationDate must be not empty')
+        else if std.length(CreationDate) > 40 then error ('CreationDate should have not more than 40 characters')
+        else CreationDate,
     },
   },
-  withLastEvaluatedDate(LastEvaluatedDate): {
-    assert std.isString(LastEvaluatedDate) : 'LastEvaluatedDate must be a string',
+  setLastEvaluatedDate(LastEvaluatedDate): {
     Properties+::: {
-      LastEvaluatedDate: LastEvaluatedDate,
+      LastEvaluatedDate:
+        if !std.isString(LastEvaluatedDate) then (error 'LastEvaluatedDate must be a string')
+        else if std.isEmpty(LastEvaluatedDate) then (error 'LastEvaluatedDate must be not empty')
+        else if std.length(LastEvaluatedDate) > 40 then error ('LastEvaluatedDate should have not more than 40 characters')
+        else LastEvaluatedDate,
     },
   },
-  withLastUpdatedDate(LastUpdatedDate): {
-    assert std.isString(LastUpdatedDate) : 'LastUpdatedDate must be a string',
+  setLastUpdatedDate(LastUpdatedDate): {
     Properties+::: {
-      LastUpdatedDate: LastUpdatedDate,
+      LastUpdatedDate:
+        if !std.isString(LastUpdatedDate) then (error 'LastUpdatedDate must be a string')
+        else if std.isEmpty(LastUpdatedDate) then (error 'LastUpdatedDate must be not empty')
+        else if std.length(LastUpdatedDate) > 40 then error ('LastUpdatedDate should have not more than 40 characters')
+        else LastUpdatedDate,
     },
   },
-  withMonitorDimension(MonitorDimension): {
-    assert std.isString(MonitorDimension) : 'MonitorDimension must be a string',
-    assert MonitorDimension == 'SERVICE' : "MonitorDimension should be 'SERVICE'",
+  setMonitorDimension(MonitorDimension): {
     Properties+::: {
-      MonitorDimension: MonitorDimension,
+      MonitorDimension:
+        if !std.isString(MonitorDimension) then (error 'MonitorDimension must be a string')
+        else if std.isEmpty(MonitorDimension) then (error 'MonitorDimension must be not empty')
+        else if MonitorDimension != 'SERVICE' then (error "MonitorDimension should be 'SERVICE'")
+        else MonitorDimension,
     },
   },
-  withMonitorSpecification(MonitorSpecification): {
-    assert std.isString(MonitorSpecification) : 'MonitorSpecification must be a string',
+  setMonitorSpecification(MonitorSpecification): {
     Properties+::: {
-      MonitorSpecification: MonitorSpecification,
+      MonitorSpecification:
+        if !std.isString(MonitorSpecification) then (error 'MonitorSpecification must be a string')
+        else if std.isEmpty(MonitorSpecification) then (error 'MonitorSpecification must be not empty')
+        else MonitorSpecification,
     },
   },
-  withDimensionalValueCount(DimensionalValueCount): {
-    assert std.isNumber(DimensionalValueCount) : 'DimensionalValueCount must be a number',
+  setDimensionalValueCount(DimensionalValueCount): {
     Properties+::: {
-      DimensionalValueCount: DimensionalValueCount,
+      DimensionalValueCount:
+        if !std.isNumber(DimensionalValueCount) then (error 'DimensionalValueCount must be an number')
+        else DimensionalValueCount,
     },
   },
-  withResourceTags(ResourceTags): {
+  setResourceTags(ResourceTags): {
     Properties+::: {
-      ResourceTags: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags:
+        if !std.isArray(ResourceTags) then (error 'ResourceTags must be an array')
+        else if std.length(ResourceTags) > 200 then error ('ResourceTags cannot have more than 200 items')
+        else ResourceTags,
     },
   },
-  withResourceTagsMixin(ResourceTags): {
+  setResourceTagsMixin(ResourceTags): {
     Properties+::: {
-      ResourceTags+: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags+: ResourceTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

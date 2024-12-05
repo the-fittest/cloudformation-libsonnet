@@ -9,17 +9,27 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DeploymentMode) : 'DeploymentMode must be a string',
-      DeploymentMode: DeploymentMode,
-      assert std.isString(HostInstanceType) : 'HostInstanceType must be a string',
-      HostInstanceType: HostInstanceType,
-      assert std.isString(EngineType) : 'EngineType must be a string',
-      EngineType: EngineType,
-      Users: (if std.isArray(Users) then Users else [Users]),
-      assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
-      PubliclyAccessible: PubliclyAccessible,
-      assert std.isString(BrokerName) : 'BrokerName must be a string',
-      BrokerName: BrokerName,
+      DeploymentMode:
+        if !std.isString(DeploymentMode) then (error 'DeploymentMode must be a string')
+        else if std.isEmpty(DeploymentMode) then (error 'DeploymentMode must be not empty')
+        else DeploymentMode,
+      HostInstanceType:
+        if !std.isString(HostInstanceType) then (error 'HostInstanceType must be a string')
+        else if std.isEmpty(HostInstanceType) then (error 'HostInstanceType must be not empty')
+        else HostInstanceType,
+      EngineType:
+        if !std.isString(EngineType) then (error 'EngineType must be a string')
+        else if std.isEmpty(EngineType) then (error 'EngineType must be not empty')
+        else EngineType,
+      Users:
+        if !std.isArray(Users) then (error 'Users must be an array')
+        else Users,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
+      BrokerName:
+        if !std.isString(BrokerName) then (error 'BrokerName must be a string')
+        else if std.isEmpty(BrokerName) then (error 'BrokerName must be not empty')
+        else BrokerName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -29,244 +39,297 @@
     Metadata:: [],
     Type: 'AWS::AmazonMQ::Broker',
   },
-  withSecurityGroups(SecurityGroups): {
+  setSecurityGroups(SecurityGroups): {
     Properties+::: {
-      SecurityGroups: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups:
+        if !std.isArray(SecurityGroups) then (error 'SecurityGroups must be an array')
+        else SecurityGroups,
     },
   },
-  withSecurityGroupsMixin(SecurityGroups): {
+  setSecurityGroupsMixin(SecurityGroups): {
     Properties+::: {
-      SecurityGroups+: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups+: SecurityGroups,
     },
   },
-  withDataReplicationPrimaryBrokerArn(DataReplicationPrimaryBrokerArn): {
-    assert std.isString(DataReplicationPrimaryBrokerArn) : 'DataReplicationPrimaryBrokerArn must be a string',
+  setDataReplicationPrimaryBrokerArn(DataReplicationPrimaryBrokerArn): {
     Properties+::: {
-      DataReplicationPrimaryBrokerArn: DataReplicationPrimaryBrokerArn,
+      DataReplicationPrimaryBrokerArn:
+        if !std.isString(DataReplicationPrimaryBrokerArn) then (error 'DataReplicationPrimaryBrokerArn must be a string')
+        else if std.isEmpty(DataReplicationPrimaryBrokerArn) then (error 'DataReplicationPrimaryBrokerArn must be not empty')
+        else DataReplicationPrimaryBrokerArn,
     },
   },
-  withConfiguration(Configuration): {
-    assert std.isObject(Configuration) : 'Configuration must be a object',
+  setConfiguration(Configuration): {
     Properties+::: {
-      Configuration: Configuration,
+      Configuration:
+        if !std.isObject(Configuration) then (error 'Configuration must be an object')
+        else if !std.objectHas(Configuration, 'Revision') then (error ' have attribute Revision')
+        else if !std.objectHas(Configuration, 'Id') then (error ' have attribute Id')
+        else Configuration,
     },
   },
-  withAuthenticationStrategy(AuthenticationStrategy): {
-    assert std.isString(AuthenticationStrategy) : 'AuthenticationStrategy must be a string',
+  setAuthenticationStrategy(AuthenticationStrategy): {
     Properties+::: {
-      AuthenticationStrategy: AuthenticationStrategy,
+      AuthenticationStrategy:
+        if !std.isString(AuthenticationStrategy) then (error 'AuthenticationStrategy must be a string')
+        else if std.isEmpty(AuthenticationStrategy) then (error 'AuthenticationStrategy must be not empty')
+        else AuthenticationStrategy,
     },
   },
-  withSubnetIds(SubnetIds): {
+  setSubnetIds(SubnetIds): {
     Properties+::: {
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else SubnetIds,
     },
   },
-  withSubnetIdsMixin(SubnetIds): {
+  setSubnetIdsMixin(SubnetIds): {
     Properties+::: {
-      SubnetIds+: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds+: SubnetIds,
     },
   },
-  withStompEndpoints(StompEndpoints): {
+  setStompEndpoints(StompEndpoints): {
     Properties+::: {
-      StompEndpoints: (if std.isArray(StompEndpoints) then StompEndpoints else [StompEndpoints]),
+      StompEndpoints:
+        if !std.isArray(StompEndpoints) then (error 'StompEndpoints must be an array')
+        else StompEndpoints,
     },
   },
-  withStompEndpointsMixin(StompEndpoints): {
+  setStompEndpointsMixin(StompEndpoints): {
     Properties+::: {
-      StompEndpoints+: (if std.isArray(StompEndpoints) then StompEndpoints else [StompEndpoints]),
+      StompEndpoints+: StompEndpoints,
     },
   },
-  withMqttEndpoints(MqttEndpoints): {
+  setMqttEndpoints(MqttEndpoints): {
     Properties+::: {
-      MqttEndpoints: (if std.isArray(MqttEndpoints) then MqttEndpoints else [MqttEndpoints]),
+      MqttEndpoints:
+        if !std.isArray(MqttEndpoints) then (error 'MqttEndpoints must be an array')
+        else MqttEndpoints,
     },
   },
-  withMqttEndpointsMixin(MqttEndpoints): {
+  setMqttEndpointsMixin(MqttEndpoints): {
     Properties+::: {
-      MqttEndpoints+: (if std.isArray(MqttEndpoints) then MqttEndpoints else [MqttEndpoints]),
+      MqttEndpoints+: MqttEndpoints,
     },
   },
-  withAmqpEndpoints(AmqpEndpoints): {
+  setAmqpEndpoints(AmqpEndpoints): {
     Properties+::: {
-      AmqpEndpoints: (if std.isArray(AmqpEndpoints) then AmqpEndpoints else [AmqpEndpoints]),
+      AmqpEndpoints:
+        if !std.isArray(AmqpEndpoints) then (error 'AmqpEndpoints must be an array')
+        else AmqpEndpoints,
     },
   },
-  withAmqpEndpointsMixin(AmqpEndpoints): {
+  setAmqpEndpointsMixin(AmqpEndpoints): {
     Properties+::: {
-      AmqpEndpoints+: (if std.isArray(AmqpEndpoints) then AmqpEndpoints else [AmqpEndpoints]),
+      AmqpEndpoints+: AmqpEndpoints,
     },
   },
-  withEncryptionOptions(EncryptionOptions): {
-    assert std.isObject(EncryptionOptions) : 'EncryptionOptions must be a object',
+  setEncryptionOptions(EncryptionOptions): {
     Properties+::: {
-      EncryptionOptions: EncryptionOptions,
+      EncryptionOptions:
+        if !std.isObject(EncryptionOptions) then (error 'EncryptionOptions must be an object')
+        else if !std.objectHas(EncryptionOptions, 'UseAwsOwnedKey') then (error ' have attribute UseAwsOwnedKey')
+        else EncryptionOptions,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withConfigurationRevision(ConfigurationRevision): {
-    assert std.isNumber(ConfigurationRevision) : 'ConfigurationRevision must be a number',
+  setConfigurationRevision(ConfigurationRevision): {
     Properties+::: {
-      ConfigurationRevision: ConfigurationRevision,
+      ConfigurationRevision:
+        if !std.isNumber(ConfigurationRevision) then (error 'ConfigurationRevision must be an number')
+        else ConfigurationRevision,
     },
   },
-  withStorageType(StorageType): {
-    assert std.isString(StorageType) : 'StorageType must be a string',
+  setStorageType(StorageType): {
     Properties+::: {
-      StorageType: StorageType,
+      StorageType:
+        if !std.isString(StorageType) then (error 'StorageType must be a string')
+        else if std.isEmpty(StorageType) then (error 'StorageType must be not empty')
+        else StorageType,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withMaintenanceWindowStartTime(MaintenanceWindowStartTime): {
-    assert std.isObject(MaintenanceWindowStartTime) : 'MaintenanceWindowStartTime must be a object',
+  setMaintenanceWindowStartTime(MaintenanceWindowStartTime): {
     Properties+::: {
-      MaintenanceWindowStartTime: MaintenanceWindowStartTime,
+      MaintenanceWindowStartTime:
+        if !std.isObject(MaintenanceWindowStartTime) then (error 'MaintenanceWindowStartTime must be an object')
+        else if !std.objectHas(MaintenanceWindowStartTime, 'DayOfWeek') then (error ' have attribute DayOfWeek')
+        else if !std.objectHas(MaintenanceWindowStartTime, 'TimeOfDay') then (error ' have attribute TimeOfDay')
+        else if !std.objectHas(MaintenanceWindowStartTime, 'TimeZone') then (error ' have attribute TimeZone')
+        else MaintenanceWindowStartTime,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withLogs(Logs): {
-    assert std.isObject(Logs) : 'Logs must be a object',
+  setLogs(Logs): {
     Properties+::: {
-      Logs: Logs,
+      Logs:
+        if !std.isObject(Logs) then (error 'Logs must be an object')
+        else Logs,
     },
   },
-  withConfigurationId(ConfigurationId): {
-    assert std.isString(ConfigurationId) : 'ConfigurationId must be a string',
+  setConfigurationId(ConfigurationId): {
     Properties+::: {
-      ConfigurationId: ConfigurationId,
+      ConfigurationId:
+        if !std.isString(ConfigurationId) then (error 'ConfigurationId must be a string')
+        else if std.isEmpty(ConfigurationId) then (error 'ConfigurationId must be not empty')
+        else ConfigurationId,
     },
   },
-  withDataReplicationMode(DataReplicationMode): {
-    assert std.isString(DataReplicationMode) : 'DataReplicationMode must be a string',
+  setDataReplicationMode(DataReplicationMode): {
     Properties+::: {
-      DataReplicationMode: DataReplicationMode,
+      DataReplicationMode:
+        if !std.isString(DataReplicationMode) then (error 'DataReplicationMode must be a string')
+        else if std.isEmpty(DataReplicationMode) then (error 'DataReplicationMode must be not empty')
+        else DataReplicationMode,
     },
   },
-  withWssEndpoints(WssEndpoints): {
+  setWssEndpoints(WssEndpoints): {
     Properties+::: {
-      WssEndpoints: (if std.isArray(WssEndpoints) then WssEndpoints else [WssEndpoints]),
+      WssEndpoints:
+        if !std.isArray(WssEndpoints) then (error 'WssEndpoints must be an array')
+        else WssEndpoints,
     },
   },
-  withWssEndpointsMixin(WssEndpoints): {
+  setWssEndpointsMixin(WssEndpoints): {
     Properties+::: {
-      WssEndpoints+: (if std.isArray(WssEndpoints) then WssEndpoints else [WssEndpoints]),
+      WssEndpoints+: WssEndpoints,
     },
   },
-  withIpAddresses(IpAddresses): {
+  setIpAddresses(IpAddresses): {
     Properties+::: {
-      IpAddresses: (if std.isArray(IpAddresses) then IpAddresses else [IpAddresses]),
+      IpAddresses:
+        if !std.isArray(IpAddresses) then (error 'IpAddresses must be an array')
+        else IpAddresses,
     },
   },
-  withIpAddressesMixin(IpAddresses): {
+  setIpAddressesMixin(IpAddresses): {
     Properties+::: {
-      IpAddresses+: (if std.isArray(IpAddresses) then IpAddresses else [IpAddresses]),
+      IpAddresses+: IpAddresses,
     },
   },
-  withOpenWireEndpoints(OpenWireEndpoints): {
+  setOpenWireEndpoints(OpenWireEndpoints): {
     Properties+::: {
-      OpenWireEndpoints: (if std.isArray(OpenWireEndpoints) then OpenWireEndpoints else [OpenWireEndpoints]),
+      OpenWireEndpoints:
+        if !std.isArray(OpenWireEndpoints) then (error 'OpenWireEndpoints must be an array')
+        else OpenWireEndpoints,
     },
   },
-  withOpenWireEndpointsMixin(OpenWireEndpoints): {
+  setOpenWireEndpointsMixin(OpenWireEndpoints): {
     Properties+::: {
-      OpenWireEndpoints+: (if std.isArray(OpenWireEndpoints) then OpenWireEndpoints else [OpenWireEndpoints]),
+      OpenWireEndpoints+: OpenWireEndpoints,
     },
   },
-  withLdapServerMetadata(LdapServerMetadata): {
-    assert std.isObject(LdapServerMetadata) : 'LdapServerMetadata must be a object',
+  setLdapServerMetadata(LdapServerMetadata): {
     Properties+::: {
-      LdapServerMetadata: LdapServerMetadata,
+      LdapServerMetadata:
+        if !std.isObject(LdapServerMetadata) then (error 'LdapServerMetadata must be an object')
+        else if !std.objectHas(LdapServerMetadata, 'Hosts') then (error ' have attribute Hosts')
+        else if !std.objectHas(LdapServerMetadata, 'UserSearchMatching') then (error ' have attribute UserSearchMatching')
+        else if !std.objectHas(LdapServerMetadata, 'UserBase') then (error ' have attribute UserBase')
+        else if !std.objectHas(LdapServerMetadata, 'RoleSearchMatching') then (error ' have attribute RoleSearchMatching')
+        else if !std.objectHas(LdapServerMetadata, 'ServiceAccountUsername') then (error ' have attribute ServiceAccountUsername')
+        else if !std.objectHas(LdapServerMetadata, 'RoleBase') then (error ' have attribute RoleBase')
+        else if !std.objectHas(LdapServerMetadata, 'ServiceAccountPassword') then (error ' have attribute ServiceAccountPassword')
+        else LdapServerMetadata,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GroupId) : 'GroupId must be a string',
-      GroupId: GroupId,
+      GroupId:
+        if !std.isString(GroupId) then (error 'GroupId must be a string')
+        else if std.isEmpty(GroupId) then (error 'GroupId must be not empty')
+        else GroupId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,112 +17,128 @@
     Metadata:: [],
     Type: 'AWS::Greengrass::GroupVersion',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withLoggerDefinitionVersionArn(LoggerDefinitionVersionArn): {
-    assert std.isString(LoggerDefinitionVersionArn) : 'LoggerDefinitionVersionArn must be a string',
+  setLoggerDefinitionVersionArn(LoggerDefinitionVersionArn): {
     Properties+::: {
-      LoggerDefinitionVersionArn: LoggerDefinitionVersionArn,
+      LoggerDefinitionVersionArn:
+        if !std.isString(LoggerDefinitionVersionArn) then (error 'LoggerDefinitionVersionArn must be a string')
+        else if std.isEmpty(LoggerDefinitionVersionArn) then (error 'LoggerDefinitionVersionArn must be not empty')
+        else LoggerDefinitionVersionArn,
     },
   },
-  withDeviceDefinitionVersionArn(DeviceDefinitionVersionArn): {
-    assert std.isString(DeviceDefinitionVersionArn) : 'DeviceDefinitionVersionArn must be a string',
+  setDeviceDefinitionVersionArn(DeviceDefinitionVersionArn): {
     Properties+::: {
-      DeviceDefinitionVersionArn: DeviceDefinitionVersionArn,
+      DeviceDefinitionVersionArn:
+        if !std.isString(DeviceDefinitionVersionArn) then (error 'DeviceDefinitionVersionArn must be a string')
+        else if std.isEmpty(DeviceDefinitionVersionArn) then (error 'DeviceDefinitionVersionArn must be not empty')
+        else DeviceDefinitionVersionArn,
     },
   },
-  withFunctionDefinitionVersionArn(FunctionDefinitionVersionArn): {
-    assert std.isString(FunctionDefinitionVersionArn) : 'FunctionDefinitionVersionArn must be a string',
+  setFunctionDefinitionVersionArn(FunctionDefinitionVersionArn): {
     Properties+::: {
-      FunctionDefinitionVersionArn: FunctionDefinitionVersionArn,
+      FunctionDefinitionVersionArn:
+        if !std.isString(FunctionDefinitionVersionArn) then (error 'FunctionDefinitionVersionArn must be a string')
+        else if std.isEmpty(FunctionDefinitionVersionArn) then (error 'FunctionDefinitionVersionArn must be not empty')
+        else FunctionDefinitionVersionArn,
     },
   },
-  withCoreDefinitionVersionArn(CoreDefinitionVersionArn): {
-    assert std.isString(CoreDefinitionVersionArn) : 'CoreDefinitionVersionArn must be a string',
+  setCoreDefinitionVersionArn(CoreDefinitionVersionArn): {
     Properties+::: {
-      CoreDefinitionVersionArn: CoreDefinitionVersionArn,
+      CoreDefinitionVersionArn:
+        if !std.isString(CoreDefinitionVersionArn) then (error 'CoreDefinitionVersionArn must be a string')
+        else if std.isEmpty(CoreDefinitionVersionArn) then (error 'CoreDefinitionVersionArn must be not empty')
+        else CoreDefinitionVersionArn,
     },
   },
-  withResourceDefinitionVersionArn(ResourceDefinitionVersionArn): {
-    assert std.isString(ResourceDefinitionVersionArn) : 'ResourceDefinitionVersionArn must be a string',
+  setResourceDefinitionVersionArn(ResourceDefinitionVersionArn): {
     Properties+::: {
-      ResourceDefinitionVersionArn: ResourceDefinitionVersionArn,
+      ResourceDefinitionVersionArn:
+        if !std.isString(ResourceDefinitionVersionArn) then (error 'ResourceDefinitionVersionArn must be a string')
+        else if std.isEmpty(ResourceDefinitionVersionArn) then (error 'ResourceDefinitionVersionArn must be not empty')
+        else ResourceDefinitionVersionArn,
     },
   },
-  withConnectorDefinitionVersionArn(ConnectorDefinitionVersionArn): {
-    assert std.isString(ConnectorDefinitionVersionArn) : 'ConnectorDefinitionVersionArn must be a string',
+  setConnectorDefinitionVersionArn(ConnectorDefinitionVersionArn): {
     Properties+::: {
-      ConnectorDefinitionVersionArn: ConnectorDefinitionVersionArn,
+      ConnectorDefinitionVersionArn:
+        if !std.isString(ConnectorDefinitionVersionArn) then (error 'ConnectorDefinitionVersionArn must be a string')
+        else if std.isEmpty(ConnectorDefinitionVersionArn) then (error 'ConnectorDefinitionVersionArn must be not empty')
+        else ConnectorDefinitionVersionArn,
     },
   },
-  withSubscriptionDefinitionVersionArn(SubscriptionDefinitionVersionArn): {
-    assert std.isString(SubscriptionDefinitionVersionArn) : 'SubscriptionDefinitionVersionArn must be a string',
+  setSubscriptionDefinitionVersionArn(SubscriptionDefinitionVersionArn): {
     Properties+::: {
-      SubscriptionDefinitionVersionArn: SubscriptionDefinitionVersionArn,
+      SubscriptionDefinitionVersionArn:
+        if !std.isString(SubscriptionDefinitionVersionArn) then (error 'SubscriptionDefinitionVersionArn must be a string')
+        else if std.isEmpty(SubscriptionDefinitionVersionArn) then (error 'SubscriptionDefinitionVersionArn must be not empty')
+        else SubscriptionDefinitionVersionArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

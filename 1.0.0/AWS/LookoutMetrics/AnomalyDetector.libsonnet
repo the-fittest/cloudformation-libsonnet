@@ -5,9 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(AnomalyDetectorConfig) : 'AnomalyDetectorConfig must be an object',
-      AnomalyDetectorConfig: AnomalyDetectorConfig,
-      MetricSetList: (if std.isArray(MetricSetList) then MetricSetList else [MetricSetList]),
+      AnomalyDetectorConfig:
+        if !std.isObject(AnomalyDetectorConfig) then (error 'AnomalyDetectorConfig must be an object')
+        else if !std.objectHas(AnomalyDetectorConfig, 'AnomalyDetectorFrequency') then (error ' have attribute AnomalyDetectorFrequency')
+        else AnomalyDetectorConfig,
+      MetricSetList:
+        if !std.isArray(MetricSetList) then (error 'MetricSetList must be an array')
+        else if std.length(MetricSetList) < 1 then error ('MetricSetList cannot have less than 1 items')
+        else if std.length(MetricSetList) > 1 then error ('MetricSetList cannot have more than 1 items')
+        else MetricSetList,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,88 +23,102 @@
     Metadata:: [],
     Type: 'AWS::LookoutMetrics::AnomalyDetector',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withAnomalyDetectorName(AnomalyDetectorName): {
-    assert std.isString(AnomalyDetectorName) : 'AnomalyDetectorName must be a string',
+  setAnomalyDetectorName(AnomalyDetectorName): {
     Properties+::: {
-      AnomalyDetectorName: AnomalyDetectorName,
+      AnomalyDetectorName:
+        if !std.isString(AnomalyDetectorName) then (error 'AnomalyDetectorName must be a string')
+        else if std.isEmpty(AnomalyDetectorName) then (error 'AnomalyDetectorName must be not empty')
+        else if std.length(AnomalyDetectorName) < 1 then error ('AnomalyDetectorName should have at least 1 characters')
+        else if std.length(AnomalyDetectorName) > 63 then error ('AnomalyDetectorName should have not more than 63 characters')
+        else AnomalyDetectorName,
     },
   },
-  withAnomalyDetectorDescription(AnomalyDetectorDescription): {
-    assert std.isString(AnomalyDetectorDescription) : 'AnomalyDetectorDescription must be a string',
+  setAnomalyDetectorDescription(AnomalyDetectorDescription): {
     Properties+::: {
-      AnomalyDetectorDescription: AnomalyDetectorDescription,
+      AnomalyDetectorDescription:
+        if !std.isString(AnomalyDetectorDescription) then (error 'AnomalyDetectorDescription must be a string')
+        else if std.isEmpty(AnomalyDetectorDescription) then (error 'AnomalyDetectorDescription must be not empty')
+        else if std.length(AnomalyDetectorDescription) > 256 then error ('AnomalyDetectorDescription should have not more than 256 characters')
+        else AnomalyDetectorDescription,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 20 then error ('KmsKeyArn should have at least 20 characters')
+        else if std.length(KmsKeyArn) > 2048 then error ('KmsKeyArn should have not more than 2048 characters')
+        else KmsKeyArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

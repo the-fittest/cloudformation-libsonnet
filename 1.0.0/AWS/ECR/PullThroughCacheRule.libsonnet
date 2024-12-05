@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,88 +10,100 @@
     Metadata:: [],
     Type: 'AWS::ECR::PullThroughCacheRule',
   },
-  withEcrRepositoryPrefix(EcrRepositoryPrefix): {
-    assert std.isString(EcrRepositoryPrefix) : 'EcrRepositoryPrefix must be a string',
+  setEcrRepositoryPrefix(EcrRepositoryPrefix): {
     Properties+::: {
-      EcrRepositoryPrefix: EcrRepositoryPrefix,
+      EcrRepositoryPrefix:
+        if !std.isString(EcrRepositoryPrefix) then (error 'EcrRepositoryPrefix must be a string')
+        else if std.isEmpty(EcrRepositoryPrefix) then (error 'EcrRepositoryPrefix must be not empty')
+        else if std.length(EcrRepositoryPrefix) < 2 then error ('EcrRepositoryPrefix should have at least 2 characters')
+        else if std.length(EcrRepositoryPrefix) > 30 then error ('EcrRepositoryPrefix should have not more than 30 characters')
+        else EcrRepositoryPrefix,
     },
   },
-  withUpstreamRegistryUrl(UpstreamRegistryUrl): {
-    assert std.isString(UpstreamRegistryUrl) : 'UpstreamRegistryUrl must be a string',
+  setUpstreamRegistryUrl(UpstreamRegistryUrl): {
     Properties+::: {
-      UpstreamRegistryUrl: UpstreamRegistryUrl,
+      UpstreamRegistryUrl:
+        if !std.isString(UpstreamRegistryUrl) then (error 'UpstreamRegistryUrl must be a string')
+        else if std.isEmpty(UpstreamRegistryUrl) then (error 'UpstreamRegistryUrl must be not empty')
+        else UpstreamRegistryUrl,
     },
   },
-  withCredentialArn(CredentialArn): {
-    assert std.isString(CredentialArn) : 'CredentialArn must be a string',
+  setCredentialArn(CredentialArn): {
     Properties+::: {
-      CredentialArn: CredentialArn,
+      CredentialArn:
+        if !std.isString(CredentialArn) then (error 'CredentialArn must be a string')
+        else if std.isEmpty(CredentialArn) then (error 'CredentialArn must be not empty')
+        else if std.length(CredentialArn) < 50 then error ('CredentialArn should have at least 50 characters')
+        else if std.length(CredentialArn) > 612 then error ('CredentialArn should have not more than 612 characters')
+        else CredentialArn,
     },
   },
-  withUpstreamRegistry(UpstreamRegistry): {
-    assert std.isString(UpstreamRegistry) : 'UpstreamRegistry must be a string',
+  setUpstreamRegistry(UpstreamRegistry): {
     Properties+::: {
-      UpstreamRegistry: UpstreamRegistry,
+      UpstreamRegistry:
+        if !std.isString(UpstreamRegistry) then (error 'UpstreamRegistry must be a string')
+        else if std.isEmpty(UpstreamRegistry) then (error 'UpstreamRegistry must be not empty')
+        else UpstreamRegistry,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

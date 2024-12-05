@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
-      assert std.isString(PeerVpcId) : 'PeerVpcId must be a string',
-      PeerVpcId: PeerVpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
+      PeerVpcId:
+        if !std.isString(PeerVpcId) then (error 'PeerVpcId must be a string')
+        else if std.isEmpty(PeerVpcId) then (error 'PeerVpcId must be not empty')
+        else PeerVpcId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,98 +22,108 @@
     Metadata:: [],
     Type: 'AWS::EC2::VPCPeeringConnection',
   },
-  withPeerRoleArn(PeerRoleArn): {
-    assert std.isString(PeerRoleArn) : 'PeerRoleArn must be a string',
+  setPeerRoleArn(PeerRoleArn): {
     Properties+::: {
-      PeerRoleArn: PeerRoleArn,
+      PeerRoleArn:
+        if !std.isString(PeerRoleArn) then (error 'PeerRoleArn must be a string')
+        else if std.isEmpty(PeerRoleArn) then (error 'PeerRoleArn must be not empty')
+        else PeerRoleArn,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withPeerRegion(PeerRegion): {
-    assert std.isString(PeerRegion) : 'PeerRegion must be a string',
+  setPeerRegion(PeerRegion): {
     Properties+::: {
-      PeerRegion: PeerRegion,
+      PeerRegion:
+        if !std.isString(PeerRegion) then (error 'PeerRegion must be a string')
+        else if std.isEmpty(PeerRegion) then (error 'PeerRegion must be not empty')
+        else PeerRegion,
     },
   },
-  withPeerOwnerId(PeerOwnerId): {
-    assert std.isString(PeerOwnerId) : 'PeerOwnerId must be a string',
+  setPeerOwnerId(PeerOwnerId): {
     Properties+::: {
-      PeerOwnerId: PeerOwnerId,
+      PeerOwnerId:
+        if !std.isString(PeerOwnerId) then (error 'PeerOwnerId must be a string')
+        else if std.isEmpty(PeerOwnerId) then (error 'PeerOwnerId must be not empty')
+        else PeerOwnerId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

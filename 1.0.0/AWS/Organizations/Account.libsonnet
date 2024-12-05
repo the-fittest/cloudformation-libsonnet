@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AccountName) : 'AccountName must be a string',
-      AccountName: AccountName,
-      assert std.isString(Email) : 'Email must be a string',
-      Email: Email,
+      AccountName:
+        if !std.isString(AccountName) then (error 'AccountName must be a string')
+        else if std.isEmpty(AccountName) then (error 'AccountName must be not empty')
+        else if std.length(AccountName) < 1 then error ('AccountName should have at least 1 characters')
+        else if std.length(AccountName) > 50 then error ('AccountName should have not more than 50 characters')
+        else AccountName,
+      Email:
+        if !std.isString(Email) then (error 'Email must be a string')
+        else if std.isEmpty(Email) then (error 'Email must be not empty')
+        else if std.length(Email) < 6 then error ('Email should have at least 6 characters')
+        else if std.length(Email) > 64 then error ('Email should have not more than 64 characters')
+        else Email,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,122 +26,141 @@
     Metadata:: [],
     Type: 'AWS::Organizations::Account',
   },
-  withRoleName(RoleName): {
-    assert std.isString(RoleName) : 'RoleName must be a string',
+  setRoleName(RoleName): {
     Properties+::: {
-      RoleName: RoleName,
+      RoleName:
+        if !std.isString(RoleName) then (error 'RoleName must be a string')
+        else if std.isEmpty(RoleName) then (error 'RoleName must be not empty')
+        else if std.length(RoleName) < 1 then error ('RoleName should have at least 1 characters')
+        else if std.length(RoleName) > 64 then error ('RoleName should have not more than 64 characters')
+        else RoleName,
     },
   },
-  withParentIds(ParentIds): {
+  setParentIds(ParentIds): {
     Properties+::: {
-      ParentIds: (if std.isArray(ParentIds) then ParentIds else [ParentIds]),
+      ParentIds:
+        if !std.isArray(ParentIds) then (error 'ParentIds must be an array')
+        else ParentIds,
     },
   },
-  withParentIdsMixin(ParentIds): {
+  setParentIdsMixin(ParentIds): {
     Properties+::: {
-      ParentIds+: (if std.isArray(ParentIds) then ParentIds else [ParentIds]),
+      ParentIds+: ParentIds,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAccountId(AccountId): {
-    assert std.isString(AccountId) : 'AccountId must be a string',
+  setAccountId(AccountId): {
     Properties+::: {
-      AccountId: AccountId,
+      AccountId:
+        if !std.isString(AccountId) then (error 'AccountId must be a string')
+        else if std.isEmpty(AccountId) then (error 'AccountId must be not empty')
+        else if std.length(AccountId) > 12 then error ('AccountId should have not more than 12 characters')
+        else AccountId,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withJoinedMethod(JoinedMethod): {
-    assert std.isString(JoinedMethod) : 'JoinedMethod must be a string',
-    assert JoinedMethod == 'INVITED' || JoinedMethod == 'CREATED' : "JoinedMethod should be 'INVITED' or 'CREATED'",
+  setJoinedMethod(JoinedMethod): {
     Properties+::: {
-      JoinedMethod: JoinedMethod,
+      JoinedMethod:
+        if !std.isString(JoinedMethod) then (error 'JoinedMethod must be a string')
+        else if std.isEmpty(JoinedMethod) then (error 'JoinedMethod must be not empty')
+        else if JoinedMethod != 'INVITED' && JoinedMethod != 'CREATED' then (error "JoinedMethod should be 'INVITED' or 'CREATED'")
+        else JoinedMethod,
     },
   },
-  withJoinedTimestamp(JoinedTimestamp): {
-    assert std.isString(JoinedTimestamp) : 'JoinedTimestamp must be a string',
+  setJoinedTimestamp(JoinedTimestamp): {
     Properties+::: {
-      JoinedTimestamp: JoinedTimestamp,
+      JoinedTimestamp:
+        if !std.isString(JoinedTimestamp) then (error 'JoinedTimestamp must be a string')
+        else if std.isEmpty(JoinedTimestamp) then (error 'JoinedTimestamp must be not empty')
+        else JoinedTimestamp,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' || Status == 'SUSPENDED' || Status == 'PENDING_CLOSURE' : "Status should be 'ACTIVE' or 'SUSPENDED' or 'PENDING_CLOSURE'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'SUSPENDED' && Status != 'PENDING_CLOSURE' then (error "Status should be 'ACTIVE' or 'SUSPENDED' or 'PENDING_CLOSURE'")
+        else Status,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

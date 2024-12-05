@@ -5,11 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetFunctionArn) : 'TargetFunctionArn must be a string',
-      TargetFunctionArn: TargetFunctionArn,
-      assert std.isString(AuthType) : 'AuthType must be a string',
-      assert AuthType == 'AWS_IAM' || AuthType == 'NONE' : "AuthType should be 'AWS_IAM' or 'NONE'",
-      AuthType: AuthType,
+      TargetFunctionArn:
+        if !std.isString(TargetFunctionArn) then (error 'TargetFunctionArn must be a string')
+        else if std.isEmpty(TargetFunctionArn) then (error 'TargetFunctionArn must be not empty')
+        else TargetFunctionArn,
+      AuthType:
+        if !std.isString(AuthType) then (error 'AuthType must be a string')
+        else if std.isEmpty(AuthType) then (error 'AuthType must be not empty')
+        else if AuthType != 'AWS_IAM' && AuthType != 'NONE' then (error "AuthType should be 'AWS_IAM' or 'NONE'")
+        else AuthType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,95 +23,106 @@
     Metadata:: [],
     Type: 'AWS::Lambda::Url',
   },
-  withQualifier(Qualifier): {
-    assert std.isString(Qualifier) : 'Qualifier must be a string',
+  setQualifier(Qualifier): {
     Properties+::: {
-      Qualifier: Qualifier,
+      Qualifier:
+        if !std.isString(Qualifier) then (error 'Qualifier must be a string')
+        else if std.isEmpty(Qualifier) then (error 'Qualifier must be not empty')
+        else if std.length(Qualifier) < 1 then error ('Qualifier should have at least 1 characters')
+        else if std.length(Qualifier) > 128 then error ('Qualifier should have not more than 128 characters')
+        else Qualifier,
     },
   },
-  withInvokeMode(InvokeMode): {
-    assert std.isString(InvokeMode) : 'InvokeMode must be a string',
-    assert InvokeMode == 'BUFFERED' || InvokeMode == 'RESPONSE_STREAM' : "InvokeMode should be 'BUFFERED' or 'RESPONSE_STREAM'",
+  setInvokeMode(InvokeMode): {
     Properties+::: {
-      InvokeMode: InvokeMode,
+      InvokeMode:
+        if !std.isString(InvokeMode) then (error 'InvokeMode must be a string')
+        else if std.isEmpty(InvokeMode) then (error 'InvokeMode must be not empty')
+        else if InvokeMode != 'BUFFERED' && InvokeMode != 'RESPONSE_STREAM' then (error "InvokeMode should be 'BUFFERED' or 'RESPONSE_STREAM'")
+        else InvokeMode,
     },
   },
-  withFunctionArn(FunctionArn): {
-    assert std.isString(FunctionArn) : 'FunctionArn must be a string',
+  setFunctionArn(FunctionArn): {
     Properties+::: {
-      FunctionArn: FunctionArn,
+      FunctionArn:
+        if !std.isString(FunctionArn) then (error 'FunctionArn must be a string')
+        else if std.isEmpty(FunctionArn) then (error 'FunctionArn must be not empty')
+        else FunctionArn,
     },
   },
-  withFunctionUrl(FunctionUrl): {
-    assert std.isString(FunctionUrl) : 'FunctionUrl must be a string',
+  setFunctionUrl(FunctionUrl): {
     Properties+::: {
-      FunctionUrl: FunctionUrl,
+      FunctionUrl:
+        if !std.isString(FunctionUrl) then (error 'FunctionUrl must be a string')
+        else if std.isEmpty(FunctionUrl) then (error 'FunctionUrl must be not empty')
+        else FunctionUrl,
     },
   },
-  withCors(Cors): {
-    assert std.isObject(Cors) : 'Cors must be a object',
+  setCors(Cors): {
     Properties+::: {
-      Cors: Cors,
+      Cors:
+        if !std.isObject(Cors) then (error 'Cors must be an object')
+        else Cors,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

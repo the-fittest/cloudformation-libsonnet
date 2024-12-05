@@ -10,21 +10,37 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(BudgetName) : 'BudgetName must be a string',
-      BudgetName: BudgetName,
-      assert std.isString(NotificationType) : 'NotificationType must be a string',
-      assert NotificationType == 'ACTUAL' || NotificationType == 'FORECASTED' : "NotificationType should be 'ACTUAL' or 'FORECASTED'",
-      NotificationType: NotificationType,
-      assert std.isString(ActionType) : 'ActionType must be a string',
-      assert ActionType == 'APPLY_IAM_POLICY' || ActionType == 'APPLY_SCP_POLICY' || ActionType == 'RUN_SSM_DOCUMENTS' : "ActionType should be 'APPLY_IAM_POLICY' or 'APPLY_SCP_POLICY' or 'RUN_SSM_DOCUMENTS'",
-      ActionType: ActionType,
-      assert std.isObject(ActionThreshold) : 'ActionThreshold must be an object',
-      ActionThreshold: ActionThreshold,
-      assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
-      ExecutionRoleArn: ExecutionRoleArn,
-      assert std.isObject(Definition) : 'Definition must be an object',
-      Definition: Definition,
-      Subscribers: (if std.isArray(Subscribers) then Subscribers else [Subscribers]),
+      BudgetName:
+        if !std.isString(BudgetName) then (error 'BudgetName must be a string')
+        else if std.isEmpty(BudgetName) then (error 'BudgetName must be not empty')
+        else BudgetName,
+      NotificationType:
+        if !std.isString(NotificationType) then (error 'NotificationType must be a string')
+        else if std.isEmpty(NotificationType) then (error 'NotificationType must be not empty')
+        else if NotificationType != 'ACTUAL' && NotificationType != 'FORECASTED' then (error "NotificationType should be 'ACTUAL' or 'FORECASTED'")
+        else NotificationType,
+      ActionType:
+        if !std.isString(ActionType) then (error 'ActionType must be a string')
+        else if std.isEmpty(ActionType) then (error 'ActionType must be not empty')
+        else if ActionType != 'APPLY_IAM_POLICY' && ActionType != 'APPLY_SCP_POLICY' && ActionType != 'RUN_SSM_DOCUMENTS' then (error "ActionType should be 'APPLY_IAM_POLICY' or 'APPLY_SCP_POLICY' or 'RUN_SSM_DOCUMENTS'")
+        else ActionType,
+      ActionThreshold:
+        if !std.isObject(ActionThreshold) then (error 'ActionThreshold must be an object')
+        else if !std.objectHas(ActionThreshold, 'Value') then (error ' have attribute Value')
+        else if !std.objectHas(ActionThreshold, 'Type') then (error ' have attribute Type')
+        else ActionThreshold,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
+      Definition:
+        if !std.isObject(Definition) then (error 'Definition must be an object')
+        else Definition,
+      Subscribers:
+        if !std.isArray(Subscribers) then (error 'Subscribers must be an array')
+        else if std.length(Subscribers) < 1 then error ('Subscribers cannot have less than 1 items')
+        else if std.length(Subscribers) > 11 then error ('Subscribers cannot have more than 11 items')
+        else Subscribers,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -34,87 +50,93 @@
     Metadata:: [],
     Type: 'AWS::Budgets::BudgetsAction',
   },
-  withActionId(ActionId): {
-    assert std.isString(ActionId) : 'ActionId must be a string',
+  setActionId(ActionId): {
     Properties+::: {
-      ActionId: ActionId,
+      ActionId:
+        if !std.isString(ActionId) then (error 'ActionId must be a string')
+        else if std.isEmpty(ActionId) then (error 'ActionId must be not empty')
+        else ActionId,
     },
   },
-  withApprovalModel(ApprovalModel): {
-    assert std.isString(ApprovalModel) : 'ApprovalModel must be a string',
-    assert ApprovalModel == 'AUTOMATIC' || ApprovalModel == 'MANUAL' : "ApprovalModel should be 'AUTOMATIC' or 'MANUAL'",
+  setApprovalModel(ApprovalModel): {
     Properties+::: {
-      ApprovalModel: ApprovalModel,
+      ApprovalModel:
+        if !std.isString(ApprovalModel) then (error 'ApprovalModel must be a string')
+        else if std.isEmpty(ApprovalModel) then (error 'ApprovalModel must be not empty')
+        else if ApprovalModel != 'AUTOMATIC' && ApprovalModel != 'MANUAL' then (error "ApprovalModel should be 'AUTOMATIC' or 'MANUAL'")
+        else ApprovalModel,
     },
   },
-  withResourceTags(ResourceTags): {
+  setResourceTags(ResourceTags): {
     Properties+::: {
-      ResourceTags: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags:
+        if !std.isArray(ResourceTags) then (error 'ResourceTags must be an array')
+        else ResourceTags,
     },
   },
-  withResourceTagsMixin(ResourceTags): {
+  setResourceTagsMixin(ResourceTags): {
     Properties+::: {
-      ResourceTags+: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags+: ResourceTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

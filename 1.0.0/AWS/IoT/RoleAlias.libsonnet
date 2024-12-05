@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,92 +19,105 @@
     Metadata:: [],
     Type: 'AWS::IoT::RoleAlias',
   },
-  withRoleAlias(RoleAlias): {
-    assert std.isString(RoleAlias) : 'RoleAlias must be a string',
+  setRoleAlias(RoleAlias): {
     Properties+::: {
-      RoleAlias: RoleAlias,
+      RoleAlias:
+        if !std.isString(RoleAlias) then (error 'RoleAlias must be a string')
+        else if std.isEmpty(RoleAlias) then (error 'RoleAlias must be not empty')
+        else if std.length(RoleAlias) < 1 then error ('RoleAlias should have at least 1 characters')
+        else if std.length(RoleAlias) > 128 then error ('RoleAlias should have not more than 128 characters')
+        else RoleAlias,
     },
   },
-  withRoleAliasArn(RoleAliasArn): {
-    assert std.isString(RoleAliasArn) : 'RoleAliasArn must be a string',
+  setRoleAliasArn(RoleAliasArn): {
     Properties+::: {
-      RoleAliasArn: RoleAliasArn,
+      RoleAliasArn:
+        if !std.isString(RoleAliasArn) then (error 'RoleAliasArn must be a string')
+        else if std.isEmpty(RoleAliasArn) then (error 'RoleAliasArn must be not empty')
+        else if std.length(RoleAliasArn) < 1 then error ('RoleAliasArn should have at least 1 characters')
+        else if std.length(RoleAliasArn) > 128 then error ('RoleAliasArn should have not more than 128 characters')
+        else RoleAliasArn,
     },
   },
-  withCredentialDurationSeconds(CredentialDurationSeconds): {
-    assert std.isNumber(CredentialDurationSeconds) : 'CredentialDurationSeconds must be a number',
+  setCredentialDurationSeconds(CredentialDurationSeconds): {
     Properties+::: {
-      CredentialDurationSeconds: CredentialDurationSeconds,
+      CredentialDurationSeconds:
+        if !std.isNumber(CredentialDurationSeconds) then (error 'CredentialDurationSeconds must be an number')
+        else if CredentialDurationSeconds < 900 then error ('CredentialDurationSeconds should be at least 900')
+        else if CredentialDurationSeconds > 43200 then error ('CredentialDurationSeconds should be not more than 43200')
+        else CredentialDurationSeconds,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,9 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PlatformId) : 'PlatformId must be a string',
-      assert PlatformId == 'AWSLambda-SHA384-ECDSA' || PlatformId == 'Notation-OCI-SHA384-ECDSA' : "PlatformId should be 'AWSLambda-SHA384-ECDSA' or 'Notation-OCI-SHA384-ECDSA'",
-      PlatformId: PlatformId,
+      PlatformId:
+        if !std.isString(PlatformId) then (error 'PlatformId must be a string')
+        else if std.isEmpty(PlatformId) then (error 'PlatformId must be not empty')
+        else if PlatformId != 'AWSLambda-SHA384-ECDSA' && PlatformId != 'Notation-OCI-SHA384-ECDSA' then (error "PlatformId should be 'AWSLambda-SHA384-ECDSA' or 'Notation-OCI-SHA384-ECDSA'")
+        else PlatformId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -16,104 +18,117 @@
     Metadata:: [],
     Type: 'AWS::Signer::SigningProfile',
   },
-  withProfileName(ProfileName): {
-    assert std.isString(ProfileName) : 'ProfileName must be a string',
+  setProfileName(ProfileName): {
     Properties+::: {
-      ProfileName: ProfileName,
+      ProfileName:
+        if !std.isString(ProfileName) then (error 'ProfileName must be a string')
+        else if std.isEmpty(ProfileName) then (error 'ProfileName must be not empty')
+        else if std.length(ProfileName) < 2 then error ('ProfileName should have at least 2 characters')
+        else if std.length(ProfileName) > 64 then error ('ProfileName should have not more than 64 characters')
+        else ProfileName,
     },
   },
-  withProfileVersion(ProfileVersion): {
-    assert std.isString(ProfileVersion) : 'ProfileVersion must be a string',
+  setProfileVersion(ProfileVersion): {
     Properties+::: {
-      ProfileVersion: ProfileVersion,
+      ProfileVersion:
+        if !std.isString(ProfileVersion) then (error 'ProfileVersion must be a string')
+        else if std.isEmpty(ProfileVersion) then (error 'ProfileVersion must be not empty')
+        else ProfileVersion,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withProfileVersionArn(ProfileVersionArn): {
-    assert std.isString(ProfileVersionArn) : 'ProfileVersionArn must be a string',
+  setProfileVersionArn(ProfileVersionArn): {
     Properties+::: {
-      ProfileVersionArn: ProfileVersionArn,
+      ProfileVersionArn:
+        if !std.isString(ProfileVersionArn) then (error 'ProfileVersionArn must be a string')
+        else if std.isEmpty(ProfileVersionArn) then (error 'ProfileVersionArn must be not empty')
+        else ProfileVersionArn,
     },
   },
-  withSignatureValidityPeriod(SignatureValidityPeriod): {
-    assert std.isObject(SignatureValidityPeriod) : 'SignatureValidityPeriod must be a object',
+  setSignatureValidityPeriod(SignatureValidityPeriod): {
     Properties+::: {
-      SignatureValidityPeriod: SignatureValidityPeriod,
+      SignatureValidityPeriod:
+        if !std.isObject(SignatureValidityPeriod) then (error 'SignatureValidityPeriod must be an object')
+        else SignatureValidityPeriod,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

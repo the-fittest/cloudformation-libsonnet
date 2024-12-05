@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ReplicationGroupDescription) : 'ReplicationGroupDescription must be a string',
-      ReplicationGroupDescription: ReplicationGroupDescription,
+      ReplicationGroupDescription:
+        if !std.isString(ReplicationGroupDescription) then (error 'ReplicationGroupDescription must be a string')
+        else if std.isEmpty(ReplicationGroupDescription) then (error 'ReplicationGroupDescription must be not empty')
+        else ReplicationGroupDescription,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,392 +17,471 @@
     Metadata:: [],
     Type: 'AWS::ElastiCache::ReplicationGroup',
   },
-  withPreferredCacheClusterAZs(PreferredCacheClusterAZs): {
+  setPreferredCacheClusterAZs(PreferredCacheClusterAZs): {
     Properties+::: {
-      PreferredCacheClusterAZs: (if std.isArray(PreferredCacheClusterAZs) then PreferredCacheClusterAZs else [PreferredCacheClusterAZs]),
+      PreferredCacheClusterAZs:
+        if !std.isArray(PreferredCacheClusterAZs) then (error 'PreferredCacheClusterAZs must be an array')
+        else PreferredCacheClusterAZs,
     },
   },
-  withPreferredCacheClusterAZsMixin(PreferredCacheClusterAZs): {
+  setPreferredCacheClusterAZsMixin(PreferredCacheClusterAZs): {
     Properties+::: {
-      PreferredCacheClusterAZs+: (if std.isArray(PreferredCacheClusterAZs) then PreferredCacheClusterAZs else [PreferredCacheClusterAZs]),
+      PreferredCacheClusterAZs+: PreferredCacheClusterAZs,
     },
   },
-  withReaderEndPointPort(ReaderEndPointPort): {
-    assert std.isString(ReaderEndPointPort) : 'ReaderEndPointPort must be a string',
+  setReaderEndPointPort(ReaderEndPointPort): {
     Properties+::: {
-      ReaderEndPointPort: ReaderEndPointPort,
+      ReaderEndPointPort:
+        if !std.isString(ReaderEndPointPort) then (error 'ReaderEndPointPort must be a string')
+        else if std.isEmpty(ReaderEndPointPort) then (error 'ReaderEndPointPort must be not empty')
+        else ReaderEndPointPort,
     },
   },
-  withNodeGroupConfiguration(NodeGroupConfiguration): {
+  setNodeGroupConfiguration(NodeGroupConfiguration): {
     Properties+::: {
-      NodeGroupConfiguration: (if std.isArray(NodeGroupConfiguration) then NodeGroupConfiguration else [NodeGroupConfiguration]),
+      NodeGroupConfiguration:
+        if !std.isArray(NodeGroupConfiguration) then (error 'NodeGroupConfiguration must be an array')
+        else NodeGroupConfiguration,
     },
   },
-  withNodeGroupConfigurationMixin(NodeGroupConfiguration): {
+  setNodeGroupConfigurationMixin(NodeGroupConfiguration): {
     Properties+::: {
-      NodeGroupConfiguration+: (if std.isArray(NodeGroupConfiguration) then NodeGroupConfiguration else [NodeGroupConfiguration]),
+      NodeGroupConfiguration+: NodeGroupConfiguration,
     },
   },
-  withSnapshotArns(SnapshotArns): {
+  setSnapshotArns(SnapshotArns): {
     Properties+::: {
-      SnapshotArns: (if std.isArray(SnapshotArns) then SnapshotArns else [SnapshotArns]),
+      SnapshotArns:
+        if !std.isArray(SnapshotArns) then (error 'SnapshotArns must be an array')
+        else SnapshotArns,
     },
   },
-  withSnapshotArnsMixin(SnapshotArns): {
+  setSnapshotArnsMixin(SnapshotArns): {
     Properties+::: {
-      SnapshotArns+: (if std.isArray(SnapshotArns) then SnapshotArns else [SnapshotArns]),
+      SnapshotArns+: SnapshotArns,
     },
   },
-  withConfigurationEndPointPort(ConfigurationEndPointPort): {
-    assert std.isString(ConfigurationEndPointPort) : 'ConfigurationEndPointPort must be a string',
+  setConfigurationEndPointPort(ConfigurationEndPointPort): {
     Properties+::: {
-      ConfigurationEndPointPort: ConfigurationEndPointPort,
+      ConfigurationEndPointPort:
+        if !std.isString(ConfigurationEndPointPort) then (error 'ConfigurationEndPointPort must be a string')
+        else if std.isEmpty(ConfigurationEndPointPort) then (error 'ConfigurationEndPointPort must be not empty')
+        else ConfigurationEndPointPort,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withNumNodeGroups(NumNodeGroups): {
-    assert std.isNumber(NumNodeGroups) : 'NumNodeGroups must be a number',
+  setNumNodeGroups(NumNodeGroups): {
     Properties+::: {
-      NumNodeGroups: NumNodeGroups,
+      NumNodeGroups:
+        if !std.isNumber(NumNodeGroups) then (error 'NumNodeGroups must be an number')
+        else NumNodeGroups,
     },
   },
-  withNotificationTopicArn(NotificationTopicArn): {
-    assert std.isString(NotificationTopicArn) : 'NotificationTopicArn must be a string',
+  setNotificationTopicArn(NotificationTopicArn): {
     Properties+::: {
-      NotificationTopicArn: NotificationTopicArn,
+      NotificationTopicArn:
+        if !std.isString(NotificationTopicArn) then (error 'NotificationTopicArn must be a string')
+        else if std.isEmpty(NotificationTopicArn) then (error 'NotificationTopicArn must be not empty')
+        else NotificationTopicArn,
     },
   },
-  withAutomaticFailoverEnabled(AutomaticFailoverEnabled): {
-    assert std.isBoolean(AutomaticFailoverEnabled) : 'AutomaticFailoverEnabled must be a boolean',
+  setAutomaticFailoverEnabled(AutomaticFailoverEnabled): {
     Properties+::: {
-      AutomaticFailoverEnabled: AutomaticFailoverEnabled,
+      AutomaticFailoverEnabled:
+        if !std.isBoolean(AutomaticFailoverEnabled) then (error 'AutomaticFailoverEnabled must be a boolean') else AutomaticFailoverEnabled,
     },
   },
-  withReplicasPerNodeGroup(ReplicasPerNodeGroup): {
-    assert std.isNumber(ReplicasPerNodeGroup) : 'ReplicasPerNodeGroup must be a number',
+  setReplicasPerNodeGroup(ReplicasPerNodeGroup): {
     Properties+::: {
-      ReplicasPerNodeGroup: ReplicasPerNodeGroup,
+      ReplicasPerNodeGroup:
+        if !std.isNumber(ReplicasPerNodeGroup) then (error 'ReplicasPerNodeGroup must be an number')
+        else ReplicasPerNodeGroup,
     },
   },
-  withTransitEncryptionEnabled(TransitEncryptionEnabled): {
-    assert std.isBoolean(TransitEncryptionEnabled) : 'TransitEncryptionEnabled must be a boolean',
+  setTransitEncryptionEnabled(TransitEncryptionEnabled): {
     Properties+::: {
-      TransitEncryptionEnabled: TransitEncryptionEnabled,
+      TransitEncryptionEnabled:
+        if !std.isBoolean(TransitEncryptionEnabled) then (error 'TransitEncryptionEnabled must be a boolean') else TransitEncryptionEnabled,
     },
   },
-  withEngine(Engine): {
-    assert std.isString(Engine) : 'Engine must be a string',
+  setEngine(Engine): {
     Properties+::: {
-      Engine: Engine,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else Engine,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withPrimaryEndPointAddress(PrimaryEndPointAddress): {
-    assert std.isString(PrimaryEndPointAddress) : 'PrimaryEndPointAddress must be a string',
+  setPrimaryEndPointAddress(PrimaryEndPointAddress): {
     Properties+::: {
-      PrimaryEndPointAddress: PrimaryEndPointAddress,
+      PrimaryEndPointAddress:
+        if !std.isString(PrimaryEndPointAddress) then (error 'PrimaryEndPointAddress must be a string')
+        else if std.isEmpty(PrimaryEndPointAddress) then (error 'PrimaryEndPointAddress must be not empty')
+        else PrimaryEndPointAddress,
     },
   },
-  withGlobalReplicationGroupId(GlobalReplicationGroupId): {
-    assert std.isString(GlobalReplicationGroupId) : 'GlobalReplicationGroupId must be a string',
+  setGlobalReplicationGroupId(GlobalReplicationGroupId): {
     Properties+::: {
-      GlobalReplicationGroupId: GlobalReplicationGroupId,
+      GlobalReplicationGroupId:
+        if !std.isString(GlobalReplicationGroupId) then (error 'GlobalReplicationGroupId must be a string')
+        else if std.isEmpty(GlobalReplicationGroupId) then (error 'GlobalReplicationGroupId must be not empty')
+        else GlobalReplicationGroupId,
     },
   },
-  withConfigurationEndPointAddress(ConfigurationEndPointAddress): {
-    assert std.isString(ConfigurationEndPointAddress) : 'ConfigurationEndPointAddress must be a string',
+  setConfigurationEndPointAddress(ConfigurationEndPointAddress): {
     Properties+::: {
-      ConfigurationEndPointAddress: ConfigurationEndPointAddress,
+      ConfigurationEndPointAddress:
+        if !std.isString(ConfigurationEndPointAddress) then (error 'ConfigurationEndPointAddress must be a string')
+        else if std.isEmpty(ConfigurationEndPointAddress) then (error 'ConfigurationEndPointAddress must be not empty')
+        else ConfigurationEndPointAddress,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withPrimaryClusterId(PrimaryClusterId): {
-    assert std.isString(PrimaryClusterId) : 'PrimaryClusterId must be a string',
+  setPrimaryClusterId(PrimaryClusterId): {
     Properties+::: {
-      PrimaryClusterId: PrimaryClusterId,
+      PrimaryClusterId:
+        if !std.isString(PrimaryClusterId) then (error 'PrimaryClusterId must be a string')
+        else if std.isEmpty(PrimaryClusterId) then (error 'PrimaryClusterId must be not empty')
+        else PrimaryClusterId,
     },
   },
-  withReadEndPointPorts(ReadEndPointPorts): {
-    assert std.isString(ReadEndPointPorts) : 'ReadEndPointPorts must be a string',
+  setReadEndPointPorts(ReadEndPointPorts): {
     Properties+::: {
-      ReadEndPointPorts: ReadEndPointPorts,
+      ReadEndPointPorts:
+        if !std.isString(ReadEndPointPorts) then (error 'ReadEndPointPorts must be a string')
+        else if std.isEmpty(ReadEndPointPorts) then (error 'ReadEndPointPorts must be not empty')
+        else ReadEndPointPorts,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withSnapshotWindow(SnapshotWindow): {
-    assert std.isString(SnapshotWindow) : 'SnapshotWindow must be a string',
+  setSnapshotWindow(SnapshotWindow): {
     Properties+::: {
-      SnapshotWindow: SnapshotWindow,
+      SnapshotWindow:
+        if !std.isString(SnapshotWindow) then (error 'SnapshotWindow must be a string')
+        else if std.isEmpty(SnapshotWindow) then (error 'SnapshotWindow must be not empty')
+        else SnapshotWindow,
     },
   },
-  withTransitEncryptionMode(TransitEncryptionMode): {
-    assert std.isString(TransitEncryptionMode) : 'TransitEncryptionMode must be a string',
+  setTransitEncryptionMode(TransitEncryptionMode): {
     Properties+::: {
-      TransitEncryptionMode: TransitEncryptionMode,
+      TransitEncryptionMode:
+        if !std.isString(TransitEncryptionMode) then (error 'TransitEncryptionMode must be a string')
+        else if std.isEmpty(TransitEncryptionMode) then (error 'TransitEncryptionMode must be not empty')
+        else TransitEncryptionMode,
     },
   },
-  withSnapshotRetentionLimit(SnapshotRetentionLimit): {
-    assert std.isNumber(SnapshotRetentionLimit) : 'SnapshotRetentionLimit must be a number',
+  setSnapshotRetentionLimit(SnapshotRetentionLimit): {
     Properties+::: {
-      SnapshotRetentionLimit: SnapshotRetentionLimit,
+      SnapshotRetentionLimit:
+        if !std.isNumber(SnapshotRetentionLimit) then (error 'SnapshotRetentionLimit must be an number')
+        else SnapshotRetentionLimit,
     },
   },
-  withReadEndPointAddressesList(ReadEndPointAddressesList): {
+  setReadEndPointAddressesList(ReadEndPointAddressesList): {
     Properties+::: {
-      ReadEndPointAddressesList: (if std.isArray(ReadEndPointAddressesList) then ReadEndPointAddressesList else [ReadEndPointAddressesList]),
+      ReadEndPointAddressesList:
+        if !std.isArray(ReadEndPointAddressesList) then (error 'ReadEndPointAddressesList must be an array')
+        else ReadEndPointAddressesList,
     },
   },
-  withReadEndPointAddressesListMixin(ReadEndPointAddressesList): {
+  setReadEndPointAddressesListMixin(ReadEndPointAddressesList): {
     Properties+::: {
-      ReadEndPointAddressesList+: (if std.isArray(ReadEndPointAddressesList) then ReadEndPointAddressesList else [ReadEndPointAddressesList]),
+      ReadEndPointAddressesList+: ReadEndPointAddressesList,
     },
   },
-  withSnapshottingClusterId(SnapshottingClusterId): {
-    assert std.isString(SnapshottingClusterId) : 'SnapshottingClusterId must be a string',
+  setSnapshottingClusterId(SnapshottingClusterId): {
     Properties+::: {
-      SnapshottingClusterId: SnapshottingClusterId,
+      SnapshottingClusterId:
+        if !std.isString(SnapshottingClusterId) then (error 'SnapshottingClusterId must be a string')
+        else if std.isEmpty(SnapshottingClusterId) then (error 'SnapshottingClusterId must be not empty')
+        else SnapshottingClusterId,
     },
   },
-  withIpDiscovery(IpDiscovery): {
-    assert std.isString(IpDiscovery) : 'IpDiscovery must be a string',
+  setIpDiscovery(IpDiscovery): {
     Properties+::: {
-      IpDiscovery: IpDiscovery,
+      IpDiscovery:
+        if !std.isString(IpDiscovery) then (error 'IpDiscovery must be a string')
+        else if std.isEmpty(IpDiscovery) then (error 'IpDiscovery must be not empty')
+        else IpDiscovery,
     },
   },
-  withReadEndPointAddresses(ReadEndPointAddresses): {
-    assert std.isString(ReadEndPointAddresses) : 'ReadEndPointAddresses must be a string',
+  setReadEndPointAddresses(ReadEndPointAddresses): {
     Properties+::: {
-      ReadEndPointAddresses: ReadEndPointAddresses,
+      ReadEndPointAddresses:
+        if !std.isString(ReadEndPointAddresses) then (error 'ReadEndPointAddresses must be a string')
+        else if std.isEmpty(ReadEndPointAddresses) then (error 'ReadEndPointAddresses must be not empty')
+        else ReadEndPointAddresses,
     },
   },
-  withPrimaryEndPointPort(PrimaryEndPointPort): {
-    assert std.isString(PrimaryEndPointPort) : 'PrimaryEndPointPort must be a string',
+  setPrimaryEndPointPort(PrimaryEndPointPort): {
     Properties+::: {
-      PrimaryEndPointPort: PrimaryEndPointPort,
+      PrimaryEndPointPort:
+        if !std.isString(PrimaryEndPointPort) then (error 'PrimaryEndPointPort must be a string')
+        else if std.isEmpty(PrimaryEndPointPort) then (error 'PrimaryEndPointPort must be not empty')
+        else PrimaryEndPointPort,
     },
   },
-  withCacheSecurityGroupNames(CacheSecurityGroupNames): {
+  setCacheSecurityGroupNames(CacheSecurityGroupNames): {
     Properties+::: {
-      CacheSecurityGroupNames: (if std.isArray(CacheSecurityGroupNames) then CacheSecurityGroupNames else [CacheSecurityGroupNames]),
+      CacheSecurityGroupNames:
+        if !std.isArray(CacheSecurityGroupNames) then (error 'CacheSecurityGroupNames must be an array')
+        else CacheSecurityGroupNames,
     },
   },
-  withCacheSecurityGroupNamesMixin(CacheSecurityGroupNames): {
+  setCacheSecurityGroupNamesMixin(CacheSecurityGroupNames): {
     Properties+::: {
-      CacheSecurityGroupNames+: (if std.isArray(CacheSecurityGroupNames) then CacheSecurityGroupNames else [CacheSecurityGroupNames]),
+      CacheSecurityGroupNames+: CacheSecurityGroupNames,
     },
   },
-  withClusterMode(ClusterMode): {
-    assert std.isString(ClusterMode) : 'ClusterMode must be a string',
+  setClusterMode(ClusterMode): {
     Properties+::: {
-      ClusterMode: ClusterMode,
+      ClusterMode:
+        if !std.isString(ClusterMode) then (error 'ClusterMode must be a string')
+        else if std.isEmpty(ClusterMode) then (error 'ClusterMode must be not empty')
+        else ClusterMode,
     },
   },
-  withReadEndPointPortsList(ReadEndPointPortsList): {
+  setReadEndPointPortsList(ReadEndPointPortsList): {
     Properties+::: {
-      ReadEndPointPortsList: (if std.isArray(ReadEndPointPortsList) then ReadEndPointPortsList else [ReadEndPointPortsList]),
+      ReadEndPointPortsList:
+        if !std.isArray(ReadEndPointPortsList) then (error 'ReadEndPointPortsList must be an array')
+        else ReadEndPointPortsList,
     },
   },
-  withReadEndPointPortsListMixin(ReadEndPointPortsList): {
+  setReadEndPointPortsListMixin(ReadEndPointPortsList): {
     Properties+::: {
-      ReadEndPointPortsList+: (if std.isArray(ReadEndPointPortsList) then ReadEndPointPortsList else [ReadEndPointPortsList]),
+      ReadEndPointPortsList+: ReadEndPointPortsList,
     },
   },
-  withSnapshotName(SnapshotName): {
-    assert std.isString(SnapshotName) : 'SnapshotName must be a string',
+  setSnapshotName(SnapshotName): {
     Properties+::: {
-      SnapshotName: SnapshotName,
+      SnapshotName:
+        if !std.isString(SnapshotName) then (error 'SnapshotName must be a string')
+        else if std.isEmpty(SnapshotName) then (error 'SnapshotName must be not empty')
+        else SnapshotName,
     },
   },
-  withReaderEndPointAddress(ReaderEndPointAddress): {
-    assert std.isString(ReaderEndPointAddress) : 'ReaderEndPointAddress must be a string',
+  setReaderEndPointAddress(ReaderEndPointAddress): {
     Properties+::: {
-      ReaderEndPointAddress: ReaderEndPointAddress,
+      ReaderEndPointAddress:
+        if !std.isString(ReaderEndPointAddress) then (error 'ReaderEndPointAddress must be a string')
+        else if std.isEmpty(ReaderEndPointAddress) then (error 'ReaderEndPointAddress must be not empty')
+        else ReaderEndPointAddress,
     },
   },
-  withMultiAZEnabled(MultiAZEnabled): {
-    assert std.isBoolean(MultiAZEnabled) : 'MultiAZEnabled must be a boolean',
+  setMultiAZEnabled(MultiAZEnabled): {
     Properties+::: {
-      MultiAZEnabled: MultiAZEnabled,
+      MultiAZEnabled:
+        if !std.isBoolean(MultiAZEnabled) then (error 'MultiAZEnabled must be a boolean') else MultiAZEnabled,
     },
   },
-  withNetworkType(NetworkType): {
-    assert std.isString(NetworkType) : 'NetworkType must be a string',
+  setNetworkType(NetworkType): {
     Properties+::: {
-      NetworkType: NetworkType,
+      NetworkType:
+        if !std.isString(NetworkType) then (error 'NetworkType must be a string')
+        else if std.isEmpty(NetworkType) then (error 'NetworkType must be not empty')
+        else NetworkType,
     },
   },
-  withReplicationGroupId(ReplicationGroupId): {
-    assert std.isString(ReplicationGroupId) : 'ReplicationGroupId must be a string',
+  setReplicationGroupId(ReplicationGroupId): {
     Properties+::: {
-      ReplicationGroupId: ReplicationGroupId,
+      ReplicationGroupId:
+        if !std.isString(ReplicationGroupId) then (error 'ReplicationGroupId must be a string')
+        else if std.isEmpty(ReplicationGroupId) then (error 'ReplicationGroupId must be not empty')
+        else ReplicationGroupId,
     },
   },
-  withNumCacheClusters(NumCacheClusters): {
-    assert std.isNumber(NumCacheClusters) : 'NumCacheClusters must be a number',
+  setNumCacheClusters(NumCacheClusters): {
     Properties+::: {
-      NumCacheClusters: NumCacheClusters,
+      NumCacheClusters:
+        if !std.isNumber(NumCacheClusters) then (error 'NumCacheClusters must be an number')
+        else NumCacheClusters,
     },
   },
-  withCacheSubnetGroupName(CacheSubnetGroupName): {
-    assert std.isString(CacheSubnetGroupName) : 'CacheSubnetGroupName must be a string',
+  setCacheSubnetGroupName(CacheSubnetGroupName): {
     Properties+::: {
-      CacheSubnetGroupName: CacheSubnetGroupName,
+      CacheSubnetGroupName:
+        if !std.isString(CacheSubnetGroupName) then (error 'CacheSubnetGroupName must be a string')
+        else if std.isEmpty(CacheSubnetGroupName) then (error 'CacheSubnetGroupName must be not empty')
+        else CacheSubnetGroupName,
     },
   },
-  withCacheParameterGroupName(CacheParameterGroupName): {
-    assert std.isString(CacheParameterGroupName) : 'CacheParameterGroupName must be a string',
+  setCacheParameterGroupName(CacheParameterGroupName): {
     Properties+::: {
-      CacheParameterGroupName: CacheParameterGroupName,
+      CacheParameterGroupName:
+        if !std.isString(CacheParameterGroupName) then (error 'CacheParameterGroupName must be a string')
+        else if std.isEmpty(CacheParameterGroupName) then (error 'CacheParameterGroupName must be not empty')
+        else CacheParameterGroupName,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withAtRestEncryptionEnabled(AtRestEncryptionEnabled): {
-    assert std.isBoolean(AtRestEncryptionEnabled) : 'AtRestEncryptionEnabled must be a boolean',
+  setAtRestEncryptionEnabled(AtRestEncryptionEnabled): {
     Properties+::: {
-      AtRestEncryptionEnabled: AtRestEncryptionEnabled,
+      AtRestEncryptionEnabled:
+        if !std.isBoolean(AtRestEncryptionEnabled) then (error 'AtRestEncryptionEnabled must be a boolean') else AtRestEncryptionEnabled,
     },
   },
-  withCacheNodeType(CacheNodeType): {
-    assert std.isString(CacheNodeType) : 'CacheNodeType must be a string',
+  setCacheNodeType(CacheNodeType): {
     Properties+::: {
-      CacheNodeType: CacheNodeType,
+      CacheNodeType:
+        if !std.isString(CacheNodeType) then (error 'CacheNodeType must be a string')
+        else if std.isEmpty(CacheNodeType) then (error 'CacheNodeType must be not empty')
+        else CacheNodeType,
     },
   },
-  withUserGroupIds(UserGroupIds): {
+  setUserGroupIds(UserGroupIds): {
     Properties+::: {
-      UserGroupIds: (if std.isArray(UserGroupIds) then UserGroupIds else [UserGroupIds]),
+      UserGroupIds:
+        if !std.isArray(UserGroupIds) then (error 'UserGroupIds must be an array')
+        else UserGroupIds,
     },
   },
-  withUserGroupIdsMixin(UserGroupIds): {
+  setUserGroupIdsMixin(UserGroupIds): {
     Properties+::: {
-      UserGroupIds+: (if std.isArray(UserGroupIds) then UserGroupIds else [UserGroupIds]),
+      UserGroupIds+: UserGroupIds,
     },
   },
-  withAuthToken(AuthToken): {
-    assert std.isString(AuthToken) : 'AuthToken must be a string',
+  setAuthToken(AuthToken): {
     Properties+::: {
-      AuthToken: AuthToken,
+      AuthToken:
+        if !std.isString(AuthToken) then (error 'AuthToken must be a string')
+        else if std.isEmpty(AuthToken) then (error 'AuthToken must be not empty')
+        else AuthToken,
     },
   },
-  withDataTieringEnabled(DataTieringEnabled): {
-    assert std.isBoolean(DataTieringEnabled) : 'DataTieringEnabled must be a boolean',
+  setDataTieringEnabled(DataTieringEnabled): {
     Properties+::: {
-      DataTieringEnabled: DataTieringEnabled,
+      DataTieringEnabled:
+        if !std.isBoolean(DataTieringEnabled) then (error 'DataTieringEnabled must be a boolean') else DataTieringEnabled,
     },
   },
-  withLogDeliveryConfigurations(LogDeliveryConfigurations): {
+  setLogDeliveryConfigurations(LogDeliveryConfigurations): {
     Properties+::: {
-      LogDeliveryConfigurations: (if std.isArray(LogDeliveryConfigurations) then LogDeliveryConfigurations else [LogDeliveryConfigurations]),
+      LogDeliveryConfigurations:
+        if !std.isArray(LogDeliveryConfigurations) then (error 'LogDeliveryConfigurations must be an array')
+        else LogDeliveryConfigurations,
     },
   },
-  withLogDeliveryConfigurationsMixin(LogDeliveryConfigurations): {
+  setLogDeliveryConfigurationsMixin(LogDeliveryConfigurations): {
     Properties+::: {
-      LogDeliveryConfigurations+: (if std.isArray(LogDeliveryConfigurations) then LogDeliveryConfigurations else [LogDeliveryConfigurations]),
+      LogDeliveryConfigurations+: LogDeliveryConfigurations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

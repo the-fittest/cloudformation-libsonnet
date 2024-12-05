@@ -5,9 +5,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(Resource) : 'Resource must be an object',
-      Resource: Resource,
-      LFTags: (if std.isArray(LFTags) then LFTags else [LFTags]),
+      Resource:
+        if !std.isObject(Resource) then (error 'Resource must be an object')
+        else Resource,
+      LFTags:
+        if !std.isArray(LFTags) then (error 'LFTags must be an array')
+        else LFTags,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,76 +20,80 @@
     Metadata:: [],
     Type: 'AWS::LakeFormation::TagAssociation',
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else ResourceIdentifier,
     },
   },
-  withTagsIdentifier(TagsIdentifier): {
-    assert std.isString(TagsIdentifier) : 'TagsIdentifier must be a string',
+  setTagsIdentifier(TagsIdentifier): {
     Properties+::: {
-      TagsIdentifier: TagsIdentifier,
+      TagsIdentifier:
+        if !std.isString(TagsIdentifier) then (error 'TagsIdentifier must be a string')
+        else if std.isEmpty(TagsIdentifier) then (error 'TagsIdentifier must be not empty')
+        else TagsIdentifier,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

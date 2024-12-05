@@ -8,16 +8,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(DomainIdentifier) : 'DomainIdentifier must be a string',
-      DomainIdentifier: DomainIdentifier,
-      assert std.isString(ProjectIdentifier) : 'ProjectIdentifier must be a string',
-      ProjectIdentifier: ProjectIdentifier,
-      assert std.isString(EnvironmentIdentifier) : 'EnvironmentIdentifier must be a string',
-      EnvironmentIdentifier: EnvironmentIdentifier,
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 256 then error ('Name should have not more than 256 characters')
+        else Name,
+      DomainIdentifier:
+        if !std.isString(DomainIdentifier) then (error 'DomainIdentifier must be a string')
+        else if std.isEmpty(DomainIdentifier) then (error 'DomainIdentifier must be not empty')
+        else DomainIdentifier,
+      ProjectIdentifier:
+        if !std.isString(ProjectIdentifier) then (error 'ProjectIdentifier must be a string')
+        else if std.isEmpty(ProjectIdentifier) then (error 'ProjectIdentifier must be not empty')
+        else ProjectIdentifier,
+      EnvironmentIdentifier:
+        if !std.isString(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be a string')
+        else if std.isEmpty(EnvironmentIdentifier) then (error 'EnvironmentIdentifier must be not empty')
+        else EnvironmentIdentifier,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if std.length(Type) < 1 then error ('Type should have at least 1 characters')
+        else if std.length(Type) > 256 then error ('Type should have not more than 256 characters')
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,171 +41,200 @@
     Metadata:: [],
     Type: 'AWS::DataZone::DataSource',
   },
-  withAssetFormsInput(AssetFormsInput): {
+  setAssetFormsInput(AssetFormsInput): {
     Properties+::: {
-      AssetFormsInput: (if std.isArray(AssetFormsInput) then AssetFormsInput else [AssetFormsInput]),
+      AssetFormsInput:
+        if !std.isArray(AssetFormsInput) then (error 'AssetFormsInput must be an array')
+        else if std.length(AssetFormsInput) > 10 then error ('AssetFormsInput cannot have more than 10 items')
+        else AssetFormsInput,
     },
   },
-  withAssetFormsInputMixin(AssetFormsInput): {
+  setAssetFormsInputMixin(AssetFormsInput): {
     Properties+::: {
-      AssetFormsInput+: (if std.isArray(AssetFormsInput) then AssetFormsInput else [AssetFormsInput]),
+      AssetFormsInput+: AssetFormsInput,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withDomainId(DomainId): {
-    assert std.isString(DomainId) : 'DomainId must be a string',
+  setDomainId(DomainId): {
     Properties+::: {
-      DomainId: DomainId,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else DomainId,
     },
   },
-  withEnableSetting(EnableSetting): {
-    assert std.isString(EnableSetting) : 'EnableSetting must be a string',
-    assert EnableSetting == 'ENABLED' || EnableSetting == 'DISABLED' : "EnableSetting should be 'ENABLED' or 'DISABLED'",
+  setEnableSetting(EnableSetting): {
     Properties+::: {
-      EnableSetting: EnableSetting,
+      EnableSetting:
+        if !std.isString(EnableSetting) then (error 'EnableSetting must be a string')
+        else if std.isEmpty(EnableSetting) then (error 'EnableSetting must be not empty')
+        else if EnableSetting != 'ENABLED' && EnableSetting != 'DISABLED' then (error "EnableSetting should be 'ENABLED' or 'DISABLED'")
+        else EnableSetting,
     },
   },
-  withEnvironmentId(EnvironmentId): {
-    assert std.isString(EnvironmentId) : 'EnvironmentId must be a string',
+  setEnvironmentId(EnvironmentId): {
     Properties+::: {
-      EnvironmentId: EnvironmentId,
+      EnvironmentId:
+        if !std.isString(EnvironmentId) then (error 'EnvironmentId must be a string')
+        else if std.isEmpty(EnvironmentId) then (error 'EnvironmentId must be not empty')
+        else EnvironmentId,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withConfiguration(Configuration): {
+  setConfiguration(Configuration): {
     Properties+::: {
       Configuration: Configuration,
     },
   },
-  withLastRunAssetCount(LastRunAssetCount): {
-    assert std.isNumber(LastRunAssetCount) : 'LastRunAssetCount must be a number',
+  setLastRunAssetCount(LastRunAssetCount): {
     Properties+::: {
-      LastRunAssetCount: LastRunAssetCount,
+      LastRunAssetCount:
+        if !std.isNumber(LastRunAssetCount) then (error 'LastRunAssetCount must be an number')
+        else LastRunAssetCount,
     },
   },
-  withLastRunAt(LastRunAt): {
-    assert std.isString(LastRunAt) : 'LastRunAt must be a string',
+  setLastRunAt(LastRunAt): {
     Properties+::: {
-      LastRunAt: LastRunAt,
+      LastRunAt:
+        if !std.isString(LastRunAt) then (error 'LastRunAt must be a string')
+        else if std.isEmpty(LastRunAt) then (error 'LastRunAt must be not empty')
+        else LastRunAt,
     },
   },
-  withLastRunStatus(LastRunStatus): {
-    assert std.isString(LastRunStatus) : 'LastRunStatus must be a string',
+  setLastRunStatus(LastRunStatus): {
     Properties+::: {
-      LastRunStatus: LastRunStatus,
+      LastRunStatus:
+        if !std.isString(LastRunStatus) then (error 'LastRunStatus must be a string')
+        else if std.isEmpty(LastRunStatus) then (error 'LastRunStatus must be not empty')
+        else LastRunStatus,
     },
   },
-  withProjectId(ProjectId): {
-    assert std.isString(ProjectId) : 'ProjectId must be a string',
+  setProjectId(ProjectId): {
     Properties+::: {
-      ProjectId: ProjectId,
+      ProjectId:
+        if !std.isString(ProjectId) then (error 'ProjectId must be a string')
+        else if std.isEmpty(ProjectId) then (error 'ProjectId must be not empty')
+        else ProjectId,
     },
   },
-  withPublishOnImport(PublishOnImport): {
-    assert std.isBoolean(PublishOnImport) : 'PublishOnImport must be a boolean',
+  setPublishOnImport(PublishOnImport): {
     Properties+::: {
-      PublishOnImport: PublishOnImport,
+      PublishOnImport:
+        if !std.isBoolean(PublishOnImport) then (error 'PublishOnImport must be a boolean') else PublishOnImport,
     },
   },
-  withRecommendation(Recommendation): {
-    assert std.isObject(Recommendation) : 'Recommendation must be a object',
+  setRecommendation(Recommendation): {
     Properties+::: {
-      Recommendation: Recommendation,
+      Recommendation:
+        if !std.isObject(Recommendation) then (error 'Recommendation must be an object')
+        else Recommendation,
     },
   },
-  withSchedule(Schedule): {
-    assert std.isObject(Schedule) : 'Schedule must be a object',
+  setSchedule(Schedule): {
     Properties+::: {
-      Schedule: Schedule,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else Schedule,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATING' || Status == 'FAILED_CREATION' || Status == 'READY' || Status == 'UPDATING' || Status == 'FAILED_UPDATE' || Status == 'RUNNING' || Status == 'DELETING' || Status == 'FAILED_DELETION' : "Status should be 'CREATING' or 'FAILED_CREATION' or 'READY' or 'UPDATING' or 'FAILED_UPDATE' or 'RUNNING' or 'DELETING' or 'FAILED_DELETION'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATING' && Status != 'FAILED_CREATION' && Status != 'READY' && Status != 'UPDATING' && Status != 'FAILED_UPDATE' && Status != 'RUNNING' && Status != 'DELETING' && Status != 'FAILED_DELETION' then (error "Status should be 'CREATING' or 'FAILED_CREATION' or 'READY' or 'UPDATING' or 'FAILED_UPDATE' or 'RUNNING' or 'DELETING' or 'FAILED_DELETION'")
+        else Status,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

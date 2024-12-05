@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainIdentifier) : 'DomainIdentifier must be a string',
-      DomainIdentifier: DomainIdentifier,
-      assert std.isString(UserIdentifier) : 'UserIdentifier must be a string',
-      UserIdentifier: UserIdentifier,
+      DomainIdentifier:
+        if !std.isString(DomainIdentifier) then (error 'DomainIdentifier must be a string')
+        else if std.isEmpty(DomainIdentifier) then (error 'DomainIdentifier must be not empty')
+        else DomainIdentifier,
+      UserIdentifier:
+        if !std.isString(UserIdentifier) then (error 'UserIdentifier must be a string')
+        else if std.isEmpty(UserIdentifier) then (error 'UserIdentifier must be not empty')
+        else UserIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,102 +22,112 @@
     Metadata:: [],
     Type: 'AWS::DataZone::UserProfile',
   },
-  withDetails(Details): {
+  setDetails(Details): {
     Properties+::: {
       Details: Details,
     },
   },
-  withDomainId(DomainId): {
-    assert std.isString(DomainId) : 'DomainId must be a string',
+  setDomainId(DomainId): {
     Properties+::: {
-      DomainId: DomainId,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else DomainId,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ASSIGNED' || Status == 'NOT_ASSIGNED' || Status == 'ACTIVATED' || Status == 'DEACTIVATED' : "Status should be 'ASSIGNED' or 'NOT_ASSIGNED' or 'ACTIVATED' or 'DEACTIVATED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ASSIGNED' && Status != 'NOT_ASSIGNED' && Status != 'ACTIVATED' && Status != 'DEACTIVATED' then (error "Status should be 'ASSIGNED' or 'NOT_ASSIGNED' or 'ACTIVATED' or 'DEACTIVATED'")
+        else Status,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'IAM' || Type == 'SSO' : "Type should be 'IAM' or 'SSO'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'IAM' && Type != 'SSO' then (error "Type should be 'IAM' or 'SSO'")
+        else Type,
     },
   },
-  withUserType(UserType): {
-    assert std.isString(UserType) : 'UserType must be a string',
-    assert UserType == 'IAM_USER' || UserType == 'IAM_ROLE' || UserType == 'SSO_USER' : "UserType should be 'IAM_USER' or 'IAM_ROLE' or 'SSO_USER'",
+  setUserType(UserType): {
     Properties+::: {
-      UserType: UserType,
+      UserType:
+        if !std.isString(UserType) then (error 'UserType must be a string')
+        else if std.isEmpty(UserType) then (error 'UserType must be not empty')
+        else if UserType != 'IAM_USER' && UserType != 'IAM_ROLE' && UserType != 'SSO_USER' then (error "UserType should be 'IAM_USER' or 'IAM_ROLE' or 'SSO_USER'")
+        else UserType,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

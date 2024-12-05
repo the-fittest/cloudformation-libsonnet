@@ -5,9 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      ResourceTypes: (if std.isArray(ResourceTypes) then ResourceTypes else [ResourceTypes]),
-      assert std.isString(SinkIdentifier) : 'SinkIdentifier must be a string',
-      SinkIdentifier: SinkIdentifier,
+      ResourceTypes:
+        if !std.isArray(ResourceTypes) then (error 'ResourceTypes must be an array')
+        else if std.length(ResourceTypes) < 1 then error ('ResourceTypes cannot have less than 1 items')
+        else if std.length(ResourceTypes) > 50 then error ('ResourceTypes cannot have more than 50 items')
+        else ResourceTypes,
+      SinkIdentifier:
+        if !std.isString(SinkIdentifier) then (error 'SinkIdentifier must be a string')
+        else if std.isEmpty(SinkIdentifier) then (error 'SinkIdentifier must be not empty')
+        else if std.length(SinkIdentifier) < 1 then error ('SinkIdentifier should have at least 1 characters')
+        else if std.length(SinkIdentifier) > 2048 then error ('SinkIdentifier should have not more than 2048 characters')
+        else SinkIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,94 +25,105 @@
     Metadata:: [],
     Type: 'AWS::Oam::Link',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withLabel(Label): {
-    assert std.isString(Label) : 'Label must be a string',
+  setLabel(Label): {
     Properties+::: {
-      Label: Label,
+      Label:
+        if !std.isString(Label) then (error 'Label must be a string')
+        else if std.isEmpty(Label) then (error 'Label must be not empty')
+        else Label,
     },
   },
-  withLabelTemplate(LabelTemplate): {
-    assert std.isString(LabelTemplate) : 'LabelTemplate must be a string',
+  setLabelTemplate(LabelTemplate): {
     Properties+::: {
-      LabelTemplate: LabelTemplate,
+      LabelTemplate:
+        if !std.isString(LabelTemplate) then (error 'LabelTemplate must be a string')
+        else if std.isEmpty(LabelTemplate) then (error 'LabelTemplate must be not empty')
+        else if std.length(LabelTemplate) < 1 then error ('LabelTemplate should have at least 1 characters')
+        else if std.length(LabelTemplate) > 64 then error ('LabelTemplate should have not more than 64 characters')
+        else LabelTemplate,
     },
   },
-  withLinkConfiguration(LinkConfiguration): {
-    assert std.isObject(LinkConfiguration) : 'LinkConfiguration must be a object',
+  setLinkConfiguration(LinkConfiguration): {
     Properties+::: {
-      LinkConfiguration: LinkConfiguration,
+      LinkConfiguration:
+        if !std.isObject(LinkConfiguration) then (error 'LinkConfiguration must be an object')
+        else LinkConfiguration,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

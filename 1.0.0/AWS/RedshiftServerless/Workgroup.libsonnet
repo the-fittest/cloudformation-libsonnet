@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(WorkgroupName) : 'WorkgroupName must be a string',
-      WorkgroupName: WorkgroupName,
+      WorkgroupName:
+        if !std.isString(WorkgroupName) then (error 'WorkgroupName must be a string')
+        else if std.isEmpty(WorkgroupName) then (error 'WorkgroupName must be not empty')
+        else if std.length(WorkgroupName) < 3 then error ('WorkgroupName should have at least 3 characters')
+        else if std.length(WorkgroupName) > 64 then error ('WorkgroupName should have not more than 64 characters')
+        else WorkgroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,146 +19,168 @@
     Metadata:: [],
     Type: 'AWS::RedshiftServerless::Workgroup',
   },
-  withNamespaceName(NamespaceName): {
-    assert std.isString(NamespaceName) : 'NamespaceName must be a string',
+  setNamespaceName(NamespaceName): {
     Properties+::: {
-      NamespaceName: NamespaceName,
+      NamespaceName:
+        if !std.isString(NamespaceName) then (error 'NamespaceName must be a string')
+        else if std.isEmpty(NamespaceName) then (error 'NamespaceName must be not empty')
+        else if std.length(NamespaceName) < 3 then error ('NamespaceName should have at least 3 characters')
+        else if std.length(NamespaceName) > 64 then error ('NamespaceName should have not more than 64 characters')
+        else NamespaceName,
     },
   },
-  withBaseCapacity(BaseCapacity): {
-    assert std.isNumber(BaseCapacity) : 'BaseCapacity must be a number',
+  setBaseCapacity(BaseCapacity): {
     Properties+::: {
-      BaseCapacity: BaseCapacity,
+      BaseCapacity:
+        if !std.isNumber(BaseCapacity) then (error 'BaseCapacity must be an number')
+        else BaseCapacity,
     },
   },
-  withMaxCapacity(MaxCapacity): {
-    assert std.isNumber(MaxCapacity) : 'MaxCapacity must be a number',
+  setMaxCapacity(MaxCapacity): {
     Properties+::: {
-      MaxCapacity: MaxCapacity,
+      MaxCapacity:
+        if !std.isNumber(MaxCapacity) then (error 'MaxCapacity must be an number')
+        else MaxCapacity,
     },
   },
-  withEnhancedVpcRouting(EnhancedVpcRouting): {
-    assert std.isBoolean(EnhancedVpcRouting) : 'EnhancedVpcRouting must be a boolean',
+  setEnhancedVpcRouting(EnhancedVpcRouting): {
     Properties+::: {
-      EnhancedVpcRouting: EnhancedVpcRouting,
+      EnhancedVpcRouting:
+        if !std.isBoolean(EnhancedVpcRouting) then (error 'EnhancedVpcRouting must be a boolean') else EnhancedVpcRouting,
     },
   },
-  withConfigParameters(ConfigParameters): {
+  setConfigParameters(ConfigParameters): {
     Properties+::: {
-      ConfigParameters: (if std.isArray(ConfigParameters) then ConfigParameters else [ConfigParameters]),
+      ConfigParameters:
+        if !std.isArray(ConfigParameters) then (error 'ConfigParameters must be an array')
+        else if std.length(ConfigParameters) < 1 then error ('ConfigParameters cannot have less than 1 items')
+        else ConfigParameters,
     },
   },
-  withConfigParametersMixin(ConfigParameters): {
+  setConfigParametersMixin(ConfigParameters): {
     Properties+::: {
-      ConfigParameters+: (if std.isArray(ConfigParameters) then ConfigParameters else [ConfigParameters]),
+      ConfigParameters+: ConfigParameters,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else if std.length(SecurityGroupIds) < 1 then error ('SecurityGroupIds cannot have less than 1 items')
+        else if std.length(SecurityGroupIds) > 32 then error ('SecurityGroupIds cannot have more than 32 items')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withSubnetIds(SubnetIds): {
+  setSubnetIds(SubnetIds): {
     Properties+::: {
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else if std.length(SubnetIds) < 1 then error ('SubnetIds cannot have less than 1 items')
+        else if std.length(SubnetIds) > 32 then error ('SubnetIds cannot have more than 32 items')
+        else SubnetIds,
     },
   },
-  withSubnetIdsMixin(SubnetIds): {
+  setSubnetIdsMixin(SubnetIds): {
     Properties+::: {
-      SubnetIds+: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds+: SubnetIds,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withWorkgroup(Workgroup): {
-    assert std.isObject(Workgroup) : 'Workgroup must be a object',
+  setWorkgroup(Workgroup): {
     Properties+::: {
-      Workgroup: Workgroup,
+      Workgroup:
+        if !std.isObject(Workgroup) then (error 'Workgroup must be an object')
+        else Workgroup,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

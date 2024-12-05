@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DestinationArn) : 'DestinationArn must be a string',
-      DestinationArn: DestinationArn,
+      DestinationArn:
+        if !std.isString(DestinationArn) then (error 'DestinationArn must be a string')
+        else if std.isEmpty(DestinationArn) then (error 'DestinationArn must be not empty')
+        else if std.length(DestinationArn) < 20 then error ('DestinationArn should have at least 20 characters')
+        else if std.length(DestinationArn) > 2048 then error ('DestinationArn should have not more than 2048 characters')
+        else DestinationArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,111 +19,136 @@
     Metadata:: [],
     Type: 'AWS::VpcLattice::AccessLogSubscription',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 21 then error ('Id should have at least 21 characters')
+        else if std.length(Id) > 21 then error ('Id should have not more than 21 characters')
+        else Id,
     },
   },
-  withResourceArn(ResourceArn): {
-    assert std.isString(ResourceArn) : 'ResourceArn must be a string',
+  setResourceArn(ResourceArn): {
     Properties+::: {
-      ResourceArn: ResourceArn,
+      ResourceArn:
+        if !std.isString(ResourceArn) then (error 'ResourceArn must be a string')
+        else if std.isEmpty(ResourceArn) then (error 'ResourceArn must be not empty')
+        else if std.length(ResourceArn) < 20 then error ('ResourceArn should have at least 20 characters')
+        else if std.length(ResourceArn) > 2048 then error ('ResourceArn should have not more than 2048 characters')
+        else ResourceArn,
     },
   },
-  withResourceId(ResourceId): {
-    assert std.isString(ResourceId) : 'ResourceId must be a string',
+  setResourceId(ResourceId): {
     Properties+::: {
-      ResourceId: ResourceId,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else if std.length(ResourceId) < 20 then error ('ResourceId should have at least 20 characters')
+        else if std.length(ResourceId) > 2048 then error ('ResourceId should have not more than 2048 characters')
+        else ResourceId,
     },
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else if std.length(ResourceIdentifier) < 17 then error ('ResourceIdentifier should have at least 17 characters')
+        else if std.length(ResourceIdentifier) > 2048 then error ('ResourceIdentifier should have not more than 2048 characters')
+        else ResourceIdentifier,
     },
   },
-  withServiceNetworkLogType(ServiceNetworkLogType): {
-    assert std.isString(ServiceNetworkLogType) : 'ServiceNetworkLogType must be a string',
-    assert ServiceNetworkLogType == 'SERVICE' || ServiceNetworkLogType == 'RESOURCE' : "ServiceNetworkLogType should be 'SERVICE' or 'RESOURCE'",
+  setServiceNetworkLogType(ServiceNetworkLogType): {
     Properties+::: {
-      ServiceNetworkLogType: ServiceNetworkLogType,
+      ServiceNetworkLogType:
+        if !std.isString(ServiceNetworkLogType) then (error 'ServiceNetworkLogType must be a string')
+        else if std.isEmpty(ServiceNetworkLogType) then (error 'ServiceNetworkLogType must be not empty')
+        else if ServiceNetworkLogType != 'SERVICE' && ServiceNetworkLogType != 'RESOURCE' then (error "ServiceNetworkLogType should be 'SERVICE' or 'RESOURCE'")
+        else ServiceNetworkLogType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

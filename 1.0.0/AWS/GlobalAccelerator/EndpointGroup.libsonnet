@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ListenerArn) : 'ListenerArn must be a string',
-      ListenerArn: ListenerArn,
-      assert std.isString(EndpointGroupRegion) : 'EndpointGroupRegion must be a string',
-      EndpointGroupRegion: EndpointGroupRegion,
+      ListenerArn:
+        if !std.isString(ListenerArn) then (error 'ListenerArn must be a string')
+        else if std.isEmpty(ListenerArn) then (error 'ListenerArn must be not empty')
+        else ListenerArn,
+      EndpointGroupRegion:
+        if !std.isString(EndpointGroupRegion) then (error 'EndpointGroupRegion must be a string')
+        else if std.isEmpty(EndpointGroupRegion) then (error 'EndpointGroupRegion must be not empty')
+        else EndpointGroupRegion,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,127 +22,144 @@
     Metadata:: [],
     Type: 'AWS::GlobalAccelerator::EndpointGroup',
   },
-  withEndpointConfigurations(EndpointConfigurations): {
+  setEndpointConfigurations(EndpointConfigurations): {
     Properties+::: {
-      EndpointConfigurations: (if std.isArray(EndpointConfigurations) then EndpointConfigurations else [EndpointConfigurations]),
+      EndpointConfigurations:
+        if !std.isArray(EndpointConfigurations) then (error 'EndpointConfigurations must be an array')
+        else EndpointConfigurations,
     },
   },
-  withEndpointConfigurationsMixin(EndpointConfigurations): {
+  setEndpointConfigurationsMixin(EndpointConfigurations): {
     Properties+::: {
-      EndpointConfigurations+: (if std.isArray(EndpointConfigurations) then EndpointConfigurations else [EndpointConfigurations]),
+      EndpointConfigurations+: EndpointConfigurations,
     },
   },
-  withTrafficDialPercentage(TrafficDialPercentage): {
-    assert std.isNumber(TrafficDialPercentage) : 'TrafficDialPercentage must be a number',
+  setTrafficDialPercentage(TrafficDialPercentage): {
     Properties+::: {
-      TrafficDialPercentage: TrafficDialPercentage,
+      TrafficDialPercentage:
+        if !std.isNumber(TrafficDialPercentage) then (error 'TrafficDialPercentage must be an number')
+        else if TrafficDialPercentage > 100 then error ('TrafficDialPercentage should be not more than 100')
+        else TrafficDialPercentage,
     },
   },
-  withHealthCheckPort(HealthCheckPort): {
-    assert std.isNumber(HealthCheckPort) : 'HealthCheckPort must be a number',
+  setHealthCheckPort(HealthCheckPort): {
     Properties+::: {
-      HealthCheckPort: HealthCheckPort,
+      HealthCheckPort:
+        if !std.isNumber(HealthCheckPort) then (error 'HealthCheckPort must be an number')
+        else if HealthCheckPort < -1 then error ('HealthCheckPort should be at least -1')
+        else if HealthCheckPort > 65535 then error ('HealthCheckPort should be not more than 65535')
+        else HealthCheckPort,
     },
   },
-  withHealthCheckProtocol(HealthCheckProtocol): {
-    assert std.isString(HealthCheckProtocol) : 'HealthCheckProtocol must be a string',
-    assert HealthCheckProtocol == 'TCP' || HealthCheckProtocol == 'HTTP' || HealthCheckProtocol == 'HTTPS' : "HealthCheckProtocol should be 'TCP' or 'HTTP' or 'HTTPS'",
+  setHealthCheckProtocol(HealthCheckProtocol): {
     Properties+::: {
-      HealthCheckProtocol: HealthCheckProtocol,
+      HealthCheckProtocol:
+        if !std.isString(HealthCheckProtocol) then (error 'HealthCheckProtocol must be a string')
+        else if std.isEmpty(HealthCheckProtocol) then (error 'HealthCheckProtocol must be not empty')
+        else if HealthCheckProtocol != 'TCP' && HealthCheckProtocol != 'HTTP' && HealthCheckProtocol != 'HTTPS' then (error "HealthCheckProtocol should be 'TCP' or 'HTTP' or 'HTTPS'")
+        else HealthCheckProtocol,
     },
   },
-  withHealthCheckPath(HealthCheckPath): {
-    assert std.isString(HealthCheckPath) : 'HealthCheckPath must be a string',
+  setHealthCheckPath(HealthCheckPath): {
     Properties+::: {
-      HealthCheckPath: HealthCheckPath,
+      HealthCheckPath:
+        if !std.isString(HealthCheckPath) then (error 'HealthCheckPath must be a string')
+        else if std.isEmpty(HealthCheckPath) then (error 'HealthCheckPath must be not empty')
+        else HealthCheckPath,
     },
   },
-  withHealthCheckIntervalSeconds(HealthCheckIntervalSeconds): {
-    assert std.isNumber(HealthCheckIntervalSeconds) : 'HealthCheckIntervalSeconds must be a number',
+  setHealthCheckIntervalSeconds(HealthCheckIntervalSeconds): {
     Properties+::: {
-      HealthCheckIntervalSeconds: HealthCheckIntervalSeconds,
+      HealthCheckIntervalSeconds:
+        if !std.isNumber(HealthCheckIntervalSeconds) then (error 'HealthCheckIntervalSeconds must be an number')
+        else HealthCheckIntervalSeconds,
     },
   },
-  withThresholdCount(ThresholdCount): {
-    assert std.isNumber(ThresholdCount) : 'ThresholdCount must be a number',
+  setThresholdCount(ThresholdCount): {
     Properties+::: {
-      ThresholdCount: ThresholdCount,
+      ThresholdCount:
+        if !std.isNumber(ThresholdCount) then (error 'ThresholdCount must be an number')
+        else ThresholdCount,
     },
   },
-  withEndpointGroupArn(EndpointGroupArn): {
-    assert std.isString(EndpointGroupArn) : 'EndpointGroupArn must be a string',
+  setEndpointGroupArn(EndpointGroupArn): {
     Properties+::: {
-      EndpointGroupArn: EndpointGroupArn,
+      EndpointGroupArn:
+        if !std.isString(EndpointGroupArn) then (error 'EndpointGroupArn must be a string')
+        else if std.isEmpty(EndpointGroupArn) then (error 'EndpointGroupArn must be not empty')
+        else EndpointGroupArn,
     },
   },
-  withPortOverrides(PortOverrides): {
+  setPortOverrides(PortOverrides): {
     Properties+::: {
-      PortOverrides: (if std.isArray(PortOverrides) then PortOverrides else [PortOverrides]),
+      PortOverrides:
+        if !std.isArray(PortOverrides) then (error 'PortOverrides must be an array')
+        else PortOverrides,
     },
   },
-  withPortOverridesMixin(PortOverrides): {
+  setPortOverridesMixin(PortOverrides): {
     Properties+::: {
-      PortOverrides+: (if std.isArray(PortOverrides) then PortOverrides else [PortOverrides]),
+      PortOverrides+: PortOverrides,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

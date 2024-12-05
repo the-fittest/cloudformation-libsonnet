@@ -6,11 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(PlacementArn) : 'PlacementArn must be a string',
-      PlacementArn: PlacementArn,
-      Sources: (if std.isArray(Sources) then Sources else [Sources]),
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      PlacementArn:
+        if !std.isString(PlacementArn) then (error 'PlacementArn must be a string')
+        else if std.isEmpty(PlacementArn) then (error 'PlacementArn must be not empty')
+        else PlacementArn,
+      Sources:
+        if !std.isArray(Sources) then (error 'Sources must be an array')
+        else if std.length(Sources) > 2 then error ('Sources cannot have more than 2 items')
+        else Sources,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,105 +27,119 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::Bridge',
   },
-  withBridgeArn(BridgeArn): {
-    assert std.isString(BridgeArn) : 'BridgeArn must be a string',
+  setBridgeArn(BridgeArn): {
     Properties+::: {
-      BridgeArn: BridgeArn,
+      BridgeArn:
+        if !std.isString(BridgeArn) then (error 'BridgeArn must be a string')
+        else if std.isEmpty(BridgeArn) then (error 'BridgeArn must be not empty')
+        else BridgeArn,
     },
   },
-  withBridgeState(BridgeState): {
-    assert std.isString(BridgeState) : 'BridgeState must be a string',
-    assert BridgeState == 'CREATING' || BridgeState == 'STANDBY' || BridgeState == 'STARTING' || BridgeState == 'DEPLOYING' || BridgeState == 'ACTIVE' || BridgeState == 'STOPPING' || BridgeState == 'DELETING' || BridgeState == 'DELETED' || BridgeState == 'START_FAILED' || BridgeState == 'START_PENDING' || BridgeState == 'UPDATING' : "BridgeState should be 'CREATING' or 'STANDBY' or 'STARTING' or 'DEPLOYING' or 'ACTIVE' or 'STOPPING' or 'DELETING' or 'DELETED' or 'START_FAILED' or 'START_PENDING' or 'UPDATING'",
+  setBridgeState(BridgeState): {
     Properties+::: {
-      BridgeState: BridgeState,
+      BridgeState:
+        if !std.isString(BridgeState) then (error 'BridgeState must be a string')
+        else if std.isEmpty(BridgeState) then (error 'BridgeState must be not empty')
+        else if BridgeState != 'CREATING' && BridgeState != 'STANDBY' && BridgeState != 'STARTING' && BridgeState != 'DEPLOYING' && BridgeState != 'ACTIVE' && BridgeState != 'STOPPING' && BridgeState != 'DELETING' && BridgeState != 'DELETED' && BridgeState != 'START_FAILED' && BridgeState != 'START_PENDING' && BridgeState != 'UPDATING' then (error "BridgeState should be 'CREATING' or 'STANDBY' or 'STARTING' or 'DEPLOYING' or 'ACTIVE' or 'STOPPING' or 'DELETING' or 'DELETED' or 'START_FAILED' or 'START_PENDING' or 'UPDATING'")
+        else BridgeState,
     },
   },
-  withSourceFailoverConfig(SourceFailoverConfig): {
-    assert std.isObject(SourceFailoverConfig) : 'SourceFailoverConfig must be a object',
+  setSourceFailoverConfig(SourceFailoverConfig): {
     Properties+::: {
-      SourceFailoverConfig: SourceFailoverConfig,
+      SourceFailoverConfig:
+        if !std.isObject(SourceFailoverConfig) then (error 'SourceFailoverConfig must be an object')
+        else if !std.objectHas(SourceFailoverConfig, 'FailoverMode') then (error ' have attribute FailoverMode')
+        else SourceFailoverConfig,
     },
   },
-  withOutputs(Outputs): {
+  setOutputs(Outputs): {
     Properties+::: {
-      Outputs: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs:
+        if !std.isArray(Outputs) then (error 'Outputs must be an array')
+        else if std.length(Outputs) > 2 then error ('Outputs cannot have more than 2 items')
+        else Outputs,
     },
   },
-  withOutputsMixin(Outputs): {
+  setOutputsMixin(Outputs): {
     Properties+::: {
-      Outputs+: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs+: Outputs,
     },
   },
-  withIngressGatewayBridge(IngressGatewayBridge): {
-    assert std.isObject(IngressGatewayBridge) : 'IngressGatewayBridge must be a object',
+  setIngressGatewayBridge(IngressGatewayBridge): {
     Properties+::: {
-      IngressGatewayBridge: IngressGatewayBridge,
+      IngressGatewayBridge:
+        if !std.isObject(IngressGatewayBridge) then (error 'IngressGatewayBridge must be an object')
+        else if !std.objectHas(IngressGatewayBridge, 'MaxBitrate') then (error ' have attribute MaxBitrate')
+        else if !std.objectHas(IngressGatewayBridge, 'MaxOutputs') then (error ' have attribute MaxOutputs')
+        else IngressGatewayBridge,
     },
   },
-  withEgressGatewayBridge(EgressGatewayBridge): {
-    assert std.isObject(EgressGatewayBridge) : 'EgressGatewayBridge must be a object',
+  setEgressGatewayBridge(EgressGatewayBridge): {
     Properties+::: {
-      EgressGatewayBridge: EgressGatewayBridge,
+      EgressGatewayBridge:
+        if !std.isObject(EgressGatewayBridge) then (error 'EgressGatewayBridge must be an object')
+        else if !std.objectHas(EgressGatewayBridge, 'MaxBitrate') then (error ' have attribute MaxBitrate')
+        else EgressGatewayBridge,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

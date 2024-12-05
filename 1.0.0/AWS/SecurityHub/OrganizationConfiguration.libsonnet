@@ -4,8 +4,8 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(AutoEnable) : 'AutoEnable must be a boolean',
-      AutoEnable: AutoEnable,
+      AutoEnable:
+        if !std.isBoolean(AutoEnable) then (error 'AutoEnable must be a boolean') else AutoEnable,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,103 +15,113 @@
     Metadata:: [],
     Type: 'AWS::SecurityHub::OrganizationConfiguration',
   },
-  withAutoEnableStandards(AutoEnableStandards): {
-    assert std.isString(AutoEnableStandards) : 'AutoEnableStandards must be a string',
-    assert AutoEnableStandards == 'DEFAULT' || AutoEnableStandards == 'NONE' : "AutoEnableStandards should be 'DEFAULT' or 'NONE'",
+  setAutoEnableStandards(AutoEnableStandards): {
     Properties+::: {
-      AutoEnableStandards: AutoEnableStandards,
+      AutoEnableStandards:
+        if !std.isString(AutoEnableStandards) then (error 'AutoEnableStandards must be a string')
+        else if std.isEmpty(AutoEnableStandards) then (error 'AutoEnableStandards must be not empty')
+        else if AutoEnableStandards != 'DEFAULT' && AutoEnableStandards != 'NONE' then (error "AutoEnableStandards should be 'DEFAULT' or 'NONE'")
+        else AutoEnableStandards,
     },
   },
-  withConfigurationType(ConfigurationType): {
-    assert std.isString(ConfigurationType) : 'ConfigurationType must be a string',
-    assert ConfigurationType == 'CENTRAL' || ConfigurationType == 'LOCAL' : "ConfigurationType should be 'CENTRAL' or 'LOCAL'",
+  setConfigurationType(ConfigurationType): {
     Properties+::: {
-      ConfigurationType: ConfigurationType,
+      ConfigurationType:
+        if !std.isString(ConfigurationType) then (error 'ConfigurationType must be a string')
+        else if std.isEmpty(ConfigurationType) then (error 'ConfigurationType must be not empty')
+        else if ConfigurationType != 'CENTRAL' && ConfigurationType != 'LOCAL' then (error "ConfigurationType should be 'CENTRAL' or 'LOCAL'")
+        else ConfigurationType,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'PENDING' || Status == 'ENABLED' || Status == 'FAILED' : "Status should be 'PENDING' or 'ENABLED' or 'FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'PENDING' && Status != 'ENABLED' && Status != 'FAILED' then (error "Status should be 'PENDING' or 'ENABLED' or 'FAILED'")
+        else Status,
     },
   },
-  withStatusMessage(StatusMessage): {
-    assert std.isString(StatusMessage) : 'StatusMessage must be a string',
+  setStatusMessage(StatusMessage): {
     Properties+::: {
-      StatusMessage: StatusMessage,
+      StatusMessage:
+        if !std.isString(StatusMessage) then (error 'StatusMessage must be a string')
+        else if std.isEmpty(StatusMessage) then (error 'StatusMessage must be not empty')
+        else StatusMessage,
     },
   },
-  withMemberAccountLimitReached(MemberAccountLimitReached): {
-    assert std.isBoolean(MemberAccountLimitReached) : 'MemberAccountLimitReached must be a boolean',
+  setMemberAccountLimitReached(MemberAccountLimitReached): {
     Properties+::: {
-      MemberAccountLimitReached: MemberAccountLimitReached,
+      MemberAccountLimitReached:
+        if !std.isBoolean(MemberAccountLimitReached) then (error 'MemberAccountLimitReached must be a boolean') else MemberAccountLimitReached,
     },
   },
-  withOrganizationConfigurationIdentifier(OrganizationConfigurationIdentifier): {
-    assert std.isString(OrganizationConfigurationIdentifier) : 'OrganizationConfigurationIdentifier must be a string',
+  setOrganizationConfigurationIdentifier(OrganizationConfigurationIdentifier): {
     Properties+::: {
-      OrganizationConfigurationIdentifier: OrganizationConfigurationIdentifier,
+      OrganizationConfigurationIdentifier:
+        if !std.isString(OrganizationConfigurationIdentifier) then (error 'OrganizationConfigurationIdentifier must be a string')
+        else if std.isEmpty(OrganizationConfigurationIdentifier) then (error 'OrganizationConfigurationIdentifier must be not empty')
+        else OrganizationConfigurationIdentifier,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

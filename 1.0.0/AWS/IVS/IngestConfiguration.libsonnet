@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,130 +10,154 @@
     Metadata:: [],
     Type: 'AWS::IVS::IngestConfiguration',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 128 then error ('Arn should have not more than 128 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withStageArn(StageArn): {
-    assert std.isString(StageArn) : 'StageArn must be a string',
+  setStageArn(StageArn): {
     Properties+::: {
-      StageArn: StageArn,
+      StageArn:
+        if !std.isString(StageArn) then (error 'StageArn must be a string')
+        else if std.isEmpty(StageArn) then (error 'StageArn must be not empty')
+        else if std.length(StageArn) > 128 then error ('StageArn should have not more than 128 characters')
+        else StageArn,
     },
   },
-  withParticipantId(ParticipantId): {
-    assert std.isString(ParticipantId) : 'ParticipantId must be a string',
+  setParticipantId(ParticipantId): {
     Properties+::: {
-      ParticipantId: ParticipantId,
+      ParticipantId:
+        if !std.isString(ParticipantId) then (error 'ParticipantId must be a string')
+        else if std.isEmpty(ParticipantId) then (error 'ParticipantId must be not empty')
+        else if std.length(ParticipantId) > 64 then error ('ParticipantId should have not more than 64 characters')
+        else ParticipantId,
     },
   },
-  withIngestProtocol(IngestProtocol): {
-    assert std.isString(IngestProtocol) : 'IngestProtocol must be a string',
-    assert IngestProtocol == 'RTMP' || IngestProtocol == 'RTMPS' : "IngestProtocol should be 'RTMP' or 'RTMPS'",
+  setIngestProtocol(IngestProtocol): {
     Properties+::: {
-      IngestProtocol: IngestProtocol,
+      IngestProtocol:
+        if !std.isString(IngestProtocol) then (error 'IngestProtocol must be a string')
+        else if std.isEmpty(IngestProtocol) then (error 'IngestProtocol must be not empty')
+        else if IngestProtocol != 'RTMP' && IngestProtocol != 'RTMPS' then (error "IngestProtocol should be 'RTMP' or 'RTMPS'")
+        else IngestProtocol,
     },
   },
-  withInsecureIngest(InsecureIngest): {
-    assert std.isBoolean(InsecureIngest) : 'InsecureIngest must be a boolean',
+  setInsecureIngest(InsecureIngest): {
     Properties+::: {
-      InsecureIngest: InsecureIngest,
+      InsecureIngest:
+        if !std.isBoolean(InsecureIngest) then (error 'InsecureIngest must be a boolean') else InsecureIngest,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'ACTIVE' || State == 'INACTIVE' : "State should be 'ACTIVE' or 'INACTIVE'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'ACTIVE' && State != 'INACTIVE' then (error "State should be 'ACTIVE' or 'INACTIVE'")
+        else State,
     },
   },
-  withStreamKey(StreamKey): {
-    assert std.isString(StreamKey) : 'StreamKey must be a string',
+  setStreamKey(StreamKey): {
     Properties+::: {
-      StreamKey: StreamKey,
+      StreamKey:
+        if !std.isString(StreamKey) then (error 'StreamKey must be a string')
+        else if std.isEmpty(StreamKey) then (error 'StreamKey must be not empty')
+        else StreamKey,
     },
   },
-  withUserId(UserId): {
-    assert std.isString(UserId) : 'UserId must be a string',
+  setUserId(UserId): {
     Properties+::: {
-      UserId: UserId,
+      UserId:
+        if !std.isString(UserId) then (error 'UserId must be a string')
+        else if std.isEmpty(UserId) then (error 'UserId must be not empty')
+        else UserId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

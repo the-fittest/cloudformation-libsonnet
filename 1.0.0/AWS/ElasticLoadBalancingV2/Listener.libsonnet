@@ -5,9 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(LoadBalancerArn) : 'LoadBalancerArn must be a string',
-      LoadBalancerArn: LoadBalancerArn,
-      DefaultActions: (if std.isArray(DefaultActions) then DefaultActions else [DefaultActions]),
+      LoadBalancerArn:
+        if !std.isString(LoadBalancerArn) then (error 'LoadBalancerArn must be a string')
+        else if std.isEmpty(LoadBalancerArn) then (error 'LoadBalancerArn must be not empty')
+        else LoadBalancerArn,
+      DefaultActions:
+        if !std.isArray(DefaultActions) then (error 'DefaultActions must be an array')
+        else DefaultActions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,124 +21,138 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancingV2::Listener',
   },
-  withListenerArn(ListenerArn): {
-    assert std.isString(ListenerArn) : 'ListenerArn must be a string',
+  setListenerArn(ListenerArn): {
     Properties+::: {
-      ListenerArn: ListenerArn,
+      ListenerArn:
+        if !std.isString(ListenerArn) then (error 'ListenerArn must be a string')
+        else if std.isEmpty(ListenerArn) then (error 'ListenerArn must be not empty')
+        else ListenerArn,
     },
   },
-  withMutualAuthentication(MutualAuthentication): {
-    assert std.isObject(MutualAuthentication) : 'MutualAuthentication must be a object',
+  setMutualAuthentication(MutualAuthentication): {
     Properties+::: {
-      MutualAuthentication: MutualAuthentication,
+      MutualAuthentication:
+        if !std.isObject(MutualAuthentication) then (error 'MutualAuthentication must be an object')
+        else MutualAuthentication,
     },
   },
-  withListenerAttributes(ListenerAttributes): {
+  setListenerAttributes(ListenerAttributes): {
     Properties+::: {
-      ListenerAttributes: (if std.isArray(ListenerAttributes) then ListenerAttributes else [ListenerAttributes]),
+      ListenerAttributes:
+        if !std.isArray(ListenerAttributes) then (error 'ListenerAttributes must be an array')
+        else ListenerAttributes,
     },
   },
-  withListenerAttributesMixin(ListenerAttributes): {
+  setListenerAttributesMixin(ListenerAttributes): {
     Properties+::: {
-      ListenerAttributes+: (if std.isArray(ListenerAttributes) then ListenerAttributes else [ListenerAttributes]),
+      ListenerAttributes+: ListenerAttributes,
     },
   },
-  withAlpnPolicy(AlpnPolicy): {
+  setAlpnPolicy(AlpnPolicy): {
     Properties+::: {
-      AlpnPolicy: (if std.isArray(AlpnPolicy) then AlpnPolicy else [AlpnPolicy]),
+      AlpnPolicy:
+        if !std.isArray(AlpnPolicy) then (error 'AlpnPolicy must be an array')
+        else AlpnPolicy,
     },
   },
-  withAlpnPolicyMixin(AlpnPolicy): {
+  setAlpnPolicyMixin(AlpnPolicy): {
     Properties+::: {
-      AlpnPolicy+: (if std.isArray(AlpnPolicy) then AlpnPolicy else [AlpnPolicy]),
+      AlpnPolicy+: AlpnPolicy,
     },
   },
-  withSslPolicy(SslPolicy): {
-    assert std.isString(SslPolicy) : 'SslPolicy must be a string',
+  setSslPolicy(SslPolicy): {
     Properties+::: {
-      SslPolicy: SslPolicy,
+      SslPolicy:
+        if !std.isString(SslPolicy) then (error 'SslPolicy must be a string')
+        else if std.isEmpty(SslPolicy) then (error 'SslPolicy must be not empty')
+        else SslPolicy,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withCertificates(Certificates): {
+  setCertificates(Certificates): {
     Properties+::: {
-      Certificates: (if std.isArray(Certificates) then Certificates else [Certificates]),
+      Certificates:
+        if !std.isArray(Certificates) then (error 'Certificates must be an array')
+        else Certificates,
     },
   },
-  withCertificatesMixin(Certificates): {
+  setCertificatesMixin(Certificates): {
     Properties+::: {
-      Certificates+: (if std.isArray(Certificates) then Certificates else [Certificates]),
+      Certificates+: Certificates,
     },
   },
-  withProtocol(Protocol): {
-    assert std.isString(Protocol) : 'Protocol must be a string',
+  setProtocol(Protocol): {
     Properties+::: {
-      Protocol: Protocol,
+      Protocol:
+        if !std.isString(Protocol) then (error 'Protocol must be a string')
+        else if std.isEmpty(Protocol) then (error 'Protocol must be not empty')
+        else Protocol,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

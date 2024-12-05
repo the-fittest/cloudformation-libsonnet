@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetType) : 'TargetType must be a string',
-      TargetType: TargetType,
-      assert std.isString(ConfigRuleName) : 'ConfigRuleName must be a string',
-      ConfigRuleName: ConfigRuleName,
-      assert std.isString(TargetId) : 'TargetId must be a string',
-      TargetId: TargetId,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else TargetType,
+      ConfigRuleName:
+        if !std.isString(ConfigRuleName) then (error 'ConfigRuleName must be a string')
+        else if std.isEmpty(ConfigRuleName) then (error 'ConfigRuleName must be not empty')
+        else ConfigRuleName,
+      TargetId:
+        if !std.isString(TargetId) then (error 'TargetId must be a string')
+        else if std.isEmpty(TargetId) then (error 'TargetId must be not empty')
+        else TargetId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,112 +27,122 @@
     Metadata:: [],
     Type: 'AWS::Config::RemediationConfiguration',
   },
-  withTargetVersion(TargetVersion): {
-    assert std.isString(TargetVersion) : 'TargetVersion must be a string',
+  setTargetVersion(TargetVersion): {
     Properties+::: {
-      TargetVersion: TargetVersion,
+      TargetVersion:
+        if !std.isString(TargetVersion) then (error 'TargetVersion must be a string')
+        else if std.isEmpty(TargetVersion) then (error 'TargetVersion must be not empty')
+        else TargetVersion,
     },
   },
-  withExecutionControls(ExecutionControls): {
-    assert std.isObject(ExecutionControls) : 'ExecutionControls must be a object',
+  setExecutionControls(ExecutionControls): {
     Properties+::: {
-      ExecutionControls: ExecutionControls,
+      ExecutionControls:
+        if !std.isObject(ExecutionControls) then (error 'ExecutionControls must be an object')
+        else ExecutionControls,
     },
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else ResourceType,
     },
   },
-  withRetryAttemptSeconds(RetryAttemptSeconds): {
-    assert std.isNumber(RetryAttemptSeconds) : 'RetryAttemptSeconds must be a number',
+  setRetryAttemptSeconds(RetryAttemptSeconds): {
     Properties+::: {
-      RetryAttemptSeconds: RetryAttemptSeconds,
+      RetryAttemptSeconds:
+        if !std.isNumber(RetryAttemptSeconds) then (error 'RetryAttemptSeconds must be an number')
+        else RetryAttemptSeconds,
     },
   },
-  withMaximumAutomaticAttempts(MaximumAutomaticAttempts): {
-    assert std.isNumber(MaximumAutomaticAttempts) : 'MaximumAutomaticAttempts must be a number',
+  setMaximumAutomaticAttempts(MaximumAutomaticAttempts): {
     Properties+::: {
-      MaximumAutomaticAttempts: MaximumAutomaticAttempts,
+      MaximumAutomaticAttempts:
+        if !std.isNumber(MaximumAutomaticAttempts) then (error 'MaximumAutomaticAttempts must be an number')
+        else MaximumAutomaticAttempts,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAutomatic(Automatic): {
-    assert std.isBoolean(Automatic) : 'Automatic must be a boolean',
+  setAutomatic(Automatic): {
     Properties+::: {
-      Automatic: Automatic,
+      Automatic:
+        if !std.isBoolean(Automatic) then (error 'Automatic must be a boolean') else Automatic,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

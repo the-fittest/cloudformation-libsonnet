@@ -5,11 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ResourceType) : 'ResourceType must be a string',
-      assert ResourceType == 'NetworkInterface' || ResourceType == 'Subnet' || ResourceType == 'VPC' || ResourceType == 'TransitGateway' || ResourceType == 'TransitGatewayAttachment' : "ResourceType should be 'NetworkInterface' or 'Subnet' or 'VPC' or 'TransitGateway' or 'TransitGatewayAttachment'",
-      ResourceType: ResourceType,
-      assert std.isString(ResourceId) : 'ResourceId must be a string',
-      ResourceId: ResourceId,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else if ResourceType != 'NetworkInterface' && ResourceType != 'Subnet' && ResourceType != 'VPC' && ResourceType != 'TransitGateway' && ResourceType != 'TransitGatewayAttachment' then (error "ResourceType should be 'NetworkInterface' or 'Subnet' or 'VPC' or 'TransitGateway' or 'TransitGatewayAttachment'")
+        else ResourceType,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else ResourceId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,136 +23,159 @@
     Metadata:: [],
     Type: 'AWS::EC2::FlowLog',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDeliverCrossAccountRole(DeliverCrossAccountRole): {
-    assert std.isString(DeliverCrossAccountRole) : 'DeliverCrossAccountRole must be a string',
+  setDeliverCrossAccountRole(DeliverCrossAccountRole): {
     Properties+::: {
-      DeliverCrossAccountRole: DeliverCrossAccountRole,
+      DeliverCrossAccountRole:
+        if !std.isString(DeliverCrossAccountRole) then (error 'DeliverCrossAccountRole must be a string')
+        else if std.isEmpty(DeliverCrossAccountRole) then (error 'DeliverCrossAccountRole must be not empty')
+        else DeliverCrossAccountRole,
     },
   },
-  withDeliverLogsPermissionArn(DeliverLogsPermissionArn): {
-    assert std.isString(DeliverLogsPermissionArn) : 'DeliverLogsPermissionArn must be a string',
+  setDeliverLogsPermissionArn(DeliverLogsPermissionArn): {
     Properties+::: {
-      DeliverLogsPermissionArn: DeliverLogsPermissionArn,
+      DeliverLogsPermissionArn:
+        if !std.isString(DeliverLogsPermissionArn) then (error 'DeliverLogsPermissionArn must be a string')
+        else if std.isEmpty(DeliverLogsPermissionArn) then (error 'DeliverLogsPermissionArn must be not empty')
+        else DeliverLogsPermissionArn,
     },
   },
-  withLogDestination(LogDestination): {
-    assert std.isString(LogDestination) : 'LogDestination must be a string',
+  setLogDestination(LogDestination): {
     Properties+::: {
-      LogDestination: LogDestination,
+      LogDestination:
+        if !std.isString(LogDestination) then (error 'LogDestination must be a string')
+        else if std.isEmpty(LogDestination) then (error 'LogDestination must be not empty')
+        else LogDestination,
     },
   },
-  withLogDestinationType(LogDestinationType): {
-    assert std.isString(LogDestinationType) : 'LogDestinationType must be a string',
-    assert LogDestinationType == 'cloud-watch-logs' || LogDestinationType == 's3' || LogDestinationType == 'kinesis-data-firehose' : "LogDestinationType should be 'cloud-watch-logs' or 's3' or 'kinesis-data-firehose'",
+  setLogDestinationType(LogDestinationType): {
     Properties+::: {
-      LogDestinationType: LogDestinationType,
+      LogDestinationType:
+        if !std.isString(LogDestinationType) then (error 'LogDestinationType must be a string')
+        else if std.isEmpty(LogDestinationType) then (error 'LogDestinationType must be not empty')
+        else if LogDestinationType != 'cloud-watch-logs' && LogDestinationType != 's3' && LogDestinationType != 'kinesis-data-firehose' then (error "LogDestinationType should be 'cloud-watch-logs' or 's3' or 'kinesis-data-firehose'")
+        else LogDestinationType,
     },
   },
-  withLogFormat(LogFormat): {
-    assert std.isString(LogFormat) : 'LogFormat must be a string',
+  setLogFormat(LogFormat): {
     Properties+::: {
-      LogFormat: LogFormat,
+      LogFormat:
+        if !std.isString(LogFormat) then (error 'LogFormat must be a string')
+        else if std.isEmpty(LogFormat) then (error 'LogFormat must be not empty')
+        else LogFormat,
     },
   },
-  withLogGroupName(LogGroupName): {
-    assert std.isString(LogGroupName) : 'LogGroupName must be a string',
+  setLogGroupName(LogGroupName): {
     Properties+::: {
-      LogGroupName: LogGroupName,
+      LogGroupName:
+        if !std.isString(LogGroupName) then (error 'LogGroupName must be a string')
+        else if std.isEmpty(LogGroupName) then (error 'LogGroupName must be not empty')
+        else LogGroupName,
     },
   },
-  withMaxAggregationInterval(MaxAggregationInterval): {
-    assert std.isNumber(MaxAggregationInterval) : 'MaxAggregationInterval must be a number',
+  setMaxAggregationInterval(MaxAggregationInterval): {
     Properties+::: {
-      MaxAggregationInterval: MaxAggregationInterval,
+      MaxAggregationInterval:
+        if !std.isNumber(MaxAggregationInterval) then (error 'MaxAggregationInterval must be an number')
+        else MaxAggregationInterval,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrafficType(TrafficType): {
-    assert std.isString(TrafficType) : 'TrafficType must be a string',
-    assert TrafficType == 'ACCEPT' || TrafficType == 'ALL' || TrafficType == 'REJECT' : "TrafficType should be 'ACCEPT' or 'ALL' or 'REJECT'",
+  setTrafficType(TrafficType): {
     Properties+::: {
-      TrafficType: TrafficType,
+      TrafficType:
+        if !std.isString(TrafficType) then (error 'TrafficType must be a string')
+        else if std.isEmpty(TrafficType) then (error 'TrafficType must be not empty')
+        else if TrafficType != 'ACCEPT' && TrafficType != 'ALL' && TrafficType != 'REJECT' then (error "TrafficType should be 'ACCEPT' or 'ALL' or 'REJECT'")
+        else TrafficType,
     },
   },
-  withDestinationOptions(DestinationOptions): {
-    assert std.isObject(DestinationOptions) : 'DestinationOptions must be a object',
+  setDestinationOptions(DestinationOptions): {
     Properties+::: {
-      DestinationOptions: DestinationOptions,
+      DestinationOptions:
+        if !std.isObject(DestinationOptions) then (error 'DestinationOptions must be an object')
+        else if !std.objectHas(DestinationOptions, 'FileFormat') then (error ' have attribute FileFormat')
+        else if !std.objectHas(DestinationOptions, 'HiveCompatiblePartitions') then (error ' have attribute HiveCompatiblePartitions')
+        else if !std.objectHas(DestinationOptions, 'PerHourPartition') then (error ' have attribute PerHourPartition')
+        else DestinationOptions,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

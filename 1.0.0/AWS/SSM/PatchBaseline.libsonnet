@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 3 then error ('Name should have at least 3 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,171 +19,201 @@
     Metadata:: [],
     Type: 'AWS::SSM::PatchBaseline',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 20 then error ('Id should have at least 20 characters')
+        else if std.length(Id) > 128 then error ('Id should have not more than 128 characters')
+        else Id,
     },
   },
-  withDefaultBaseline(DefaultBaseline): {
-    assert std.isBoolean(DefaultBaseline) : 'DefaultBaseline must be a boolean',
+  setDefaultBaseline(DefaultBaseline): {
     Properties+::: {
-      DefaultBaseline: DefaultBaseline,
+      DefaultBaseline:
+        if !std.isBoolean(DefaultBaseline) then (error 'DefaultBaseline must be a boolean') else DefaultBaseline,
     },
   },
-  withOperatingSystem(OperatingSystem): {
-    assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
-    assert OperatingSystem == 'WINDOWS' || OperatingSystem == 'AMAZON_LINUX' || OperatingSystem == 'AMAZON_LINUX_2' || OperatingSystem == 'AMAZON_LINUX_2022' || OperatingSystem == 'AMAZON_LINUX_2023' || OperatingSystem == 'UBUNTU' || OperatingSystem == 'REDHAT_ENTERPRISE_LINUX' || OperatingSystem == 'SUSE' || OperatingSystem == 'CENTOS' || OperatingSystem == 'ORACLE_LINUX' || OperatingSystem == 'DEBIAN' || OperatingSystem == 'MACOS' || OperatingSystem == 'RASPBIAN' || OperatingSystem == 'ROCKY_LINUX' || OperatingSystem == 'ALMA_LINUX' : "OperatingSystem should be 'WINDOWS' or 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2022' or 'AMAZON_LINUX_2023' or 'UBUNTU' or 'REDHAT_ENTERPRISE_LINUX' or 'SUSE' or 'CENTOS' or 'ORACLE_LINUX' or 'DEBIAN' or 'MACOS' or 'RASPBIAN' or 'ROCKY_LINUX' or 'ALMA_LINUX'",
+  setOperatingSystem(OperatingSystem): {
     Properties+::: {
-      OperatingSystem: OperatingSystem,
+      OperatingSystem:
+        if !std.isString(OperatingSystem) then (error 'OperatingSystem must be a string')
+        else if std.isEmpty(OperatingSystem) then (error 'OperatingSystem must be not empty')
+        else if OperatingSystem != 'WINDOWS' && OperatingSystem != 'AMAZON_LINUX' && OperatingSystem != 'AMAZON_LINUX_2' && OperatingSystem != 'AMAZON_LINUX_2022' && OperatingSystem != 'AMAZON_LINUX_2023' && OperatingSystem != 'UBUNTU' && OperatingSystem != 'REDHAT_ENTERPRISE_LINUX' && OperatingSystem != 'SUSE' && OperatingSystem != 'CENTOS' && OperatingSystem != 'ORACLE_LINUX' && OperatingSystem != 'DEBIAN' && OperatingSystem != 'MACOS' && OperatingSystem != 'RASPBIAN' && OperatingSystem != 'ROCKY_LINUX' && OperatingSystem != 'ALMA_LINUX' then (error "OperatingSystem should be 'WINDOWS' or 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2022' or 'AMAZON_LINUX_2023' or 'UBUNTU' or 'REDHAT_ENTERPRISE_LINUX' or 'SUSE' or 'CENTOS' or 'ORACLE_LINUX' or 'DEBIAN' or 'MACOS' or 'RASPBIAN' or 'ROCKY_LINUX' or 'ALMA_LINUX'")
+        else OperatingSystem,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withApprovalRules(ApprovalRules): {
-    assert std.isObject(ApprovalRules) : 'ApprovalRules must be a object',
+  setApprovalRules(ApprovalRules): {
     Properties+::: {
-      ApprovalRules: ApprovalRules,
+      ApprovalRules:
+        if !std.isObject(ApprovalRules) then (error 'ApprovalRules must be an object')
+        else ApprovalRules,
     },
   },
-  withSources(Sources): {
+  setSources(Sources): {
     Properties+::: {
-      Sources: (if std.isArray(Sources) then Sources else [Sources]),
+      Sources:
+        if !std.isArray(Sources) then (error 'Sources must be an array')
+        else if std.length(Sources) > 20 then error ('Sources cannot have more than 20 items')
+        else Sources,
     },
   },
-  withSourcesMixin(Sources): {
+  setSourcesMixin(Sources): {
     Properties+::: {
-      Sources+: (if std.isArray(Sources) then Sources else [Sources]),
+      Sources+: Sources,
     },
   },
-  withRejectedPatches(RejectedPatches): {
+  setRejectedPatches(RejectedPatches): {
     Properties+::: {
-      RejectedPatches: (if std.isArray(RejectedPatches) then RejectedPatches else [RejectedPatches]),
+      RejectedPatches:
+        if !std.isArray(RejectedPatches) then (error 'RejectedPatches must be an array')
+        else if std.length(RejectedPatches) > 50 then error ('RejectedPatches cannot have more than 50 items')
+        else RejectedPatches,
     },
   },
-  withRejectedPatchesMixin(RejectedPatches): {
+  setRejectedPatchesMixin(RejectedPatches): {
     Properties+::: {
-      RejectedPatches+: (if std.isArray(RejectedPatches) then RejectedPatches else [RejectedPatches]),
+      RejectedPatches+: RejectedPatches,
     },
   },
-  withApprovedPatches(ApprovedPatches): {
+  setApprovedPatches(ApprovedPatches): {
     Properties+::: {
-      ApprovedPatches: (if std.isArray(ApprovedPatches) then ApprovedPatches else [ApprovedPatches]),
+      ApprovedPatches:
+        if !std.isArray(ApprovedPatches) then (error 'ApprovedPatches must be an array')
+        else if std.length(ApprovedPatches) > 50 then error ('ApprovedPatches cannot have more than 50 items')
+        else ApprovedPatches,
     },
   },
-  withApprovedPatchesMixin(ApprovedPatches): {
+  setApprovedPatchesMixin(ApprovedPatches): {
     Properties+::: {
-      ApprovedPatches+: (if std.isArray(ApprovedPatches) then ApprovedPatches else [ApprovedPatches]),
+      ApprovedPatches+: ApprovedPatches,
     },
   },
-  withRejectedPatchesAction(RejectedPatchesAction): {
-    assert std.isString(RejectedPatchesAction) : 'RejectedPatchesAction must be a string',
-    assert RejectedPatchesAction == 'ALLOW_AS_DEPENDENCY' || RejectedPatchesAction == 'BLOCK' : "RejectedPatchesAction should be 'ALLOW_AS_DEPENDENCY' or 'BLOCK'",
+  setRejectedPatchesAction(RejectedPatchesAction): {
     Properties+::: {
-      RejectedPatchesAction: RejectedPatchesAction,
+      RejectedPatchesAction:
+        if !std.isString(RejectedPatchesAction) then (error 'RejectedPatchesAction must be a string')
+        else if std.isEmpty(RejectedPatchesAction) then (error 'RejectedPatchesAction must be not empty')
+        else if RejectedPatchesAction != 'ALLOW_AS_DEPENDENCY' && RejectedPatchesAction != 'BLOCK' then (error "RejectedPatchesAction should be 'ALLOW_AS_DEPENDENCY' or 'BLOCK'")
+        else RejectedPatchesAction,
     },
   },
-  withPatchGroups(PatchGroups): {
+  setPatchGroups(PatchGroups): {
     Properties+::: {
-      PatchGroups: (if std.isArray(PatchGroups) then PatchGroups else [PatchGroups]),
+      PatchGroups:
+        if !std.isArray(PatchGroups) then (error 'PatchGroups must be an array')
+        else PatchGroups,
     },
   },
-  withPatchGroupsMixin(PatchGroups): {
+  setPatchGroupsMixin(PatchGroups): {
     Properties+::: {
-      PatchGroups+: (if std.isArray(PatchGroups) then PatchGroups else [PatchGroups]),
+      PatchGroups+: PatchGroups,
     },
   },
-  withApprovedPatchesComplianceLevel(ApprovedPatchesComplianceLevel): {
-    assert std.isString(ApprovedPatchesComplianceLevel) : 'ApprovedPatchesComplianceLevel must be a string',
-    assert ApprovedPatchesComplianceLevel == 'CRITICAL' || ApprovedPatchesComplianceLevel == 'HIGH' || ApprovedPatchesComplianceLevel == 'MEDIUM' || ApprovedPatchesComplianceLevel == 'LOW' || ApprovedPatchesComplianceLevel == 'INFORMATIONAL' || ApprovedPatchesComplianceLevel == 'UNSPECIFIED' : "ApprovedPatchesComplianceLevel should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'INFORMATIONAL' or 'UNSPECIFIED'",
+  setApprovedPatchesComplianceLevel(ApprovedPatchesComplianceLevel): {
     Properties+::: {
-      ApprovedPatchesComplianceLevel: ApprovedPatchesComplianceLevel,
+      ApprovedPatchesComplianceLevel:
+        if !std.isString(ApprovedPatchesComplianceLevel) then (error 'ApprovedPatchesComplianceLevel must be a string')
+        else if std.isEmpty(ApprovedPatchesComplianceLevel) then (error 'ApprovedPatchesComplianceLevel must be not empty')
+        else if ApprovedPatchesComplianceLevel != 'CRITICAL' && ApprovedPatchesComplianceLevel != 'HIGH' && ApprovedPatchesComplianceLevel != 'MEDIUM' && ApprovedPatchesComplianceLevel != 'LOW' && ApprovedPatchesComplianceLevel != 'INFORMATIONAL' && ApprovedPatchesComplianceLevel != 'UNSPECIFIED' then (error "ApprovedPatchesComplianceLevel should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'INFORMATIONAL' or 'UNSPECIFIED'")
+        else ApprovedPatchesComplianceLevel,
     },
   },
-  withApprovedPatchesEnableNonSecurity(ApprovedPatchesEnableNonSecurity): {
-    assert std.isBoolean(ApprovedPatchesEnableNonSecurity) : 'ApprovedPatchesEnableNonSecurity must be a boolean',
+  setApprovedPatchesEnableNonSecurity(ApprovedPatchesEnableNonSecurity): {
     Properties+::: {
-      ApprovedPatchesEnableNonSecurity: ApprovedPatchesEnableNonSecurity,
+      ApprovedPatchesEnableNonSecurity:
+        if !std.isBoolean(ApprovedPatchesEnableNonSecurity) then (error 'ApprovedPatchesEnableNonSecurity must be a boolean') else ApprovedPatchesEnableNonSecurity,
     },
   },
-  withGlobalFilters(GlobalFilters): {
-    assert std.isObject(GlobalFilters) : 'GlobalFilters must be a object',
+  setGlobalFilters(GlobalFilters): {
     Properties+::: {
-      GlobalFilters: GlobalFilters,
+      GlobalFilters:
+        if !std.isObject(GlobalFilters) then (error 'GlobalFilters must be an object')
+        else GlobalFilters,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 1000 then error ('Tags cannot have more than 1000 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

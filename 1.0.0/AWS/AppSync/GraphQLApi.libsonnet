@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(AuthenticationType) : 'AuthenticationType must be a string',
-      AuthenticationType: AuthenticationType,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      AuthenticationType:
+        if !std.isString(AuthenticationType) then (error 'AuthenticationType must be a string')
+        else if std.isEmpty(AuthenticationType) then (error 'AuthenticationType must be not empty')
+        else AuthenticationType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,210 +22,249 @@
     Metadata:: [],
     Type: 'AWS::AppSync::GraphQLApi',
   },
-  withAdditionalAuthenticationProviders(AdditionalAuthenticationProviders): {
+  setAdditionalAuthenticationProviders(AdditionalAuthenticationProviders): {
     Properties+::: {
-      AdditionalAuthenticationProviders: (if std.isArray(AdditionalAuthenticationProviders) then AdditionalAuthenticationProviders else [AdditionalAuthenticationProviders]),
+      AdditionalAuthenticationProviders:
+        if !std.isArray(AdditionalAuthenticationProviders) then (error 'AdditionalAuthenticationProviders must be an array')
+        else AdditionalAuthenticationProviders,
     },
   },
-  withAdditionalAuthenticationProvidersMixin(AdditionalAuthenticationProviders): {
+  setAdditionalAuthenticationProvidersMixin(AdditionalAuthenticationProviders): {
     Properties+::: {
-      AdditionalAuthenticationProviders+: (if std.isArray(AdditionalAuthenticationProviders) then AdditionalAuthenticationProviders else [AdditionalAuthenticationProviders]),
+      AdditionalAuthenticationProviders+: AdditionalAuthenticationProviders,
     },
   },
-  withApiId(ApiId): {
-    assert std.isString(ApiId) : 'ApiId must be a string',
+  setApiId(ApiId): {
     Properties+::: {
-      ApiId: ApiId,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
     },
   },
-  withApiType(ApiType): {
-    assert std.isString(ApiType) : 'ApiType must be a string',
+  setApiType(ApiType): {
     Properties+::: {
-      ApiType: ApiType,
+      ApiType:
+        if !std.isString(ApiType) then (error 'ApiType must be a string')
+        else if std.isEmpty(ApiType) then (error 'ApiType must be not empty')
+        else ApiType,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withEnhancedMetricsConfig(EnhancedMetricsConfig): {
-    assert std.isObject(EnhancedMetricsConfig) : 'EnhancedMetricsConfig must be a object',
+  setEnhancedMetricsConfig(EnhancedMetricsConfig): {
     Properties+::: {
-      EnhancedMetricsConfig: EnhancedMetricsConfig,
+      EnhancedMetricsConfig:
+        if !std.isObject(EnhancedMetricsConfig) then (error 'EnhancedMetricsConfig must be an object')
+        else if !std.objectHas(EnhancedMetricsConfig, 'OperationLevelMetricsConfig') then (error ' have attribute OperationLevelMetricsConfig')
+        else if !std.objectHas(EnhancedMetricsConfig, 'ResolverLevelMetricsBehavior') then (error ' have attribute ResolverLevelMetricsBehavior')
+        else if !std.objectHas(EnhancedMetricsConfig, 'DataSourceLevelMetricsBehavior') then (error ' have attribute DataSourceLevelMetricsBehavior')
+        else EnhancedMetricsConfig,
     },
   },
-  withEnvironmentVariables(EnvironmentVariables): {
-    assert std.isObject(EnvironmentVariables) : 'EnvironmentVariables must be a object',
+  setEnvironmentVariables(EnvironmentVariables): {
     Properties+::: {
-      EnvironmentVariables: EnvironmentVariables,
+      EnvironmentVariables:
+        if !std.isObject(EnvironmentVariables) then (error 'EnvironmentVariables must be an object')
+        else EnvironmentVariables,
     },
   },
-  withGraphQLDns(GraphQLDns): {
-    assert std.isString(GraphQLDns) : 'GraphQLDns must be a string',
+  setGraphQLDns(GraphQLDns): {
     Properties+::: {
-      GraphQLDns: GraphQLDns,
+      GraphQLDns:
+        if !std.isString(GraphQLDns) then (error 'GraphQLDns must be a string')
+        else if std.isEmpty(GraphQLDns) then (error 'GraphQLDns must be not empty')
+        else GraphQLDns,
     },
   },
-  withGraphQLEndpointArn(GraphQLEndpointArn): {
-    assert std.isString(GraphQLEndpointArn) : 'GraphQLEndpointArn must be a string',
+  setGraphQLEndpointArn(GraphQLEndpointArn): {
     Properties+::: {
-      GraphQLEndpointArn: GraphQLEndpointArn,
+      GraphQLEndpointArn:
+        if !std.isString(GraphQLEndpointArn) then (error 'GraphQLEndpointArn must be a string')
+        else if std.isEmpty(GraphQLEndpointArn) then (error 'GraphQLEndpointArn must be not empty')
+        else GraphQLEndpointArn,
     },
   },
-  withGraphQLUrl(GraphQLUrl): {
-    assert std.isString(GraphQLUrl) : 'GraphQLUrl must be a string',
+  setGraphQLUrl(GraphQLUrl): {
     Properties+::: {
-      GraphQLUrl: GraphQLUrl,
+      GraphQLUrl:
+        if !std.isString(GraphQLUrl) then (error 'GraphQLUrl must be a string')
+        else if std.isEmpty(GraphQLUrl) then (error 'GraphQLUrl must be not empty')
+        else GraphQLUrl,
     },
   },
-  withIntrospectionConfig(IntrospectionConfig): {
-    assert std.isString(IntrospectionConfig) : 'IntrospectionConfig must be a string',
+  setIntrospectionConfig(IntrospectionConfig): {
     Properties+::: {
-      IntrospectionConfig: IntrospectionConfig,
+      IntrospectionConfig:
+        if !std.isString(IntrospectionConfig) then (error 'IntrospectionConfig must be a string')
+        else if std.isEmpty(IntrospectionConfig) then (error 'IntrospectionConfig must be not empty')
+        else IntrospectionConfig,
     },
   },
-  withLambdaAuthorizerConfig(LambdaAuthorizerConfig): {
-    assert std.isObject(LambdaAuthorizerConfig) : 'LambdaAuthorizerConfig must be a object',
+  setLambdaAuthorizerConfig(LambdaAuthorizerConfig): {
     Properties+::: {
-      LambdaAuthorizerConfig: LambdaAuthorizerConfig,
+      LambdaAuthorizerConfig:
+        if !std.isObject(LambdaAuthorizerConfig) then (error 'LambdaAuthorizerConfig must be an object')
+        else LambdaAuthorizerConfig,
     },
   },
-  withLogConfig(LogConfig): {
-    assert std.isObject(LogConfig) : 'LogConfig must be a object',
+  setLogConfig(LogConfig): {
     Properties+::: {
-      LogConfig: LogConfig,
+      LogConfig:
+        if !std.isObject(LogConfig) then (error 'LogConfig must be an object')
+        else LogConfig,
     },
   },
-  withMergedApiExecutionRoleArn(MergedApiExecutionRoleArn): {
-    assert std.isString(MergedApiExecutionRoleArn) : 'MergedApiExecutionRoleArn must be a string',
+  setMergedApiExecutionRoleArn(MergedApiExecutionRoleArn): {
     Properties+::: {
-      MergedApiExecutionRoleArn: MergedApiExecutionRoleArn,
+      MergedApiExecutionRoleArn:
+        if !std.isString(MergedApiExecutionRoleArn) then (error 'MergedApiExecutionRoleArn must be a string')
+        else if std.isEmpty(MergedApiExecutionRoleArn) then (error 'MergedApiExecutionRoleArn must be not empty')
+        else MergedApiExecutionRoleArn,
     },
   },
-  withOpenIDConnectConfig(OpenIDConnectConfig): {
-    assert std.isObject(OpenIDConnectConfig) : 'OpenIDConnectConfig must be a object',
+  setOpenIDConnectConfig(OpenIDConnectConfig): {
     Properties+::: {
-      OpenIDConnectConfig: OpenIDConnectConfig,
+      OpenIDConnectConfig:
+        if !std.isObject(OpenIDConnectConfig) then (error 'OpenIDConnectConfig must be an object')
+        else OpenIDConnectConfig,
     },
   },
-  withOwnerContact(OwnerContact): {
-    assert std.isString(OwnerContact) : 'OwnerContact must be a string',
+  setOwnerContact(OwnerContact): {
     Properties+::: {
-      OwnerContact: OwnerContact,
+      OwnerContact:
+        if !std.isString(OwnerContact) then (error 'OwnerContact must be a string')
+        else if std.isEmpty(OwnerContact) then (error 'OwnerContact must be not empty')
+        else OwnerContact,
     },
   },
-  withQueryDepthLimit(QueryDepthLimit): {
-    assert std.isNumber(QueryDepthLimit) : 'QueryDepthLimit must be a number',
+  setQueryDepthLimit(QueryDepthLimit): {
     Properties+::: {
-      QueryDepthLimit: QueryDepthLimit,
+      QueryDepthLimit:
+        if !std.isNumber(QueryDepthLimit) then (error 'QueryDepthLimit must be an number')
+        else QueryDepthLimit,
     },
   },
-  withRealtimeDns(RealtimeDns): {
-    assert std.isString(RealtimeDns) : 'RealtimeDns must be a string',
+  setRealtimeDns(RealtimeDns): {
     Properties+::: {
-      RealtimeDns: RealtimeDns,
+      RealtimeDns:
+        if !std.isString(RealtimeDns) then (error 'RealtimeDns must be a string')
+        else if std.isEmpty(RealtimeDns) then (error 'RealtimeDns must be not empty')
+        else RealtimeDns,
     },
   },
-  withRealtimeUrl(RealtimeUrl): {
-    assert std.isString(RealtimeUrl) : 'RealtimeUrl must be a string',
+  setRealtimeUrl(RealtimeUrl): {
     Properties+::: {
-      RealtimeUrl: RealtimeUrl,
+      RealtimeUrl:
+        if !std.isString(RealtimeUrl) then (error 'RealtimeUrl must be a string')
+        else if std.isEmpty(RealtimeUrl) then (error 'RealtimeUrl must be not empty')
+        else RealtimeUrl,
     },
   },
-  withResolverCountLimit(ResolverCountLimit): {
-    assert std.isNumber(ResolverCountLimit) : 'ResolverCountLimit must be a number',
+  setResolverCountLimit(ResolverCountLimit): {
     Properties+::: {
-      ResolverCountLimit: ResolverCountLimit,
+      ResolverCountLimit:
+        if !std.isNumber(ResolverCountLimit) then (error 'ResolverCountLimit must be an number')
+        else ResolverCountLimit,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUserPoolConfig(UserPoolConfig): {
-    assert std.isObject(UserPoolConfig) : 'UserPoolConfig must be a object',
+  setUserPoolConfig(UserPoolConfig): {
     Properties+::: {
-      UserPoolConfig: UserPoolConfig,
+      UserPoolConfig:
+        if !std.isObject(UserPoolConfig) then (error 'UserPoolConfig must be an object')
+        else UserPoolConfig,
     },
   },
-  withVisibility(Visibility): {
-    assert std.isString(Visibility) : 'Visibility must be a string',
+  setVisibility(Visibility): {
     Properties+::: {
-      Visibility: Visibility,
+      Visibility:
+        if !std.isString(Visibility) then (error 'Visibility must be a string')
+        else if std.isEmpty(Visibility) then (error 'Visibility must be not empty')
+        else Visibility,
     },
   },
-  withXrayEnabled(XrayEnabled): {
-    assert std.isBoolean(XrayEnabled) : 'XrayEnabled must be a boolean',
+  setXrayEnabled(XrayEnabled): {
     Properties+::: {
-      XrayEnabled: XrayEnabled,
+      XrayEnabled:
+        if !std.isBoolean(XrayEnabled) then (error 'XrayEnabled must be a boolean') else XrayEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

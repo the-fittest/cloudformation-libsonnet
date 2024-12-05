@@ -6,12 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(FunctionConfig) : 'FunctionConfig must be an object',
-      FunctionConfig: FunctionConfig,
-      assert std.isString(FunctionCode) : 'FunctionCode must be a string',
-      FunctionCode: FunctionCode,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      FunctionConfig:
+        if !std.isObject(FunctionConfig) then (error 'FunctionConfig must be an object')
+        else if !std.objectHas(FunctionConfig, 'Comment') then (error ' have attribute Comment')
+        else if !std.objectHas(FunctionConfig, 'Runtime') then (error ' have attribute Runtime')
+        else FunctionConfig,
+      FunctionCode:
+        if !std.isString(FunctionCode) then (error 'FunctionCode must be a string')
+        else if std.isEmpty(FunctionCode) then (error 'FunctionCode must be not empty')
+        else FunctionCode,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,88 +28,93 @@
     Metadata:: [],
     Type: 'AWS::CloudFront::Function',
   },
-  withAutoPublish(AutoPublish): {
-    assert std.isBoolean(AutoPublish) : 'AutoPublish must be a boolean',
+  setAutoPublish(AutoPublish): {
     Properties+::: {
-      AutoPublish: AutoPublish,
+      AutoPublish:
+        if !std.isBoolean(AutoPublish) then (error 'AutoPublish must be a boolean') else AutoPublish,
     },
   },
-  withFunctionARN(FunctionARN): {
-    assert std.isString(FunctionARN) : 'FunctionARN must be a string',
+  setFunctionARN(FunctionARN): {
     Properties+::: {
-      FunctionARN: FunctionARN,
+      FunctionARN:
+        if !std.isString(FunctionARN) then (error 'FunctionARN must be a string')
+        else if std.isEmpty(FunctionARN) then (error 'FunctionARN must be not empty')
+        else FunctionARN,
     },
   },
-  withFunctionMetadata(FunctionMetadata): {
-    assert std.isObject(FunctionMetadata) : 'FunctionMetadata must be a object',
+  setFunctionMetadata(FunctionMetadata): {
     Properties+::: {
-      FunctionMetadata: FunctionMetadata,
+      FunctionMetadata:
+        if !std.isObject(FunctionMetadata) then (error 'FunctionMetadata must be an object')
+        else FunctionMetadata,
     },
   },
-  withStage(Stage): {
-    assert std.isString(Stage) : 'Stage must be a string',
+  setStage(Stage): {
     Properties+::: {
-      Stage: Stage,
+      Stage:
+        if !std.isString(Stage) then (error 'Stage must be a string')
+        else if std.isEmpty(Stage) then (error 'Stage must be not empty')
+        else Stage,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

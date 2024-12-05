@@ -7,14 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Group) : 'Group must be a string',
-      Group: Group,
-      assert std.isString(TagKey) : 'TagKey must be a string',
-      TagKey: TagKey,
-      assert std.isString(TagValue) : 'TagValue must be a string',
-      TagValue: TagValue,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      Group:
+        if !std.isString(Group) then (error 'Group must be a string')
+        else if std.isEmpty(Group) then (error 'Group must be not empty')
+        else if std.length(Group) < 12 then error ('Group should have at least 12 characters')
+        else if std.length(Group) > 1600 then error ('Group should have not more than 1600 characters')
+        else Group,
+      TagKey:
+        if !std.isString(TagKey) then (error 'TagKey must be a string')
+        else if std.isEmpty(TagKey) then (error 'TagKey must be not empty')
+        else if std.length(TagKey) < 1 then error ('TagKey should have at least 1 characters')
+        else if std.length(TagKey) > 128 then error ('TagKey should have not more than 128 characters')
+        else TagKey,
+      TagValue:
+        if !std.isString(TagValue) then (error 'TagValue must be a string')
+        else if std.isEmpty(TagValue) then (error 'TagValue must be not empty')
+        else if std.length(TagValue) > 256 then error ('TagValue should have not more than 256 characters')
+        else TagValue,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,89 +39,103 @@
     Metadata:: [],
     Type: 'AWS::ResourceGroups::TagSyncTask',
   },
-  withGroupArn(GroupArn): {
-    assert std.isString(GroupArn) : 'GroupArn must be a string',
+  setGroupArn(GroupArn): {
     Properties+::: {
-      GroupArn: GroupArn,
+      GroupArn:
+        if !std.isString(GroupArn) then (error 'GroupArn must be a string')
+        else if std.isEmpty(GroupArn) then (error 'GroupArn must be not empty')
+        else if std.length(GroupArn) < 12 then error ('GroupArn should have at least 12 characters')
+        else if std.length(GroupArn) > 1600 then error ('GroupArn should have not more than 1600 characters')
+        else GroupArn,
     },
   },
-  withGroupName(GroupName): {
-    assert std.isString(GroupName) : 'GroupName must be a string',
+  setGroupName(GroupName): {
     Properties+::: {
-      GroupName: GroupName,
+      GroupName:
+        if !std.isString(GroupName) then (error 'GroupName must be a string')
+        else if std.isEmpty(GroupName) then (error 'GroupName must be not empty')
+        else if std.length(GroupName) < 1 then error ('GroupName should have at least 1 characters')
+        else if std.length(GroupName) > 300 then error ('GroupName should have not more than 300 characters')
+        else GroupName,
     },
   },
-  withTaskArn(TaskArn): {
-    assert std.isString(TaskArn) : 'TaskArn must be a string',
+  setTaskArn(TaskArn): {
     Properties+::: {
-      TaskArn: TaskArn,
+      TaskArn:
+        if !std.isString(TaskArn) then (error 'TaskArn must be a string')
+        else if std.isEmpty(TaskArn) then (error 'TaskArn must be not empty')
+        else if std.length(TaskArn) < 12 then error ('TaskArn should have at least 12 characters')
+        else if std.length(TaskArn) > 1600 then error ('TaskArn should have not more than 1600 characters')
+        else TaskArn,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' || Status == 'ERROR' : "Status should be 'ACTIVE' or 'ERROR'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'ERROR' then (error "Status should be 'ACTIVE' or 'ERROR'")
+        else Status,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

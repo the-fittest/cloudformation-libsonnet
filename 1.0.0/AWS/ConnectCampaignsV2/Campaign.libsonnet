@@ -6,12 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(ConnectInstanceId) : 'ConnectInstanceId must be a string',
-      ConnectInstanceId: ConnectInstanceId,
-      assert std.isObject(ChannelSubtypeConfig) : 'ChannelSubtypeConfig must be an object',
-      ChannelSubtypeConfig: ChannelSubtypeConfig,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 127 then error ('Name should have not more than 127 characters')
+        else Name,
+      ConnectInstanceId:
+        if !std.isString(ConnectInstanceId) then (error 'ConnectInstanceId must be a string')
+        else if std.isEmpty(ConnectInstanceId) then (error 'ConnectInstanceId must be not empty')
+        else if std.length(ConnectInstanceId) > 256 then error ('ConnectInstanceId should have not more than 256 characters')
+        else ConnectInstanceId,
+      ChannelSubtypeConfig:
+        if !std.isObject(ChannelSubtypeConfig) then (error 'ChannelSubtypeConfig must be an object')
+        else ChannelSubtypeConfig,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,110 +29,127 @@
     Metadata:: [],
     Type: 'AWS::ConnectCampaignsV2::Campaign',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withSource(Source): {
-    assert std.isObject(Source) : 'Source must be a object',
+  setSource(Source): {
     Properties+::: {
-      Source: Source,
+      Source:
+        if !std.isObject(Source) then (error 'Source must be an object')
+        else Source,
     },
   },
-  withConnectCampaignFlowArn(ConnectCampaignFlowArn): {
-    assert std.isString(ConnectCampaignFlowArn) : 'ConnectCampaignFlowArn must be a string',
+  setConnectCampaignFlowArn(ConnectCampaignFlowArn): {
     Properties+::: {
-      ConnectCampaignFlowArn: ConnectCampaignFlowArn,
+      ConnectCampaignFlowArn:
+        if !std.isString(ConnectCampaignFlowArn) then (error 'ConnectCampaignFlowArn must be a string')
+        else if std.isEmpty(ConnectCampaignFlowArn) then (error 'ConnectCampaignFlowArn must be not empty')
+        else if std.length(ConnectCampaignFlowArn) < 20 then error ('ConnectCampaignFlowArn should have at least 20 characters')
+        else if std.length(ConnectCampaignFlowArn) > 500 then error ('ConnectCampaignFlowArn should have not more than 500 characters')
+        else ConnectCampaignFlowArn,
     },
   },
-  withSchedule(Schedule): {
-    assert std.isObject(Schedule) : 'Schedule must be a object',
+  setSchedule(Schedule): {
     Properties+::: {
-      Schedule: Schedule,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else if !std.objectHas(Schedule, 'StartTime') then (error ' have attribute StartTime')
+        else if !std.objectHas(Schedule, 'EndTime') then (error ' have attribute EndTime')
+        else Schedule,
     },
   },
-  withCommunicationTimeConfig(CommunicationTimeConfig): {
-    assert std.isObject(CommunicationTimeConfig) : 'CommunicationTimeConfig must be a object',
+  setCommunicationTimeConfig(CommunicationTimeConfig): {
     Properties+::: {
-      CommunicationTimeConfig: CommunicationTimeConfig,
+      CommunicationTimeConfig:
+        if !std.isObject(CommunicationTimeConfig) then (error 'CommunicationTimeConfig must be an object')
+        else if !std.objectHas(CommunicationTimeConfig, 'LocalTimeZoneConfig') then (error ' have attribute LocalTimeZoneConfig')
+        else CommunicationTimeConfig,
     },
   },
-  withCommunicationLimitsOverride(CommunicationLimitsOverride): {
-    assert std.isObject(CommunicationLimitsOverride) : 'CommunicationLimitsOverride must be a object',
+  setCommunicationLimitsOverride(CommunicationLimitsOverride): {
     Properties+::: {
-      CommunicationLimitsOverride: CommunicationLimitsOverride,
+      CommunicationLimitsOverride:
+        if !std.isObject(CommunicationLimitsOverride) then (error 'CommunicationLimitsOverride must be an object')
+        else CommunicationLimitsOverride,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

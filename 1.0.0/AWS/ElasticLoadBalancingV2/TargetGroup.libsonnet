@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,218 +10,256 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup',
   },
-  withIpAddressType(IpAddressType): {
-    assert std.isString(IpAddressType) : 'IpAddressType must be a string',
+  setIpAddressType(IpAddressType): {
     Properties+::: {
-      IpAddressType: IpAddressType,
+      IpAddressType:
+        if !std.isString(IpAddressType) then (error 'IpAddressType must be a string')
+        else if std.isEmpty(IpAddressType) then (error 'IpAddressType must be not empty')
+        else IpAddressType,
     },
   },
-  withHealthCheckIntervalSeconds(HealthCheckIntervalSeconds): {
-    assert std.isNumber(HealthCheckIntervalSeconds) : 'HealthCheckIntervalSeconds must be a number',
+  setHealthCheckIntervalSeconds(HealthCheckIntervalSeconds): {
     Properties+::: {
-      HealthCheckIntervalSeconds: HealthCheckIntervalSeconds,
+      HealthCheckIntervalSeconds:
+        if !std.isNumber(HealthCheckIntervalSeconds) then (error 'HealthCheckIntervalSeconds must be an number')
+        else HealthCheckIntervalSeconds,
     },
   },
-  withLoadBalancerArns(LoadBalancerArns): {
+  setLoadBalancerArns(LoadBalancerArns): {
     Properties+::: {
-      LoadBalancerArns: (if std.isArray(LoadBalancerArns) then LoadBalancerArns else [LoadBalancerArns]),
+      LoadBalancerArns:
+        if !std.isArray(LoadBalancerArns) then (error 'LoadBalancerArns must be an array')
+        else LoadBalancerArns,
     },
   },
-  withLoadBalancerArnsMixin(LoadBalancerArns): {
+  setLoadBalancerArnsMixin(LoadBalancerArns): {
     Properties+::: {
-      LoadBalancerArns+: (if std.isArray(LoadBalancerArns) then LoadBalancerArns else [LoadBalancerArns]),
+      LoadBalancerArns+: LoadBalancerArns,
     },
   },
-  withMatcher(Matcher): {
-    assert std.isObject(Matcher) : 'Matcher must be a object',
+  setMatcher(Matcher): {
     Properties+::: {
-      Matcher: Matcher,
+      Matcher:
+        if !std.isObject(Matcher) then (error 'Matcher must be an object')
+        else Matcher,
     },
   },
-  withHealthCheckPath(HealthCheckPath): {
-    assert std.isString(HealthCheckPath) : 'HealthCheckPath must be a string',
+  setHealthCheckPath(HealthCheckPath): {
     Properties+::: {
-      HealthCheckPath: HealthCheckPath,
+      HealthCheckPath:
+        if !std.isString(HealthCheckPath) then (error 'HealthCheckPath must be a string')
+        else if std.isEmpty(HealthCheckPath) then (error 'HealthCheckPath must be not empty')
+        else HealthCheckPath,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withTargets(Targets): {
+  setTargets(Targets): {
     Properties+::: {
-      Targets: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets:
+        if !std.isArray(Targets) then (error 'Targets must be an array')
+        else Targets,
     },
   },
-  withTargetsMixin(Targets): {
+  setTargetsMixin(Targets): {
     Properties+::: {
-      Targets+: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets+: Targets,
     },
   },
-  withHealthCheckEnabled(HealthCheckEnabled): {
-    assert std.isBoolean(HealthCheckEnabled) : 'HealthCheckEnabled must be a boolean',
+  setHealthCheckEnabled(HealthCheckEnabled): {
     Properties+::: {
-      HealthCheckEnabled: HealthCheckEnabled,
+      HealthCheckEnabled:
+        if !std.isBoolean(HealthCheckEnabled) then (error 'HealthCheckEnabled must be a boolean') else HealthCheckEnabled,
     },
   },
-  withProtocolVersion(ProtocolVersion): {
-    assert std.isString(ProtocolVersion) : 'ProtocolVersion must be a string',
+  setProtocolVersion(ProtocolVersion): {
     Properties+::: {
-      ProtocolVersion: ProtocolVersion,
+      ProtocolVersion:
+        if !std.isString(ProtocolVersion) then (error 'ProtocolVersion must be a string')
+        else if std.isEmpty(ProtocolVersion) then (error 'ProtocolVersion must be not empty')
+        else ProtocolVersion,
     },
   },
-  withUnhealthyThresholdCount(UnhealthyThresholdCount): {
-    assert std.isNumber(UnhealthyThresholdCount) : 'UnhealthyThresholdCount must be a number',
+  setUnhealthyThresholdCount(UnhealthyThresholdCount): {
     Properties+::: {
-      UnhealthyThresholdCount: UnhealthyThresholdCount,
+      UnhealthyThresholdCount:
+        if !std.isNumber(UnhealthyThresholdCount) then (error 'UnhealthyThresholdCount must be an number')
+        else UnhealthyThresholdCount,
     },
   },
-  withHealthCheckTimeoutSeconds(HealthCheckTimeoutSeconds): {
-    assert std.isNumber(HealthCheckTimeoutSeconds) : 'HealthCheckTimeoutSeconds must be a number',
+  setHealthCheckTimeoutSeconds(HealthCheckTimeoutSeconds): {
     Properties+::: {
-      HealthCheckTimeoutSeconds: HealthCheckTimeoutSeconds,
+      HealthCheckTimeoutSeconds:
+        if !std.isNumber(HealthCheckTimeoutSeconds) then (error 'HealthCheckTimeoutSeconds must be an number')
+        else HealthCheckTimeoutSeconds,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withTargetGroupFullName(TargetGroupFullName): {
-    assert std.isString(TargetGroupFullName) : 'TargetGroupFullName must be a string',
+  setTargetGroupFullName(TargetGroupFullName): {
     Properties+::: {
-      TargetGroupFullName: TargetGroupFullName,
+      TargetGroupFullName:
+        if !std.isString(TargetGroupFullName) then (error 'TargetGroupFullName must be a string')
+        else if std.isEmpty(TargetGroupFullName) then (error 'TargetGroupFullName must be not empty')
+        else TargetGroupFullName,
     },
   },
-  withHealthyThresholdCount(HealthyThresholdCount): {
-    assert std.isNumber(HealthyThresholdCount) : 'HealthyThresholdCount must be a number',
+  setHealthyThresholdCount(HealthyThresholdCount): {
     Properties+::: {
-      HealthyThresholdCount: HealthyThresholdCount,
+      HealthyThresholdCount:
+        if !std.isNumber(HealthyThresholdCount) then (error 'HealthyThresholdCount must be an number')
+        else HealthyThresholdCount,
     },
   },
-  withHealthCheckProtocol(HealthCheckProtocol): {
-    assert std.isString(HealthCheckProtocol) : 'HealthCheckProtocol must be a string',
+  setHealthCheckProtocol(HealthCheckProtocol): {
     Properties+::: {
-      HealthCheckProtocol: HealthCheckProtocol,
+      HealthCheckProtocol:
+        if !std.isString(HealthCheckProtocol) then (error 'HealthCheckProtocol must be a string')
+        else if std.isEmpty(HealthCheckProtocol) then (error 'HealthCheckProtocol must be not empty')
+        else HealthCheckProtocol,
     },
   },
-  withTargetGroupAttributes(TargetGroupAttributes): {
+  setTargetGroupAttributes(TargetGroupAttributes): {
     Properties+::: {
-      TargetGroupAttributes: (if std.isArray(TargetGroupAttributes) then TargetGroupAttributes else [TargetGroupAttributes]),
+      TargetGroupAttributes:
+        if !std.isArray(TargetGroupAttributes) then (error 'TargetGroupAttributes must be an array')
+        else TargetGroupAttributes,
     },
   },
-  withTargetGroupAttributesMixin(TargetGroupAttributes): {
+  setTargetGroupAttributesMixin(TargetGroupAttributes): {
     Properties+::: {
-      TargetGroupAttributes+: (if std.isArray(TargetGroupAttributes) then TargetGroupAttributes else [TargetGroupAttributes]),
+      TargetGroupAttributes+: TargetGroupAttributes,
     },
   },
-  withTargetType(TargetType): {
-    assert std.isString(TargetType) : 'TargetType must be a string',
+  setTargetType(TargetType): {
     Properties+::: {
-      TargetType: TargetType,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else TargetType,
     },
   },
-  withHealthCheckPort(HealthCheckPort): {
-    assert std.isString(HealthCheckPort) : 'HealthCheckPort must be a string',
+  setHealthCheckPort(HealthCheckPort): {
     Properties+::: {
-      HealthCheckPort: HealthCheckPort,
+      HealthCheckPort:
+        if !std.isString(HealthCheckPort) then (error 'HealthCheckPort must be a string')
+        else if std.isEmpty(HealthCheckPort) then (error 'HealthCheckPort must be not empty')
+        else HealthCheckPort,
     },
   },
-  withTargetGroupArn(TargetGroupArn): {
-    assert std.isString(TargetGroupArn) : 'TargetGroupArn must be a string',
+  setTargetGroupArn(TargetGroupArn): {
     Properties+::: {
-      TargetGroupArn: TargetGroupArn,
+      TargetGroupArn:
+        if !std.isString(TargetGroupArn) then (error 'TargetGroupArn must be a string')
+        else if std.isEmpty(TargetGroupArn) then (error 'TargetGroupArn must be not empty')
+        else TargetGroupArn,
     },
   },
-  withProtocol(Protocol): {
-    assert std.isString(Protocol) : 'Protocol must be a string',
+  setProtocol(Protocol): {
     Properties+::: {
-      Protocol: Protocol,
+      Protocol:
+        if !std.isString(Protocol) then (error 'Protocol must be a string')
+        else if std.isEmpty(Protocol) then (error 'Protocol must be not empty')
+        else Protocol,
     },
   },
-  withTargetGroupName(TargetGroupName): {
-    assert std.isString(TargetGroupName) : 'TargetGroupName must be a string',
+  setTargetGroupName(TargetGroupName): {
     Properties+::: {
-      TargetGroupName: TargetGroupName,
+      TargetGroupName:
+        if !std.isString(TargetGroupName) then (error 'TargetGroupName must be a string')
+        else if std.isEmpty(TargetGroupName) then (error 'TargetGroupName must be not empty')
+        else TargetGroupName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

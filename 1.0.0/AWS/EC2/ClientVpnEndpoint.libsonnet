@@ -7,13 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClientCidrBlock) : 'ClientCidrBlock must be a string',
-      ClientCidrBlock: ClientCidrBlock,
-      assert std.isObject(ConnectionLogOptions) : 'ConnectionLogOptions must be an object',
-      ConnectionLogOptions: ConnectionLogOptions,
-      AuthenticationOptions: (if std.isArray(AuthenticationOptions) then AuthenticationOptions else [AuthenticationOptions]),
-      assert std.isString(ServerCertificateArn) : 'ServerCertificateArn must be a string',
-      ServerCertificateArn: ServerCertificateArn,
+      ClientCidrBlock:
+        if !std.isString(ClientCidrBlock) then (error 'ClientCidrBlock must be a string')
+        else if std.isEmpty(ClientCidrBlock) then (error 'ClientCidrBlock must be not empty')
+        else ClientCidrBlock,
+      ConnectionLogOptions:
+        if !std.isObject(ConnectionLogOptions) then (error 'ConnectionLogOptions must be an object')
+        else if !std.objectHas(ConnectionLogOptions, 'Enabled') then (error ' have attribute Enabled')
+        else ConnectionLogOptions,
+      AuthenticationOptions:
+        if !std.isArray(AuthenticationOptions) then (error 'AuthenticationOptions must be an array')
+        else AuthenticationOptions,
+      ServerCertificateArn:
+        if !std.isString(ServerCertificateArn) then (error 'ServerCertificateArn must be a string')
+        else if std.isEmpty(ServerCertificateArn) then (error 'ServerCertificateArn must be not empty')
+        else ServerCertificateArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,154 +31,176 @@
     Metadata:: [],
     Type: 'AWS::EC2::ClientVpnEndpoint',
   },
-  withClientConnectOptions(ClientConnectOptions): {
-    assert std.isObject(ClientConnectOptions) : 'ClientConnectOptions must be a object',
+  setClientConnectOptions(ClientConnectOptions): {
     Properties+::: {
-      ClientConnectOptions: ClientConnectOptions,
+      ClientConnectOptions:
+        if !std.isObject(ClientConnectOptions) then (error 'ClientConnectOptions must be an object')
+        else if !std.objectHas(ClientConnectOptions, 'Enabled') then (error ' have attribute Enabled')
+        else ClientConnectOptions,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withTagSpecifications(TagSpecifications): {
+  setTagSpecifications(TagSpecifications): {
     Properties+::: {
-      TagSpecifications: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications:
+        if !std.isArray(TagSpecifications) then (error 'TagSpecifications must be an array')
+        else TagSpecifications,
     },
   },
-  withTagSpecificationsMixin(TagSpecifications): {
+  setTagSpecificationsMixin(TagSpecifications): {
     Properties+::: {
-      TagSpecifications+: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications+: TagSpecifications,
     },
   },
-  withSessionTimeoutHours(SessionTimeoutHours): {
-    assert std.isNumber(SessionTimeoutHours) : 'SessionTimeoutHours must be a number',
+  setSessionTimeoutHours(SessionTimeoutHours): {
     Properties+::: {
-      SessionTimeoutHours: SessionTimeoutHours,
+      SessionTimeoutHours:
+        if !std.isNumber(SessionTimeoutHours) then (error 'SessionTimeoutHours must be an number')
+        else SessionTimeoutHours,
     },
   },
-  withDnsServers(DnsServers): {
+  setDnsServers(DnsServers): {
     Properties+::: {
-      DnsServers: (if std.isArray(DnsServers) then DnsServers else [DnsServers]),
+      DnsServers:
+        if !std.isArray(DnsServers) then (error 'DnsServers must be an array')
+        else DnsServers,
     },
   },
-  withDnsServersMixin(DnsServers): {
+  setDnsServersMixin(DnsServers): {
     Properties+::: {
-      DnsServers+: (if std.isArray(DnsServers) then DnsServers else [DnsServers]),
+      DnsServers+: DnsServers,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withSplitTunnel(SplitTunnel): {
-    assert std.isBoolean(SplitTunnel) : 'SplitTunnel must be a boolean',
+  setSplitTunnel(SplitTunnel): {
     Properties+::: {
-      SplitTunnel: SplitTunnel,
+      SplitTunnel:
+        if !std.isBoolean(SplitTunnel) then (error 'SplitTunnel must be a boolean') else SplitTunnel,
     },
   },
-  withClientLoginBannerOptions(ClientLoginBannerOptions): {
-    assert std.isObject(ClientLoginBannerOptions) : 'ClientLoginBannerOptions must be a object',
+  setClientLoginBannerOptions(ClientLoginBannerOptions): {
     Properties+::: {
-      ClientLoginBannerOptions: ClientLoginBannerOptions,
+      ClientLoginBannerOptions:
+        if !std.isObject(ClientLoginBannerOptions) then (error 'ClientLoginBannerOptions must be an object')
+        else if !std.objectHas(ClientLoginBannerOptions, 'Enabled') then (error ' have attribute Enabled')
+        else ClientLoginBannerOptions,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withSelfServicePortal(SelfServicePortal): {
-    assert std.isString(SelfServicePortal) : 'SelfServicePortal must be a string',
+  setSelfServicePortal(SelfServicePortal): {
     Properties+::: {
-      SelfServicePortal: SelfServicePortal,
+      SelfServicePortal:
+        if !std.isString(SelfServicePortal) then (error 'SelfServicePortal must be a string')
+        else if std.isEmpty(SelfServicePortal) then (error 'SelfServicePortal must be not empty')
+        else SelfServicePortal,
     },
   },
-  withTransportProtocol(TransportProtocol): {
-    assert std.isString(TransportProtocol) : 'TransportProtocol must be a string',
+  setTransportProtocol(TransportProtocol): {
     Properties+::: {
-      TransportProtocol: TransportProtocol,
+      TransportProtocol:
+        if !std.isString(TransportProtocol) then (error 'TransportProtocol must be a string')
+        else if std.isEmpty(TransportProtocol) then (error 'TransportProtocol must be not empty')
+        else TransportProtocol,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withVpnPort(VpnPort): {
-    assert std.isNumber(VpnPort) : 'VpnPort must be a number',
+  setVpnPort(VpnPort): {
     Properties+::: {
-      VpnPort: VpnPort,
+      VpnPort:
+        if !std.isNumber(VpnPort) then (error 'VpnPort must be an number')
+        else VpnPort,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -7,12 +7,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ChannelGroupName) : 'ChannelGroupName must be a string',
-      ChannelGroupName: ChannelGroupName,
-      assert std.isString(ChannelName) : 'ChannelName must be a string',
-      ChannelName: ChannelName,
-      assert std.isString(OriginEndpointName) : 'OriginEndpointName must be a string',
-      OriginEndpointName: OriginEndpointName,
+      ChannelGroupName:
+        if !std.isString(ChannelGroupName) then (error 'ChannelGroupName must be a string')
+        else if std.isEmpty(ChannelGroupName) then (error 'ChannelGroupName must be not empty')
+        else if std.length(ChannelGroupName) < 1 then error ('ChannelGroupName should have at least 1 characters')
+        else if std.length(ChannelGroupName) > 256 then error ('ChannelGroupName should have not more than 256 characters')
+        else ChannelGroupName,
+      ChannelName:
+        if !std.isString(ChannelName) then (error 'ChannelName must be a string')
+        else if std.isEmpty(ChannelName) then (error 'ChannelName must be not empty')
+        else if std.length(ChannelName) < 1 then error ('ChannelName should have at least 1 characters')
+        else if std.length(ChannelName) > 256 then error ('ChannelName should have not more than 256 characters')
+        else ChannelName,
+      OriginEndpointName:
+        if !std.isString(OriginEndpointName) then (error 'OriginEndpointName must be a string')
+        else if std.isEmpty(OriginEndpointName) then (error 'OriginEndpointName must be not empty')
+        else if std.length(OriginEndpointName) < 1 then error ('OriginEndpointName should have at least 1 characters')
+        else if std.length(OriginEndpointName) > 256 then error ('OriginEndpointName should have not more than 256 characters')
+        else OriginEndpointName,
       Policy: Policy,
     },
     DependsOn:: [],
@@ -23,64 +35,64 @@
     Metadata:: [],
     Type: 'AWS::MediaPackageV2::OriginEndpointPolicy',
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

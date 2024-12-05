@@ -5,9 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(TargetCapacitySpecification) : 'TargetCapacitySpecification must be an object',
-      TargetCapacitySpecification: TargetCapacitySpecification,
-      LaunchTemplateConfigs: (if std.isArray(LaunchTemplateConfigs) then LaunchTemplateConfigs else [LaunchTemplateConfigs]),
+      TargetCapacitySpecification:
+        if !std.isObject(TargetCapacitySpecification) then (error 'TargetCapacitySpecification must be an object')
+        else if !std.objectHas(TargetCapacitySpecification, 'TotalTargetCapacity') then (error ' have attribute TotalTargetCapacity')
+        else TargetCapacitySpecification,
+      LaunchTemplateConfigs:
+        if !std.isArray(LaunchTemplateConfigs) then (error 'LaunchTemplateConfigs must be an array')
+        else if std.length(LaunchTemplateConfigs) > 50 then error ('LaunchTemplateConfigs cannot have more than 50 items')
+        else LaunchTemplateConfigs,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,136 +22,152 @@
     Metadata:: [],
     Type: 'AWS::EC2::EC2Fleet',
   },
-  withContext(Context): {
-    assert std.isString(Context) : 'Context must be a string',
+  setContext(Context): {
     Properties+::: {
-      Context: Context,
+      Context:
+        if !std.isString(Context) then (error 'Context must be a string')
+        else if std.isEmpty(Context) then (error 'Context must be not empty')
+        else Context,
     },
   },
-  withOnDemandOptions(OnDemandOptions): {
-    assert std.isObject(OnDemandOptions) : 'OnDemandOptions must be a object',
+  setOnDemandOptions(OnDemandOptions): {
     Properties+::: {
-      OnDemandOptions: OnDemandOptions,
+      OnDemandOptions:
+        if !std.isObject(OnDemandOptions) then (error 'OnDemandOptions must be an object')
+        else OnDemandOptions,
     },
   },
-  withExcessCapacityTerminationPolicy(ExcessCapacityTerminationPolicy): {
-    assert std.isString(ExcessCapacityTerminationPolicy) : 'ExcessCapacityTerminationPolicy must be a string',
-    assert ExcessCapacityTerminationPolicy == 'termination' || ExcessCapacityTerminationPolicy == 'no-termination' : "ExcessCapacityTerminationPolicy should be 'termination' or 'no-termination'",
+  setExcessCapacityTerminationPolicy(ExcessCapacityTerminationPolicy): {
     Properties+::: {
-      ExcessCapacityTerminationPolicy: ExcessCapacityTerminationPolicy,
+      ExcessCapacityTerminationPolicy:
+        if !std.isString(ExcessCapacityTerminationPolicy) then (error 'ExcessCapacityTerminationPolicy must be a string')
+        else if std.isEmpty(ExcessCapacityTerminationPolicy) then (error 'ExcessCapacityTerminationPolicy must be not empty')
+        else if ExcessCapacityTerminationPolicy != 'termination' && ExcessCapacityTerminationPolicy != 'no-termination' then (error "ExcessCapacityTerminationPolicy should be 'termination' or 'no-termination'")
+        else ExcessCapacityTerminationPolicy,
     },
   },
-  withTagSpecifications(TagSpecifications): {
+  setTagSpecifications(TagSpecifications): {
     Properties+::: {
-      TagSpecifications: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications:
+        if !std.isArray(TagSpecifications) then (error 'TagSpecifications must be an array')
+        else TagSpecifications,
     },
   },
-  withTagSpecificationsMixin(TagSpecifications): {
+  setTagSpecificationsMixin(TagSpecifications): {
     Properties+::: {
-      TagSpecifications+: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications+: TagSpecifications,
     },
   },
-  withSpotOptions(SpotOptions): {
-    assert std.isObject(SpotOptions) : 'SpotOptions must be a object',
+  setSpotOptions(SpotOptions): {
     Properties+::: {
-      SpotOptions: SpotOptions,
+      SpotOptions:
+        if !std.isObject(SpotOptions) then (error 'SpotOptions must be an object')
+        else SpotOptions,
     },
   },
-  withTerminateInstancesWithExpiration(TerminateInstancesWithExpiration): {
-    assert std.isBoolean(TerminateInstancesWithExpiration) : 'TerminateInstancesWithExpiration must be a boolean',
+  setTerminateInstancesWithExpiration(TerminateInstancesWithExpiration): {
     Properties+::: {
-      TerminateInstancesWithExpiration: TerminateInstancesWithExpiration,
+      TerminateInstancesWithExpiration:
+        if !std.isBoolean(TerminateInstancesWithExpiration) then (error 'TerminateInstancesWithExpiration must be a boolean') else TerminateInstancesWithExpiration,
     },
   },
-  withValidUntil(ValidUntil): {
-    assert std.isString(ValidUntil) : 'ValidUntil must be a string',
+  setValidUntil(ValidUntil): {
     Properties+::: {
-      ValidUntil: ValidUntil,
+      ValidUntil:
+        if !std.isString(ValidUntil) then (error 'ValidUntil must be a string')
+        else if std.isEmpty(ValidUntil) then (error 'ValidUntil must be not empty')
+        else ValidUntil,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'maintain' || Type == 'request' || Type == 'instant' : "Type should be 'maintain' or 'request' or 'instant'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'maintain' && Type != 'request' && Type != 'instant' then (error "Type should be 'maintain' or 'request' or 'instant'")
+        else Type,
     },
   },
-  withFleetId(FleetId): {
-    assert std.isString(FleetId) : 'FleetId must be a string',
+  setFleetId(FleetId): {
     Properties+::: {
-      FleetId: FleetId,
+      FleetId:
+        if !std.isString(FleetId) then (error 'FleetId must be a string')
+        else if std.isEmpty(FleetId) then (error 'FleetId must be not empty')
+        else FleetId,
     },
   },
-  withValidFrom(ValidFrom): {
-    assert std.isString(ValidFrom) : 'ValidFrom must be a string',
+  setValidFrom(ValidFrom): {
     Properties+::: {
-      ValidFrom: ValidFrom,
+      ValidFrom:
+        if !std.isString(ValidFrom) then (error 'ValidFrom must be a string')
+        else if std.isEmpty(ValidFrom) then (error 'ValidFrom must be not empty')
+        else ValidFrom,
     },
   },
-  withReplaceUnhealthyInstances(ReplaceUnhealthyInstances): {
-    assert std.isBoolean(ReplaceUnhealthyInstances) : 'ReplaceUnhealthyInstances must be a boolean',
+  setReplaceUnhealthyInstances(ReplaceUnhealthyInstances): {
     Properties+::: {
-      ReplaceUnhealthyInstances: ReplaceUnhealthyInstances,
+      ReplaceUnhealthyInstances:
+        if !std.isBoolean(ReplaceUnhealthyInstances) then (error 'ReplaceUnhealthyInstances must be a boolean') else ReplaceUnhealthyInstances,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

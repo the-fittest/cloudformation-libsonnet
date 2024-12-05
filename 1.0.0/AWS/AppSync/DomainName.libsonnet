@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
-      assert std.isString(CertificateArn) : 'CertificateArn must be a string',
-      CertificateArn: CertificateArn,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 253 then error ('DomainName should have not more than 253 characters')
+        else DomainName,
+      CertificateArn:
+        if !std.isString(CertificateArn) then (error 'CertificateArn must be a string')
+        else if std.isEmpty(CertificateArn) then (error 'CertificateArn must be not empty')
+        else if std.length(CertificateArn) < 3 then error ('CertificateArn should have at least 3 characters')
+        else if std.length(CertificateArn) > 2048 then error ('CertificateArn should have not more than 2048 characters')
+        else CertificateArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,82 +26,89 @@
     Metadata:: [],
     Type: 'AWS::AppSync::DomainName',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withAppSyncDomainName(AppSyncDomainName): {
-    assert std.isString(AppSyncDomainName) : 'AppSyncDomainName must be a string',
+  setAppSyncDomainName(AppSyncDomainName): {
     Properties+::: {
-      AppSyncDomainName: AppSyncDomainName,
+      AppSyncDomainName:
+        if !std.isString(AppSyncDomainName) then (error 'AppSyncDomainName must be a string')
+        else if std.isEmpty(AppSyncDomainName) then (error 'AppSyncDomainName must be not empty')
+        else AppSyncDomainName,
     },
   },
-  withHostedZoneId(HostedZoneId): {
-    assert std.isString(HostedZoneId) : 'HostedZoneId must be a string',
+  setHostedZoneId(HostedZoneId): {
     Properties+::: {
-      HostedZoneId: HostedZoneId,
+      HostedZoneId:
+        if !std.isString(HostedZoneId) then (error 'HostedZoneId must be a string')
+        else if std.isEmpty(HostedZoneId) then (error 'HostedZoneId must be not empty')
+        else HostedZoneId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

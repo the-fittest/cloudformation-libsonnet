@@ -8,14 +8,27 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FlowName) : 'FlowName must be a string',
-      FlowName: FlowName,
-      Tasks: (if std.isArray(Tasks) then Tasks else [Tasks]),
-      assert std.isObject(SourceFlowConfig) : 'SourceFlowConfig must be an object',
-      SourceFlowConfig: SourceFlowConfig,
-      DestinationFlowConfigList: (if std.isArray(DestinationFlowConfigList) then DestinationFlowConfigList else [DestinationFlowConfigList]),
-      assert std.isObject(TriggerConfig) : 'TriggerConfig must be an object',
-      TriggerConfig: TriggerConfig,
+      FlowName:
+        if !std.isString(FlowName) then (error 'FlowName must be a string')
+        else if std.isEmpty(FlowName) then (error 'FlowName must be not empty')
+        else if std.length(FlowName) < 1 then error ('FlowName should have at least 1 characters')
+        else if std.length(FlowName) > 256 then error ('FlowName should have not more than 256 characters')
+        else FlowName,
+      Tasks:
+        if !std.isArray(Tasks) then (error 'Tasks must be an array')
+        else Tasks,
+      SourceFlowConfig:
+        if !std.isObject(SourceFlowConfig) then (error 'SourceFlowConfig must be an object')
+        else if !std.objectHas(SourceFlowConfig, 'ConnectorType') then (error ' have attribute ConnectorType')
+        else if !std.objectHas(SourceFlowConfig, 'SourceConnectorProperties') then (error ' have attribute SourceConnectorProperties')
+        else SourceFlowConfig,
+      DestinationFlowConfigList:
+        if !std.isArray(DestinationFlowConfigList) then (error 'DestinationFlowConfigList must be an array')
+        else DestinationFlowConfigList,
+      TriggerConfig:
+        if !std.isObject(TriggerConfig) then (error 'TriggerConfig must be an object')
+        else if !std.objectHas(TriggerConfig, 'TriggerType') then (error ' have attribute TriggerType')
+        else TriggerConfig,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,105 +38,120 @@
     Metadata:: [],
     Type: 'AWS::AppFlow::Flow',
   },
-  withFlowArn(FlowArn): {
-    assert std.isString(FlowArn) : 'FlowArn must be a string',
+  setFlowArn(FlowArn): {
     Properties+::: {
-      FlowArn: FlowArn,
+      FlowArn:
+        if !std.isString(FlowArn) then (error 'FlowArn must be a string')
+        else if std.isEmpty(FlowArn) then (error 'FlowArn must be not empty')
+        else if std.length(FlowArn) > 512 then error ('FlowArn should have not more than 512 characters')
+        else FlowArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withKMSArn(KMSArn): {
-    assert std.isString(KMSArn) : 'KMSArn must be a string',
+  setKMSArn(KMSArn): {
     Properties+::: {
-      KMSArn: KMSArn,
+      KMSArn:
+        if !std.isString(KMSArn) then (error 'KMSArn must be a string')
+        else if std.isEmpty(KMSArn) then (error 'KMSArn must be not empty')
+        else if std.length(KMSArn) < 20 then error ('KMSArn should have at least 20 characters')
+        else if std.length(KMSArn) > 2048 then error ('KMSArn should have not more than 2048 characters')
+        else KMSArn,
     },
   },
-  withFlowStatus(FlowStatus): {
-    assert std.isString(FlowStatus) : 'FlowStatus must be a string',
-    assert FlowStatus == 'Active' || FlowStatus == 'Suspended' || FlowStatus == 'Draft' : "FlowStatus should be 'Active' or 'Suspended' or 'Draft'",
+  setFlowStatus(FlowStatus): {
     Properties+::: {
-      FlowStatus: FlowStatus,
+      FlowStatus:
+        if !std.isString(FlowStatus) then (error 'FlowStatus must be a string')
+        else if std.isEmpty(FlowStatus) then (error 'FlowStatus must be not empty')
+        else if FlowStatus != 'Active' && FlowStatus != 'Suspended' && FlowStatus != 'Draft' then (error "FlowStatus should be 'Active' or 'Suspended' or 'Draft'")
+        else FlowStatus,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withMetadataCatalogConfig(MetadataCatalogConfig): {
-    assert std.isObject(MetadataCatalogConfig) : 'MetadataCatalogConfig must be a object',
+  setMetadataCatalogConfig(MetadataCatalogConfig): {
     Properties+::: {
-      MetadataCatalogConfig: MetadataCatalogConfig,
+      MetadataCatalogConfig:
+        if !std.isObject(MetadataCatalogConfig) then (error 'MetadataCatalogConfig must be an object')
+        else MetadataCatalogConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

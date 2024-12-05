@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,186 +10,220 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer',
   },
-  withIpAddressType(IpAddressType): {
-    assert std.isString(IpAddressType) : 'IpAddressType must be a string',
+  setIpAddressType(IpAddressType): {
     Properties+::: {
-      IpAddressType: IpAddressType,
+      IpAddressType:
+        if !std.isString(IpAddressType) then (error 'IpAddressType must be a string')
+        else if std.isEmpty(IpAddressType) then (error 'IpAddressType must be not empty')
+        else IpAddressType,
     },
   },
-  withEnablePrefixForIpv6SourceNat(EnablePrefixForIpv6SourceNat): {
-    assert std.isString(EnablePrefixForIpv6SourceNat) : 'EnablePrefixForIpv6SourceNat must be a string',
+  setEnablePrefixForIpv6SourceNat(EnablePrefixForIpv6SourceNat): {
     Properties+::: {
-      EnablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNat,
+      EnablePrefixForIpv6SourceNat:
+        if !std.isString(EnablePrefixForIpv6SourceNat) then (error 'EnablePrefixForIpv6SourceNat must be a string')
+        else if std.isEmpty(EnablePrefixForIpv6SourceNat) then (error 'EnablePrefixForIpv6SourceNat must be not empty')
+        else EnablePrefixForIpv6SourceNat,
     },
   },
-  withSecurityGroups(SecurityGroups): {
+  setSecurityGroups(SecurityGroups): {
     Properties+::: {
-      SecurityGroups: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups:
+        if !std.isArray(SecurityGroups) then (error 'SecurityGroups must be an array')
+        else SecurityGroups,
     },
   },
-  withSecurityGroupsMixin(SecurityGroups): {
+  setSecurityGroupsMixin(SecurityGroups): {
     Properties+::: {
-      SecurityGroups+: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups+: SecurityGroups,
     },
   },
-  withLoadBalancerAttributes(LoadBalancerAttributes): {
+  setLoadBalancerAttributes(LoadBalancerAttributes): {
     Properties+::: {
-      LoadBalancerAttributes: (if std.isArray(LoadBalancerAttributes) then LoadBalancerAttributes else [LoadBalancerAttributes]),
+      LoadBalancerAttributes:
+        if !std.isArray(LoadBalancerAttributes) then (error 'LoadBalancerAttributes must be an array')
+        else LoadBalancerAttributes,
     },
   },
-  withLoadBalancerAttributesMixin(LoadBalancerAttributes): {
+  setLoadBalancerAttributesMixin(LoadBalancerAttributes): {
     Properties+::: {
-      LoadBalancerAttributes+: (if std.isArray(LoadBalancerAttributes) then LoadBalancerAttributes else [LoadBalancerAttributes]),
+      LoadBalancerAttributes+: LoadBalancerAttributes,
     },
   },
-  withMinimumLoadBalancerCapacity(MinimumLoadBalancerCapacity): {
-    assert std.isObject(MinimumLoadBalancerCapacity) : 'MinimumLoadBalancerCapacity must be a object',
+  setMinimumLoadBalancerCapacity(MinimumLoadBalancerCapacity): {
     Properties+::: {
-      MinimumLoadBalancerCapacity: MinimumLoadBalancerCapacity,
+      MinimumLoadBalancerCapacity:
+        if !std.isObject(MinimumLoadBalancerCapacity) then (error 'MinimumLoadBalancerCapacity must be an object')
+        else if !std.objectHas(MinimumLoadBalancerCapacity, 'CapacityUnits') then (error ' have attribute CapacityUnits')
+        else MinimumLoadBalancerCapacity,
     },
   },
-  withScheme(Scheme): {
-    assert std.isString(Scheme) : 'Scheme must be a string',
+  setScheme(Scheme): {
     Properties+::: {
-      Scheme: Scheme,
+      Scheme:
+        if !std.isString(Scheme) then (error 'Scheme must be a string')
+        else if std.isEmpty(Scheme) then (error 'Scheme must be not empty')
+        else Scheme,
     },
   },
-  withDNSName(DNSName): {
-    assert std.isString(DNSName) : 'DNSName must be a string',
+  setDNSName(DNSName): {
     Properties+::: {
-      DNSName: DNSName,
+      DNSName:
+        if !std.isString(DNSName) then (error 'DNSName must be a string')
+        else if std.isEmpty(DNSName) then (error 'DNSName must be not empty')
+        else DNSName,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withLoadBalancerName(LoadBalancerName): {
-    assert std.isString(LoadBalancerName) : 'LoadBalancerName must be a string',
+  setLoadBalancerName(LoadBalancerName): {
     Properties+::: {
-      LoadBalancerName: LoadBalancerName,
+      LoadBalancerName:
+        if !std.isString(LoadBalancerName) then (error 'LoadBalancerName must be a string')
+        else if std.isEmpty(LoadBalancerName) then (error 'LoadBalancerName must be not empty')
+        else LoadBalancerName,
     },
   },
-  withLoadBalancerFullName(LoadBalancerFullName): {
-    assert std.isString(LoadBalancerFullName) : 'LoadBalancerFullName must be a string',
+  setLoadBalancerFullName(LoadBalancerFullName): {
     Properties+::: {
-      LoadBalancerFullName: LoadBalancerFullName,
+      LoadBalancerFullName:
+        if !std.isString(LoadBalancerFullName) then (error 'LoadBalancerFullName must be a string')
+        else if std.isEmpty(LoadBalancerFullName) then (error 'LoadBalancerFullName must be not empty')
+        else LoadBalancerFullName,
     },
   },
-  withSubnets(Subnets): {
+  setSubnets(Subnets): {
     Properties+::: {
-      Subnets: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets:
+        if !std.isArray(Subnets) then (error 'Subnets must be an array')
+        else Subnets,
     },
   },
-  withSubnetsMixin(Subnets): {
+  setSubnetsMixin(Subnets): {
     Properties+::: {
-      Subnets+: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets+: Subnets,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
     },
   },
-  withCanonicalHostedZoneID(CanonicalHostedZoneID): {
-    assert std.isString(CanonicalHostedZoneID) : 'CanonicalHostedZoneID must be a string',
+  setCanonicalHostedZoneID(CanonicalHostedZoneID): {
     Properties+::: {
-      CanonicalHostedZoneID: CanonicalHostedZoneID,
+      CanonicalHostedZoneID:
+        if !std.isString(CanonicalHostedZoneID) then (error 'CanonicalHostedZoneID must be a string')
+        else if std.isEmpty(CanonicalHostedZoneID) then (error 'CanonicalHostedZoneID must be not empty')
+        else CanonicalHostedZoneID,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLoadBalancerArn(LoadBalancerArn): {
-    assert std.isString(LoadBalancerArn) : 'LoadBalancerArn must be a string',
+  setLoadBalancerArn(LoadBalancerArn): {
     Properties+::: {
-      LoadBalancerArn: LoadBalancerArn,
+      LoadBalancerArn:
+        if !std.isString(LoadBalancerArn) then (error 'LoadBalancerArn must be a string')
+        else if std.isEmpty(LoadBalancerArn) then (error 'LoadBalancerArn must be not empty')
+        else LoadBalancerArn,
     },
   },
-  withSubnetMappings(SubnetMappings): {
+  setSubnetMappings(SubnetMappings): {
     Properties+::: {
-      SubnetMappings: (if std.isArray(SubnetMappings) then SubnetMappings else [SubnetMappings]),
+      SubnetMappings:
+        if !std.isArray(SubnetMappings) then (error 'SubnetMappings must be an array')
+        else SubnetMappings,
     },
   },
-  withSubnetMappingsMixin(SubnetMappings): {
+  setSubnetMappingsMixin(SubnetMappings): {
     Properties+::: {
-      SubnetMappings+: (if std.isArray(SubnetMappings) then SubnetMappings else [SubnetMappings]),
+      SubnetMappings+: SubnetMappings,
     },
   },
-  withEnforceSecurityGroupInboundRulesOnPrivateLinkTraffic(EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic): {
-    assert std.isString(EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic) : 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic must be a string',
+  setEnforceSecurityGroupInboundRulesOnPrivateLinkTraffic(EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic): {
     Properties+::: {
-      EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic:
+        if !std.isString(EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic) then (error 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic must be a string')
+        else if std.isEmpty(EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic) then (error 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic must be not empty')
+        else EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

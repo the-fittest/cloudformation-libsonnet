@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,100 +10,107 @@
     Metadata:: [],
     Type: 'AWS::SecurityHub::Hub',
   },
-  withARN(ARN): {
-    assert std.isString(ARN) : 'ARN must be a string',
+  setARN(ARN): {
     Properties+::: {
-      ARN: ARN,
+      ARN:
+        if !std.isString(ARN) then (error 'ARN must be a string')
+        else if std.isEmpty(ARN) then (error 'ARN must be not empty')
+        else ARN,
     },
   },
-  withEnableDefaultStandards(EnableDefaultStandards): {
-    assert std.isBoolean(EnableDefaultStandards) : 'EnableDefaultStandards must be a boolean',
+  setEnableDefaultStandards(EnableDefaultStandards): {
     Properties+::: {
-      EnableDefaultStandards: EnableDefaultStandards,
+      EnableDefaultStandards:
+        if !std.isBoolean(EnableDefaultStandards) then (error 'EnableDefaultStandards must be a boolean') else EnableDefaultStandards,
     },
   },
-  withControlFindingGenerator(ControlFindingGenerator): {
-    assert std.isString(ControlFindingGenerator) : 'ControlFindingGenerator must be a string',
+  setControlFindingGenerator(ControlFindingGenerator): {
     Properties+::: {
-      ControlFindingGenerator: ControlFindingGenerator,
+      ControlFindingGenerator:
+        if !std.isString(ControlFindingGenerator) then (error 'ControlFindingGenerator must be a string')
+        else if std.isEmpty(ControlFindingGenerator) then (error 'ControlFindingGenerator must be not empty')
+        else ControlFindingGenerator,
     },
   },
-  withAutoEnableControls(AutoEnableControls): {
-    assert std.isBoolean(AutoEnableControls) : 'AutoEnableControls must be a boolean',
+  setAutoEnableControls(AutoEnableControls): {
     Properties+::: {
-      AutoEnableControls: AutoEnableControls,
+      AutoEnableControls:
+        if !std.isBoolean(AutoEnableControls) then (error 'AutoEnableControls must be a boolean') else AutoEnableControls,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withSubscribedAt(SubscribedAt): {
-    assert std.isString(SubscribedAt) : 'SubscribedAt must be a string',
+  setSubscribedAt(SubscribedAt): {
     Properties+::: {
-      SubscribedAt: SubscribedAt,
+      SubscribedAt:
+        if !std.isString(SubscribedAt) then (error 'SubscribedAt must be a string')
+        else if std.isEmpty(SubscribedAt) then (error 'SubscribedAt must be not empty')
+        else SubscribedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

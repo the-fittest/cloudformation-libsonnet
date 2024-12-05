@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(SyncName) : 'SyncName must be a string',
-      SyncName: SyncName,
+      SyncName:
+        if !std.isString(SyncName) then (error 'SyncName must be a string')
+        else if std.isEmpty(SyncName) then (error 'SyncName must be not empty')
+        else if std.length(SyncName) < 1 then error ('SyncName should have at least 1 characters')
+        else if std.length(SyncName) > 64 then error ('SyncName should have not more than 64 characters')
+        else SyncName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,112 +19,140 @@
     Metadata:: [],
     Type: 'AWS::SSM::ResourceDataSync',
   },
-  withS3Destination(S3Destination): {
-    assert std.isObject(S3Destination) : 'S3Destination must be a object',
+  setS3Destination(S3Destination): {
     Properties+::: {
-      S3Destination: S3Destination,
+      S3Destination:
+        if !std.isObject(S3Destination) then (error 'S3Destination must be an object')
+        else if !std.objectHas(S3Destination, 'BucketName') then (error ' have attribute BucketName')
+        else if !std.objectHas(S3Destination, 'BucketRegion') then (error ' have attribute BucketRegion')
+        else if !std.objectHas(S3Destination, 'SyncFormat') then (error ' have attribute SyncFormat')
+        else S3Destination,
     },
   },
-  withKMSKeyArn(KMSKeyArn): {
-    assert std.isString(KMSKeyArn) : 'KMSKeyArn must be a string',
+  setKMSKeyArn(KMSKeyArn): {
     Properties+::: {
-      KMSKeyArn: KMSKeyArn,
+      KMSKeyArn:
+        if !std.isString(KMSKeyArn) then (error 'KMSKeyArn must be a string')
+        else if std.isEmpty(KMSKeyArn) then (error 'KMSKeyArn must be not empty')
+        else if std.length(KMSKeyArn) > 512 then error ('KMSKeyArn should have not more than 512 characters')
+        else KMSKeyArn,
     },
   },
-  withSyncSource(SyncSource): {
-    assert std.isObject(SyncSource) : 'SyncSource must be a object',
+  setSyncSource(SyncSource): {
     Properties+::: {
-      SyncSource: SyncSource,
+      SyncSource:
+        if !std.isObject(SyncSource) then (error 'SyncSource must be an object')
+        else if !std.objectHas(SyncSource, 'SourceType') then (error ' have attribute SourceType')
+        else if !std.objectHas(SyncSource, 'SourceRegions') then (error ' have attribute SourceRegions')
+        else SyncSource,
     },
   },
-  withBucketName(BucketName): {
-    assert std.isString(BucketName) : 'BucketName must be a string',
+  setBucketName(BucketName): {
     Properties+::: {
-      BucketName: BucketName,
+      BucketName:
+        if !std.isString(BucketName) then (error 'BucketName must be a string')
+        else if std.isEmpty(BucketName) then (error 'BucketName must be not empty')
+        else if std.length(BucketName) < 1 then error ('BucketName should have at least 1 characters')
+        else if std.length(BucketName) > 2048 then error ('BucketName should have not more than 2048 characters')
+        else BucketName,
     },
   },
-  withBucketRegion(BucketRegion): {
-    assert std.isString(BucketRegion) : 'BucketRegion must be a string',
+  setBucketRegion(BucketRegion): {
     Properties+::: {
-      BucketRegion: BucketRegion,
+      BucketRegion:
+        if !std.isString(BucketRegion) then (error 'BucketRegion must be a string')
+        else if std.isEmpty(BucketRegion) then (error 'BucketRegion must be not empty')
+        else if std.length(BucketRegion) < 1 then error ('BucketRegion should have at least 1 characters')
+        else if std.length(BucketRegion) > 64 then error ('BucketRegion should have not more than 64 characters')
+        else BucketRegion,
     },
   },
-  withSyncFormat(SyncFormat): {
-    assert std.isString(SyncFormat) : 'SyncFormat must be a string',
+  setSyncFormat(SyncFormat): {
     Properties+::: {
-      SyncFormat: SyncFormat,
+      SyncFormat:
+        if !std.isString(SyncFormat) then (error 'SyncFormat must be a string')
+        else if std.isEmpty(SyncFormat) then (error 'SyncFormat must be not empty')
+        else if std.length(SyncFormat) > 1024 then error ('SyncFormat should have not more than 1024 characters')
+        else SyncFormat,
     },
   },
-  withSyncType(SyncType): {
-    assert std.isString(SyncType) : 'SyncType must be a string',
+  setSyncType(SyncType): {
     Properties+::: {
-      SyncType: SyncType,
+      SyncType:
+        if !std.isString(SyncType) then (error 'SyncType must be a string')
+        else if std.isEmpty(SyncType) then (error 'SyncType must be not empty')
+        else if std.length(SyncType) < 1 then error ('SyncType should have at least 1 characters')
+        else if std.length(SyncType) > 64 then error ('SyncType should have not more than 64 characters')
+        else SyncType,
     },
   },
-  withBucketPrefix(BucketPrefix): {
-    assert std.isString(BucketPrefix) : 'BucketPrefix must be a string',
+  setBucketPrefix(BucketPrefix): {
     Properties+::: {
-      BucketPrefix: BucketPrefix,
+      BucketPrefix:
+        if !std.isString(BucketPrefix) then (error 'BucketPrefix must be a string')
+        else if std.isEmpty(BucketPrefix) then (error 'BucketPrefix must be not empty')
+        else if std.length(BucketPrefix) > 64 then error ('BucketPrefix should have not more than 64 characters')
+        else BucketPrefix,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

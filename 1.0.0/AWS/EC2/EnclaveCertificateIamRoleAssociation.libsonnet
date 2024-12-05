@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CertificateArn) : 'CertificateArn must be a string',
-      CertificateArn: CertificateArn,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      CertificateArn:
+        if !std.isString(CertificateArn) then (error 'CertificateArn must be a string')
+        else if std.isEmpty(CertificateArn) then (error 'CertificateArn must be not empty')
+        else if std.length(CertificateArn) < 1 then error ('CertificateArn should have at least 1 characters')
+        else if std.length(CertificateArn) > 1283 then error ('CertificateArn should have not more than 1283 characters')
+        else CertificateArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 1283 then error ('RoleArn should have not more than 1283 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,82 +26,88 @@
     Metadata:: [],
     Type: 'AWS::EC2::EnclaveCertificateIamRoleAssociation',
   },
-  withCertificateS3BucketName(CertificateS3BucketName): {
-    assert std.isString(CertificateS3BucketName) : 'CertificateS3BucketName must be a string',
+  setCertificateS3BucketName(CertificateS3BucketName): {
     Properties+::: {
-      CertificateS3BucketName: CertificateS3BucketName,
+      CertificateS3BucketName:
+        if !std.isString(CertificateS3BucketName) then (error 'CertificateS3BucketName must be a string')
+        else if std.isEmpty(CertificateS3BucketName) then (error 'CertificateS3BucketName must be not empty')
+        else CertificateS3BucketName,
     },
   },
-  withCertificateS3ObjectKey(CertificateS3ObjectKey): {
-    assert std.isString(CertificateS3ObjectKey) : 'CertificateS3ObjectKey must be a string',
+  setCertificateS3ObjectKey(CertificateS3ObjectKey): {
     Properties+::: {
-      CertificateS3ObjectKey: CertificateS3ObjectKey,
+      CertificateS3ObjectKey:
+        if !std.isString(CertificateS3ObjectKey) then (error 'CertificateS3ObjectKey must be a string')
+        else if std.isEmpty(CertificateS3ObjectKey) then (error 'CertificateS3ObjectKey must be not empty')
+        else CertificateS3ObjectKey,
     },
   },
-  withEncryptionKmsKeyId(EncryptionKmsKeyId): {
-    assert std.isString(EncryptionKmsKeyId) : 'EncryptionKmsKeyId must be a string',
+  setEncryptionKmsKeyId(EncryptionKmsKeyId): {
     Properties+::: {
-      EncryptionKmsKeyId: EncryptionKmsKeyId,
+      EncryptionKmsKeyId:
+        if !std.isString(EncryptionKmsKeyId) then (error 'EncryptionKmsKeyId must be a string')
+        else if std.isEmpty(EncryptionKmsKeyId) then (error 'EncryptionKmsKeyId must be not empty')
+        else EncryptionKmsKeyId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

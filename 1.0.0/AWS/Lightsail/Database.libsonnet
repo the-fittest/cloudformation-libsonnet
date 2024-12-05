@@ -8,16 +8,36 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RelationalDatabaseName) : 'RelationalDatabaseName must be a string',
-      RelationalDatabaseName: RelationalDatabaseName,
-      assert std.isString(RelationalDatabaseBlueprintId) : 'RelationalDatabaseBlueprintId must be a string',
-      RelationalDatabaseBlueprintId: RelationalDatabaseBlueprintId,
-      assert std.isString(RelationalDatabaseBundleId) : 'RelationalDatabaseBundleId must be a string',
-      RelationalDatabaseBundleId: RelationalDatabaseBundleId,
-      assert std.isString(MasterDatabaseName) : 'MasterDatabaseName must be a string',
-      MasterDatabaseName: MasterDatabaseName,
-      assert std.isString(MasterUsername) : 'MasterUsername must be a string',
-      MasterUsername: MasterUsername,
+      RelationalDatabaseName:
+        if !std.isString(RelationalDatabaseName) then (error 'RelationalDatabaseName must be a string')
+        else if std.isEmpty(RelationalDatabaseName) then (error 'RelationalDatabaseName must be not empty')
+        else if std.length(RelationalDatabaseName) < 2 then error ('RelationalDatabaseName should have at least 2 characters')
+        else if std.length(RelationalDatabaseName) > 255 then error ('RelationalDatabaseName should have not more than 255 characters')
+        else RelationalDatabaseName,
+      RelationalDatabaseBlueprintId:
+        if !std.isString(RelationalDatabaseBlueprintId) then (error 'RelationalDatabaseBlueprintId must be a string')
+        else if std.isEmpty(RelationalDatabaseBlueprintId) then (error 'RelationalDatabaseBlueprintId must be not empty')
+        else if std.length(RelationalDatabaseBlueprintId) < 1 then error ('RelationalDatabaseBlueprintId should have at least 1 characters')
+        else if std.length(RelationalDatabaseBlueprintId) > 255 then error ('RelationalDatabaseBlueprintId should have not more than 255 characters')
+        else RelationalDatabaseBlueprintId,
+      RelationalDatabaseBundleId:
+        if !std.isString(RelationalDatabaseBundleId) then (error 'RelationalDatabaseBundleId must be a string')
+        else if std.isEmpty(RelationalDatabaseBundleId) then (error 'RelationalDatabaseBundleId must be not empty')
+        else if std.length(RelationalDatabaseBundleId) < 1 then error ('RelationalDatabaseBundleId should have at least 1 characters')
+        else if std.length(RelationalDatabaseBundleId) > 255 then error ('RelationalDatabaseBundleId should have not more than 255 characters')
+        else RelationalDatabaseBundleId,
+      MasterDatabaseName:
+        if !std.isString(MasterDatabaseName) then (error 'MasterDatabaseName must be a string')
+        else if std.isEmpty(MasterDatabaseName) then (error 'MasterDatabaseName must be not empty')
+        else if std.length(MasterDatabaseName) < 1 then error ('MasterDatabaseName should have at least 1 characters')
+        else if std.length(MasterDatabaseName) > 255 then error ('MasterDatabaseName should have not more than 255 characters')
+        else MasterDatabaseName,
+      MasterUsername:
+        if !std.isString(MasterUsername) then (error 'MasterUsername must be a string')
+        else if std.isEmpty(MasterUsername) then (error 'MasterUsername must be not empty')
+        else if std.length(MasterUsername) < 1 then error ('MasterUsername should have at least 1 characters')
+        else if std.length(MasterUsername) > 63 then error ('MasterUsername should have not more than 63 characters')
+        else MasterUsername,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,138 +47,158 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Database',
   },
-  withDatabaseArn(DatabaseArn): {
-    assert std.isString(DatabaseArn) : 'DatabaseArn must be a string',
+  setDatabaseArn(DatabaseArn): {
     Properties+::: {
-      DatabaseArn: DatabaseArn,
+      DatabaseArn:
+        if !std.isString(DatabaseArn) then (error 'DatabaseArn must be a string')
+        else if std.isEmpty(DatabaseArn) then (error 'DatabaseArn must be not empty')
+        else DatabaseArn,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else if std.length(AvailabilityZone) < 1 then error ('AvailabilityZone should have at least 1 characters')
+        else if std.length(AvailabilityZone) > 255 then error ('AvailabilityZone should have not more than 255 characters')
+        else AvailabilityZone,
     },
   },
-  withMasterUserPassword(MasterUserPassword): {
-    assert std.isString(MasterUserPassword) : 'MasterUserPassword must be a string',
+  setMasterUserPassword(MasterUserPassword): {
     Properties+::: {
-      MasterUserPassword: MasterUserPassword,
+      MasterUserPassword:
+        if !std.isString(MasterUserPassword) then (error 'MasterUserPassword must be a string')
+        else if std.isEmpty(MasterUserPassword) then (error 'MasterUserPassword must be not empty')
+        else if std.length(MasterUserPassword) < 1 then error ('MasterUserPassword should have at least 1 characters')
+        else if std.length(MasterUserPassword) > 63 then error ('MasterUserPassword should have not more than 63 characters')
+        else MasterUserPassword,
     },
   },
-  withPreferredBackupWindow(PreferredBackupWindow): {
-    assert std.isString(PreferredBackupWindow) : 'PreferredBackupWindow must be a string',
+  setPreferredBackupWindow(PreferredBackupWindow): {
     Properties+::: {
-      PreferredBackupWindow: PreferredBackupWindow,
+      PreferredBackupWindow:
+        if !std.isString(PreferredBackupWindow) then (error 'PreferredBackupWindow must be a string')
+        else if std.isEmpty(PreferredBackupWindow) then (error 'PreferredBackupWindow must be not empty')
+        else PreferredBackupWindow,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withCaCertificateIdentifier(CaCertificateIdentifier): {
-    assert std.isString(CaCertificateIdentifier) : 'CaCertificateIdentifier must be a string',
+  setCaCertificateIdentifier(CaCertificateIdentifier): {
     Properties+::: {
-      CaCertificateIdentifier: CaCertificateIdentifier,
+      CaCertificateIdentifier:
+        if !std.isString(CaCertificateIdentifier) then (error 'CaCertificateIdentifier must be a string')
+        else if std.isEmpty(CaCertificateIdentifier) then (error 'CaCertificateIdentifier must be not empty')
+        else CaCertificateIdentifier,
     },
   },
-  withBackupRetention(BackupRetention): {
-    assert std.isBoolean(BackupRetention) : 'BackupRetention must be a boolean',
+  setBackupRetention(BackupRetention): {
     Properties+::: {
-      BackupRetention: BackupRetention,
+      BackupRetention:
+        if !std.isBoolean(BackupRetention) then (error 'BackupRetention must be a boolean') else BackupRetention,
     },
   },
-  withRotateMasterUserPassword(RotateMasterUserPassword): {
-    assert std.isBoolean(RotateMasterUserPassword) : 'RotateMasterUserPassword must be a boolean',
+  setRotateMasterUserPassword(RotateMasterUserPassword): {
     Properties+::: {
-      RotateMasterUserPassword: RotateMasterUserPassword,
+      RotateMasterUserPassword:
+        if !std.isBoolean(RotateMasterUserPassword) then (error 'RotateMasterUserPassword must be a boolean') else RotateMasterUserPassword,
     },
   },
-  withRelationalDatabaseParameters(RelationalDatabaseParameters): {
+  setRelationalDatabaseParameters(RelationalDatabaseParameters): {
     Properties+::: {
-      RelationalDatabaseParameters: (if std.isArray(RelationalDatabaseParameters) then RelationalDatabaseParameters else [RelationalDatabaseParameters]),
+      RelationalDatabaseParameters:
+        if !std.isArray(RelationalDatabaseParameters) then (error 'RelationalDatabaseParameters must be an array')
+        else RelationalDatabaseParameters,
     },
   },
-  withRelationalDatabaseParametersMixin(RelationalDatabaseParameters): {
+  setRelationalDatabaseParametersMixin(RelationalDatabaseParameters): {
     Properties+::: {
-      RelationalDatabaseParameters+: (if std.isArray(RelationalDatabaseParameters) then RelationalDatabaseParameters else [RelationalDatabaseParameters]),
+      RelationalDatabaseParameters+: RelationalDatabaseParameters,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

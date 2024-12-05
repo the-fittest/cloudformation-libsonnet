@@ -9,19 +9,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ReplicationConfigIdentifier) : 'ReplicationConfigIdentifier must be a string',
-      ReplicationConfigIdentifier: ReplicationConfigIdentifier,
-      assert std.isString(SourceEndpointArn) : 'SourceEndpointArn must be a string',
-      SourceEndpointArn: SourceEndpointArn,
-      assert std.isString(TargetEndpointArn) : 'TargetEndpointArn must be a string',
-      TargetEndpointArn: TargetEndpointArn,
-      assert std.isString(ReplicationType) : 'ReplicationType must be a string',
-      assert ReplicationType == 'full-load' || ReplicationType == 'full-load-and-cdc' || ReplicationType == 'cdc' : "ReplicationType should be 'full-load' or 'full-load-and-cdc' or 'cdc'",
-      ReplicationType: ReplicationType,
-      assert std.isObject(ComputeConfig) : 'ComputeConfig must be an object',
-      ComputeConfig: ComputeConfig,
-      assert std.isObject(TableMappings) : 'TableMappings must be an object',
-      TableMappings: TableMappings,
+      ReplicationConfigIdentifier:
+        if !std.isString(ReplicationConfigIdentifier) then (error 'ReplicationConfigIdentifier must be a string')
+        else if std.isEmpty(ReplicationConfigIdentifier) then (error 'ReplicationConfigIdentifier must be not empty')
+        else ReplicationConfigIdentifier,
+      SourceEndpointArn:
+        if !std.isString(SourceEndpointArn) then (error 'SourceEndpointArn must be a string')
+        else if std.isEmpty(SourceEndpointArn) then (error 'SourceEndpointArn must be not empty')
+        else SourceEndpointArn,
+      TargetEndpointArn:
+        if !std.isString(TargetEndpointArn) then (error 'TargetEndpointArn must be a string')
+        else if std.isEmpty(TargetEndpointArn) then (error 'TargetEndpointArn must be not empty')
+        else TargetEndpointArn,
+      ReplicationType:
+        if !std.isString(ReplicationType) then (error 'ReplicationType must be a string')
+        else if std.isEmpty(ReplicationType) then (error 'ReplicationType must be not empty')
+        else if ReplicationType != 'full-load' && ReplicationType != 'full-load-and-cdc' && ReplicationType != 'cdc' then (error "ReplicationType should be 'full-load' or 'full-load-and-cdc' or 'cdc'")
+        else ReplicationType,
+      ComputeConfig:
+        if !std.isObject(ComputeConfig) then (error 'ComputeConfig must be an object')
+        else if !std.objectHas(ComputeConfig, 'MaxCapacityUnits') then (error ' have attribute MaxCapacityUnits')
+        else ComputeConfig,
+      TableMappings:
+        if !std.isObject(TableMappings) then (error 'TableMappings must be an object')
+        else TableMappings,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -31,98 +42,108 @@
     Metadata:: [],
     Type: 'AWS::DMS::ReplicationConfig',
   },
-  withReplicationConfigArn(ReplicationConfigArn): {
-    assert std.isString(ReplicationConfigArn) : 'ReplicationConfigArn must be a string',
+  setReplicationConfigArn(ReplicationConfigArn): {
     Properties+::: {
-      ReplicationConfigArn: ReplicationConfigArn,
+      ReplicationConfigArn:
+        if !std.isString(ReplicationConfigArn) then (error 'ReplicationConfigArn must be a string')
+        else if std.isEmpty(ReplicationConfigArn) then (error 'ReplicationConfigArn must be not empty')
+        else ReplicationConfigArn,
     },
   },
-  withReplicationSettings(ReplicationSettings): {
-    assert std.isObject(ReplicationSettings) : 'ReplicationSettings must be a object',
+  setReplicationSettings(ReplicationSettings): {
     Properties+::: {
-      ReplicationSettings: ReplicationSettings,
+      ReplicationSettings:
+        if !std.isObject(ReplicationSettings) then (error 'ReplicationSettings must be an object')
+        else ReplicationSettings,
     },
   },
-  withSupplementalSettings(SupplementalSettings): {
-    assert std.isObject(SupplementalSettings) : 'SupplementalSettings must be a object',
+  setSupplementalSettings(SupplementalSettings): {
     Properties+::: {
-      SupplementalSettings: SupplementalSettings,
+      SupplementalSettings:
+        if !std.isObject(SupplementalSettings) then (error 'SupplementalSettings must be an object')
+        else SupplementalSettings,
     },
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else ResourceIdentifier,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

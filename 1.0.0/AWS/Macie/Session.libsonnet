@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,90 +10,98 @@
     Metadata:: [],
     Type: 'AWS::Macie::Session',
   },
-  withAwsAccountId(AwsAccountId): {
-    assert std.isString(AwsAccountId) : 'AwsAccountId must be a string',
+  setAwsAccountId(AwsAccountId): {
     Properties+::: {
-      AwsAccountId: AwsAccountId,
+      AwsAccountId:
+        if !std.isString(AwsAccountId) then (error 'AwsAccountId must be a string')
+        else if std.isEmpty(AwsAccountId) then (error 'AwsAccountId must be not empty')
+        else AwsAccountId,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ENABLED' || Status == 'PAUSED' : "Status should be 'ENABLED' or 'PAUSED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ENABLED' && Status != 'PAUSED' then (error "Status should be 'ENABLED' or 'PAUSED'")
+        else Status,
     },
   },
-  withFindingPublishingFrequency(FindingPublishingFrequency): {
-    assert std.isString(FindingPublishingFrequency) : 'FindingPublishingFrequency must be a string',
-    assert FindingPublishingFrequency == 'FIFTEEN_MINUTES' || FindingPublishingFrequency == 'ONE_HOUR' || FindingPublishingFrequency == 'SIX_HOURS' : "FindingPublishingFrequency should be 'FIFTEEN_MINUTES' or 'ONE_HOUR' or 'SIX_HOURS'",
+  setFindingPublishingFrequency(FindingPublishingFrequency): {
     Properties+::: {
-      FindingPublishingFrequency: FindingPublishingFrequency,
+      FindingPublishingFrequency:
+        if !std.isString(FindingPublishingFrequency) then (error 'FindingPublishingFrequency must be a string')
+        else if std.isEmpty(FindingPublishingFrequency) then (error 'FindingPublishingFrequency must be not empty')
+        else if FindingPublishingFrequency != 'FIFTEEN_MINUTES' && FindingPublishingFrequency != 'ONE_HOUR' && FindingPublishingFrequency != 'SIX_HOURS' then (error "FindingPublishingFrequency should be 'FIFTEEN_MINUTES' or 'ONE_HOUR' or 'SIX_HOURS'")
+        else FindingPublishingFrequency,
     },
   },
-  withServiceRole(ServiceRole): {
-    assert std.isString(ServiceRole) : 'ServiceRole must be a string',
+  setServiceRole(ServiceRole): {
     Properties+::: {
-      ServiceRole: ServiceRole,
+      ServiceRole:
+        if !std.isString(ServiceRole) then (error 'ServiceRole must be a string')
+        else if std.isEmpty(ServiceRole) then (error 'ServiceRole must be not empty')
+        else ServiceRole,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

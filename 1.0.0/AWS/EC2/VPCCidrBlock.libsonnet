@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,130 +17,148 @@
     Metadata:: [],
     Type: 'AWS::EC2::VPCCidrBlock',
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else CidrBlock,
     },
   },
-  withIpv6Pool(Ipv6Pool): {
-    assert std.isString(Ipv6Pool) : 'Ipv6Pool must be a string',
+  setIpv6Pool(Ipv6Pool): {
     Properties+::: {
-      Ipv6Pool: Ipv6Pool,
+      Ipv6Pool:
+        if !std.isString(Ipv6Pool) then (error 'Ipv6Pool must be a string')
+        else if std.isEmpty(Ipv6Pool) then (error 'Ipv6Pool must be not empty')
+        else Ipv6Pool,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withIpv6CidrBlock(Ipv6CidrBlock): {
-    assert std.isString(Ipv6CidrBlock) : 'Ipv6CidrBlock must be a string',
+  setIpv6CidrBlock(Ipv6CidrBlock): {
     Properties+::: {
-      Ipv6CidrBlock: Ipv6CidrBlock,
+      Ipv6CidrBlock:
+        if !std.isString(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be a string')
+        else if std.isEmpty(Ipv6CidrBlock) then (error 'Ipv6CidrBlock must be not empty')
+        else Ipv6CidrBlock,
     },
   },
-  withIpv4IpamPoolId(Ipv4IpamPoolId): {
-    assert std.isString(Ipv4IpamPoolId) : 'Ipv4IpamPoolId must be a string',
+  setIpv4IpamPoolId(Ipv4IpamPoolId): {
     Properties+::: {
-      Ipv4IpamPoolId: Ipv4IpamPoolId,
+      Ipv4IpamPoolId:
+        if !std.isString(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be a string')
+        else if std.isEmpty(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be not empty')
+        else Ipv4IpamPoolId,
     },
   },
-  withIpv4NetmaskLength(Ipv4NetmaskLength): {
-    assert std.isNumber(Ipv4NetmaskLength) : 'Ipv4NetmaskLength must be a number',
+  setIpv4NetmaskLength(Ipv4NetmaskLength): {
     Properties+::: {
-      Ipv4NetmaskLength: Ipv4NetmaskLength,
+      Ipv4NetmaskLength:
+        if !std.isNumber(Ipv4NetmaskLength) then (error 'Ipv4NetmaskLength must be an number')
+        else Ipv4NetmaskLength,
     },
   },
-  withIpv6IpamPoolId(Ipv6IpamPoolId): {
-    assert std.isString(Ipv6IpamPoolId) : 'Ipv6IpamPoolId must be a string',
+  setIpv6IpamPoolId(Ipv6IpamPoolId): {
     Properties+::: {
-      Ipv6IpamPoolId: Ipv6IpamPoolId,
+      Ipv6IpamPoolId:
+        if !std.isString(Ipv6IpamPoolId) then (error 'Ipv6IpamPoolId must be a string')
+        else if std.isEmpty(Ipv6IpamPoolId) then (error 'Ipv6IpamPoolId must be not empty')
+        else Ipv6IpamPoolId,
     },
   },
-  withIpv6NetmaskLength(Ipv6NetmaskLength): {
-    assert std.isNumber(Ipv6NetmaskLength) : 'Ipv6NetmaskLength must be a number',
+  setIpv6NetmaskLength(Ipv6NetmaskLength): {
     Properties+::: {
-      Ipv6NetmaskLength: Ipv6NetmaskLength,
+      Ipv6NetmaskLength:
+        if !std.isNumber(Ipv6NetmaskLength) then (error 'Ipv6NetmaskLength must be an number')
+        else Ipv6NetmaskLength,
     },
   },
-  withAmazonProvidedIpv6CidrBlock(AmazonProvidedIpv6CidrBlock): {
-    assert std.isBoolean(AmazonProvidedIpv6CidrBlock) : 'AmazonProvidedIpv6CidrBlock must be a boolean',
+  setAmazonProvidedIpv6CidrBlock(AmazonProvidedIpv6CidrBlock): {
     Properties+::: {
-      AmazonProvidedIpv6CidrBlock: AmazonProvidedIpv6CidrBlock,
+      AmazonProvidedIpv6CidrBlock:
+        if !std.isBoolean(AmazonProvidedIpv6CidrBlock) then (error 'AmazonProvidedIpv6CidrBlock must be a boolean') else AmazonProvidedIpv6CidrBlock,
     },
   },
-  withIpv6AddressAttribute(Ipv6AddressAttribute): {
-    assert std.isString(Ipv6AddressAttribute) : 'Ipv6AddressAttribute must be a string',
+  setIpv6AddressAttribute(Ipv6AddressAttribute): {
     Properties+::: {
-      Ipv6AddressAttribute: Ipv6AddressAttribute,
+      Ipv6AddressAttribute:
+        if !std.isString(Ipv6AddressAttribute) then (error 'Ipv6AddressAttribute must be a string')
+        else if std.isEmpty(Ipv6AddressAttribute) then (error 'Ipv6AddressAttribute must be not empty')
+        else Ipv6AddressAttribute,
     },
   },
-  withIpSource(IpSource): {
-    assert std.isString(IpSource) : 'IpSource must be a string',
+  setIpSource(IpSource): {
     Properties+::: {
-      IpSource: IpSource,
+      IpSource:
+        if !std.isString(IpSource) then (error 'IpSource must be a string')
+        else if std.isEmpty(IpSource) then (error 'IpSource must be not empty')
+        else IpSource,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

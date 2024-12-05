@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,172 +10,197 @@
     Metadata:: [],
     Type: 'AWS::MediaLive::Channel',
   },
-  withInputAttachments(InputAttachments): {
+  setInputAttachments(InputAttachments): {
     Properties+::: {
-      InputAttachments: (if std.isArray(InputAttachments) then InputAttachments else [InputAttachments]),
+      InputAttachments:
+        if !std.isArray(InputAttachments) then (error 'InputAttachments must be an array')
+        else InputAttachments,
     },
   },
-  withInputAttachmentsMixin(InputAttachments): {
+  setInputAttachmentsMixin(InputAttachments): {
     Properties+::: {
-      InputAttachments+: (if std.isArray(InputAttachments) then InputAttachments else [InputAttachments]),
+      InputAttachments+: InputAttachments,
     },
   },
-  withInputSpecification(InputSpecification): {
-    assert std.isObject(InputSpecification) : 'InputSpecification must be a object',
+  setInputSpecification(InputSpecification): {
     Properties+::: {
-      InputSpecification: InputSpecification,
+      InputSpecification:
+        if !std.isObject(InputSpecification) then (error 'InputSpecification must be an object')
+        else InputSpecification,
     },
   },
-  withDestinations(Destinations): {
+  setDestinations(Destinations): {
     Properties+::: {
-      Destinations: (if std.isArray(Destinations) then Destinations else [Destinations]),
+      Destinations:
+        if !std.isArray(Destinations) then (error 'Destinations must be an array')
+        else Destinations,
     },
   },
-  withDestinationsMixin(Destinations): {
+  setDestinationsMixin(Destinations): {
     Properties+::: {
-      Destinations+: (if std.isArray(Destinations) then Destinations else [Destinations]),
+      Destinations+: Destinations,
     },
   },
-  withVpc(Vpc): {
-    assert std.isObject(Vpc) : 'Vpc must be a object',
+  setVpc(Vpc): {
     Properties+::: {
-      Vpc: Vpc,
+      Vpc:
+        if !std.isObject(Vpc) then (error 'Vpc must be an object')
+        else Vpc,
     },
   },
-  withMaintenance(Maintenance): {
-    assert std.isObject(Maintenance) : 'Maintenance must be a object',
+  setMaintenance(Maintenance): {
     Properties+::: {
-      Maintenance: Maintenance,
+      Maintenance:
+        if !std.isObject(Maintenance) then (error 'Maintenance must be an object')
+        else Maintenance,
     },
   },
-  withLogLevel(LogLevel): {
-    assert std.isString(LogLevel) : 'LogLevel must be a string',
+  setLogLevel(LogLevel): {
     Properties+::: {
-      LogLevel: LogLevel,
+      LogLevel:
+        if !std.isString(LogLevel) then (error 'LogLevel must be a string')
+        else if std.isEmpty(LogLevel) then (error 'LogLevel must be not empty')
+        else LogLevel,
     },
   },
-  withRoleArn(RoleArn): {
-    assert std.isString(RoleArn) : 'RoleArn must be a string',
+  setRoleArn(RoleArn): {
     Properties+::: {
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withChannelClass(ChannelClass): {
-    assert std.isString(ChannelClass) : 'ChannelClass must be a string',
+  setChannelClass(ChannelClass): {
     Properties+::: {
-      ChannelClass: ChannelClass,
+      ChannelClass:
+        if !std.isString(ChannelClass) then (error 'ChannelClass must be a string')
+        else if std.isEmpty(ChannelClass) then (error 'ChannelClass must be not empty')
+        else ChannelClass,
     },
   },
-  withEncoderSettings(EncoderSettings): {
-    assert std.isObject(EncoderSettings) : 'EncoderSettings must be a object',
+  setEncoderSettings(EncoderSettings): {
     Properties+::: {
-      EncoderSettings: EncoderSettings,
+      EncoderSettings:
+        if !std.isObject(EncoderSettings) then (error 'EncoderSettings must be an object')
+        else EncoderSettings,
     },
   },
-  withAnywhereSettings(AnywhereSettings): {
-    assert std.isObject(AnywhereSettings) : 'AnywhereSettings must be a object',
+  setAnywhereSettings(AnywhereSettings): {
     Properties+::: {
-      AnywhereSettings: AnywhereSettings,
+      AnywhereSettings:
+        if !std.isObject(AnywhereSettings) then (error 'AnywhereSettings must be an object')
+        else AnywhereSettings,
     },
   },
-  withCdiInputSpecification(CdiInputSpecification): {
-    assert std.isObject(CdiInputSpecification) : 'CdiInputSpecification must be a object',
+  setCdiInputSpecification(CdiInputSpecification): {
     Properties+::: {
-      CdiInputSpecification: CdiInputSpecification,
+      CdiInputSpecification:
+        if !std.isObject(CdiInputSpecification) then (error 'CdiInputSpecification must be an object')
+        else CdiInputSpecification,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withInputs(Inputs): {
+  setInputs(Inputs): {
     Properties+::: {
-      Inputs: (if std.isArray(Inputs) then Inputs else [Inputs]),
+      Inputs:
+        if !std.isArray(Inputs) then (error 'Inputs must be an array')
+        else Inputs,
     },
   },
-  withInputsMixin(Inputs): {
+  setInputsMixin(Inputs): {
     Properties+::: {
-      Inputs+: (if std.isArray(Inputs) then Inputs else [Inputs]),
+      Inputs+: Inputs,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

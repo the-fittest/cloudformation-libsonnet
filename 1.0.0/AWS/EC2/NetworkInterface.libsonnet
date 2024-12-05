@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(SubnetId) : 'SubnetId must be a string',
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,218 +17,251 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkInterface',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withPrivateIpAddress(PrivateIpAddress): {
-    assert std.isString(PrivateIpAddress) : 'PrivateIpAddress must be a string',
+  setPrivateIpAddress(PrivateIpAddress): {
     Properties+::: {
-      PrivateIpAddress: PrivateIpAddress,
+      PrivateIpAddress:
+        if !std.isString(PrivateIpAddress) then (error 'PrivateIpAddress must be a string')
+        else if std.isEmpty(PrivateIpAddress) then (error 'PrivateIpAddress must be not empty')
+        else PrivateIpAddress,
     },
   },
-  withPrivateIpAddresses(PrivateIpAddresses): {
+  setPrivateIpAddresses(PrivateIpAddresses): {
     Properties+::: {
-      PrivateIpAddresses: (if std.isArray(PrivateIpAddresses) then PrivateIpAddresses else [PrivateIpAddresses]),
+      PrivateIpAddresses:
+        if !std.isArray(PrivateIpAddresses) then (error 'PrivateIpAddresses must be an array')
+        else PrivateIpAddresses,
     },
   },
-  withPrivateIpAddressesMixin(PrivateIpAddresses): {
+  setPrivateIpAddressesMixin(PrivateIpAddresses): {
     Properties+::: {
-      PrivateIpAddresses+: (if std.isArray(PrivateIpAddresses) then PrivateIpAddresses else [PrivateIpAddresses]),
+      PrivateIpAddresses+: PrivateIpAddresses,
     },
   },
-  withSecondaryPrivateIpAddressCount(SecondaryPrivateIpAddressCount): {
-    assert std.isNumber(SecondaryPrivateIpAddressCount) : 'SecondaryPrivateIpAddressCount must be a number',
+  setSecondaryPrivateIpAddressCount(SecondaryPrivateIpAddressCount): {
     Properties+::: {
-      SecondaryPrivateIpAddressCount: SecondaryPrivateIpAddressCount,
+      SecondaryPrivateIpAddressCount:
+        if !std.isNumber(SecondaryPrivateIpAddressCount) then (error 'SecondaryPrivateIpAddressCount must be an number')
+        else SecondaryPrivateIpAddressCount,
     },
   },
-  withPrimaryPrivateIpAddress(PrimaryPrivateIpAddress): {
-    assert std.isString(PrimaryPrivateIpAddress) : 'PrimaryPrivateIpAddress must be a string',
+  setPrimaryPrivateIpAddress(PrimaryPrivateIpAddress): {
     Properties+::: {
-      PrimaryPrivateIpAddress: PrimaryPrivateIpAddress,
+      PrimaryPrivateIpAddress:
+        if !std.isString(PrimaryPrivateIpAddress) then (error 'PrimaryPrivateIpAddress must be a string')
+        else if std.isEmpty(PrimaryPrivateIpAddress) then (error 'PrimaryPrivateIpAddress must be not empty')
+        else PrimaryPrivateIpAddress,
     },
   },
-  withIpv4Prefixes(Ipv4Prefixes): {
+  setIpv4Prefixes(Ipv4Prefixes): {
     Properties+::: {
-      Ipv4Prefixes: (if std.isArray(Ipv4Prefixes) then Ipv4Prefixes else [Ipv4Prefixes]),
+      Ipv4Prefixes:
+        if !std.isArray(Ipv4Prefixes) then (error 'Ipv4Prefixes must be an array')
+        else Ipv4Prefixes,
     },
   },
-  withIpv4PrefixesMixin(Ipv4Prefixes): {
+  setIpv4PrefixesMixin(Ipv4Prefixes): {
     Properties+::: {
-      Ipv4Prefixes+: (if std.isArray(Ipv4Prefixes) then Ipv4Prefixes else [Ipv4Prefixes]),
+      Ipv4Prefixes+: Ipv4Prefixes,
     },
   },
-  withIpv4PrefixCount(Ipv4PrefixCount): {
-    assert std.isNumber(Ipv4PrefixCount) : 'Ipv4PrefixCount must be a number',
+  setIpv4PrefixCount(Ipv4PrefixCount): {
     Properties+::: {
-      Ipv4PrefixCount: Ipv4PrefixCount,
+      Ipv4PrefixCount:
+        if !std.isNumber(Ipv4PrefixCount) then (error 'Ipv4PrefixCount must be an number')
+        else Ipv4PrefixCount,
     },
   },
-  withGroupSet(GroupSet): {
+  setGroupSet(GroupSet): {
     Properties+::: {
-      GroupSet: (if std.isArray(GroupSet) then GroupSet else [GroupSet]),
+      GroupSet:
+        if !std.isArray(GroupSet) then (error 'GroupSet must be an array')
+        else GroupSet,
     },
   },
-  withGroupSetMixin(GroupSet): {
+  setGroupSetMixin(GroupSet): {
     Properties+::: {
-      GroupSet+: (if std.isArray(GroupSet) then GroupSet else [GroupSet]),
+      GroupSet+: GroupSet,
     },
   },
-  withIpv6Addresses(Ipv6Addresses): {
+  setIpv6Addresses(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses:
+        if !std.isArray(Ipv6Addresses) then (error 'Ipv6Addresses must be an array')
+        else Ipv6Addresses,
     },
   },
-  withIpv6AddressesMixin(Ipv6Addresses): {
+  setIpv6AddressesMixin(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses+: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses+: Ipv6Addresses,
     },
   },
-  withIpv6Prefixes(Ipv6Prefixes): {
+  setIpv6Prefixes(Ipv6Prefixes): {
     Properties+::: {
-      Ipv6Prefixes: (if std.isArray(Ipv6Prefixes) then Ipv6Prefixes else [Ipv6Prefixes]),
+      Ipv6Prefixes:
+        if !std.isArray(Ipv6Prefixes) then (error 'Ipv6Prefixes must be an array')
+        else Ipv6Prefixes,
     },
   },
-  withIpv6PrefixesMixin(Ipv6Prefixes): {
+  setIpv6PrefixesMixin(Ipv6Prefixes): {
     Properties+::: {
-      Ipv6Prefixes+: (if std.isArray(Ipv6Prefixes) then Ipv6Prefixes else [Ipv6Prefixes]),
+      Ipv6Prefixes+: Ipv6Prefixes,
     },
   },
-  withIpv6PrefixCount(Ipv6PrefixCount): {
-    assert std.isNumber(Ipv6PrefixCount) : 'Ipv6PrefixCount must be a number',
+  setIpv6PrefixCount(Ipv6PrefixCount): {
     Properties+::: {
-      Ipv6PrefixCount: Ipv6PrefixCount,
+      Ipv6PrefixCount:
+        if !std.isNumber(Ipv6PrefixCount) then (error 'Ipv6PrefixCount must be an number')
+        else Ipv6PrefixCount,
     },
   },
-  withSourceDestCheck(SourceDestCheck): {
-    assert std.isBoolean(SourceDestCheck) : 'SourceDestCheck must be a boolean',
+  setSourceDestCheck(SourceDestCheck): {
     Properties+::: {
-      SourceDestCheck: SourceDestCheck,
+      SourceDestCheck:
+        if !std.isBoolean(SourceDestCheck) then (error 'SourceDestCheck must be a boolean') else SourceDestCheck,
     },
   },
-  withInterfaceType(InterfaceType): {
-    assert std.isString(InterfaceType) : 'InterfaceType must be a string',
+  setInterfaceType(InterfaceType): {
     Properties+::: {
-      InterfaceType: InterfaceType,
+      InterfaceType:
+        if !std.isString(InterfaceType) then (error 'InterfaceType must be a string')
+        else if std.isEmpty(InterfaceType) then (error 'InterfaceType must be not empty')
+        else InterfaceType,
     },
   },
-  withSecondaryPrivateIpAddresses(SecondaryPrivateIpAddresses): {
+  setSecondaryPrivateIpAddresses(SecondaryPrivateIpAddresses): {
     Properties+::: {
-      SecondaryPrivateIpAddresses: (if std.isArray(SecondaryPrivateIpAddresses) then SecondaryPrivateIpAddresses else [SecondaryPrivateIpAddresses]),
+      SecondaryPrivateIpAddresses:
+        if !std.isArray(SecondaryPrivateIpAddresses) then (error 'SecondaryPrivateIpAddresses must be an array')
+        else SecondaryPrivateIpAddresses,
     },
   },
-  withSecondaryPrivateIpAddressesMixin(SecondaryPrivateIpAddresses): {
+  setSecondaryPrivateIpAddressesMixin(SecondaryPrivateIpAddresses): {
     Properties+::: {
-      SecondaryPrivateIpAddresses+: (if std.isArray(SecondaryPrivateIpAddresses) then SecondaryPrivateIpAddresses else [SecondaryPrivateIpAddresses]),
+      SecondaryPrivateIpAddresses+: SecondaryPrivateIpAddresses,
     },
   },
-  withIpv6AddressCount(Ipv6AddressCount): {
-    assert std.isNumber(Ipv6AddressCount) : 'Ipv6AddressCount must be a number',
+  setIpv6AddressCount(Ipv6AddressCount): {
     Properties+::: {
-      Ipv6AddressCount: Ipv6AddressCount,
+      Ipv6AddressCount:
+        if !std.isNumber(Ipv6AddressCount) then (error 'Ipv6AddressCount must be an number')
+        else Ipv6AddressCount,
     },
   },
-  withEnablePrimaryIpv6(EnablePrimaryIpv6): {
-    assert std.isBoolean(EnablePrimaryIpv6) : 'EnablePrimaryIpv6 must be a boolean',
+  setEnablePrimaryIpv6(EnablePrimaryIpv6): {
     Properties+::: {
-      EnablePrimaryIpv6: EnablePrimaryIpv6,
+      EnablePrimaryIpv6:
+        if !std.isBoolean(EnablePrimaryIpv6) then (error 'EnablePrimaryIpv6 must be a boolean') else EnablePrimaryIpv6,
     },
   },
-  withPrimaryIpv6Address(PrimaryIpv6Address): {
-    assert std.isString(PrimaryIpv6Address) : 'PrimaryIpv6Address must be a string',
+  setPrimaryIpv6Address(PrimaryIpv6Address): {
     Properties+::: {
-      PrimaryIpv6Address: PrimaryIpv6Address,
+      PrimaryIpv6Address:
+        if !std.isString(PrimaryIpv6Address) then (error 'PrimaryIpv6Address must be a string')
+        else if std.isEmpty(PrimaryIpv6Address) then (error 'PrimaryIpv6Address must be not empty')
+        else PrimaryIpv6Address,
     },
   },
-  withConnectionTrackingSpecification(ConnectionTrackingSpecification): {
-    assert std.isObject(ConnectionTrackingSpecification) : 'ConnectionTrackingSpecification must be a object',
+  setConnectionTrackingSpecification(ConnectionTrackingSpecification): {
     Properties+::: {
-      ConnectionTrackingSpecification: ConnectionTrackingSpecification,
+      ConnectionTrackingSpecification:
+        if !std.isObject(ConnectionTrackingSpecification) then (error 'ConnectionTrackingSpecification must be an object')
+        else ConnectionTrackingSpecification,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

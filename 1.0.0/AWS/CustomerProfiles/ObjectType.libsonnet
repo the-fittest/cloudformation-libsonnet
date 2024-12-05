@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
-      assert std.isString(ObjectTypeName) : 'ObjectTypeName must be a string',
-      ObjectTypeName: ObjectTypeName,
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 64 then error ('DomainName should have not more than 64 characters')
+        else DomainName,
+      ObjectTypeName:
+        if !std.isString(ObjectTypeName) then (error 'ObjectTypeName must be a string')
+        else if std.isEmpty(ObjectTypeName) then (error 'ObjectTypeName must be not empty')
+        else if std.length(ObjectTypeName) < 1 then error ('ObjectTypeName should have at least 1 characters')
+        else if std.length(ObjectTypeName) > 255 then error ('ObjectTypeName should have not more than 255 characters')
+        else ObjectTypeName,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,136 +33,161 @@
     Metadata:: [],
     Type: 'AWS::CustomerProfiles::ObjectType',
   },
-  withAllowProfileCreation(AllowProfileCreation): {
-    assert std.isBoolean(AllowProfileCreation) : 'AllowProfileCreation must be a boolean',
+  setAllowProfileCreation(AllowProfileCreation): {
     Properties+::: {
-      AllowProfileCreation: AllowProfileCreation,
+      AllowProfileCreation:
+        if !std.isBoolean(AllowProfileCreation) then (error 'AllowProfileCreation must be a boolean') else AllowProfileCreation,
     },
   },
-  withEncryptionKey(EncryptionKey): {
-    assert std.isString(EncryptionKey) : 'EncryptionKey must be a string',
+  setEncryptionKey(EncryptionKey): {
     Properties+::: {
-      EncryptionKey: EncryptionKey,
+      EncryptionKey:
+        if !std.isString(EncryptionKey) then (error 'EncryptionKey must be a string')
+        else if std.isEmpty(EncryptionKey) then (error 'EncryptionKey must be not empty')
+        else if std.length(EncryptionKey) > 255 then error ('EncryptionKey should have not more than 255 characters')
+        else EncryptionKey,
     },
   },
-  withExpirationDays(ExpirationDays): {
-    assert std.isNumber(ExpirationDays) : 'ExpirationDays must be a number',
+  setExpirationDays(ExpirationDays): {
     Properties+::: {
-      ExpirationDays: ExpirationDays,
+      ExpirationDays:
+        if !std.isNumber(ExpirationDays) then (error 'ExpirationDays must be an number')
+        else if ExpirationDays < 1 then error ('ExpirationDays should be at least 1')
+        else if ExpirationDays > 1098 then error ('ExpirationDays should be not more than 1098')
+        else ExpirationDays,
     },
   },
-  withFields(Fields): {
+  setFields(Fields): {
     Properties+::: {
-      Fields: (if std.isArray(Fields) then Fields else [Fields]),
+      Fields:
+        if !std.isArray(Fields) then (error 'Fields must be an array')
+        else Fields,
     },
   },
-  withFieldsMixin(Fields): {
+  setFieldsMixin(Fields): {
     Properties+::: {
-      Fields+: (if std.isArray(Fields) then Fields else [Fields]),
+      Fields+: Fields,
     },
   },
-  withKeys(Keys): {
+  setKeys(Keys): {
     Properties+::: {
-      Keys: (if std.isArray(Keys) then Keys else [Keys]),
+      Keys:
+        if !std.isArray(Keys) then (error 'Keys must be an array')
+        else Keys,
     },
   },
-  withKeysMixin(Keys): {
+  setKeysMixin(Keys): {
     Properties+::: {
-      Keys+: (if std.isArray(Keys) then Keys else [Keys]),
+      Keys+: Keys,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withLastUpdatedAt(LastUpdatedAt): {
-    assert std.isString(LastUpdatedAt) : 'LastUpdatedAt must be a string',
+  setLastUpdatedAt(LastUpdatedAt): {
     Properties+::: {
-      LastUpdatedAt: LastUpdatedAt,
+      LastUpdatedAt:
+        if !std.isString(LastUpdatedAt) then (error 'LastUpdatedAt must be a string')
+        else if std.isEmpty(LastUpdatedAt) then (error 'LastUpdatedAt must be not empty')
+        else LastUpdatedAt,
     },
   },
-  withSourceLastUpdatedTimestampFormat(SourceLastUpdatedTimestampFormat): {
-    assert std.isString(SourceLastUpdatedTimestampFormat) : 'SourceLastUpdatedTimestampFormat must be a string',
+  setSourceLastUpdatedTimestampFormat(SourceLastUpdatedTimestampFormat): {
     Properties+::: {
-      SourceLastUpdatedTimestampFormat: SourceLastUpdatedTimestampFormat,
+      SourceLastUpdatedTimestampFormat:
+        if !std.isString(SourceLastUpdatedTimestampFormat) then (error 'SourceLastUpdatedTimestampFormat must be a string')
+        else if std.isEmpty(SourceLastUpdatedTimestampFormat) then (error 'SourceLastUpdatedTimestampFormat must be not empty')
+        else if std.length(SourceLastUpdatedTimestampFormat) < 1 then error ('SourceLastUpdatedTimestampFormat should have at least 1 characters')
+        else if std.length(SourceLastUpdatedTimestampFormat) > 255 then error ('SourceLastUpdatedTimestampFormat should have not more than 255 characters')
+        else SourceLastUpdatedTimestampFormat,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTemplateId(TemplateId): {
-    assert std.isString(TemplateId) : 'TemplateId must be a string',
+  setTemplateId(TemplateId): {
     Properties+::: {
-      TemplateId: TemplateId,
+      TemplateId:
+        if !std.isString(TemplateId) then (error 'TemplateId must be a string')
+        else if std.isEmpty(TemplateId) then (error 'TemplateId must be not empty')
+        else if std.length(TemplateId) < 1 then error ('TemplateId should have at least 1 characters')
+        else if std.length(TemplateId) > 64 then error ('TemplateId should have not more than 64 characters')
+        else TemplateId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

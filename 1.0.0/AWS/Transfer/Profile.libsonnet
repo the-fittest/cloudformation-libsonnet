@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(As2Id) : 'As2Id must be a string',
-      As2Id: As2Id,
-      assert std.isString(ProfileType) : 'ProfileType must be a string',
-      assert ProfileType == 'LOCAL' || ProfileType == 'PARTNER' : "ProfileType should be 'LOCAL' or 'PARTNER'",
-      ProfileType: ProfileType,
+      As2Id:
+        if !std.isString(As2Id) then (error 'As2Id must be a string')
+        else if std.isEmpty(As2Id) then (error 'As2Id must be not empty')
+        else if std.length(As2Id) < 1 then error ('As2Id should have at least 1 characters')
+        else if std.length(As2Id) > 128 then error ('As2Id should have not more than 128 characters')
+        else As2Id,
+      ProfileType:
+        if !std.isString(ProfileType) then (error 'ProfileType must be a string')
+        else if std.isEmpty(ProfileType) then (error 'ProfileType must be not empty')
+        else if ProfileType != 'LOCAL' && ProfileType != 'PARTNER' then (error "ProfileType should be 'LOCAL' or 'PARTNER'")
+        else ProfileType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,96 +25,109 @@
     Metadata:: [],
     Type: 'AWS::Transfer::Profile',
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCertificateIds(CertificateIds): {
+  setCertificateIds(CertificateIds): {
     Properties+::: {
-      CertificateIds: (if std.isArray(CertificateIds) then CertificateIds else [CertificateIds]),
+      CertificateIds:
+        if !std.isArray(CertificateIds) then (error 'CertificateIds must be an array')
+        else CertificateIds,
     },
   },
-  withCertificateIdsMixin(CertificateIds): {
+  setCertificateIdsMixin(CertificateIds): {
     Properties+::: {
-      CertificateIds+: (if std.isArray(CertificateIds) then CertificateIds else [CertificateIds]),
+      CertificateIds+: CertificateIds,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 1600 then error ('Arn should have not more than 1600 characters')
+        else Arn,
     },
   },
-  withProfileId(ProfileId): {
-    assert std.isString(ProfileId) : 'ProfileId must be a string',
+  setProfileId(ProfileId): {
     Properties+::: {
-      ProfileId: ProfileId,
+      ProfileId:
+        if !std.isString(ProfileId) then (error 'ProfileId must be a string')
+        else if std.isEmpty(ProfileId) then (error 'ProfileId must be not empty')
+        else if std.length(ProfileId) < 19 then error ('ProfileId should have at least 19 characters')
+        else if std.length(ProfileId) > 19 then error ('ProfileId should have not more than 19 characters')
+        else ProfileId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

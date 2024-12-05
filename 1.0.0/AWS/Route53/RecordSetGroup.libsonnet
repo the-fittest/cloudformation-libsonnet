@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,98 +10,108 @@
     Metadata:: [],
     Type: 'AWS::Route53::RecordSetGroup',
   },
-  withComment(Comment): {
-    assert std.isString(Comment) : 'Comment must be a string',
+  setComment(Comment): {
     Properties+::: {
-      Comment: Comment,
+      Comment:
+        if !std.isString(Comment) then (error 'Comment must be a string')
+        else if std.isEmpty(Comment) then (error 'Comment must be not empty')
+        else Comment,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withHostedZoneName(HostedZoneName): {
-    assert std.isString(HostedZoneName) : 'HostedZoneName must be a string',
+  setHostedZoneName(HostedZoneName): {
     Properties+::: {
-      HostedZoneName: HostedZoneName,
+      HostedZoneName:
+        if !std.isString(HostedZoneName) then (error 'HostedZoneName must be a string')
+        else if std.isEmpty(HostedZoneName) then (error 'HostedZoneName must be not empty')
+        else HostedZoneName,
     },
   },
-  withRecordSets(RecordSets): {
+  setRecordSets(RecordSets): {
     Properties+::: {
-      RecordSets: (if std.isArray(RecordSets) then RecordSets else [RecordSets]),
+      RecordSets:
+        if !std.isArray(RecordSets) then (error 'RecordSets must be an array')
+        else RecordSets,
     },
   },
-  withRecordSetsMixin(RecordSets): {
+  setRecordSetsMixin(RecordSets): {
     Properties+::: {
-      RecordSets+: (if std.isArray(RecordSets) then RecordSets else [RecordSets]),
+      RecordSets+: RecordSets,
     },
   },
-  withHostedZoneId(HostedZoneId): {
-    assert std.isString(HostedZoneId) : 'HostedZoneId must be a string',
+  setHostedZoneId(HostedZoneId): {
     Properties+::: {
-      HostedZoneId: HostedZoneId,
+      HostedZoneId:
+        if !std.isString(HostedZoneId) then (error 'HostedZoneId must be a string')
+        else if std.isEmpty(HostedZoneId) then (error 'HostedZoneId must be not empty')
+        else HostedZoneId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

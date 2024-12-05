@@ -5,10 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Role) : 'Role must be a string',
-      Role: Role,
-      assert std.isObject(Command) : 'Command must be an object',
-      Command: Command,
+      Role:
+        if !std.isString(Role) then (error 'Role must be a string')
+        else if std.isEmpty(Role) then (error 'Role must be not empty')
+        else Role,
+      Command:
+        if !std.isObject(Command) then (error 'Command must be an object')
+        else Command,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,191 +21,220 @@
     Metadata:: [],
     Type: 'AWS::Glue::Job',
   },
-  withConnections(Connections): {
-    assert std.isObject(Connections) : 'Connections must be a object',
+  setConnections(Connections): {
     Properties+::: {
-      Connections: Connections,
+      Connections:
+        if !std.isObject(Connections) then (error 'Connections must be an object')
+        else Connections,
     },
   },
-  withMaxRetries(MaxRetries): {
-    assert std.isNumber(MaxRetries) : 'MaxRetries must be a number',
+  setMaxRetries(MaxRetries): {
     Properties+::: {
-      MaxRetries: MaxRetries,
+      MaxRetries:
+        if !std.isNumber(MaxRetries) then (error 'MaxRetries must be an number')
+        else MaxRetries,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withTimeout(Timeout): {
-    assert std.isNumber(Timeout) : 'Timeout must be a number',
+  setTimeout(Timeout): {
     Properties+::: {
-      Timeout: Timeout,
+      Timeout:
+        if !std.isNumber(Timeout) then (error 'Timeout must be an number')
+        else Timeout,
     },
   },
-  withAllocatedCapacity(AllocatedCapacity): {
-    assert std.isNumber(AllocatedCapacity) : 'AllocatedCapacity must be a number',
+  setAllocatedCapacity(AllocatedCapacity): {
     Properties+::: {
-      AllocatedCapacity: AllocatedCapacity,
+      AllocatedCapacity:
+        if !std.isNumber(AllocatedCapacity) then (error 'AllocatedCapacity must be an number')
+        else AllocatedCapacity,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withDefaultArguments(DefaultArguments): {
-    assert std.isObject(DefaultArguments) : 'DefaultArguments must be a object',
+  setDefaultArguments(DefaultArguments): {
     Properties+::: {
-      DefaultArguments: DefaultArguments,
+      DefaultArguments:
+        if !std.isObject(DefaultArguments) then (error 'DefaultArguments must be an object')
+        else DefaultArguments,
     },
   },
-  withNotificationProperty(NotificationProperty): {
-    assert std.isObject(NotificationProperty) : 'NotificationProperty must be a object',
+  setNotificationProperty(NotificationProperty): {
     Properties+::: {
-      NotificationProperty: NotificationProperty,
+      NotificationProperty:
+        if !std.isObject(NotificationProperty) then (error 'NotificationProperty must be an object')
+        else NotificationProperty,
     },
   },
-  withWorkerType(WorkerType): {
-    assert std.isString(WorkerType) : 'WorkerType must be a string',
-    assert WorkerType == 'Standard' || WorkerType == 'G.1X' || WorkerType == 'G.2X' || WorkerType == 'G.025X' || WorkerType == 'G.4X' || WorkerType == 'G.8X' || WorkerType == 'Z.2X' : "WorkerType should be 'Standard' or 'G.1X' or 'G.2X' or 'G.025X' or 'G.4X' or 'G.8X' or 'Z.2X'",
+  setWorkerType(WorkerType): {
     Properties+::: {
-      WorkerType: WorkerType,
+      WorkerType:
+        if !std.isString(WorkerType) then (error 'WorkerType must be a string')
+        else if std.isEmpty(WorkerType) then (error 'WorkerType must be not empty')
+        else if WorkerType != 'Standard' && WorkerType != 'G.1X' && WorkerType != 'G.2X' && WorkerType != 'G.025X' && WorkerType != 'G.4X' && WorkerType != 'G.8X' && WorkerType != 'Z.2X' then (error "WorkerType should be 'Standard' or 'G.1X' or 'G.2X' or 'G.025X' or 'G.4X' or 'G.8X' or 'Z.2X'")
+        else WorkerType,
     },
   },
-  withExecutionClass(ExecutionClass): {
-    assert std.isString(ExecutionClass) : 'ExecutionClass must be a string',
+  setExecutionClass(ExecutionClass): {
     Properties+::: {
-      ExecutionClass: ExecutionClass,
+      ExecutionClass:
+        if !std.isString(ExecutionClass) then (error 'ExecutionClass must be a string')
+        else if std.isEmpty(ExecutionClass) then (error 'ExecutionClass must be not empty')
+        else ExecutionClass,
     },
   },
-  withLogUri(LogUri): {
-    assert std.isString(LogUri) : 'LogUri must be a string',
+  setLogUri(LogUri): {
     Properties+::: {
-      LogUri: LogUri,
+      LogUri:
+        if !std.isString(LogUri) then (error 'LogUri must be a string')
+        else if std.isEmpty(LogUri) then (error 'LogUri must be not empty')
+        else LogUri,
     },
   },
-  withGlueVersion(GlueVersion): {
-    assert std.isString(GlueVersion) : 'GlueVersion must be a string',
+  setGlueVersion(GlueVersion): {
     Properties+::: {
-      GlueVersion: GlueVersion,
+      GlueVersion:
+        if !std.isString(GlueVersion) then (error 'GlueVersion must be a string')
+        else if std.isEmpty(GlueVersion) then (error 'GlueVersion must be not empty')
+        else GlueVersion,
     },
   },
-  withExecutionProperty(ExecutionProperty): {
-    assert std.isObject(ExecutionProperty) : 'ExecutionProperty must be a object',
+  setExecutionProperty(ExecutionProperty): {
     Properties+::: {
-      ExecutionProperty: ExecutionProperty,
+      ExecutionProperty:
+        if !std.isObject(ExecutionProperty) then (error 'ExecutionProperty must be an object')
+        else ExecutionProperty,
     },
   },
-  withSecurityConfiguration(SecurityConfiguration): {
-    assert std.isString(SecurityConfiguration) : 'SecurityConfiguration must be a string',
+  setSecurityConfiguration(SecurityConfiguration): {
     Properties+::: {
-      SecurityConfiguration: SecurityConfiguration,
+      SecurityConfiguration:
+        if !std.isString(SecurityConfiguration) then (error 'SecurityConfiguration must be a string')
+        else if std.isEmpty(SecurityConfiguration) then (error 'SecurityConfiguration must be not empty')
+        else SecurityConfiguration,
     },
   },
-  withNumberOfWorkers(NumberOfWorkers): {
-    assert std.isNumber(NumberOfWorkers) : 'NumberOfWorkers must be a number',
+  setNumberOfWorkers(NumberOfWorkers): {
     Properties+::: {
-      NumberOfWorkers: NumberOfWorkers,
+      NumberOfWorkers:
+        if !std.isNumber(NumberOfWorkers) then (error 'NumberOfWorkers must be an number')
+        else NumberOfWorkers,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withMaxCapacity(MaxCapacity): {
-    assert std.isNumber(MaxCapacity) : 'MaxCapacity must be a number',
+  setMaxCapacity(MaxCapacity): {
     Properties+::: {
-      MaxCapacity: MaxCapacity,
+      MaxCapacity:
+        if !std.isNumber(MaxCapacity) then (error 'MaxCapacity must be an number')
+        else MaxCapacity,
     },
   },
-  withNonOverridableArguments(NonOverridableArguments): {
-    assert std.isObject(NonOverridableArguments) : 'NonOverridableArguments must be a object',
+  setNonOverridableArguments(NonOverridableArguments): {
     Properties+::: {
-      NonOverridableArguments: NonOverridableArguments,
+      NonOverridableArguments:
+        if !std.isObject(NonOverridableArguments) then (error 'NonOverridableArguments must be an object')
+        else NonOverridableArguments,
     },
   },
-  withMaintenanceWindow(MaintenanceWindow): {
-    assert std.isString(MaintenanceWindow) : 'MaintenanceWindow must be a string',
+  setMaintenanceWindow(MaintenanceWindow): {
     Properties+::: {
-      MaintenanceWindow: MaintenanceWindow,
+      MaintenanceWindow:
+        if !std.isString(MaintenanceWindow) then (error 'MaintenanceWindow must be a string')
+        else if std.isEmpty(MaintenanceWindow) then (error 'MaintenanceWindow must be not empty')
+        else MaintenanceWindow,
     },
   },
-  withJobMode(JobMode): {
-    assert std.isString(JobMode) : 'JobMode must be a string',
+  setJobMode(JobMode): {
     Properties+::: {
-      JobMode: JobMode,
+      JobMode:
+        if !std.isString(JobMode) then (error 'JobMode must be a string')
+        else if std.isEmpty(JobMode) then (error 'JobMode must be not empty')
+        else JobMode,
     },
   },
-  withJobRunQueuingEnabled(JobRunQueuingEnabled): {
-    assert std.isBoolean(JobRunQueuingEnabled) : 'JobRunQueuingEnabled must be a boolean',
+  setJobRunQueuingEnabled(JobRunQueuingEnabled): {
     Properties+::: {
-      JobRunQueuingEnabled: JobRunQueuingEnabled,
+      JobRunQueuingEnabled:
+        if !std.isBoolean(JobRunQueuingEnabled) then (error 'JobRunQueuingEnabled must be a boolean') else JobRunQueuingEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

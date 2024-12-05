@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,152 +10,175 @@
     Metadata:: [],
     Type: 'AWS::ImageBuilder::Image',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withImageTestsConfiguration(ImageTestsConfiguration): {
-    assert std.isObject(ImageTestsConfiguration) : 'ImageTestsConfiguration must be a object',
+  setImageTestsConfiguration(ImageTestsConfiguration): {
     Properties+::: {
-      ImageTestsConfiguration: ImageTestsConfiguration,
+      ImageTestsConfiguration:
+        if !std.isObject(ImageTestsConfiguration) then (error 'ImageTestsConfiguration must be an object')
+        else ImageTestsConfiguration,
     },
   },
-  withImageRecipeArn(ImageRecipeArn): {
-    assert std.isString(ImageRecipeArn) : 'ImageRecipeArn must be a string',
+  setImageRecipeArn(ImageRecipeArn): {
     Properties+::: {
-      ImageRecipeArn: ImageRecipeArn,
+      ImageRecipeArn:
+        if !std.isString(ImageRecipeArn) then (error 'ImageRecipeArn must be a string')
+        else if std.isEmpty(ImageRecipeArn) then (error 'ImageRecipeArn must be not empty')
+        else ImageRecipeArn,
     },
   },
-  withContainerRecipeArn(ContainerRecipeArn): {
-    assert std.isString(ContainerRecipeArn) : 'ContainerRecipeArn must be a string',
+  setContainerRecipeArn(ContainerRecipeArn): {
     Properties+::: {
-      ContainerRecipeArn: ContainerRecipeArn,
+      ContainerRecipeArn:
+        if !std.isString(ContainerRecipeArn) then (error 'ContainerRecipeArn must be a string')
+        else if std.isEmpty(ContainerRecipeArn) then (error 'ContainerRecipeArn must be not empty')
+        else ContainerRecipeArn,
     },
   },
-  withDistributionConfigurationArn(DistributionConfigurationArn): {
-    assert std.isString(DistributionConfigurationArn) : 'DistributionConfigurationArn must be a string',
+  setDistributionConfigurationArn(DistributionConfigurationArn): {
     Properties+::: {
-      DistributionConfigurationArn: DistributionConfigurationArn,
+      DistributionConfigurationArn:
+        if !std.isString(DistributionConfigurationArn) then (error 'DistributionConfigurationArn must be a string')
+        else if std.isEmpty(DistributionConfigurationArn) then (error 'DistributionConfigurationArn must be not empty')
+        else DistributionConfigurationArn,
     },
   },
-  withInfrastructureConfigurationArn(InfrastructureConfigurationArn): {
-    assert std.isString(InfrastructureConfigurationArn) : 'InfrastructureConfigurationArn must be a string',
+  setInfrastructureConfigurationArn(InfrastructureConfigurationArn): {
     Properties+::: {
-      InfrastructureConfigurationArn: InfrastructureConfigurationArn,
+      InfrastructureConfigurationArn:
+        if !std.isString(InfrastructureConfigurationArn) then (error 'InfrastructureConfigurationArn must be a string')
+        else if std.isEmpty(InfrastructureConfigurationArn) then (error 'InfrastructureConfigurationArn must be not empty')
+        else InfrastructureConfigurationArn,
     },
   },
-  withWorkflows(Workflows): {
+  setWorkflows(Workflows): {
     Properties+::: {
-      Workflows: (if std.isArray(Workflows) then Workflows else [Workflows]),
+      Workflows:
+        if !std.isArray(Workflows) then (error 'Workflows must be an array')
+        else Workflows,
     },
   },
-  withWorkflowsMixin(Workflows): {
+  setWorkflowsMixin(Workflows): {
     Properties+::: {
-      Workflows+: (if std.isArray(Workflows) then Workflows else [Workflows]),
+      Workflows+: Workflows,
     },
   },
-  withImageId(ImageId): {
-    assert std.isString(ImageId) : 'ImageId must be a string',
+  setImageId(ImageId): {
     Properties+::: {
-      ImageId: ImageId,
+      ImageId:
+        if !std.isString(ImageId) then (error 'ImageId must be a string')
+        else if std.isEmpty(ImageId) then (error 'ImageId must be not empty')
+        else ImageId,
     },
   },
-  withImageUri(ImageUri): {
-    assert std.isString(ImageUri) : 'ImageUri must be a string',
+  setImageUri(ImageUri): {
     Properties+::: {
-      ImageUri: ImageUri,
+      ImageUri:
+        if !std.isString(ImageUri) then (error 'ImageUri must be a string')
+        else if std.isEmpty(ImageUri) then (error 'ImageUri must be not empty')
+        else ImageUri,
     },
   },
-  withEnhancedImageMetadataEnabled(EnhancedImageMetadataEnabled): {
-    assert std.isBoolean(EnhancedImageMetadataEnabled) : 'EnhancedImageMetadataEnabled must be a boolean',
+  setEnhancedImageMetadataEnabled(EnhancedImageMetadataEnabled): {
     Properties+::: {
-      EnhancedImageMetadataEnabled: EnhancedImageMetadataEnabled,
+      EnhancedImageMetadataEnabled:
+        if !std.isBoolean(EnhancedImageMetadataEnabled) then (error 'EnhancedImageMetadataEnabled must be a boolean') else EnhancedImageMetadataEnabled,
     },
   },
-  withImageScanningConfiguration(ImageScanningConfiguration): {
-    assert std.isObject(ImageScanningConfiguration) : 'ImageScanningConfiguration must be a object',
+  setImageScanningConfiguration(ImageScanningConfiguration): {
     Properties+::: {
-      ImageScanningConfiguration: ImageScanningConfiguration,
+      ImageScanningConfiguration:
+        if !std.isObject(ImageScanningConfiguration) then (error 'ImageScanningConfiguration must be an object')
+        else ImageScanningConfiguration,
     },
   },
-  withExecutionRole(ExecutionRole): {
-    assert std.isString(ExecutionRole) : 'ExecutionRole must be a string',
+  setExecutionRole(ExecutionRole): {
     Properties+::: {
-      ExecutionRole: ExecutionRole,
+      ExecutionRole:
+        if !std.isString(ExecutionRole) then (error 'ExecutionRole must be a string')
+        else if std.isEmpty(ExecutionRole) then (error 'ExecutionRole must be not empty')
+        else ExecutionRole,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

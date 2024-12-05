@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,122 +10,136 @@
     Metadata:: [],
     Type: 'AWS::CloudWatch::AnomalyDetector',
   },
-  withMetricCharacteristics(MetricCharacteristics): {
-    assert std.isObject(MetricCharacteristics) : 'MetricCharacteristics must be a object',
+  setMetricCharacteristics(MetricCharacteristics): {
     Properties+::: {
-      MetricCharacteristics: MetricCharacteristics,
+      MetricCharacteristics:
+        if !std.isObject(MetricCharacteristics) then (error 'MetricCharacteristics must be an object')
+        else MetricCharacteristics,
     },
   },
-  withMetricName(MetricName): {
-    assert std.isString(MetricName) : 'MetricName must be a string',
+  setMetricName(MetricName): {
     Properties+::: {
-      MetricName: MetricName,
+      MetricName:
+        if !std.isString(MetricName) then (error 'MetricName must be a string')
+        else if std.isEmpty(MetricName) then (error 'MetricName must be not empty')
+        else MetricName,
     },
   },
-  withStat(Stat): {
-    assert std.isString(Stat) : 'Stat must be a string',
+  setStat(Stat): {
     Properties+::: {
-      Stat: Stat,
+      Stat:
+        if !std.isString(Stat) then (error 'Stat must be a string')
+        else if std.isEmpty(Stat) then (error 'Stat must be not empty')
+        else Stat,
     },
   },
-  withConfiguration(Configuration): {
-    assert std.isObject(Configuration) : 'Configuration must be a object',
+  setConfiguration(Configuration): {
     Properties+::: {
-      Configuration: Configuration,
+      Configuration:
+        if !std.isObject(Configuration) then (error 'Configuration must be an object')
+        else Configuration,
     },
   },
-  withMetricMathAnomalyDetector(MetricMathAnomalyDetector): {
-    assert std.isObject(MetricMathAnomalyDetector) : 'MetricMathAnomalyDetector must be a object',
+  setMetricMathAnomalyDetector(MetricMathAnomalyDetector): {
     Properties+::: {
-      MetricMathAnomalyDetector: MetricMathAnomalyDetector,
+      MetricMathAnomalyDetector:
+        if !std.isObject(MetricMathAnomalyDetector) then (error 'MetricMathAnomalyDetector must be an object')
+        else MetricMathAnomalyDetector,
     },
   },
-  withDimensions(Dimensions): {
+  setDimensions(Dimensions): {
     Properties+::: {
-      Dimensions: (if std.isArray(Dimensions) then Dimensions else [Dimensions]),
+      Dimensions:
+        if !std.isArray(Dimensions) then (error 'Dimensions must be an array')
+        else Dimensions,
     },
   },
-  withDimensionsMixin(Dimensions): {
+  setDimensionsMixin(Dimensions): {
     Properties+::: {
-      Dimensions+: (if std.isArray(Dimensions) then Dimensions else [Dimensions]),
+      Dimensions+: Dimensions,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withNamespace(Namespace): {
-    assert std.isString(Namespace) : 'Namespace must be a string',
+  setNamespace(Namespace): {
     Properties+::: {
-      Namespace: Namespace,
+      Namespace:
+        if !std.isString(Namespace) then (error 'Namespace must be a string')
+        else if std.isEmpty(Namespace) then (error 'Namespace must be not empty')
+        else Namespace,
     },
   },
-  withSingleMetricAnomalyDetector(SingleMetricAnomalyDetector): {
-    assert std.isObject(SingleMetricAnomalyDetector) : 'SingleMetricAnomalyDetector must be a object',
+  setSingleMetricAnomalyDetector(SingleMetricAnomalyDetector): {
     Properties+::: {
-      SingleMetricAnomalyDetector: SingleMetricAnomalyDetector,
+      SingleMetricAnomalyDetector:
+        if !std.isObject(SingleMetricAnomalyDetector) then (error 'SingleMetricAnomalyDetector must be an object')
+        else SingleMetricAnomalyDetector,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

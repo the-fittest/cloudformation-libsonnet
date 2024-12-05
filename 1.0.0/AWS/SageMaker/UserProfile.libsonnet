@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainId) : 'DomainId must be a string',
-      DomainId: DomainId,
-      assert std.isString(UserProfileName) : 'UserProfileName must be a string',
-      UserProfileName: UserProfileName,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else if std.length(DomainId) < 1 then error ('DomainId should have at least 1 characters')
+        else if std.length(DomainId) > 63 then error ('DomainId should have not more than 63 characters')
+        else DomainId,
+      UserProfileName:
+        if !std.isString(UserProfileName) then (error 'UserProfileName must be a string')
+        else if std.isEmpty(UserProfileName) then (error 'UserProfileName must be not empty')
+        else if std.length(UserProfileName) < 1 then error ('UserProfileName should have at least 1 characters')
+        else if std.length(UserProfileName) > 63 then error ('UserProfileName should have not more than 63 characters')
+        else UserProfileName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,98 +26,111 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::UserProfile',
   },
-  withUserProfileArn(UserProfileArn): {
-    assert std.isString(UserProfileArn) : 'UserProfileArn must be a string',
+  setUserProfileArn(UserProfileArn): {
     Properties+::: {
-      UserProfileArn: UserProfileArn,
+      UserProfileArn:
+        if !std.isString(UserProfileArn) then (error 'UserProfileArn must be a string')
+        else if std.isEmpty(UserProfileArn) then (error 'UserProfileArn must be not empty')
+        else if std.length(UserProfileArn) > 256 then error ('UserProfileArn should have not more than 256 characters')
+        else UserProfileArn,
     },
   },
-  withSingleSignOnUserIdentifier(SingleSignOnUserIdentifier): {
-    assert std.isString(SingleSignOnUserIdentifier) : 'SingleSignOnUserIdentifier must be a string',
+  setSingleSignOnUserIdentifier(SingleSignOnUserIdentifier): {
     Properties+::: {
-      SingleSignOnUserIdentifier: SingleSignOnUserIdentifier,
+      SingleSignOnUserIdentifier:
+        if !std.isString(SingleSignOnUserIdentifier) then (error 'SingleSignOnUserIdentifier must be a string')
+        else if std.isEmpty(SingleSignOnUserIdentifier) then (error 'SingleSignOnUserIdentifier must be not empty')
+        else SingleSignOnUserIdentifier,
     },
   },
-  withSingleSignOnUserValue(SingleSignOnUserValue): {
-    assert std.isString(SingleSignOnUserValue) : 'SingleSignOnUserValue must be a string',
+  setSingleSignOnUserValue(SingleSignOnUserValue): {
     Properties+::: {
-      SingleSignOnUserValue: SingleSignOnUserValue,
+      SingleSignOnUserValue:
+        if !std.isString(SingleSignOnUserValue) then (error 'SingleSignOnUserValue must be a string')
+        else if std.isEmpty(SingleSignOnUserValue) then (error 'SingleSignOnUserValue must be not empty')
+        else if std.length(SingleSignOnUserValue) < 1 then error ('SingleSignOnUserValue should have at least 1 characters')
+        else if std.length(SingleSignOnUserValue) > 256 then error ('SingleSignOnUserValue should have not more than 256 characters')
+        else SingleSignOnUserValue,
     },
   },
-  withUserSettings(UserSettings): {
-    assert std.isObject(UserSettings) : 'UserSettings must be a object',
+  setUserSettings(UserSettings): {
     Properties+::: {
-      UserSettings: UserSettings,
+      UserSettings:
+        if !std.isObject(UserSettings) then (error 'UserSettings must be an object')
+        else UserSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

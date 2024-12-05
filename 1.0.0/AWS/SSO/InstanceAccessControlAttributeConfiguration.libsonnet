@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else if std.length(InstanceArn) < 10 then error ('InstanceArn should have at least 10 characters')
+        else if std.length(InstanceArn) > 1224 then error ('InstanceArn should have not more than 1224 characters')
+        else InstanceArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,80 +19,85 @@
     Metadata:: [],
     Type: 'AWS::SSO::InstanceAccessControlAttributeConfiguration',
   },
-  withInstanceAccessControlAttributeConfiguration(InstanceAccessControlAttributeConfiguration): {
-    assert std.isObject(InstanceAccessControlAttributeConfiguration) : 'InstanceAccessControlAttributeConfiguration must be a object',
+  setInstanceAccessControlAttributeConfiguration(InstanceAccessControlAttributeConfiguration): {
     Properties+::: {
-      InstanceAccessControlAttributeConfiguration: InstanceAccessControlAttributeConfiguration,
+      InstanceAccessControlAttributeConfiguration:
+        if !std.isObject(InstanceAccessControlAttributeConfiguration) then (error 'InstanceAccessControlAttributeConfiguration must be an object')
+        else if !std.objectHas(InstanceAccessControlAttributeConfiguration, 'AccessControlAttributes') then (error ' have attribute AccessControlAttributes')
+        else InstanceAccessControlAttributeConfiguration,
     },
   },
-  withAccessControlAttributes(AccessControlAttributes): {
+  setAccessControlAttributes(AccessControlAttributes): {
     Properties+::: {
-      AccessControlAttributes: (if std.isArray(AccessControlAttributes) then AccessControlAttributes else [AccessControlAttributes]),
+      AccessControlAttributes:
+        if !std.isArray(AccessControlAttributes) then (error 'AccessControlAttributes must be an array')
+        else if std.length(AccessControlAttributes) > 50 then error ('AccessControlAttributes cannot have more than 50 items')
+        else AccessControlAttributes,
     },
   },
-  withAccessControlAttributesMixin(AccessControlAttributes): {
+  setAccessControlAttributesMixin(AccessControlAttributes): {
     Properties+::: {
-      AccessControlAttributes+: (if std.isArray(AccessControlAttributes) then AccessControlAttributes else [AccessControlAttributes]),
+      AccessControlAttributes+: AccessControlAttributes,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

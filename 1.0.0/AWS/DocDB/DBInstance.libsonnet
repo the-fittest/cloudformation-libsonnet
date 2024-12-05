@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DBInstanceClass) : 'DBInstanceClass must be a string',
-      DBInstanceClass: DBInstanceClass,
-      assert std.isString(DBClusterIdentifier) : 'DBClusterIdentifier must be a string',
-      DBClusterIdentifier: DBClusterIdentifier,
+      DBInstanceClass:
+        if !std.isString(DBInstanceClass) then (error 'DBInstanceClass must be a string')
+        else if std.isEmpty(DBInstanceClass) then (error 'DBInstanceClass must be not empty')
+        else DBInstanceClass,
+      DBClusterIdentifier:
+        if !std.isString(DBClusterIdentifier) then (error 'DBClusterIdentifier must be a string')
+        else if std.isEmpty(DBClusterIdentifier) then (error 'DBClusterIdentifier must be not empty')
+        else DBClusterIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,134 +22,150 @@
     Metadata:: [],
     Type: 'AWS::DocDB::DBInstance',
   },
-  withPort(Port): {
-    assert std.isString(Port) : 'Port must be a string',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isString(Port) then (error 'Port must be a string')
+        else if std.isEmpty(Port) then (error 'Port must be not empty')
+        else Port,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withEnablePerformanceInsights(EnablePerformanceInsights): {
-    assert std.isBoolean(EnablePerformanceInsights) : 'EnablePerformanceInsights must be a boolean',
+  setEnablePerformanceInsights(EnablePerformanceInsights): {
     Properties+::: {
-      EnablePerformanceInsights: EnablePerformanceInsights,
+      EnablePerformanceInsights:
+        if !std.isBoolean(EnablePerformanceInsights) then (error 'EnablePerformanceInsights must be a boolean') else EnablePerformanceInsights,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withDBInstanceIdentifier(DBInstanceIdentifier): {
-    assert std.isString(DBInstanceIdentifier) : 'DBInstanceIdentifier must be a string',
+  setDBInstanceIdentifier(DBInstanceIdentifier): {
     Properties+::: {
-      DBInstanceIdentifier: DBInstanceIdentifier,
+      DBInstanceIdentifier:
+        if !std.isString(DBInstanceIdentifier) then (error 'DBInstanceIdentifier must be a string')
+        else if std.isEmpty(DBInstanceIdentifier) then (error 'DBInstanceIdentifier must be not empty')
+        else DBInstanceIdentifier,
     },
   },
-  withCACertificateIdentifier(CACertificateIdentifier): {
-    assert std.isString(CACertificateIdentifier) : 'CACertificateIdentifier must be a string',
+  setCACertificateIdentifier(CACertificateIdentifier): {
     Properties+::: {
-      CACertificateIdentifier: CACertificateIdentifier,
+      CACertificateIdentifier:
+        if !std.isString(CACertificateIdentifier) then (error 'CACertificateIdentifier must be a string')
+        else if std.isEmpty(CACertificateIdentifier) then (error 'CACertificateIdentifier must be not empty')
+        else CACertificateIdentifier,
     },
   },
-  withCertificateRotationRestart(CertificateRotationRestart): {
-    assert std.isBoolean(CertificateRotationRestart) : 'CertificateRotationRestart must be a boolean',
+  setCertificateRotationRestart(CertificateRotationRestart): {
     Properties+::: {
-      CertificateRotationRestart: CertificateRotationRestart,
+      CertificateRotationRestart:
+        if !std.isBoolean(CertificateRotationRestart) then (error 'CertificateRotationRestart must be a boolean') else CertificateRotationRestart,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

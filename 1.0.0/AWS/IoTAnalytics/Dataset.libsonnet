@@ -4,7 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      Actions: (if std.isArray(Actions) then Actions else [Actions]),
+      Actions:
+        if !std.isArray(Actions) then (error 'Actions must be an array')
+        else if std.length(Actions) < 1 then error ('Actions cannot have less than 1 items')
+        else if std.length(Actions) > 1 then error ('Actions cannot have more than 1 items')
+        else Actions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,128 +18,150 @@
     Metadata:: [],
     Type: 'AWS::IoTAnalytics::Dataset',
   },
-  withLateDataRules(LateDataRules): {
+  setLateDataRules(LateDataRules): {
     Properties+::: {
-      LateDataRules: (if std.isArray(LateDataRules) then LateDataRules else [LateDataRules]),
+      LateDataRules:
+        if !std.isArray(LateDataRules) then (error 'LateDataRules must be an array')
+        else if std.length(LateDataRules) < 1 then error ('LateDataRules cannot have less than 1 items')
+        else if std.length(LateDataRules) > 1 then error ('LateDataRules cannot have more than 1 items')
+        else LateDataRules,
     },
   },
-  withLateDataRulesMixin(LateDataRules): {
+  setLateDataRulesMixin(LateDataRules): {
     Properties+::: {
-      LateDataRules+: (if std.isArray(LateDataRules) then LateDataRules else [LateDataRules]),
+      LateDataRules+: LateDataRules,
     },
   },
-  withDatasetName(DatasetName): {
-    assert std.isString(DatasetName) : 'DatasetName must be a string',
+  setDatasetName(DatasetName): {
     Properties+::: {
-      DatasetName: DatasetName,
+      DatasetName:
+        if !std.isString(DatasetName) then (error 'DatasetName must be a string')
+        else if std.isEmpty(DatasetName) then (error 'DatasetName must be not empty')
+        else if std.length(DatasetName) < 1 then error ('DatasetName should have at least 1 characters')
+        else if std.length(DatasetName) > 128 then error ('DatasetName should have not more than 128 characters')
+        else DatasetName,
     },
   },
-  withContentDeliveryRules(ContentDeliveryRules): {
+  setContentDeliveryRules(ContentDeliveryRules): {
     Properties+::: {
-      ContentDeliveryRules: (if std.isArray(ContentDeliveryRules) then ContentDeliveryRules else [ContentDeliveryRules]),
+      ContentDeliveryRules:
+        if !std.isArray(ContentDeliveryRules) then (error 'ContentDeliveryRules must be an array')
+        else if std.length(ContentDeliveryRules) > 20 then error ('ContentDeliveryRules cannot have more than 20 items')
+        else ContentDeliveryRules,
     },
   },
-  withContentDeliveryRulesMixin(ContentDeliveryRules): {
+  setContentDeliveryRulesMixin(ContentDeliveryRules): {
     Properties+::: {
-      ContentDeliveryRules+: (if std.isArray(ContentDeliveryRules) then ContentDeliveryRules else [ContentDeliveryRules]),
+      ContentDeliveryRules+: ContentDeliveryRules,
     },
   },
-  withTriggers(Triggers): {
+  setTriggers(Triggers): {
     Properties+::: {
-      Triggers: (if std.isArray(Triggers) then Triggers else [Triggers]),
+      Triggers:
+        if !std.isArray(Triggers) then (error 'Triggers must be an array')
+        else if std.length(Triggers) > 5 then error ('Triggers cannot have more than 5 items')
+        else Triggers,
     },
   },
-  withTriggersMixin(Triggers): {
+  setTriggersMixin(Triggers): {
     Properties+::: {
-      Triggers+: (if std.isArray(Triggers) then Triggers else [Triggers]),
+      Triggers+: Triggers,
     },
   },
-  withVersioningConfiguration(VersioningConfiguration): {
-    assert std.isObject(VersioningConfiguration) : 'VersioningConfiguration must be a object',
+  setVersioningConfiguration(VersioningConfiguration): {
     Properties+::: {
-      VersioningConfiguration: VersioningConfiguration,
+      VersioningConfiguration:
+        if !std.isObject(VersioningConfiguration) then (error 'VersioningConfiguration must be an object')
+        else VersioningConfiguration,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withRetentionPeriod(RetentionPeriod): {
-    assert std.isObject(RetentionPeriod) : 'RetentionPeriod must be a object',
+  setRetentionPeriod(RetentionPeriod): {
     Properties+::: {
-      RetentionPeriod: RetentionPeriod,
+      RetentionPeriod:
+        if !std.isObject(RetentionPeriod) then (error 'RetentionPeriod must be an object')
+        else RetentionPeriod,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,111 +10,124 @@
     Metadata:: [],
     Type: 'AWS::MediaLive::Multiplexprogram',
   },
-  withChannelId(ChannelId): {
-    assert std.isString(ChannelId) : 'ChannelId must be a string',
+  setChannelId(ChannelId): {
     Properties+::: {
-      ChannelId: ChannelId,
+      ChannelId:
+        if !std.isString(ChannelId) then (error 'ChannelId must be a string')
+        else if std.isEmpty(ChannelId) then (error 'ChannelId must be not empty')
+        else ChannelId,
     },
   },
-  withMultiplexId(MultiplexId): {
-    assert std.isString(MultiplexId) : 'MultiplexId must be a string',
+  setMultiplexId(MultiplexId): {
     Properties+::: {
-      MultiplexId: MultiplexId,
+      MultiplexId:
+        if !std.isString(MultiplexId) then (error 'MultiplexId must be a string')
+        else if std.isEmpty(MultiplexId) then (error 'MultiplexId must be not empty')
+        else MultiplexId,
     },
   },
-  withMultiplexProgramSettings(MultiplexProgramSettings): {
-    assert std.isObject(MultiplexProgramSettings) : 'MultiplexProgramSettings must be a object',
+  setMultiplexProgramSettings(MultiplexProgramSettings): {
     Properties+::: {
-      MultiplexProgramSettings: MultiplexProgramSettings,
+      MultiplexProgramSettings:
+        if !std.isObject(MultiplexProgramSettings) then (error 'MultiplexProgramSettings must be an object')
+        else if !std.objectHas(MultiplexProgramSettings, 'ProgramNumber') then (error ' have attribute ProgramNumber')
+        else MultiplexProgramSettings,
     },
   },
-  withPreferredChannelPipeline(PreferredChannelPipeline): {
-    assert std.isString(PreferredChannelPipeline) : 'PreferredChannelPipeline must be a string',
-    assert PreferredChannelPipeline == 'CURRENTLY_ACTIVE' || PreferredChannelPipeline == 'PIPELINE_0' || PreferredChannelPipeline == 'PIPELINE_1' : "PreferredChannelPipeline should be 'CURRENTLY_ACTIVE' or 'PIPELINE_0' or 'PIPELINE_1'",
+  setPreferredChannelPipeline(PreferredChannelPipeline): {
     Properties+::: {
-      PreferredChannelPipeline: PreferredChannelPipeline,
+      PreferredChannelPipeline:
+        if !std.isString(PreferredChannelPipeline) then (error 'PreferredChannelPipeline must be a string')
+        else if std.isEmpty(PreferredChannelPipeline) then (error 'PreferredChannelPipeline must be not empty')
+        else if PreferredChannelPipeline != 'CURRENTLY_ACTIVE' && PreferredChannelPipeline != 'PIPELINE_0' && PreferredChannelPipeline != 'PIPELINE_1' then (error "PreferredChannelPipeline should be 'CURRENTLY_ACTIVE' or 'PIPELINE_0' or 'PIPELINE_1'")
+        else PreferredChannelPipeline,
     },
   },
-  withPacketIdentifiersMap(PacketIdentifiersMap): {
-    assert std.isObject(PacketIdentifiersMap) : 'PacketIdentifiersMap must be a object',
+  setPacketIdentifiersMap(PacketIdentifiersMap): {
     Properties+::: {
-      PacketIdentifiersMap: PacketIdentifiersMap,
+      PacketIdentifiersMap:
+        if !std.isObject(PacketIdentifiersMap) then (error 'PacketIdentifiersMap must be an object')
+        else PacketIdentifiersMap,
     },
   },
-  withPipelineDetails(PipelineDetails): {
+  setPipelineDetails(PipelineDetails): {
     Properties+::: {
-      PipelineDetails: (if std.isArray(PipelineDetails) then PipelineDetails else [PipelineDetails]),
+      PipelineDetails:
+        if !std.isArray(PipelineDetails) then (error 'PipelineDetails must be an array')
+        else PipelineDetails,
     },
   },
-  withPipelineDetailsMixin(PipelineDetails): {
+  setPipelineDetailsMixin(PipelineDetails): {
     Properties+::: {
-      PipelineDetails+: (if std.isArray(PipelineDetails) then PipelineDetails else [PipelineDetails]),
+      PipelineDetails+: PipelineDetails,
     },
   },
-  withProgramName(ProgramName): {
-    assert std.isString(ProgramName) : 'ProgramName must be a string',
+  setProgramName(ProgramName): {
     Properties+::: {
-      ProgramName: ProgramName,
+      ProgramName:
+        if !std.isString(ProgramName) then (error 'ProgramName must be a string')
+        else if std.isEmpty(ProgramName) then (error 'ProgramName must be not empty')
+        else ProgramName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

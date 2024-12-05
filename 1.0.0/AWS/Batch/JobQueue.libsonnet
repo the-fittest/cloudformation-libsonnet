@@ -5,9 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      ComputeEnvironmentOrder: (if std.isArray(ComputeEnvironmentOrder) then ComputeEnvironmentOrder else [ComputeEnvironmentOrder]),
-      assert std.isNumber(Priority) : 'Priority must be a number',
-      Priority: Priority,
+      ComputeEnvironmentOrder:
+        if !std.isArray(ComputeEnvironmentOrder) then (error 'ComputeEnvironmentOrder must be an array')
+        else ComputeEnvironmentOrder,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else if Priority > 1000 then error ('Priority should be not more than 1000')
+        else Priority,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,105 +21,118 @@
     Metadata:: [],
     Type: 'AWS::Batch::JobQueue',
   },
-  withJobQueueName(JobQueueName): {
-    assert std.isString(JobQueueName) : 'JobQueueName must be a string',
+  setJobQueueName(JobQueueName): {
     Properties+::: {
-      JobQueueName: JobQueueName,
+      JobQueueName:
+        if !std.isString(JobQueueName) then (error 'JobQueueName must be a string')
+        else if std.isEmpty(JobQueueName) then (error 'JobQueueName must be not empty')
+        else if std.length(JobQueueName) < 1 then error ('JobQueueName should have at least 1 characters')
+        else if std.length(JobQueueName) > 128 then error ('JobQueueName should have not more than 128 characters')
+        else JobQueueName,
     },
   },
-  withJobQueueArn(JobQueueArn): {
-    assert std.isString(JobQueueArn) : 'JobQueueArn must be a string',
+  setJobQueueArn(JobQueueArn): {
     Properties+::: {
-      JobQueueArn: JobQueueArn,
+      JobQueueArn:
+        if !std.isString(JobQueueArn) then (error 'JobQueueArn must be a string')
+        else if std.isEmpty(JobQueueArn) then (error 'JobQueueArn must be not empty')
+        else JobQueueArn,
     },
   },
-  withJobStateTimeLimitActions(JobStateTimeLimitActions): {
+  setJobStateTimeLimitActions(JobStateTimeLimitActions): {
     Properties+::: {
-      JobStateTimeLimitActions: (if std.isArray(JobStateTimeLimitActions) then JobStateTimeLimitActions else [JobStateTimeLimitActions]),
+      JobStateTimeLimitActions:
+        if !std.isArray(JobStateTimeLimitActions) then (error 'JobStateTimeLimitActions must be an array')
+        else JobStateTimeLimitActions,
     },
   },
-  withJobStateTimeLimitActionsMixin(JobStateTimeLimitActions): {
+  setJobStateTimeLimitActionsMixin(JobStateTimeLimitActions): {
     Properties+::: {
-      JobStateTimeLimitActions+: (if std.isArray(JobStateTimeLimitActions) then JobStateTimeLimitActions else [JobStateTimeLimitActions]),
+      JobStateTimeLimitActions+: JobStateTimeLimitActions,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'DISABLED' || State == 'ENABLED' : "State should be 'DISABLED' or 'ENABLED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'DISABLED' && State != 'ENABLED' then (error "State should be 'DISABLED' or 'ENABLED'")
+        else State,
     },
   },
-  withSchedulingPolicyArn(SchedulingPolicyArn): {
-    assert std.isString(SchedulingPolicyArn) : 'SchedulingPolicyArn must be a string',
+  setSchedulingPolicyArn(SchedulingPolicyArn): {
     Properties+::: {
-      SchedulingPolicyArn: SchedulingPolicyArn,
+      SchedulingPolicyArn:
+        if !std.isString(SchedulingPolicyArn) then (error 'SchedulingPolicyArn must be a string')
+        else if std.isEmpty(SchedulingPolicyArn) then (error 'SchedulingPolicyArn must be not empty')
+        else SchedulingPolicyArn,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

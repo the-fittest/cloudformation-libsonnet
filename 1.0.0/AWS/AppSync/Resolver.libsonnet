@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TypeName) : 'TypeName must be a string',
-      TypeName: TypeName,
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(FieldName) : 'FieldName must be a string',
-      FieldName: FieldName,
+      TypeName:
+        if !std.isString(TypeName) then (error 'TypeName must be a string')
+        else if std.isEmpty(TypeName) then (error 'TypeName must be not empty')
+        else TypeName,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      FieldName:
+        if !std.isString(FieldName) then (error 'FieldName must be a string')
+        else if std.isEmpty(FieldName) then (error 'FieldName must be not empty')
+        else FieldName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,155 +27,184 @@
     Metadata:: [],
     Type: 'AWS::AppSync::Resolver',
   },
-  withCachingConfig(CachingConfig): {
-    assert std.isObject(CachingConfig) : 'CachingConfig must be a object',
+  setCachingConfig(CachingConfig): {
     Properties+::: {
-      CachingConfig: CachingConfig,
+      CachingConfig:
+        if !std.isObject(CachingConfig) then (error 'CachingConfig must be an object')
+        else if !std.objectHas(CachingConfig, 'Ttl') then (error ' have attribute Ttl')
+        else CachingConfig,
     },
   },
-  withCode(Code): {
-    assert std.isString(Code) : 'Code must be a string',
+  setCode(Code): {
     Properties+::: {
-      Code: Code,
+      Code:
+        if !std.isString(Code) then (error 'Code must be a string')
+        else if std.isEmpty(Code) then (error 'Code must be not empty')
+        else Code,
     },
   },
-  withCodeS3Location(CodeS3Location): {
-    assert std.isString(CodeS3Location) : 'CodeS3Location must be a string',
+  setCodeS3Location(CodeS3Location): {
     Properties+::: {
-      CodeS3Location: CodeS3Location,
+      CodeS3Location:
+        if !std.isString(CodeS3Location) then (error 'CodeS3Location must be a string')
+        else if std.isEmpty(CodeS3Location) then (error 'CodeS3Location must be not empty')
+        else CodeS3Location,
     },
   },
-  withDataSourceName(DataSourceName): {
-    assert std.isString(DataSourceName) : 'DataSourceName must be a string',
+  setDataSourceName(DataSourceName): {
     Properties+::: {
-      DataSourceName: DataSourceName,
+      DataSourceName:
+        if !std.isString(DataSourceName) then (error 'DataSourceName must be a string')
+        else if std.isEmpty(DataSourceName) then (error 'DataSourceName must be not empty')
+        else DataSourceName,
     },
   },
-  withKind(Kind): {
-    assert std.isString(Kind) : 'Kind must be a string',
+  setKind(Kind): {
     Properties+::: {
-      Kind: Kind,
+      Kind:
+        if !std.isString(Kind) then (error 'Kind must be a string')
+        else if std.isEmpty(Kind) then (error 'Kind must be not empty')
+        else Kind,
     },
   },
-  withMaxBatchSize(MaxBatchSize): {
-    assert std.isNumber(MaxBatchSize) : 'MaxBatchSize must be a number',
+  setMaxBatchSize(MaxBatchSize): {
     Properties+::: {
-      MaxBatchSize: MaxBatchSize,
+      MaxBatchSize:
+        if !std.isNumber(MaxBatchSize) then (error 'MaxBatchSize must be an number')
+        else MaxBatchSize,
     },
   },
-  withPipelineConfig(PipelineConfig): {
-    assert std.isObject(PipelineConfig) : 'PipelineConfig must be a object',
+  setPipelineConfig(PipelineConfig): {
     Properties+::: {
-      PipelineConfig: PipelineConfig,
+      PipelineConfig:
+        if !std.isObject(PipelineConfig) then (error 'PipelineConfig must be an object')
+        else PipelineConfig,
     },
   },
-  withRequestMappingTemplate(RequestMappingTemplate): {
-    assert std.isString(RequestMappingTemplate) : 'RequestMappingTemplate must be a string',
+  setRequestMappingTemplate(RequestMappingTemplate): {
     Properties+::: {
-      RequestMappingTemplate: RequestMappingTemplate,
+      RequestMappingTemplate:
+        if !std.isString(RequestMappingTemplate) then (error 'RequestMappingTemplate must be a string')
+        else if std.isEmpty(RequestMappingTemplate) then (error 'RequestMappingTemplate must be not empty')
+        else RequestMappingTemplate,
     },
   },
-  withRequestMappingTemplateS3Location(RequestMappingTemplateS3Location): {
-    assert std.isString(RequestMappingTemplateS3Location) : 'RequestMappingTemplateS3Location must be a string',
+  setRequestMappingTemplateS3Location(RequestMappingTemplateS3Location): {
     Properties+::: {
-      RequestMappingTemplateS3Location: RequestMappingTemplateS3Location,
+      RequestMappingTemplateS3Location:
+        if !std.isString(RequestMappingTemplateS3Location) then (error 'RequestMappingTemplateS3Location must be a string')
+        else if std.isEmpty(RequestMappingTemplateS3Location) then (error 'RequestMappingTemplateS3Location must be not empty')
+        else RequestMappingTemplateS3Location,
     },
   },
-  withResolverArn(ResolverArn): {
-    assert std.isString(ResolverArn) : 'ResolverArn must be a string',
+  setResolverArn(ResolverArn): {
     Properties+::: {
-      ResolverArn: ResolverArn,
+      ResolverArn:
+        if !std.isString(ResolverArn) then (error 'ResolverArn must be a string')
+        else if std.isEmpty(ResolverArn) then (error 'ResolverArn must be not empty')
+        else ResolverArn,
     },
   },
-  withResponseMappingTemplate(ResponseMappingTemplate): {
-    assert std.isString(ResponseMappingTemplate) : 'ResponseMappingTemplate must be a string',
+  setResponseMappingTemplate(ResponseMappingTemplate): {
     Properties+::: {
-      ResponseMappingTemplate: ResponseMappingTemplate,
+      ResponseMappingTemplate:
+        if !std.isString(ResponseMappingTemplate) then (error 'ResponseMappingTemplate must be a string')
+        else if std.isEmpty(ResponseMappingTemplate) then (error 'ResponseMappingTemplate must be not empty')
+        else ResponseMappingTemplate,
     },
   },
-  withResponseMappingTemplateS3Location(ResponseMappingTemplateS3Location): {
-    assert std.isString(ResponseMappingTemplateS3Location) : 'ResponseMappingTemplateS3Location must be a string',
+  setResponseMappingTemplateS3Location(ResponseMappingTemplateS3Location): {
     Properties+::: {
-      ResponseMappingTemplateS3Location: ResponseMappingTemplateS3Location,
+      ResponseMappingTemplateS3Location:
+        if !std.isString(ResponseMappingTemplateS3Location) then (error 'ResponseMappingTemplateS3Location must be a string')
+        else if std.isEmpty(ResponseMappingTemplateS3Location) then (error 'ResponseMappingTemplateS3Location must be not empty')
+        else ResponseMappingTemplateS3Location,
     },
   },
-  withRuntime(Runtime): {
-    assert std.isObject(Runtime) : 'Runtime must be a object',
+  setRuntime(Runtime): {
     Properties+::: {
-      Runtime: Runtime,
+      Runtime:
+        if !std.isObject(Runtime) then (error 'Runtime must be an object')
+        else if !std.objectHas(Runtime, 'RuntimeVersion') then (error ' have attribute RuntimeVersion')
+        else if !std.objectHas(Runtime, 'Name') then (error ' have attribute Name')
+        else Runtime,
     },
   },
-  withSyncConfig(SyncConfig): {
-    assert std.isObject(SyncConfig) : 'SyncConfig must be a object',
+  setSyncConfig(SyncConfig): {
     Properties+::: {
-      SyncConfig: SyncConfig,
+      SyncConfig:
+        if !std.isObject(SyncConfig) then (error 'SyncConfig must be an object')
+        else if !std.objectHas(SyncConfig, 'ConflictDetection') then (error ' have attribute ConflictDetection')
+        else SyncConfig,
     },
   },
-  withMetricsConfig(MetricsConfig): {
-    assert std.isString(MetricsConfig) : 'MetricsConfig must be a string',
-    assert MetricsConfig == 'ENABLED' || MetricsConfig == 'DISABLED' : "MetricsConfig should be 'ENABLED' or 'DISABLED'",
+  setMetricsConfig(MetricsConfig): {
     Properties+::: {
-      MetricsConfig: MetricsConfig,
+      MetricsConfig:
+        if !std.isString(MetricsConfig) then (error 'MetricsConfig must be a string')
+        else if std.isEmpty(MetricsConfig) then (error 'MetricsConfig must be not empty')
+        else if MetricsConfig != 'ENABLED' && MetricsConfig != 'DISABLED' then (error "MetricsConfig should be 'ENABLED' or 'DISABLED'")
+        else MetricsConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

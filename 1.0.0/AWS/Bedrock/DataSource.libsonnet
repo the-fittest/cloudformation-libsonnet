@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(DataSourceConfiguration) : 'DataSourceConfiguration must be an object',
-      DataSourceConfiguration: DataSourceConfiguration,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(KnowledgeBaseId) : 'KnowledgeBaseId must be a string',
-      KnowledgeBaseId: KnowledgeBaseId,
+      DataSourceConfiguration:
+        if !std.isObject(DataSourceConfiguration) then (error 'DataSourceConfiguration must be an object')
+        else if !std.objectHas(DataSourceConfiguration, 'Type') then (error ' have attribute Type')
+        else DataSourceConfiguration,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      KnowledgeBaseId:
+        if !std.isString(KnowledgeBaseId) then (error 'KnowledgeBaseId must be a string')
+        else if std.isEmpty(KnowledgeBaseId) then (error 'KnowledgeBaseId must be not empty')
+        else KnowledgeBaseId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,124 +27,143 @@
     Metadata:: [],
     Type: 'AWS::Bedrock::DataSource',
   },
-  withDataSourceId(DataSourceId): {
-    assert std.isString(DataSourceId) : 'DataSourceId must be a string',
+  setDataSourceId(DataSourceId): {
     Properties+::: {
-      DataSourceId: DataSourceId,
+      DataSourceId:
+        if !std.isString(DataSourceId) then (error 'DataSourceId must be a string')
+        else if std.isEmpty(DataSourceId) then (error 'DataSourceId must be not empty')
+        else DataSourceId,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withDataSourceStatus(DataSourceStatus): {
-    assert std.isString(DataSourceStatus) : 'DataSourceStatus must be a string',
-    assert DataSourceStatus == 'AVAILABLE' || DataSourceStatus == 'DELETING' || DataSourceStatus == 'DELETE_UNSUCCESSFUL' : "DataSourceStatus should be 'AVAILABLE' or 'DELETING' or 'DELETE_UNSUCCESSFUL'",
+  setDataSourceStatus(DataSourceStatus): {
     Properties+::: {
-      DataSourceStatus: DataSourceStatus,
+      DataSourceStatus:
+        if !std.isString(DataSourceStatus) then (error 'DataSourceStatus must be a string')
+        else if std.isEmpty(DataSourceStatus) then (error 'DataSourceStatus must be not empty')
+        else if DataSourceStatus != 'AVAILABLE' && DataSourceStatus != 'DELETING' && DataSourceStatus != 'DELETE_UNSUCCESSFUL' then (error "DataSourceStatus should be 'AVAILABLE' or 'DELETING' or 'DELETE_UNSUCCESSFUL'")
+        else DataSourceStatus,
     },
   },
-  withServerSideEncryptionConfiguration(ServerSideEncryptionConfiguration): {
-    assert std.isObject(ServerSideEncryptionConfiguration) : 'ServerSideEncryptionConfiguration must be a object',
+  setServerSideEncryptionConfiguration(ServerSideEncryptionConfiguration): {
     Properties+::: {
-      ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
+      ServerSideEncryptionConfiguration:
+        if !std.isObject(ServerSideEncryptionConfiguration) then (error 'ServerSideEncryptionConfiguration must be an object')
+        else ServerSideEncryptionConfiguration,
     },
   },
-  withVectorIngestionConfiguration(VectorIngestionConfiguration): {
-    assert std.isObject(VectorIngestionConfiguration) : 'VectorIngestionConfiguration must be a object',
+  setVectorIngestionConfiguration(VectorIngestionConfiguration): {
     Properties+::: {
-      VectorIngestionConfiguration: VectorIngestionConfiguration,
+      VectorIngestionConfiguration:
+        if !std.isObject(VectorIngestionConfiguration) then (error 'VectorIngestionConfiguration must be an object')
+        else VectorIngestionConfiguration,
     },
   },
-  withDataDeletionPolicy(DataDeletionPolicy): {
-    assert std.isString(DataDeletionPolicy) : 'DataDeletionPolicy must be a string',
-    assert DataDeletionPolicy == 'RETAIN' || DataDeletionPolicy == 'DELETE' : "DataDeletionPolicy should be 'RETAIN' or 'DELETE'",
+  setDataDeletionPolicy(DataDeletionPolicy): {
     Properties+::: {
-      DataDeletionPolicy: DataDeletionPolicy,
+      DataDeletionPolicy:
+        if !std.isString(DataDeletionPolicy) then (error 'DataDeletionPolicy must be a string')
+        else if std.isEmpty(DataDeletionPolicy) then (error 'DataDeletionPolicy must be not empty')
+        else if DataDeletionPolicy != 'RETAIN' && DataDeletionPolicy != 'DELETE' then (error "DataDeletionPolicy should be 'RETAIN' or 'DELETE'")
+        else DataDeletionPolicy,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withFailureReasons(FailureReasons): {
+  setFailureReasons(FailureReasons): {
     Properties+::: {
-      FailureReasons: (if std.isArray(FailureReasons) then FailureReasons else [FailureReasons]),
+      FailureReasons:
+        if !std.isArray(FailureReasons) then (error 'FailureReasons must be an array')
+        else if std.length(FailureReasons) > 2048 then error ('FailureReasons cannot have more than 2048 items')
+        else FailureReasons,
     },
   },
-  withFailureReasonsMixin(FailureReasons): {
+  setFailureReasonsMixin(FailureReasons): {
     Properties+::: {
-      FailureReasons+: (if std.isArray(FailureReasons) then FailureReasons else [FailureReasons]),
+      FailureReasons+: FailureReasons,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,235 +10,279 @@
     Metadata:: [],
     Type: 'AWS::S3::Bucket',
   },
-  withAccelerateConfiguration(AccelerateConfiguration): {
-    assert std.isObject(AccelerateConfiguration) : 'AccelerateConfiguration must be a object',
+  setAccelerateConfiguration(AccelerateConfiguration): {
     Properties+::: {
-      AccelerateConfiguration: AccelerateConfiguration,
+      AccelerateConfiguration:
+        if !std.isObject(AccelerateConfiguration) then (error 'AccelerateConfiguration must be an object')
+        else if !std.objectHas(AccelerateConfiguration, 'AccelerationStatus') then (error ' have attribute AccelerationStatus')
+        else AccelerateConfiguration,
     },
   },
-  withAccessControl(AccessControl): {
-    assert std.isString(AccessControl) : 'AccessControl must be a string',
-    assert AccessControl == 'AuthenticatedRead' || AccessControl == 'AwsExecRead' || AccessControl == 'BucketOwnerFullControl' || AccessControl == 'BucketOwnerRead' || AccessControl == 'LogDeliveryWrite' || AccessControl == 'Private' || AccessControl == 'PublicRead' || AccessControl == 'PublicReadWrite' : "AccessControl should be 'AuthenticatedRead' or 'AwsExecRead' or 'BucketOwnerFullControl' or 'BucketOwnerRead' or 'LogDeliveryWrite' or 'Private' or 'PublicRead' or 'PublicReadWrite'",
+  setAccessControl(AccessControl): {
     Properties+::: {
-      AccessControl: AccessControl,
+      AccessControl:
+        if !std.isString(AccessControl) then (error 'AccessControl must be a string')
+        else if std.isEmpty(AccessControl) then (error 'AccessControl must be not empty')
+        else if AccessControl != 'AuthenticatedRead' && AccessControl != 'AwsExecRead' && AccessControl != 'BucketOwnerFullControl' && AccessControl != 'BucketOwnerRead' && AccessControl != 'LogDeliveryWrite' && AccessControl != 'Private' && AccessControl != 'PublicRead' && AccessControl != 'PublicReadWrite' then (error "AccessControl should be 'AuthenticatedRead' or 'AwsExecRead' or 'BucketOwnerFullControl' or 'BucketOwnerRead' or 'LogDeliveryWrite' or 'Private' or 'PublicRead' or 'PublicReadWrite'")
+        else AccessControl,
     },
   },
-  withAnalyticsConfigurations(AnalyticsConfigurations): {
+  setAnalyticsConfigurations(AnalyticsConfigurations): {
     Properties+::: {
-      AnalyticsConfigurations: (if std.isArray(AnalyticsConfigurations) then AnalyticsConfigurations else [AnalyticsConfigurations]),
+      AnalyticsConfigurations:
+        if !std.isArray(AnalyticsConfigurations) then (error 'AnalyticsConfigurations must be an array')
+        else AnalyticsConfigurations,
     },
   },
-  withAnalyticsConfigurationsMixin(AnalyticsConfigurations): {
+  setAnalyticsConfigurationsMixin(AnalyticsConfigurations): {
     Properties+::: {
-      AnalyticsConfigurations+: (if std.isArray(AnalyticsConfigurations) then AnalyticsConfigurations else [AnalyticsConfigurations]),
+      AnalyticsConfigurations+: AnalyticsConfigurations,
     },
   },
-  withBucketEncryption(BucketEncryption): {
-    assert std.isObject(BucketEncryption) : 'BucketEncryption must be a object',
+  setBucketEncryption(BucketEncryption): {
     Properties+::: {
-      BucketEncryption: BucketEncryption,
+      BucketEncryption:
+        if !std.isObject(BucketEncryption) then (error 'BucketEncryption must be an object')
+        else if !std.objectHas(BucketEncryption, 'ServerSideEncryptionConfiguration') then (error ' have attribute ServerSideEncryptionConfiguration')
+        else BucketEncryption,
     },
   },
-  withBucketName(BucketName): {
-    assert std.isString(BucketName) : 'BucketName must be a string',
+  setBucketName(BucketName): {
     Properties+::: {
-      BucketName: BucketName,
+      BucketName:
+        if !std.isString(BucketName) then (error 'BucketName must be a string')
+        else if std.isEmpty(BucketName) then (error 'BucketName must be not empty')
+        else BucketName,
     },
   },
-  withCorsConfiguration(CorsConfiguration): {
-    assert std.isObject(CorsConfiguration) : 'CorsConfiguration must be a object',
+  setCorsConfiguration(CorsConfiguration): {
     Properties+::: {
-      CorsConfiguration: CorsConfiguration,
+      CorsConfiguration:
+        if !std.isObject(CorsConfiguration) then (error 'CorsConfiguration must be an object')
+        else if !std.objectHas(CorsConfiguration, 'CorsRules') then (error ' have attribute CorsRules')
+        else CorsConfiguration,
     },
   },
-  withIntelligentTieringConfigurations(IntelligentTieringConfigurations): {
+  setIntelligentTieringConfigurations(IntelligentTieringConfigurations): {
     Properties+::: {
-      IntelligentTieringConfigurations: (if std.isArray(IntelligentTieringConfigurations) then IntelligentTieringConfigurations else [IntelligentTieringConfigurations]),
+      IntelligentTieringConfigurations:
+        if !std.isArray(IntelligentTieringConfigurations) then (error 'IntelligentTieringConfigurations must be an array')
+        else IntelligentTieringConfigurations,
     },
   },
-  withIntelligentTieringConfigurationsMixin(IntelligentTieringConfigurations): {
+  setIntelligentTieringConfigurationsMixin(IntelligentTieringConfigurations): {
     Properties+::: {
-      IntelligentTieringConfigurations+: (if std.isArray(IntelligentTieringConfigurations) then IntelligentTieringConfigurations else [IntelligentTieringConfigurations]),
+      IntelligentTieringConfigurations+: IntelligentTieringConfigurations,
     },
   },
-  withInventoryConfigurations(InventoryConfigurations): {
+  setInventoryConfigurations(InventoryConfigurations): {
     Properties+::: {
-      InventoryConfigurations: (if std.isArray(InventoryConfigurations) then InventoryConfigurations else [InventoryConfigurations]),
+      InventoryConfigurations:
+        if !std.isArray(InventoryConfigurations) then (error 'InventoryConfigurations must be an array')
+        else InventoryConfigurations,
     },
   },
-  withInventoryConfigurationsMixin(InventoryConfigurations): {
+  setInventoryConfigurationsMixin(InventoryConfigurations): {
     Properties+::: {
-      InventoryConfigurations+: (if std.isArray(InventoryConfigurations) then InventoryConfigurations else [InventoryConfigurations]),
+      InventoryConfigurations+: InventoryConfigurations,
     },
   },
-  withLifecycleConfiguration(LifecycleConfiguration): {
-    assert std.isObject(LifecycleConfiguration) : 'LifecycleConfiguration must be a object',
+  setLifecycleConfiguration(LifecycleConfiguration): {
     Properties+::: {
-      LifecycleConfiguration: LifecycleConfiguration,
+      LifecycleConfiguration:
+        if !std.isObject(LifecycleConfiguration) then (error 'LifecycleConfiguration must be an object')
+        else if !std.objectHas(LifecycleConfiguration, 'Rules') then (error ' have attribute Rules')
+        else LifecycleConfiguration,
     },
   },
-  withLoggingConfiguration(LoggingConfiguration): {
-    assert std.isObject(LoggingConfiguration) : 'LoggingConfiguration must be a object',
+  setLoggingConfiguration(LoggingConfiguration): {
     Properties+::: {
-      LoggingConfiguration: LoggingConfiguration,
+      LoggingConfiguration:
+        if !std.isObject(LoggingConfiguration) then (error 'LoggingConfiguration must be an object')
+        else LoggingConfiguration,
     },
   },
-  withMetricsConfigurations(MetricsConfigurations): {
+  setMetricsConfigurations(MetricsConfigurations): {
     Properties+::: {
-      MetricsConfigurations: (if std.isArray(MetricsConfigurations) then MetricsConfigurations else [MetricsConfigurations]),
+      MetricsConfigurations:
+        if !std.isArray(MetricsConfigurations) then (error 'MetricsConfigurations must be an array')
+        else MetricsConfigurations,
     },
   },
-  withMetricsConfigurationsMixin(MetricsConfigurations): {
+  setMetricsConfigurationsMixin(MetricsConfigurations): {
     Properties+::: {
-      MetricsConfigurations+: (if std.isArray(MetricsConfigurations) then MetricsConfigurations else [MetricsConfigurations]),
+      MetricsConfigurations+: MetricsConfigurations,
     },
   },
-  withNotificationConfiguration(NotificationConfiguration): {
-    assert std.isObject(NotificationConfiguration) : 'NotificationConfiguration must be a object',
+  setNotificationConfiguration(NotificationConfiguration): {
     Properties+::: {
-      NotificationConfiguration: NotificationConfiguration,
+      NotificationConfiguration:
+        if !std.isObject(NotificationConfiguration) then (error 'NotificationConfiguration must be an object')
+        else NotificationConfiguration,
     },
   },
-  withObjectLockConfiguration(ObjectLockConfiguration): {
-    assert std.isObject(ObjectLockConfiguration) : 'ObjectLockConfiguration must be a object',
+  setObjectLockConfiguration(ObjectLockConfiguration): {
     Properties+::: {
-      ObjectLockConfiguration: ObjectLockConfiguration,
+      ObjectLockConfiguration:
+        if !std.isObject(ObjectLockConfiguration) then (error 'ObjectLockConfiguration must be an object')
+        else ObjectLockConfiguration,
     },
   },
-  withObjectLockEnabled(ObjectLockEnabled): {
-    assert std.isBoolean(ObjectLockEnabled) : 'ObjectLockEnabled must be a boolean',
+  setObjectLockEnabled(ObjectLockEnabled): {
     Properties+::: {
-      ObjectLockEnabled: ObjectLockEnabled,
+      ObjectLockEnabled:
+        if !std.isBoolean(ObjectLockEnabled) then (error 'ObjectLockEnabled must be a boolean') else ObjectLockEnabled,
     },
   },
-  withOwnershipControls(OwnershipControls): {
-    assert std.isObject(OwnershipControls) : 'OwnershipControls must be a object',
+  setOwnershipControls(OwnershipControls): {
     Properties+::: {
-      OwnershipControls: OwnershipControls,
+      OwnershipControls:
+        if !std.isObject(OwnershipControls) then (error 'OwnershipControls must be an object')
+        else if !std.objectHas(OwnershipControls, 'Rules') then (error ' have attribute Rules')
+        else OwnershipControls,
     },
   },
-  withPublicAccessBlockConfiguration(PublicAccessBlockConfiguration): {
-    assert std.isObject(PublicAccessBlockConfiguration) : 'PublicAccessBlockConfiguration must be a object',
+  setPublicAccessBlockConfiguration(PublicAccessBlockConfiguration): {
     Properties+::: {
-      PublicAccessBlockConfiguration: PublicAccessBlockConfiguration,
+      PublicAccessBlockConfiguration:
+        if !std.isObject(PublicAccessBlockConfiguration) then (error 'PublicAccessBlockConfiguration must be an object')
+        else PublicAccessBlockConfiguration,
     },
   },
-  withReplicationConfiguration(ReplicationConfiguration): {
-    assert std.isObject(ReplicationConfiguration) : 'ReplicationConfiguration must be a object',
+  setReplicationConfiguration(ReplicationConfiguration): {
     Properties+::: {
-      ReplicationConfiguration: ReplicationConfiguration,
+      ReplicationConfiguration:
+        if !std.isObject(ReplicationConfiguration) then (error 'ReplicationConfiguration must be an object')
+        else if !std.objectHas(ReplicationConfiguration, 'Role') then (error ' have attribute Role')
+        else if !std.objectHas(ReplicationConfiguration, 'Rules') then (error ' have attribute Rules')
+        else ReplicationConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVersioningConfiguration(VersioningConfiguration): {
-    assert std.isObject(VersioningConfiguration) : 'VersioningConfiguration must be a object',
+  setVersioningConfiguration(VersioningConfiguration): {
     Properties+::: {
-      VersioningConfiguration: VersioningConfiguration,
+      VersioningConfiguration:
+        if !std.isObject(VersioningConfiguration) then (error 'VersioningConfiguration must be an object')
+        else if !std.objectHas(VersioningConfiguration, 'Status') then (error ' have attribute Status')
+        else VersioningConfiguration,
     },
   },
-  withWebsiteConfiguration(WebsiteConfiguration): {
-    assert std.isObject(WebsiteConfiguration) : 'WebsiteConfiguration must be a object',
+  setWebsiteConfiguration(WebsiteConfiguration): {
     Properties+::: {
-      WebsiteConfiguration: WebsiteConfiguration,
+      WebsiteConfiguration:
+        if !std.isObject(WebsiteConfiguration) then (error 'WebsiteConfiguration must be an object')
+        else WebsiteConfiguration,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
   },
-  withDualStackDomainName(DualStackDomainName): {
-    assert std.isString(DualStackDomainName) : 'DualStackDomainName must be a string',
+  setDualStackDomainName(DualStackDomainName): {
     Properties+::: {
-      DualStackDomainName: DualStackDomainName,
+      DualStackDomainName:
+        if !std.isString(DualStackDomainName) then (error 'DualStackDomainName must be a string')
+        else if std.isEmpty(DualStackDomainName) then (error 'DualStackDomainName must be not empty')
+        else DualStackDomainName,
     },
   },
-  withRegionalDomainName(RegionalDomainName): {
-    assert std.isString(RegionalDomainName) : 'RegionalDomainName must be a string',
+  setRegionalDomainName(RegionalDomainName): {
     Properties+::: {
-      RegionalDomainName: RegionalDomainName,
+      RegionalDomainName:
+        if !std.isString(RegionalDomainName) then (error 'RegionalDomainName must be a string')
+        else if std.isEmpty(RegionalDomainName) then (error 'RegionalDomainName must be not empty')
+        else RegionalDomainName,
     },
   },
-  withWebsiteURL(WebsiteURL): {
-    assert std.isString(WebsiteURL) : 'WebsiteURL must be a string',
+  setWebsiteURL(WebsiteURL): {
     Properties+::: {
-      WebsiteURL: WebsiteURL,
+      WebsiteURL:
+        if !std.isString(WebsiteURL) then (error 'WebsiteURL must be a string')
+        else if std.isEmpty(WebsiteURL) then (error 'WebsiteURL must be not empty')
+        else WebsiteURL,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(StackName) : 'StackName must be a string',
-      StackName: StackName,
+      StackName:
+        if !std.isString(StackName) then (error 'StackName must be a string')
+        else if std.isEmpty(StackName) then (error 'StackName must be not empty')
+        else StackName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,213 +17,256 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::Stack',
   },
-  withCapabilities(Capabilities): {
+  setCapabilities(Capabilities): {
     Properties+::: {
-      Capabilities: (if std.isArray(Capabilities) then Capabilities else [Capabilities]),
+      Capabilities:
+        if !std.isArray(Capabilities) then (error 'Capabilities must be an array')
+        else Capabilities,
     },
   },
-  withCapabilitiesMixin(Capabilities): {
+  setCapabilitiesMixin(Capabilities): {
     Properties+::: {
-      Capabilities+: (if std.isArray(Capabilities) then Capabilities else [Capabilities]),
+      Capabilities+: Capabilities,
     },
   },
-  withRoleARN(RoleARN): {
-    assert std.isString(RoleARN) : 'RoleARN must be a string',
+  setRoleARN(RoleARN): {
     Properties+::: {
-      RoleARN: RoleARN,
+      RoleARN:
+        if !std.isString(RoleARN) then (error 'RoleARN must be a string')
+        else if std.isEmpty(RoleARN) then (error 'RoleARN must be not empty')
+        else RoleARN,
     },
   },
-  withOutputs(Outputs): {
+  setOutputs(Outputs): {
     Properties+::: {
-      Outputs: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs:
+        if !std.isArray(Outputs) then (error 'Outputs must be an array')
+        else Outputs,
     },
   },
-  withOutputsMixin(Outputs): {
+  setOutputsMixin(Outputs): {
     Properties+::: {
-      Outputs+: (if std.isArray(Outputs) then Outputs else [Outputs]),
+      Outputs+: Outputs,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withDisableRollback(DisableRollback): {
-    assert std.isBoolean(DisableRollback) : 'DisableRollback must be a boolean',
+  setDisableRollback(DisableRollback): {
     Properties+::: {
-      DisableRollback: DisableRollback,
+      DisableRollback:
+        if !std.isBoolean(DisableRollback) then (error 'DisableRollback must be a boolean') else DisableRollback,
     },
   },
-  withEnableTerminationProtection(EnableTerminationProtection): {
-    assert std.isBoolean(EnableTerminationProtection) : 'EnableTerminationProtection must be a boolean',
+  setEnableTerminationProtection(EnableTerminationProtection): {
     Properties+::: {
-      EnableTerminationProtection: EnableTerminationProtection,
+      EnableTerminationProtection:
+        if !std.isBoolean(EnableTerminationProtection) then (error 'EnableTerminationProtection must be a boolean') else EnableTerminationProtection,
     },
   },
-  withNotificationARNs(NotificationARNs): {
+  setNotificationARNs(NotificationARNs): {
     Properties+::: {
-      NotificationARNs: (if std.isArray(NotificationARNs) then NotificationARNs else [NotificationARNs]),
+      NotificationARNs:
+        if !std.isArray(NotificationARNs) then (error 'NotificationARNs must be an array')
+        else if std.length(NotificationARNs) > 5 then error ('NotificationARNs cannot have more than 5 items')
+        else NotificationARNs,
     },
   },
-  withNotificationARNsMixin(NotificationARNs): {
+  setNotificationARNsMixin(NotificationARNs): {
     Properties+::: {
-      NotificationARNs+: (if std.isArray(NotificationARNs) then NotificationARNs else [NotificationARNs]),
+      NotificationARNs+: NotificationARNs,
     },
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withParentId(ParentId): {
-    assert std.isString(ParentId) : 'ParentId must be a string',
+  setParentId(ParentId): {
     Properties+::: {
-      ParentId: ParentId,
+      ParentId:
+        if !std.isString(ParentId) then (error 'ParentId must be a string')
+        else if std.isEmpty(ParentId) then (error 'ParentId must be not empty')
+        else ParentId,
     },
   },
-  withRootId(RootId): {
-    assert std.isString(RootId) : 'RootId must be a string',
+  setRootId(RootId): {
     Properties+::: {
-      RootId: RootId,
+      RootId:
+        if !std.isString(RootId) then (error 'RootId must be a string')
+        else if std.isEmpty(RootId) then (error 'RootId must be not empty')
+        else RootId,
     },
   },
-  withChangeSetId(ChangeSetId): {
-    assert std.isString(ChangeSetId) : 'ChangeSetId must be a string',
+  setChangeSetId(ChangeSetId): {
     Properties+::: {
-      ChangeSetId: ChangeSetId,
+      ChangeSetId:
+        if !std.isString(ChangeSetId) then (error 'ChangeSetId must be a string')
+        else if std.isEmpty(ChangeSetId) then (error 'ChangeSetId must be not empty')
+        else ChangeSetId,
     },
   },
-  withStackId(StackId): {
-    assert std.isString(StackId) : 'StackId must be a string',
+  setStackId(StackId): {
     Properties+::: {
-      StackId: StackId,
+      StackId:
+        if !std.isString(StackId) then (error 'StackId must be a string')
+        else if std.isEmpty(StackId) then (error 'StackId must be not empty')
+        else StackId,
     },
   },
-  withStackPolicyBody(StackPolicyBody): {
-    assert std.isObject(StackPolicyBody) : 'StackPolicyBody must be a object',
+  setStackPolicyBody(StackPolicyBody): {
     Properties+::: {
-      StackPolicyBody: StackPolicyBody,
+      StackPolicyBody:
+        if !std.isObject(StackPolicyBody) then (error 'StackPolicyBody must be an object')
+        else StackPolicyBody,
     },
   },
-  withStackPolicyURL(StackPolicyURL): {
-    assert std.isString(StackPolicyURL) : 'StackPolicyURL must be a string',
+  setStackPolicyURL(StackPolicyURL): {
     Properties+::: {
-      StackPolicyURL: StackPolicyURL,
+      StackPolicyURL:
+        if !std.isString(StackPolicyURL) then (error 'StackPolicyURL must be a string')
+        else if std.isEmpty(StackPolicyURL) then (error 'StackPolicyURL must be not empty')
+        else StackPolicyURL,
     },
   },
-  withStackStatus(StackStatus): {
-    assert std.isString(StackStatus) : 'StackStatus must be a string',
-    assert StackStatus == 'CREATE_IN_PROGRESS' || StackStatus == 'CREATE_FAILED' || StackStatus == 'CREATE_COMPLETE' || StackStatus == 'ROLLBACK_IN_PROGRESS' || StackStatus == 'ROLLBACK_FAILED' || StackStatus == 'ROLLBACK_COMPLETE' || StackStatus == 'DELETE_IN_PROGRESS' || StackStatus == 'DELETE_FAILED' || StackStatus == 'DELETE_COMPLETE' || StackStatus == 'UPDATE_IN_PROGRESS' || StackStatus == 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS' || StackStatus == 'UPDATE_COMPLETE' || StackStatus == 'UPDATE_FAILED' || StackStatus == 'UPDATE_ROLLBACK_IN_PROGRESS' || StackStatus == 'UPDATE_ROLLBACK_FAILED' || StackStatus == 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS' || StackStatus == 'UPDATE_ROLLBACK_COMPLETE' || StackStatus == 'REVIEW_IN_PROGRESS' || StackStatus == 'IMPORT_IN_PROGRESS' || StackStatus == 'IMPORT_COMPLETE' || StackStatus == 'IMPORT_ROLLBACK_IN_PROGRESS' || StackStatus == 'IMPORT_ROLLBACK_FAILED' || StackStatus == 'IMPORT_ROLLBACK_COMPLETE' : "StackStatus should be 'CREATE_IN_PROGRESS' or 'CREATE_FAILED' or 'CREATE_COMPLETE' or 'ROLLBACK_IN_PROGRESS' or 'ROLLBACK_FAILED' or 'ROLLBACK_COMPLETE' or 'DELETE_IN_PROGRESS' or 'DELETE_FAILED' or 'DELETE_COMPLETE' or 'UPDATE_IN_PROGRESS' or 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS' or 'UPDATE_COMPLETE' or 'UPDATE_FAILED' or 'UPDATE_ROLLBACK_IN_PROGRESS' or 'UPDATE_ROLLBACK_FAILED' or 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS' or 'UPDATE_ROLLBACK_COMPLETE' or 'REVIEW_IN_PROGRESS' or 'IMPORT_IN_PROGRESS' or 'IMPORT_COMPLETE' or 'IMPORT_ROLLBACK_IN_PROGRESS' or 'IMPORT_ROLLBACK_FAILED' or 'IMPORT_ROLLBACK_COMPLETE'",
+  setStackStatus(StackStatus): {
     Properties+::: {
-      StackStatus: StackStatus,
+      StackStatus:
+        if !std.isString(StackStatus) then (error 'StackStatus must be a string')
+        else if std.isEmpty(StackStatus) then (error 'StackStatus must be not empty')
+        else if StackStatus != 'CREATE_IN_PROGRESS' && StackStatus != 'CREATE_FAILED' && StackStatus != 'CREATE_COMPLETE' && StackStatus != 'ROLLBACK_IN_PROGRESS' && StackStatus != 'ROLLBACK_FAILED' && StackStatus != 'ROLLBACK_COMPLETE' && StackStatus != 'DELETE_IN_PROGRESS' && StackStatus != 'DELETE_FAILED' && StackStatus != 'DELETE_COMPLETE' && StackStatus != 'UPDATE_IN_PROGRESS' && StackStatus != 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS' && StackStatus != 'UPDATE_COMPLETE' && StackStatus != 'UPDATE_FAILED' && StackStatus != 'UPDATE_ROLLBACK_IN_PROGRESS' && StackStatus != 'UPDATE_ROLLBACK_FAILED' && StackStatus != 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS' && StackStatus != 'UPDATE_ROLLBACK_COMPLETE' && StackStatus != 'REVIEW_IN_PROGRESS' && StackStatus != 'IMPORT_IN_PROGRESS' && StackStatus != 'IMPORT_COMPLETE' && StackStatus != 'IMPORT_ROLLBACK_IN_PROGRESS' && StackStatus != 'IMPORT_ROLLBACK_FAILED' && StackStatus != 'IMPORT_ROLLBACK_COMPLETE' then (error "StackStatus should be 'CREATE_IN_PROGRESS' or 'CREATE_FAILED' or 'CREATE_COMPLETE' or 'ROLLBACK_IN_PROGRESS' or 'ROLLBACK_FAILED' or 'ROLLBACK_COMPLETE' or 'DELETE_IN_PROGRESS' or 'DELETE_FAILED' or 'DELETE_COMPLETE' or 'UPDATE_IN_PROGRESS' or 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS' or 'UPDATE_COMPLETE' or 'UPDATE_FAILED' or 'UPDATE_ROLLBACK_IN_PROGRESS' or 'UPDATE_ROLLBACK_FAILED' or 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS' or 'UPDATE_ROLLBACK_COMPLETE' or 'REVIEW_IN_PROGRESS' or 'IMPORT_IN_PROGRESS' or 'IMPORT_COMPLETE' or 'IMPORT_ROLLBACK_IN_PROGRESS' or 'IMPORT_ROLLBACK_FAILED' or 'IMPORT_ROLLBACK_COMPLETE'")
+        else StackStatus,
     },
   },
-  withStackStatusReason(StackStatusReason): {
-    assert std.isString(StackStatusReason) : 'StackStatusReason must be a string',
+  setStackStatusReason(StackStatusReason): {
     Properties+::: {
-      StackStatusReason: StackStatusReason,
+      StackStatusReason:
+        if !std.isString(StackStatusReason) then (error 'StackStatusReason must be a string')
+        else if std.isEmpty(StackStatusReason) then (error 'StackStatusReason must be not empty')
+        else StackStatusReason,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTemplateBody(TemplateBody): {
-    assert std.isObject(TemplateBody) : 'TemplateBody must be a object',
+  setTemplateBody(TemplateBody): {
     Properties+::: {
-      TemplateBody: TemplateBody,
+      TemplateBody:
+        if !std.isObject(TemplateBody) then (error 'TemplateBody must be an object')
+        else TemplateBody,
     },
   },
-  withTemplateURL(TemplateURL): {
-    assert std.isString(TemplateURL) : 'TemplateURL must be a string',
+  setTemplateURL(TemplateURL): {
     Properties+::: {
-      TemplateURL: TemplateURL,
+      TemplateURL:
+        if !std.isString(TemplateURL) then (error 'TemplateURL must be a string')
+        else if std.isEmpty(TemplateURL) then (error 'TemplateURL must be not empty')
+        else if std.length(TemplateURL) < 1 then error ('TemplateURL should have at least 1 characters')
+        else if std.length(TemplateURL) > 1024 then error ('TemplateURL should have not more than 1024 characters')
+        else TemplateURL,
     },
   },
-  withTimeoutInMinutes(TimeoutInMinutes): {
-    assert std.isNumber(TimeoutInMinutes) : 'TimeoutInMinutes must be a number',
+  setTimeoutInMinutes(TimeoutInMinutes): {
     Properties+::: {
-      TimeoutInMinutes: TimeoutInMinutes,
+      TimeoutInMinutes:
+        if !std.isNumber(TimeoutInMinutes) then (error 'TimeoutInMinutes must be an number')
+        else if TimeoutInMinutes < 1 then error ('TimeoutInMinutes should be at least 1')
+        else TimeoutInMinutes,
     },
   },
-  withLastUpdateTime(LastUpdateTime): {
-    assert std.isString(LastUpdateTime) : 'LastUpdateTime must be a string',
+  setLastUpdateTime(LastUpdateTime): {
     Properties+::: {
-      LastUpdateTime: LastUpdateTime,
+      LastUpdateTime:
+        if !std.isString(LastUpdateTime) then (error 'LastUpdateTime must be a string')
+        else if std.isEmpty(LastUpdateTime) then (error 'LastUpdateTime must be not empty')
+        else LastUpdateTime,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

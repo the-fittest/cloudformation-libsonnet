@@ -6,13 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(Capacity) : 'Capacity must be a number',
-      Capacity: Capacity,
-      assert std.isString(Scope) : 'Scope must be a string',
-      assert Scope == 'CLOUDFRONT' || Scope == 'REGIONAL' : "Scope should be 'CLOUDFRONT' or 'REGIONAL'",
-      Scope: Scope,
-      assert std.isObject(VisibilityConfig) : 'VisibilityConfig must be an object',
-      VisibilityConfig: VisibilityConfig,
+      Capacity:
+        if !std.isNumber(Capacity) then (error 'Capacity must be an number')
+        else Capacity,
+      Scope:
+        if !std.isString(Scope) then (error 'Scope must be a string')
+        else if std.isEmpty(Scope) then (error 'Scope must be not empty')
+        else if Scope != 'CLOUDFRONT' && Scope != 'REGIONAL' then (error "Scope should be 'CLOUDFRONT' or 'REGIONAL'")
+        else Scope,
+      VisibilityConfig:
+        if !std.isObject(VisibilityConfig) then (error 'VisibilityConfig must be an object')
+        else if !std.objectHas(VisibilityConfig, 'SampledRequestsEnabled') then (error ' have attribute SampledRequestsEnabled')
+        else if !std.objectHas(VisibilityConfig, 'CloudWatchMetricsEnabled') then (error ' have attribute CloudWatchMetricsEnabled')
+        else if !std.objectHas(VisibilityConfig, 'MetricName') then (error ' have attribute MetricName')
+        else VisibilityConfig,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,140 +29,162 @@
     Metadata:: [],
     Type: 'AWS::WAFv2::RuleGroup',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withRules(Rules): {
+  setRules(Rules): {
     Properties+::: {
-      Rules: (if std.isArray(Rules) then Rules else [Rules]),
+      Rules:
+        if !std.isArray(Rules) then (error 'Rules must be an array')
+        else Rules,
     },
   },
-  withRulesMixin(Rules): {
+  setRulesMixin(Rules): {
     Properties+::: {
-      Rules+: (if std.isArray(Rules) then Rules else [Rules]),
+      Rules+: Rules,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLabelNamespace(LabelNamespace): {
-    assert std.isString(LabelNamespace) : 'LabelNamespace must be a string',
+  setLabelNamespace(LabelNamespace): {
     Properties+::: {
-      LabelNamespace: LabelNamespace,
+      LabelNamespace:
+        if !std.isString(LabelNamespace) then (error 'LabelNamespace must be a string')
+        else if std.isEmpty(LabelNamespace) then (error 'LabelNamespace must be not empty')
+        else LabelNamespace,
     },
   },
-  withCustomResponseBodies(CustomResponseBodies): {
-    assert std.isObject(CustomResponseBodies) : 'CustomResponseBodies must be a object',
+  setCustomResponseBodies(CustomResponseBodies): {
     Properties+::: {
-      CustomResponseBodies: CustomResponseBodies,
+      CustomResponseBodies:
+        if !std.isObject(CustomResponseBodies) then (error 'CustomResponseBodies must be an object')
+        else CustomResponseBodies,
     },
   },
-  withAvailableLabels(AvailableLabels): {
+  setAvailableLabels(AvailableLabels): {
     Properties+::: {
-      AvailableLabels: (if std.isArray(AvailableLabels) then AvailableLabels else [AvailableLabels]),
+      AvailableLabels:
+        if !std.isArray(AvailableLabels) then (error 'AvailableLabels must be an array')
+        else AvailableLabels,
     },
   },
-  withAvailableLabelsMixin(AvailableLabels): {
+  setAvailableLabelsMixin(AvailableLabels): {
     Properties+::: {
-      AvailableLabels+: (if std.isArray(AvailableLabels) then AvailableLabels else [AvailableLabels]),
+      AvailableLabels+: AvailableLabels,
     },
   },
-  withConsumedLabels(ConsumedLabels): {
+  setConsumedLabels(ConsumedLabels): {
     Properties+::: {
-      ConsumedLabels: (if std.isArray(ConsumedLabels) then ConsumedLabels else [ConsumedLabels]),
+      ConsumedLabels:
+        if !std.isArray(ConsumedLabels) then (error 'ConsumedLabels must be an array')
+        else ConsumedLabels,
     },
   },
-  withConsumedLabelsMixin(ConsumedLabels): {
+  setConsumedLabelsMixin(ConsumedLabels): {
     Properties+::: {
-      ConsumedLabels+: (if std.isArray(ConsumedLabels) then ConsumedLabels else [ConsumedLabels]),
+      ConsumedLabels+: ConsumedLabels,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

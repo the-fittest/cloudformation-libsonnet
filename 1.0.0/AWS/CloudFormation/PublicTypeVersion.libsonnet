@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,113 +10,134 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::PublicTypeVersion',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTypeVersionArn(TypeVersionArn): {
-    assert std.isString(TypeVersionArn) : 'TypeVersionArn must be a string',
+  setTypeVersionArn(TypeVersionArn): {
     Properties+::: {
-      TypeVersionArn: TypeVersionArn,
+      TypeVersionArn:
+        if !std.isString(TypeVersionArn) then (error 'TypeVersionArn must be a string')
+        else if std.isEmpty(TypeVersionArn) then (error 'TypeVersionArn must be not empty')
+        else TypeVersionArn,
     },
   },
-  withPublicVersionNumber(PublicVersionNumber): {
-    assert std.isString(PublicVersionNumber) : 'PublicVersionNumber must be a string',
+  setPublicVersionNumber(PublicVersionNumber): {
     Properties+::: {
-      PublicVersionNumber: PublicVersionNumber,
+      PublicVersionNumber:
+        if !std.isString(PublicVersionNumber) then (error 'PublicVersionNumber must be a string')
+        else if std.isEmpty(PublicVersionNumber) then (error 'PublicVersionNumber must be not empty')
+        else if std.length(PublicVersionNumber) < 5 then error ('PublicVersionNumber should have at least 5 characters')
+        else if std.length(PublicVersionNumber) > 64 then error ('PublicVersionNumber should have not more than 64 characters')
+        else PublicVersionNumber,
     },
   },
-  withPublisherId(PublisherId): {
-    assert std.isString(PublisherId) : 'PublisherId must be a string',
+  setPublisherId(PublisherId): {
     Properties+::: {
-      PublisherId: PublisherId,
+      PublisherId:
+        if !std.isString(PublisherId) then (error 'PublisherId must be a string')
+        else if std.isEmpty(PublisherId) then (error 'PublisherId must be not empty')
+        else if std.length(PublisherId) < 1 then error ('PublisherId should have at least 1 characters')
+        else if std.length(PublisherId) > 40 then error ('PublisherId should have not more than 40 characters')
+        else PublisherId,
     },
   },
-  withPublicTypeArn(PublicTypeArn): {
-    assert std.isString(PublicTypeArn) : 'PublicTypeArn must be a string',
+  setPublicTypeArn(PublicTypeArn): {
     Properties+::: {
-      PublicTypeArn: PublicTypeArn,
+      PublicTypeArn:
+        if !std.isString(PublicTypeArn) then (error 'PublicTypeArn must be a string')
+        else if std.isEmpty(PublicTypeArn) then (error 'PublicTypeArn must be not empty')
+        else if std.length(PublicTypeArn) > 1024 then error ('PublicTypeArn should have not more than 1024 characters')
+        else PublicTypeArn,
     },
   },
-  withTypeName(TypeName): {
-    assert std.isString(TypeName) : 'TypeName must be a string',
+  setTypeName(TypeName): {
     Properties+::: {
-      TypeName: TypeName,
+      TypeName:
+        if !std.isString(TypeName) then (error 'TypeName must be a string')
+        else if std.isEmpty(TypeName) then (error 'TypeName must be not empty')
+        else TypeName,
     },
   },
-  withLogDeliveryBucket(LogDeliveryBucket): {
-    assert std.isString(LogDeliveryBucket) : 'LogDeliveryBucket must be a string',
+  setLogDeliveryBucket(LogDeliveryBucket): {
     Properties+::: {
-      LogDeliveryBucket: LogDeliveryBucket,
+      LogDeliveryBucket:
+        if !std.isString(LogDeliveryBucket) then (error 'LogDeliveryBucket must be a string')
+        else if std.isEmpty(LogDeliveryBucket) then (error 'LogDeliveryBucket must be not empty')
+        else LogDeliveryBucket,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'RESOURCE' || Type == 'MODULE' || Type == 'HOOK' : "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'RESOURCE' && Type != 'MODULE' && Type != 'HOOK' then (error "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'")
+        else Type,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

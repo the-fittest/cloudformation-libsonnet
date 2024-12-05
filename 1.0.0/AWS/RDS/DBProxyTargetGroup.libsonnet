@@ -5,11 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DBProxyName) : 'DBProxyName must be a string',
-      DBProxyName: DBProxyName,
-      assert std.isString(TargetGroupName) : 'TargetGroupName must be a string',
-      assert TargetGroupName == 'default' : "TargetGroupName should be 'default'",
-      TargetGroupName: TargetGroupName,
+      DBProxyName:
+        if !std.isString(DBProxyName) then (error 'DBProxyName must be a string')
+        else if std.isEmpty(DBProxyName) then (error 'DBProxyName must be not empty')
+        else if std.length(DBProxyName) > 64 then error ('DBProxyName should have not more than 64 characters')
+        else DBProxyName,
+      TargetGroupName:
+        if !std.isString(TargetGroupName) then (error 'TargetGroupName must be a string')
+        else if std.isEmpty(TargetGroupName) then (error 'TargetGroupName must be not empty')
+        else if TargetGroupName != 'default' then (error "TargetGroupName should be 'default'")
+        else TargetGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,96 +24,103 @@
     Metadata:: [],
     Type: 'AWS::RDS::DBProxyTargetGroup',
   },
-  withTargetGroupArn(TargetGroupArn): {
-    assert std.isString(TargetGroupArn) : 'TargetGroupArn must be a string',
+  setTargetGroupArn(TargetGroupArn): {
     Properties+::: {
-      TargetGroupArn: TargetGroupArn,
+      TargetGroupArn:
+        if !std.isString(TargetGroupArn) then (error 'TargetGroupArn must be a string')
+        else if std.isEmpty(TargetGroupArn) then (error 'TargetGroupArn must be not empty')
+        else TargetGroupArn,
     },
   },
-  withConnectionPoolConfigurationInfo(ConnectionPoolConfigurationInfo): {
-    assert std.isObject(ConnectionPoolConfigurationInfo) : 'ConnectionPoolConfigurationInfo must be a object',
+  setConnectionPoolConfigurationInfo(ConnectionPoolConfigurationInfo): {
     Properties+::: {
-      ConnectionPoolConfigurationInfo: ConnectionPoolConfigurationInfo,
+      ConnectionPoolConfigurationInfo:
+        if !std.isObject(ConnectionPoolConfigurationInfo) then (error 'ConnectionPoolConfigurationInfo must be an object')
+        else ConnectionPoolConfigurationInfo,
     },
   },
-  withDBInstanceIdentifiers(DBInstanceIdentifiers): {
+  setDBInstanceIdentifiers(DBInstanceIdentifiers): {
     Properties+::: {
-      DBInstanceIdentifiers: (if std.isArray(DBInstanceIdentifiers) then DBInstanceIdentifiers else [DBInstanceIdentifiers]),
+      DBInstanceIdentifiers:
+        if !std.isArray(DBInstanceIdentifiers) then (error 'DBInstanceIdentifiers must be an array')
+        else DBInstanceIdentifiers,
     },
   },
-  withDBInstanceIdentifiersMixin(DBInstanceIdentifiers): {
+  setDBInstanceIdentifiersMixin(DBInstanceIdentifiers): {
     Properties+::: {
-      DBInstanceIdentifiers+: (if std.isArray(DBInstanceIdentifiers) then DBInstanceIdentifiers else [DBInstanceIdentifiers]),
+      DBInstanceIdentifiers+: DBInstanceIdentifiers,
     },
   },
-  withDBClusterIdentifiers(DBClusterIdentifiers): {
+  setDBClusterIdentifiers(DBClusterIdentifiers): {
     Properties+::: {
-      DBClusterIdentifiers: (if std.isArray(DBClusterIdentifiers) then DBClusterIdentifiers else [DBClusterIdentifiers]),
+      DBClusterIdentifiers:
+        if !std.isArray(DBClusterIdentifiers) then (error 'DBClusterIdentifiers must be an array')
+        else DBClusterIdentifiers,
     },
   },
-  withDBClusterIdentifiersMixin(DBClusterIdentifiers): {
+  setDBClusterIdentifiersMixin(DBClusterIdentifiers): {
     Properties+::: {
-      DBClusterIdentifiers+: (if std.isArray(DBClusterIdentifiers) then DBClusterIdentifiers else [DBClusterIdentifiers]),
+      DBClusterIdentifiers+: DBClusterIdentifiers,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

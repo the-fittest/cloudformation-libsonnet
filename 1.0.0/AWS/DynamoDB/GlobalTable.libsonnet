@@ -6,9 +6,19 @@
   ): {
     local base = self,
     Properties: {
-      KeySchema: (if std.isArray(KeySchema) then KeySchema else [KeySchema]),
-      AttributeDefinitions: (if std.isArray(AttributeDefinitions) then AttributeDefinitions else [AttributeDefinitions]),
-      Replicas: (if std.isArray(Replicas) then Replicas else [Replicas]),
+      KeySchema:
+        if !std.isArray(KeySchema) then (error 'KeySchema must be an array')
+        else if std.length(KeySchema) < 1 then error ('KeySchema cannot have less than 1 items')
+        else if std.length(KeySchema) > 2 then error ('KeySchema cannot have more than 2 items')
+        else KeySchema,
+      AttributeDefinitions:
+        if !std.isArray(AttributeDefinitions) then (error 'AttributeDefinitions must be an array')
+        else if std.length(AttributeDefinitions) < 1 then error ('AttributeDefinitions cannot have less than 1 items')
+        else AttributeDefinitions,
+      Replicas:
+        if !std.isArray(Replicas) then (error 'Replicas must be an array')
+        else if std.length(Replicas) < 1 then error ('Replicas cannot have less than 1 items')
+        else Replicas,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,150 +28,173 @@
     Metadata:: [],
     Type: 'AWS::DynamoDB::GlobalTable',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withStreamArn(StreamArn): {
-    assert std.isString(StreamArn) : 'StreamArn must be a string',
+  setStreamArn(StreamArn): {
     Properties+::: {
-      StreamArn: StreamArn,
+      StreamArn:
+        if !std.isString(StreamArn) then (error 'StreamArn must be a string')
+        else if std.isEmpty(StreamArn) then (error 'StreamArn must be not empty')
+        else StreamArn,
     },
   },
-  withBillingMode(BillingMode): {
-    assert std.isString(BillingMode) : 'BillingMode must be a string',
+  setBillingMode(BillingMode): {
     Properties+::: {
-      BillingMode: BillingMode,
+      BillingMode:
+        if !std.isString(BillingMode) then (error 'BillingMode must be a string')
+        else if std.isEmpty(BillingMode) then (error 'BillingMode must be not empty')
+        else BillingMode,
     },
   },
-  withGlobalSecondaryIndexes(GlobalSecondaryIndexes): {
+  setGlobalSecondaryIndexes(GlobalSecondaryIndexes): {
     Properties+::: {
-      GlobalSecondaryIndexes: (if std.isArray(GlobalSecondaryIndexes) then GlobalSecondaryIndexes else [GlobalSecondaryIndexes]),
+      GlobalSecondaryIndexes:
+        if !std.isArray(GlobalSecondaryIndexes) then (error 'GlobalSecondaryIndexes must be an array')
+        else GlobalSecondaryIndexes,
     },
   },
-  withGlobalSecondaryIndexesMixin(GlobalSecondaryIndexes): {
+  setGlobalSecondaryIndexesMixin(GlobalSecondaryIndexes): {
     Properties+::: {
-      GlobalSecondaryIndexes+: (if std.isArray(GlobalSecondaryIndexes) then GlobalSecondaryIndexes else [GlobalSecondaryIndexes]),
+      GlobalSecondaryIndexes+: GlobalSecondaryIndexes,
     },
   },
-  withLocalSecondaryIndexes(LocalSecondaryIndexes): {
+  setLocalSecondaryIndexes(LocalSecondaryIndexes): {
     Properties+::: {
-      LocalSecondaryIndexes: (if std.isArray(LocalSecondaryIndexes) then LocalSecondaryIndexes else [LocalSecondaryIndexes]),
+      LocalSecondaryIndexes:
+        if !std.isArray(LocalSecondaryIndexes) then (error 'LocalSecondaryIndexes must be an array')
+        else LocalSecondaryIndexes,
     },
   },
-  withLocalSecondaryIndexesMixin(LocalSecondaryIndexes): {
+  setLocalSecondaryIndexesMixin(LocalSecondaryIndexes): {
     Properties+::: {
-      LocalSecondaryIndexes+: (if std.isArray(LocalSecondaryIndexes) then LocalSecondaryIndexes else [LocalSecondaryIndexes]),
+      LocalSecondaryIndexes+: LocalSecondaryIndexes,
     },
   },
-  withWriteProvisionedThroughputSettings(WriteProvisionedThroughputSettings): {
-    assert std.isObject(WriteProvisionedThroughputSettings) : 'WriteProvisionedThroughputSettings must be a object',
+  setWriteProvisionedThroughputSettings(WriteProvisionedThroughputSettings): {
     Properties+::: {
-      WriteProvisionedThroughputSettings: WriteProvisionedThroughputSettings,
+      WriteProvisionedThroughputSettings:
+        if !std.isObject(WriteProvisionedThroughputSettings) then (error 'WriteProvisionedThroughputSettings must be an object')
+        else WriteProvisionedThroughputSettings,
     },
   },
-  withWriteOnDemandThroughputSettings(WriteOnDemandThroughputSettings): {
-    assert std.isObject(WriteOnDemandThroughputSettings) : 'WriteOnDemandThroughputSettings must be a object',
+  setWriteOnDemandThroughputSettings(WriteOnDemandThroughputSettings): {
     Properties+::: {
-      WriteOnDemandThroughputSettings: WriteOnDemandThroughputSettings,
+      WriteOnDemandThroughputSettings:
+        if !std.isObject(WriteOnDemandThroughputSettings) then (error 'WriteOnDemandThroughputSettings must be an object')
+        else WriteOnDemandThroughputSettings,
     },
   },
-  withWarmThroughput(WarmThroughput): {
-    assert std.isObject(WarmThroughput) : 'WarmThroughput must be a object',
+  setWarmThroughput(WarmThroughput): {
     Properties+::: {
-      WarmThroughput: WarmThroughput,
+      WarmThroughput:
+        if !std.isObject(WarmThroughput) then (error 'WarmThroughput must be an object')
+        else WarmThroughput,
     },
   },
-  withSSESpecification(SSESpecification): {
-    assert std.isObject(SSESpecification) : 'SSESpecification must be a object',
+  setSSESpecification(SSESpecification): {
     Properties+::: {
-      SSESpecification: SSESpecification,
+      SSESpecification:
+        if !std.isObject(SSESpecification) then (error 'SSESpecification must be an object')
+        else if !std.objectHas(SSESpecification, 'SSEEnabled') then (error ' have attribute SSEEnabled')
+        else SSESpecification,
     },
   },
-  withStreamSpecification(StreamSpecification): {
-    assert std.isObject(StreamSpecification) : 'StreamSpecification must be a object',
+  setStreamSpecification(StreamSpecification): {
     Properties+::: {
-      StreamSpecification: StreamSpecification,
+      StreamSpecification:
+        if !std.isObject(StreamSpecification) then (error 'StreamSpecification must be an object')
+        else if !std.objectHas(StreamSpecification, 'StreamViewType') then (error ' have attribute StreamViewType')
+        else StreamSpecification,
     },
   },
-  withTableName(TableName): {
-    assert std.isString(TableName) : 'TableName must be a string',
+  setTableName(TableName): {
     Properties+::: {
-      TableName: TableName,
+      TableName:
+        if !std.isString(TableName) then (error 'TableName must be a string')
+        else if std.isEmpty(TableName) then (error 'TableName must be not empty')
+        else TableName,
     },
   },
-  withTableId(TableId): {
-    assert std.isString(TableId) : 'TableId must be a string',
+  setTableId(TableId): {
     Properties+::: {
-      TableId: TableId,
+      TableId:
+        if !std.isString(TableId) then (error 'TableId must be a string')
+        else if std.isEmpty(TableId) then (error 'TableId must be not empty')
+        else TableId,
     },
   },
-  withTimeToLiveSpecification(TimeToLiveSpecification): {
-    assert std.isObject(TimeToLiveSpecification) : 'TimeToLiveSpecification must be a object',
+  setTimeToLiveSpecification(TimeToLiveSpecification): {
     Properties+::: {
-      TimeToLiveSpecification: TimeToLiveSpecification,
+      TimeToLiveSpecification:
+        if !std.isObject(TimeToLiveSpecification) then (error 'TimeToLiveSpecification must be an object')
+        else if !std.objectHas(TimeToLiveSpecification, 'Enabled') then (error ' have attribute Enabled')
+        else TimeToLiveSpecification,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

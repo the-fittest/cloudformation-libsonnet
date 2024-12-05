@@ -6,12 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MembershipIdentifier) : 'MembershipIdentifier must be a string',
-      MembershipIdentifier: MembershipIdentifier,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(InputReferenceConfig) : 'InputReferenceConfig must be an object',
-      InputReferenceConfig: InputReferenceConfig,
+      MembershipIdentifier:
+        if !std.isString(MembershipIdentifier) then (error 'MembershipIdentifier must be a string')
+        else if std.isEmpty(MembershipIdentifier) then (error 'MembershipIdentifier must be not empty')
+        else if std.length(MembershipIdentifier) < 36 then error ('MembershipIdentifier should have at least 36 characters')
+        else if std.length(MembershipIdentifier) > 36 then error ('MembershipIdentifier should have not more than 36 characters')
+        else MembershipIdentifier,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      InputReferenceConfig:
+        if !std.isObject(InputReferenceConfig) then (error 'InputReferenceConfig must be an object')
+        else if !std.objectHas(InputReferenceConfig, 'InputReferenceArn') then (error ' have attribute InputReferenceArn')
+        else if !std.objectHas(InputReferenceConfig, 'ManageResourcePolicies') then (error ' have attribute ManageResourcePolicies')
+        else InputReferenceConfig,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,122 +31,150 @@
     Metadata:: [],
     Type: 'AWS::CleanRooms::IdMappingTable',
   },
-  withIdMappingTableIdentifier(IdMappingTableIdentifier): {
-    assert std.isString(IdMappingTableIdentifier) : 'IdMappingTableIdentifier must be a string',
+  setIdMappingTableIdentifier(IdMappingTableIdentifier): {
     Properties+::: {
-      IdMappingTableIdentifier: IdMappingTableIdentifier,
+      IdMappingTableIdentifier:
+        if !std.isString(IdMappingTableIdentifier) then (error 'IdMappingTableIdentifier must be a string')
+        else if std.isEmpty(IdMappingTableIdentifier) then (error 'IdMappingTableIdentifier must be not empty')
+        else if std.length(IdMappingTableIdentifier) < 36 then error ('IdMappingTableIdentifier should have at least 36 characters')
+        else if std.length(IdMappingTableIdentifier) > 36 then error ('IdMappingTableIdentifier should have not more than 36 characters')
+        else IdMappingTableIdentifier,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 200 then error ('Arn should have not more than 200 characters')
+        else Arn,
     },
   },
-  withMembershipArn(MembershipArn): {
-    assert std.isString(MembershipArn) : 'MembershipArn must be a string',
+  setMembershipArn(MembershipArn): {
     Properties+::: {
-      MembershipArn: MembershipArn,
+      MembershipArn:
+        if !std.isString(MembershipArn) then (error 'MembershipArn must be a string')
+        else if std.isEmpty(MembershipArn) then (error 'MembershipArn must be not empty')
+        else if std.length(MembershipArn) > 100 then error ('MembershipArn should have not more than 100 characters')
+        else MembershipArn,
     },
   },
-  withCollaborationIdentifier(CollaborationIdentifier): {
-    assert std.isString(CollaborationIdentifier) : 'CollaborationIdentifier must be a string',
+  setCollaborationIdentifier(CollaborationIdentifier): {
     Properties+::: {
-      CollaborationIdentifier: CollaborationIdentifier,
+      CollaborationIdentifier:
+        if !std.isString(CollaborationIdentifier) then (error 'CollaborationIdentifier must be a string')
+        else if std.isEmpty(CollaborationIdentifier) then (error 'CollaborationIdentifier must be not empty')
+        else if std.length(CollaborationIdentifier) < 36 then error ('CollaborationIdentifier should have at least 36 characters')
+        else if std.length(CollaborationIdentifier) > 36 then error ('CollaborationIdentifier should have not more than 36 characters')
+        else CollaborationIdentifier,
     },
   },
-  withCollaborationArn(CollaborationArn): {
-    assert std.isString(CollaborationArn) : 'CollaborationArn must be a string',
+  setCollaborationArn(CollaborationArn): {
     Properties+::: {
-      CollaborationArn: CollaborationArn,
+      CollaborationArn:
+        if !std.isString(CollaborationArn) then (error 'CollaborationArn must be a string')
+        else if std.isEmpty(CollaborationArn) then (error 'CollaborationArn must be not empty')
+        else if std.length(CollaborationArn) > 100 then error ('CollaborationArn should have not more than 100 characters')
+        else CollaborationArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withInputReferenceProperties(InputReferenceProperties): {
-    assert std.isObject(InputReferenceProperties) : 'InputReferenceProperties must be a object',
+  setInputReferenceProperties(InputReferenceProperties): {
     Properties+::: {
-      InputReferenceProperties: InputReferenceProperties,
+      InputReferenceProperties:
+        if !std.isObject(InputReferenceProperties) then (error 'InputReferenceProperties must be an object')
+        else if !std.objectHas(InputReferenceProperties, 'IdMappingTableInputSource') then (error ' have attribute IdMappingTableInputSource')
+        else InputReferenceProperties,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 4 then error ('KmsKeyArn should have at least 4 characters')
+        else if std.length(KmsKeyArn) > 2048 then error ('KmsKeyArn should have not more than 2048 characters')
+        else KmsKeyArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

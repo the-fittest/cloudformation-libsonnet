@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(UserPoolId) : 'UserPoolId must be a string',
-      UserPoolId: UserPoolId,
+      UserPoolId:
+        if !std.isString(UserPoolId) then (error 'UserPoolId must be a string')
+        else if std.isEmpty(UserPoolId) then (error 'UserPoolId must be not empty')
+        else UserPoolId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,240 +17,284 @@
     Metadata:: [],
     Type: 'AWS::Cognito::UserPoolClient',
   },
-  withClientName(ClientName): {
-    assert std.isString(ClientName) : 'ClientName must be a string',
+  setClientName(ClientName): {
     Properties+::: {
-      ClientName: ClientName,
+      ClientName:
+        if !std.isString(ClientName) then (error 'ClientName must be a string')
+        else if std.isEmpty(ClientName) then (error 'ClientName must be not empty')
+        else if std.length(ClientName) < 1 then error ('ClientName should have at least 1 characters')
+        else if std.length(ClientName) > 128 then error ('ClientName should have not more than 128 characters')
+        else ClientName,
     },
   },
-  withExplicitAuthFlows(ExplicitAuthFlows): {
+  setExplicitAuthFlows(ExplicitAuthFlows): {
     Properties+::: {
-      ExplicitAuthFlows: (if std.isArray(ExplicitAuthFlows) then ExplicitAuthFlows else [ExplicitAuthFlows]),
+      ExplicitAuthFlows:
+        if !std.isArray(ExplicitAuthFlows) then (error 'ExplicitAuthFlows must be an array')
+        else ExplicitAuthFlows,
     },
   },
-  withExplicitAuthFlowsMixin(ExplicitAuthFlows): {
+  setExplicitAuthFlowsMixin(ExplicitAuthFlows): {
     Properties+::: {
-      ExplicitAuthFlows+: (if std.isArray(ExplicitAuthFlows) then ExplicitAuthFlows else [ExplicitAuthFlows]),
+      ExplicitAuthFlows+: ExplicitAuthFlows,
     },
   },
-  withGenerateSecret(GenerateSecret): {
-    assert std.isBoolean(GenerateSecret) : 'GenerateSecret must be a boolean',
+  setGenerateSecret(GenerateSecret): {
     Properties+::: {
-      GenerateSecret: GenerateSecret,
+      GenerateSecret:
+        if !std.isBoolean(GenerateSecret) then (error 'GenerateSecret must be a boolean') else GenerateSecret,
     },
   },
-  withReadAttributes(ReadAttributes): {
+  setReadAttributes(ReadAttributes): {
     Properties+::: {
-      ReadAttributes: (if std.isArray(ReadAttributes) then ReadAttributes else [ReadAttributes]),
+      ReadAttributes:
+        if !std.isArray(ReadAttributes) then (error 'ReadAttributes must be an array')
+        else ReadAttributes,
     },
   },
-  withReadAttributesMixin(ReadAttributes): {
+  setReadAttributesMixin(ReadAttributes): {
     Properties+::: {
-      ReadAttributes+: (if std.isArray(ReadAttributes) then ReadAttributes else [ReadAttributes]),
+      ReadAttributes+: ReadAttributes,
     },
   },
-  withAuthSessionValidity(AuthSessionValidity): {
-    assert std.isNumber(AuthSessionValidity) : 'AuthSessionValidity must be a number',
+  setAuthSessionValidity(AuthSessionValidity): {
     Properties+::: {
-      AuthSessionValidity: AuthSessionValidity,
+      AuthSessionValidity:
+        if !std.isNumber(AuthSessionValidity) then (error 'AuthSessionValidity must be an number')
+        else if AuthSessionValidity < 3 then error ('AuthSessionValidity should be at least 3')
+        else if AuthSessionValidity > 15 then error ('AuthSessionValidity should be not more than 15')
+        else AuthSessionValidity,
     },
   },
-  withRefreshTokenValidity(RefreshTokenValidity): {
-    assert std.isNumber(RefreshTokenValidity) : 'RefreshTokenValidity must be a number',
+  setRefreshTokenValidity(RefreshTokenValidity): {
     Properties+::: {
-      RefreshTokenValidity: RefreshTokenValidity,
+      RefreshTokenValidity:
+        if !std.isNumber(RefreshTokenValidity) then (error 'RefreshTokenValidity must be an number')
+        else if RefreshTokenValidity < 1 then error ('RefreshTokenValidity should be at least 1')
+        else if RefreshTokenValidity > 315360000 then error ('RefreshTokenValidity should be not more than 315360000')
+        else RefreshTokenValidity,
     },
   },
-  withAccessTokenValidity(AccessTokenValidity): {
-    assert std.isNumber(AccessTokenValidity) : 'AccessTokenValidity must be a number',
+  setAccessTokenValidity(AccessTokenValidity): {
     Properties+::: {
-      AccessTokenValidity: AccessTokenValidity,
+      AccessTokenValidity:
+        if !std.isNumber(AccessTokenValidity) then (error 'AccessTokenValidity must be an number')
+        else if AccessTokenValidity < 1 then error ('AccessTokenValidity should be at least 1')
+        else if AccessTokenValidity > 86400 then error ('AccessTokenValidity should be not more than 86400')
+        else AccessTokenValidity,
     },
   },
-  withIdTokenValidity(IdTokenValidity): {
-    assert std.isNumber(IdTokenValidity) : 'IdTokenValidity must be a number',
+  setIdTokenValidity(IdTokenValidity): {
     Properties+::: {
-      IdTokenValidity: IdTokenValidity,
+      IdTokenValidity:
+        if !std.isNumber(IdTokenValidity) then (error 'IdTokenValidity must be an number')
+        else if IdTokenValidity < 1 then error ('IdTokenValidity should be at least 1')
+        else if IdTokenValidity > 86400 then error ('IdTokenValidity should be not more than 86400')
+        else IdTokenValidity,
     },
   },
-  withTokenValidityUnits(TokenValidityUnits): {
-    assert std.isObject(TokenValidityUnits) : 'TokenValidityUnits must be a object',
+  setTokenValidityUnits(TokenValidityUnits): {
     Properties+::: {
-      TokenValidityUnits: TokenValidityUnits,
+      TokenValidityUnits:
+        if !std.isObject(TokenValidityUnits) then (error 'TokenValidityUnits must be an object')
+        else TokenValidityUnits,
     },
   },
-  withWriteAttributes(WriteAttributes): {
+  setWriteAttributes(WriteAttributes): {
     Properties+::: {
-      WriteAttributes: (if std.isArray(WriteAttributes) then WriteAttributes else [WriteAttributes]),
+      WriteAttributes:
+        if !std.isArray(WriteAttributes) then (error 'WriteAttributes must be an array')
+        else WriteAttributes,
     },
   },
-  withWriteAttributesMixin(WriteAttributes): {
+  setWriteAttributesMixin(WriteAttributes): {
     Properties+::: {
-      WriteAttributes+: (if std.isArray(WriteAttributes) then WriteAttributes else [WriteAttributes]),
+      WriteAttributes+: WriteAttributes,
     },
   },
-  withAllowedOAuthFlows(AllowedOAuthFlows): {
+  setAllowedOAuthFlows(AllowedOAuthFlows): {
     Properties+::: {
-      AllowedOAuthFlows: (if std.isArray(AllowedOAuthFlows) then AllowedOAuthFlows else [AllowedOAuthFlows]),
+      AllowedOAuthFlows:
+        if !std.isArray(AllowedOAuthFlows) then (error 'AllowedOAuthFlows must be an array')
+        else AllowedOAuthFlows,
     },
   },
-  withAllowedOAuthFlowsMixin(AllowedOAuthFlows): {
+  setAllowedOAuthFlowsMixin(AllowedOAuthFlows): {
     Properties+::: {
-      AllowedOAuthFlows+: (if std.isArray(AllowedOAuthFlows) then AllowedOAuthFlows else [AllowedOAuthFlows]),
+      AllowedOAuthFlows+: AllowedOAuthFlows,
     },
   },
-  withAllowedOAuthFlowsUserPoolClient(AllowedOAuthFlowsUserPoolClient): {
-    assert std.isBoolean(AllowedOAuthFlowsUserPoolClient) : 'AllowedOAuthFlowsUserPoolClient must be a boolean',
+  setAllowedOAuthFlowsUserPoolClient(AllowedOAuthFlowsUserPoolClient): {
     Properties+::: {
-      AllowedOAuthFlowsUserPoolClient: AllowedOAuthFlowsUserPoolClient,
+      AllowedOAuthFlowsUserPoolClient:
+        if !std.isBoolean(AllowedOAuthFlowsUserPoolClient) then (error 'AllowedOAuthFlowsUserPoolClient must be a boolean') else AllowedOAuthFlowsUserPoolClient,
     },
   },
-  withAllowedOAuthScopes(AllowedOAuthScopes): {
+  setAllowedOAuthScopes(AllowedOAuthScopes): {
     Properties+::: {
-      AllowedOAuthScopes: (if std.isArray(AllowedOAuthScopes) then AllowedOAuthScopes else [AllowedOAuthScopes]),
+      AllowedOAuthScopes:
+        if !std.isArray(AllowedOAuthScopes) then (error 'AllowedOAuthScopes must be an array')
+        else AllowedOAuthScopes,
     },
   },
-  withAllowedOAuthScopesMixin(AllowedOAuthScopes): {
+  setAllowedOAuthScopesMixin(AllowedOAuthScopes): {
     Properties+::: {
-      AllowedOAuthScopes+: (if std.isArray(AllowedOAuthScopes) then AllowedOAuthScopes else [AllowedOAuthScopes]),
+      AllowedOAuthScopes+: AllowedOAuthScopes,
     },
   },
-  withCallbackURLs(CallbackURLs): {
+  setCallbackURLs(CallbackURLs): {
     Properties+::: {
-      CallbackURLs: (if std.isArray(CallbackURLs) then CallbackURLs else [CallbackURLs]),
+      CallbackURLs:
+        if !std.isArray(CallbackURLs) then (error 'CallbackURLs must be an array')
+        else CallbackURLs,
     },
   },
-  withCallbackURLsMixin(CallbackURLs): {
+  setCallbackURLsMixin(CallbackURLs): {
     Properties+::: {
-      CallbackURLs+: (if std.isArray(CallbackURLs) then CallbackURLs else [CallbackURLs]),
+      CallbackURLs+: CallbackURLs,
     },
   },
-  withDefaultRedirectURI(DefaultRedirectURI): {
-    assert std.isString(DefaultRedirectURI) : 'DefaultRedirectURI must be a string',
+  setDefaultRedirectURI(DefaultRedirectURI): {
     Properties+::: {
-      DefaultRedirectURI: DefaultRedirectURI,
+      DefaultRedirectURI:
+        if !std.isString(DefaultRedirectURI) then (error 'DefaultRedirectURI must be a string')
+        else if std.isEmpty(DefaultRedirectURI) then (error 'DefaultRedirectURI must be not empty')
+        else DefaultRedirectURI,
     },
   },
-  withLogoutURLs(LogoutURLs): {
+  setLogoutURLs(LogoutURLs): {
     Properties+::: {
-      LogoutURLs: (if std.isArray(LogoutURLs) then LogoutURLs else [LogoutURLs]),
+      LogoutURLs:
+        if !std.isArray(LogoutURLs) then (error 'LogoutURLs must be an array')
+        else LogoutURLs,
     },
   },
-  withLogoutURLsMixin(LogoutURLs): {
+  setLogoutURLsMixin(LogoutURLs): {
     Properties+::: {
-      LogoutURLs+: (if std.isArray(LogoutURLs) then LogoutURLs else [LogoutURLs]),
+      LogoutURLs+: LogoutURLs,
     },
   },
-  withSupportedIdentityProviders(SupportedIdentityProviders): {
+  setSupportedIdentityProviders(SupportedIdentityProviders): {
     Properties+::: {
-      SupportedIdentityProviders: (if std.isArray(SupportedIdentityProviders) then SupportedIdentityProviders else [SupportedIdentityProviders]),
+      SupportedIdentityProviders:
+        if !std.isArray(SupportedIdentityProviders) then (error 'SupportedIdentityProviders must be an array')
+        else SupportedIdentityProviders,
     },
   },
-  withSupportedIdentityProvidersMixin(SupportedIdentityProviders): {
+  setSupportedIdentityProvidersMixin(SupportedIdentityProviders): {
     Properties+::: {
-      SupportedIdentityProviders+: (if std.isArray(SupportedIdentityProviders) then SupportedIdentityProviders else [SupportedIdentityProviders]),
+      SupportedIdentityProviders+: SupportedIdentityProviders,
     },
   },
-  withAnalyticsConfiguration(AnalyticsConfiguration): {
-    assert std.isObject(AnalyticsConfiguration) : 'AnalyticsConfiguration must be a object',
+  setAnalyticsConfiguration(AnalyticsConfiguration): {
     Properties+::: {
-      AnalyticsConfiguration: AnalyticsConfiguration,
+      AnalyticsConfiguration:
+        if !std.isObject(AnalyticsConfiguration) then (error 'AnalyticsConfiguration must be an object')
+        else AnalyticsConfiguration,
     },
   },
-  withPreventUserExistenceErrors(PreventUserExistenceErrors): {
-    assert std.isString(PreventUserExistenceErrors) : 'PreventUserExistenceErrors must be a string',
+  setPreventUserExistenceErrors(PreventUserExistenceErrors): {
     Properties+::: {
-      PreventUserExistenceErrors: PreventUserExistenceErrors,
+      PreventUserExistenceErrors:
+        if !std.isString(PreventUserExistenceErrors) then (error 'PreventUserExistenceErrors must be a string')
+        else if std.isEmpty(PreventUserExistenceErrors) then (error 'PreventUserExistenceErrors must be not empty')
+        else PreventUserExistenceErrors,
     },
   },
-  withEnableTokenRevocation(EnableTokenRevocation): {
-    assert std.isBoolean(EnableTokenRevocation) : 'EnableTokenRevocation must be a boolean',
+  setEnableTokenRevocation(EnableTokenRevocation): {
     Properties+::: {
-      EnableTokenRevocation: EnableTokenRevocation,
+      EnableTokenRevocation:
+        if !std.isBoolean(EnableTokenRevocation) then (error 'EnableTokenRevocation must be a boolean') else EnableTokenRevocation,
     },
   },
-  withEnablePropagateAdditionalUserContextData(EnablePropagateAdditionalUserContextData): {
-    assert std.isBoolean(EnablePropagateAdditionalUserContextData) : 'EnablePropagateAdditionalUserContextData must be a boolean',
+  setEnablePropagateAdditionalUserContextData(EnablePropagateAdditionalUserContextData): {
     Properties+::: {
-      EnablePropagateAdditionalUserContextData: EnablePropagateAdditionalUserContextData,
+      EnablePropagateAdditionalUserContextData:
+        if !std.isBoolean(EnablePropagateAdditionalUserContextData) then (error 'EnablePropagateAdditionalUserContextData must be a boolean') else EnablePropagateAdditionalUserContextData,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withClientSecret(ClientSecret): {
-    assert std.isString(ClientSecret) : 'ClientSecret must be a string',
+  setClientSecret(ClientSecret): {
     Properties+::: {
-      ClientSecret: ClientSecret,
+      ClientSecret:
+        if !std.isString(ClientSecret) then (error 'ClientSecret must be a string')
+        else if std.isEmpty(ClientSecret) then (error 'ClientSecret must be not empty')
+        else ClientSecret,
     },
   },
-  withClientId(ClientId): {
-    assert std.isString(ClientId) : 'ClientId must be a string',
+  setClientId(ClientId): {
     Properties+::: {
-      ClientId: ClientId,
+      ClientId:
+        if !std.isString(ClientId) then (error 'ClientId must be a string')
+        else if std.isEmpty(ClientId) then (error 'ClientId must be not empty')
+        else ClientId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

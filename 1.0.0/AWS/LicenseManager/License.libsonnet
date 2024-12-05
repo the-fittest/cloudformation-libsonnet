@@ -10,19 +10,33 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(LicenseName) : 'LicenseName must be a string',
-      LicenseName: LicenseName,
-      assert std.isString(ProductName) : 'ProductName must be a string',
-      ProductName: ProductName,
-      assert std.isObject(Issuer) : 'Issuer must be an object',
-      Issuer: Issuer,
-      assert std.isString(HomeRegion) : 'HomeRegion must be a string',
-      HomeRegion: HomeRegion,
-      assert std.isObject(Validity) : 'Validity must be an object',
-      Validity: Validity,
-      assert std.isObject(ConsumptionConfiguration) : 'ConsumptionConfiguration must be an object',
-      ConsumptionConfiguration: ConsumptionConfiguration,
-      Entitlements: (if std.isArray(Entitlements) then Entitlements else [Entitlements]),
+      LicenseName:
+        if !std.isString(LicenseName) then (error 'LicenseName must be a string')
+        else if std.isEmpty(LicenseName) then (error 'LicenseName must be not empty')
+        else LicenseName,
+      ProductName:
+        if !std.isString(ProductName) then (error 'ProductName must be a string')
+        else if std.isEmpty(ProductName) then (error 'ProductName must be not empty')
+        else ProductName,
+      Issuer:
+        if !std.isObject(Issuer) then (error 'Issuer must be an object')
+        else if !std.objectHas(Issuer, 'Name') then (error ' have attribute Name')
+        else Issuer,
+      HomeRegion:
+        if !std.isString(HomeRegion) then (error 'HomeRegion must be a string')
+        else if std.isEmpty(HomeRegion) then (error 'HomeRegion must be not empty')
+        else HomeRegion,
+      Validity:
+        if !std.isObject(Validity) then (error 'Validity must be an object')
+        else if !std.objectHas(Validity, 'Begin') then (error ' have attribute Begin')
+        else if !std.objectHas(Validity, 'End') then (error ' have attribute End')
+        else Validity,
+      ConsumptionConfiguration:
+        if !std.isObject(ConsumptionConfiguration) then (error 'ConsumptionConfiguration must be an object')
+        else ConsumptionConfiguration,
+      Entitlements:
+        if !std.isArray(Entitlements) then (error 'Entitlements must be an array')
+        else Entitlements,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -32,104 +46,119 @@
     Metadata:: [],
     Type: 'AWS::LicenseManager::License',
   },
-  withProductSKU(ProductSKU): {
-    assert std.isString(ProductSKU) : 'ProductSKU must be a string',
+  setProductSKU(ProductSKU): {
     Properties+::: {
-      ProductSKU: ProductSKU,
+      ProductSKU:
+        if !std.isString(ProductSKU) then (error 'ProductSKU must be a string')
+        else if std.isEmpty(ProductSKU) then (error 'ProductSKU must be not empty')
+        else if std.length(ProductSKU) < 1 then error ('ProductSKU should have at least 1 characters')
+        else if std.length(ProductSKU) > 1024 then error ('ProductSKU should have not more than 1024 characters')
+        else ProductSKU,
     },
   },
-  withBeneficiary(Beneficiary): {
-    assert std.isString(Beneficiary) : 'Beneficiary must be a string',
+  setBeneficiary(Beneficiary): {
     Properties+::: {
-      Beneficiary: Beneficiary,
+      Beneficiary:
+        if !std.isString(Beneficiary) then (error 'Beneficiary must be a string')
+        else if std.isEmpty(Beneficiary) then (error 'Beneficiary must be not empty')
+        else Beneficiary,
     },
   },
-  withLicenseMetadata(LicenseMetadata): {
+  setLicenseMetadata(LicenseMetadata): {
     Properties+::: {
-      LicenseMetadata: (if std.isArray(LicenseMetadata) then LicenseMetadata else [LicenseMetadata]),
+      LicenseMetadata:
+        if !std.isArray(LicenseMetadata) then (error 'LicenseMetadata must be an array')
+        else LicenseMetadata,
     },
   },
-  withLicenseMetadataMixin(LicenseMetadata): {
+  setLicenseMetadataMixin(LicenseMetadata): {
     Properties+::: {
-      LicenseMetadata+: (if std.isArray(LicenseMetadata) then LicenseMetadata else [LicenseMetadata]),
+      LicenseMetadata+: LicenseMetadata,
     },
   },
-  withLicenseArn(LicenseArn): {
-    assert std.isString(LicenseArn) : 'LicenseArn must be a string',
+  setLicenseArn(LicenseArn): {
     Properties+::: {
-      LicenseArn: LicenseArn,
+      LicenseArn:
+        if !std.isString(LicenseArn) then (error 'LicenseArn must be a string')
+        else if std.isEmpty(LicenseArn) then (error 'LicenseArn must be not empty')
+        else if std.length(LicenseArn) > 2048 then error ('LicenseArn should have not more than 2048 characters')
+        else LicenseArn,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

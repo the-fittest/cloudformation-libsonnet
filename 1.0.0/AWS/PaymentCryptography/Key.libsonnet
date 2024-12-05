@@ -5,10 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(Exportable) : 'Exportable must be a boolean',
-      Exportable: Exportable,
-      assert std.isObject(KeyAttributes) : 'KeyAttributes must be an object',
-      KeyAttributes: KeyAttributes,
+      Exportable:
+        if !std.isBoolean(Exportable) then (error 'Exportable must be a boolean') else Exportable,
+      KeyAttributes:
+        if !std.isObject(KeyAttributes) then (error 'KeyAttributes must be an object')
+        else if !std.objectHas(KeyAttributes, 'KeyAlgorithm') then (error ' have attribute KeyAlgorithm')
+        else if !std.objectHas(KeyAttributes, 'KeyClass') then (error ' have attribute KeyClass')
+        else if !std.objectHas(KeyAttributes, 'KeyModesOfUse') then (error ' have attribute KeyModesOfUse')
+        else if !std.objectHas(KeyAttributes, 'KeyUsage') then (error ' have attribute KeyUsage')
+        else KeyAttributes,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,107 +23,120 @@
     Metadata:: [],
     Type: 'AWS::PaymentCryptography::Key',
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withKeyCheckValueAlgorithm(KeyCheckValueAlgorithm): {
-    assert std.isString(KeyCheckValueAlgorithm) : 'KeyCheckValueAlgorithm must be a string',
-    assert KeyCheckValueAlgorithm == 'CMAC' || KeyCheckValueAlgorithm == 'ANSI_X9_24' : "KeyCheckValueAlgorithm should be 'CMAC' or 'ANSI_X9_24'",
+  setKeyCheckValueAlgorithm(KeyCheckValueAlgorithm): {
     Properties+::: {
-      KeyCheckValueAlgorithm: KeyCheckValueAlgorithm,
+      KeyCheckValueAlgorithm:
+        if !std.isString(KeyCheckValueAlgorithm) then (error 'KeyCheckValueAlgorithm must be a string')
+        else if std.isEmpty(KeyCheckValueAlgorithm) then (error 'KeyCheckValueAlgorithm must be not empty')
+        else if KeyCheckValueAlgorithm != 'CMAC' && KeyCheckValueAlgorithm != 'ANSI_X9_24' then (error "KeyCheckValueAlgorithm should be 'CMAC' or 'ANSI_X9_24'")
+        else KeyCheckValueAlgorithm,
     },
   },
-  withKeyIdentifier(KeyIdentifier): {
-    assert std.isString(KeyIdentifier) : 'KeyIdentifier must be a string',
+  setKeyIdentifier(KeyIdentifier): {
     Properties+::: {
-      KeyIdentifier: KeyIdentifier,
+      KeyIdentifier:
+        if !std.isString(KeyIdentifier) then (error 'KeyIdentifier must be a string')
+        else if std.isEmpty(KeyIdentifier) then (error 'KeyIdentifier must be not empty')
+        else if std.length(KeyIdentifier) < 7 then error ('KeyIdentifier should have at least 7 characters')
+        else if std.length(KeyIdentifier) > 322 then error ('KeyIdentifier should have not more than 322 characters')
+        else KeyIdentifier,
     },
   },
-  withKeyOrigin(KeyOrigin): {
-    assert std.isString(KeyOrigin) : 'KeyOrigin must be a string',
-    assert KeyOrigin == 'EXTERNAL' || KeyOrigin == 'AWS_PAYMENT_CRYPTOGRAPHY' : "KeyOrigin should be 'EXTERNAL' or 'AWS_PAYMENT_CRYPTOGRAPHY'",
+  setKeyOrigin(KeyOrigin): {
     Properties+::: {
-      KeyOrigin: KeyOrigin,
+      KeyOrigin:
+        if !std.isString(KeyOrigin) then (error 'KeyOrigin must be a string')
+        else if std.isEmpty(KeyOrigin) then (error 'KeyOrigin must be not empty')
+        else if KeyOrigin != 'EXTERNAL' && KeyOrigin != 'AWS_PAYMENT_CRYPTOGRAPHY' then (error "KeyOrigin should be 'EXTERNAL' or 'AWS_PAYMENT_CRYPTOGRAPHY'")
+        else KeyOrigin,
     },
   },
-  withKeyState(KeyState): {
-    assert std.isString(KeyState) : 'KeyState must be a string',
-    assert KeyState == 'CREATE_IN_PROGRESS' || KeyState == 'CREATE_COMPLETE' || KeyState == 'DELETE_PENDING' || KeyState == 'DELETE_COMPLETE' : "KeyState should be 'CREATE_IN_PROGRESS' or 'CREATE_COMPLETE' or 'DELETE_PENDING' or 'DELETE_COMPLETE'",
+  setKeyState(KeyState): {
     Properties+::: {
-      KeyState: KeyState,
+      KeyState:
+        if !std.isString(KeyState) then (error 'KeyState must be a string')
+        else if std.isEmpty(KeyState) then (error 'KeyState must be not empty')
+        else if KeyState != 'CREATE_IN_PROGRESS' && KeyState != 'CREATE_COMPLETE' && KeyState != 'DELETE_PENDING' && KeyState != 'DELETE_COMPLETE' then (error "KeyState should be 'CREATE_IN_PROGRESS' or 'CREATE_COMPLETE' or 'DELETE_PENDING' or 'DELETE_COMPLETE'")
+        else KeyState,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

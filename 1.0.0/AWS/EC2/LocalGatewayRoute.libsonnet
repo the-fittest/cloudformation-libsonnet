@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,100 +10,112 @@
     Metadata:: [],
     Type: 'AWS::EC2::LocalGatewayRoute',
   },
-  withDestinationCidrBlock(DestinationCidrBlock): {
-    assert std.isString(DestinationCidrBlock) : 'DestinationCidrBlock must be a string',
+  setDestinationCidrBlock(DestinationCidrBlock): {
     Properties+::: {
-      DestinationCidrBlock: DestinationCidrBlock,
+      DestinationCidrBlock:
+        if !std.isString(DestinationCidrBlock) then (error 'DestinationCidrBlock must be a string')
+        else if std.isEmpty(DestinationCidrBlock) then (error 'DestinationCidrBlock must be not empty')
+        else DestinationCidrBlock,
     },
   },
-  withLocalGatewayRouteTableId(LocalGatewayRouteTableId): {
-    assert std.isString(LocalGatewayRouteTableId) : 'LocalGatewayRouteTableId must be a string',
+  setLocalGatewayRouteTableId(LocalGatewayRouteTableId): {
     Properties+::: {
-      LocalGatewayRouteTableId: LocalGatewayRouteTableId,
+      LocalGatewayRouteTableId:
+        if !std.isString(LocalGatewayRouteTableId) then (error 'LocalGatewayRouteTableId must be a string')
+        else if std.isEmpty(LocalGatewayRouteTableId) then (error 'LocalGatewayRouteTableId must be not empty')
+        else LocalGatewayRouteTableId,
     },
   },
-  withLocalGatewayVirtualInterfaceGroupId(LocalGatewayVirtualInterfaceGroupId): {
-    assert std.isString(LocalGatewayVirtualInterfaceGroupId) : 'LocalGatewayVirtualInterfaceGroupId must be a string',
+  setLocalGatewayVirtualInterfaceGroupId(LocalGatewayVirtualInterfaceGroupId): {
     Properties+::: {
-      LocalGatewayVirtualInterfaceGroupId: LocalGatewayVirtualInterfaceGroupId,
+      LocalGatewayVirtualInterfaceGroupId:
+        if !std.isString(LocalGatewayVirtualInterfaceGroupId) then (error 'LocalGatewayVirtualInterfaceGroupId must be a string')
+        else if std.isEmpty(LocalGatewayVirtualInterfaceGroupId) then (error 'LocalGatewayVirtualInterfaceGroupId must be not empty')
+        else LocalGatewayVirtualInterfaceGroupId,
     },
   },
-  withNetworkInterfaceId(NetworkInterfaceId): {
-    assert std.isString(NetworkInterfaceId) : 'NetworkInterfaceId must be a string',
+  setNetworkInterfaceId(NetworkInterfaceId): {
     Properties+::: {
-      NetworkInterfaceId: NetworkInterfaceId,
+      NetworkInterfaceId:
+        if !std.isString(NetworkInterfaceId) then (error 'NetworkInterfaceId must be a string')
+        else if std.isEmpty(NetworkInterfaceId) then (error 'NetworkInterfaceId must be not empty')
+        else NetworkInterfaceId,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

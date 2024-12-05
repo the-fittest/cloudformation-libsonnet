@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IamUserArn) : 'IamUserArn must be a string',
-      IamUserArn: IamUserArn,
+      IamUserArn:
+        if !std.isString(IamUserArn) then (error 'IamUserArn must be a string')
+        else if std.isEmpty(IamUserArn) then (error 'IamUserArn must be not empty')
+        else IamUserArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +17,94 @@
     Metadata:: [],
     Type: 'AWS::OpsWorks::UserProfile',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withSshUsername(SshUsername): {
-    assert std.isString(SshUsername) : 'SshUsername must be a string',
+  setSshUsername(SshUsername): {
     Properties+::: {
-      SshUsername: SshUsername,
+      SshUsername:
+        if !std.isString(SshUsername) then (error 'SshUsername must be a string')
+        else if std.isEmpty(SshUsername) then (error 'SshUsername must be not empty')
+        else SshUsername,
     },
   },
-  withAllowSelfManagement(AllowSelfManagement): {
-    assert std.isBoolean(AllowSelfManagement) : 'AllowSelfManagement must be a boolean',
+  setAllowSelfManagement(AllowSelfManagement): {
     Properties+::: {
-      AllowSelfManagement: AllowSelfManagement,
+      AllowSelfManagement:
+        if !std.isBoolean(AllowSelfManagement) then (error 'AllowSelfManagement must be a boolean') else AllowSelfManagement,
     },
   },
-  withSshPublicKey(SshPublicKey): {
-    assert std.isString(SshPublicKey) : 'SshPublicKey must be a string',
+  setSshPublicKey(SshPublicKey): {
     Properties+::: {
-      SshPublicKey: SshPublicKey,
+      SshPublicKey:
+        if !std.isString(SshPublicKey) then (error 'SshPublicKey must be a string')
+        else if std.isEmpty(SshPublicKey) then (error 'SshPublicKey must be not empty')
+        else SshPublicKey,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

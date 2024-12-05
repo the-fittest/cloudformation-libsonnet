@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,104 +10,124 @@
     Metadata:: [],
     Type: 'AWS::XRay::SamplingRule',
   },
-  withSamplingRule(SamplingRule): {
-    assert std.isObject(SamplingRule) : 'SamplingRule must be a object',
+  setSamplingRule(SamplingRule): {
     Properties+::: {
-      SamplingRule: SamplingRule,
+      SamplingRule:
+        if !std.isObject(SamplingRule) then (error 'SamplingRule must be an object')
+        else if !std.objectHas(SamplingRule, 'FixedRate') then (error ' have attribute FixedRate')
+        else if !std.objectHas(SamplingRule, 'Host') then (error ' have attribute Host')
+        else if !std.objectHas(SamplingRule, 'HTTPMethod') then (error ' have attribute HTTPMethod')
+        else if !std.objectHas(SamplingRule, 'Priority') then (error ' have attribute Priority')
+        else if !std.objectHas(SamplingRule, 'ReservoirSize') then (error ' have attribute ReservoirSize')
+        else if !std.objectHas(SamplingRule, 'ResourceARN') then (error ' have attribute ResourceARN')
+        else if !std.objectHas(SamplingRule, 'ServiceName') then (error ' have attribute ServiceName')
+        else if !std.objectHas(SamplingRule, 'ServiceType') then (error ' have attribute ServiceType')
+        else if !std.objectHas(SamplingRule, 'URLPath') then (error ' have attribute URLPath')
+        else SamplingRule,
     },
   },
-  withSamplingRuleRecord(SamplingRuleRecord): {
-    assert std.isObject(SamplingRuleRecord) : 'SamplingRuleRecord must be a object',
+  setSamplingRuleRecord(SamplingRuleRecord): {
     Properties+::: {
-      SamplingRuleRecord: SamplingRuleRecord,
+      SamplingRuleRecord:
+        if !std.isObject(SamplingRuleRecord) then (error 'SamplingRuleRecord must be an object')
+        else SamplingRuleRecord,
     },
   },
-  withSamplingRuleUpdate(SamplingRuleUpdate): {
-    assert std.isObject(SamplingRuleUpdate) : 'SamplingRuleUpdate must be a object',
+  setSamplingRuleUpdate(SamplingRuleUpdate): {
     Properties+::: {
-      SamplingRuleUpdate: SamplingRuleUpdate,
+      SamplingRuleUpdate:
+        if !std.isObject(SamplingRuleUpdate) then (error 'SamplingRuleUpdate must be an object')
+        else SamplingRuleUpdate,
     },
   },
-  withRuleARN(RuleARN): {
-    assert std.isString(RuleARN) : 'RuleARN must be a string',
+  setRuleARN(RuleARN): {
     Properties+::: {
-      RuleARN: RuleARN,
+      RuleARN:
+        if !std.isString(RuleARN) then (error 'RuleARN must be a string')
+        else if std.isEmpty(RuleARN) then (error 'RuleARN must be not empty')
+        else RuleARN,
     },
   },
-  withRuleName(RuleName): {
-    assert std.isString(RuleName) : 'RuleName must be a string',
+  setRuleName(RuleName): {
     Properties+::: {
-      RuleName: RuleName,
+      RuleName:
+        if !std.isString(RuleName) then (error 'RuleName must be a string')
+        else if std.isEmpty(RuleName) then (error 'RuleName must be not empty')
+        else if std.length(RuleName) < 1 then error ('RuleName should have at least 1 characters')
+        else if std.length(RuleName) > 32 then error ('RuleName should have not more than 32 characters')
+        else RuleName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

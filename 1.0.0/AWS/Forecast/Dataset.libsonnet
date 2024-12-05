@@ -7,16 +7,25 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DatasetName) : 'DatasetName must be a string',
-      DatasetName: DatasetName,
-      assert std.isString(DatasetType) : 'DatasetType must be a string',
-      assert DatasetType == 'TARGET_TIME_SERIES' || DatasetType == 'RELATED_TIME_SERIES' || DatasetType == 'ITEM_METADATA' : "DatasetType should be 'TARGET_TIME_SERIES' or 'RELATED_TIME_SERIES' or 'ITEM_METADATA'",
-      DatasetType: DatasetType,
-      assert std.isString(Domain) : 'Domain must be a string',
-      assert Domain == 'RETAIL' || Domain == 'CUSTOM' || Domain == 'INVENTORY_PLANNING' || Domain == 'EC2_CAPACITY' || Domain == 'WORK_FORCE' || Domain == 'WEB_TRAFFIC' || Domain == 'METRICS' : "Domain should be 'RETAIL' or 'CUSTOM' or 'INVENTORY_PLANNING' or 'EC2_CAPACITY' or 'WORK_FORCE' or 'WEB_TRAFFIC' or 'METRICS'",
-      Domain: Domain,
-      assert std.isObject(Schema) : 'Schema must be an object',
-      Schema: Schema,
+      DatasetName:
+        if !std.isString(DatasetName) then (error 'DatasetName must be a string')
+        else if std.isEmpty(DatasetName) then (error 'DatasetName must be not empty')
+        else if std.length(DatasetName) < 1 then error ('DatasetName should have at least 1 characters')
+        else if std.length(DatasetName) > 63 then error ('DatasetName should have not more than 63 characters')
+        else DatasetName,
+      DatasetType:
+        if !std.isString(DatasetType) then (error 'DatasetType must be a string')
+        else if std.isEmpty(DatasetType) then (error 'DatasetType must be not empty')
+        else if DatasetType != 'TARGET_TIME_SERIES' && DatasetType != 'RELATED_TIME_SERIES' && DatasetType != 'ITEM_METADATA' then (error "DatasetType should be 'TARGET_TIME_SERIES' or 'RELATED_TIME_SERIES' or 'ITEM_METADATA'")
+        else DatasetType,
+      Domain:
+        if !std.isString(Domain) then (error 'Domain must be a string')
+        else if std.isEmpty(Domain) then (error 'Domain must be not empty')
+        else if Domain != 'RETAIL' && Domain != 'CUSTOM' && Domain != 'INVENTORY_PLANNING' && Domain != 'EC2_CAPACITY' && Domain != 'WORK_FORCE' && Domain != 'WEB_TRAFFIC' && Domain != 'METRICS' then (error "Domain should be 'RETAIL' or 'CUSTOM' or 'INVENTORY_PLANNING' or 'EC2_CAPACITY' or 'WORK_FORCE' or 'WEB_TRAFFIC' or 'METRICS'")
+        else Domain,
+      Schema:
+        if !std.isObject(Schema) then (error 'Schema must be an object')
+        else Schema,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -26,92 +35,101 @@
     Metadata:: [],
     Type: 'AWS::Forecast::Dataset',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withDataFrequency(DataFrequency): {
-    assert std.isString(DataFrequency) : 'DataFrequency must be a string',
+  setDataFrequency(DataFrequency): {
     Properties+::: {
-      DataFrequency: DataFrequency,
+      DataFrequency:
+        if !std.isString(DataFrequency) then (error 'DataFrequency must be a string')
+        else if std.isEmpty(DataFrequency) then (error 'DataFrequency must be not empty')
+        else DataFrequency,
     },
   },
-  withEncryptionConfig(EncryptionConfig): {
-    assert std.isObject(EncryptionConfig) : 'EncryptionConfig must be a object',
+  setEncryptionConfig(EncryptionConfig): {
     Properties+::: {
-      EncryptionConfig: EncryptionConfig,
+      EncryptionConfig:
+        if !std.isObject(EncryptionConfig) then (error 'EncryptionConfig must be an object')
+        else EncryptionConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

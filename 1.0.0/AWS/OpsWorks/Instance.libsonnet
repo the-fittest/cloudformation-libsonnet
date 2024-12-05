@@ -6,11 +6,17 @@
   ): {
     local base = self,
     Properties: {
-      LayerIds: (if std.isArray(LayerIds) then LayerIds else [LayerIds]),
-      assert std.isString(InstanceType) : 'InstanceType must be a string',
-      InstanceType: InstanceType,
-      assert std.isString(StackId) : 'StackId must be a string',
-      StackId: StackId,
+      LayerIds:
+        if !std.isArray(LayerIds) then (error 'LayerIds must be an array')
+        else LayerIds,
+      InstanceType:
+        if !std.isString(InstanceType) then (error 'InstanceType must be a string')
+        else if std.isEmpty(InstanceType) then (error 'InstanceType must be not empty')
+        else InstanceType,
+      StackId:
+        if !std.isString(StackId) then (error 'StackId must be a string')
+        else if std.isEmpty(StackId) then (error 'StackId must be not empty')
+        else StackId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,214 +26,255 @@
     Metadata:: [],
     Type: 'AWS::OpsWorks::Instance',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withPrivateDnsName(PrivateDnsName): {
-    assert std.isString(PrivateDnsName) : 'PrivateDnsName must be a string',
+  setPrivateDnsName(PrivateDnsName): {
     Properties+::: {
-      PrivateDnsName: PrivateDnsName,
+      PrivateDnsName:
+        if !std.isString(PrivateDnsName) then (error 'PrivateDnsName must be a string')
+        else if std.isEmpty(PrivateDnsName) then (error 'PrivateDnsName must be not empty')
+        else PrivateDnsName,
     },
   },
-  withPrivateIp(PrivateIp): {
-    assert std.isString(PrivateIp) : 'PrivateIp must be a string',
+  setPrivateIp(PrivateIp): {
     Properties+::: {
-      PrivateIp: PrivateIp,
+      PrivateIp:
+        if !std.isString(PrivateIp) then (error 'PrivateIp must be a string')
+        else if std.isEmpty(PrivateIp) then (error 'PrivateIp must be not empty')
+        else PrivateIp,
     },
   },
-  withPublicDnsName(PublicDnsName): {
-    assert std.isString(PublicDnsName) : 'PublicDnsName must be a string',
+  setPublicDnsName(PublicDnsName): {
     Properties+::: {
-      PublicDnsName: PublicDnsName,
+      PublicDnsName:
+        if !std.isString(PublicDnsName) then (error 'PublicDnsName must be a string')
+        else if std.isEmpty(PublicDnsName) then (error 'PublicDnsName must be not empty')
+        else PublicDnsName,
     },
   },
-  withPublicIp(PublicIp): {
-    assert std.isString(PublicIp) : 'PublicIp must be a string',
+  setPublicIp(PublicIp): {
     Properties+::: {
-      PublicIp: PublicIp,
+      PublicIp:
+        if !std.isString(PublicIp) then (error 'PublicIp must be a string')
+        else if std.isEmpty(PublicIp) then (error 'PublicIp must be not empty')
+        else PublicIp,
     },
   },
-  withAgentVersion(AgentVersion): {
-    assert std.isString(AgentVersion) : 'AgentVersion must be a string',
+  setAgentVersion(AgentVersion): {
     Properties+::: {
-      AgentVersion: AgentVersion,
+      AgentVersion:
+        if !std.isString(AgentVersion) then (error 'AgentVersion must be a string')
+        else if std.isEmpty(AgentVersion) then (error 'AgentVersion must be not empty')
+        else AgentVersion,
     },
   },
-  withAmiId(AmiId): {
-    assert std.isString(AmiId) : 'AmiId must be a string',
+  setAmiId(AmiId): {
     Properties+::: {
-      AmiId: AmiId,
+      AmiId:
+        if !std.isString(AmiId) then (error 'AmiId must be a string')
+        else if std.isEmpty(AmiId) then (error 'AmiId must be not empty')
+        else AmiId,
     },
   },
-  withArchitecture(Architecture): {
-    assert std.isString(Architecture) : 'Architecture must be a string',
+  setArchitecture(Architecture): {
     Properties+::: {
-      Architecture: Architecture,
+      Architecture:
+        if !std.isString(Architecture) then (error 'Architecture must be a string')
+        else if std.isEmpty(Architecture) then (error 'Architecture must be not empty')
+        else Architecture,
     },
   },
-  withAutoScalingType(AutoScalingType): {
-    assert std.isString(AutoScalingType) : 'AutoScalingType must be a string',
+  setAutoScalingType(AutoScalingType): {
     Properties+::: {
-      AutoScalingType: AutoScalingType,
+      AutoScalingType:
+        if !std.isString(AutoScalingType) then (error 'AutoScalingType must be a string')
+        else if std.isEmpty(AutoScalingType) then (error 'AutoScalingType must be not empty')
+        else AutoScalingType,
     },
   },
-  withBlockDeviceMappings(BlockDeviceMappings): {
+  setBlockDeviceMappings(BlockDeviceMappings): {
     Properties+::: {
-      BlockDeviceMappings: (if std.isArray(BlockDeviceMappings) then BlockDeviceMappings else [BlockDeviceMappings]),
+      BlockDeviceMappings:
+        if !std.isArray(BlockDeviceMappings) then (error 'BlockDeviceMappings must be an array')
+        else BlockDeviceMappings,
     },
   },
-  withBlockDeviceMappingsMixin(BlockDeviceMappings): {
+  setBlockDeviceMappingsMixin(BlockDeviceMappings): {
     Properties+::: {
-      BlockDeviceMappings+: (if std.isArray(BlockDeviceMappings) then BlockDeviceMappings else [BlockDeviceMappings]),
+      BlockDeviceMappings+: BlockDeviceMappings,
     },
   },
-  withEbsOptimized(EbsOptimized): {
-    assert std.isBoolean(EbsOptimized) : 'EbsOptimized must be a boolean',
+  setEbsOptimized(EbsOptimized): {
     Properties+::: {
-      EbsOptimized: EbsOptimized,
+      EbsOptimized:
+        if !std.isBoolean(EbsOptimized) then (error 'EbsOptimized must be a boolean') else EbsOptimized,
     },
   },
-  withElasticIps(ElasticIps): {
+  setElasticIps(ElasticIps): {
     Properties+::: {
-      ElasticIps: (if std.isArray(ElasticIps) then ElasticIps else [ElasticIps]),
+      ElasticIps:
+        if !std.isArray(ElasticIps) then (error 'ElasticIps must be an array')
+        else ElasticIps,
     },
   },
-  withElasticIpsMixin(ElasticIps): {
+  setElasticIpsMixin(ElasticIps): {
     Properties+::: {
-      ElasticIps+: (if std.isArray(ElasticIps) then ElasticIps else [ElasticIps]),
+      ElasticIps+: ElasticIps,
     },
   },
-  withHostname(Hostname): {
-    assert std.isString(Hostname) : 'Hostname must be a string',
+  setHostname(Hostname): {
     Properties+::: {
-      Hostname: Hostname,
+      Hostname:
+        if !std.isString(Hostname) then (error 'Hostname must be a string')
+        else if std.isEmpty(Hostname) then (error 'Hostname must be not empty')
+        else Hostname,
     },
   },
-  withInstallUpdatesOnBoot(InstallUpdatesOnBoot): {
-    assert std.isBoolean(InstallUpdatesOnBoot) : 'InstallUpdatesOnBoot must be a boolean',
+  setInstallUpdatesOnBoot(InstallUpdatesOnBoot): {
     Properties+::: {
-      InstallUpdatesOnBoot: InstallUpdatesOnBoot,
+      InstallUpdatesOnBoot:
+        if !std.isBoolean(InstallUpdatesOnBoot) then (error 'InstallUpdatesOnBoot must be a boolean') else InstallUpdatesOnBoot,
     },
   },
-  withOs(Os): {
-    assert std.isString(Os) : 'Os must be a string',
+  setOs(Os): {
     Properties+::: {
-      Os: Os,
+      Os:
+        if !std.isString(Os) then (error 'Os must be a string')
+        else if std.isEmpty(Os) then (error 'Os must be not empty')
+        else Os,
     },
   },
-  withRootDeviceType(RootDeviceType): {
-    assert std.isString(RootDeviceType) : 'RootDeviceType must be a string',
+  setRootDeviceType(RootDeviceType): {
     Properties+::: {
-      RootDeviceType: RootDeviceType,
+      RootDeviceType:
+        if !std.isString(RootDeviceType) then (error 'RootDeviceType must be a string')
+        else if std.isEmpty(RootDeviceType) then (error 'RootDeviceType must be not empty')
+        else RootDeviceType,
     },
   },
-  withSshKeyName(SshKeyName): {
-    assert std.isString(SshKeyName) : 'SshKeyName must be a string',
+  setSshKeyName(SshKeyName): {
     Properties+::: {
-      SshKeyName: SshKeyName,
+      SshKeyName:
+        if !std.isString(SshKeyName) then (error 'SshKeyName must be a string')
+        else if std.isEmpty(SshKeyName) then (error 'SshKeyName must be not empty')
+        else SshKeyName,
     },
   },
-  withSubnetId(SubnetId): {
-    assert std.isString(SubnetId) : 'SubnetId must be a string',
+  setSubnetId(SubnetId): {
     Properties+::: {
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
   },
-  withTenancy(Tenancy): {
-    assert std.isString(Tenancy) : 'Tenancy must be a string',
+  setTenancy(Tenancy): {
     Properties+::: {
-      Tenancy: Tenancy,
+      Tenancy:
+        if !std.isString(Tenancy) then (error 'Tenancy must be a string')
+        else if std.isEmpty(Tenancy) then (error 'Tenancy must be not empty')
+        else Tenancy,
     },
   },
-  withTimeBasedAutoScaling(TimeBasedAutoScaling): {
-    assert std.isObject(TimeBasedAutoScaling) : 'TimeBasedAutoScaling must be a object',
+  setTimeBasedAutoScaling(TimeBasedAutoScaling): {
     Properties+::: {
-      TimeBasedAutoScaling: TimeBasedAutoScaling,
+      TimeBasedAutoScaling:
+        if !std.isObject(TimeBasedAutoScaling) then (error 'TimeBasedAutoScaling must be an object')
+        else TimeBasedAutoScaling,
     },
   },
-  withVirtualizationType(VirtualizationType): {
-    assert std.isString(VirtualizationType) : 'VirtualizationType must be a string',
+  setVirtualizationType(VirtualizationType): {
     Properties+::: {
-      VirtualizationType: VirtualizationType,
+      VirtualizationType:
+        if !std.isString(VirtualizationType) then (error 'VirtualizationType must be a string')
+        else if std.isEmpty(VirtualizationType) then (error 'VirtualizationType must be not empty')
+        else VirtualizationType,
     },
   },
-  withVolumes(Volumes): {
+  setVolumes(Volumes): {
     Properties+::: {
-      Volumes: (if std.isArray(Volumes) then Volumes else [Volumes]),
+      Volumes:
+        if !std.isArray(Volumes) then (error 'Volumes must be an array')
+        else Volumes,
     },
   },
-  withVolumesMixin(Volumes): {
+  setVolumesMixin(Volumes): {
     Properties+::: {
-      Volumes+: (if std.isArray(Volumes) then Volumes else [Volumes]),
+      Volumes+: Volumes,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

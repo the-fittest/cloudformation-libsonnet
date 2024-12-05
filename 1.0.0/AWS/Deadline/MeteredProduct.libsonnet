@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,100 +10,117 @@
     Metadata:: [],
     Type: 'AWS::Deadline::MeteredProduct',
   },
-  withLicenseEndpointId(LicenseEndpointId): {
-    assert std.isString(LicenseEndpointId) : 'LicenseEndpointId must be a string',
+  setLicenseEndpointId(LicenseEndpointId): {
     Properties+::: {
-      LicenseEndpointId: LicenseEndpointId,
+      LicenseEndpointId:
+        if !std.isString(LicenseEndpointId) then (error 'LicenseEndpointId must be a string')
+        else if std.isEmpty(LicenseEndpointId) then (error 'LicenseEndpointId must be not empty')
+        else LicenseEndpointId,
     },
   },
-  withProductId(ProductId): {
-    assert std.isString(ProductId) : 'ProductId must be a string',
+  setProductId(ProductId): {
     Properties+::: {
-      ProductId: ProductId,
+      ProductId:
+        if !std.isString(ProductId) then (error 'ProductId must be a string')
+        else if std.isEmpty(ProductId) then (error 'ProductId must be not empty')
+        else ProductId,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else if Port < 1024 then error ('Port should be at least 1024')
+        else if Port > 65535 then error ('Port should be not more than 65535')
+        else Port,
     },
   },
-  withFamily(Family): {
-    assert std.isString(Family) : 'Family must be a string',
+  setFamily(Family): {
     Properties+::: {
-      Family: Family,
+      Family:
+        if !std.isString(Family) then (error 'Family must be a string')
+        else if std.isEmpty(Family) then (error 'Family must be not empty')
+        else if std.length(Family) < 1 then error ('Family should have at least 1 characters')
+        else if std.length(Family) > 64 then error ('Family should have not more than 64 characters')
+        else Family,
     },
   },
-  withVendor(Vendor): {
-    assert std.isString(Vendor) : 'Vendor must be a string',
+  setVendor(Vendor): {
     Properties+::: {
-      Vendor: Vendor,
+      Vendor:
+        if !std.isString(Vendor) then (error 'Vendor must be a string')
+        else if std.isEmpty(Vendor) then (error 'Vendor must be not empty')
+        else if std.length(Vendor) < 1 then error ('Vendor should have at least 1 characters')
+        else if std.length(Vendor) > 64 then error ('Vendor should have not more than 64 characters')
+        else Vendor,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

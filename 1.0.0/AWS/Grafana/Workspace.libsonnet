@@ -6,13 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      AuthenticationProviders: (if std.isArray(AuthenticationProviders) then AuthenticationProviders else [AuthenticationProviders]),
-      assert std.isString(PermissionType) : 'PermissionType must be a string',
-      assert PermissionType == 'CUSTOMER_MANAGED' || PermissionType == 'SERVICE_MANAGED' : "PermissionType should be 'CUSTOMER_MANAGED' or 'SERVICE_MANAGED'",
-      PermissionType: PermissionType,
-      assert std.isString(AccountAccessType) : 'AccountAccessType must be a string',
-      assert AccountAccessType == 'CURRENT_ACCOUNT' || AccountAccessType == 'ORGANIZATION' : "AccountAccessType should be 'CURRENT_ACCOUNT' or 'ORGANIZATION'",
-      AccountAccessType: AccountAccessType,
+      AuthenticationProviders:
+        if !std.isArray(AuthenticationProviders) then (error 'AuthenticationProviders must be an array')
+        else if std.length(AuthenticationProviders) < 1 then error ('AuthenticationProviders cannot have less than 1 items')
+        else AuthenticationProviders,
+      PermissionType:
+        if !std.isString(PermissionType) then (error 'PermissionType must be a string')
+        else if std.isEmpty(PermissionType) then (error 'PermissionType must be not empty')
+        else if PermissionType != 'CUSTOMER_MANAGED' && PermissionType != 'SERVICE_MANAGED' then (error "PermissionType should be 'CUSTOMER_MANAGED' or 'SERVICE_MANAGED'")
+        else PermissionType,
+      AccountAccessType:
+        if !std.isString(AccountAccessType) then (error 'AccountAccessType must be a string')
+        else if std.isEmpty(AccountAccessType) then (error 'AccountAccessType must be not empty')
+        else if AccountAccessType != 'CURRENT_ACCOUNT' && AccountAccessType != 'ORGANIZATION' then (error "AccountAccessType should be 'CURRENT_ACCOUNT' or 'ORGANIZATION'")
+        else AccountAccessType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,204 +29,253 @@
     Metadata:: [],
     Type: 'AWS::Grafana::Workspace',
   },
-  withSsoClientId(SsoClientId): {
-    assert std.isString(SsoClientId) : 'SsoClientId must be a string',
+  setSsoClientId(SsoClientId): {
     Properties+::: {
-      SsoClientId: SsoClientId,
+      SsoClientId:
+        if !std.isString(SsoClientId) then (error 'SsoClientId must be a string')
+        else if std.isEmpty(SsoClientId) then (error 'SsoClientId must be not empty')
+        else SsoClientId,
     },
   },
-  withSamlConfiguration(SamlConfiguration): {
-    assert std.isObject(SamlConfiguration) : 'SamlConfiguration must be a object',
+  setSamlConfiguration(SamlConfiguration): {
     Properties+::: {
-      SamlConfiguration: SamlConfiguration,
+      SamlConfiguration:
+        if !std.isObject(SamlConfiguration) then (error 'SamlConfiguration must be an object')
+        else if !std.objectHas(SamlConfiguration, 'IdpMetadata') then (error ' have attribute IdpMetadata')
+        else SamlConfiguration,
     },
   },
-  withNetworkAccessControl(NetworkAccessControl): {
-    assert std.isObject(NetworkAccessControl) : 'NetworkAccessControl must be a object',
+  setNetworkAccessControl(NetworkAccessControl): {
     Properties+::: {
-      NetworkAccessControl: NetworkAccessControl,
+      NetworkAccessControl:
+        if !std.isObject(NetworkAccessControl) then (error 'NetworkAccessControl must be an object')
+        else NetworkAccessControl,
     },
   },
-  withVpcConfiguration(VpcConfiguration): {
-    assert std.isObject(VpcConfiguration) : 'VpcConfiguration must be a object',
+  setVpcConfiguration(VpcConfiguration): {
     Properties+::: {
-      VpcConfiguration: VpcConfiguration,
+      VpcConfiguration:
+        if !std.isObject(VpcConfiguration) then (error 'VpcConfiguration must be an object')
+        else if !std.objectHas(VpcConfiguration, 'SecurityGroupIds') then (error ' have attribute SecurityGroupIds')
+        else if !std.objectHas(VpcConfiguration, 'SubnetIds') then (error ' have attribute SubnetIds')
+        else VpcConfiguration,
     },
   },
-  withSamlConfigurationStatus(SamlConfigurationStatus): {
-    assert std.isString(SamlConfigurationStatus) : 'SamlConfigurationStatus must be a string',
-    assert SamlConfigurationStatus == 'CONFIGURED' || SamlConfigurationStatus == 'NOT_CONFIGURED' : "SamlConfigurationStatus should be 'CONFIGURED' or 'NOT_CONFIGURED'",
+  setSamlConfigurationStatus(SamlConfigurationStatus): {
     Properties+::: {
-      SamlConfigurationStatus: SamlConfigurationStatus,
+      SamlConfigurationStatus:
+        if !std.isString(SamlConfigurationStatus) then (error 'SamlConfigurationStatus must be a string')
+        else if std.isEmpty(SamlConfigurationStatus) then (error 'SamlConfigurationStatus must be not empty')
+        else if SamlConfigurationStatus != 'CONFIGURED' && SamlConfigurationStatus != 'NOT_CONFIGURED' then (error "SamlConfigurationStatus should be 'CONFIGURED' or 'NOT_CONFIGURED'")
+        else SamlConfigurationStatus,
     },
   },
-  withClientToken(ClientToken): {
-    assert std.isString(ClientToken) : 'ClientToken must be a string',
+  setClientToken(ClientToken): {
     Properties+::: {
-      ClientToken: ClientToken,
+      ClientToken:
+        if !std.isString(ClientToken) then (error 'ClientToken must be a string')
+        else if std.isEmpty(ClientToken) then (error 'ClientToken must be not empty')
+        else ClientToken,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' || Status == 'CREATING' || Status == 'DELETING' || Status == 'FAILED' || Status == 'UPDATING' || Status == 'UPGRADING' || Status == 'VERSION_UPDATING' || Status == 'DELETION_FAILED' || Status == 'CREATION_FAILED' || Status == 'UPDATE_FAILED' || Status == 'UPGRADE_FAILED' || Status == 'LICENSE_REMOVAL_FAILED' || Status == 'VERSION_UPDATE_FAILED' : "Status should be 'ACTIVE' or 'CREATING' or 'DELETING' or 'FAILED' or 'UPDATING' or 'UPGRADING' or 'VERSION_UPDATING' or 'DELETION_FAILED' or 'CREATION_FAILED' or 'UPDATE_FAILED' or 'UPGRADE_FAILED' or 'LICENSE_REMOVAL_FAILED' or 'VERSION_UPDATE_FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'CREATING' && Status != 'DELETING' && Status != 'FAILED' && Status != 'UPDATING' && Status != 'UPGRADING' && Status != 'VERSION_UPDATING' && Status != 'DELETION_FAILED' && Status != 'CREATION_FAILED' && Status != 'UPDATE_FAILED' && Status != 'UPGRADE_FAILED' && Status != 'LICENSE_REMOVAL_FAILED' && Status != 'VERSION_UPDATE_FAILED' then (error "Status should be 'ACTIVE' or 'CREATING' or 'DELETING' or 'FAILED' or 'UPDATING' or 'UPGRADING' or 'VERSION_UPDATING' or 'DELETION_FAILED' or 'CREATION_FAILED' or 'UPDATE_FAILED' or 'UPGRADE_FAILED' or 'LICENSE_REMOVAL_FAILED' or 'VERSION_UPDATE_FAILED'")
+        else Status,
     },
   },
-  withCreationTimestamp(CreationTimestamp): {
-    assert std.isString(CreationTimestamp) : 'CreationTimestamp must be a string',
+  setCreationTimestamp(CreationTimestamp): {
     Properties+::: {
-      CreationTimestamp: CreationTimestamp,
+      CreationTimestamp:
+        if !std.isString(CreationTimestamp) then (error 'CreationTimestamp must be a string')
+        else if std.isEmpty(CreationTimestamp) then (error 'CreationTimestamp must be not empty')
+        else CreationTimestamp,
     },
   },
-  withModificationTimestamp(ModificationTimestamp): {
-    assert std.isString(ModificationTimestamp) : 'ModificationTimestamp must be a string',
+  setModificationTimestamp(ModificationTimestamp): {
     Properties+::: {
-      ModificationTimestamp: ModificationTimestamp,
+      ModificationTimestamp:
+        if !std.isString(ModificationTimestamp) then (error 'ModificationTimestamp must be a string')
+        else if std.isEmpty(ModificationTimestamp) then (error 'ModificationTimestamp must be not empty')
+        else ModificationTimestamp,
     },
   },
-  withGrafanaVersion(GrafanaVersion): {
-    assert std.isString(GrafanaVersion) : 'GrafanaVersion must be a string',
+  setGrafanaVersion(GrafanaVersion): {
     Properties+::: {
-      GrafanaVersion: GrafanaVersion,
+      GrafanaVersion:
+        if !std.isString(GrafanaVersion) then (error 'GrafanaVersion must be a string')
+        else if std.isEmpty(GrafanaVersion) then (error 'GrafanaVersion must be not empty')
+        else if std.length(GrafanaVersion) < 1 then error ('GrafanaVersion should have at least 1 characters')
+        else if std.length(GrafanaVersion) > 255 then error ('GrafanaVersion should have not more than 255 characters')
+        else GrafanaVersion,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else if std.length(Endpoint) < 1 then error ('Endpoint should have at least 1 characters')
+        else if std.length(Endpoint) > 2048 then error ('Endpoint should have not more than 2048 characters')
+        else Endpoint,
     },
   },
-  withOrganizationRoleName(OrganizationRoleName): {
-    assert std.isString(OrganizationRoleName) : 'OrganizationRoleName must be a string',
+  setOrganizationRoleName(OrganizationRoleName): {
     Properties+::: {
-      OrganizationRoleName: OrganizationRoleName,
+      OrganizationRoleName:
+        if !std.isString(OrganizationRoleName) then (error 'OrganizationRoleName must be a string')
+        else if std.isEmpty(OrganizationRoleName) then (error 'OrganizationRoleName must be not empty')
+        else if std.length(OrganizationRoleName) < 1 then error ('OrganizationRoleName should have at least 1 characters')
+        else if std.length(OrganizationRoleName) > 2048 then error ('OrganizationRoleName should have not more than 2048 characters')
+        else OrganizationRoleName,
     },
   },
-  withStackSetName(StackSetName): {
-    assert std.isString(StackSetName) : 'StackSetName must be a string',
+  setStackSetName(StackSetName): {
     Properties+::: {
-      StackSetName: StackSetName,
+      StackSetName:
+        if !std.isString(StackSetName) then (error 'StackSetName must be a string')
+        else if std.isEmpty(StackSetName) then (error 'StackSetName must be not empty')
+        else StackSetName,
     },
   },
-  withDataSources(DataSources): {
+  setDataSources(DataSources): {
     Properties+::: {
-      DataSources: (if std.isArray(DataSources) then DataSources else [DataSources]),
+      DataSources:
+        if !std.isArray(DataSources) then (error 'DataSources must be an array')
+        else DataSources,
     },
   },
-  withDataSourcesMixin(DataSources): {
+  setDataSourcesMixin(DataSources): {
     Properties+::: {
-      DataSources+: (if std.isArray(DataSources) then DataSources else [DataSources]),
+      DataSources+: DataSources,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withNotificationDestinations(NotificationDestinations): {
+  setNotificationDestinations(NotificationDestinations): {
     Properties+::: {
-      NotificationDestinations: (if std.isArray(NotificationDestinations) then NotificationDestinations else [NotificationDestinations]),
+      NotificationDestinations:
+        if !std.isArray(NotificationDestinations) then (error 'NotificationDestinations must be an array')
+        else NotificationDestinations,
     },
   },
-  withNotificationDestinationsMixin(NotificationDestinations): {
+  setNotificationDestinationsMixin(NotificationDestinations): {
     Properties+::: {
-      NotificationDestinations+: (if std.isArray(NotificationDestinations) then NotificationDestinations else [NotificationDestinations]),
+      NotificationDestinations+: NotificationDestinations,
     },
   },
-  withOrganizationalUnits(OrganizationalUnits): {
+  setOrganizationalUnits(OrganizationalUnits): {
     Properties+::: {
-      OrganizationalUnits: (if std.isArray(OrganizationalUnits) then OrganizationalUnits else [OrganizationalUnits]),
+      OrganizationalUnits:
+        if !std.isArray(OrganizationalUnits) then (error 'OrganizationalUnits must be an array')
+        else OrganizationalUnits,
     },
   },
-  withOrganizationalUnitsMixin(OrganizationalUnits): {
+  setOrganizationalUnitsMixin(OrganizationalUnits): {
     Properties+::: {
-      OrganizationalUnits+: (if std.isArray(OrganizationalUnits) then OrganizationalUnits else [OrganizationalUnits]),
+      OrganizationalUnits+: OrganizationalUnits,
     },
   },
-  withRoleArn(RoleArn): {
-    assert std.isString(RoleArn) : 'RoleArn must be a string',
+  setRoleArn(RoleArn): {
     Properties+::: {
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
   },
-  withPluginAdminEnabled(PluginAdminEnabled): {
-    assert std.isBoolean(PluginAdminEnabled) : 'PluginAdminEnabled must be a boolean',
+  setPluginAdminEnabled(PluginAdminEnabled): {
     Properties+::: {
-      PluginAdminEnabled: PluginAdminEnabled,
+      PluginAdminEnabled:
+        if !std.isBoolean(PluginAdminEnabled) then (error 'PluginAdminEnabled must be a boolean') else PluginAdminEnabled,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

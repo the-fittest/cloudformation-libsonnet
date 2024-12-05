@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(BucketName) : 'BucketName must be a string',
-      BucketName: BucketName,
-      assert std.isString(BundleId) : 'BundleId must be a string',
-      BundleId: BundleId,
+      BucketName:
+        if !std.isString(BucketName) then (error 'BucketName must be a string')
+        else if std.isEmpty(BucketName) then (error 'BucketName must be not empty')
+        else if std.length(BucketName) < 3 then error ('BucketName should have at least 3 characters')
+        else if std.length(BucketName) > 54 then error ('BucketName should have not more than 54 characters')
+        else BucketName,
+      BundleId:
+        if !std.isString(BundleId) then (error 'BundleId must be a string')
+        else if std.isEmpty(BundleId) then (error 'BundleId must be not empty')
+        else BundleId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,124 +24,135 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Bucket',
   },
-  withBucketArn(BucketArn): {
-    assert std.isString(BucketArn) : 'BucketArn must be a string',
+  setBucketArn(BucketArn): {
     Properties+::: {
-      BucketArn: BucketArn,
+      BucketArn:
+        if !std.isString(BucketArn) then (error 'BucketArn must be a string')
+        else if std.isEmpty(BucketArn) then (error 'BucketArn must be not empty')
+        else BucketArn,
     },
   },
-  withObjectVersioning(ObjectVersioning): {
-    assert std.isBoolean(ObjectVersioning) : 'ObjectVersioning must be a boolean',
+  setObjectVersioning(ObjectVersioning): {
     Properties+::: {
-      ObjectVersioning: ObjectVersioning,
+      ObjectVersioning:
+        if !std.isBoolean(ObjectVersioning) then (error 'ObjectVersioning must be a boolean') else ObjectVersioning,
     },
   },
-  withAccessRules(AccessRules): {
-    assert std.isObject(AccessRules) : 'AccessRules must be a object',
+  setAccessRules(AccessRules): {
     Properties+::: {
-      AccessRules: AccessRules,
+      AccessRules:
+        if !std.isObject(AccessRules) then (error 'AccessRules must be an object')
+        else AccessRules,
     },
   },
-  withResourcesReceivingAccess(ResourcesReceivingAccess): {
+  setResourcesReceivingAccess(ResourcesReceivingAccess): {
     Properties+::: {
-      ResourcesReceivingAccess: (if std.isArray(ResourcesReceivingAccess) then ResourcesReceivingAccess else [ResourcesReceivingAccess]),
+      ResourcesReceivingAccess:
+        if !std.isArray(ResourcesReceivingAccess) then (error 'ResourcesReceivingAccess must be an array')
+        else ResourcesReceivingAccess,
     },
   },
-  withResourcesReceivingAccessMixin(ResourcesReceivingAccess): {
+  setResourcesReceivingAccessMixin(ResourcesReceivingAccess): {
     Properties+::: {
-      ResourcesReceivingAccess+: (if std.isArray(ResourcesReceivingAccess) then ResourcesReceivingAccess else [ResourcesReceivingAccess]),
+      ResourcesReceivingAccess+: ResourcesReceivingAccess,
     },
   },
-  withReadOnlyAccessAccounts(ReadOnlyAccessAccounts): {
+  setReadOnlyAccessAccounts(ReadOnlyAccessAccounts): {
     Properties+::: {
-      ReadOnlyAccessAccounts: (if std.isArray(ReadOnlyAccessAccounts) then ReadOnlyAccessAccounts else [ReadOnlyAccessAccounts]),
+      ReadOnlyAccessAccounts:
+        if !std.isArray(ReadOnlyAccessAccounts) then (error 'ReadOnlyAccessAccounts must be an array')
+        else ReadOnlyAccessAccounts,
     },
   },
-  withReadOnlyAccessAccountsMixin(ReadOnlyAccessAccounts): {
+  setReadOnlyAccessAccountsMixin(ReadOnlyAccessAccounts): {
     Properties+::: {
-      ReadOnlyAccessAccounts+: (if std.isArray(ReadOnlyAccessAccounts) then ReadOnlyAccessAccounts else [ReadOnlyAccessAccounts]),
+      ReadOnlyAccessAccounts+: ReadOnlyAccessAccounts,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUrl(Url): {
-    assert std.isString(Url) : 'Url must be a string',
+  setUrl(Url): {
     Properties+::: {
-      Url: Url,
+      Url:
+        if !std.isString(Url) then (error 'Url must be a string')
+        else if std.isEmpty(Url) then (error 'Url must be not empty')
+        else Url,
     },
   },
-  withAbleToUpdateBundle(AbleToUpdateBundle): {
-    assert std.isBoolean(AbleToUpdateBundle) : 'AbleToUpdateBundle must be a boolean',
+  setAbleToUpdateBundle(AbleToUpdateBundle): {
     Properties+::: {
-      AbleToUpdateBundle: AbleToUpdateBundle,
+      AbleToUpdateBundle:
+        if !std.isBoolean(AbleToUpdateBundle) then (error 'AbleToUpdateBundle must be a boolean') else AbleToUpdateBundle,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

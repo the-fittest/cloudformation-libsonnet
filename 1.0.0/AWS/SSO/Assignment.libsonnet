@@ -9,20 +9,38 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
-      assert std.isString(TargetId) : 'TargetId must be a string',
-      TargetId: TargetId,
-      assert std.isString(TargetType) : 'TargetType must be a string',
-      assert TargetType == 'AWS_ACCOUNT' : "TargetType should be 'AWS_ACCOUNT'",
-      TargetType: TargetType,
-      assert std.isString(PermissionSetArn) : 'PermissionSetArn must be a string',
-      PermissionSetArn: PermissionSetArn,
-      assert std.isString(PrincipalType) : 'PrincipalType must be a string',
-      assert PrincipalType == 'USER' || PrincipalType == 'GROUP' : "PrincipalType should be 'USER' or 'GROUP'",
-      PrincipalType: PrincipalType,
-      assert std.isString(PrincipalId) : 'PrincipalId must be a string',
-      PrincipalId: PrincipalId,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else if std.length(InstanceArn) < 10 then error ('InstanceArn should have at least 10 characters')
+        else if std.length(InstanceArn) > 1224 then error ('InstanceArn should have not more than 1224 characters')
+        else InstanceArn,
+      TargetId:
+        if !std.isString(TargetId) then (error 'TargetId must be a string')
+        else if std.isEmpty(TargetId) then (error 'TargetId must be not empty')
+        else TargetId,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else if TargetType != 'AWS_ACCOUNT' then (error "TargetType should be 'AWS_ACCOUNT'")
+        else TargetType,
+      PermissionSetArn:
+        if !std.isString(PermissionSetArn) then (error 'PermissionSetArn must be a string')
+        else if std.isEmpty(PermissionSetArn) then (error 'PermissionSetArn must be not empty')
+        else if std.length(PermissionSetArn) < 10 then error ('PermissionSetArn should have at least 10 characters')
+        else if std.length(PermissionSetArn) > 1224 then error ('PermissionSetArn should have not more than 1224 characters')
+        else PermissionSetArn,
+      PrincipalType:
+        if !std.isString(PrincipalType) then (error 'PrincipalType must be a string')
+        else if std.isEmpty(PrincipalType) then (error 'PrincipalType must be not empty')
+        else if PrincipalType != 'USER' && PrincipalType != 'GROUP' then (error "PrincipalType should be 'USER' or 'GROUP'")
+        else PrincipalType,
+      PrincipalId:
+        if !std.isString(PrincipalId) then (error 'PrincipalId must be a string')
+        else if std.isEmpty(PrincipalId) then (error 'PrincipalId must be not empty')
+        else if std.length(PrincipalId) < 1 then error ('PrincipalId should have at least 1 characters')
+        else if std.length(PrincipalId) > 47 then error ('PrincipalId should have not more than 47 characters')
+        else PrincipalId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -32,64 +50,64 @@
     Metadata:: [],
     Type: 'AWS::SSO::Assignment',
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

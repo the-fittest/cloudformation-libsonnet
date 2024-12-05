@@ -7,14 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(WindowId) : 'WindowId must be a string',
-      WindowId: WindowId,
-      assert std.isNumber(Priority) : 'Priority must be a number',
-      Priority: Priority,
-      assert std.isString(TaskType) : 'TaskType must be a string',
-      TaskType: TaskType,
-      assert std.isString(TaskArn) : 'TaskArn must be a string',
-      TaskArn: TaskArn,
+      WindowId:
+        if !std.isString(WindowId) then (error 'WindowId must be a string')
+        else if std.isEmpty(WindowId) then (error 'WindowId must be not empty')
+        else WindowId,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else Priority,
+      TaskType:
+        if !std.isString(TaskType) then (error 'TaskType must be a string')
+        else if std.isEmpty(TaskType) then (error 'TaskType must be not empty')
+        else TaskType,
+      TaskArn:
+        if !std.isString(TaskArn) then (error 'TaskArn must be a string')
+        else if std.isEmpty(TaskArn) then (error 'TaskArn must be not empty')
+        else TaskArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,134 +31,155 @@
     Metadata:: [],
     Type: 'AWS::SSM::MaintenanceWindowTask',
   },
-  withMaxErrors(MaxErrors): {
-    assert std.isString(MaxErrors) : 'MaxErrors must be a string',
+  setMaxErrors(MaxErrors): {
     Properties+::: {
-      MaxErrors: MaxErrors,
+      MaxErrors:
+        if !std.isString(MaxErrors) then (error 'MaxErrors must be a string')
+        else if std.isEmpty(MaxErrors) then (error 'MaxErrors must be not empty')
+        else MaxErrors,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withServiceRoleArn(ServiceRoleArn): {
-    assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
+  setServiceRoleArn(ServiceRoleArn): {
     Properties+::: {
-      ServiceRoleArn: ServiceRoleArn,
+      ServiceRoleArn:
+        if !std.isString(ServiceRoleArn) then (error 'ServiceRoleArn must be a string')
+        else if std.isEmpty(ServiceRoleArn) then (error 'ServiceRoleArn must be not empty')
+        else ServiceRoleArn,
     },
   },
-  withMaxConcurrency(MaxConcurrency): {
-    assert std.isString(MaxConcurrency) : 'MaxConcurrency must be a string',
+  setMaxConcurrency(MaxConcurrency): {
     Properties+::: {
-      MaxConcurrency: MaxConcurrency,
+      MaxConcurrency:
+        if !std.isString(MaxConcurrency) then (error 'MaxConcurrency must be a string')
+        else if std.isEmpty(MaxConcurrency) then (error 'MaxConcurrency must be not empty')
+        else MaxConcurrency,
     },
   },
-  withTargets(Targets): {
+  setTargets(Targets): {
     Properties+::: {
-      Targets: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets:
+        if !std.isArray(Targets) then (error 'Targets must be an array')
+        else Targets,
     },
   },
-  withTargetsMixin(Targets): {
+  setTargetsMixin(Targets): {
     Properties+::: {
-      Targets+: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets+: Targets,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withTaskInvocationParameters(TaskInvocationParameters): {
-    assert std.isObject(TaskInvocationParameters) : 'TaskInvocationParameters must be a object',
+  setTaskInvocationParameters(TaskInvocationParameters): {
     Properties+::: {
-      TaskInvocationParameters: TaskInvocationParameters,
+      TaskInvocationParameters:
+        if !std.isObject(TaskInvocationParameters) then (error 'TaskInvocationParameters must be an object')
+        else TaskInvocationParameters,
     },
   },
-  withTaskParameters(TaskParameters): {
-    assert std.isObject(TaskParameters) : 'TaskParameters must be a object',
+  setTaskParameters(TaskParameters): {
     Properties+::: {
-      TaskParameters: TaskParameters,
+      TaskParameters:
+        if !std.isObject(TaskParameters) then (error 'TaskParameters must be an object')
+        else TaskParameters,
     },
   },
-  withCutoffBehavior(CutoffBehavior): {
-    assert std.isString(CutoffBehavior) : 'CutoffBehavior must be a string',
+  setCutoffBehavior(CutoffBehavior): {
     Properties+::: {
-      CutoffBehavior: CutoffBehavior,
+      CutoffBehavior:
+        if !std.isString(CutoffBehavior) then (error 'CutoffBehavior must be a string')
+        else if std.isEmpty(CutoffBehavior) then (error 'CutoffBehavior must be not empty')
+        else CutoffBehavior,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withLoggingInfo(LoggingInfo): {
-    assert std.isObject(LoggingInfo) : 'LoggingInfo must be a object',
+  setLoggingInfo(LoggingInfo): {
     Properties+::: {
-      LoggingInfo: LoggingInfo,
+      LoggingInfo:
+        if !std.isObject(LoggingInfo) then (error 'LoggingInfo must be an object')
+        else if !std.objectHas(LoggingInfo, 'S3Bucket') then (error ' have attribute S3Bucket')
+        else if !std.objectHas(LoggingInfo, 'Region') then (error ' have attribute Region')
+        else LoggingInfo,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

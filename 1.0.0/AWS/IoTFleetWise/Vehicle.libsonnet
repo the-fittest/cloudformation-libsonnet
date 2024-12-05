@@ -6,12 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(DecoderManifestArn) : 'DecoderManifestArn must be a string',
-      DecoderManifestArn: DecoderManifestArn,
-      assert std.isString(ModelManifestArn) : 'ModelManifestArn must be a string',
-      ModelManifestArn: ModelManifestArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 100 then error ('Name should have not more than 100 characters')
+        else Name,
+      DecoderManifestArn:
+        if !std.isString(DecoderManifestArn) then (error 'DecoderManifestArn must be a string')
+        else if std.isEmpty(DecoderManifestArn) then (error 'DecoderManifestArn must be not empty')
+        else DecoderManifestArn,
+      ModelManifestArn:
+        if !std.isString(ModelManifestArn) then (error 'ModelManifestArn must be a string')
+        else if std.isEmpty(ModelManifestArn) then (error 'ModelManifestArn must be not empty')
+        else ModelManifestArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,105 +29,117 @@
     Metadata:: [],
     Type: 'AWS::IoTFleetWise::Vehicle',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withAssociationBehavior(AssociationBehavior): {
-    assert std.isString(AssociationBehavior) : 'AssociationBehavior must be a string',
-    assert AssociationBehavior == 'CreateIotThing' || AssociationBehavior == 'ValidateIotThingExists' : "AssociationBehavior should be 'CreateIotThing' or 'ValidateIotThingExists'",
+  setAssociationBehavior(AssociationBehavior): {
     Properties+::: {
-      AssociationBehavior: AssociationBehavior,
+      AssociationBehavior:
+        if !std.isString(AssociationBehavior) then (error 'AssociationBehavior must be a string')
+        else if std.isEmpty(AssociationBehavior) then (error 'AssociationBehavior must be not empty')
+        else if AssociationBehavior != 'CreateIotThing' && AssociationBehavior != 'ValidateIotThingExists' then (error "AssociationBehavior should be 'CreateIotThing' or 'ValidateIotThingExists'")
+        else AssociationBehavior,
     },
   },
-  withAttributes(Attributes): {
-    assert std.isObject(Attributes) : 'Attributes must be a object',
+  setAttributes(Attributes): {
     Properties+::: {
-      Attributes: Attributes,
+      Attributes:
+        if !std.isObject(Attributes) then (error 'Attributes must be an object')
+        else Attributes,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastModificationTime(LastModificationTime): {
-    assert std.isString(LastModificationTime) : 'LastModificationTime must be a string',
+  setLastModificationTime(LastModificationTime): {
     Properties+::: {
-      LastModificationTime: LastModificationTime,
+      LastModificationTime:
+        if !std.isString(LastModificationTime) then (error 'LastModificationTime must be a string')
+        else if std.isEmpty(LastModificationTime) then (error 'LastModificationTime must be not empty')
+        else LastModificationTime,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

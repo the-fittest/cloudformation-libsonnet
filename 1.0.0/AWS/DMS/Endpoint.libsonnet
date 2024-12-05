@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EndpointType) : 'EndpointType must be a string',
-      EndpointType: EndpointType,
-      assert std.isString(EngineName) : 'EngineName must be a string',
-      EngineName: EngineName,
+      EndpointType:
+        if !std.isString(EndpointType) then (error 'EndpointType must be a string')
+        else if std.isEmpty(EndpointType) then (error 'EndpointType must be not empty')
+        else EndpointType,
+      EngineName:
+        if !std.isString(EngineName) then (error 'EngineName must be a string')
+        else if std.isEmpty(EngineName) then (error 'EngineName must be not empty')
+        else EngineName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,254 +22,298 @@
     Metadata:: [],
     Type: 'AWS::DMS::Endpoint',
   },
-  withSybaseSettings(SybaseSettings): {
-    assert std.isObject(SybaseSettings) : 'SybaseSettings must be a object',
+  setSybaseSettings(SybaseSettings): {
     Properties+::: {
-      SybaseSettings: SybaseSettings,
+      SybaseSettings:
+        if !std.isObject(SybaseSettings) then (error 'SybaseSettings must be an object')
+        else SybaseSettings,
     },
   },
-  withRedisSettings(RedisSettings): {
-    assert std.isObject(RedisSettings) : 'RedisSettings must be a object',
+  setRedisSettings(RedisSettings): {
     Properties+::: {
-      RedisSettings: RedisSettings,
+      RedisSettings:
+        if !std.isObject(RedisSettings) then (error 'RedisSettings must be an object')
+        else RedisSettings,
     },
   },
-  withOracleSettings(OracleSettings): {
-    assert std.isObject(OracleSettings) : 'OracleSettings must be a object',
+  setOracleSettings(OracleSettings): {
     Properties+::: {
-      OracleSettings: OracleSettings,
+      OracleSettings:
+        if !std.isObject(OracleSettings) then (error 'OracleSettings must be an object')
+        else OracleSettings,
     },
   },
-  withKafkaSettings(KafkaSettings): {
-    assert std.isObject(KafkaSettings) : 'KafkaSettings must be a object',
+  setKafkaSettings(KafkaSettings): {
     Properties+::: {
-      KafkaSettings: KafkaSettings,
+      KafkaSettings:
+        if !std.isObject(KafkaSettings) then (error 'KafkaSettings must be an object')
+        else KafkaSettings,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withMySqlSettings(MySqlSettings): {
-    assert std.isObject(MySqlSettings) : 'MySqlSettings must be a object',
+  setMySqlSettings(MySqlSettings): {
     Properties+::: {
-      MySqlSettings: MySqlSettings,
+      MySqlSettings:
+        if !std.isObject(MySqlSettings) then (error 'MySqlSettings must be an object')
+        else MySqlSettings,
     },
   },
-  withS3Settings(S3Settings): {
-    assert std.isObject(S3Settings) : 'S3Settings must be a object',
+  setS3Settings(S3Settings): {
     Properties+::: {
-      S3Settings: S3Settings,
+      S3Settings:
+        if !std.isObject(S3Settings) then (error 'S3Settings must be an object')
+        else S3Settings,
     },
   },
-  withResourceIdentifier(ResourceIdentifier): {
-    assert std.isString(ResourceIdentifier) : 'ResourceIdentifier must be a string',
+  setResourceIdentifier(ResourceIdentifier): {
     Properties+::: {
-      ResourceIdentifier: ResourceIdentifier,
+      ResourceIdentifier:
+        if !std.isString(ResourceIdentifier) then (error 'ResourceIdentifier must be a string')
+        else if std.isEmpty(ResourceIdentifier) then (error 'ResourceIdentifier must be not empty')
+        else ResourceIdentifier,
     },
   },
-  withKinesisSettings(KinesisSettings): {
-    assert std.isObject(KinesisSettings) : 'KinesisSettings must be a object',
+  setKinesisSettings(KinesisSettings): {
     Properties+::: {
-      KinesisSettings: KinesisSettings,
+      KinesisSettings:
+        if !std.isObject(KinesisSettings) then (error 'KinesisSettings must be an object')
+        else KinesisSettings,
     },
   },
-  withSslMode(SslMode): {
-    assert std.isString(SslMode) : 'SslMode must be a string',
+  setSslMode(SslMode): {
     Properties+::: {
-      SslMode: SslMode,
+      SslMode:
+        if !std.isString(SslMode) then (error 'SslMode must be a string')
+        else if std.isEmpty(SslMode) then (error 'SslMode must be not empty')
+        else SslMode,
     },
   },
-  withRedshiftSettings(RedshiftSettings): {
-    assert std.isObject(RedshiftSettings) : 'RedshiftSettings must be a object',
+  setRedshiftSettings(RedshiftSettings): {
     Properties+::: {
-      RedshiftSettings: RedshiftSettings,
+      RedshiftSettings:
+        if !std.isObject(RedshiftSettings) then (error 'RedshiftSettings must be an object')
+        else RedshiftSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withPassword(Password): {
-    assert std.isString(Password) : 'Password must be a string',
+  setPassword(Password): {
     Properties+::: {
-      Password: Password,
+      Password:
+        if !std.isString(Password) then (error 'Password must be a string')
+        else if std.isEmpty(Password) then (error 'Password must be not empty')
+        else Password,
     },
   },
-  withMongoDbSettings(MongoDbSettings): {
-    assert std.isObject(MongoDbSettings) : 'MongoDbSettings must be a object',
+  setMongoDbSettings(MongoDbSettings): {
     Properties+::: {
-      MongoDbSettings: MongoDbSettings,
+      MongoDbSettings:
+        if !std.isObject(MongoDbSettings) then (error 'MongoDbSettings must be an object')
+        else MongoDbSettings,
     },
   },
-  withIbmDb2Settings(IbmDb2Settings): {
-    assert std.isObject(IbmDb2Settings) : 'IbmDb2Settings must be a object',
+  setIbmDb2Settings(IbmDb2Settings): {
     Properties+::: {
-      IbmDb2Settings: IbmDb2Settings,
+      IbmDb2Settings:
+        if !std.isObject(IbmDb2Settings) then (error 'IbmDb2Settings must be an object')
+        else IbmDb2Settings,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withExternalId(ExternalId): {
-    assert std.isString(ExternalId) : 'ExternalId must be a string',
+  setExternalId(ExternalId): {
     Properties+::: {
-      ExternalId: ExternalId,
+      ExternalId:
+        if !std.isString(ExternalId) then (error 'ExternalId must be a string')
+        else if std.isEmpty(ExternalId) then (error 'ExternalId must be not empty')
+        else ExternalId,
     },
   },
-  withDatabaseName(DatabaseName): {
-    assert std.isString(DatabaseName) : 'DatabaseName must be a string',
+  setDatabaseName(DatabaseName): {
     Properties+::: {
-      DatabaseName: DatabaseName,
+      DatabaseName:
+        if !std.isString(DatabaseName) then (error 'DatabaseName must be a string')
+        else if std.isEmpty(DatabaseName) then (error 'DatabaseName must be not empty')
+        else DatabaseName,
     },
   },
-  withNeptuneSettings(NeptuneSettings): {
-    assert std.isObject(NeptuneSettings) : 'NeptuneSettings must be a object',
+  setNeptuneSettings(NeptuneSettings): {
     Properties+::: {
-      NeptuneSettings: NeptuneSettings,
+      NeptuneSettings:
+        if !std.isObject(NeptuneSettings) then (error 'NeptuneSettings must be an object')
+        else NeptuneSettings,
     },
   },
-  withElasticsearchSettings(ElasticsearchSettings): {
-    assert std.isObject(ElasticsearchSettings) : 'ElasticsearchSettings must be a object',
+  setElasticsearchSettings(ElasticsearchSettings): {
     Properties+::: {
-      ElasticsearchSettings: ElasticsearchSettings,
+      ElasticsearchSettings:
+        if !std.isObject(ElasticsearchSettings) then (error 'ElasticsearchSettings must be an object')
+        else ElasticsearchSettings,
     },
   },
-  withDocDbSettings(DocDbSettings): {
-    assert std.isObject(DocDbSettings) : 'DocDbSettings must be a object',
+  setDocDbSettings(DocDbSettings): {
     Properties+::: {
-      DocDbSettings: DocDbSettings,
+      DocDbSettings:
+        if !std.isObject(DocDbSettings) then (error 'DocDbSettings must be an object')
+        else DocDbSettings,
     },
   },
-  withDynamoDbSettings(DynamoDbSettings): {
-    assert std.isObject(DynamoDbSettings) : 'DynamoDbSettings must be a object',
+  setDynamoDbSettings(DynamoDbSettings): {
     Properties+::: {
-      DynamoDbSettings: DynamoDbSettings,
+      DynamoDbSettings:
+        if !std.isObject(DynamoDbSettings) then (error 'DynamoDbSettings must be an object')
+        else DynamoDbSettings,
     },
   },
-  withUsername(Username): {
-    assert std.isString(Username) : 'Username must be a string',
+  setUsername(Username): {
     Properties+::: {
-      Username: Username,
+      Username:
+        if !std.isString(Username) then (error 'Username must be a string')
+        else if std.isEmpty(Username) then (error 'Username must be not empty')
+        else Username,
     },
   },
-  withMicrosoftSqlServerSettings(MicrosoftSqlServerSettings): {
-    assert std.isObject(MicrosoftSqlServerSettings) : 'MicrosoftSqlServerSettings must be a object',
+  setMicrosoftSqlServerSettings(MicrosoftSqlServerSettings): {
     Properties+::: {
-      MicrosoftSqlServerSettings: MicrosoftSqlServerSettings,
+      MicrosoftSqlServerSettings:
+        if !std.isObject(MicrosoftSqlServerSettings) then (error 'MicrosoftSqlServerSettings must be an object')
+        else MicrosoftSqlServerSettings,
     },
   },
-  withGcpMySQLSettings(GcpMySQLSettings): {
-    assert std.isObject(GcpMySQLSettings) : 'GcpMySQLSettings must be a object',
+  setGcpMySQLSettings(GcpMySQLSettings): {
     Properties+::: {
-      GcpMySQLSettings: GcpMySQLSettings,
+      GcpMySQLSettings:
+        if !std.isObject(GcpMySQLSettings) then (error 'GcpMySQLSettings must be an object')
+        else GcpMySQLSettings,
     },
   },
-  withServerName(ServerName): {
-    assert std.isString(ServerName) : 'ServerName must be a string',
+  setServerName(ServerName): {
     Properties+::: {
-      ServerName: ServerName,
+      ServerName:
+        if !std.isString(ServerName) then (error 'ServerName must be a string')
+        else if std.isEmpty(ServerName) then (error 'ServerName must be not empty')
+        else ServerName,
     },
   },
-  withExtraConnectionAttributes(ExtraConnectionAttributes): {
-    assert std.isString(ExtraConnectionAttributes) : 'ExtraConnectionAttributes must be a string',
+  setExtraConnectionAttributes(ExtraConnectionAttributes): {
     Properties+::: {
-      ExtraConnectionAttributes: ExtraConnectionAttributes,
+      ExtraConnectionAttributes:
+        if !std.isString(ExtraConnectionAttributes) then (error 'ExtraConnectionAttributes must be a string')
+        else if std.isEmpty(ExtraConnectionAttributes) then (error 'ExtraConnectionAttributes must be not empty')
+        else ExtraConnectionAttributes,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withEndpointIdentifier(EndpointIdentifier): {
-    assert std.isString(EndpointIdentifier) : 'EndpointIdentifier must be a string',
+  setEndpointIdentifier(EndpointIdentifier): {
     Properties+::: {
-      EndpointIdentifier: EndpointIdentifier,
+      EndpointIdentifier:
+        if !std.isString(EndpointIdentifier) then (error 'EndpointIdentifier must be a string')
+        else if std.isEmpty(EndpointIdentifier) then (error 'EndpointIdentifier must be not empty')
+        else EndpointIdentifier,
     },
   },
-  withCertificateArn(CertificateArn): {
-    assert std.isString(CertificateArn) : 'CertificateArn must be a string',
+  setCertificateArn(CertificateArn): {
     Properties+::: {
-      CertificateArn: CertificateArn,
+      CertificateArn:
+        if !std.isString(CertificateArn) then (error 'CertificateArn must be a string')
+        else if std.isEmpty(CertificateArn) then (error 'CertificateArn must be not empty')
+        else CertificateArn,
     },
   },
-  withPostgreSqlSettings(PostgreSqlSettings): {
-    assert std.isObject(PostgreSqlSettings) : 'PostgreSqlSettings must be a object',
+  setPostgreSqlSettings(PostgreSqlSettings): {
     Properties+::: {
-      PostgreSqlSettings: PostgreSqlSettings,
+      PostgreSqlSettings:
+        if !std.isObject(PostgreSqlSettings) then (error 'PostgreSqlSettings must be an object')
+        else PostgreSqlSettings,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

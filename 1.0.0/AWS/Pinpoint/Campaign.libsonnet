@@ -7,14 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(SegmentId) : 'SegmentId must be a string',
-      SegmentId: SegmentId,
-      assert std.isObject(Schedule) : 'Schedule must be an object',
-      Schedule: Schedule,
-      assert std.isString(ApplicationId) : 'ApplicationId must be a string',
-      ApplicationId: ApplicationId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      SegmentId:
+        if !std.isString(SegmentId) then (error 'SegmentId must be a string')
+        else if std.isEmpty(SegmentId) then (error 'SegmentId must be not empty')
+        else SegmentId,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else Schedule,
+      ApplicationId:
+        if !std.isString(ApplicationId) then (error 'ApplicationId must be a string')
+        else if std.isEmpty(ApplicationId) then (error 'ApplicationId must be not empty')
+        else ApplicationId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,164 +31,185 @@
     Metadata:: [],
     Type: 'AWS::Pinpoint::Campaign',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withPriority(Priority): {
-    assert std.isNumber(Priority) : 'Priority must be a number',
+  setPriority(Priority): {
     Properties+::: {
-      Priority: Priority,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else Priority,
     },
   },
-  withTemplateConfiguration(TemplateConfiguration): {
-    assert std.isObject(TemplateConfiguration) : 'TemplateConfiguration must be a object',
+  setTemplateConfiguration(TemplateConfiguration): {
     Properties+::: {
-      TemplateConfiguration: TemplateConfiguration,
+      TemplateConfiguration:
+        if !std.isObject(TemplateConfiguration) then (error 'TemplateConfiguration must be an object')
+        else TemplateConfiguration,
     },
   },
-  withIsPaused(IsPaused): {
-    assert std.isBoolean(IsPaused) : 'IsPaused must be a boolean',
+  setIsPaused(IsPaused): {
     Properties+::: {
-      IsPaused: IsPaused,
+      IsPaused:
+        if !std.isBoolean(IsPaused) then (error 'IsPaused must be a boolean') else IsPaused,
     },
   },
-  withAdditionalTreatments(AdditionalTreatments): {
+  setAdditionalTreatments(AdditionalTreatments): {
     Properties+::: {
-      AdditionalTreatments: (if std.isArray(AdditionalTreatments) then AdditionalTreatments else [AdditionalTreatments]),
+      AdditionalTreatments:
+        if !std.isArray(AdditionalTreatments) then (error 'AdditionalTreatments must be an array')
+        else AdditionalTreatments,
     },
   },
-  withAdditionalTreatmentsMixin(AdditionalTreatments): {
+  setAdditionalTreatmentsMixin(AdditionalTreatments): {
     Properties+::: {
-      AdditionalTreatments+: (if std.isArray(AdditionalTreatments) then AdditionalTreatments else [AdditionalTreatments]),
+      AdditionalTreatments+: AdditionalTreatments,
     },
   },
-  withSegmentVersion(SegmentVersion): {
-    assert std.isNumber(SegmentVersion) : 'SegmentVersion must be a number',
+  setSegmentVersion(SegmentVersion): {
     Properties+::: {
-      SegmentVersion: SegmentVersion,
+      SegmentVersion:
+        if !std.isNumber(SegmentVersion) then (error 'SegmentVersion must be an number')
+        else SegmentVersion,
     },
   },
-  withTreatmentDescription(TreatmentDescription): {
-    assert std.isString(TreatmentDescription) : 'TreatmentDescription must be a string',
+  setTreatmentDescription(TreatmentDescription): {
     Properties+::: {
-      TreatmentDescription: TreatmentDescription,
+      TreatmentDescription:
+        if !std.isString(TreatmentDescription) then (error 'TreatmentDescription must be a string')
+        else if std.isEmpty(TreatmentDescription) then (error 'TreatmentDescription must be not empty')
+        else TreatmentDescription,
     },
   },
-  withMessageConfiguration(MessageConfiguration): {
-    assert std.isObject(MessageConfiguration) : 'MessageConfiguration must be a object',
+  setMessageConfiguration(MessageConfiguration): {
     Properties+::: {
-      MessageConfiguration: MessageConfiguration,
+      MessageConfiguration:
+        if !std.isObject(MessageConfiguration) then (error 'MessageConfiguration must be an object')
+        else MessageConfiguration,
     },
   },
-  withLimits(Limits): {
-    assert std.isObject(Limits) : 'Limits must be a object',
+  setLimits(Limits): {
     Properties+::: {
-      Limits: Limits,
+      Limits:
+        if !std.isObject(Limits) then (error 'Limits must be an object')
+        else Limits,
     },
   },
-  withCampaignId(CampaignId): {
-    assert std.isString(CampaignId) : 'CampaignId must be a string',
+  setCampaignId(CampaignId): {
     Properties+::: {
-      CampaignId: CampaignId,
+      CampaignId:
+        if !std.isString(CampaignId) then (error 'CampaignId must be a string')
+        else if std.isEmpty(CampaignId) then (error 'CampaignId must be not empty')
+        else CampaignId,
     },
   },
-  withHoldoutPercent(HoldoutPercent): {
-    assert std.isNumber(HoldoutPercent) : 'HoldoutPercent must be a number',
+  setHoldoutPercent(HoldoutPercent): {
     Properties+::: {
-      HoldoutPercent: HoldoutPercent,
+      HoldoutPercent:
+        if !std.isNumber(HoldoutPercent) then (error 'HoldoutPercent must be an number')
+        else HoldoutPercent,
     },
   },
-  withCustomDeliveryConfiguration(CustomDeliveryConfiguration): {
-    assert std.isObject(CustomDeliveryConfiguration) : 'CustomDeliveryConfiguration must be a object',
+  setCustomDeliveryConfiguration(CustomDeliveryConfiguration): {
     Properties+::: {
-      CustomDeliveryConfiguration: CustomDeliveryConfiguration,
+      CustomDeliveryConfiguration:
+        if !std.isObject(CustomDeliveryConfiguration) then (error 'CustomDeliveryConfiguration must be an object')
+        else CustomDeliveryConfiguration,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCampaignHook(CampaignHook): {
-    assert std.isObject(CampaignHook) : 'CampaignHook must be a object',
+  setCampaignHook(CampaignHook): {
     Properties+::: {
-      CampaignHook: CampaignHook,
+      CampaignHook:
+        if !std.isObject(CampaignHook) then (error 'CampaignHook must be an object')
+        else CampaignHook,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withTreatmentName(TreatmentName): {
-    assert std.isString(TreatmentName) : 'TreatmentName must be a string',
+  setTreatmentName(TreatmentName): {
     Properties+::: {
-      TreatmentName: TreatmentName,
+      TreatmentName:
+        if !std.isString(TreatmentName) then (error 'TreatmentName must be a string')
+        else if std.isEmpty(TreatmentName) then (error 'TreatmentName must be not empty')
+        else TreatmentName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

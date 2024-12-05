@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,128 +10,142 @@
     Metadata:: [],
     Type: 'AWS::ECS::Cluster',
   },
-  withClusterSettings(ClusterSettings): {
+  setClusterSettings(ClusterSettings): {
     Properties+::: {
-      ClusterSettings: (if std.isArray(ClusterSettings) then ClusterSettings else [ClusterSettings]),
+      ClusterSettings:
+        if !std.isArray(ClusterSettings) then (error 'ClusterSettings must be an array')
+        else ClusterSettings,
     },
   },
-  withClusterSettingsMixin(ClusterSettings): {
+  setClusterSettingsMixin(ClusterSettings): {
     Properties+::: {
-      ClusterSettings+: (if std.isArray(ClusterSettings) then ClusterSettings else [ClusterSettings]),
+      ClusterSettings+: ClusterSettings,
     },
   },
-  withDefaultCapacityProviderStrategy(DefaultCapacityProviderStrategy): {
+  setDefaultCapacityProviderStrategy(DefaultCapacityProviderStrategy): {
     Properties+::: {
-      DefaultCapacityProviderStrategy: (if std.isArray(DefaultCapacityProviderStrategy) then DefaultCapacityProviderStrategy else [DefaultCapacityProviderStrategy]),
+      DefaultCapacityProviderStrategy:
+        if !std.isArray(DefaultCapacityProviderStrategy) then (error 'DefaultCapacityProviderStrategy must be an array')
+        else DefaultCapacityProviderStrategy,
     },
   },
-  withDefaultCapacityProviderStrategyMixin(DefaultCapacityProviderStrategy): {
+  setDefaultCapacityProviderStrategyMixin(DefaultCapacityProviderStrategy): {
     Properties+::: {
-      DefaultCapacityProviderStrategy+: (if std.isArray(DefaultCapacityProviderStrategy) then DefaultCapacityProviderStrategy else [DefaultCapacityProviderStrategy]),
+      DefaultCapacityProviderStrategy+: DefaultCapacityProviderStrategy,
     },
   },
-  withConfiguration(Configuration): {
-    assert std.isObject(Configuration) : 'Configuration must be a object',
+  setConfiguration(Configuration): {
     Properties+::: {
-      Configuration: Configuration,
+      Configuration:
+        if !std.isObject(Configuration) then (error 'Configuration must be an object')
+        else Configuration,
     },
   },
-  withServiceConnectDefaults(ServiceConnectDefaults): {
-    assert std.isObject(ServiceConnectDefaults) : 'ServiceConnectDefaults must be a object',
+  setServiceConnectDefaults(ServiceConnectDefaults): {
     Properties+::: {
-      ServiceConnectDefaults: ServiceConnectDefaults,
+      ServiceConnectDefaults:
+        if !std.isObject(ServiceConnectDefaults) then (error 'ServiceConnectDefaults must be an object')
+        else ServiceConnectDefaults,
     },
   },
-  withCapacityProviders(CapacityProviders): {
+  setCapacityProviders(CapacityProviders): {
     Properties+::: {
-      CapacityProviders: (if std.isArray(CapacityProviders) then CapacityProviders else [CapacityProviders]),
+      CapacityProviders:
+        if !std.isArray(CapacityProviders) then (error 'CapacityProviders must be an array')
+        else CapacityProviders,
     },
   },
-  withCapacityProvidersMixin(CapacityProviders): {
+  setCapacityProvidersMixin(CapacityProviders): {
     Properties+::: {
-      CapacityProviders+: (if std.isArray(CapacityProviders) then CapacityProviders else [CapacityProviders]),
+      CapacityProviders+: CapacityProviders,
     },
   },
-  withClusterName(ClusterName): {
-    assert std.isString(ClusterName) : 'ClusterName must be a string',
+  setClusterName(ClusterName): {
     Properties+::: {
-      ClusterName: ClusterName,
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else ClusterName,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

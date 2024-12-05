@@ -6,12 +6,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CacheNodeType) : 'CacheNodeType must be a string',
-      CacheNodeType: CacheNodeType,
-      assert std.isNumber(NumCacheNodes) : 'NumCacheNodes must be a number',
-      NumCacheNodes: NumCacheNodes,
-      assert std.isString(Engine) : 'Engine must be a string',
-      Engine: Engine,
+      CacheNodeType:
+        if !std.isString(CacheNodeType) then (error 'CacheNodeType must be a string')
+        else if std.isEmpty(CacheNodeType) then (error 'CacheNodeType must be not empty')
+        else CacheNodeType,
+      NumCacheNodes:
+        if !std.isNumber(NumCacheNodes) then (error 'NumCacheNodes must be an number')
+        else NumCacheNodes,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else Engine,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,250 +26,298 @@
     Metadata:: [],
     Type: 'AWS::ElastiCache::CacheCluster',
   },
-  withCacheSecurityGroupNames(CacheSecurityGroupNames): {
+  setCacheSecurityGroupNames(CacheSecurityGroupNames): {
     Properties+::: {
-      CacheSecurityGroupNames: (if std.isArray(CacheSecurityGroupNames) then CacheSecurityGroupNames else [CacheSecurityGroupNames]),
+      CacheSecurityGroupNames:
+        if !std.isArray(CacheSecurityGroupNames) then (error 'CacheSecurityGroupNames must be an array')
+        else CacheSecurityGroupNames,
     },
   },
-  withCacheSecurityGroupNamesMixin(CacheSecurityGroupNames): {
+  setCacheSecurityGroupNamesMixin(CacheSecurityGroupNames): {
     Properties+::: {
-      CacheSecurityGroupNames+: (if std.isArray(CacheSecurityGroupNames) then CacheSecurityGroupNames else [CacheSecurityGroupNames]),
+      CacheSecurityGroupNames+: CacheSecurityGroupNames,
     },
   },
-  withSnapshotArns(SnapshotArns): {
+  setSnapshotArns(SnapshotArns): {
     Properties+::: {
-      SnapshotArns: (if std.isArray(SnapshotArns) then SnapshotArns else [SnapshotArns]),
+      SnapshotArns:
+        if !std.isArray(SnapshotArns) then (error 'SnapshotArns must be an array')
+        else SnapshotArns,
     },
   },
-  withSnapshotArnsMixin(SnapshotArns): {
+  setSnapshotArnsMixin(SnapshotArns): {
     Properties+::: {
-      SnapshotArns+: (if std.isArray(SnapshotArns) then SnapshotArns else [SnapshotArns]),
+      SnapshotArns+: SnapshotArns,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withConfigurationEndpointAddress(ConfigurationEndpointAddress): {
-    assert std.isString(ConfigurationEndpointAddress) : 'ConfigurationEndpointAddress must be a string',
+  setConfigurationEndpointAddress(ConfigurationEndpointAddress): {
     Properties+::: {
-      ConfigurationEndpointAddress: ConfigurationEndpointAddress,
+      ConfigurationEndpointAddress:
+        if !std.isString(ConfigurationEndpointAddress) then (error 'ConfigurationEndpointAddress must be a string')
+        else if std.isEmpty(ConfigurationEndpointAddress) then (error 'ConfigurationEndpointAddress must be not empty')
+        else ConfigurationEndpointAddress,
     },
   },
-  withNotificationTopicArn(NotificationTopicArn): {
-    assert std.isString(NotificationTopicArn) : 'NotificationTopicArn must be a string',
+  setNotificationTopicArn(NotificationTopicArn): {
     Properties+::: {
-      NotificationTopicArn: NotificationTopicArn,
+      NotificationTopicArn:
+        if !std.isString(NotificationTopicArn) then (error 'NotificationTopicArn must be a string')
+        else if std.isEmpty(NotificationTopicArn) then (error 'NotificationTopicArn must be not empty')
+        else NotificationTopicArn,
     },
   },
-  withSnapshotName(SnapshotName): {
-    assert std.isString(SnapshotName) : 'SnapshotName must be a string',
+  setSnapshotName(SnapshotName): {
     Properties+::: {
-      SnapshotName: SnapshotName,
+      SnapshotName:
+        if !std.isString(SnapshotName) then (error 'SnapshotName must be a string')
+        else if std.isEmpty(SnapshotName) then (error 'SnapshotName must be not empty')
+        else SnapshotName,
     },
   },
-  withTransitEncryptionEnabled(TransitEncryptionEnabled): {
-    assert std.isBoolean(TransitEncryptionEnabled) : 'TransitEncryptionEnabled must be a boolean',
+  setTransitEncryptionEnabled(TransitEncryptionEnabled): {
     Properties+::: {
-      TransitEncryptionEnabled: TransitEncryptionEnabled,
+      TransitEncryptionEnabled:
+        if !std.isBoolean(TransitEncryptionEnabled) then (error 'TransitEncryptionEnabled must be a boolean') else TransitEncryptionEnabled,
     },
   },
-  withNetworkType(NetworkType): {
-    assert std.isString(NetworkType) : 'NetworkType must be a string',
+  setNetworkType(NetworkType): {
     Properties+::: {
-      NetworkType: NetworkType,
+      NetworkType:
+        if !std.isString(NetworkType) then (error 'NetworkType must be a string')
+        else if std.isEmpty(NetworkType) then (error 'NetworkType must be not empty')
+        else NetworkType,
     },
   },
-  withPreferredAvailabilityZones(PreferredAvailabilityZones): {
+  setPreferredAvailabilityZones(PreferredAvailabilityZones): {
     Properties+::: {
-      PreferredAvailabilityZones: (if std.isArray(PreferredAvailabilityZones) then PreferredAvailabilityZones else [PreferredAvailabilityZones]),
+      PreferredAvailabilityZones:
+        if !std.isArray(PreferredAvailabilityZones) then (error 'PreferredAvailabilityZones must be an array')
+        else PreferredAvailabilityZones,
     },
   },
-  withPreferredAvailabilityZonesMixin(PreferredAvailabilityZones): {
+  setPreferredAvailabilityZonesMixin(PreferredAvailabilityZones): {
     Properties+::: {
-      PreferredAvailabilityZones+: (if std.isArray(PreferredAvailabilityZones) then PreferredAvailabilityZones else [PreferredAvailabilityZones]),
+      PreferredAvailabilityZones+: PreferredAvailabilityZones,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withClusterName(ClusterName): {
-    assert std.isString(ClusterName) : 'ClusterName must be a string',
+  setClusterName(ClusterName): {
     Properties+::: {
-      ClusterName: ClusterName,
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else ClusterName,
     },
   },
-  withRedisEndpointAddress(RedisEndpointAddress): {
-    assert std.isString(RedisEndpointAddress) : 'RedisEndpointAddress must be a string',
+  setRedisEndpointAddress(RedisEndpointAddress): {
     Properties+::: {
-      RedisEndpointAddress: RedisEndpointAddress,
+      RedisEndpointAddress:
+        if !std.isString(RedisEndpointAddress) then (error 'RedisEndpointAddress must be a string')
+        else if std.isEmpty(RedisEndpointAddress) then (error 'RedisEndpointAddress must be not empty')
+        else RedisEndpointAddress,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withRedisEndpointPort(RedisEndpointPort): {
-    assert std.isString(RedisEndpointPort) : 'RedisEndpointPort must be a string',
+  setRedisEndpointPort(RedisEndpointPort): {
     Properties+::: {
-      RedisEndpointPort: RedisEndpointPort,
+      RedisEndpointPort:
+        if !std.isString(RedisEndpointPort) then (error 'RedisEndpointPort must be a string')
+        else if std.isEmpty(RedisEndpointPort) then (error 'RedisEndpointPort must be not empty')
+        else RedisEndpointPort,
     },
   },
-  withCacheSubnetGroupName(CacheSubnetGroupName): {
-    assert std.isString(CacheSubnetGroupName) : 'CacheSubnetGroupName must be a string',
+  setCacheSubnetGroupName(CacheSubnetGroupName): {
     Properties+::: {
-      CacheSubnetGroupName: CacheSubnetGroupName,
+      CacheSubnetGroupName:
+        if !std.isString(CacheSubnetGroupName) then (error 'CacheSubnetGroupName must be a string')
+        else if std.isEmpty(CacheSubnetGroupName) then (error 'CacheSubnetGroupName must be not empty')
+        else CacheSubnetGroupName,
     },
   },
-  withCacheParameterGroupName(CacheParameterGroupName): {
-    assert std.isString(CacheParameterGroupName) : 'CacheParameterGroupName must be a string',
+  setCacheParameterGroupName(CacheParameterGroupName): {
     Properties+::: {
-      CacheParameterGroupName: CacheParameterGroupName,
+      CacheParameterGroupName:
+        if !std.isString(CacheParameterGroupName) then (error 'CacheParameterGroupName must be a string')
+        else if std.isEmpty(CacheParameterGroupName) then (error 'CacheParameterGroupName must be not empty')
+        else CacheParameterGroupName,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withPreferredAvailabilityZone(PreferredAvailabilityZone): {
-    assert std.isString(PreferredAvailabilityZone) : 'PreferredAvailabilityZone must be a string',
+  setPreferredAvailabilityZone(PreferredAvailabilityZone): {
     Properties+::: {
-      PreferredAvailabilityZone: PreferredAvailabilityZone,
+      PreferredAvailabilityZone:
+        if !std.isString(PreferredAvailabilityZone) then (error 'PreferredAvailabilityZone must be a string')
+        else if std.isEmpty(PreferredAvailabilityZone) then (error 'PreferredAvailabilityZone must be not empty')
+        else PreferredAvailabilityZone,
     },
   },
-  withSnapshotWindow(SnapshotWindow): {
-    assert std.isString(SnapshotWindow) : 'SnapshotWindow must be a string',
+  setSnapshotWindow(SnapshotWindow): {
     Properties+::: {
-      SnapshotWindow: SnapshotWindow,
+      SnapshotWindow:
+        if !std.isString(SnapshotWindow) then (error 'SnapshotWindow must be a string')
+        else if std.isEmpty(SnapshotWindow) then (error 'SnapshotWindow must be not empty')
+        else SnapshotWindow,
     },
   },
-  withSnapshotRetentionLimit(SnapshotRetentionLimit): {
-    assert std.isNumber(SnapshotRetentionLimit) : 'SnapshotRetentionLimit must be a number',
+  setSnapshotRetentionLimit(SnapshotRetentionLimit): {
     Properties+::: {
-      SnapshotRetentionLimit: SnapshotRetentionLimit,
+      SnapshotRetentionLimit:
+        if !std.isNumber(SnapshotRetentionLimit) then (error 'SnapshotRetentionLimit must be an number')
+        else SnapshotRetentionLimit,
     },
   },
-  withConfigurationEndpointPort(ConfigurationEndpointPort): {
-    assert std.isString(ConfigurationEndpointPort) : 'ConfigurationEndpointPort must be a string',
+  setConfigurationEndpointPort(ConfigurationEndpointPort): {
     Properties+::: {
-      ConfigurationEndpointPort: ConfigurationEndpointPort,
+      ConfigurationEndpointPort:
+        if !std.isString(ConfigurationEndpointPort) then (error 'ConfigurationEndpointPort must be a string')
+        else if std.isEmpty(ConfigurationEndpointPort) then (error 'ConfigurationEndpointPort must be not empty')
+        else ConfigurationEndpointPort,
     },
   },
-  withIpDiscovery(IpDiscovery): {
-    assert std.isString(IpDiscovery) : 'IpDiscovery must be a string',
+  setIpDiscovery(IpDiscovery): {
     Properties+::: {
-      IpDiscovery: IpDiscovery,
+      IpDiscovery:
+        if !std.isString(IpDiscovery) then (error 'IpDiscovery must be a string')
+        else if std.isEmpty(IpDiscovery) then (error 'IpDiscovery must be not empty')
+        else IpDiscovery,
     },
   },
-  withLogDeliveryConfigurations(LogDeliveryConfigurations): {
+  setLogDeliveryConfigurations(LogDeliveryConfigurations): {
     Properties+::: {
-      LogDeliveryConfigurations: (if std.isArray(LogDeliveryConfigurations) then LogDeliveryConfigurations else [LogDeliveryConfigurations]),
+      LogDeliveryConfigurations:
+        if !std.isArray(LogDeliveryConfigurations) then (error 'LogDeliveryConfigurations must be an array')
+        else LogDeliveryConfigurations,
     },
   },
-  withLogDeliveryConfigurationsMixin(LogDeliveryConfigurations): {
+  setLogDeliveryConfigurationsMixin(LogDeliveryConfigurations): {
     Properties+::: {
-      LogDeliveryConfigurations+: (if std.isArray(LogDeliveryConfigurations) then LogDeliveryConfigurations else [LogDeliveryConfigurations]),
+      LogDeliveryConfigurations+: LogDeliveryConfigurations,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAZMode(AZMode): {
-    assert std.isString(AZMode) : 'AZMode must be a string',
+  setAZMode(AZMode): {
     Properties+::: {
-      AZMode: AZMode,
+      AZMode:
+        if !std.isString(AZMode) then (error 'AZMode must be a string')
+        else if std.isEmpty(AZMode) then (error 'AZMode must be not empty')
+        else AZMode,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

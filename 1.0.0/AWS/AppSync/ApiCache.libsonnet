@@ -7,14 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(ApiCachingBehavior) : 'ApiCachingBehavior must be a string',
-      ApiCachingBehavior: ApiCachingBehavior,
-      assert std.isNumber(Ttl) : 'Ttl must be a number',
-      Ttl: Ttl,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      ApiCachingBehavior:
+        if !std.isString(ApiCachingBehavior) then (error 'ApiCachingBehavior must be a string')
+        else if std.isEmpty(ApiCachingBehavior) then (error 'ApiCachingBehavior must be not empty')
+        else ApiCachingBehavior,
+      Ttl:
+        if !std.isNumber(Ttl) then (error 'Ttl must be an number')
+        else Ttl,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,88 +31,92 @@
     Metadata:: [],
     Type: 'AWS::AppSync::ApiCache',
   },
-  withTransitEncryptionEnabled(TransitEncryptionEnabled): {
-    assert std.isBoolean(TransitEncryptionEnabled) : 'TransitEncryptionEnabled must be a boolean',
+  setTransitEncryptionEnabled(TransitEncryptionEnabled): {
     Properties+::: {
-      TransitEncryptionEnabled: TransitEncryptionEnabled,
+      TransitEncryptionEnabled:
+        if !std.isBoolean(TransitEncryptionEnabled) then (error 'TransitEncryptionEnabled must be a boolean') else TransitEncryptionEnabled,
     },
   },
-  withHealthMetricsConfig(HealthMetricsConfig): {
-    assert std.isString(HealthMetricsConfig) : 'HealthMetricsConfig must be a string',
+  setHealthMetricsConfig(HealthMetricsConfig): {
     Properties+::: {
-      HealthMetricsConfig: HealthMetricsConfig,
+      HealthMetricsConfig:
+        if !std.isString(HealthMetricsConfig) then (error 'HealthMetricsConfig must be a string')
+        else if std.isEmpty(HealthMetricsConfig) then (error 'HealthMetricsConfig must be not empty')
+        else HealthMetricsConfig,
     },
   },
-  withAtRestEncryptionEnabled(AtRestEncryptionEnabled): {
-    assert std.isBoolean(AtRestEncryptionEnabled) : 'AtRestEncryptionEnabled must be a boolean',
+  setAtRestEncryptionEnabled(AtRestEncryptionEnabled): {
     Properties+::: {
-      AtRestEncryptionEnabled: AtRestEncryptionEnabled,
+      AtRestEncryptionEnabled:
+        if !std.isBoolean(AtRestEncryptionEnabled) then (error 'AtRestEncryptionEnabled must be a boolean') else AtRestEncryptionEnabled,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

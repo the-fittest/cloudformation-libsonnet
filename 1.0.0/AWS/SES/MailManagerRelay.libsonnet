@@ -7,10 +7,17 @@
     local base = self,
     Properties: {
       Authentication: Authentication,
-      assert std.isString(ServerName) : 'ServerName must be a string',
-      ServerName: ServerName,
-      assert std.isNumber(ServerPort) : 'ServerPort must be a number',
-      ServerPort: ServerPort,
+      ServerName:
+        if !std.isString(ServerName) then (error 'ServerName must be a string')
+        else if std.isEmpty(ServerName) then (error 'ServerName must be not empty')
+        else if std.length(ServerName) < 1 then error ('ServerName should have at least 1 characters')
+        else if std.length(ServerName) > 100 then error ('ServerName should have not more than 100 characters')
+        else ServerName,
+      ServerPort:
+        if !std.isNumber(ServerPort) then (error 'ServerPort must be an number')
+        else if ServerPort < 1 then error ('ServerPort should be at least 1')
+        else if ServerPort > 65535 then error ('ServerPort should be not more than 65535')
+        else ServerPort,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,92 +27,105 @@
     Metadata:: [],
     Type: 'AWS::SES::MailManagerRelay',
   },
-  withRelayArn(RelayArn): {
-    assert std.isString(RelayArn) : 'RelayArn must be a string',
+  setRelayArn(RelayArn): {
     Properties+::: {
-      RelayArn: RelayArn,
+      RelayArn:
+        if !std.isString(RelayArn) then (error 'RelayArn must be a string')
+        else if std.isEmpty(RelayArn) then (error 'RelayArn must be not empty')
+        else RelayArn,
     },
   },
-  withRelayId(RelayId): {
-    assert std.isString(RelayId) : 'RelayId must be a string',
+  setRelayId(RelayId): {
     Properties+::: {
-      RelayId: RelayId,
+      RelayId:
+        if !std.isString(RelayId) then (error 'RelayId must be a string')
+        else if std.isEmpty(RelayId) then (error 'RelayId must be not empty')
+        else if std.length(RelayId) < 1 then error ('RelayId should have at least 1 characters')
+        else if std.length(RelayId) > 100 then error ('RelayId should have not more than 100 characters')
+        else RelayId,
     },
   },
-  withRelayName(RelayName): {
-    assert std.isString(RelayName) : 'RelayName must be a string',
+  setRelayName(RelayName): {
     Properties+::: {
-      RelayName: RelayName,
+      RelayName:
+        if !std.isString(RelayName) then (error 'RelayName must be a string')
+        else if std.isEmpty(RelayName) then (error 'RelayName must be not empty')
+        else if std.length(RelayName) < 1 then error ('RelayName should have at least 1 characters')
+        else if std.length(RelayName) > 100 then error ('RelayName should have not more than 100 characters')
+        else RelayName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

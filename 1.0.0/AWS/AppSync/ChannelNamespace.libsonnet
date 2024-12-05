@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 50 then error ('Name should have not more than 50 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,112 +24,126 @@
     Metadata:: [],
     Type: 'AWS::AppSync::ChannelNamespace',
   },
-  withSubscribeAuthModes(SubscribeAuthModes): {
+  setSubscribeAuthModes(SubscribeAuthModes): {
     Properties+::: {
-      SubscribeAuthModes: (if std.isArray(SubscribeAuthModes) then SubscribeAuthModes else [SubscribeAuthModes]),
+      SubscribeAuthModes:
+        if !std.isArray(SubscribeAuthModes) then (error 'SubscribeAuthModes must be an array')
+        else SubscribeAuthModes,
     },
   },
-  withSubscribeAuthModesMixin(SubscribeAuthModes): {
+  setSubscribeAuthModesMixin(SubscribeAuthModes): {
     Properties+::: {
-      SubscribeAuthModes+: (if std.isArray(SubscribeAuthModes) then SubscribeAuthModes else [SubscribeAuthModes]),
+      SubscribeAuthModes+: SubscribeAuthModes,
     },
   },
-  withPublishAuthModes(PublishAuthModes): {
+  setPublishAuthModes(PublishAuthModes): {
     Properties+::: {
-      PublishAuthModes: (if std.isArray(PublishAuthModes) then PublishAuthModes else [PublishAuthModes]),
+      PublishAuthModes:
+        if !std.isArray(PublishAuthModes) then (error 'PublishAuthModes must be an array')
+        else PublishAuthModes,
     },
   },
-  withPublishAuthModesMixin(PublishAuthModes): {
+  setPublishAuthModesMixin(PublishAuthModes): {
     Properties+::: {
-      PublishAuthModes+: (if std.isArray(PublishAuthModes) then PublishAuthModes else [PublishAuthModes]),
+      PublishAuthModes+: PublishAuthModes,
     },
   },
-  withCodeHandlers(CodeHandlers): {
-    assert std.isString(CodeHandlers) : 'CodeHandlers must be a string',
+  setCodeHandlers(CodeHandlers): {
     Properties+::: {
-      CodeHandlers: CodeHandlers,
+      CodeHandlers:
+        if !std.isString(CodeHandlers) then (error 'CodeHandlers must be a string')
+        else if std.isEmpty(CodeHandlers) then (error 'CodeHandlers must be not empty')
+        else if std.length(CodeHandlers) < 1 then error ('CodeHandlers should have at least 1 characters')
+        else if std.length(CodeHandlers) > 32768 then error ('CodeHandlers should have not more than 32768 characters')
+        else CodeHandlers,
     },
   },
-  withCodeS3Location(CodeS3Location): {
-    assert std.isString(CodeS3Location) : 'CodeS3Location must be a string',
+  setCodeS3Location(CodeS3Location): {
     Properties+::: {
-      CodeS3Location: CodeS3Location,
+      CodeS3Location:
+        if !std.isString(CodeS3Location) then (error 'CodeS3Location must be a string')
+        else if std.isEmpty(CodeS3Location) then (error 'CodeS3Location must be not empty')
+        else CodeS3Location,
     },
   },
-  withChannelNamespaceArn(ChannelNamespaceArn): {
-    assert std.isString(ChannelNamespaceArn) : 'ChannelNamespaceArn must be a string',
+  setChannelNamespaceArn(ChannelNamespaceArn): {
     Properties+::: {
-      ChannelNamespaceArn: ChannelNamespaceArn,
+      ChannelNamespaceArn:
+        if !std.isString(ChannelNamespaceArn) then (error 'ChannelNamespaceArn must be a string')
+        else if std.isEmpty(ChannelNamespaceArn) then (error 'ChannelNamespaceArn must be not empty')
+        else ChannelNamespaceArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

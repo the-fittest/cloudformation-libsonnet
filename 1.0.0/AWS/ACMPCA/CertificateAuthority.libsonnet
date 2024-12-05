@@ -7,14 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
-      assert std.isString(KeyAlgorithm) : 'KeyAlgorithm must be a string',
-      KeyAlgorithm: KeyAlgorithm,
-      assert std.isString(SigningAlgorithm) : 'SigningAlgorithm must be a string',
-      SigningAlgorithm: SigningAlgorithm,
-      assert std.isObject(Subject) : 'Subject must be an object',
-      Subject: Subject,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
+      KeyAlgorithm:
+        if !std.isString(KeyAlgorithm) then (error 'KeyAlgorithm must be a string')
+        else if std.isEmpty(KeyAlgorithm) then (error 'KeyAlgorithm must be not empty')
+        else KeyAlgorithm,
+      SigningAlgorithm:
+        if !std.isString(SigningAlgorithm) then (error 'SigningAlgorithm must be a string')
+        else if std.isEmpty(SigningAlgorithm) then (error 'SigningAlgorithm must be not empty')
+        else SigningAlgorithm,
+      Subject:
+        if !std.isObject(Subject) then (error 'Subject must be an object')
+        else Subject,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,110 +31,122 @@
     Metadata:: [],
     Type: 'AWS::ACMPCA::CertificateAuthority',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withRevocationConfiguration(RevocationConfiguration): {
-    assert std.isObject(RevocationConfiguration) : 'RevocationConfiguration must be a object',
+  setRevocationConfiguration(RevocationConfiguration): {
     Properties+::: {
-      RevocationConfiguration: RevocationConfiguration,
+      RevocationConfiguration:
+        if !std.isObject(RevocationConfiguration) then (error 'RevocationConfiguration must be an object')
+        else RevocationConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCertificateSigningRequest(CertificateSigningRequest): {
-    assert std.isString(CertificateSigningRequest) : 'CertificateSigningRequest must be a string',
+  setCertificateSigningRequest(CertificateSigningRequest): {
     Properties+::: {
-      CertificateSigningRequest: CertificateSigningRequest,
+      CertificateSigningRequest:
+        if !std.isString(CertificateSigningRequest) then (error 'CertificateSigningRequest must be a string')
+        else if std.isEmpty(CertificateSigningRequest) then (error 'CertificateSigningRequest must be not empty')
+        else CertificateSigningRequest,
     },
   },
-  withCsrExtensions(CsrExtensions): {
-    assert std.isObject(CsrExtensions) : 'CsrExtensions must be a object',
+  setCsrExtensions(CsrExtensions): {
     Properties+::: {
-      CsrExtensions: CsrExtensions,
+      CsrExtensions:
+        if !std.isObject(CsrExtensions) then (error 'CsrExtensions must be an object')
+        else CsrExtensions,
     },
   },
-  withKeyStorageSecurityStandard(KeyStorageSecurityStandard): {
-    assert std.isString(KeyStorageSecurityStandard) : 'KeyStorageSecurityStandard must be a string',
+  setKeyStorageSecurityStandard(KeyStorageSecurityStandard): {
     Properties+::: {
-      KeyStorageSecurityStandard: KeyStorageSecurityStandard,
+      KeyStorageSecurityStandard:
+        if !std.isString(KeyStorageSecurityStandard) then (error 'KeyStorageSecurityStandard must be a string')
+        else if std.isEmpty(KeyStorageSecurityStandard) then (error 'KeyStorageSecurityStandard must be not empty')
+        else KeyStorageSecurityStandard,
     },
   },
-  withUsageMode(UsageMode): {
-    assert std.isString(UsageMode) : 'UsageMode must be a string',
+  setUsageMode(UsageMode): {
     Properties+::: {
-      UsageMode: UsageMode,
+      UsageMode:
+        if !std.isString(UsageMode) then (error 'UsageMode must be a string')
+        else if std.isEmpty(UsageMode) then (error 'UsageMode must be not empty')
+        else UsageMode,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

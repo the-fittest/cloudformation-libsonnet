@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ScheduledActionName) : 'ScheduledActionName must be a string',
-      ScheduledActionName: ScheduledActionName,
+      ScheduledActionName:
+        if !std.isString(ScheduledActionName) then (error 'ScheduledActionName must be a string')
+        else if std.isEmpty(ScheduledActionName) then (error 'ScheduledActionName must be not empty')
+        else ScheduledActionName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,123 +17,138 @@
     Metadata:: [],
     Type: 'AWS::Redshift::ScheduledAction',
   },
-  withScheduledActionDescription(ScheduledActionDescription): {
-    assert std.isString(ScheduledActionDescription) : 'ScheduledActionDescription must be a string',
+  setScheduledActionDescription(ScheduledActionDescription): {
     Properties+::: {
-      ScheduledActionDescription: ScheduledActionDescription,
+      ScheduledActionDescription:
+        if !std.isString(ScheduledActionDescription) then (error 'ScheduledActionDescription must be a string')
+        else if std.isEmpty(ScheduledActionDescription) then (error 'ScheduledActionDescription must be not empty')
+        else ScheduledActionDescription,
     },
   },
-  withEndTime(EndTime): {
-    assert std.isString(EndTime) : 'EndTime must be a string',
+  setEndTime(EndTime): {
     Properties+::: {
-      EndTime: EndTime,
+      EndTime:
+        if !std.isString(EndTime) then (error 'EndTime must be a string')
+        else if std.isEmpty(EndTime) then (error 'EndTime must be not empty')
+        else EndTime,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'ACTIVE' || State == 'DISABLED' : "State should be 'ACTIVE' or 'DISABLED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'ACTIVE' && State != 'DISABLED' then (error "State should be 'ACTIVE' or 'DISABLED'")
+        else State,
     },
   },
-  withSchedule(Schedule): {
-    assert std.isString(Schedule) : 'Schedule must be a string',
+  setSchedule(Schedule): {
     Properties+::: {
-      Schedule: Schedule,
+      Schedule:
+        if !std.isString(Schedule) then (error 'Schedule must be a string')
+        else if std.isEmpty(Schedule) then (error 'Schedule must be not empty')
+        else Schedule,
     },
   },
-  withIamRole(IamRole): {
-    assert std.isString(IamRole) : 'IamRole must be a string',
+  setIamRole(IamRole): {
     Properties+::: {
-      IamRole: IamRole,
+      IamRole:
+        if !std.isString(IamRole) then (error 'IamRole must be a string')
+        else if std.isEmpty(IamRole) then (error 'IamRole must be not empty')
+        else IamRole,
     },
   },
-  withStartTime(StartTime): {
-    assert std.isString(StartTime) : 'StartTime must be a string',
+  setStartTime(StartTime): {
     Properties+::: {
-      StartTime: StartTime,
+      StartTime:
+        if !std.isString(StartTime) then (error 'StartTime must be a string')
+        else if std.isEmpty(StartTime) then (error 'StartTime must be not empty')
+        else StartTime,
     },
   },
-  withEnable(Enable): {
-    assert std.isBoolean(Enable) : 'Enable must be a boolean',
+  setEnable(Enable): {
     Properties+::: {
-      Enable: Enable,
+      Enable:
+        if !std.isBoolean(Enable) then (error 'Enable must be a boolean') else Enable,
     },
   },
-  withTargetAction(TargetAction): {
-    assert std.isObject(TargetAction) : 'TargetAction must be a object',
+  setTargetAction(TargetAction): {
     Properties+::: {
-      TargetAction: TargetAction,
+      TargetAction:
+        if !std.isObject(TargetAction) then (error 'TargetAction must be an object')
+        else TargetAction,
     },
   },
-  withNextInvocations(NextInvocations): {
+  setNextInvocations(NextInvocations): {
     Properties+::: {
-      NextInvocations: (if std.isArray(NextInvocations) then NextInvocations else [NextInvocations]),
+      NextInvocations:
+        if !std.isArray(NextInvocations) then (error 'NextInvocations must be an array')
+        else NextInvocations,
     },
   },
-  withNextInvocationsMixin(NextInvocations): {
+  setNextInvocationsMixin(NextInvocations): {
     Properties+::: {
-      NextInvocations+: (if std.isArray(NextInvocations) then NextInvocations else [NextInvocations]),
+      NextInvocations+: NextInvocations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,230 +10,265 @@
     Metadata:: [],
     Type: 'AWS::OpenSearchService::Domain',
   },
-  withClusterConfig(ClusterConfig): {
-    assert std.isObject(ClusterConfig) : 'ClusterConfig must be a object',
+  setClusterConfig(ClusterConfig): {
     Properties+::: {
-      ClusterConfig: ClusterConfig,
+      ClusterConfig:
+        if !std.isObject(ClusterConfig) then (error 'ClusterConfig must be an object')
+        else ClusterConfig,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
   },
-  withAccessPolicies(AccessPolicies): {
-    assert std.isObject(AccessPolicies) : 'AccessPolicies must be a object',
+  setAccessPolicies(AccessPolicies): {
     Properties+::: {
-      AccessPolicies: AccessPolicies,
+      AccessPolicies:
+        if !std.isObject(AccessPolicies) then (error 'AccessPolicies must be an object')
+        else AccessPolicies,
     },
   },
-  withIPAddressType(IPAddressType): {
-    assert std.isString(IPAddressType) : 'IPAddressType must be a string',
+  setIPAddressType(IPAddressType): {
     Properties+::: {
-      IPAddressType: IPAddressType,
+      IPAddressType:
+        if !std.isString(IPAddressType) then (error 'IPAddressType must be a string')
+        else if std.isEmpty(IPAddressType) then (error 'IPAddressType must be not empty')
+        else IPAddressType,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withAdvancedOptions(AdvancedOptions): {
-    assert std.isObject(AdvancedOptions) : 'AdvancedOptions must be a object',
+  setAdvancedOptions(AdvancedOptions): {
     Properties+::: {
-      AdvancedOptions: AdvancedOptions,
+      AdvancedOptions:
+        if !std.isObject(AdvancedOptions) then (error 'AdvancedOptions must be an object')
+        else AdvancedOptions,
     },
   },
-  withLogPublishingOptions(LogPublishingOptions): {
-    assert std.isObject(LogPublishingOptions) : 'LogPublishingOptions must be a object',
+  setLogPublishingOptions(LogPublishingOptions): {
     Properties+::: {
-      LogPublishingOptions: LogPublishingOptions,
+      LogPublishingOptions:
+        if !std.isObject(LogPublishingOptions) then (error 'LogPublishingOptions must be an object')
+        else LogPublishingOptions,
     },
   },
-  withSnapshotOptions(SnapshotOptions): {
-    assert std.isObject(SnapshotOptions) : 'SnapshotOptions must be a object',
+  setSnapshotOptions(SnapshotOptions): {
     Properties+::: {
-      SnapshotOptions: SnapshotOptions,
+      SnapshotOptions:
+        if !std.isObject(SnapshotOptions) then (error 'SnapshotOptions must be an object')
+        else SnapshotOptions,
     },
   },
-  withVPCOptions(VPCOptions): {
-    assert std.isObject(VPCOptions) : 'VPCOptions must be a object',
+  setVPCOptions(VPCOptions): {
     Properties+::: {
-      VPCOptions: VPCOptions,
+      VPCOptions:
+        if !std.isObject(VPCOptions) then (error 'VPCOptions must be an object')
+        else VPCOptions,
     },
   },
-  withNodeToNodeEncryptionOptions(NodeToNodeEncryptionOptions): {
-    assert std.isObject(NodeToNodeEncryptionOptions) : 'NodeToNodeEncryptionOptions must be a object',
+  setNodeToNodeEncryptionOptions(NodeToNodeEncryptionOptions): {
     Properties+::: {
-      NodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions,
+      NodeToNodeEncryptionOptions:
+        if !std.isObject(NodeToNodeEncryptionOptions) then (error 'NodeToNodeEncryptionOptions must be an object')
+        else NodeToNodeEncryptionOptions,
     },
   },
-  withDomainEndpointOptions(DomainEndpointOptions): {
-    assert std.isObject(DomainEndpointOptions) : 'DomainEndpointOptions must be a object',
+  setDomainEndpointOptions(DomainEndpointOptions): {
     Properties+::: {
-      DomainEndpointOptions: DomainEndpointOptions,
+      DomainEndpointOptions:
+        if !std.isObject(DomainEndpointOptions) then (error 'DomainEndpointOptions must be an object')
+        else DomainEndpointOptions,
     },
   },
-  withCognitoOptions(CognitoOptions): {
-    assert std.isObject(CognitoOptions) : 'CognitoOptions must be a object',
+  setCognitoOptions(CognitoOptions): {
     Properties+::: {
-      CognitoOptions: CognitoOptions,
+      CognitoOptions:
+        if !std.isObject(CognitoOptions) then (error 'CognitoOptions must be an object')
+        else CognitoOptions,
     },
   },
-  withAdvancedSecurityOptions(AdvancedSecurityOptions): {
-    assert std.isObject(AdvancedSecurityOptions) : 'AdvancedSecurityOptions must be a object',
+  setAdvancedSecurityOptions(AdvancedSecurityOptions): {
     Properties+::: {
-      AdvancedSecurityOptions: AdvancedSecurityOptions,
+      AdvancedSecurityOptions:
+        if !std.isObject(AdvancedSecurityOptions) then (error 'AdvancedSecurityOptions must be an object')
+        else AdvancedSecurityOptions,
     },
   },
-  withDomainEndpoint(DomainEndpoint): {
-    assert std.isString(DomainEndpoint) : 'DomainEndpoint must be a string',
+  setDomainEndpoint(DomainEndpoint): {
     Properties+::: {
-      DomainEndpoint: DomainEndpoint,
+      DomainEndpoint:
+        if !std.isString(DomainEndpoint) then (error 'DomainEndpoint must be a string')
+        else if std.isEmpty(DomainEndpoint) then (error 'DomainEndpoint must be not empty')
+        else DomainEndpoint,
     },
   },
-  withDomainEndpointV2(DomainEndpointV2): {
-    assert std.isString(DomainEndpointV2) : 'DomainEndpointV2 must be a string',
+  setDomainEndpointV2(DomainEndpointV2): {
     Properties+::: {
-      DomainEndpointV2: DomainEndpointV2,
+      DomainEndpointV2:
+        if !std.isString(DomainEndpointV2) then (error 'DomainEndpointV2 must be a string')
+        else if std.isEmpty(DomainEndpointV2) then (error 'DomainEndpointV2 must be not empty')
+        else DomainEndpointV2,
     },
   },
-  withDomainEndpoints(DomainEndpoints): {
-    assert std.isObject(DomainEndpoints) : 'DomainEndpoints must be a object',
+  setDomainEndpoints(DomainEndpoints): {
     Properties+::: {
-      DomainEndpoints: DomainEndpoints,
+      DomainEndpoints:
+        if !std.isObject(DomainEndpoints) then (error 'DomainEndpoints must be an object')
+        else DomainEndpoints,
     },
   },
-  withEBSOptions(EBSOptions): {
-    assert std.isObject(EBSOptions) : 'EBSOptions must be a object',
+  setEBSOptions(EBSOptions): {
     Properties+::: {
-      EBSOptions: EBSOptions,
+      EBSOptions:
+        if !std.isObject(EBSOptions) then (error 'EBSOptions must be an object')
+        else EBSOptions,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDomainArn(DomainArn): {
-    assert std.isString(DomainArn) : 'DomainArn must be a string',
+  setDomainArn(DomainArn): {
     Properties+::: {
-      DomainArn: DomainArn,
+      DomainArn:
+        if !std.isString(DomainArn) then (error 'DomainArn must be a string')
+        else if std.isEmpty(DomainArn) then (error 'DomainArn must be not empty')
+        else DomainArn,
     },
   },
-  withEncryptionAtRestOptions(EncryptionAtRestOptions): {
-    assert std.isObject(EncryptionAtRestOptions) : 'EncryptionAtRestOptions must be a object',
+  setEncryptionAtRestOptions(EncryptionAtRestOptions): {
     Properties+::: {
-      EncryptionAtRestOptions: EncryptionAtRestOptions,
+      EncryptionAtRestOptions:
+        if !std.isObject(EncryptionAtRestOptions) then (error 'EncryptionAtRestOptions must be an object')
+        else EncryptionAtRestOptions,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withServiceSoftwareOptions(ServiceSoftwareOptions): {
-    assert std.isObject(ServiceSoftwareOptions) : 'ServiceSoftwareOptions must be a object',
+  setServiceSoftwareOptions(ServiceSoftwareOptions): {
     Properties+::: {
-      ServiceSoftwareOptions: ServiceSoftwareOptions,
+      ServiceSoftwareOptions:
+        if !std.isObject(ServiceSoftwareOptions) then (error 'ServiceSoftwareOptions must be an object')
+        else ServiceSoftwareOptions,
     },
   },
-  withOffPeakWindowOptions(OffPeakWindowOptions): {
-    assert std.isObject(OffPeakWindowOptions) : 'OffPeakWindowOptions must be a object',
+  setOffPeakWindowOptions(OffPeakWindowOptions): {
     Properties+::: {
-      OffPeakWindowOptions: OffPeakWindowOptions,
+      OffPeakWindowOptions:
+        if !std.isObject(OffPeakWindowOptions) then (error 'OffPeakWindowOptions must be an object')
+        else OffPeakWindowOptions,
     },
   },
-  withSoftwareUpdateOptions(SoftwareUpdateOptions): {
-    assert std.isObject(SoftwareUpdateOptions) : 'SoftwareUpdateOptions must be a object',
+  setSoftwareUpdateOptions(SoftwareUpdateOptions): {
     Properties+::: {
-      SoftwareUpdateOptions: SoftwareUpdateOptions,
+      SoftwareUpdateOptions:
+        if !std.isObject(SoftwareUpdateOptions) then (error 'SoftwareUpdateOptions must be an object')
+        else SoftwareUpdateOptions,
     },
   },
-  withSkipShardMigrationWait(SkipShardMigrationWait): {
-    assert std.isBoolean(SkipShardMigrationWait) : 'SkipShardMigrationWait must be a boolean',
+  setSkipShardMigrationWait(SkipShardMigrationWait): {
     Properties+::: {
-      SkipShardMigrationWait: SkipShardMigrationWait,
+      SkipShardMigrationWait:
+        if !std.isBoolean(SkipShardMigrationWait) then (error 'SkipShardMigrationWait must be a boolean') else SkipShardMigrationWait,
     },
   },
-  withIdentityCenterOptions(IdentityCenterOptions): {
-    assert std.isObject(IdentityCenterOptions) : 'IdentityCenterOptions must be a object',
+  setIdentityCenterOptions(IdentityCenterOptions): {
     Properties+::: {
-      IdentityCenterOptions: IdentityCenterOptions,
+      IdentityCenterOptions:
+        if !std.isObject(IdentityCenterOptions) then (error 'IdentityCenterOptions must be an object')
+        else IdentityCenterOptions,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,9 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      ConnectionEvents: (if std.isArray(ConnectionEvents) then ConnectionEvents else [ConnectionEvents]),
-      assert std.isString(ConnectionNotificationArn) : 'ConnectionNotificationArn must be a string',
-      ConnectionNotificationArn: ConnectionNotificationArn,
+      ConnectionEvents:
+        if !std.isArray(ConnectionEvents) then (error 'ConnectionEvents must be an array')
+        else ConnectionEvents,
+      ConnectionNotificationArn:
+        if !std.isString(ConnectionNotificationArn) then (error 'ConnectionNotificationArn must be a string')
+        else if std.isEmpty(ConnectionNotificationArn) then (error 'ConnectionNotificationArn must be not empty')
+        else ConnectionNotificationArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,82 +21,88 @@
     Metadata:: [],
     Type: 'AWS::EC2::VPCEndpointConnectionNotification',
   },
-  withVPCEndpointId(VPCEndpointId): {
-    assert std.isString(VPCEndpointId) : 'VPCEndpointId must be a string',
+  setVPCEndpointId(VPCEndpointId): {
     Properties+::: {
-      VPCEndpointId: VPCEndpointId,
+      VPCEndpointId:
+        if !std.isString(VPCEndpointId) then (error 'VPCEndpointId must be a string')
+        else if std.isEmpty(VPCEndpointId) then (error 'VPCEndpointId must be not empty')
+        else VPCEndpointId,
     },
   },
-  withVPCEndpointConnectionNotificationId(VPCEndpointConnectionNotificationId): {
-    assert std.isString(VPCEndpointConnectionNotificationId) : 'VPCEndpointConnectionNotificationId must be a string',
+  setVPCEndpointConnectionNotificationId(VPCEndpointConnectionNotificationId): {
     Properties+::: {
-      VPCEndpointConnectionNotificationId: VPCEndpointConnectionNotificationId,
+      VPCEndpointConnectionNotificationId:
+        if !std.isString(VPCEndpointConnectionNotificationId) then (error 'VPCEndpointConnectionNotificationId must be a string')
+        else if std.isEmpty(VPCEndpointConnectionNotificationId) then (error 'VPCEndpointConnectionNotificationId must be not empty')
+        else VPCEndpointConnectionNotificationId,
     },
   },
-  withServiceId(ServiceId): {
-    assert std.isString(ServiceId) : 'ServiceId must be a string',
+  setServiceId(ServiceId): {
     Properties+::: {
-      ServiceId: ServiceId,
+      ServiceId:
+        if !std.isString(ServiceId) then (error 'ServiceId must be a string')
+        else if std.isEmpty(ServiceId) then (error 'ServiceId must be not empty')
+        else ServiceId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

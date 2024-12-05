@@ -8,16 +8,26 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterName) : 'ClusterName must be a string',
-      ClusterName: ClusterName,
-      assert std.isString(AdminUserName) : 'AdminUserName must be a string',
-      AdminUserName: AdminUserName,
-      assert std.isNumber(ShardCapacity) : 'ShardCapacity must be a number',
-      ShardCapacity: ShardCapacity,
-      assert std.isNumber(ShardCount) : 'ShardCount must be a number',
-      ShardCount: ShardCount,
-      assert std.isString(AuthType) : 'AuthType must be a string',
-      AuthType: AuthType,
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else if std.length(ClusterName) < 1 then error ('ClusterName should have at least 1 characters')
+        else if std.length(ClusterName) > 50 then error ('ClusterName should have not more than 50 characters')
+        else ClusterName,
+      AdminUserName:
+        if !std.isString(AdminUserName) then (error 'AdminUserName must be a string')
+        else if std.isEmpty(AdminUserName) then (error 'AdminUserName must be not empty')
+        else AdminUserName,
+      ShardCapacity:
+        if !std.isNumber(ShardCapacity) then (error 'ShardCapacity must be an number')
+        else ShardCapacity,
+      ShardCount:
+        if !std.isNumber(ShardCount) then (error 'ShardCount must be an number')
+        else ShardCount,
+      AuthType:
+        if !std.isString(AuthType) then (error 'AuthType must be a string')
+        else if std.isEmpty(AuthType) then (error 'AuthType must be not empty')
+        else AuthType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,142 +37,163 @@
     Metadata:: [],
     Type: 'AWS::DocDBElastic::Cluster',
   },
-  withClusterArn(ClusterArn): {
-    assert std.isString(ClusterArn) : 'ClusterArn must be a string',
+  setClusterArn(ClusterArn): {
     Properties+::: {
-      ClusterArn: ClusterArn,
+      ClusterArn:
+        if !std.isString(ClusterArn) then (error 'ClusterArn must be a string')
+        else if std.isEmpty(ClusterArn) then (error 'ClusterArn must be not empty')
+        else ClusterArn,
     },
   },
-  withClusterEndpoint(ClusterEndpoint): {
-    assert std.isString(ClusterEndpoint) : 'ClusterEndpoint must be a string',
+  setClusterEndpoint(ClusterEndpoint): {
     Properties+::: {
-      ClusterEndpoint: ClusterEndpoint,
+      ClusterEndpoint:
+        if !std.isString(ClusterEndpoint) then (error 'ClusterEndpoint must be a string')
+        else if std.isEmpty(ClusterEndpoint) then (error 'ClusterEndpoint must be not empty')
+        else ClusterEndpoint,
     },
   },
-  withAdminUserPassword(AdminUserPassword): {
-    assert std.isString(AdminUserPassword) : 'AdminUserPassword must be a string',
+  setAdminUserPassword(AdminUserPassword): {
     Properties+::: {
-      AdminUserPassword: AdminUserPassword,
+      AdminUserPassword:
+        if !std.isString(AdminUserPassword) then (error 'AdminUserPassword must be a string')
+        else if std.isEmpty(AdminUserPassword) then (error 'AdminUserPassword must be not empty')
+        else AdminUserPassword,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withSubnetIds(SubnetIds): {
+  setSubnetIds(SubnetIds): {
     Properties+::: {
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else SubnetIds,
     },
   },
-  withSubnetIdsMixin(SubnetIds): {
+  setSubnetIdsMixin(SubnetIds): {
     Properties+::: {
-      SubnetIds+: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
+      SubnetIds+: SubnetIds,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withPreferredBackupWindow(PreferredBackupWindow): {
-    assert std.isString(PreferredBackupWindow) : 'PreferredBackupWindow must be a string',
+  setPreferredBackupWindow(PreferredBackupWindow): {
     Properties+::: {
-      PreferredBackupWindow: PreferredBackupWindow,
+      PreferredBackupWindow:
+        if !std.isString(PreferredBackupWindow) then (error 'PreferredBackupWindow must be a string')
+        else if std.isEmpty(PreferredBackupWindow) then (error 'PreferredBackupWindow must be not empty')
+        else PreferredBackupWindow,
     },
   },
-  withBackupRetentionPeriod(BackupRetentionPeriod): {
-    assert std.isNumber(BackupRetentionPeriod) : 'BackupRetentionPeriod must be a number',
+  setBackupRetentionPeriod(BackupRetentionPeriod): {
     Properties+::: {
-      BackupRetentionPeriod: BackupRetentionPeriod,
+      BackupRetentionPeriod:
+        if !std.isNumber(BackupRetentionPeriod) then (error 'BackupRetentionPeriod must be an number')
+        else BackupRetentionPeriod,
     },
   },
-  withShardInstanceCount(ShardInstanceCount): {
-    assert std.isNumber(ShardInstanceCount) : 'ShardInstanceCount must be a number',
+  setShardInstanceCount(ShardInstanceCount): {
     Properties+::: {
-      ShardInstanceCount: ShardInstanceCount,
+      ShardInstanceCount:
+        if !std.isNumber(ShardInstanceCount) then (error 'ShardInstanceCount must be an number')
+        else ShardInstanceCount,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,154 +10,195 @@
     Metadata:: [],
     Type: 'AWS::DMS::MigrationProject',
   },
-  withMigrationProjectName(MigrationProjectName): {
-    assert std.isString(MigrationProjectName) : 'MigrationProjectName must be a string',
+  setMigrationProjectName(MigrationProjectName): {
     Properties+::: {
-      MigrationProjectName: MigrationProjectName,
+      MigrationProjectName:
+        if !std.isString(MigrationProjectName) then (error 'MigrationProjectName must be a string')
+        else if std.isEmpty(MigrationProjectName) then (error 'MigrationProjectName must be not empty')
+        else if std.length(MigrationProjectName) < 1 then error ('MigrationProjectName should have at least 1 characters')
+        else if std.length(MigrationProjectName) > 255 then error ('MigrationProjectName should have not more than 255 characters')
+        else MigrationProjectName,
     },
   },
-  withMigrationProjectIdentifier(MigrationProjectIdentifier): {
-    assert std.isString(MigrationProjectIdentifier) : 'MigrationProjectIdentifier must be a string',
+  setMigrationProjectIdentifier(MigrationProjectIdentifier): {
     Properties+::: {
-      MigrationProjectIdentifier: MigrationProjectIdentifier,
+      MigrationProjectIdentifier:
+        if !std.isString(MigrationProjectIdentifier) then (error 'MigrationProjectIdentifier must be a string')
+        else if std.isEmpty(MigrationProjectIdentifier) then (error 'MigrationProjectIdentifier must be not empty')
+        else if std.length(MigrationProjectIdentifier) < 1 then error ('MigrationProjectIdentifier should have at least 1 characters')
+        else if std.length(MigrationProjectIdentifier) > 255 then error ('MigrationProjectIdentifier should have not more than 255 characters')
+        else MigrationProjectIdentifier,
     },
   },
-  withMigrationProjectArn(MigrationProjectArn): {
-    assert std.isString(MigrationProjectArn) : 'MigrationProjectArn must be a string',
+  setMigrationProjectArn(MigrationProjectArn): {
     Properties+::: {
-      MigrationProjectArn: MigrationProjectArn,
+      MigrationProjectArn:
+        if !std.isString(MigrationProjectArn) then (error 'MigrationProjectArn must be a string')
+        else if std.isEmpty(MigrationProjectArn) then (error 'MigrationProjectArn must be not empty')
+        else if std.length(MigrationProjectArn) < 1 then error ('MigrationProjectArn should have at least 1 characters')
+        else if std.length(MigrationProjectArn) > 255 then error ('MigrationProjectArn should have not more than 255 characters')
+        else MigrationProjectArn,
     },
   },
-  withMigrationProjectCreationTime(MigrationProjectCreationTime): {
-    assert std.isString(MigrationProjectCreationTime) : 'MigrationProjectCreationTime must be a string',
+  setMigrationProjectCreationTime(MigrationProjectCreationTime): {
     Properties+::: {
-      MigrationProjectCreationTime: MigrationProjectCreationTime,
+      MigrationProjectCreationTime:
+        if !std.isString(MigrationProjectCreationTime) then (error 'MigrationProjectCreationTime must be a string')
+        else if std.isEmpty(MigrationProjectCreationTime) then (error 'MigrationProjectCreationTime must be not empty')
+        else if std.length(MigrationProjectCreationTime) < 1 then error ('MigrationProjectCreationTime should have at least 1 characters')
+        else if std.length(MigrationProjectCreationTime) > 40 then error ('MigrationProjectCreationTime should have not more than 40 characters')
+        else MigrationProjectCreationTime,
     },
   },
-  withInstanceProfileIdentifier(InstanceProfileIdentifier): {
-    assert std.isString(InstanceProfileIdentifier) : 'InstanceProfileIdentifier must be a string',
+  setInstanceProfileIdentifier(InstanceProfileIdentifier): {
     Properties+::: {
-      InstanceProfileIdentifier: InstanceProfileIdentifier,
+      InstanceProfileIdentifier:
+        if !std.isString(InstanceProfileIdentifier) then (error 'InstanceProfileIdentifier must be a string')
+        else if std.isEmpty(InstanceProfileIdentifier) then (error 'InstanceProfileIdentifier must be not empty')
+        else if std.length(InstanceProfileIdentifier) < 1 then error ('InstanceProfileIdentifier should have at least 1 characters')
+        else if std.length(InstanceProfileIdentifier) > 255 then error ('InstanceProfileIdentifier should have not more than 255 characters')
+        else InstanceProfileIdentifier,
     },
   },
-  withInstanceProfileName(InstanceProfileName): {
-    assert std.isString(InstanceProfileName) : 'InstanceProfileName must be a string',
+  setInstanceProfileName(InstanceProfileName): {
     Properties+::: {
-      InstanceProfileName: InstanceProfileName,
+      InstanceProfileName:
+        if !std.isString(InstanceProfileName) then (error 'InstanceProfileName must be a string')
+        else if std.isEmpty(InstanceProfileName) then (error 'InstanceProfileName must be not empty')
+        else if std.length(InstanceProfileName) < 1 then error ('InstanceProfileName should have at least 1 characters')
+        else if std.length(InstanceProfileName) > 255 then error ('InstanceProfileName should have not more than 255 characters')
+        else InstanceProfileName,
     },
   },
-  withInstanceProfileArn(InstanceProfileArn): {
-    assert std.isString(InstanceProfileArn) : 'InstanceProfileArn must be a string',
+  setInstanceProfileArn(InstanceProfileArn): {
     Properties+::: {
-      InstanceProfileArn: InstanceProfileArn,
+      InstanceProfileArn:
+        if !std.isString(InstanceProfileArn) then (error 'InstanceProfileArn must be a string')
+        else if std.isEmpty(InstanceProfileArn) then (error 'InstanceProfileArn must be not empty')
+        else if std.length(InstanceProfileArn) < 1 then error ('InstanceProfileArn should have at least 1 characters')
+        else if std.length(InstanceProfileArn) > 255 then error ('InstanceProfileArn should have not more than 255 characters')
+        else InstanceProfileArn,
     },
   },
-  withTransformationRules(TransformationRules): {
-    assert std.isString(TransformationRules) : 'TransformationRules must be a string',
+  setTransformationRules(TransformationRules): {
     Properties+::: {
-      TransformationRules: TransformationRules,
+      TransformationRules:
+        if !std.isString(TransformationRules) then (error 'TransformationRules must be a string')
+        else if std.isEmpty(TransformationRules) then (error 'TransformationRules must be not empty')
+        else TransformationRules,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withSchemaConversionApplicationAttributes(SchemaConversionApplicationAttributes): {
-    assert std.isObject(SchemaConversionApplicationAttributes) : 'SchemaConversionApplicationAttributes must be a object',
+  setSchemaConversionApplicationAttributes(SchemaConversionApplicationAttributes): {
     Properties+::: {
-      SchemaConversionApplicationAttributes: SchemaConversionApplicationAttributes,
+      SchemaConversionApplicationAttributes:
+        if !std.isObject(SchemaConversionApplicationAttributes) then (error 'SchemaConversionApplicationAttributes must be an object')
+        else SchemaConversionApplicationAttributes,
     },
   },
-  withSourceDataProviderDescriptors(SourceDataProviderDescriptors): {
+  setSourceDataProviderDescriptors(SourceDataProviderDescriptors): {
     Properties+::: {
-      SourceDataProviderDescriptors: (if std.isArray(SourceDataProviderDescriptors) then SourceDataProviderDescriptors else [SourceDataProviderDescriptors]),
+      SourceDataProviderDescriptors:
+        if !std.isArray(SourceDataProviderDescriptors) then (error 'SourceDataProviderDescriptors must be an array')
+        else SourceDataProviderDescriptors,
     },
   },
-  withSourceDataProviderDescriptorsMixin(SourceDataProviderDescriptors): {
+  setSourceDataProviderDescriptorsMixin(SourceDataProviderDescriptors): {
     Properties+::: {
-      SourceDataProviderDescriptors+: (if std.isArray(SourceDataProviderDescriptors) then SourceDataProviderDescriptors else [SourceDataProviderDescriptors]),
+      SourceDataProviderDescriptors+: SourceDataProviderDescriptors,
     },
   },
-  withTargetDataProviderDescriptors(TargetDataProviderDescriptors): {
+  setTargetDataProviderDescriptors(TargetDataProviderDescriptors): {
     Properties+::: {
-      TargetDataProviderDescriptors: (if std.isArray(TargetDataProviderDescriptors) then TargetDataProviderDescriptors else [TargetDataProviderDescriptors]),
+      TargetDataProviderDescriptors:
+        if !std.isArray(TargetDataProviderDescriptors) then (error 'TargetDataProviderDescriptors must be an array')
+        else TargetDataProviderDescriptors,
     },
   },
-  withTargetDataProviderDescriptorsMixin(TargetDataProviderDescriptors): {
+  setTargetDataProviderDescriptorsMixin(TargetDataProviderDescriptors): {
     Properties+::: {
-      TargetDataProviderDescriptors+: (if std.isArray(TargetDataProviderDescriptors) then TargetDataProviderDescriptors else [TargetDataProviderDescriptors]),
+      TargetDataProviderDescriptors+: TargetDataProviderDescriptors,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

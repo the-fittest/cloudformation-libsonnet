@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CACertificatePem) : 'CACertificatePem must be a string',
-      CACertificatePem: CACertificatePem,
-      assert std.isString(Status) : 'Status must be a string',
-      assert Status == 'ACTIVE' || Status == 'INACTIVE' : "Status should be 'ACTIVE' or 'INACTIVE'",
-      Status: Status,
+      CACertificatePem:
+        if !std.isString(CACertificatePem) then (error 'CACertificatePem must be a string')
+        else if std.isEmpty(CACertificatePem) then (error 'CACertificatePem must be not empty')
+        else if std.length(CACertificatePem) < 1 then error ('CACertificatePem should have at least 1 characters')
+        else if std.length(CACertificatePem) > 65536 then error ('CACertificatePem should have not more than 65536 characters')
+        else CACertificatePem,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'INACTIVE' then (error "Status should be 'ACTIVE' or 'INACTIVE'")
+        else Status,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,118 +25,133 @@
     Metadata:: [],
     Type: 'AWS::IoT::CACertificate',
   },
-  withVerificationCertificatePem(VerificationCertificatePem): {
-    assert std.isString(VerificationCertificatePem) : 'VerificationCertificatePem must be a string',
+  setVerificationCertificatePem(VerificationCertificatePem): {
     Properties+::: {
-      VerificationCertificatePem: VerificationCertificatePem,
+      VerificationCertificatePem:
+        if !std.isString(VerificationCertificatePem) then (error 'VerificationCertificatePem must be a string')
+        else if std.isEmpty(VerificationCertificatePem) then (error 'VerificationCertificatePem must be not empty')
+        else if std.length(VerificationCertificatePem) < 1 then error ('VerificationCertificatePem should have at least 1 characters')
+        else if std.length(VerificationCertificatePem) > 65536 then error ('VerificationCertificatePem should have not more than 65536 characters')
+        else VerificationCertificatePem,
     },
   },
-  withCertificateMode(CertificateMode): {
-    assert std.isString(CertificateMode) : 'CertificateMode must be a string',
-    assert CertificateMode == 'DEFAULT' || CertificateMode == 'SNI_ONLY' : "CertificateMode should be 'DEFAULT' or 'SNI_ONLY'",
+  setCertificateMode(CertificateMode): {
     Properties+::: {
-      CertificateMode: CertificateMode,
+      CertificateMode:
+        if !std.isString(CertificateMode) then (error 'CertificateMode must be a string')
+        else if std.isEmpty(CertificateMode) then (error 'CertificateMode must be not empty')
+        else if CertificateMode != 'DEFAULT' && CertificateMode != 'SNI_ONLY' then (error "CertificateMode should be 'DEFAULT' or 'SNI_ONLY'")
+        else CertificateMode,
     },
   },
-  withAutoRegistrationStatus(AutoRegistrationStatus): {
-    assert std.isString(AutoRegistrationStatus) : 'AutoRegistrationStatus must be a string',
-    assert AutoRegistrationStatus == 'ENABLE' || AutoRegistrationStatus == 'DISABLE' : "AutoRegistrationStatus should be 'ENABLE' or 'DISABLE'",
+  setAutoRegistrationStatus(AutoRegistrationStatus): {
     Properties+::: {
-      AutoRegistrationStatus: AutoRegistrationStatus,
+      AutoRegistrationStatus:
+        if !std.isString(AutoRegistrationStatus) then (error 'AutoRegistrationStatus must be a string')
+        else if std.isEmpty(AutoRegistrationStatus) then (error 'AutoRegistrationStatus must be not empty')
+        else if AutoRegistrationStatus != 'ENABLE' && AutoRegistrationStatus != 'DISABLE' then (error "AutoRegistrationStatus should be 'ENABLE' or 'DISABLE'")
+        else AutoRegistrationStatus,
     },
   },
-  withRemoveAutoRegistration(RemoveAutoRegistration): {
-    assert std.isBoolean(RemoveAutoRegistration) : 'RemoveAutoRegistration must be a boolean',
+  setRemoveAutoRegistration(RemoveAutoRegistration): {
     Properties+::: {
-      RemoveAutoRegistration: RemoveAutoRegistration,
+      RemoveAutoRegistration:
+        if !std.isBoolean(RemoveAutoRegistration) then (error 'RemoveAutoRegistration must be a boolean') else RemoveAutoRegistration,
     },
   },
-  withRegistrationConfig(RegistrationConfig): {
-    assert std.isObject(RegistrationConfig) : 'RegistrationConfig must be a object',
+  setRegistrationConfig(RegistrationConfig): {
     Properties+::: {
-      RegistrationConfig: RegistrationConfig,
+      RegistrationConfig:
+        if !std.isObject(RegistrationConfig) then (error 'RegistrationConfig must be an object')
+        else RegistrationConfig,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

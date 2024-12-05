@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,126 +10,142 @@
     Metadata:: [],
     Type: 'AWS::EC2::IPAMResourceDiscovery',
   },
-  withIpamResourceDiscoveryId(IpamResourceDiscoveryId): {
-    assert std.isString(IpamResourceDiscoveryId) : 'IpamResourceDiscoveryId must be a string',
+  setIpamResourceDiscoveryId(IpamResourceDiscoveryId): {
     Properties+::: {
-      IpamResourceDiscoveryId: IpamResourceDiscoveryId,
+      IpamResourceDiscoveryId:
+        if !std.isString(IpamResourceDiscoveryId) then (error 'IpamResourceDiscoveryId must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryId) then (error 'IpamResourceDiscoveryId must be not empty')
+        else IpamResourceDiscoveryId,
     },
   },
-  withOwnerId(OwnerId): {
-    assert std.isString(OwnerId) : 'OwnerId must be a string',
+  setOwnerId(OwnerId): {
     Properties+::: {
-      OwnerId: OwnerId,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else OwnerId,
     },
   },
-  withOperatingRegions(OperatingRegions): {
+  setOperatingRegions(OperatingRegions): {
     Properties+::: {
-      OperatingRegions: (if std.isArray(OperatingRegions) then OperatingRegions else [OperatingRegions]),
+      OperatingRegions:
+        if !std.isArray(OperatingRegions) then (error 'OperatingRegions must be an array')
+        else OperatingRegions,
     },
   },
-  withOperatingRegionsMixin(OperatingRegions): {
+  setOperatingRegionsMixin(OperatingRegions): {
     Properties+::: {
-      OperatingRegions+: (if std.isArray(OperatingRegions) then OperatingRegions else [OperatingRegions]),
+      OperatingRegions+: OperatingRegions,
     },
   },
-  withIpamResourceDiscoveryRegion(IpamResourceDiscoveryRegion): {
-    assert std.isString(IpamResourceDiscoveryRegion) : 'IpamResourceDiscoveryRegion must be a string',
+  setIpamResourceDiscoveryRegion(IpamResourceDiscoveryRegion): {
     Properties+::: {
-      IpamResourceDiscoveryRegion: IpamResourceDiscoveryRegion,
+      IpamResourceDiscoveryRegion:
+        if !std.isString(IpamResourceDiscoveryRegion) then (error 'IpamResourceDiscoveryRegion must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryRegion) then (error 'IpamResourceDiscoveryRegion must be not empty')
+        else IpamResourceDiscoveryRegion,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withIsDefault(IsDefault): {
-    assert std.isBoolean(IsDefault) : 'IsDefault must be a boolean',
+  setIsDefault(IsDefault): {
     Properties+::: {
-      IsDefault: IsDefault,
+      IsDefault:
+        if !std.isBoolean(IsDefault) then (error 'IsDefault must be a boolean') else IsDefault,
     },
   },
-  withIpamResourceDiscoveryArn(IpamResourceDiscoveryArn): {
-    assert std.isString(IpamResourceDiscoveryArn) : 'IpamResourceDiscoveryArn must be a string',
+  setIpamResourceDiscoveryArn(IpamResourceDiscoveryArn): {
     Properties+::: {
-      IpamResourceDiscoveryArn: IpamResourceDiscoveryArn,
+      IpamResourceDiscoveryArn:
+        if !std.isString(IpamResourceDiscoveryArn) then (error 'IpamResourceDiscoveryArn must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryArn) then (error 'IpamResourceDiscoveryArn must be not empty')
+        else IpamResourceDiscoveryArn,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -7,13 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isNumber(MinimumViableContactDurationSeconds) : 'MinimumViableContactDurationSeconds must be a number',
-      MinimumViableContactDurationSeconds: MinimumViableContactDurationSeconds,
-      DataflowEdges: (if std.isArray(DataflowEdges) then DataflowEdges else [DataflowEdges]),
-      assert std.isString(TrackingConfigArn) : 'TrackingConfigArn must be a string',
-      TrackingConfigArn: TrackingConfigArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      MinimumViableContactDurationSeconds:
+        if !std.isNumber(MinimumViableContactDurationSeconds) then (error 'MinimumViableContactDurationSeconds must be an number')
+        else MinimumViableContactDurationSeconds,
+      DataflowEdges:
+        if !std.isArray(DataflowEdges) then (error 'DataflowEdges must be an array')
+        else if std.length(DataflowEdges) < 1 then error ('DataflowEdges cannot have less than 1 items')
+        else DataflowEdges,
+      TrackingConfigArn:
+        if !std.isString(TrackingConfigArn) then (error 'TrackingConfigArn must be a string')
+        else if std.isEmpty(TrackingConfigArn) then (error 'TrackingConfigArn must be not empty')
+        else TrackingConfigArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,116 +31,129 @@
     Metadata:: [],
     Type: 'AWS::GroundStation::MissionProfile',
   },
-  withContactPrePassDurationSeconds(ContactPrePassDurationSeconds): {
-    assert std.isNumber(ContactPrePassDurationSeconds) : 'ContactPrePassDurationSeconds must be a number',
+  setContactPrePassDurationSeconds(ContactPrePassDurationSeconds): {
     Properties+::: {
-      ContactPrePassDurationSeconds: ContactPrePassDurationSeconds,
+      ContactPrePassDurationSeconds:
+        if !std.isNumber(ContactPrePassDurationSeconds) then (error 'ContactPrePassDurationSeconds must be an number')
+        else ContactPrePassDurationSeconds,
     },
   },
-  withContactPostPassDurationSeconds(ContactPostPassDurationSeconds): {
-    assert std.isNumber(ContactPostPassDurationSeconds) : 'ContactPostPassDurationSeconds must be a number',
+  setContactPostPassDurationSeconds(ContactPostPassDurationSeconds): {
     Properties+::: {
-      ContactPostPassDurationSeconds: ContactPostPassDurationSeconds,
+      ContactPostPassDurationSeconds:
+        if !std.isNumber(ContactPostPassDurationSeconds) then (error 'ContactPostPassDurationSeconds must be an number')
+        else ContactPostPassDurationSeconds,
     },
   },
-  withStreamsKmsKey(StreamsKmsKey): {
-    assert std.isObject(StreamsKmsKey) : 'StreamsKmsKey must be a object',
+  setStreamsKmsKey(StreamsKmsKey): {
     Properties+::: {
-      StreamsKmsKey: StreamsKmsKey,
+      StreamsKmsKey:
+        if !std.isObject(StreamsKmsKey) then (error 'StreamsKmsKey must be an object')
+        else StreamsKmsKey,
     },
   },
-  withStreamsKmsRole(StreamsKmsRole): {
-    assert std.isString(StreamsKmsRole) : 'StreamsKmsRole must be a string',
+  setStreamsKmsRole(StreamsKmsRole): {
     Properties+::: {
-      StreamsKmsRole: StreamsKmsRole,
+      StreamsKmsRole:
+        if !std.isString(StreamsKmsRole) then (error 'StreamsKmsRole must be a string')
+        else if std.isEmpty(StreamsKmsRole) then (error 'StreamsKmsRole must be not empty')
+        else StreamsKmsRole,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withRegion(Region): {
-    assert std.isString(Region) : 'Region must be a string',
+  setRegion(Region): {
     Properties+::: {
-      Region: Region,
+      Region:
+        if !std.isString(Region) then (error 'Region must be a string')
+        else if std.isEmpty(Region) then (error 'Region must be not empty')
+        else Region,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

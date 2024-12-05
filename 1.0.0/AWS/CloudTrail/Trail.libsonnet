@@ -5,10 +5,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(S3BucketName) : 'S3BucketName must be a string',
-      S3BucketName: S3BucketName,
-      assert std.isBoolean(IsLogging) : 'IsLogging must be a boolean',
-      IsLogging: IsLogging,
+      S3BucketName:
+        if !std.isString(S3BucketName) then (error 'S3BucketName must be a string')
+        else if std.isEmpty(S3BucketName) then (error 'S3BucketName must be not empty')
+        else S3BucketName,
+      IsLogging:
+        if !std.isBoolean(IsLogging) then (error 'IsLogging must be a boolean') else IsLogging,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,176 +20,205 @@
     Metadata:: [],
     Type: 'AWS::CloudTrail::Trail',
   },
-  withCloudWatchLogsLogGroupArn(CloudWatchLogsLogGroupArn): {
-    assert std.isString(CloudWatchLogsLogGroupArn) : 'CloudWatchLogsLogGroupArn must be a string',
+  setCloudWatchLogsLogGroupArn(CloudWatchLogsLogGroupArn): {
     Properties+::: {
-      CloudWatchLogsLogGroupArn: CloudWatchLogsLogGroupArn,
+      CloudWatchLogsLogGroupArn:
+        if !std.isString(CloudWatchLogsLogGroupArn) then (error 'CloudWatchLogsLogGroupArn must be a string')
+        else if std.isEmpty(CloudWatchLogsLogGroupArn) then (error 'CloudWatchLogsLogGroupArn must be not empty')
+        else CloudWatchLogsLogGroupArn,
     },
   },
-  withCloudWatchLogsRoleArn(CloudWatchLogsRoleArn): {
-    assert std.isString(CloudWatchLogsRoleArn) : 'CloudWatchLogsRoleArn must be a string',
+  setCloudWatchLogsRoleArn(CloudWatchLogsRoleArn): {
     Properties+::: {
-      CloudWatchLogsRoleArn: CloudWatchLogsRoleArn,
+      CloudWatchLogsRoleArn:
+        if !std.isString(CloudWatchLogsRoleArn) then (error 'CloudWatchLogsRoleArn must be a string')
+        else if std.isEmpty(CloudWatchLogsRoleArn) then (error 'CloudWatchLogsRoleArn must be not empty')
+        else CloudWatchLogsRoleArn,
     },
   },
-  withEnableLogFileValidation(EnableLogFileValidation): {
-    assert std.isBoolean(EnableLogFileValidation) : 'EnableLogFileValidation must be a boolean',
+  setEnableLogFileValidation(EnableLogFileValidation): {
     Properties+::: {
-      EnableLogFileValidation: EnableLogFileValidation,
+      EnableLogFileValidation:
+        if !std.isBoolean(EnableLogFileValidation) then (error 'EnableLogFileValidation must be a boolean') else EnableLogFileValidation,
     },
   },
-  withAdvancedEventSelectors(AdvancedEventSelectors): {
+  setAdvancedEventSelectors(AdvancedEventSelectors): {
     Properties+::: {
-      AdvancedEventSelectors: (if std.isArray(AdvancedEventSelectors) then AdvancedEventSelectors else [AdvancedEventSelectors]),
+      AdvancedEventSelectors:
+        if !std.isArray(AdvancedEventSelectors) then (error 'AdvancedEventSelectors must be an array')
+        else AdvancedEventSelectors,
     },
   },
-  withAdvancedEventSelectorsMixin(AdvancedEventSelectors): {
+  setAdvancedEventSelectorsMixin(AdvancedEventSelectors): {
     Properties+::: {
-      AdvancedEventSelectors+: (if std.isArray(AdvancedEventSelectors) then AdvancedEventSelectors else [AdvancedEventSelectors]),
+      AdvancedEventSelectors+: AdvancedEventSelectors,
     },
   },
-  withEventSelectors(EventSelectors): {
+  setEventSelectors(EventSelectors): {
     Properties+::: {
-      EventSelectors: (if std.isArray(EventSelectors) then EventSelectors else [EventSelectors]),
+      EventSelectors:
+        if !std.isArray(EventSelectors) then (error 'EventSelectors must be an array')
+        else if std.length(EventSelectors) > 5 then error ('EventSelectors cannot have more than 5 items')
+        else EventSelectors,
     },
   },
-  withEventSelectorsMixin(EventSelectors): {
+  setEventSelectorsMixin(EventSelectors): {
     Properties+::: {
-      EventSelectors+: (if std.isArray(EventSelectors) then EventSelectors else [EventSelectors]),
+      EventSelectors+: EventSelectors,
     },
   },
-  withIncludeGlobalServiceEvents(IncludeGlobalServiceEvents): {
-    assert std.isBoolean(IncludeGlobalServiceEvents) : 'IncludeGlobalServiceEvents must be a boolean',
+  setIncludeGlobalServiceEvents(IncludeGlobalServiceEvents): {
     Properties+::: {
-      IncludeGlobalServiceEvents: IncludeGlobalServiceEvents,
+      IncludeGlobalServiceEvents:
+        if !std.isBoolean(IncludeGlobalServiceEvents) then (error 'IncludeGlobalServiceEvents must be a boolean') else IncludeGlobalServiceEvents,
     },
   },
-  withIsMultiRegionTrail(IsMultiRegionTrail): {
-    assert std.isBoolean(IsMultiRegionTrail) : 'IsMultiRegionTrail must be a boolean',
+  setIsMultiRegionTrail(IsMultiRegionTrail): {
     Properties+::: {
-      IsMultiRegionTrail: IsMultiRegionTrail,
+      IsMultiRegionTrail:
+        if !std.isBoolean(IsMultiRegionTrail) then (error 'IsMultiRegionTrail must be a boolean') else IsMultiRegionTrail,
     },
   },
-  withIsOrganizationTrail(IsOrganizationTrail): {
-    assert std.isBoolean(IsOrganizationTrail) : 'IsOrganizationTrail must be a boolean',
+  setIsOrganizationTrail(IsOrganizationTrail): {
     Properties+::: {
-      IsOrganizationTrail: IsOrganizationTrail,
+      IsOrganizationTrail:
+        if !std.isBoolean(IsOrganizationTrail) then (error 'IsOrganizationTrail must be a boolean') else IsOrganizationTrail,
     },
   },
-  withKMSKeyId(KMSKeyId): {
-    assert std.isString(KMSKeyId) : 'KMSKeyId must be a string',
+  setKMSKeyId(KMSKeyId): {
     Properties+::: {
-      KMSKeyId: KMSKeyId,
+      KMSKeyId:
+        if !std.isString(KMSKeyId) then (error 'KMSKeyId must be a string')
+        else if std.isEmpty(KMSKeyId) then (error 'KMSKeyId must be not empty')
+        else KMSKeyId,
     },
   },
-  withS3KeyPrefix(S3KeyPrefix): {
-    assert std.isString(S3KeyPrefix) : 'S3KeyPrefix must be a string',
+  setS3KeyPrefix(S3KeyPrefix): {
     Properties+::: {
-      S3KeyPrefix: S3KeyPrefix,
+      S3KeyPrefix:
+        if !std.isString(S3KeyPrefix) then (error 'S3KeyPrefix must be a string')
+        else if std.isEmpty(S3KeyPrefix) then (error 'S3KeyPrefix must be not empty')
+        else if std.length(S3KeyPrefix) > 200 then error ('S3KeyPrefix should have not more than 200 characters')
+        else S3KeyPrefix,
     },
   },
-  withSnsTopicName(SnsTopicName): {
-    assert std.isString(SnsTopicName) : 'SnsTopicName must be a string',
+  setSnsTopicName(SnsTopicName): {
     Properties+::: {
-      SnsTopicName: SnsTopicName,
+      SnsTopicName:
+        if !std.isString(SnsTopicName) then (error 'SnsTopicName must be a string')
+        else if std.isEmpty(SnsTopicName) then (error 'SnsTopicName must be not empty')
+        else if std.length(SnsTopicName) > 256 then error ('SnsTopicName should have not more than 256 characters')
+        else SnsTopicName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrailName(TrailName): {
-    assert std.isString(TrailName) : 'TrailName must be a string',
+  setTrailName(TrailName): {
     Properties+::: {
-      TrailName: TrailName,
+      TrailName:
+        if !std.isString(TrailName) then (error 'TrailName must be a string')
+        else if std.isEmpty(TrailName) then (error 'TrailName must be not empty')
+        else if std.length(TrailName) < 3 then error ('TrailName should have at least 3 characters')
+        else if std.length(TrailName) > 128 then error ('TrailName should have not more than 128 characters')
+        else TrailName,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withSnsTopicArn(SnsTopicArn): {
-    assert std.isString(SnsTopicArn) : 'SnsTopicArn must be a string',
+  setSnsTopicArn(SnsTopicArn): {
     Properties+::: {
-      SnsTopicArn: SnsTopicArn,
+      SnsTopicArn:
+        if !std.isString(SnsTopicArn) then (error 'SnsTopicArn must be a string')
+        else if std.isEmpty(SnsTopicArn) then (error 'SnsTopicArn must be not empty')
+        else SnsTopicArn,
     },
   },
-  withInsightSelectors(InsightSelectors): {
+  setInsightSelectors(InsightSelectors): {
     Properties+::: {
-      InsightSelectors: (if std.isArray(InsightSelectors) then InsightSelectors else [InsightSelectors]),
+      InsightSelectors:
+        if !std.isArray(InsightSelectors) then (error 'InsightSelectors must be an array')
+        else InsightSelectors,
     },
   },
-  withInsightSelectorsMixin(InsightSelectors): {
+  setInsightSelectorsMixin(InsightSelectors): {
     Properties+::: {
-      InsightSelectors+: (if std.isArray(InsightSelectors) then InsightSelectors else [InsightSelectors]),
+      InsightSelectors+: InsightSelectors,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

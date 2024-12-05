@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ReleaseLabel) : 'ReleaseLabel must be a string',
-      ReleaseLabel: ReleaseLabel,
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
+      ReleaseLabel:
+        if !std.isString(ReleaseLabel) then (error 'ReleaseLabel must be a string')
+        else if std.isEmpty(ReleaseLabel) then (error 'ReleaseLabel must be not empty')
+        else if std.length(ReleaseLabel) < 1 then error ('ReleaseLabel should have at least 1 characters')
+        else if std.length(ReleaseLabel) > 64 then error ('ReleaseLabel should have not more than 64 characters')
+        else ReleaseLabel,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,167 +24,195 @@
     Metadata:: [],
     Type: 'AWS::EMRServerless::Application',
   },
-  withArchitecture(Architecture): {
-    assert std.isString(Architecture) : 'Architecture must be a string',
-    assert Architecture == 'ARM64' || Architecture == 'X86_64' : "Architecture should be 'ARM64' or 'X86_64'",
+  setArchitecture(Architecture): {
     Properties+::: {
-      Architecture: Architecture,
+      Architecture:
+        if !std.isString(Architecture) then (error 'Architecture must be a string')
+        else if std.isEmpty(Architecture) then (error 'Architecture must be not empty')
+        else if Architecture != 'ARM64' && Architecture != 'X86_64' then (error "Architecture should be 'ARM64' or 'X86_64'")
+        else Architecture,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
   },
-  withInitialCapacity(InitialCapacity): {
+  setInitialCapacity(InitialCapacity): {
     Properties+::: {
-      InitialCapacity: (if std.isArray(InitialCapacity) then InitialCapacity else [InitialCapacity]),
+      InitialCapacity:
+        if !std.isArray(InitialCapacity) then (error 'InitialCapacity must be an array')
+        else InitialCapacity,
     },
   },
-  withInitialCapacityMixin(InitialCapacity): {
+  setInitialCapacityMixin(InitialCapacity): {
     Properties+::: {
-      InitialCapacity+: (if std.isArray(InitialCapacity) then InitialCapacity else [InitialCapacity]),
+      InitialCapacity+: InitialCapacity,
     },
   },
-  withMaximumCapacity(MaximumCapacity): {
-    assert std.isObject(MaximumCapacity) : 'MaximumCapacity must be a object',
+  setMaximumCapacity(MaximumCapacity): {
     Properties+::: {
-      MaximumCapacity: MaximumCapacity,
+      MaximumCapacity:
+        if !std.isObject(MaximumCapacity) then (error 'MaximumCapacity must be an object')
+        else if !std.objectHas(MaximumCapacity, 'Cpu') then (error ' have attribute Cpu')
+        else if !std.objectHas(MaximumCapacity, 'Memory') then (error ' have attribute Memory')
+        else MaximumCapacity,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAutoStartConfiguration(AutoStartConfiguration): {
-    assert std.isObject(AutoStartConfiguration) : 'AutoStartConfiguration must be a object',
+  setAutoStartConfiguration(AutoStartConfiguration): {
     Properties+::: {
-      AutoStartConfiguration: AutoStartConfiguration,
+      AutoStartConfiguration:
+        if !std.isObject(AutoStartConfiguration) then (error 'AutoStartConfiguration must be an object')
+        else AutoStartConfiguration,
     },
   },
-  withAutoStopConfiguration(AutoStopConfiguration): {
-    assert std.isObject(AutoStopConfiguration) : 'AutoStopConfiguration must be a object',
+  setAutoStopConfiguration(AutoStopConfiguration): {
     Properties+::: {
-      AutoStopConfiguration: AutoStopConfiguration,
+      AutoStopConfiguration:
+        if !std.isObject(AutoStopConfiguration) then (error 'AutoStopConfiguration must be an object')
+        else AutoStopConfiguration,
     },
   },
-  withImageConfiguration(ImageConfiguration): {
-    assert std.isObject(ImageConfiguration) : 'ImageConfiguration must be a object',
+  setImageConfiguration(ImageConfiguration): {
     Properties+::: {
-      ImageConfiguration: ImageConfiguration,
+      ImageConfiguration:
+        if !std.isObject(ImageConfiguration) then (error 'ImageConfiguration must be an object')
+        else ImageConfiguration,
     },
   },
-  withMonitoringConfiguration(MonitoringConfiguration): {
-    assert std.isObject(MonitoringConfiguration) : 'MonitoringConfiguration must be a object',
+  setMonitoringConfiguration(MonitoringConfiguration): {
     Properties+::: {
-      MonitoringConfiguration: MonitoringConfiguration,
+      MonitoringConfiguration:
+        if !std.isObject(MonitoringConfiguration) then (error 'MonitoringConfiguration must be an object')
+        else MonitoringConfiguration,
     },
   },
-  withRuntimeConfiguration(RuntimeConfiguration): {
+  setRuntimeConfiguration(RuntimeConfiguration): {
     Properties+::: {
-      RuntimeConfiguration: (if std.isArray(RuntimeConfiguration) then RuntimeConfiguration else [RuntimeConfiguration]),
+      RuntimeConfiguration:
+        if !std.isArray(RuntimeConfiguration) then (error 'RuntimeConfiguration must be an array')
+        else RuntimeConfiguration,
     },
   },
-  withRuntimeConfigurationMixin(RuntimeConfiguration): {
+  setRuntimeConfigurationMixin(RuntimeConfiguration): {
     Properties+::: {
-      RuntimeConfiguration+: (if std.isArray(RuntimeConfiguration) then RuntimeConfiguration else [RuntimeConfiguration]),
+      RuntimeConfiguration+: RuntimeConfiguration,
     },
   },
-  withInteractiveConfiguration(InteractiveConfiguration): {
-    assert std.isObject(InteractiveConfiguration) : 'InteractiveConfiguration must be a object',
+  setInteractiveConfiguration(InteractiveConfiguration): {
     Properties+::: {
-      InteractiveConfiguration: InteractiveConfiguration,
+      InteractiveConfiguration:
+        if !std.isObject(InteractiveConfiguration) then (error 'InteractiveConfiguration must be an object')
+        else InteractiveConfiguration,
     },
   },
-  withNetworkConfiguration(NetworkConfiguration): {
-    assert std.isObject(NetworkConfiguration) : 'NetworkConfiguration must be a object',
+  setNetworkConfiguration(NetworkConfiguration): {
     Properties+::: {
-      NetworkConfiguration: NetworkConfiguration,
+      NetworkConfiguration:
+        if !std.isObject(NetworkConfiguration) then (error 'NetworkConfiguration must be an object')
+        else NetworkConfiguration,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withApplicationId(ApplicationId): {
-    assert std.isString(ApplicationId) : 'ApplicationId must be a string',
+  setApplicationId(ApplicationId): {
     Properties+::: {
-      ApplicationId: ApplicationId,
+      ApplicationId:
+        if !std.isString(ApplicationId) then (error 'ApplicationId must be a string')
+        else if std.isEmpty(ApplicationId) then (error 'ApplicationId must be not empty')
+        else if std.length(ApplicationId) < 1 then error ('ApplicationId should have at least 1 characters')
+        else if std.length(ApplicationId) > 64 then error ('ApplicationId should have not more than 64 characters')
+        else ApplicationId,
     },
   },
-  withWorkerTypeSpecifications(WorkerTypeSpecifications): {
-    assert std.isObject(WorkerTypeSpecifications) : 'WorkerTypeSpecifications must be a object',
+  setWorkerTypeSpecifications(WorkerTypeSpecifications): {
     Properties+::: {
-      WorkerTypeSpecifications: WorkerTypeSpecifications,
+      WorkerTypeSpecifications:
+        if !std.isObject(WorkerTypeSpecifications) then (error 'WorkerTypeSpecifications must be an object')
+        else WorkerTypeSpecifications,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

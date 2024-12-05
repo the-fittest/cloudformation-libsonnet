@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,162 +10,184 @@
     Metadata:: [],
     Type: 'AWS::EFS::FileSystem',
   },
-  withFileSystemId(FileSystemId): {
-    assert std.isString(FileSystemId) : 'FileSystemId must be a string',
+  setFileSystemId(FileSystemId): {
     Properties+::: {
-      FileSystemId: FileSystemId,
+      FileSystemId:
+        if !std.isString(FileSystemId) then (error 'FileSystemId must be a string')
+        else if std.isEmpty(FileSystemId) then (error 'FileSystemId must be not empty')
+        else FileSystemId,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withEncrypted(Encrypted): {
-    assert std.isBoolean(Encrypted) : 'Encrypted must be a boolean',
+  setEncrypted(Encrypted): {
     Properties+::: {
-      Encrypted: Encrypted,
+      Encrypted:
+        if !std.isBoolean(Encrypted) then (error 'Encrypted must be a boolean') else Encrypted,
     },
   },
-  withFileSystemTags(FileSystemTags): {
+  setFileSystemTags(FileSystemTags): {
     Properties+::: {
-      FileSystemTags: (if std.isArray(FileSystemTags) then FileSystemTags else [FileSystemTags]),
+      FileSystemTags:
+        if !std.isArray(FileSystemTags) then (error 'FileSystemTags must be an array')
+        else FileSystemTags,
     },
   },
-  withFileSystemTagsMixin(FileSystemTags): {
+  setFileSystemTagsMixin(FileSystemTags): {
     Properties+::: {
-      FileSystemTags+: (if std.isArray(FileSystemTags) then FileSystemTags else [FileSystemTags]),
+      FileSystemTags+: FileSystemTags,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withLifecyclePolicies(LifecyclePolicies): {
+  setLifecyclePolicies(LifecyclePolicies): {
     Properties+::: {
-      LifecyclePolicies: (if std.isArray(LifecyclePolicies) then LifecyclePolicies else [LifecyclePolicies]),
+      LifecyclePolicies:
+        if !std.isArray(LifecyclePolicies) then (error 'LifecyclePolicies must be an array')
+        else LifecyclePolicies,
     },
   },
-  withLifecyclePoliciesMixin(LifecyclePolicies): {
+  setLifecyclePoliciesMixin(LifecyclePolicies): {
     Properties+::: {
-      LifecyclePolicies+: (if std.isArray(LifecyclePolicies) then LifecyclePolicies else [LifecyclePolicies]),
+      LifecyclePolicies+: LifecyclePolicies,
     },
   },
-  withFileSystemProtection(FileSystemProtection): {
-    assert std.isObject(FileSystemProtection) : 'FileSystemProtection must be a object',
+  setFileSystemProtection(FileSystemProtection): {
     Properties+::: {
-      FileSystemProtection: FileSystemProtection,
+      FileSystemProtection:
+        if !std.isObject(FileSystemProtection) then (error 'FileSystemProtection must be an object')
+        else FileSystemProtection,
     },
   },
-  withPerformanceMode(PerformanceMode): {
-    assert std.isString(PerformanceMode) : 'PerformanceMode must be a string',
+  setPerformanceMode(PerformanceMode): {
     Properties+::: {
-      PerformanceMode: PerformanceMode,
+      PerformanceMode:
+        if !std.isString(PerformanceMode) then (error 'PerformanceMode must be a string')
+        else if std.isEmpty(PerformanceMode) then (error 'PerformanceMode must be not empty')
+        else PerformanceMode,
     },
   },
-  withProvisionedThroughputInMibps(ProvisionedThroughputInMibps): {
-    assert std.isNumber(ProvisionedThroughputInMibps) : 'ProvisionedThroughputInMibps must be a number',
+  setProvisionedThroughputInMibps(ProvisionedThroughputInMibps): {
     Properties+::: {
-      ProvisionedThroughputInMibps: ProvisionedThroughputInMibps,
+      ProvisionedThroughputInMibps:
+        if !std.isNumber(ProvisionedThroughputInMibps) then (error 'ProvisionedThroughputInMibps must be an number')
+        else ProvisionedThroughputInMibps,
     },
   },
-  withThroughputMode(ThroughputMode): {
-    assert std.isString(ThroughputMode) : 'ThroughputMode must be a string',
+  setThroughputMode(ThroughputMode): {
     Properties+::: {
-      ThroughputMode: ThroughputMode,
+      ThroughputMode:
+        if !std.isString(ThroughputMode) then (error 'ThroughputMode must be a string')
+        else if std.isEmpty(ThroughputMode) then (error 'ThroughputMode must be not empty')
+        else ThroughputMode,
     },
   },
-  withFileSystemPolicy(FileSystemPolicy): {
-    assert std.isObject(FileSystemPolicy) : 'FileSystemPolicy must be a object',
+  setFileSystemPolicy(FileSystemPolicy): {
     Properties+::: {
-      FileSystemPolicy: FileSystemPolicy,
+      FileSystemPolicy:
+        if !std.isObject(FileSystemPolicy) then (error 'FileSystemPolicy must be an object')
+        else FileSystemPolicy,
     },
   },
-  withBypassPolicyLockoutSafetyCheck(BypassPolicyLockoutSafetyCheck): {
-    assert std.isBoolean(BypassPolicyLockoutSafetyCheck) : 'BypassPolicyLockoutSafetyCheck must be a boolean',
+  setBypassPolicyLockoutSafetyCheck(BypassPolicyLockoutSafetyCheck): {
     Properties+::: {
-      BypassPolicyLockoutSafetyCheck: BypassPolicyLockoutSafetyCheck,
+      BypassPolicyLockoutSafetyCheck:
+        if !std.isBoolean(BypassPolicyLockoutSafetyCheck) then (error 'BypassPolicyLockoutSafetyCheck must be a boolean') else BypassPolicyLockoutSafetyCheck,
     },
   },
-  withBackupPolicy(BackupPolicy): {
-    assert std.isObject(BackupPolicy) : 'BackupPolicy must be a object',
+  setBackupPolicy(BackupPolicy): {
     Properties+::: {
-      BackupPolicy: BackupPolicy,
+      BackupPolicy:
+        if !std.isObject(BackupPolicy) then (error 'BackupPolicy must be an object')
+        else if !std.objectHas(BackupPolicy, 'Status') then (error ' have attribute Status')
+        else BackupPolicy,
     },
   },
-  withAvailabilityZoneName(AvailabilityZoneName): {
-    assert std.isString(AvailabilityZoneName) : 'AvailabilityZoneName must be a string',
+  setAvailabilityZoneName(AvailabilityZoneName): {
     Properties+::: {
-      AvailabilityZoneName: AvailabilityZoneName,
+      AvailabilityZoneName:
+        if !std.isString(AvailabilityZoneName) then (error 'AvailabilityZoneName must be a string')
+        else if std.isEmpty(AvailabilityZoneName) then (error 'AvailabilityZoneName must be not empty')
+        else AvailabilityZoneName,
     },
   },
-  withReplicationConfiguration(ReplicationConfiguration): {
-    assert std.isObject(ReplicationConfiguration) : 'ReplicationConfiguration must be a object',
+  setReplicationConfiguration(ReplicationConfiguration): {
     Properties+::: {
-      ReplicationConfiguration: ReplicationConfiguration,
+      ReplicationConfiguration:
+        if !std.isObject(ReplicationConfiguration) then (error 'ReplicationConfiguration must be an object')
+        else ReplicationConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

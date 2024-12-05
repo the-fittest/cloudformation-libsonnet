@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Statement) : 'Statement must be a string',
-      Statement: Statement,
-      assert std.isString(PolicyStoreId) : 'PolicyStoreId must be a string',
-      PolicyStoreId: PolicyStoreId,
+      Statement:
+        if !std.isString(Statement) then (error 'Statement must be a string')
+        else if std.isEmpty(Statement) then (error 'Statement must be not empty')
+        else if std.length(Statement) < 1 then error ('Statement should have at least 1 characters')
+        else if std.length(Statement) > 10000 then error ('Statement should have not more than 10000 characters')
+        else Statement,
+      PolicyStoreId:
+        if !std.isString(PolicyStoreId) then (error 'PolicyStoreId must be a string')
+        else if std.isEmpty(PolicyStoreId) then (error 'PolicyStoreId must be not empty')
+        else if std.length(PolicyStoreId) < 1 then error ('PolicyStoreId should have at least 1 characters')
+        else if std.length(PolicyStoreId) > 200 then error ('PolicyStoreId should have not more than 200 characters')
+        else PolicyStoreId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,76 +26,83 @@
     Metadata:: [],
     Type: 'AWS::VerifiedPermissions::PolicyTemplate',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 150 then error ('Description should have not more than 150 characters')
+        else Description,
     },
   },
-  withPolicyTemplateId(PolicyTemplateId): {
-    assert std.isString(PolicyTemplateId) : 'PolicyTemplateId must be a string',
+  setPolicyTemplateId(PolicyTemplateId): {
     Properties+::: {
-      PolicyTemplateId: PolicyTemplateId,
+      PolicyTemplateId:
+        if !std.isString(PolicyTemplateId) then (error 'PolicyTemplateId must be a string')
+        else if std.isEmpty(PolicyTemplateId) then (error 'PolicyTemplateId must be not empty')
+        else if std.length(PolicyTemplateId) < 1 then error ('PolicyTemplateId should have at least 1 characters')
+        else if std.length(PolicyTemplateId) > 200 then error ('PolicyTemplateId should have not more than 200 characters')
+        else PolicyTemplateId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

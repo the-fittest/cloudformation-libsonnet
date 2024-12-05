@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,133 +17,159 @@
     Metadata:: [],
     Type: 'AWS::ApplicationSignals::ServiceLevelObjective',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withCreatedTime(CreatedTime): {
-    assert std.isNumber(CreatedTime) : 'CreatedTime must be a number',
+  setCreatedTime(CreatedTime): {
     Properties+::: {
-      CreatedTime: CreatedTime,
+      CreatedTime:
+        if !std.isNumber(CreatedTime) then (error 'CreatedTime must be an number')
+        else if CreatedTime < 946684800 then error ('CreatedTime should be at least 946684800')
+        else CreatedTime,
     },
   },
-  withLastUpdatedTime(LastUpdatedTime): {
-    assert std.isNumber(LastUpdatedTime) : 'LastUpdatedTime must be a number',
+  setLastUpdatedTime(LastUpdatedTime): {
     Properties+::: {
-      LastUpdatedTime: LastUpdatedTime,
+      LastUpdatedTime:
+        if !std.isNumber(LastUpdatedTime) then (error 'LastUpdatedTime must be an number')
+        else if LastUpdatedTime < 946684800 then error ('LastUpdatedTime should be at least 946684800')
+        else LastUpdatedTime,
     },
   },
-  withSli(Sli): {
-    assert std.isObject(Sli) : 'Sli must be a object',
+  setSli(Sli): {
     Properties+::: {
-      Sli: Sli,
+      Sli:
+        if !std.isObject(Sli) then (error 'Sli must be an object')
+        else if !std.objectHas(Sli, 'SliMetric') then (error ' have attribute SliMetric')
+        else if !std.objectHas(Sli, 'MetricThreshold') then (error ' have attribute MetricThreshold')
+        else if !std.objectHas(Sli, 'ComparisonOperator') then (error ' have attribute ComparisonOperator')
+        else Sli,
     },
   },
-  withRequestBasedSli(RequestBasedSli): {
-    assert std.isObject(RequestBasedSli) : 'RequestBasedSli must be a object',
+  setRequestBasedSli(RequestBasedSli): {
     Properties+::: {
-      RequestBasedSli: RequestBasedSli,
+      RequestBasedSli:
+        if !std.isObject(RequestBasedSli) then (error 'RequestBasedSli must be an object')
+        else if !std.objectHas(RequestBasedSli, 'RequestBasedSliMetric') then (error ' have attribute RequestBasedSliMetric')
+        else RequestBasedSli,
     },
   },
-  withEvaluationType(EvaluationType): {
-    assert std.isString(EvaluationType) : 'EvaluationType must be a string',
-    assert EvaluationType == 'PeriodBased' || EvaluationType == 'RequestBased' : "EvaluationType should be 'PeriodBased' or 'RequestBased'",
+  setEvaluationType(EvaluationType): {
     Properties+::: {
-      EvaluationType: EvaluationType,
+      EvaluationType:
+        if !std.isString(EvaluationType) then (error 'EvaluationType must be a string')
+        else if std.isEmpty(EvaluationType) then (error 'EvaluationType must be not empty')
+        else if EvaluationType != 'PeriodBased' && EvaluationType != 'RequestBased' then (error "EvaluationType should be 'PeriodBased' or 'RequestBased'")
+        else EvaluationType,
     },
   },
-  withGoal(Goal): {
-    assert std.isObject(Goal) : 'Goal must be a object',
+  setGoal(Goal): {
     Properties+::: {
-      Goal: Goal,
+      Goal:
+        if !std.isObject(Goal) then (error 'Goal must be an object')
+        else Goal,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withBurnRateConfigurations(BurnRateConfigurations): {
+  setBurnRateConfigurations(BurnRateConfigurations): {
     Properties+::: {
-      BurnRateConfigurations: (if std.isArray(BurnRateConfigurations) then BurnRateConfigurations else [BurnRateConfigurations]),
+      BurnRateConfigurations:
+        if !std.isArray(BurnRateConfigurations) then (error 'BurnRateConfigurations must be an array')
+        else if std.length(BurnRateConfigurations) > 10 then error ('BurnRateConfigurations cannot have more than 10 items')
+        else BurnRateConfigurations,
     },
   },
-  withBurnRateConfigurationsMixin(BurnRateConfigurations): {
+  setBurnRateConfigurationsMixin(BurnRateConfigurations): {
     Properties+::: {
-      BurnRateConfigurations+: (if std.isArray(BurnRateConfigurations) then BurnRateConfigurations else [BurnRateConfigurations]),
+      BurnRateConfigurations+: BurnRateConfigurations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

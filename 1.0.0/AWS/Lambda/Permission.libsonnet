@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FunctionName) : 'FunctionName must be a string',
-      FunctionName: FunctionName,
-      assert std.isString(Action) : 'Action must be a string',
-      Action: Action,
-      assert std.isString(Principal) : 'Principal must be a string',
-      Principal: Principal,
+      FunctionName:
+        if !std.isString(FunctionName) then (error 'FunctionName must be a string')
+        else if std.isEmpty(FunctionName) then (error 'FunctionName must be not empty')
+        else if std.length(FunctionName) < 1 then error ('FunctionName should have at least 1 characters')
+        else if std.length(FunctionName) > 140 then error ('FunctionName should have not more than 140 characters')
+        else FunctionName,
+      Action:
+        if !std.isString(Action) then (error 'Action must be a string')
+        else if std.isEmpty(Action) then (error 'Action must be not empty')
+        else if std.length(Action) < 1 then error ('Action should have at least 1 characters')
+        else if std.length(Action) > 256 then error ('Action should have not more than 256 characters')
+        else Action,
+      Principal:
+        if !std.isString(Principal) then (error 'Principal must be a string')
+        else if std.isEmpty(Principal) then (error 'Principal must be not empty')
+        else if std.length(Principal) < 1 then error ('Principal should have at least 1 characters')
+        else if std.length(Principal) > 256 then error ('Principal should have not more than 256 characters')
+        else Principal,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,101 +33,123 @@
     Metadata:: [],
     Type: 'AWS::Lambda::Permission',
   },
-  withEventSourceToken(EventSourceToken): {
-    assert std.isString(EventSourceToken) : 'EventSourceToken must be a string',
+  setEventSourceToken(EventSourceToken): {
     Properties+::: {
-      EventSourceToken: EventSourceToken,
+      EventSourceToken:
+        if !std.isString(EventSourceToken) then (error 'EventSourceToken must be a string')
+        else if std.isEmpty(EventSourceToken) then (error 'EventSourceToken must be not empty')
+        else if std.length(EventSourceToken) < 1 then error ('EventSourceToken should have at least 1 characters')
+        else if std.length(EventSourceToken) > 256 then error ('EventSourceToken should have not more than 256 characters')
+        else EventSourceToken,
     },
   },
-  withFunctionUrlAuthType(FunctionUrlAuthType): {
-    assert std.isString(FunctionUrlAuthType) : 'FunctionUrlAuthType must be a string',
-    assert FunctionUrlAuthType == 'AWS_IAM' || FunctionUrlAuthType == 'NONE' : "FunctionUrlAuthType should be 'AWS_IAM' or 'NONE'",
+  setFunctionUrlAuthType(FunctionUrlAuthType): {
     Properties+::: {
-      FunctionUrlAuthType: FunctionUrlAuthType,
+      FunctionUrlAuthType:
+        if !std.isString(FunctionUrlAuthType) then (error 'FunctionUrlAuthType must be a string')
+        else if std.isEmpty(FunctionUrlAuthType) then (error 'FunctionUrlAuthType must be not empty')
+        else if FunctionUrlAuthType != 'AWS_IAM' && FunctionUrlAuthType != 'NONE' then (error "FunctionUrlAuthType should be 'AWS_IAM' or 'NONE'")
+        else FunctionUrlAuthType,
     },
   },
-  withSourceArn(SourceArn): {
-    assert std.isString(SourceArn) : 'SourceArn must be a string',
+  setSourceArn(SourceArn): {
     Properties+::: {
-      SourceArn: SourceArn,
+      SourceArn:
+        if !std.isString(SourceArn) then (error 'SourceArn must be a string')
+        else if std.isEmpty(SourceArn) then (error 'SourceArn must be not empty')
+        else if std.length(SourceArn) < 12 then error ('SourceArn should have at least 12 characters')
+        else if std.length(SourceArn) > 1024 then error ('SourceArn should have not more than 1024 characters')
+        else SourceArn,
     },
   },
-  withSourceAccount(SourceAccount): {
-    assert std.isString(SourceAccount) : 'SourceAccount must be a string',
+  setSourceAccount(SourceAccount): {
     Properties+::: {
-      SourceAccount: SourceAccount,
+      SourceAccount:
+        if !std.isString(SourceAccount) then (error 'SourceAccount must be a string')
+        else if std.isEmpty(SourceAccount) then (error 'SourceAccount must be not empty')
+        else if std.length(SourceAccount) < 12 then error ('SourceAccount should have at least 12 characters')
+        else if std.length(SourceAccount) > 12 then error ('SourceAccount should have not more than 12 characters')
+        else SourceAccount,
     },
   },
-  withPrincipalOrgID(PrincipalOrgID): {
-    assert std.isString(PrincipalOrgID) : 'PrincipalOrgID must be a string',
+  setPrincipalOrgID(PrincipalOrgID): {
     Properties+::: {
-      PrincipalOrgID: PrincipalOrgID,
+      PrincipalOrgID:
+        if !std.isString(PrincipalOrgID) then (error 'PrincipalOrgID must be a string')
+        else if std.isEmpty(PrincipalOrgID) then (error 'PrincipalOrgID must be not empty')
+        else if std.length(PrincipalOrgID) < 12 then error ('PrincipalOrgID should have at least 12 characters')
+        else if std.length(PrincipalOrgID) > 34 then error ('PrincipalOrgID should have not more than 34 characters')
+        else PrincipalOrgID,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 1 then error ('Id should have at least 1 characters')
+        else if std.length(Id) > 256 then error ('Id should have not more than 256 characters')
+        else Id,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

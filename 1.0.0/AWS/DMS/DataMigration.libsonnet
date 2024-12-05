@@ -6,13 +6,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DataMigrationType) : 'DataMigrationType must be a string',
-      assert DataMigrationType == 'full-load' || DataMigrationType == 'cdc' || DataMigrationType == 'full-load-and-cdc' : "DataMigrationType should be 'full-load' or 'cdc' or 'full-load-and-cdc'",
-      DataMigrationType: DataMigrationType,
-      assert std.isString(MigrationProjectIdentifier) : 'MigrationProjectIdentifier must be a string',
-      MigrationProjectIdentifier: MigrationProjectIdentifier,
-      assert std.isString(ServiceAccessRoleArn) : 'ServiceAccessRoleArn must be a string',
-      ServiceAccessRoleArn: ServiceAccessRoleArn,
+      DataMigrationType:
+        if !std.isString(DataMigrationType) then (error 'DataMigrationType must be a string')
+        else if std.isEmpty(DataMigrationType) then (error 'DataMigrationType must be not empty')
+        else if DataMigrationType != 'full-load' && DataMigrationType != 'cdc' && DataMigrationType != 'full-load-and-cdc' then (error "DataMigrationType should be 'full-load' or 'cdc' or 'full-load-and-cdc'")
+        else DataMigrationType,
+      MigrationProjectIdentifier:
+        if !std.isString(MigrationProjectIdentifier) then (error 'MigrationProjectIdentifier must be a string')
+        else if std.isEmpty(MigrationProjectIdentifier) then (error 'MigrationProjectIdentifier must be not empty')
+        else if std.length(MigrationProjectIdentifier) < 1 then error ('MigrationProjectIdentifier should have at least 1 characters')
+        else if std.length(MigrationProjectIdentifier) > 255 then error ('MigrationProjectIdentifier should have not more than 255 characters')
+        else MigrationProjectIdentifier,
+      ServiceAccessRoleArn:
+        if !std.isString(ServiceAccessRoleArn) then (error 'ServiceAccessRoleArn must be a string')
+        else if std.isEmpty(ServiceAccessRoleArn) then (error 'ServiceAccessRoleArn must be not empty')
+        else if std.length(ServiceAccessRoleArn) < 1 then error ('ServiceAccessRoleArn should have at least 1 characters')
+        else if std.length(ServiceAccessRoleArn) > 300 then error ('ServiceAccessRoleArn should have not more than 300 characters')
+        else ServiceAccessRoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,114 +32,135 @@
     Metadata:: [],
     Type: 'AWS::DMS::DataMigration',
   },
-  withDataMigrationName(DataMigrationName): {
-    assert std.isString(DataMigrationName) : 'DataMigrationName must be a string',
+  setDataMigrationName(DataMigrationName): {
     Properties+::: {
-      DataMigrationName: DataMigrationName,
+      DataMigrationName:
+        if !std.isString(DataMigrationName) then (error 'DataMigrationName must be a string')
+        else if std.isEmpty(DataMigrationName) then (error 'DataMigrationName must be not empty')
+        else if std.length(DataMigrationName) < 1 then error ('DataMigrationName should have at least 1 characters')
+        else if std.length(DataMigrationName) > 300 then error ('DataMigrationName should have not more than 300 characters')
+        else DataMigrationName,
     },
   },
-  withDataMigrationArn(DataMigrationArn): {
-    assert std.isString(DataMigrationArn) : 'DataMigrationArn must be a string',
+  setDataMigrationArn(DataMigrationArn): {
     Properties+::: {
-      DataMigrationArn: DataMigrationArn,
+      DataMigrationArn:
+        if !std.isString(DataMigrationArn) then (error 'DataMigrationArn must be a string')
+        else if std.isEmpty(DataMigrationArn) then (error 'DataMigrationArn must be not empty')
+        else if std.length(DataMigrationArn) < 1 then error ('DataMigrationArn should have at least 1 characters')
+        else if std.length(DataMigrationArn) > 300 then error ('DataMigrationArn should have not more than 300 characters')
+        else DataMigrationArn,
     },
   },
-  withDataMigrationIdentifier(DataMigrationIdentifier): {
-    assert std.isString(DataMigrationIdentifier) : 'DataMigrationIdentifier must be a string',
+  setDataMigrationIdentifier(DataMigrationIdentifier): {
     Properties+::: {
-      DataMigrationIdentifier: DataMigrationIdentifier,
+      DataMigrationIdentifier:
+        if !std.isString(DataMigrationIdentifier) then (error 'DataMigrationIdentifier must be a string')
+        else if std.isEmpty(DataMigrationIdentifier) then (error 'DataMigrationIdentifier must be not empty')
+        else if std.length(DataMigrationIdentifier) < 1 then error ('DataMigrationIdentifier should have at least 1 characters')
+        else if std.length(DataMigrationIdentifier) > 300 then error ('DataMigrationIdentifier should have not more than 300 characters')
+        else DataMigrationIdentifier,
     },
   },
-  withDataMigrationCreateTime(DataMigrationCreateTime): {
-    assert std.isString(DataMigrationCreateTime) : 'DataMigrationCreateTime must be a string',
+  setDataMigrationCreateTime(DataMigrationCreateTime): {
     Properties+::: {
-      DataMigrationCreateTime: DataMigrationCreateTime,
+      DataMigrationCreateTime:
+        if !std.isString(DataMigrationCreateTime) then (error 'DataMigrationCreateTime must be a string')
+        else if std.isEmpty(DataMigrationCreateTime) then (error 'DataMigrationCreateTime must be not empty')
+        else if std.length(DataMigrationCreateTime) < 1 then error ('DataMigrationCreateTime should have at least 1 characters')
+        else if std.length(DataMigrationCreateTime) > 40 then error ('DataMigrationCreateTime should have not more than 40 characters')
+        else DataMigrationCreateTime,
     },
   },
-  withDataMigrationSettings(DataMigrationSettings): {
-    assert std.isObject(DataMigrationSettings) : 'DataMigrationSettings must be a object',
+  setDataMigrationSettings(DataMigrationSettings): {
     Properties+::: {
-      DataMigrationSettings: DataMigrationSettings,
+      DataMigrationSettings:
+        if !std.isObject(DataMigrationSettings) then (error 'DataMigrationSettings must be an object')
+        else DataMigrationSettings,
     },
   },
-  withSourceDataSettings(SourceDataSettings): {
+  setSourceDataSettings(SourceDataSettings): {
     Properties+::: {
-      SourceDataSettings: (if std.isArray(SourceDataSettings) then SourceDataSettings else [SourceDataSettings]),
+      SourceDataSettings:
+        if !std.isArray(SourceDataSettings) then (error 'SourceDataSettings must be an array')
+        else SourceDataSettings,
     },
   },
-  withSourceDataSettingsMixin(SourceDataSettings): {
+  setSourceDataSettingsMixin(SourceDataSettings): {
     Properties+::: {
-      SourceDataSettings+: (if std.isArray(SourceDataSettings) then SourceDataSettings else [SourceDataSettings]),
+      SourceDataSettings+: SourceDataSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

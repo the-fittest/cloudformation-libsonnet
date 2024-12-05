@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AssistantId) : 'AssistantId must be a string',
-      AssistantId: AssistantId,
-      assert std.isString(AIPromptId) : 'AIPromptId must be a string',
-      AIPromptId: AIPromptId,
+      AssistantId:
+        if !std.isString(AssistantId) then (error 'AssistantId must be a string')
+        else if std.isEmpty(AssistantId) then (error 'AssistantId must be not empty')
+        else AssistantId,
+      AIPromptId:
+        if !std.isString(AIPromptId) then (error 'AIPromptId must be a string')
+        else if std.isEmpty(AIPromptId) then (error 'AIPromptId must be not empty')
+        else AIPromptId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,94 +22,102 @@
     Metadata:: [],
     Type: 'AWS::Wisdom::AIPromptVersion',
   },
-  withAIPromptArn(AIPromptArn): {
-    assert std.isString(AIPromptArn) : 'AIPromptArn must be a string',
+  setAIPromptArn(AIPromptArn): {
     Properties+::: {
-      AIPromptArn: AIPromptArn,
+      AIPromptArn:
+        if !std.isString(AIPromptArn) then (error 'AIPromptArn must be a string')
+        else if std.isEmpty(AIPromptArn) then (error 'AIPromptArn must be not empty')
+        else AIPromptArn,
     },
   },
-  withAssistantArn(AssistantArn): {
-    assert std.isString(AssistantArn) : 'AssistantArn must be a string',
+  setAssistantArn(AssistantArn): {
     Properties+::: {
-      AssistantArn: AssistantArn,
+      AssistantArn:
+        if !std.isString(AssistantArn) then (error 'AssistantArn must be a string')
+        else if std.isEmpty(AssistantArn) then (error 'AssistantArn must be not empty')
+        else AssistantArn,
     },
   },
-  withAIPromptVersionId(AIPromptVersionId): {
-    assert std.isString(AIPromptVersionId) : 'AIPromptVersionId must be a string',
+  setAIPromptVersionId(AIPromptVersionId): {
     Properties+::: {
-      AIPromptVersionId: AIPromptVersionId,
+      AIPromptVersionId:
+        if !std.isString(AIPromptVersionId) then (error 'AIPromptVersionId must be a string')
+        else if std.isEmpty(AIPromptVersionId) then (error 'AIPromptVersionId must be not empty')
+        else AIPromptVersionId,
     },
   },
-  withVersionNumber(VersionNumber): {
-    assert std.isNumber(VersionNumber) : 'VersionNumber must be a number',
+  setVersionNumber(VersionNumber): {
     Properties+::: {
-      VersionNumber: VersionNumber,
+      VersionNumber:
+        if !std.isNumber(VersionNumber) then (error 'VersionNumber must be an number')
+        else VersionNumber,
     },
   },
-  withModifiedTimeSeconds(ModifiedTimeSeconds): {
-    assert std.isNumber(ModifiedTimeSeconds) : 'ModifiedTimeSeconds must be a number',
+  setModifiedTimeSeconds(ModifiedTimeSeconds): {
     Properties+::: {
-      ModifiedTimeSeconds: ModifiedTimeSeconds,
+      ModifiedTimeSeconds:
+        if !std.isNumber(ModifiedTimeSeconds) then (error 'ModifiedTimeSeconds must be an number')
+        else ModifiedTimeSeconds,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

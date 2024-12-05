@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PolicyName) : 'PolicyName must be a string',
-      PolicyName: PolicyName,
-      assert std.isString(PolicyType) : 'PolicyType must be a string',
-      PolicyType: PolicyType,
+      PolicyName:
+        if !std.isString(PolicyName) then (error 'PolicyName must be a string')
+        else if std.isEmpty(PolicyName) then (error 'PolicyName must be not empty')
+        else PolicyName,
+      PolicyType:
+        if !std.isString(PolicyType) then (error 'PolicyType must be a string')
+        else if std.isEmpty(PolicyType) then (error 'PolicyType must be not empty')
+        else PolicyType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,112 +22,127 @@
     Metadata:: [],
     Type: 'AWS::ApplicationAutoScaling::ScalingPolicy',
   },
-  withResourceId(ResourceId): {
-    assert std.isString(ResourceId) : 'ResourceId must be a string',
+  setResourceId(ResourceId): {
     Properties+::: {
-      ResourceId: ResourceId,
+      ResourceId:
+        if !std.isString(ResourceId) then (error 'ResourceId must be a string')
+        else if std.isEmpty(ResourceId) then (error 'ResourceId must be not empty')
+        else ResourceId,
     },
   },
-  withScalingTargetId(ScalingTargetId): {
-    assert std.isString(ScalingTargetId) : 'ScalingTargetId must be a string',
+  setScalingTargetId(ScalingTargetId): {
     Properties+::: {
-      ScalingTargetId: ScalingTargetId,
+      ScalingTargetId:
+        if !std.isString(ScalingTargetId) then (error 'ScalingTargetId must be a string')
+        else if std.isEmpty(ScalingTargetId) then (error 'ScalingTargetId must be not empty')
+        else ScalingTargetId,
     },
   },
-  withServiceNamespace(ServiceNamespace): {
-    assert std.isString(ServiceNamespace) : 'ServiceNamespace must be a string',
+  setServiceNamespace(ServiceNamespace): {
     Properties+::: {
-      ServiceNamespace: ServiceNamespace,
+      ServiceNamespace:
+        if !std.isString(ServiceNamespace) then (error 'ServiceNamespace must be a string')
+        else if std.isEmpty(ServiceNamespace) then (error 'ServiceNamespace must be not empty')
+        else ServiceNamespace,
     },
   },
-  withScalableDimension(ScalableDimension): {
-    assert std.isString(ScalableDimension) : 'ScalableDimension must be a string',
+  setScalableDimension(ScalableDimension): {
     Properties+::: {
-      ScalableDimension: ScalableDimension,
+      ScalableDimension:
+        if !std.isString(ScalableDimension) then (error 'ScalableDimension must be a string')
+        else if std.isEmpty(ScalableDimension) then (error 'ScalableDimension must be not empty')
+        else ScalableDimension,
     },
   },
-  withTargetTrackingScalingPolicyConfiguration(TargetTrackingScalingPolicyConfiguration): {
-    assert std.isObject(TargetTrackingScalingPolicyConfiguration) : 'TargetTrackingScalingPolicyConfiguration must be a object',
+  setTargetTrackingScalingPolicyConfiguration(TargetTrackingScalingPolicyConfiguration): {
     Properties+::: {
-      TargetTrackingScalingPolicyConfiguration: TargetTrackingScalingPolicyConfiguration,
+      TargetTrackingScalingPolicyConfiguration:
+        if !std.isObject(TargetTrackingScalingPolicyConfiguration) then (error 'TargetTrackingScalingPolicyConfiguration must be an object')
+        else if !std.objectHas(TargetTrackingScalingPolicyConfiguration, 'TargetValue') then (error ' have attribute TargetValue')
+        else TargetTrackingScalingPolicyConfiguration,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withStepScalingPolicyConfiguration(StepScalingPolicyConfiguration): {
-    assert std.isObject(StepScalingPolicyConfiguration) : 'StepScalingPolicyConfiguration must be a object',
+  setStepScalingPolicyConfiguration(StepScalingPolicyConfiguration): {
     Properties+::: {
-      StepScalingPolicyConfiguration: StepScalingPolicyConfiguration,
+      StepScalingPolicyConfiguration:
+        if !std.isObject(StepScalingPolicyConfiguration) then (error 'StepScalingPolicyConfiguration must be an object')
+        else StepScalingPolicyConfiguration,
     },
   },
-  withPredictiveScalingPolicyConfiguration(PredictiveScalingPolicyConfiguration): {
-    assert std.isObject(PredictiveScalingPolicyConfiguration) : 'PredictiveScalingPolicyConfiguration must be a object',
+  setPredictiveScalingPolicyConfiguration(PredictiveScalingPolicyConfiguration): {
     Properties+::: {
-      PredictiveScalingPolicyConfiguration: PredictiveScalingPolicyConfiguration,
+      PredictiveScalingPolicyConfiguration:
+        if !std.isObject(PredictiveScalingPolicyConfiguration) then (error 'PredictiveScalingPolicyConfiguration must be an object')
+        else if !std.objectHas(PredictiveScalingPolicyConfiguration, 'MetricSpecifications') then (error ' have attribute MetricSpecifications')
+        else PredictiveScalingPolicyConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

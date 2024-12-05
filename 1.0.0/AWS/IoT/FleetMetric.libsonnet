@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MetricName) : 'MetricName must be a string',
-      MetricName: MetricName,
+      MetricName:
+        if !std.isString(MetricName) then (error 'MetricName must be a string')
+        else if std.isEmpty(MetricName) then (error 'MetricName must be not empty')
+        else MetricName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,146 +17,172 @@
     Metadata:: [],
     Type: 'AWS::IoT::FleetMetric',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withQueryString(QueryString): {
-    assert std.isString(QueryString) : 'QueryString must be a string',
+  setQueryString(QueryString): {
     Properties+::: {
-      QueryString: QueryString,
+      QueryString:
+        if !std.isString(QueryString) then (error 'QueryString must be a string')
+        else if std.isEmpty(QueryString) then (error 'QueryString must be not empty')
+        else QueryString,
     },
   },
-  withPeriod(Period): {
-    assert std.isNumber(Period) : 'Period must be a number',
+  setPeriod(Period): {
     Properties+::: {
-      Period: Period,
+      Period:
+        if !std.isNumber(Period) then (error 'Period must be an number')
+        else Period,
     },
   },
-  withAggregationField(AggregationField): {
-    assert std.isString(AggregationField) : 'AggregationField must be a string',
+  setAggregationField(AggregationField): {
     Properties+::: {
-      AggregationField: AggregationField,
+      AggregationField:
+        if !std.isString(AggregationField) then (error 'AggregationField must be a string')
+        else if std.isEmpty(AggregationField) then (error 'AggregationField must be not empty')
+        else AggregationField,
     },
   },
-  withQueryVersion(QueryVersion): {
-    assert std.isString(QueryVersion) : 'QueryVersion must be a string',
+  setQueryVersion(QueryVersion): {
     Properties+::: {
-      QueryVersion: QueryVersion,
+      QueryVersion:
+        if !std.isString(QueryVersion) then (error 'QueryVersion must be a string')
+        else if std.isEmpty(QueryVersion) then (error 'QueryVersion must be not empty')
+        else QueryVersion,
     },
   },
-  withIndexName(IndexName): {
-    assert std.isString(IndexName) : 'IndexName must be a string',
+  setIndexName(IndexName): {
     Properties+::: {
-      IndexName: IndexName,
+      IndexName:
+        if !std.isString(IndexName) then (error 'IndexName must be a string')
+        else if std.isEmpty(IndexName) then (error 'IndexName must be not empty')
+        else IndexName,
     },
   },
-  withUnit(Unit): {
-    assert std.isString(Unit) : 'Unit must be a string',
+  setUnit(Unit): {
     Properties+::: {
-      Unit: Unit,
+      Unit:
+        if !std.isString(Unit) then (error 'Unit must be a string')
+        else if std.isEmpty(Unit) then (error 'Unit must be not empty')
+        else Unit,
     },
   },
-  withAggregationType(AggregationType): {
-    assert std.isObject(AggregationType) : 'AggregationType must be a object',
+  setAggregationType(AggregationType): {
     Properties+::: {
-      AggregationType: AggregationType,
+      AggregationType:
+        if !std.isObject(AggregationType) then (error 'AggregationType must be an object')
+        else if !std.objectHas(AggregationType, 'Name') then (error ' have attribute Name')
+        else if !std.objectHas(AggregationType, 'Values') then (error ' have attribute Values')
+        else AggregationType,
     },
   },
-  withMetricArn(MetricArn): {
-    assert std.isString(MetricArn) : 'MetricArn must be a string',
+  setMetricArn(MetricArn): {
     Properties+::: {
-      MetricArn: MetricArn,
+      MetricArn:
+        if !std.isString(MetricArn) then (error 'MetricArn must be a string')
+        else if std.isEmpty(MetricArn) then (error 'MetricArn must be not empty')
+        else MetricArn,
     },
   },
-  withCreationDate(CreationDate): {
-    assert std.isString(CreationDate) : 'CreationDate must be a string',
+  setCreationDate(CreationDate): {
     Properties+::: {
-      CreationDate: CreationDate,
+      CreationDate:
+        if !std.isString(CreationDate) then (error 'CreationDate must be a string')
+        else if std.isEmpty(CreationDate) then (error 'CreationDate must be not empty')
+        else CreationDate,
     },
   },
-  withLastModifiedDate(LastModifiedDate): {
-    assert std.isString(LastModifiedDate) : 'LastModifiedDate must be a string',
+  setLastModifiedDate(LastModifiedDate): {
     Properties+::: {
-      LastModifiedDate: LastModifiedDate,
+      LastModifiedDate:
+        if !std.isString(LastModifiedDate) then (error 'LastModifiedDate must be a string')
+        else if std.isEmpty(LastModifiedDate) then (error 'LastModifiedDate must be not empty')
+        else LastModifiedDate,
     },
   },
-  withVersion(Version): {
-    assert std.isNumber(Version) : 'Version must be a number',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isNumber(Version) then (error 'Version must be an number')
+        else Version,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

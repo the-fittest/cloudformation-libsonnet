@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Owner) : 'Owner must be a string',
-      Owner: Owner,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Owner:
+        if !std.isString(Owner) then (error 'Owner must be a string')
+        else if std.isEmpty(Owner) then (error 'Owner must be not empty')
+        else Owner,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,162 +22,191 @@
     Metadata:: [],
     Type: 'AWS::ServiceCatalog::CloudFormationProduct',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withProductName(ProductName): {
-    assert std.isString(ProductName) : 'ProductName must be a string',
+  setProductName(ProductName): {
     Properties+::: {
-      ProductName: ProductName,
+      ProductName:
+        if !std.isString(ProductName) then (error 'ProductName must be a string')
+        else if std.isEmpty(ProductName) then (error 'ProductName must be not empty')
+        else ProductName,
     },
   },
-  withSupportEmail(SupportEmail): {
-    assert std.isString(SupportEmail) : 'SupportEmail must be a string',
+  setSupportEmail(SupportEmail): {
     Properties+::: {
-      SupportEmail: SupportEmail,
+      SupportEmail:
+        if !std.isString(SupportEmail) then (error 'SupportEmail must be a string')
+        else if std.isEmpty(SupportEmail) then (error 'SupportEmail must be not empty')
+        else SupportEmail,
     },
   },
-  withProductType(ProductType): {
-    assert std.isString(ProductType) : 'ProductType must be a string',
+  setProductType(ProductType): {
     Properties+::: {
-      ProductType: ProductType,
+      ProductType:
+        if !std.isString(ProductType) then (error 'ProductType must be a string')
+        else if std.isEmpty(ProductType) then (error 'ProductType must be not empty')
+        else ProductType,
     },
   },
-  withProvisioningArtifactNames(ProvisioningArtifactNames): {
-    assert std.isString(ProvisioningArtifactNames) : 'ProvisioningArtifactNames must be a string',
+  setProvisioningArtifactNames(ProvisioningArtifactNames): {
     Properties+::: {
-      ProvisioningArtifactNames: ProvisioningArtifactNames,
+      ProvisioningArtifactNames:
+        if !std.isString(ProvisioningArtifactNames) then (error 'ProvisioningArtifactNames must be a string')
+        else if std.isEmpty(ProvisioningArtifactNames) then (error 'ProvisioningArtifactNames must be not empty')
+        else ProvisioningArtifactNames,
     },
   },
-  withReplaceProvisioningArtifacts(ReplaceProvisioningArtifacts): {
-    assert std.isBoolean(ReplaceProvisioningArtifacts) : 'ReplaceProvisioningArtifacts must be a boolean',
+  setReplaceProvisioningArtifacts(ReplaceProvisioningArtifacts): {
     Properties+::: {
-      ReplaceProvisioningArtifacts: ReplaceProvisioningArtifacts,
+      ReplaceProvisioningArtifacts:
+        if !std.isBoolean(ReplaceProvisioningArtifacts) then (error 'ReplaceProvisioningArtifacts must be a boolean') else ReplaceProvisioningArtifacts,
     },
   },
-  withSupportDescription(SupportDescription): {
-    assert std.isString(SupportDescription) : 'SupportDescription must be a string',
+  setSupportDescription(SupportDescription): {
     Properties+::: {
-      SupportDescription: SupportDescription,
+      SupportDescription:
+        if !std.isString(SupportDescription) then (error 'SupportDescription must be a string')
+        else if std.isEmpty(SupportDescription) then (error 'SupportDescription must be not empty')
+        else SupportDescription,
     },
   },
-  withDistributor(Distributor): {
-    assert std.isString(Distributor) : 'Distributor must be a string',
+  setDistributor(Distributor): {
     Properties+::: {
-      Distributor: Distributor,
+      Distributor:
+        if !std.isString(Distributor) then (error 'Distributor must be a string')
+        else if std.isEmpty(Distributor) then (error 'Distributor must be not empty')
+        else Distributor,
     },
   },
-  withProvisioningArtifactIds(ProvisioningArtifactIds): {
-    assert std.isString(ProvisioningArtifactIds) : 'ProvisioningArtifactIds must be a string',
+  setProvisioningArtifactIds(ProvisioningArtifactIds): {
     Properties+::: {
-      ProvisioningArtifactIds: ProvisioningArtifactIds,
+      ProvisioningArtifactIds:
+        if !std.isString(ProvisioningArtifactIds) then (error 'ProvisioningArtifactIds must be a string')
+        else if std.isEmpty(ProvisioningArtifactIds) then (error 'ProvisioningArtifactIds must be not empty')
+        else ProvisioningArtifactIds,
     },
   },
-  withAcceptLanguage(AcceptLanguage): {
-    assert std.isString(AcceptLanguage) : 'AcceptLanguage must be a string',
+  setAcceptLanguage(AcceptLanguage): {
     Properties+::: {
-      AcceptLanguage: AcceptLanguage,
+      AcceptLanguage:
+        if !std.isString(AcceptLanguage) then (error 'AcceptLanguage must be a string')
+        else if std.isEmpty(AcceptLanguage) then (error 'AcceptLanguage must be not empty')
+        else AcceptLanguage,
     },
   },
-  withSupportUrl(SupportUrl): {
-    assert std.isString(SupportUrl) : 'SupportUrl must be a string',
+  setSupportUrl(SupportUrl): {
     Properties+::: {
-      SupportUrl: SupportUrl,
+      SupportUrl:
+        if !std.isString(SupportUrl) then (error 'SupportUrl must be a string')
+        else if std.isEmpty(SupportUrl) then (error 'SupportUrl must be not empty')
+        else SupportUrl,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withSourceConnection(SourceConnection): {
-    assert std.isObject(SourceConnection) : 'SourceConnection must be a object',
+  setSourceConnection(SourceConnection): {
     Properties+::: {
-      SourceConnection: SourceConnection,
+      SourceConnection:
+        if !std.isObject(SourceConnection) then (error 'SourceConnection must be an object')
+        else if !std.objectHas(SourceConnection, 'Type') then (error ' have attribute Type')
+        else if !std.objectHas(SourceConnection, 'ConnectionParameters') then (error ' have attribute ConnectionParameters')
+        else SourceConnection,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withProvisioningArtifactParameters(ProvisioningArtifactParameters): {
+  setProvisioningArtifactParameters(ProvisioningArtifactParameters): {
     Properties+::: {
-      ProvisioningArtifactParameters: (if std.isArray(ProvisioningArtifactParameters) then ProvisioningArtifactParameters else [ProvisioningArtifactParameters]),
+      ProvisioningArtifactParameters:
+        if !std.isArray(ProvisioningArtifactParameters) then (error 'ProvisioningArtifactParameters must be an array')
+        else ProvisioningArtifactParameters,
     },
   },
-  withProvisioningArtifactParametersMixin(ProvisioningArtifactParameters): {
+  setProvisioningArtifactParametersMixin(ProvisioningArtifactParameters): {
     Properties+::: {
-      ProvisioningArtifactParameters+: (if std.isArray(ProvisioningArtifactParameters) then ProvisioningArtifactParameters else [ProvisioningArtifactParameters]),
+      ProvisioningArtifactParameters+: ProvisioningArtifactParameters,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

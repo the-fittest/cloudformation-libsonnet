@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DBInstanceClass) : 'DBInstanceClass must be a string',
-      DBInstanceClass: DBInstanceClass,
+      DBInstanceClass:
+        if !std.isString(DBInstanceClass) then (error 'DBInstanceClass must be a string')
+        else if std.isEmpty(DBInstanceClass) then (error 'DBInstanceClass must be not empty')
+        else DBInstanceClass,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,146 +17,168 @@
     Metadata:: [],
     Type: 'AWS::Neptune::DBInstance',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withPort(Port): {
-    assert std.isString(Port) : 'Port must be a string',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isString(Port) then (error 'Port must be a string')
+        else if std.isEmpty(Port) then (error 'Port must be not empty')
+        else Port,
     },
   },
-  withDBParameterGroupName(DBParameterGroupName): {
-    assert std.isString(DBParameterGroupName) : 'DBParameterGroupName must be a string',
+  setDBParameterGroupName(DBParameterGroupName): {
     Properties+::: {
-      DBParameterGroupName: DBParameterGroupName,
+      DBParameterGroupName:
+        if !std.isString(DBParameterGroupName) then (error 'DBParameterGroupName must be a string')
+        else if std.isEmpty(DBParameterGroupName) then (error 'DBParameterGroupName must be not empty')
+        else DBParameterGroupName,
     },
   },
-  withAllowMajorVersionUpgrade(AllowMajorVersionUpgrade): {
-    assert std.isBoolean(AllowMajorVersionUpgrade) : 'AllowMajorVersionUpgrade must be a boolean',
+  setAllowMajorVersionUpgrade(AllowMajorVersionUpgrade): {
     Properties+::: {
-      AllowMajorVersionUpgrade: AllowMajorVersionUpgrade,
+      AllowMajorVersionUpgrade:
+        if !std.isBoolean(AllowMajorVersionUpgrade) then (error 'AllowMajorVersionUpgrade must be a boolean') else AllowMajorVersionUpgrade,
     },
   },
-  withDBClusterIdentifier(DBClusterIdentifier): {
-    assert std.isString(DBClusterIdentifier) : 'DBClusterIdentifier must be a string',
+  setDBClusterIdentifier(DBClusterIdentifier): {
     Properties+::: {
-      DBClusterIdentifier: DBClusterIdentifier,
+      DBClusterIdentifier:
+        if !std.isString(DBClusterIdentifier) then (error 'DBClusterIdentifier must be a string')
+        else if std.isEmpty(DBClusterIdentifier) then (error 'DBClusterIdentifier must be not empty')
+        else DBClusterIdentifier,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
-    assert std.isBoolean(AutoMinorVersionUpgrade) : 'AutoMinorVersionUpgrade must be a boolean',
+  setAutoMinorVersionUpgrade(AutoMinorVersionUpgrade): {
     Properties+::: {
-      AutoMinorVersionUpgrade: AutoMinorVersionUpgrade,
+      AutoMinorVersionUpgrade:
+        if !std.isBoolean(AutoMinorVersionUpgrade) then (error 'AutoMinorVersionUpgrade must be a boolean') else AutoMinorVersionUpgrade,
     },
   },
-  withDBSubnetGroupName(DBSubnetGroupName): {
-    assert std.isString(DBSubnetGroupName) : 'DBSubnetGroupName must be a string',
+  setDBSubnetGroupName(DBSubnetGroupName): {
     Properties+::: {
-      DBSubnetGroupName: DBSubnetGroupName,
+      DBSubnetGroupName:
+        if !std.isString(DBSubnetGroupName) then (error 'DBSubnetGroupName must be a string')
+        else if std.isEmpty(DBSubnetGroupName) then (error 'DBSubnetGroupName must be not empty')
+        else DBSubnetGroupName,
     },
   },
-  withDBInstanceIdentifier(DBInstanceIdentifier): {
-    assert std.isString(DBInstanceIdentifier) : 'DBInstanceIdentifier must be a string',
+  setDBInstanceIdentifier(DBInstanceIdentifier): {
     Properties+::: {
-      DBInstanceIdentifier: DBInstanceIdentifier,
+      DBInstanceIdentifier:
+        if !std.isString(DBInstanceIdentifier) then (error 'DBInstanceIdentifier must be a string')
+        else if std.isEmpty(DBInstanceIdentifier) then (error 'DBInstanceIdentifier must be not empty')
+        else DBInstanceIdentifier,
     },
   },
-  withDBSnapshotIdentifier(DBSnapshotIdentifier): {
-    assert std.isString(DBSnapshotIdentifier) : 'DBSnapshotIdentifier must be a string',
+  setDBSnapshotIdentifier(DBSnapshotIdentifier): {
     Properties+::: {
-      DBSnapshotIdentifier: DBSnapshotIdentifier,
+      DBSnapshotIdentifier:
+        if !std.isString(DBSnapshotIdentifier) then (error 'DBSnapshotIdentifier must be a string')
+        else if std.isEmpty(DBSnapshotIdentifier) then (error 'DBSnapshotIdentifier must be not empty')
+        else DBSnapshotIdentifier,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

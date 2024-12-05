@@ -8,15 +8,28 @@
   ): {
     local base = self,
     Properties: {
-      EventTypeIds: (if std.isArray(EventTypeIds) then EventTypeIds else [EventTypeIds]),
-      assert std.isString(Resource) : 'Resource must be a string',
-      Resource: Resource,
-      assert std.isString(DetailType) : 'DetailType must be a string',
-      assert DetailType == 'BASIC' || DetailType == 'FULL' : "DetailType should be 'BASIC' or 'FULL'",
-      DetailType: DetailType,
-      Targets: (if std.isArray(Targets) then Targets else [Targets]),
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      EventTypeIds:
+        if !std.isArray(EventTypeIds) then (error 'EventTypeIds must be an array')
+        else EventTypeIds,
+      Resource:
+        if !std.isString(Resource) then (error 'Resource must be a string')
+        else if std.isEmpty(Resource) then (error 'Resource must be not empty')
+        else Resource,
+      DetailType:
+        if !std.isString(DetailType) then (error 'DetailType must be a string')
+        else if std.isEmpty(DetailType) then (error 'DetailType must be not empty')
+        else if DetailType != 'BASIC' && DetailType != 'FULL' then (error "DetailType should be 'BASIC' or 'FULL'")
+        else DetailType,
+      Targets:
+        if !std.isArray(Targets) then (error 'Targets must be an array')
+        else if std.length(Targets) > 10 then error ('Targets cannot have more than 10 items')
+        else Targets,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -26,101 +39,118 @@
     Metadata:: [],
     Type: 'AWS::CodeStarNotifications::NotificationRule',
   },
-  withEventTypeId(EventTypeId): {
-    assert std.isString(EventTypeId) : 'EventTypeId must be a string',
+  setEventTypeId(EventTypeId): {
     Properties+::: {
-      EventTypeId: EventTypeId,
+      EventTypeId:
+        if !std.isString(EventTypeId) then (error 'EventTypeId must be a string')
+        else if std.isEmpty(EventTypeId) then (error 'EventTypeId must be not empty')
+        else if std.length(EventTypeId) < 1 then error ('EventTypeId should have at least 1 characters')
+        else if std.length(EventTypeId) > 2048 then error ('EventTypeId should have not more than 2048 characters')
+        else EventTypeId,
     },
   },
-  withCreatedBy(CreatedBy): {
-    assert std.isString(CreatedBy) : 'CreatedBy must be a string',
+  setCreatedBy(CreatedBy): {
     Properties+::: {
-      CreatedBy: CreatedBy,
+      CreatedBy:
+        if !std.isString(CreatedBy) then (error 'CreatedBy must be a string')
+        else if std.isEmpty(CreatedBy) then (error 'CreatedBy must be not empty')
+        else if std.length(CreatedBy) < 1 then error ('CreatedBy should have at least 1 characters')
+        else if std.length(CreatedBy) > 2048 then error ('CreatedBy should have not more than 2048 characters')
+        else CreatedBy,
     },
   },
-  withTargetAddress(TargetAddress): {
-    assert std.isString(TargetAddress) : 'TargetAddress must be a string',
+  setTargetAddress(TargetAddress): {
     Properties+::: {
-      TargetAddress: TargetAddress,
+      TargetAddress:
+        if !std.isString(TargetAddress) then (error 'TargetAddress must be a string')
+        else if std.isEmpty(TargetAddress) then (error 'TargetAddress must be not empty')
+        else if std.length(TargetAddress) < 1 then error ('TargetAddress should have at least 1 characters')
+        else if std.length(TargetAddress) > 2048 then error ('TargetAddress should have not more than 2048 characters')
+        else TargetAddress,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ENABLED' || Status == 'DISABLED' : "Status should be 'ENABLED' or 'DISABLED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ENABLED' && Status != 'DISABLED' then (error "Status should be 'ENABLED' or 'DISABLED'")
+        else Status,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

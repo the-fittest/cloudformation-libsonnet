@@ -5,9 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(KeyspaceName) : 'KeyspaceName must be a string',
-      KeyspaceName: KeyspaceName,
-      PartitionKeyColumns: (if std.isArray(PartitionKeyColumns) then PartitionKeyColumns else [PartitionKeyColumns]),
+      KeyspaceName:
+        if !std.isString(KeyspaceName) then (error 'KeyspaceName must be a string')
+        else if std.isEmpty(KeyspaceName) then (error 'KeyspaceName must be not empty')
+        else KeyspaceName,
+      PartitionKeyColumns:
+        if !std.isArray(PartitionKeyColumns) then (error 'PartitionKeyColumns must be an array')
+        else if std.length(PartitionKeyColumns) < 1 then error ('PartitionKeyColumns cannot have less than 1 items')
+        else PartitionKeyColumns,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,146 +22,164 @@
     Metadata:: [],
     Type: 'AWS::Cassandra::Table',
   },
-  withTableName(TableName): {
-    assert std.isString(TableName) : 'TableName must be a string',
+  setTableName(TableName): {
     Properties+::: {
-      TableName: TableName,
+      TableName:
+        if !std.isString(TableName) then (error 'TableName must be a string')
+        else if std.isEmpty(TableName) then (error 'TableName must be not empty')
+        else TableName,
     },
   },
-  withRegularColumns(RegularColumns): {
+  setRegularColumns(RegularColumns): {
     Properties+::: {
-      RegularColumns: (if std.isArray(RegularColumns) then RegularColumns else [RegularColumns]),
+      RegularColumns:
+        if !std.isArray(RegularColumns) then (error 'RegularColumns must be an array')
+        else RegularColumns,
     },
   },
-  withRegularColumnsMixin(RegularColumns): {
+  setRegularColumnsMixin(RegularColumns): {
     Properties+::: {
-      RegularColumns+: (if std.isArray(RegularColumns) then RegularColumns else [RegularColumns]),
+      RegularColumns+: RegularColumns,
     },
   },
-  withClusteringKeyColumns(ClusteringKeyColumns): {
+  setClusteringKeyColumns(ClusteringKeyColumns): {
     Properties+::: {
-      ClusteringKeyColumns: (if std.isArray(ClusteringKeyColumns) then ClusteringKeyColumns else [ClusteringKeyColumns]),
+      ClusteringKeyColumns:
+        if !std.isArray(ClusteringKeyColumns) then (error 'ClusteringKeyColumns must be an array')
+        else ClusteringKeyColumns,
     },
   },
-  withClusteringKeyColumnsMixin(ClusteringKeyColumns): {
+  setClusteringKeyColumnsMixin(ClusteringKeyColumns): {
     Properties+::: {
-      ClusteringKeyColumns+: (if std.isArray(ClusteringKeyColumns) then ClusteringKeyColumns else [ClusteringKeyColumns]),
+      ClusteringKeyColumns+: ClusteringKeyColumns,
     },
   },
-  withBillingMode(BillingMode): {
-    assert std.isObject(BillingMode) : 'BillingMode must be a object',
+  setBillingMode(BillingMode): {
     Properties+::: {
-      BillingMode: BillingMode,
+      BillingMode:
+        if !std.isObject(BillingMode) then (error 'BillingMode must be an object')
+        else if !std.objectHas(BillingMode, 'Mode') then (error ' have attribute Mode')
+        else BillingMode,
     },
   },
-  withPointInTimeRecoveryEnabled(PointInTimeRecoveryEnabled): {
-    assert std.isBoolean(PointInTimeRecoveryEnabled) : 'PointInTimeRecoveryEnabled must be a boolean',
+  setPointInTimeRecoveryEnabled(PointInTimeRecoveryEnabled): {
     Properties+::: {
-      PointInTimeRecoveryEnabled: PointInTimeRecoveryEnabled,
+      PointInTimeRecoveryEnabled:
+        if !std.isBoolean(PointInTimeRecoveryEnabled) then (error 'PointInTimeRecoveryEnabled must be a boolean') else PointInTimeRecoveryEnabled,
     },
   },
-  withClientSideTimestampsEnabled(ClientSideTimestampsEnabled): {
-    assert std.isBoolean(ClientSideTimestampsEnabled) : 'ClientSideTimestampsEnabled must be a boolean',
+  setClientSideTimestampsEnabled(ClientSideTimestampsEnabled): {
     Properties+::: {
-      ClientSideTimestampsEnabled: ClientSideTimestampsEnabled,
+      ClientSideTimestampsEnabled:
+        if !std.isBoolean(ClientSideTimestampsEnabled) then (error 'ClientSideTimestampsEnabled must be a boolean') else ClientSideTimestampsEnabled,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDefaultTimeToLive(DefaultTimeToLive): {
-    assert std.isNumber(DefaultTimeToLive) : 'DefaultTimeToLive must be a number',
+  setDefaultTimeToLive(DefaultTimeToLive): {
     Properties+::: {
-      DefaultTimeToLive: DefaultTimeToLive,
+      DefaultTimeToLive:
+        if !std.isNumber(DefaultTimeToLive) then (error 'DefaultTimeToLive must be an number')
+        else DefaultTimeToLive,
     },
   },
-  withEncryptionSpecification(EncryptionSpecification): {
-    assert std.isObject(EncryptionSpecification) : 'EncryptionSpecification must be a object',
+  setEncryptionSpecification(EncryptionSpecification): {
     Properties+::: {
-      EncryptionSpecification: EncryptionSpecification,
+      EncryptionSpecification:
+        if !std.isObject(EncryptionSpecification) then (error 'EncryptionSpecification must be an object')
+        else if !std.objectHas(EncryptionSpecification, 'EncryptionType') then (error ' have attribute EncryptionType')
+        else EncryptionSpecification,
     },
   },
-  withAutoScalingSpecifications(AutoScalingSpecifications): {
-    assert std.isObject(AutoScalingSpecifications) : 'AutoScalingSpecifications must be a object',
+  setAutoScalingSpecifications(AutoScalingSpecifications): {
     Properties+::: {
-      AutoScalingSpecifications: AutoScalingSpecifications,
+      AutoScalingSpecifications:
+        if !std.isObject(AutoScalingSpecifications) then (error 'AutoScalingSpecifications must be an object')
+        else AutoScalingSpecifications,
     },
   },
-  withReplicaSpecifications(ReplicaSpecifications): {
+  setReplicaSpecifications(ReplicaSpecifications): {
     Properties+::: {
-      ReplicaSpecifications: (if std.isArray(ReplicaSpecifications) then ReplicaSpecifications else [ReplicaSpecifications]),
+      ReplicaSpecifications:
+        if !std.isArray(ReplicaSpecifications) then (error 'ReplicaSpecifications must be an array')
+        else if std.length(ReplicaSpecifications) < 1 then error ('ReplicaSpecifications cannot have less than 1 items')
+        else ReplicaSpecifications,
     },
   },
-  withReplicaSpecificationsMixin(ReplicaSpecifications): {
+  setReplicaSpecificationsMixin(ReplicaSpecifications): {
     Properties+::: {
-      ReplicaSpecifications+: (if std.isArray(ReplicaSpecifications) then ReplicaSpecifications else [ReplicaSpecifications]),
+      ReplicaSpecifications+: ReplicaSpecifications,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

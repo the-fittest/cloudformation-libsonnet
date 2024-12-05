@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GroupId) : 'GroupId must be a string',
-      GroupId: GroupId,
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
+      GroupId:
+        if !std.isString(GroupId) then (error 'GroupId must be a string')
+        else if std.isEmpty(GroupId) then (error 'GroupId must be not empty')
+        else GroupId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,83 +22,89 @@
     Metadata:: [],
     Type: 'AWS::EC2::SecurityGroupVpcAssociation',
   },
-  withVpcOwnerId(VpcOwnerId): {
-    assert std.isString(VpcOwnerId) : 'VpcOwnerId must be a string',
+  setVpcOwnerId(VpcOwnerId): {
     Properties+::: {
-      VpcOwnerId: VpcOwnerId,
+      VpcOwnerId:
+        if !std.isString(VpcOwnerId) then (error 'VpcOwnerId must be a string')
+        else if std.isEmpty(VpcOwnerId) then (error 'VpcOwnerId must be not empty')
+        else VpcOwnerId,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'associating' || State == 'associated' || State == 'association-failed' || State == 'disassociating' || State == 'disassociated' || State == 'disassociation-failed' : "State should be 'associating' or 'associated' or 'association-failed' or 'disassociating' or 'disassociated' or 'disassociation-failed'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'associating' && State != 'associated' && State != 'association-failed' && State != 'disassociating' && State != 'disassociated' && State != 'disassociation-failed' then (error "State should be 'associating' or 'associated' or 'association-failed' or 'disassociating' or 'disassociated' or 'disassociation-failed'")
+        else State,
     },
   },
-  withStateReason(StateReason): {
-    assert std.isString(StateReason) : 'StateReason must be a string',
+  setStateReason(StateReason): {
     Properties+::: {
-      StateReason: StateReason,
+      StateReason:
+        if !std.isString(StateReason) then (error 'StateReason must be a string')
+        else if std.isEmpty(StateReason) then (error 'StateReason must be not empty')
+        else StateReason,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,11 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Protocol) : 'Protocol must be a string',
-      assert Protocol == 'tcp' || Protocol == 'udp' : "Protocol should be 'tcp' or 'udp'",
-      Protocol: Protocol,
-      assert std.isString(Source) : 'Source must be a string',
-      Source: Source,
+      Protocol:
+        if !std.isString(Protocol) then (error 'Protocol must be a string')
+        else if std.isEmpty(Protocol) then (error 'Protocol must be not empty')
+        else if Protocol != 'tcp' && Protocol != 'udp' then (error "Protocol should be 'tcp' or 'udp'")
+        else Protocol,
+      Source:
+        if !std.isString(Source) then (error 'Source must be a string')
+        else if std.isEmpty(Source) then (error 'Source must be not empty')
+        else Source,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,140 +23,161 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkInsightsPath',
   },
-  withNetworkInsightsPathId(NetworkInsightsPathId): {
-    assert std.isString(NetworkInsightsPathId) : 'NetworkInsightsPathId must be a string',
+  setNetworkInsightsPathId(NetworkInsightsPathId): {
     Properties+::: {
-      NetworkInsightsPathId: NetworkInsightsPathId,
+      NetworkInsightsPathId:
+        if !std.isString(NetworkInsightsPathId) then (error 'NetworkInsightsPathId must be a string')
+        else if std.isEmpty(NetworkInsightsPathId) then (error 'NetworkInsightsPathId must be not empty')
+        else NetworkInsightsPathId,
     },
   },
-  withNetworkInsightsPathArn(NetworkInsightsPathArn): {
-    assert std.isString(NetworkInsightsPathArn) : 'NetworkInsightsPathArn must be a string',
+  setNetworkInsightsPathArn(NetworkInsightsPathArn): {
     Properties+::: {
-      NetworkInsightsPathArn: NetworkInsightsPathArn,
+      NetworkInsightsPathArn:
+        if !std.isString(NetworkInsightsPathArn) then (error 'NetworkInsightsPathArn must be a string')
+        else if std.isEmpty(NetworkInsightsPathArn) then (error 'NetworkInsightsPathArn must be not empty')
+        else NetworkInsightsPathArn,
     },
   },
-  withCreatedDate(CreatedDate): {
-    assert std.isString(CreatedDate) : 'CreatedDate must be a string',
+  setCreatedDate(CreatedDate): {
     Properties+::: {
-      CreatedDate: CreatedDate,
+      CreatedDate:
+        if !std.isString(CreatedDate) then (error 'CreatedDate must be a string')
+        else if std.isEmpty(CreatedDate) then (error 'CreatedDate must be not empty')
+        else CreatedDate,
     },
   },
-  withSourceIp(SourceIp): {
-    assert std.isString(SourceIp) : 'SourceIp must be a string',
+  setSourceIp(SourceIp): {
     Properties+::: {
-      SourceIp: SourceIp,
+      SourceIp:
+        if !std.isString(SourceIp) then (error 'SourceIp must be a string')
+        else if std.isEmpty(SourceIp) then (error 'SourceIp must be not empty')
+        else SourceIp,
     },
   },
-  withFilterAtSource(FilterAtSource): {
-    assert std.isObject(FilterAtSource) : 'FilterAtSource must be a object',
+  setFilterAtSource(FilterAtSource): {
     Properties+::: {
-      FilterAtSource: FilterAtSource,
+      FilterAtSource:
+        if !std.isObject(FilterAtSource) then (error 'FilterAtSource must be an object')
+        else FilterAtSource,
     },
   },
-  withFilterAtDestination(FilterAtDestination): {
-    assert std.isObject(FilterAtDestination) : 'FilterAtDestination must be a object',
+  setFilterAtDestination(FilterAtDestination): {
     Properties+::: {
-      FilterAtDestination: FilterAtDestination,
+      FilterAtDestination:
+        if !std.isObject(FilterAtDestination) then (error 'FilterAtDestination must be an object')
+        else FilterAtDestination,
     },
   },
-  withDestinationIp(DestinationIp): {
-    assert std.isString(DestinationIp) : 'DestinationIp must be a string',
+  setDestinationIp(DestinationIp): {
     Properties+::: {
-      DestinationIp: DestinationIp,
+      DestinationIp:
+        if !std.isString(DestinationIp) then (error 'DestinationIp must be a string')
+        else if std.isEmpty(DestinationIp) then (error 'DestinationIp must be not empty')
+        else DestinationIp,
     },
   },
-  withDestination(Destination): {
-    assert std.isString(Destination) : 'Destination must be a string',
+  setDestination(Destination): {
     Properties+::: {
-      Destination: Destination,
+      Destination:
+        if !std.isString(Destination) then (error 'Destination must be a string')
+        else if std.isEmpty(Destination) then (error 'Destination must be not empty')
+        else Destination,
     },
   },
-  withSourceArn(SourceArn): {
-    assert std.isString(SourceArn) : 'SourceArn must be a string',
+  setSourceArn(SourceArn): {
     Properties+::: {
-      SourceArn: SourceArn,
+      SourceArn:
+        if !std.isString(SourceArn) then (error 'SourceArn must be a string')
+        else if std.isEmpty(SourceArn) then (error 'SourceArn must be not empty')
+        else SourceArn,
     },
   },
-  withDestinationArn(DestinationArn): {
-    assert std.isString(DestinationArn) : 'DestinationArn must be a string',
+  setDestinationArn(DestinationArn): {
     Properties+::: {
-      DestinationArn: DestinationArn,
+      DestinationArn:
+        if !std.isString(DestinationArn) then (error 'DestinationArn must be a string')
+        else if std.isEmpty(DestinationArn) then (error 'DestinationArn must be not empty')
+        else DestinationArn,
     },
   },
-  withDestinationPort(DestinationPort): {
-    assert std.isNumber(DestinationPort) : 'DestinationPort must be a number',
+  setDestinationPort(DestinationPort): {
     Properties+::: {
-      DestinationPort: DestinationPort,
+      DestinationPort:
+        if !std.isNumber(DestinationPort) then (error 'DestinationPort must be an number')
+        else DestinationPort,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

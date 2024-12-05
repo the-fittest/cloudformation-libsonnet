@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ChannelName) : 'ChannelName must be a string',
-      ChannelName: ChannelName,
-      Outputs: (if std.isArray(Outputs) then Outputs else [Outputs]),
-      assert std.isString(PlaybackMode) : 'PlaybackMode must be a string',
-      assert PlaybackMode == 'LOOP' || PlaybackMode == 'LINEAR' : "PlaybackMode should be 'LOOP' or 'LINEAR'",
-      PlaybackMode: PlaybackMode,
+      ChannelName:
+        if !std.isString(ChannelName) then (error 'ChannelName must be a string')
+        else if std.isEmpty(ChannelName) then (error 'ChannelName must be not empty')
+        else ChannelName,
+      Outputs:
+        if !std.isArray(Outputs) then (error 'Outputs must be an array')
+        else Outputs,
+      PlaybackMode:
+        if !std.isString(PlaybackMode) then (error 'PlaybackMode must be a string')
+        else if std.isEmpty(PlaybackMode) then (error 'PlaybackMode must be not empty')
+        else if PlaybackMode != 'LOOP' && PlaybackMode != 'LINEAR' then (error "PlaybackMode should be 'LOOP' or 'LINEAR'")
+        else PlaybackMode,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,115 +27,127 @@
     Metadata:: [],
     Type: 'AWS::MediaTailor::Channel',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withAudiences(Audiences): {
+  setAudiences(Audiences): {
     Properties+::: {
-      Audiences: (if std.isArray(Audiences) then Audiences else [Audiences]),
+      Audiences:
+        if !std.isArray(Audiences) then (error 'Audiences must be an array')
+        else Audiences,
     },
   },
-  withAudiencesMixin(Audiences): {
+  setAudiencesMixin(Audiences): {
     Properties+::: {
-      Audiences+: (if std.isArray(Audiences) then Audiences else [Audiences]),
+      Audiences+: Audiences,
     },
   },
-  withFillerSlate(FillerSlate): {
-    assert std.isObject(FillerSlate) : 'FillerSlate must be a object',
+  setFillerSlate(FillerSlate): {
     Properties+::: {
-      FillerSlate: FillerSlate,
+      FillerSlate:
+        if !std.isObject(FillerSlate) then (error 'FillerSlate must be an object')
+        else FillerSlate,
     },
   },
-  withLogConfiguration(LogConfiguration): {
-    assert std.isObject(LogConfiguration) : 'LogConfiguration must be a object',
+  setLogConfiguration(LogConfiguration): {
     Properties+::: {
-      LogConfiguration: LogConfiguration,
+      LogConfiguration:
+        if !std.isObject(LogConfiguration) then (error 'LogConfiguration must be an object')
+        else LogConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTier(Tier): {
-    assert std.isString(Tier) : 'Tier must be a string',
-    assert Tier == 'BASIC' || Tier == 'STANDARD' : "Tier should be 'BASIC' or 'STANDARD'",
+  setTier(Tier): {
     Properties+::: {
-      Tier: Tier,
+      Tier:
+        if !std.isString(Tier) then (error 'Tier must be a string')
+        else if std.isEmpty(Tier) then (error 'Tier must be not empty')
+        else if Tier != 'BASIC' && Tier != 'STANDARD' then (error "Tier should be 'BASIC' or 'STANDARD'")
+        else Tier,
     },
   },
-  withTimeShiftConfiguration(TimeShiftConfiguration): {
-    assert std.isObject(TimeShiftConfiguration) : 'TimeShiftConfiguration must be a object',
+  setTimeShiftConfiguration(TimeShiftConfiguration): {
     Properties+::: {
-      TimeShiftConfiguration: TimeShiftConfiguration,
+      TimeShiftConfiguration:
+        if !std.isObject(TimeShiftConfiguration) then (error 'TimeShiftConfiguration must be an object')
+        else if !std.objectHas(TimeShiftConfiguration, 'MaxTimeDelaySeconds') then (error ' have attribute MaxTimeDelaySeconds')
+        else TimeShiftConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

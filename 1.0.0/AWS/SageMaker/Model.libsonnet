@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,126 +10,142 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Model',
   },
-  withExecutionRoleArn(ExecutionRoleArn): {
-    assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
+  setExecutionRoleArn(ExecutionRoleArn): {
     Properties+::: {
-      ExecutionRoleArn: ExecutionRoleArn,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
     },
   },
-  withEnableNetworkIsolation(EnableNetworkIsolation): {
-    assert std.isBoolean(EnableNetworkIsolation) : 'EnableNetworkIsolation must be a boolean',
+  setEnableNetworkIsolation(EnableNetworkIsolation): {
     Properties+::: {
-      EnableNetworkIsolation: EnableNetworkIsolation,
+      EnableNetworkIsolation:
+        if !std.isBoolean(EnableNetworkIsolation) then (error 'EnableNetworkIsolation must be a boolean') else EnableNetworkIsolation,
     },
   },
-  withPrimaryContainer(PrimaryContainer): {
-    assert std.isObject(PrimaryContainer) : 'PrimaryContainer must be a object',
+  setPrimaryContainer(PrimaryContainer): {
     Properties+::: {
-      PrimaryContainer: PrimaryContainer,
+      PrimaryContainer:
+        if !std.isObject(PrimaryContainer) then (error 'PrimaryContainer must be an object')
+        else PrimaryContainer,
     },
   },
-  withModelName(ModelName): {
-    assert std.isString(ModelName) : 'ModelName must be a string',
+  setModelName(ModelName): {
     Properties+::: {
-      ModelName: ModelName,
+      ModelName:
+        if !std.isString(ModelName) then (error 'ModelName must be a string')
+        else if std.isEmpty(ModelName) then (error 'ModelName must be not empty')
+        else ModelName,
     },
   },
-  withVpcConfig(VpcConfig): {
-    assert std.isObject(VpcConfig) : 'VpcConfig must be a object',
+  setVpcConfig(VpcConfig): {
     Properties+::: {
-      VpcConfig: VpcConfig,
+      VpcConfig:
+        if !std.isObject(VpcConfig) then (error 'VpcConfig must be an object')
+        else if !std.objectHas(VpcConfig, 'Subnets') then (error ' have attribute Subnets')
+        else if !std.objectHas(VpcConfig, 'SecurityGroupIds') then (error ' have attribute SecurityGroupIds')
+        else VpcConfig,
     },
   },
-  withContainers(Containers): {
+  setContainers(Containers): {
     Properties+::: {
-      Containers: (if std.isArray(Containers) then Containers else [Containers]),
+      Containers:
+        if !std.isArray(Containers) then (error 'Containers must be an array')
+        else Containers,
     },
   },
-  withContainersMixin(Containers): {
+  setContainersMixin(Containers): {
     Properties+::: {
-      Containers+: (if std.isArray(Containers) then Containers else [Containers]),
+      Containers+: Containers,
     },
   },
-  withInferenceExecutionConfig(InferenceExecutionConfig): {
-    assert std.isObject(InferenceExecutionConfig) : 'InferenceExecutionConfig must be a object',
+  setInferenceExecutionConfig(InferenceExecutionConfig): {
     Properties+::: {
-      InferenceExecutionConfig: InferenceExecutionConfig,
+      InferenceExecutionConfig:
+        if !std.isObject(InferenceExecutionConfig) then (error 'InferenceExecutionConfig must be an object')
+        else if !std.objectHas(InferenceExecutionConfig, 'Mode') then (error ' have attribute Mode')
+        else InferenceExecutionConfig,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

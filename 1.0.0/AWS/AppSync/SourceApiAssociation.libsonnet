@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,142 +10,166 @@
     Metadata:: [],
     Type: 'AWS::AppSync::SourceApiAssociation',
   },
-  withSourceApiIdentifier(SourceApiIdentifier): {
-    assert std.isString(SourceApiIdentifier) : 'SourceApiIdentifier must be a string',
+  setSourceApiIdentifier(SourceApiIdentifier): {
     Properties+::: {
-      SourceApiIdentifier: SourceApiIdentifier,
+      SourceApiIdentifier:
+        if !std.isString(SourceApiIdentifier) then (error 'SourceApiIdentifier must be a string')
+        else if std.isEmpty(SourceApiIdentifier) then (error 'SourceApiIdentifier must be not empty')
+        else SourceApiIdentifier,
     },
   },
-  withMergedApiIdentifier(MergedApiIdentifier): {
-    assert std.isString(MergedApiIdentifier) : 'MergedApiIdentifier must be a string',
+  setMergedApiIdentifier(MergedApiIdentifier): {
     Properties+::: {
-      MergedApiIdentifier: MergedApiIdentifier,
+      MergedApiIdentifier:
+        if !std.isString(MergedApiIdentifier) then (error 'MergedApiIdentifier must be a string')
+        else if std.isEmpty(MergedApiIdentifier) then (error 'MergedApiIdentifier must be not empty')
+        else MergedApiIdentifier,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withSourceApiAssociationConfig(SourceApiAssociationConfig): {
+  setSourceApiAssociationConfig(SourceApiAssociationConfig): {
     Properties+::: {
       SourceApiAssociationConfig: SourceApiAssociationConfig,
     },
   },
-  withAssociationId(AssociationId): {
-    assert std.isString(AssociationId) : 'AssociationId must be a string',
+  setAssociationId(AssociationId): {
     Properties+::: {
-      AssociationId: AssociationId,
+      AssociationId:
+        if !std.isString(AssociationId) then (error 'AssociationId must be a string')
+        else if std.isEmpty(AssociationId) then (error 'AssociationId must be not empty')
+        else AssociationId,
     },
   },
-  withAssociationArn(AssociationArn): {
-    assert std.isString(AssociationArn) : 'AssociationArn must be a string',
+  setAssociationArn(AssociationArn): {
     Properties+::: {
-      AssociationArn: AssociationArn,
+      AssociationArn:
+        if !std.isString(AssociationArn) then (error 'AssociationArn must be a string')
+        else if std.isEmpty(AssociationArn) then (error 'AssociationArn must be not empty')
+        else AssociationArn,
     },
   },
-  withSourceApiId(SourceApiId): {
-    assert std.isString(SourceApiId) : 'SourceApiId must be a string',
+  setSourceApiId(SourceApiId): {
     Properties+::: {
-      SourceApiId: SourceApiId,
+      SourceApiId:
+        if !std.isString(SourceApiId) then (error 'SourceApiId must be a string')
+        else if std.isEmpty(SourceApiId) then (error 'SourceApiId must be not empty')
+        else SourceApiId,
     },
   },
-  withSourceApiArn(SourceApiArn): {
-    assert std.isString(SourceApiArn) : 'SourceApiArn must be a string',
+  setSourceApiArn(SourceApiArn): {
     Properties+::: {
-      SourceApiArn: SourceApiArn,
+      SourceApiArn:
+        if !std.isString(SourceApiArn) then (error 'SourceApiArn must be a string')
+        else if std.isEmpty(SourceApiArn) then (error 'SourceApiArn must be not empty')
+        else SourceApiArn,
     },
   },
-  withMergedApiId(MergedApiId): {
-    assert std.isString(MergedApiId) : 'MergedApiId must be a string',
+  setMergedApiId(MergedApiId): {
     Properties+::: {
-      MergedApiId: MergedApiId,
+      MergedApiId:
+        if !std.isString(MergedApiId) then (error 'MergedApiId must be a string')
+        else if std.isEmpty(MergedApiId) then (error 'MergedApiId must be not empty')
+        else MergedApiId,
     },
   },
-  withMergedApiArn(MergedApiArn): {
-    assert std.isString(MergedApiArn) : 'MergedApiArn must be a string',
+  setMergedApiArn(MergedApiArn): {
     Properties+::: {
-      MergedApiArn: MergedApiArn,
+      MergedApiArn:
+        if !std.isString(MergedApiArn) then (error 'MergedApiArn must be a string')
+        else if std.isEmpty(MergedApiArn) then (error 'MergedApiArn must be not empty')
+        else MergedApiArn,
     },
   },
-  withSourceApiAssociationStatus(SourceApiAssociationStatus): {
-    assert std.isString(SourceApiAssociationStatus) : 'SourceApiAssociationStatus must be a string',
-    assert SourceApiAssociationStatus == 'MERGE_SCHEDULED' || SourceApiAssociationStatus == 'MERGE_FAILED' || SourceApiAssociationStatus == 'MERGE_SUCCESS' || SourceApiAssociationStatus == 'MERGE_IN_PROGRESS' || SourceApiAssociationStatus == 'AUTO_MERGE_SCHEDULE_FAILED' || SourceApiAssociationStatus == 'DELETION_SCHEDULED' || SourceApiAssociationStatus == 'DELETION_IN_PROGRESS' || SourceApiAssociationStatus == 'DELETION_FAILED' : "SourceApiAssociationStatus should be 'MERGE_SCHEDULED' or 'MERGE_FAILED' or 'MERGE_SUCCESS' or 'MERGE_IN_PROGRESS' or 'AUTO_MERGE_SCHEDULE_FAILED' or 'DELETION_SCHEDULED' or 'DELETION_IN_PROGRESS' or 'DELETION_FAILED'",
+  setSourceApiAssociationStatus(SourceApiAssociationStatus): {
     Properties+::: {
-      SourceApiAssociationStatus: SourceApiAssociationStatus,
+      SourceApiAssociationStatus:
+        if !std.isString(SourceApiAssociationStatus) then (error 'SourceApiAssociationStatus must be a string')
+        else if std.isEmpty(SourceApiAssociationStatus) then (error 'SourceApiAssociationStatus must be not empty')
+        else if SourceApiAssociationStatus != 'MERGE_SCHEDULED' && SourceApiAssociationStatus != 'MERGE_FAILED' && SourceApiAssociationStatus != 'MERGE_SUCCESS' && SourceApiAssociationStatus != 'MERGE_IN_PROGRESS' && SourceApiAssociationStatus != 'AUTO_MERGE_SCHEDULE_FAILED' && SourceApiAssociationStatus != 'DELETION_SCHEDULED' && SourceApiAssociationStatus != 'DELETION_IN_PROGRESS' && SourceApiAssociationStatus != 'DELETION_FAILED' then (error "SourceApiAssociationStatus should be 'MERGE_SCHEDULED' or 'MERGE_FAILED' or 'MERGE_SUCCESS' or 'MERGE_IN_PROGRESS' or 'AUTO_MERGE_SCHEDULE_FAILED' or 'DELETION_SCHEDULED' or 'DELETION_IN_PROGRESS' or 'DELETION_FAILED'")
+        else SourceApiAssociationStatus,
     },
   },
-  withSourceApiAssociationStatusDetail(SourceApiAssociationStatusDetail): {
-    assert std.isString(SourceApiAssociationStatusDetail) : 'SourceApiAssociationStatusDetail must be a string',
+  setSourceApiAssociationStatusDetail(SourceApiAssociationStatusDetail): {
     Properties+::: {
-      SourceApiAssociationStatusDetail: SourceApiAssociationStatusDetail,
+      SourceApiAssociationStatusDetail:
+        if !std.isString(SourceApiAssociationStatusDetail) then (error 'SourceApiAssociationStatusDetail must be a string')
+        else if std.isEmpty(SourceApiAssociationStatusDetail) then (error 'SourceApiAssociationStatusDetail must be not empty')
+        else SourceApiAssociationStatusDetail,
     },
   },
-  withLastSuccessfulMergeDate(LastSuccessfulMergeDate): {
-    assert std.isString(LastSuccessfulMergeDate) : 'LastSuccessfulMergeDate must be a string',
+  setLastSuccessfulMergeDate(LastSuccessfulMergeDate): {
     Properties+::: {
-      LastSuccessfulMergeDate: LastSuccessfulMergeDate,
+      LastSuccessfulMergeDate:
+        if !std.isString(LastSuccessfulMergeDate) then (error 'LastSuccessfulMergeDate must be a string')
+        else if std.isEmpty(LastSuccessfulMergeDate) then (error 'LastSuccessfulMergeDate must be not empty')
+        else LastSuccessfulMergeDate,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

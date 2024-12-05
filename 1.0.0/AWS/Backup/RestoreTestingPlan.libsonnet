@@ -6,12 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(RecoveryPointSelection) : 'RecoveryPointSelection must be an object',
-      RecoveryPointSelection: RecoveryPointSelection,
-      assert std.isString(ScheduleExpression) : 'ScheduleExpression must be a string',
-      ScheduleExpression: ScheduleExpression,
-      assert std.isString(RestoreTestingPlanName) : 'RestoreTestingPlanName must be a string',
-      RestoreTestingPlanName: RestoreTestingPlanName,
+      RecoveryPointSelection:
+        if !std.isObject(RecoveryPointSelection) then (error 'RecoveryPointSelection must be an object')
+        else if !std.objectHas(RecoveryPointSelection, 'Algorithm') then (error ' have attribute Algorithm')
+        else if !std.objectHas(RecoveryPointSelection, 'RecoveryPointTypes') then (error ' have attribute RecoveryPointTypes')
+        else if !std.objectHas(RecoveryPointSelection, 'IncludeVaults') then (error ' have attribute IncludeVaults')
+        else RecoveryPointSelection,
+      ScheduleExpression:
+        if !std.isString(ScheduleExpression) then (error 'ScheduleExpression must be a string')
+        else if std.isEmpty(ScheduleExpression) then (error 'ScheduleExpression must be not empty')
+        else ScheduleExpression,
+      RestoreTestingPlanName:
+        if !std.isString(RestoreTestingPlanName) then (error 'RestoreTestingPlanName must be a string')
+        else if std.isEmpty(RestoreTestingPlanName) then (error 'RestoreTestingPlanName must be not empty')
+        else RestoreTestingPlanName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,99 +29,108 @@
     Metadata:: [],
     Type: 'AWS::Backup::RestoreTestingPlan',
   },
-  withRestoreTestingPlanArn(RestoreTestingPlanArn): {
-    assert std.isString(RestoreTestingPlanArn) : 'RestoreTestingPlanArn must be a string',
+  setRestoreTestingPlanArn(RestoreTestingPlanArn): {
     Properties+::: {
-      RestoreTestingPlanArn: RestoreTestingPlanArn,
+      RestoreTestingPlanArn:
+        if !std.isString(RestoreTestingPlanArn) then (error 'RestoreTestingPlanArn must be a string')
+        else if std.isEmpty(RestoreTestingPlanArn) then (error 'RestoreTestingPlanArn must be not empty')
+        else RestoreTestingPlanArn,
     },
   },
-  withScheduleExpressionTimezone(ScheduleExpressionTimezone): {
-    assert std.isString(ScheduleExpressionTimezone) : 'ScheduleExpressionTimezone must be a string',
+  setScheduleExpressionTimezone(ScheduleExpressionTimezone): {
     Properties+::: {
-      ScheduleExpressionTimezone: ScheduleExpressionTimezone,
+      ScheduleExpressionTimezone:
+        if !std.isString(ScheduleExpressionTimezone) then (error 'ScheduleExpressionTimezone must be a string')
+        else if std.isEmpty(ScheduleExpressionTimezone) then (error 'ScheduleExpressionTimezone must be not empty')
+        else ScheduleExpressionTimezone,
     },
   },
-  withScheduleStatus(ScheduleStatus): {
-    assert std.isString(ScheduleStatus) : 'ScheduleStatus must be a string',
-    assert ScheduleStatus == 'ACTIVE' || ScheduleStatus == 'SUSPENDED' : "ScheduleStatus should be 'ACTIVE' or 'SUSPENDED'",
+  setScheduleStatus(ScheduleStatus): {
     Properties+::: {
-      ScheduleStatus: ScheduleStatus,
+      ScheduleStatus:
+        if !std.isString(ScheduleStatus) then (error 'ScheduleStatus must be a string')
+        else if std.isEmpty(ScheduleStatus) then (error 'ScheduleStatus must be not empty')
+        else if ScheduleStatus != 'ACTIVE' && ScheduleStatus != 'SUSPENDED' then (error "ScheduleStatus should be 'ACTIVE' or 'SUSPENDED'")
+        else ScheduleStatus,
     },
   },
-  withStartWindowHours(StartWindowHours): {
-    assert std.isNumber(StartWindowHours) : 'StartWindowHours must be a number',
+  setStartWindowHours(StartWindowHours): {
     Properties+::: {
-      StartWindowHours: StartWindowHours,
+      StartWindowHours:
+        if !std.isNumber(StartWindowHours) then (error 'StartWindowHours must be an number')
+        else StartWindowHours,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

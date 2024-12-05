@@ -9,18 +9,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApplicationDomain) : 'ApplicationDomain must be a string',
-      ApplicationDomain: ApplicationDomain,
-      assert std.isString(AttachmentType) : 'AttachmentType must be a string',
-      AttachmentType: AttachmentType,
-      assert std.isString(DomainCertificateArn) : 'DomainCertificateArn must be a string',
-      DomainCertificateArn: DomainCertificateArn,
-      assert std.isString(EndpointType) : 'EndpointType must be a string',
-      EndpointType: EndpointType,
-      assert std.isString(VerifiedAccessGroupId) : 'VerifiedAccessGroupId must be a string',
-      VerifiedAccessGroupId: VerifiedAccessGroupId,
-      assert std.isString(EndpointDomainPrefix) : 'EndpointDomainPrefix must be a string',
-      EndpointDomainPrefix: EndpointDomainPrefix,
+      ApplicationDomain:
+        if !std.isString(ApplicationDomain) then (error 'ApplicationDomain must be a string')
+        else if std.isEmpty(ApplicationDomain) then (error 'ApplicationDomain must be not empty')
+        else ApplicationDomain,
+      AttachmentType:
+        if !std.isString(AttachmentType) then (error 'AttachmentType must be a string')
+        else if std.isEmpty(AttachmentType) then (error 'AttachmentType must be not empty')
+        else AttachmentType,
+      DomainCertificateArn:
+        if !std.isString(DomainCertificateArn) then (error 'DomainCertificateArn must be a string')
+        else if std.isEmpty(DomainCertificateArn) then (error 'DomainCertificateArn must be not empty')
+        else DomainCertificateArn,
+      EndpointType:
+        if !std.isString(EndpointType) then (error 'EndpointType must be a string')
+        else if std.isEmpty(EndpointType) then (error 'EndpointType must be not empty')
+        else EndpointType,
+      VerifiedAccessGroupId:
+        if !std.isString(VerifiedAccessGroupId) then (error 'VerifiedAccessGroupId must be a string')
+        else if std.isEmpty(VerifiedAccessGroupId) then (error 'VerifiedAccessGroupId must be not empty')
+        else VerifiedAccessGroupId,
+      EndpointDomainPrefix:
+        if !std.isString(EndpointDomainPrefix) then (error 'EndpointDomainPrefix must be a string')
+        else if std.isEmpty(EndpointDomainPrefix) then (error 'EndpointDomainPrefix must be not empty')
+        else EndpointDomainPrefix,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -30,162 +42,187 @@
     Metadata:: [],
     Type: 'AWS::EC2::VerifiedAccessEndpoint',
   },
-  withVerifiedAccessEndpointId(VerifiedAccessEndpointId): {
-    assert std.isString(VerifiedAccessEndpointId) : 'VerifiedAccessEndpointId must be a string',
+  setVerifiedAccessEndpointId(VerifiedAccessEndpointId): {
     Properties+::: {
-      VerifiedAccessEndpointId: VerifiedAccessEndpointId,
+      VerifiedAccessEndpointId:
+        if !std.isString(VerifiedAccessEndpointId) then (error 'VerifiedAccessEndpointId must be a string')
+        else if std.isEmpty(VerifiedAccessEndpointId) then (error 'VerifiedAccessEndpointId must be not empty')
+        else VerifiedAccessEndpointId,
     },
   },
-  withVerifiedAccessInstanceId(VerifiedAccessInstanceId): {
-    assert std.isString(VerifiedAccessInstanceId) : 'VerifiedAccessInstanceId must be a string',
+  setVerifiedAccessInstanceId(VerifiedAccessInstanceId): {
     Properties+::: {
-      VerifiedAccessInstanceId: VerifiedAccessInstanceId,
+      VerifiedAccessInstanceId:
+        if !std.isString(VerifiedAccessInstanceId) then (error 'VerifiedAccessInstanceId must be a string')
+        else if std.isEmpty(VerifiedAccessInstanceId) then (error 'VerifiedAccessInstanceId must be not empty')
+        else VerifiedAccessInstanceId,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withNetworkInterfaceOptions(NetworkInterfaceOptions): {
-    assert std.isObject(NetworkInterfaceOptions) : 'NetworkInterfaceOptions must be a object',
+  setNetworkInterfaceOptions(NetworkInterfaceOptions): {
     Properties+::: {
-      NetworkInterfaceOptions: NetworkInterfaceOptions,
+      NetworkInterfaceOptions:
+        if !std.isObject(NetworkInterfaceOptions) then (error 'NetworkInterfaceOptions must be an object')
+        else NetworkInterfaceOptions,
     },
   },
-  withLoadBalancerOptions(LoadBalancerOptions): {
-    assert std.isObject(LoadBalancerOptions) : 'LoadBalancerOptions must be a object',
+  setLoadBalancerOptions(LoadBalancerOptions): {
     Properties+::: {
-      LoadBalancerOptions: LoadBalancerOptions,
+      LoadBalancerOptions:
+        if !std.isObject(LoadBalancerOptions) then (error 'LoadBalancerOptions must be an object')
+        else LoadBalancerOptions,
     },
   },
-  withEndpointDomain(EndpointDomain): {
-    assert std.isString(EndpointDomain) : 'EndpointDomain must be a string',
+  setEndpointDomain(EndpointDomain): {
     Properties+::: {
-      EndpointDomain: EndpointDomain,
+      EndpointDomain:
+        if !std.isString(EndpointDomain) then (error 'EndpointDomain must be a string')
+        else if std.isEmpty(EndpointDomain) then (error 'EndpointDomain must be not empty')
+        else EndpointDomain,
     },
   },
-  withDeviceValidationDomain(DeviceValidationDomain): {
-    assert std.isString(DeviceValidationDomain) : 'DeviceValidationDomain must be a string',
+  setDeviceValidationDomain(DeviceValidationDomain): {
     Properties+::: {
-      DeviceValidationDomain: DeviceValidationDomain,
+      DeviceValidationDomain:
+        if !std.isString(DeviceValidationDomain) then (error 'DeviceValidationDomain must be a string')
+        else if std.isEmpty(DeviceValidationDomain) then (error 'DeviceValidationDomain must be not empty')
+        else DeviceValidationDomain,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastUpdatedTime(LastUpdatedTime): {
-    assert std.isString(LastUpdatedTime) : 'LastUpdatedTime must be a string',
+  setLastUpdatedTime(LastUpdatedTime): {
     Properties+::: {
-      LastUpdatedTime: LastUpdatedTime,
+      LastUpdatedTime:
+        if !std.isString(LastUpdatedTime) then (error 'LastUpdatedTime must be a string')
+        else if std.isEmpty(LastUpdatedTime) then (error 'LastUpdatedTime must be not empty')
+        else LastUpdatedTime,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withPolicyDocument(PolicyDocument): {
-    assert std.isString(PolicyDocument) : 'PolicyDocument must be a string',
+  setPolicyDocument(PolicyDocument): {
     Properties+::: {
-      PolicyDocument: PolicyDocument,
+      PolicyDocument:
+        if !std.isString(PolicyDocument) then (error 'PolicyDocument must be a string')
+        else if std.isEmpty(PolicyDocument) then (error 'PolicyDocument must be not empty')
+        else PolicyDocument,
     },
   },
-  withPolicyEnabled(PolicyEnabled): {
-    assert std.isBoolean(PolicyEnabled) : 'PolicyEnabled must be a boolean',
+  setPolicyEnabled(PolicyEnabled): {
     Properties+::: {
-      PolicyEnabled: PolicyEnabled,
+      PolicyEnabled:
+        if !std.isBoolean(PolicyEnabled) then (error 'PolicyEnabled must be a boolean') else PolicyEnabled,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withSseSpecification(SseSpecification): {
-    assert std.isObject(SseSpecification) : 'SseSpecification must be a object',
+  setSseSpecification(SseSpecification): {
     Properties+::: {
-      SseSpecification: SseSpecification,
+      SseSpecification:
+        if !std.isObject(SseSpecification) then (error 'SseSpecification must be an object')
+        else SseSpecification,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

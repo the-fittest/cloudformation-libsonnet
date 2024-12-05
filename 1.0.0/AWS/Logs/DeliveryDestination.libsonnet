@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 60 then error ('Name should have not more than 60 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,104 +19,123 @@
     Metadata:: [],
     Type: 'AWS::Logs::DeliveryDestination',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 16 then error ('Arn should have at least 16 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withDestinationResourceArn(DestinationResourceArn): {
-    assert std.isString(DestinationResourceArn) : 'DestinationResourceArn must be a string',
+  setDestinationResourceArn(DestinationResourceArn): {
     Properties+::: {
-      DestinationResourceArn: DestinationResourceArn,
+      DestinationResourceArn:
+        if !std.isString(DestinationResourceArn) then (error 'DestinationResourceArn must be a string')
+        else if std.isEmpty(DestinationResourceArn) then (error 'DestinationResourceArn must be not empty')
+        else if std.length(DestinationResourceArn) < 16 then error ('DestinationResourceArn should have at least 16 characters')
+        else if std.length(DestinationResourceArn) > 2048 then error ('DestinationResourceArn should have not more than 2048 characters')
+        else DestinationResourceArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDeliveryDestinationType(DeliveryDestinationType): {
-    assert std.isString(DeliveryDestinationType) : 'DeliveryDestinationType must be a string',
+  setDeliveryDestinationType(DeliveryDestinationType): {
     Properties+::: {
-      DeliveryDestinationType: DeliveryDestinationType,
+      DeliveryDestinationType:
+        if !std.isString(DeliveryDestinationType) then (error 'DeliveryDestinationType must be a string')
+        else if std.isEmpty(DeliveryDestinationType) then (error 'DeliveryDestinationType must be not empty')
+        else if std.length(DeliveryDestinationType) < 1 then error ('DeliveryDestinationType should have at least 1 characters')
+        else if std.length(DeliveryDestinationType) > 12 then error ('DeliveryDestinationType should have not more than 12 characters')
+        else DeliveryDestinationType,
     },
   },
-  withDeliveryDestinationPolicy(DeliveryDestinationPolicy): {
-    assert std.isObject(DeliveryDestinationPolicy) : 'DeliveryDestinationPolicy must be a object',
+  setDeliveryDestinationPolicy(DeliveryDestinationPolicy): {
     Properties+::: {
-      DeliveryDestinationPolicy: DeliveryDestinationPolicy,
+      DeliveryDestinationPolicy:
+        if !std.isObject(DeliveryDestinationPolicy) then (error 'DeliveryDestinationPolicy must be an object')
+        else DeliveryDestinationPolicy,
     },
   },
-  withOutputFormat(OutputFormat): {
-    assert std.isString(OutputFormat) : 'OutputFormat must be a string',
+  setOutputFormat(OutputFormat): {
     Properties+::: {
-      OutputFormat: OutputFormat,
+      OutputFormat:
+        if !std.isString(OutputFormat) then (error 'OutputFormat must be a string')
+        else if std.isEmpty(OutputFormat) then (error 'OutputFormat must be not empty')
+        else if std.length(OutputFormat) < 1 then error ('OutputFormat should have at least 1 characters')
+        else if std.length(OutputFormat) > 12 then error ('OutputFormat should have not more than 12 characters')
+        else OutputFormat,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

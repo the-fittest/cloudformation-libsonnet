@@ -7,15 +7,28 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(DatasetType) : 'DatasetType must be a string',
-      assert DatasetType == 'Interactions' || DatasetType == 'Items' || DatasetType == 'Users' : "DatasetType should be 'Interactions' or 'Items' or 'Users'",
-      DatasetType: DatasetType,
-      assert std.isString(DatasetGroupArn) : 'DatasetGroupArn must be a string',
-      DatasetGroupArn: DatasetGroupArn,
-      assert std.isString(SchemaArn) : 'SchemaArn must be a string',
-      SchemaArn: SchemaArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 63 then error ('Name should have not more than 63 characters')
+        else Name,
+      DatasetType:
+        if !std.isString(DatasetType) then (error 'DatasetType must be a string')
+        else if std.isEmpty(DatasetType) then (error 'DatasetType must be not empty')
+        else if DatasetType != 'Interactions' && DatasetType != 'Items' && DatasetType != 'Users' then (error "DatasetType should be 'Interactions' or 'Items' or 'Users'")
+        else if std.length(DatasetType) > 256 then error ('DatasetType should have not more than 256 characters')
+        else DatasetType,
+      DatasetGroupArn:
+        if !std.isString(DatasetGroupArn) then (error 'DatasetGroupArn must be a string')
+        else if std.isEmpty(DatasetGroupArn) then (error 'DatasetGroupArn must be not empty')
+        else if std.length(DatasetGroupArn) > 256 then error ('DatasetGroupArn should have not more than 256 characters')
+        else DatasetGroupArn,
+      SchemaArn:
+        if !std.isString(SchemaArn) then (error 'SchemaArn must be a string')
+        else if std.isEmpty(SchemaArn) then (error 'SchemaArn must be not empty')
+        else if std.length(SchemaArn) > 256 then error ('SchemaArn should have not more than 256 characters')
+        else SchemaArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,76 +38,80 @@
     Metadata:: [],
     Type: 'AWS::Personalize::Dataset',
   },
-  withDatasetArn(DatasetArn): {
-    assert std.isString(DatasetArn) : 'DatasetArn must be a string',
+  setDatasetArn(DatasetArn): {
     Properties+::: {
-      DatasetArn: DatasetArn,
+      DatasetArn:
+        if !std.isString(DatasetArn) then (error 'DatasetArn must be a string')
+        else if std.isEmpty(DatasetArn) then (error 'DatasetArn must be not empty')
+        else if std.length(DatasetArn) > 256 then error ('DatasetArn should have not more than 256 characters')
+        else DatasetArn,
     },
   },
-  withDatasetImportJob(DatasetImportJob): {
-    assert std.isObject(DatasetImportJob) : 'DatasetImportJob must be a object',
+  setDatasetImportJob(DatasetImportJob): {
     Properties+::: {
-      DatasetImportJob: DatasetImportJob,
+      DatasetImportJob:
+        if !std.isObject(DatasetImportJob) then (error 'DatasetImportJob must be an object')
+        else DatasetImportJob,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Certificate) : 'Certificate must be a string',
-      Certificate: Certificate,
-      assert std.isString(Usage) : 'Usage must be a string',
-      assert Usage == 'SIGNING' || Usage == 'ENCRYPTION' || Usage == 'TLS' : "Usage should be 'SIGNING' or 'ENCRYPTION' or 'TLS'",
-      Usage: Usage,
+      Certificate:
+        if !std.isString(Certificate) then (error 'Certificate must be a string')
+        else if std.isEmpty(Certificate) then (error 'Certificate must be not empty')
+        else if std.length(Certificate) < 1 then error ('Certificate should have at least 1 characters')
+        else if std.length(Certificate) > 16384 then error ('Certificate should have not more than 16384 characters')
+        else Certificate,
+      Usage:
+        if !std.isString(Usage) then (error 'Usage must be a string')
+        else if std.isEmpty(Usage) then (error 'Usage must be not empty')
+        else if Usage != 'SIGNING' && Usage != 'ENCRYPTION' && Usage != 'TLS' then (error "Usage should be 'SIGNING' or 'ENCRYPTION' or 'TLS'")
+        else Usage,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,148 +25,186 @@
     Metadata:: [],
     Type: 'AWS::Transfer::Certificate',
   },
-  withCertificateChain(CertificateChain): {
-    assert std.isString(CertificateChain) : 'CertificateChain must be a string',
+  setCertificateChain(CertificateChain): {
     Properties+::: {
-      CertificateChain: CertificateChain,
+      CertificateChain:
+        if !std.isString(CertificateChain) then (error 'CertificateChain must be a string')
+        else if std.isEmpty(CertificateChain) then (error 'CertificateChain must be not empty')
+        else if std.length(CertificateChain) < 1 then error ('CertificateChain should have at least 1 characters')
+        else if std.length(CertificateChain) > 2097152 then error ('CertificateChain should have not more than 2097152 characters')
+        else CertificateChain,
     },
   },
-  withPrivateKey(PrivateKey): {
-    assert std.isString(PrivateKey) : 'PrivateKey must be a string',
+  setPrivateKey(PrivateKey): {
     Properties+::: {
-      PrivateKey: PrivateKey,
+      PrivateKey:
+        if !std.isString(PrivateKey) then (error 'PrivateKey must be a string')
+        else if std.isEmpty(PrivateKey) then (error 'PrivateKey must be not empty')
+        else if std.length(PrivateKey) < 1 then error ('PrivateKey should have at least 1 characters')
+        else if std.length(PrivateKey) > 16384 then error ('PrivateKey should have not more than 16384 characters')
+        else PrivateKey,
     },
   },
-  withActiveDate(ActiveDate): {
-    assert std.isString(ActiveDate) : 'ActiveDate must be a string',
+  setActiveDate(ActiveDate): {
     Properties+::: {
-      ActiveDate: ActiveDate,
+      ActiveDate:
+        if !std.isString(ActiveDate) then (error 'ActiveDate must be a string')
+        else if std.isEmpty(ActiveDate) then (error 'ActiveDate must be not empty')
+        else ActiveDate,
     },
   },
-  withInactiveDate(InactiveDate): {
-    assert std.isString(InactiveDate) : 'InactiveDate must be a string',
+  setInactiveDate(InactiveDate): {
     Properties+::: {
-      InactiveDate: InactiveDate,
+      InactiveDate:
+        if !std.isString(InactiveDate) then (error 'InactiveDate must be a string')
+        else if std.isEmpty(InactiveDate) then (error 'InactiveDate must be not empty')
+        else InactiveDate,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 1600 then error ('Arn should have not more than 1600 characters')
+        else Arn,
     },
   },
-  withCertificateId(CertificateId): {
-    assert std.isString(CertificateId) : 'CertificateId must be a string',
+  setCertificateId(CertificateId): {
     Properties+::: {
-      CertificateId: CertificateId,
+      CertificateId:
+        if !std.isString(CertificateId) then (error 'CertificateId must be a string')
+        else if std.isEmpty(CertificateId) then (error 'CertificateId must be not empty')
+        else if std.length(CertificateId) < 22 then error ('CertificateId should have at least 22 characters')
+        else if std.length(CertificateId) > 22 then error ('CertificateId should have not more than 22 characters')
+        else CertificateId,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'ACTIVE' || Status == 'PENDING' || Status == 'INACTIVE' : "Status should be 'ACTIVE' or 'PENDING' or 'INACTIVE'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'ACTIVE' && Status != 'PENDING' && Status != 'INACTIVE' then (error "Status should be 'ACTIVE' or 'PENDING' or 'INACTIVE'")
+        else Status,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'CERTIFICATE' || Type == 'CERTIFICATE_WITH_PRIVATE_KEY' : "Type should be 'CERTIFICATE' or 'CERTIFICATE_WITH_PRIVATE_KEY'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'CERTIFICATE' && Type != 'CERTIFICATE_WITH_PRIVATE_KEY' then (error "Type should be 'CERTIFICATE' or 'CERTIFICATE_WITH_PRIVATE_KEY'")
+        else Type,
     },
   },
-  withSerial(Serial): {
-    assert std.isString(Serial) : 'Serial must be a string',
+  setSerial(Serial): {
     Properties+::: {
-      Serial: Serial,
+      Serial:
+        if !std.isString(Serial) then (error 'Serial must be a string')
+        else if std.isEmpty(Serial) then (error 'Serial must be not empty')
+        else if std.length(Serial) > 48 then error ('Serial should have not more than 48 characters')
+        else Serial,
     },
   },
-  withNotBeforeDate(NotBeforeDate): {
-    assert std.isString(NotBeforeDate) : 'NotBeforeDate must be a string',
+  setNotBeforeDate(NotBeforeDate): {
     Properties+::: {
-      NotBeforeDate: NotBeforeDate,
+      NotBeforeDate:
+        if !std.isString(NotBeforeDate) then (error 'NotBeforeDate must be a string')
+        else if std.isEmpty(NotBeforeDate) then (error 'NotBeforeDate must be not empty')
+        else NotBeforeDate,
     },
   },
-  withNotAfterDate(NotAfterDate): {
-    assert std.isString(NotAfterDate) : 'NotAfterDate must be a string',
+  setNotAfterDate(NotAfterDate): {
     Properties+::: {
-      NotAfterDate: NotAfterDate,
+      NotAfterDate:
+        if !std.isString(NotAfterDate) then (error 'NotAfterDate must be a string')
+        else if std.isEmpty(NotAfterDate) then (error 'NotAfterDate must be not empty')
+        else NotAfterDate,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

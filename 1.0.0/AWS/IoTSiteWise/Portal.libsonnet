@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PortalContactEmail) : 'PortalContactEmail must be a string',
-      PortalContactEmail: PortalContactEmail,
-      assert std.isString(PortalName) : 'PortalName must be a string',
-      PortalName: PortalName,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      PortalContactEmail:
+        if !std.isString(PortalContactEmail) then (error 'PortalContactEmail must be a string')
+        else if std.isEmpty(PortalContactEmail) then (error 'PortalContactEmail must be not empty')
+        else PortalContactEmail,
+      PortalName:
+        if !std.isString(PortalName) then (error 'PortalName must be a string')
+        else if std.isEmpty(PortalName) then (error 'PortalName must be not empty')
+        else PortalName,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,122 +27,139 @@
     Metadata:: [],
     Type: 'AWS::IoTSiteWise::Portal',
   },
-  withPortalAuthMode(PortalAuthMode): {
-    assert std.isString(PortalAuthMode) : 'PortalAuthMode must be a string',
+  setPortalAuthMode(PortalAuthMode): {
     Properties+::: {
-      PortalAuthMode: PortalAuthMode,
+      PortalAuthMode:
+        if !std.isString(PortalAuthMode) then (error 'PortalAuthMode must be a string')
+        else if std.isEmpty(PortalAuthMode) then (error 'PortalAuthMode must be not empty')
+        else PortalAuthMode,
     },
   },
-  withPortalArn(PortalArn): {
-    assert std.isString(PortalArn) : 'PortalArn must be a string',
+  setPortalArn(PortalArn): {
     Properties+::: {
-      PortalArn: PortalArn,
+      PortalArn:
+        if !std.isString(PortalArn) then (error 'PortalArn must be a string')
+        else if std.isEmpty(PortalArn) then (error 'PortalArn must be not empty')
+        else PortalArn,
     },
   },
-  withPortalClientId(PortalClientId): {
-    assert std.isString(PortalClientId) : 'PortalClientId must be a string',
+  setPortalClientId(PortalClientId): {
     Properties+::: {
-      PortalClientId: PortalClientId,
+      PortalClientId:
+        if !std.isString(PortalClientId) then (error 'PortalClientId must be a string')
+        else if std.isEmpty(PortalClientId) then (error 'PortalClientId must be not empty')
+        else PortalClientId,
     },
   },
-  withPortalDescription(PortalDescription): {
-    assert std.isString(PortalDescription) : 'PortalDescription must be a string',
+  setPortalDescription(PortalDescription): {
     Properties+::: {
-      PortalDescription: PortalDescription,
+      PortalDescription:
+        if !std.isString(PortalDescription) then (error 'PortalDescription must be a string')
+        else if std.isEmpty(PortalDescription) then (error 'PortalDescription must be not empty')
+        else PortalDescription,
     },
   },
-  withPortalId(PortalId): {
-    assert std.isString(PortalId) : 'PortalId must be a string',
+  setPortalId(PortalId): {
     Properties+::: {
-      PortalId: PortalId,
+      PortalId:
+        if !std.isString(PortalId) then (error 'PortalId must be a string')
+        else if std.isEmpty(PortalId) then (error 'PortalId must be not empty')
+        else PortalId,
     },
   },
-  withPortalStartUrl(PortalStartUrl): {
-    assert std.isString(PortalStartUrl) : 'PortalStartUrl must be a string',
+  setPortalStartUrl(PortalStartUrl): {
     Properties+::: {
-      PortalStartUrl: PortalStartUrl,
+      PortalStartUrl:
+        if !std.isString(PortalStartUrl) then (error 'PortalStartUrl must be a string')
+        else if std.isEmpty(PortalStartUrl) then (error 'PortalStartUrl must be not empty')
+        else PortalStartUrl,
     },
   },
-  withNotificationSenderEmail(NotificationSenderEmail): {
-    assert std.isString(NotificationSenderEmail) : 'NotificationSenderEmail must be a string',
+  setNotificationSenderEmail(NotificationSenderEmail): {
     Properties+::: {
-      NotificationSenderEmail: NotificationSenderEmail,
+      NotificationSenderEmail:
+        if !std.isString(NotificationSenderEmail) then (error 'NotificationSenderEmail must be a string')
+        else if std.isEmpty(NotificationSenderEmail) then (error 'NotificationSenderEmail must be not empty')
+        else NotificationSenderEmail,
     },
   },
-  withAlarms(Alarms): {
-    assert std.isObject(Alarms) : 'Alarms must be a object',
+  setAlarms(Alarms): {
     Properties+::: {
-      Alarms: Alarms,
+      Alarms:
+        if !std.isObject(Alarms) then (error 'Alarms must be an object')
+        else Alarms,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,176 +17,213 @@
     Metadata:: [],
     Type: 'AWS::SSM::Association',
   },
-  withAssociationName(AssociationName): {
-    assert std.isString(AssociationName) : 'AssociationName must be a string',
+  setAssociationName(AssociationName): {
     Properties+::: {
-      AssociationName: AssociationName,
+      AssociationName:
+        if !std.isString(AssociationName) then (error 'AssociationName must be a string')
+        else if std.isEmpty(AssociationName) then (error 'AssociationName must be not empty')
+        else AssociationName,
     },
   },
-  withCalendarNames(CalendarNames): {
+  setCalendarNames(CalendarNames): {
     Properties+::: {
-      CalendarNames: (if std.isArray(CalendarNames) then CalendarNames else [CalendarNames]),
+      CalendarNames:
+        if !std.isArray(CalendarNames) then (error 'CalendarNames must be an array')
+        else CalendarNames,
     },
   },
-  withCalendarNamesMixin(CalendarNames): {
+  setCalendarNamesMixin(CalendarNames): {
     Properties+::: {
-      CalendarNames+: (if std.isArray(CalendarNames) then CalendarNames else [CalendarNames]),
+      CalendarNames+: CalendarNames,
     },
   },
-  withScheduleExpression(ScheduleExpression): {
-    assert std.isString(ScheduleExpression) : 'ScheduleExpression must be a string',
+  setScheduleExpression(ScheduleExpression): {
     Properties+::: {
-      ScheduleExpression: ScheduleExpression,
+      ScheduleExpression:
+        if !std.isString(ScheduleExpression) then (error 'ScheduleExpression must be a string')
+        else if std.isEmpty(ScheduleExpression) then (error 'ScheduleExpression must be not empty')
+        else if std.length(ScheduleExpression) < 1 then error ('ScheduleExpression should have at least 1 characters')
+        else if std.length(ScheduleExpression) > 256 then error ('ScheduleExpression should have not more than 256 characters')
+        else ScheduleExpression,
     },
   },
-  withMaxErrors(MaxErrors): {
-    assert std.isString(MaxErrors) : 'MaxErrors must be a string',
+  setMaxErrors(MaxErrors): {
     Properties+::: {
-      MaxErrors: MaxErrors,
+      MaxErrors:
+        if !std.isString(MaxErrors) then (error 'MaxErrors must be a string')
+        else if std.isEmpty(MaxErrors) then (error 'MaxErrors must be not empty')
+        else MaxErrors,
     },
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withInstanceId(InstanceId): {
-    assert std.isString(InstanceId) : 'InstanceId must be a string',
+  setInstanceId(InstanceId): {
     Properties+::: {
-      InstanceId: InstanceId,
+      InstanceId:
+        if !std.isString(InstanceId) then (error 'InstanceId must be a string')
+        else if std.isEmpty(InstanceId) then (error 'InstanceId must be not empty')
+        else InstanceId,
     },
   },
-  withWaitForSuccessTimeoutSeconds(WaitForSuccessTimeoutSeconds): {
-    assert std.isNumber(WaitForSuccessTimeoutSeconds) : 'WaitForSuccessTimeoutSeconds must be a number',
+  setWaitForSuccessTimeoutSeconds(WaitForSuccessTimeoutSeconds): {
     Properties+::: {
-      WaitForSuccessTimeoutSeconds: WaitForSuccessTimeoutSeconds,
+      WaitForSuccessTimeoutSeconds:
+        if !std.isNumber(WaitForSuccessTimeoutSeconds) then (error 'WaitForSuccessTimeoutSeconds must be an number')
+        else if WaitForSuccessTimeoutSeconds < 15 then error ('WaitForSuccessTimeoutSeconds should be at least 15')
+        else if WaitForSuccessTimeoutSeconds > 172800 then error ('WaitForSuccessTimeoutSeconds should be not more than 172800')
+        else WaitForSuccessTimeoutSeconds,
     },
   },
-  withMaxConcurrency(MaxConcurrency): {
-    assert std.isString(MaxConcurrency) : 'MaxConcurrency must be a string',
+  setMaxConcurrency(MaxConcurrency): {
     Properties+::: {
-      MaxConcurrency: MaxConcurrency,
+      MaxConcurrency:
+        if !std.isString(MaxConcurrency) then (error 'MaxConcurrency must be a string')
+        else if std.isEmpty(MaxConcurrency) then (error 'MaxConcurrency must be not empty')
+        else MaxConcurrency,
     },
   },
-  withComplianceSeverity(ComplianceSeverity): {
-    assert std.isString(ComplianceSeverity) : 'ComplianceSeverity must be a string',
-    assert ComplianceSeverity == 'CRITICAL' || ComplianceSeverity == 'HIGH' || ComplianceSeverity == 'MEDIUM' || ComplianceSeverity == 'LOW' || ComplianceSeverity == 'UNSPECIFIED' : "ComplianceSeverity should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'UNSPECIFIED'",
+  setComplianceSeverity(ComplianceSeverity): {
     Properties+::: {
-      ComplianceSeverity: ComplianceSeverity,
+      ComplianceSeverity:
+        if !std.isString(ComplianceSeverity) then (error 'ComplianceSeverity must be a string')
+        else if std.isEmpty(ComplianceSeverity) then (error 'ComplianceSeverity must be not empty')
+        else if ComplianceSeverity != 'CRITICAL' && ComplianceSeverity != 'HIGH' && ComplianceSeverity != 'MEDIUM' && ComplianceSeverity != 'LOW' && ComplianceSeverity != 'UNSPECIFIED' then (error "ComplianceSeverity should be 'CRITICAL' or 'HIGH' or 'MEDIUM' or 'LOW' or 'UNSPECIFIED'")
+        else ComplianceSeverity,
     },
   },
-  withTargets(Targets): {
+  setTargets(Targets): {
     Properties+::: {
-      Targets: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets:
+        if !std.isArray(Targets) then (error 'Targets must be an array')
+        else if std.length(Targets) > 5 then error ('Targets cannot have more than 5 items')
+        else Targets,
     },
   },
-  withTargetsMixin(Targets): {
+  setTargetsMixin(Targets): {
     Properties+::: {
-      Targets+: (if std.isArray(Targets) then Targets else [Targets]),
+      Targets+: Targets,
     },
   },
-  withSyncCompliance(SyncCompliance): {
-    assert std.isString(SyncCompliance) : 'SyncCompliance must be a string',
-    assert SyncCompliance == 'AUTO' || SyncCompliance == 'MANUAL' : "SyncCompliance should be 'AUTO' or 'MANUAL'",
+  setSyncCompliance(SyncCompliance): {
     Properties+::: {
-      SyncCompliance: SyncCompliance,
+      SyncCompliance:
+        if !std.isString(SyncCompliance) then (error 'SyncCompliance must be a string')
+        else if std.isEmpty(SyncCompliance) then (error 'SyncCompliance must be not empty')
+        else if SyncCompliance != 'AUTO' && SyncCompliance != 'MANUAL' then (error "SyncCompliance should be 'AUTO' or 'MANUAL'")
+        else SyncCompliance,
     },
   },
-  withOutputLocation(OutputLocation): {
-    assert std.isObject(OutputLocation) : 'OutputLocation must be a object',
+  setOutputLocation(OutputLocation): {
     Properties+::: {
-      OutputLocation: OutputLocation,
+      OutputLocation:
+        if !std.isObject(OutputLocation) then (error 'OutputLocation must be an object')
+        else OutputLocation,
     },
   },
-  withScheduleOffset(ScheduleOffset): {
-    assert std.isNumber(ScheduleOffset) : 'ScheduleOffset must be a number',
+  setScheduleOffset(ScheduleOffset): {
     Properties+::: {
-      ScheduleOffset: ScheduleOffset,
+      ScheduleOffset:
+        if !std.isNumber(ScheduleOffset) then (error 'ScheduleOffset must be an number')
+        else if ScheduleOffset < 1 then error ('ScheduleOffset should be at least 1')
+        else if ScheduleOffset > 6 then error ('ScheduleOffset should be not more than 6')
+        else ScheduleOffset,
     },
   },
-  withApplyOnlyAtCronInterval(ApplyOnlyAtCronInterval): {
-    assert std.isBoolean(ApplyOnlyAtCronInterval) : 'ApplyOnlyAtCronInterval must be a boolean',
+  setApplyOnlyAtCronInterval(ApplyOnlyAtCronInterval): {
     Properties+::: {
-      ApplyOnlyAtCronInterval: ApplyOnlyAtCronInterval,
+      ApplyOnlyAtCronInterval:
+        if !std.isBoolean(ApplyOnlyAtCronInterval) then (error 'ApplyOnlyAtCronInterval must be a boolean') else ApplyOnlyAtCronInterval,
     },
   },
-  withDocumentVersion(DocumentVersion): {
-    assert std.isString(DocumentVersion) : 'DocumentVersion must be a string',
+  setDocumentVersion(DocumentVersion): {
     Properties+::: {
-      DocumentVersion: DocumentVersion,
+      DocumentVersion:
+        if !std.isString(DocumentVersion) then (error 'DocumentVersion must be a string')
+        else if std.isEmpty(DocumentVersion) then (error 'DocumentVersion must be not empty')
+        else DocumentVersion,
     },
   },
-  withAssociationId(AssociationId): {
-    assert std.isString(AssociationId) : 'AssociationId must be a string',
+  setAssociationId(AssociationId): {
     Properties+::: {
-      AssociationId: AssociationId,
+      AssociationId:
+        if !std.isString(AssociationId) then (error 'AssociationId must be a string')
+        else if std.isEmpty(AssociationId) then (error 'AssociationId must be not empty')
+        else AssociationId,
     },
   },
-  withAutomationTargetParameterName(AutomationTargetParameterName): {
-    assert std.isString(AutomationTargetParameterName) : 'AutomationTargetParameterName must be a string',
+  setAutomationTargetParameterName(AutomationTargetParameterName): {
     Properties+::: {
-      AutomationTargetParameterName: AutomationTargetParameterName,
+      AutomationTargetParameterName:
+        if !std.isString(AutomationTargetParameterName) then (error 'AutomationTargetParameterName must be a string')
+        else if std.isEmpty(AutomationTargetParameterName) then (error 'AutomationTargetParameterName must be not empty')
+        else if std.length(AutomationTargetParameterName) < 1 then error ('AutomationTargetParameterName should have at least 1 characters')
+        else if std.length(AutomationTargetParameterName) > 50 then error ('AutomationTargetParameterName should have not more than 50 characters')
+        else AutomationTargetParameterName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

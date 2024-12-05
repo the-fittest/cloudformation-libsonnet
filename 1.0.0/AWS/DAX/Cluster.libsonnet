@@ -6,12 +6,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(ReplicationFactor) : 'ReplicationFactor must be a number',
-      ReplicationFactor: ReplicationFactor,
-      assert std.isString(IAMRoleARN) : 'IAMRoleARN must be a string',
-      IAMRoleARN: IAMRoleARN,
-      assert std.isString(NodeType) : 'NodeType must be a string',
-      NodeType: NodeType,
+      ReplicationFactor:
+        if !std.isNumber(ReplicationFactor) then (error 'ReplicationFactor must be an number')
+        else ReplicationFactor,
+      IAMRoleARN:
+        if !std.isString(IAMRoleARN) then (error 'IAMRoleARN must be a string')
+        else if std.isEmpty(IAMRoleARN) then (error 'IAMRoleARN must be not empty')
+        else IAMRoleARN,
+      NodeType:
+        if !std.isString(NodeType) then (error 'NodeType must be a string')
+        else if std.isEmpty(NodeType) then (error 'NodeType must be not empty')
+        else NodeType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,162 +26,190 @@
     Metadata:: [],
     Type: 'AWS::DAX::Cluster',
   },
-  withSSESpecification(SSESpecification): {
-    assert std.isObject(SSESpecification) : 'SSESpecification must be a object',
+  setSSESpecification(SSESpecification): {
     Properties+::: {
-      SSESpecification: SSESpecification,
+      SSESpecification:
+        if !std.isObject(SSESpecification) then (error 'SSESpecification must be an object')
+        else SSESpecification,
     },
   },
-  withClusterDiscoveryEndpointURL(ClusterDiscoveryEndpointURL): {
-    assert std.isString(ClusterDiscoveryEndpointURL) : 'ClusterDiscoveryEndpointURL must be a string',
+  setClusterDiscoveryEndpointURL(ClusterDiscoveryEndpointURL): {
     Properties+::: {
-      ClusterDiscoveryEndpointURL: ClusterDiscoveryEndpointURL,
+      ClusterDiscoveryEndpointURL:
+        if !std.isString(ClusterDiscoveryEndpointURL) then (error 'ClusterDiscoveryEndpointURL must be a string')
+        else if std.isEmpty(ClusterDiscoveryEndpointURL) then (error 'ClusterDiscoveryEndpointURL must be not empty')
+        else ClusterDiscoveryEndpointURL,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withParameterGroupName(ParameterGroupName): {
-    assert std.isString(ParameterGroupName) : 'ParameterGroupName must be a string',
+  setParameterGroupName(ParameterGroupName): {
     Properties+::: {
-      ParameterGroupName: ParameterGroupName,
+      ParameterGroupName:
+        if !std.isString(ParameterGroupName) then (error 'ParameterGroupName must be a string')
+        else if std.isEmpty(ParameterGroupName) then (error 'ParameterGroupName must be not empty')
+        else ParameterGroupName,
     },
   },
-  withAvailabilityZones(AvailabilityZones): {
+  setAvailabilityZones(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones:
+        if !std.isArray(AvailabilityZones) then (error 'AvailabilityZones must be an array')
+        else AvailabilityZones,
     },
   },
-  withAvailabilityZonesMixin(AvailabilityZones): {
+  setAvailabilityZonesMixin(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones+: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones+: AvailabilityZones,
     },
   },
-  withSubnetGroupName(SubnetGroupName): {
-    assert std.isString(SubnetGroupName) : 'SubnetGroupName must be a string',
+  setSubnetGroupName(SubnetGroupName): {
     Properties+::: {
-      SubnetGroupName: SubnetGroupName,
+      SubnetGroupName:
+        if !std.isString(SubnetGroupName) then (error 'SubnetGroupName must be a string')
+        else if std.isEmpty(SubnetGroupName) then (error 'SubnetGroupName must be not empty')
+        else SubnetGroupName,
     },
   },
-  withPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
-    assert std.isString(PreferredMaintenanceWindow) : 'PreferredMaintenanceWindow must be a string',
+  setPreferredMaintenanceWindow(PreferredMaintenanceWindow): {
     Properties+::: {
-      PreferredMaintenanceWindow: PreferredMaintenanceWindow,
+      PreferredMaintenanceWindow:
+        if !std.isString(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be a string')
+        else if std.isEmpty(PreferredMaintenanceWindow) then (error 'PreferredMaintenanceWindow must be not empty')
+        else PreferredMaintenanceWindow,
     },
   },
-  withClusterEndpointEncryptionType(ClusterEndpointEncryptionType): {
-    assert std.isString(ClusterEndpointEncryptionType) : 'ClusterEndpointEncryptionType must be a string',
+  setClusterEndpointEncryptionType(ClusterEndpointEncryptionType): {
     Properties+::: {
-      ClusterEndpointEncryptionType: ClusterEndpointEncryptionType,
+      ClusterEndpointEncryptionType:
+        if !std.isString(ClusterEndpointEncryptionType) then (error 'ClusterEndpointEncryptionType must be a string')
+        else if std.isEmpty(ClusterEndpointEncryptionType) then (error 'ClusterEndpointEncryptionType must be not empty')
+        else ClusterEndpointEncryptionType,
     },
   },
-  withNotificationTopicARN(NotificationTopicARN): {
-    assert std.isString(NotificationTopicARN) : 'NotificationTopicARN must be a string',
+  setNotificationTopicARN(NotificationTopicARN): {
     Properties+::: {
-      NotificationTopicARN: NotificationTopicARN,
+      NotificationTopicARN:
+        if !std.isString(NotificationTopicARN) then (error 'NotificationTopicARN must be a string')
+        else if std.isEmpty(NotificationTopicARN) then (error 'NotificationTopicARN must be not empty')
+        else NotificationTopicARN,
     },
   },
-  withSecurityGroupIds(SecurityGroupIds): {
+  setSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else SecurityGroupIds,
     },
   },
-  withSecurityGroupIdsMixin(SecurityGroupIds): {
+  setSecurityGroupIdsMixin(SecurityGroupIds): {
     Properties+::: {
-      SecurityGroupIds+: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
+      SecurityGroupIds+: SecurityGroupIds,
     },
   },
-  withClusterName(ClusterName): {
-    assert std.isString(ClusterName) : 'ClusterName must be a string',
+  setClusterName(ClusterName): {
     Properties+::: {
-      ClusterName: ClusterName,
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else ClusterName,
     },
   },
-  withClusterDiscoveryEndpoint(ClusterDiscoveryEndpoint): {
-    assert std.isString(ClusterDiscoveryEndpoint) : 'ClusterDiscoveryEndpoint must be a string',
+  setClusterDiscoveryEndpoint(ClusterDiscoveryEndpoint): {
     Properties+::: {
-      ClusterDiscoveryEndpoint: ClusterDiscoveryEndpoint,
+      ClusterDiscoveryEndpoint:
+        if !std.isString(ClusterDiscoveryEndpoint) then (error 'ClusterDiscoveryEndpoint must be a string')
+        else if std.isEmpty(ClusterDiscoveryEndpoint) then (error 'ClusterDiscoveryEndpoint must be not empty')
+        else ClusterDiscoveryEndpoint,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

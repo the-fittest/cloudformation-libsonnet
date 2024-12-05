@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FileSystemId) : 'FileSystemId must be a string',
-      FileSystemId: FileSystemId,
+      FileSystemId:
+        if !std.isString(FileSystemId) then (error 'FileSystemId must be a string')
+        else if std.isEmpty(FileSystemId) then (error 'FileSystemId must be not empty')
+        else FileSystemId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,104 +17,116 @@
     Metadata:: [],
     Type: 'AWS::EFS::AccessPoint',
   },
-  withAccessPointId(AccessPointId): {
-    assert std.isString(AccessPointId) : 'AccessPointId must be a string',
+  setAccessPointId(AccessPointId): {
     Properties+::: {
-      AccessPointId: AccessPointId,
+      AccessPointId:
+        if !std.isString(AccessPointId) then (error 'AccessPointId must be a string')
+        else if std.isEmpty(AccessPointId) then (error 'AccessPointId must be not empty')
+        else AccessPointId,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withClientToken(ClientToken): {
-    assert std.isString(ClientToken) : 'ClientToken must be a string',
+  setClientToken(ClientToken): {
     Properties+::: {
-      ClientToken: ClientToken,
+      ClientToken:
+        if !std.isString(ClientToken) then (error 'ClientToken must be a string')
+        else if std.isEmpty(ClientToken) then (error 'ClientToken must be not empty')
+        else ClientToken,
     },
   },
-  withAccessPointTags(AccessPointTags): {
+  setAccessPointTags(AccessPointTags): {
     Properties+::: {
-      AccessPointTags: (if std.isArray(AccessPointTags) then AccessPointTags else [AccessPointTags]),
+      AccessPointTags:
+        if !std.isArray(AccessPointTags) then (error 'AccessPointTags must be an array')
+        else AccessPointTags,
     },
   },
-  withAccessPointTagsMixin(AccessPointTags): {
+  setAccessPointTagsMixin(AccessPointTags): {
     Properties+::: {
-      AccessPointTags+: (if std.isArray(AccessPointTags) then AccessPointTags else [AccessPointTags]),
+      AccessPointTags+: AccessPointTags,
     },
   },
-  withPosixUser(PosixUser): {
-    assert std.isObject(PosixUser) : 'PosixUser must be a object',
+  setPosixUser(PosixUser): {
     Properties+::: {
-      PosixUser: PosixUser,
+      PosixUser:
+        if !std.isObject(PosixUser) then (error 'PosixUser must be an object')
+        else if !std.objectHas(PosixUser, 'Uid') then (error ' have attribute Uid')
+        else if !std.objectHas(PosixUser, 'Gid') then (error ' have attribute Gid')
+        else PosixUser,
     },
   },
-  withRootDirectory(RootDirectory): {
-    assert std.isObject(RootDirectory) : 'RootDirectory must be a object',
+  setRootDirectory(RootDirectory): {
     Properties+::: {
-      RootDirectory: RootDirectory,
+      RootDirectory:
+        if !std.isObject(RootDirectory) then (error 'RootDirectory must be an object')
+        else RootDirectory,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

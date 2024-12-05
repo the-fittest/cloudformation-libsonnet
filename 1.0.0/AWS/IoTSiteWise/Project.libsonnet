@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(PortalId) : 'PortalId must be a string',
-      PortalId: PortalId,
-      assert std.isString(ProjectName) : 'ProjectName must be a string',
-      ProjectName: ProjectName,
+      PortalId:
+        if !std.isString(PortalId) then (error 'PortalId must be a string')
+        else if std.isEmpty(PortalId) then (error 'PortalId must be not empty')
+        else PortalId,
+      ProjectName:
+        if !std.isString(ProjectName) then (error 'ProjectName must be a string')
+        else if std.isEmpty(ProjectName) then (error 'ProjectName must be not empty')
+        else ProjectName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,102 +22,112 @@
     Metadata:: [],
     Type: 'AWS::IoTSiteWise::Project',
   },
-  withProjectId(ProjectId): {
-    assert std.isString(ProjectId) : 'ProjectId must be a string',
+  setProjectId(ProjectId): {
     Properties+::: {
-      ProjectId: ProjectId,
+      ProjectId:
+        if !std.isString(ProjectId) then (error 'ProjectId must be a string')
+        else if std.isEmpty(ProjectId) then (error 'ProjectId must be not empty')
+        else ProjectId,
     },
   },
-  withProjectDescription(ProjectDescription): {
-    assert std.isString(ProjectDescription) : 'ProjectDescription must be a string',
+  setProjectDescription(ProjectDescription): {
     Properties+::: {
-      ProjectDescription: ProjectDescription,
+      ProjectDescription:
+        if !std.isString(ProjectDescription) then (error 'ProjectDescription must be a string')
+        else if std.isEmpty(ProjectDescription) then (error 'ProjectDescription must be not empty')
+        else ProjectDescription,
     },
   },
-  withProjectArn(ProjectArn): {
-    assert std.isString(ProjectArn) : 'ProjectArn must be a string',
+  setProjectArn(ProjectArn): {
     Properties+::: {
-      ProjectArn: ProjectArn,
+      ProjectArn:
+        if !std.isString(ProjectArn) then (error 'ProjectArn must be a string')
+        else if std.isEmpty(ProjectArn) then (error 'ProjectArn must be not empty')
+        else ProjectArn,
     },
   },
-  withAssetIds(AssetIds): {
+  setAssetIds(AssetIds): {
     Properties+::: {
-      AssetIds: (if std.isArray(AssetIds) then AssetIds else [AssetIds]),
+      AssetIds:
+        if !std.isArray(AssetIds) then (error 'AssetIds must be an array')
+        else AssetIds,
     },
   },
-  withAssetIdsMixin(AssetIds): {
+  setAssetIdsMixin(AssetIds): {
     Properties+::: {
-      AssetIds+: (if std.isArray(AssetIds) then AssetIds else [AssetIds]),
+      AssetIds+: AssetIds,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

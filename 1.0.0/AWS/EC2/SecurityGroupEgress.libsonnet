@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IpProtocol) : 'IpProtocol must be a string',
-      IpProtocol: IpProtocol,
-      assert std.isString(GroupId) : 'GroupId must be a string',
-      GroupId: GroupId,
+      IpProtocol:
+        if !std.isString(IpProtocol) then (error 'IpProtocol must be a string')
+        else if std.isEmpty(IpProtocol) then (error 'IpProtocol must be not empty')
+        else IpProtocol,
+      GroupId:
+        if !std.isString(GroupId) then (error 'GroupId must be a string')
+        else if std.isEmpty(GroupId) then (error 'GroupId must be not empty')
+        else GroupId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,112 +22,126 @@
     Metadata:: [],
     Type: 'AWS::EC2::SecurityGroupEgress',
   },
-  withCidrIp(CidrIp): {
-    assert std.isString(CidrIp) : 'CidrIp must be a string',
+  setCidrIp(CidrIp): {
     Properties+::: {
-      CidrIp: CidrIp,
+      CidrIp:
+        if !std.isString(CidrIp) then (error 'CidrIp must be a string')
+        else if std.isEmpty(CidrIp) then (error 'CidrIp must be not empty')
+        else CidrIp,
     },
   },
-  withCidrIpv6(CidrIpv6): {
-    assert std.isString(CidrIpv6) : 'CidrIpv6 must be a string',
+  setCidrIpv6(CidrIpv6): {
     Properties+::: {
-      CidrIpv6: CidrIpv6,
+      CidrIpv6:
+        if !std.isString(CidrIpv6) then (error 'CidrIpv6 must be a string')
+        else if std.isEmpty(CidrIpv6) then (error 'CidrIpv6 must be not empty')
+        else CidrIpv6,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withFromPort(FromPort): {
-    assert std.isNumber(FromPort) : 'FromPort must be a number',
+  setFromPort(FromPort): {
     Properties+::: {
-      FromPort: FromPort,
+      FromPort:
+        if !std.isNumber(FromPort) then (error 'FromPort must be an number')
+        else FromPort,
     },
   },
-  withToPort(ToPort): {
-    assert std.isNumber(ToPort) : 'ToPort must be a number',
+  setToPort(ToPort): {
     Properties+::: {
-      ToPort: ToPort,
+      ToPort:
+        if !std.isNumber(ToPort) then (error 'ToPort must be an number')
+        else ToPort,
     },
   },
-  withDestinationSecurityGroupId(DestinationSecurityGroupId): {
-    assert std.isString(DestinationSecurityGroupId) : 'DestinationSecurityGroupId must be a string',
+  setDestinationSecurityGroupId(DestinationSecurityGroupId): {
     Properties+::: {
-      DestinationSecurityGroupId: DestinationSecurityGroupId,
+      DestinationSecurityGroupId:
+        if !std.isString(DestinationSecurityGroupId) then (error 'DestinationSecurityGroupId must be a string')
+        else if std.isEmpty(DestinationSecurityGroupId) then (error 'DestinationSecurityGroupId must be not empty')
+        else DestinationSecurityGroupId,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDestinationPrefixListId(DestinationPrefixListId): {
-    assert std.isString(DestinationPrefixListId) : 'DestinationPrefixListId must be a string',
+  setDestinationPrefixListId(DestinationPrefixListId): {
     Properties+::: {
-      DestinationPrefixListId: DestinationPrefixListId,
+      DestinationPrefixListId:
+        if !std.isString(DestinationPrefixListId) then (error 'DestinationPrefixListId must be a string')
+        else if std.isEmpty(DestinationPrefixListId) then (error 'DestinationPrefixListId must be not empty')
+        else DestinationPrefixListId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

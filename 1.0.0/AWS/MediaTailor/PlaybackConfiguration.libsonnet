@@ -6,12 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(VideoContentSourceUrl) : 'VideoContentSourceUrl must be a string',
-      VideoContentSourceUrl: VideoContentSourceUrl,
-      assert std.isString(AdDecisionServerUrl) : 'AdDecisionServerUrl must be a string',
-      AdDecisionServerUrl: AdDecisionServerUrl,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
+      VideoContentSourceUrl:
+        if !std.isString(VideoContentSourceUrl) then (error 'VideoContentSourceUrl must be a string')
+        else if std.isEmpty(VideoContentSourceUrl) then (error 'VideoContentSourceUrl must be not empty')
+        else VideoContentSourceUrl,
+      AdDecisionServerUrl:
+        if !std.isString(AdDecisionServerUrl) then (error 'AdDecisionServerUrl must be a string')
+        else if std.isEmpty(AdDecisionServerUrl) then (error 'AdDecisionServerUrl must be not empty')
+        else AdDecisionServerUrl,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,157 +29,177 @@
     Metadata:: [],
     Type: 'AWS::MediaTailor::PlaybackConfiguration',
   },
-  withAvailSuppression(AvailSuppression): {
-    assert std.isObject(AvailSuppression) : 'AvailSuppression must be a object',
+  setAvailSuppression(AvailSuppression): {
     Properties+::: {
-      AvailSuppression: AvailSuppression,
+      AvailSuppression:
+        if !std.isObject(AvailSuppression) then (error 'AvailSuppression must be an object')
+        else AvailSuppression,
     },
   },
-  withBumper(Bumper): {
-    assert std.isObject(Bumper) : 'Bumper must be a object',
+  setBumper(Bumper): {
     Properties+::: {
-      Bumper: Bumper,
+      Bumper:
+        if !std.isObject(Bumper) then (error 'Bumper must be an object')
+        else Bumper,
     },
   },
-  withCdnConfiguration(CdnConfiguration): {
-    assert std.isObject(CdnConfiguration) : 'CdnConfiguration must be a object',
+  setCdnConfiguration(CdnConfiguration): {
     Properties+::: {
-      CdnConfiguration: CdnConfiguration,
+      CdnConfiguration:
+        if !std.isObject(CdnConfiguration) then (error 'CdnConfiguration must be an object')
+        else CdnConfiguration,
     },
   },
-  withConfigurationAliases(ConfigurationAliases): {
+  setConfigurationAliases(ConfigurationAliases): {
     Properties+::: {
       ConfigurationAliases: ConfigurationAliases,
     },
   },
-  withDashConfiguration(DashConfiguration): {
-    assert std.isObject(DashConfiguration) : 'DashConfiguration must be a object',
+  setDashConfiguration(DashConfiguration): {
     Properties+::: {
-      DashConfiguration: DashConfiguration,
+      DashConfiguration:
+        if !std.isObject(DashConfiguration) then (error 'DashConfiguration must be an object')
+        else DashConfiguration,
     },
   },
-  withLivePreRollConfiguration(LivePreRollConfiguration): {
-    assert std.isObject(LivePreRollConfiguration) : 'LivePreRollConfiguration must be a object',
+  setLivePreRollConfiguration(LivePreRollConfiguration): {
     Properties+::: {
-      LivePreRollConfiguration: LivePreRollConfiguration,
+      LivePreRollConfiguration:
+        if !std.isObject(LivePreRollConfiguration) then (error 'LivePreRollConfiguration must be an object')
+        else LivePreRollConfiguration,
     },
   },
-  withManifestProcessingRules(ManifestProcessingRules): {
-    assert std.isObject(ManifestProcessingRules) : 'ManifestProcessingRules must be a object',
+  setManifestProcessingRules(ManifestProcessingRules): {
     Properties+::: {
-      ManifestProcessingRules: ManifestProcessingRules,
+      ManifestProcessingRules:
+        if !std.isObject(ManifestProcessingRules) then (error 'ManifestProcessingRules must be an object')
+        else ManifestProcessingRules,
     },
   },
-  withPersonalizationThresholdSeconds(PersonalizationThresholdSeconds): {
-    assert std.isNumber(PersonalizationThresholdSeconds) : 'PersonalizationThresholdSeconds must be a number',
+  setPersonalizationThresholdSeconds(PersonalizationThresholdSeconds): {
     Properties+::: {
-      PersonalizationThresholdSeconds: PersonalizationThresholdSeconds,
+      PersonalizationThresholdSeconds:
+        if !std.isNumber(PersonalizationThresholdSeconds) then (error 'PersonalizationThresholdSeconds must be an number')
+        else PersonalizationThresholdSeconds,
     },
   },
-  withSessionInitializationEndpointPrefix(SessionInitializationEndpointPrefix): {
-    assert std.isString(SessionInitializationEndpointPrefix) : 'SessionInitializationEndpointPrefix must be a string',
+  setSessionInitializationEndpointPrefix(SessionInitializationEndpointPrefix): {
     Properties+::: {
-      SessionInitializationEndpointPrefix: SessionInitializationEndpointPrefix,
+      SessionInitializationEndpointPrefix:
+        if !std.isString(SessionInitializationEndpointPrefix) then (error 'SessionInitializationEndpointPrefix must be a string')
+        else if std.isEmpty(SessionInitializationEndpointPrefix) then (error 'SessionInitializationEndpointPrefix must be not empty')
+        else SessionInitializationEndpointPrefix,
     },
   },
-  withHlsConfiguration(HlsConfiguration): {
-    assert std.isObject(HlsConfiguration) : 'HlsConfiguration must be a object',
+  setHlsConfiguration(HlsConfiguration): {
     Properties+::: {
-      HlsConfiguration: HlsConfiguration,
+      HlsConfiguration:
+        if !std.isObject(HlsConfiguration) then (error 'HlsConfiguration must be an object')
+        else HlsConfiguration,
     },
   },
-  withPlaybackConfigurationArn(PlaybackConfigurationArn): {
-    assert std.isString(PlaybackConfigurationArn) : 'PlaybackConfigurationArn must be a string',
+  setPlaybackConfigurationArn(PlaybackConfigurationArn): {
     Properties+::: {
-      PlaybackConfigurationArn: PlaybackConfigurationArn,
+      PlaybackConfigurationArn:
+        if !std.isString(PlaybackConfigurationArn) then (error 'PlaybackConfigurationArn must be a string')
+        else if std.isEmpty(PlaybackConfigurationArn) then (error 'PlaybackConfigurationArn must be not empty')
+        else PlaybackConfigurationArn,
     },
   },
-  withPlaybackEndpointPrefix(PlaybackEndpointPrefix): {
-    assert std.isString(PlaybackEndpointPrefix) : 'PlaybackEndpointPrefix must be a string',
+  setPlaybackEndpointPrefix(PlaybackEndpointPrefix): {
     Properties+::: {
-      PlaybackEndpointPrefix: PlaybackEndpointPrefix,
+      PlaybackEndpointPrefix:
+        if !std.isString(PlaybackEndpointPrefix) then (error 'PlaybackEndpointPrefix must be a string')
+        else if std.isEmpty(PlaybackEndpointPrefix) then (error 'PlaybackEndpointPrefix must be not empty')
+        else PlaybackEndpointPrefix,
     },
   },
-  withSlateAdUrl(SlateAdUrl): {
-    assert std.isString(SlateAdUrl) : 'SlateAdUrl must be a string',
+  setSlateAdUrl(SlateAdUrl): {
     Properties+::: {
-      SlateAdUrl: SlateAdUrl,
+      SlateAdUrl:
+        if !std.isString(SlateAdUrl) then (error 'SlateAdUrl must be a string')
+        else if std.isEmpty(SlateAdUrl) then (error 'SlateAdUrl must be not empty')
+        else SlateAdUrl,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTranscodeProfileName(TranscodeProfileName): {
-    assert std.isString(TranscodeProfileName) : 'TranscodeProfileName must be a string',
+  setTranscodeProfileName(TranscodeProfileName): {
     Properties+::: {
-      TranscodeProfileName: TranscodeProfileName,
+      TranscodeProfileName:
+        if !std.isString(TranscodeProfileName) then (error 'TranscodeProfileName must be a string')
+        else if std.isEmpty(TranscodeProfileName) then (error 'TranscodeProfileName must be not empty')
+        else TranscodeProfileName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,8 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(AcceptTermsAndConditions) : 'AcceptTermsAndConditions must be a boolean',
-      AcceptTermsAndConditions: AcceptTermsAndConditions,
+      AcceptTermsAndConditions:
+        if !std.isBoolean(AcceptTermsAndConditions) then (error 'AcceptTermsAndConditions must be a boolean') else AcceptTermsAndConditions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,96 +15,109 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::Publisher',
   },
-  withPublisherId(PublisherId): {
-    assert std.isString(PublisherId) : 'PublisherId must be a string',
+  setPublisherId(PublisherId): {
     Properties+::: {
-      PublisherId: PublisherId,
+      PublisherId:
+        if !std.isString(PublisherId) then (error 'PublisherId must be a string')
+        else if std.isEmpty(PublisherId) then (error 'PublisherId must be not empty')
+        else if std.length(PublisherId) < 1 then error ('PublisherId should have at least 1 characters')
+        else if std.length(PublisherId) > 40 then error ('PublisherId should have not more than 40 characters')
+        else PublisherId,
     },
   },
-  withConnectionArn(ConnectionArn): {
-    assert std.isString(ConnectionArn) : 'ConnectionArn must be a string',
+  setConnectionArn(ConnectionArn): {
     Properties+::: {
-      ConnectionArn: ConnectionArn,
+      ConnectionArn:
+        if !std.isString(ConnectionArn) then (error 'ConnectionArn must be a string')
+        else if std.isEmpty(ConnectionArn) then (error 'ConnectionArn must be not empty')
+        else ConnectionArn,
     },
   },
-  withPublisherStatus(PublisherStatus): {
-    assert std.isString(PublisherStatus) : 'PublisherStatus must be a string',
-    assert PublisherStatus == 'VERIFIED' || PublisherStatus == 'UNVERIFIED' : "PublisherStatus should be 'VERIFIED' or 'UNVERIFIED'",
+  setPublisherStatus(PublisherStatus): {
     Properties+::: {
-      PublisherStatus: PublisherStatus,
+      PublisherStatus:
+        if !std.isString(PublisherStatus) then (error 'PublisherStatus must be a string')
+        else if std.isEmpty(PublisherStatus) then (error 'PublisherStatus must be not empty')
+        else if PublisherStatus != 'VERIFIED' && PublisherStatus != 'UNVERIFIED' then (error "PublisherStatus should be 'VERIFIED' or 'UNVERIFIED'")
+        else PublisherStatus,
     },
   },
-  withPublisherProfile(PublisherProfile): {
-    assert std.isString(PublisherProfile) : 'PublisherProfile must be a string',
+  setPublisherProfile(PublisherProfile): {
     Properties+::: {
-      PublisherProfile: PublisherProfile,
+      PublisherProfile:
+        if !std.isString(PublisherProfile) then (error 'PublisherProfile must be a string')
+        else if std.isEmpty(PublisherProfile) then (error 'PublisherProfile must be not empty')
+        else if std.length(PublisherProfile) > 1024 then error ('PublisherProfile should have not more than 1024 characters')
+        else PublisherProfile,
     },
   },
-  withIdentityProvider(IdentityProvider): {
-    assert std.isString(IdentityProvider) : 'IdentityProvider must be a string',
-    assert IdentityProvider == 'AWS_Marketplace' || IdentityProvider == 'GitHub' || IdentityProvider == 'Bitbucket' : "IdentityProvider should be 'AWS_Marketplace' or 'GitHub' or 'Bitbucket'",
+  setIdentityProvider(IdentityProvider): {
     Properties+::: {
-      IdentityProvider: IdentityProvider,
+      IdentityProvider:
+        if !std.isString(IdentityProvider) then (error 'IdentityProvider must be a string')
+        else if std.isEmpty(IdentityProvider) then (error 'IdentityProvider must be not empty')
+        else if IdentityProvider != 'AWS_Marketplace' && IdentityProvider != 'GitHub' && IdentityProvider != 'Bitbucket' then (error "IdentityProvider should be 'AWS_Marketplace' or 'GitHub' or 'Bitbucket'")
+        else IdentityProvider,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

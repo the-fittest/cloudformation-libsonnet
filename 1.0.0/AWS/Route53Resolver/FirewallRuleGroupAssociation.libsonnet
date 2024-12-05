@@ -6,12 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FirewallRuleGroupId) : 'FirewallRuleGroupId must be a string',
-      FirewallRuleGroupId: FirewallRuleGroupId,
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
-      assert std.isNumber(Priority) : 'Priority must be a number',
-      Priority: Priority,
+      FirewallRuleGroupId:
+        if !std.isString(FirewallRuleGroupId) then (error 'FirewallRuleGroupId must be a string')
+        else if std.isEmpty(FirewallRuleGroupId) then (error 'FirewallRuleGroupId must be not empty')
+        else if std.length(FirewallRuleGroupId) < 1 then error ('FirewallRuleGroupId should have at least 1 characters')
+        else if std.length(FirewallRuleGroupId) > 64 then error ('FirewallRuleGroupId should have not more than 64 characters')
+        else FirewallRuleGroupId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else if std.length(VpcId) < 1 then error ('VpcId should have at least 1 characters')
+        else if std.length(VpcId) > 64 then error ('VpcId should have not more than 64 characters')
+        else VpcId,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else Priority,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,136 +30,171 @@
     Metadata:: [],
     Type: 'AWS::Route53Resolver::FirewallRuleGroupAssociation',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 1 then error ('Id should have at least 1 characters')
+        else if std.length(Id) > 64 then error ('Id should have not more than 64 characters')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 600 then error ('Arn should have not more than 600 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
   },
-  withMutationProtection(MutationProtection): {
-    assert std.isString(MutationProtection) : 'MutationProtection must be a string',
-    assert MutationProtection == 'ENABLED' || MutationProtection == 'DISABLED' : "MutationProtection should be 'ENABLED' or 'DISABLED'",
+  setMutationProtection(MutationProtection): {
     Properties+::: {
-      MutationProtection: MutationProtection,
+      MutationProtection:
+        if !std.isString(MutationProtection) then (error 'MutationProtection must be a string')
+        else if std.isEmpty(MutationProtection) then (error 'MutationProtection must be not empty')
+        else if MutationProtection != 'ENABLED' && MutationProtection != 'DISABLED' then (error "MutationProtection should be 'ENABLED' or 'DISABLED'")
+        else MutationProtection,
     },
   },
-  withManagedOwnerName(ManagedOwnerName): {
-    assert std.isString(ManagedOwnerName) : 'ManagedOwnerName must be a string',
+  setManagedOwnerName(ManagedOwnerName): {
     Properties+::: {
-      ManagedOwnerName: ManagedOwnerName,
+      ManagedOwnerName:
+        if !std.isString(ManagedOwnerName) then (error 'ManagedOwnerName must be a string')
+        else if std.isEmpty(ManagedOwnerName) then (error 'ManagedOwnerName must be not empty')
+        else if std.length(ManagedOwnerName) < 1 then error ('ManagedOwnerName should have at least 1 characters')
+        else if std.length(ManagedOwnerName) > 512 then error ('ManagedOwnerName should have not more than 512 characters')
+        else ManagedOwnerName,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'COMPLETE' || Status == 'DELETING' || Status == 'UPDATING' || Status == 'INACTIVE_OWNER_ACCOUNT_CLOSED' : "Status should be 'COMPLETE' or 'DELETING' or 'UPDATING' or 'INACTIVE_OWNER_ACCOUNT_CLOSED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'COMPLETE' && Status != 'DELETING' && Status != 'UPDATING' && Status != 'INACTIVE_OWNER_ACCOUNT_CLOSED' then (error "Status should be 'COMPLETE' or 'DELETING' or 'UPDATING' or 'INACTIVE_OWNER_ACCOUNT_CLOSED'")
+        else Status,
     },
   },
-  withStatusMessage(StatusMessage): {
-    assert std.isString(StatusMessage) : 'StatusMessage must be a string',
+  setStatusMessage(StatusMessage): {
     Properties+::: {
-      StatusMessage: StatusMessage,
+      StatusMessage:
+        if !std.isString(StatusMessage) then (error 'StatusMessage must be a string')
+        else if std.isEmpty(StatusMessage) then (error 'StatusMessage must be not empty')
+        else StatusMessage,
     },
   },
-  withCreatorRequestId(CreatorRequestId): {
-    assert std.isString(CreatorRequestId) : 'CreatorRequestId must be a string',
+  setCreatorRequestId(CreatorRequestId): {
     Properties+::: {
-      CreatorRequestId: CreatorRequestId,
+      CreatorRequestId:
+        if !std.isString(CreatorRequestId) then (error 'CreatorRequestId must be a string')
+        else if std.isEmpty(CreatorRequestId) then (error 'CreatorRequestId must be not empty')
+        else if std.length(CreatorRequestId) < 1 then error ('CreatorRequestId should have at least 1 characters')
+        else if std.length(CreatorRequestId) > 255 then error ('CreatorRequestId should have not more than 255 characters')
+        else CreatorRequestId,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else if std.length(CreationTime) < 20 then error ('CreationTime should have at least 20 characters')
+        else if std.length(CreationTime) > 40 then error ('CreationTime should have not more than 40 characters')
+        else CreationTime,
     },
   },
-  withModificationTime(ModificationTime): {
-    assert std.isString(ModificationTime) : 'ModificationTime must be a string',
+  setModificationTime(ModificationTime): {
     Properties+::: {
-      ModificationTime: ModificationTime,
+      ModificationTime:
+        if !std.isString(ModificationTime) then (error 'ModificationTime must be a string')
+        else if std.isEmpty(ModificationTime) then (error 'ModificationTime must be not empty')
+        else if std.length(ModificationTime) < 20 then error ('ModificationTime should have at least 20 characters')
+        else if std.length(ModificationTime) > 40 then error ('ModificationTime should have not more than 40 characters')
+        else ModificationTime,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

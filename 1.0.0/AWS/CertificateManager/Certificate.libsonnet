@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,124 +17,140 @@
     Metadata:: [],
     Type: 'AWS::CertificateManager::Certificate',
   },
-  withCertificateAuthorityArn(CertificateAuthorityArn): {
-    assert std.isString(CertificateAuthorityArn) : 'CertificateAuthorityArn must be a string',
+  setCertificateAuthorityArn(CertificateAuthorityArn): {
     Properties+::: {
-      CertificateAuthorityArn: CertificateAuthorityArn,
+      CertificateAuthorityArn:
+        if !std.isString(CertificateAuthorityArn) then (error 'CertificateAuthorityArn must be a string')
+        else if std.isEmpty(CertificateAuthorityArn) then (error 'CertificateAuthorityArn must be not empty')
+        else CertificateAuthorityArn,
     },
   },
-  withDomainValidationOptions(DomainValidationOptions): {
+  setDomainValidationOptions(DomainValidationOptions): {
     Properties+::: {
-      DomainValidationOptions: (if std.isArray(DomainValidationOptions) then DomainValidationOptions else [DomainValidationOptions]),
+      DomainValidationOptions:
+        if !std.isArray(DomainValidationOptions) then (error 'DomainValidationOptions must be an array')
+        else DomainValidationOptions,
     },
   },
-  withDomainValidationOptionsMixin(DomainValidationOptions): {
+  setDomainValidationOptionsMixin(DomainValidationOptions): {
     Properties+::: {
-      DomainValidationOptions+: (if std.isArray(DomainValidationOptions) then DomainValidationOptions else [DomainValidationOptions]),
+      DomainValidationOptions+: DomainValidationOptions,
     },
   },
-  withCertificateTransparencyLoggingPreference(CertificateTransparencyLoggingPreference): {
-    assert std.isString(CertificateTransparencyLoggingPreference) : 'CertificateTransparencyLoggingPreference must be a string',
+  setCertificateTransparencyLoggingPreference(CertificateTransparencyLoggingPreference): {
     Properties+::: {
-      CertificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference,
+      CertificateTransparencyLoggingPreference:
+        if !std.isString(CertificateTransparencyLoggingPreference) then (error 'CertificateTransparencyLoggingPreference must be a string')
+        else if std.isEmpty(CertificateTransparencyLoggingPreference) then (error 'CertificateTransparencyLoggingPreference must be not empty')
+        else CertificateTransparencyLoggingPreference,
     },
   },
-  withValidationMethod(ValidationMethod): {
-    assert std.isString(ValidationMethod) : 'ValidationMethod must be a string',
+  setValidationMethod(ValidationMethod): {
     Properties+::: {
-      ValidationMethod: ValidationMethod,
+      ValidationMethod:
+        if !std.isString(ValidationMethod) then (error 'ValidationMethod must be a string')
+        else if std.isEmpty(ValidationMethod) then (error 'ValidationMethod must be not empty')
+        else ValidationMethod,
     },
   },
-  withSubjectAlternativeNames(SubjectAlternativeNames): {
+  setSubjectAlternativeNames(SubjectAlternativeNames): {
     Properties+::: {
-      SubjectAlternativeNames: (if std.isArray(SubjectAlternativeNames) then SubjectAlternativeNames else [SubjectAlternativeNames]),
+      SubjectAlternativeNames:
+        if !std.isArray(SubjectAlternativeNames) then (error 'SubjectAlternativeNames must be an array')
+        else SubjectAlternativeNames,
     },
   },
-  withSubjectAlternativeNamesMixin(SubjectAlternativeNames): {
+  setSubjectAlternativeNamesMixin(SubjectAlternativeNames): {
     Properties+::: {
-      SubjectAlternativeNames+: (if std.isArray(SubjectAlternativeNames) then SubjectAlternativeNames else [SubjectAlternativeNames]),
+      SubjectAlternativeNames+: SubjectAlternativeNames,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withKeyAlgorithm(KeyAlgorithm): {
-    assert std.isString(KeyAlgorithm) : 'KeyAlgorithm must be a string',
+  setKeyAlgorithm(KeyAlgorithm): {
     Properties+::: {
-      KeyAlgorithm: KeyAlgorithm,
+      KeyAlgorithm:
+        if !std.isString(KeyAlgorithm) then (error 'KeyAlgorithm must be a string')
+        else if std.isEmpty(KeyAlgorithm) then (error 'KeyAlgorithm must be not empty')
+        else KeyAlgorithm,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

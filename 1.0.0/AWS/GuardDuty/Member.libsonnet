@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Email) : 'Email must be a string',
-      Email: Email,
+      Email:
+        if !std.isString(Email) then (error 'Email must be a string')
+        else if std.isEmpty(Email) then (error 'Email must be not empty')
+        else Email,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,94 +17,102 @@
     Metadata:: [],
     Type: 'AWS::GuardDuty::Member',
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withMemberId(MemberId): {
-    assert std.isString(MemberId) : 'MemberId must be a string',
+  setMemberId(MemberId): {
     Properties+::: {
-      MemberId: MemberId,
+      MemberId:
+        if !std.isString(MemberId) then (error 'MemberId must be a string')
+        else if std.isEmpty(MemberId) then (error 'MemberId must be not empty')
+        else MemberId,
     },
   },
-  withMessage(Message): {
-    assert std.isString(Message) : 'Message must be a string',
+  setMessage(Message): {
     Properties+::: {
-      Message: Message,
+      Message:
+        if !std.isString(Message) then (error 'Message must be a string')
+        else if std.isEmpty(Message) then (error 'Message must be not empty')
+        else Message,
     },
   },
-  withDisableEmailNotification(DisableEmailNotification): {
-    assert std.isBoolean(DisableEmailNotification) : 'DisableEmailNotification must be a boolean',
+  setDisableEmailNotification(DisableEmailNotification): {
     Properties+::: {
-      DisableEmailNotification: DisableEmailNotification,
+      DisableEmailNotification:
+        if !std.isBoolean(DisableEmailNotification) then (error 'DisableEmailNotification must be a boolean') else DisableEmailNotification,
     },
   },
-  withDetectorId(DetectorId): {
-    assert std.isString(DetectorId) : 'DetectorId must be a string',
+  setDetectorId(DetectorId): {
     Properties+::: {
-      DetectorId: DetectorId,
+      DetectorId:
+        if !std.isString(DetectorId) then (error 'DetectorId must be a string')
+        else if std.isEmpty(DetectorId) then (error 'DetectorId must be not empty')
+        else DetectorId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

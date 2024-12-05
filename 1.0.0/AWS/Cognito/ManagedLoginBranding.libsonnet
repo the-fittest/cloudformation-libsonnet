@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(UserPoolId) : 'UserPoolId must be a string',
-      UserPoolId: UserPoolId,
+      UserPoolId:
+        if !std.isString(UserPoolId) then (error 'UserPoolId must be a string')
+        else if std.isEmpty(UserPoolId) then (error 'UserPoolId must be not empty')
+        else UserPoolId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,104 +17,111 @@
     Metadata:: [],
     Type: 'AWS::Cognito::ManagedLoginBranding',
   },
-  withClientId(ClientId): {
-    assert std.isString(ClientId) : 'ClientId must be a string',
+  setClientId(ClientId): {
     Properties+::: {
-      ClientId: ClientId,
+      ClientId:
+        if !std.isString(ClientId) then (error 'ClientId must be a string')
+        else if std.isEmpty(ClientId) then (error 'ClientId must be not empty')
+        else ClientId,
     },
   },
-  withUseCognitoProvidedValues(UseCognitoProvidedValues): {
-    assert std.isBoolean(UseCognitoProvidedValues) : 'UseCognitoProvidedValues must be a boolean',
+  setUseCognitoProvidedValues(UseCognitoProvidedValues): {
     Properties+::: {
-      UseCognitoProvidedValues: UseCognitoProvidedValues,
+      UseCognitoProvidedValues:
+        if !std.isBoolean(UseCognitoProvidedValues) then (error 'UseCognitoProvidedValues must be a boolean') else UseCognitoProvidedValues,
     },
   },
-  withSettings(Settings): {
-    assert std.isObject(Settings) : 'Settings must be a object',
+  setSettings(Settings): {
     Properties+::: {
-      Settings: Settings,
+      Settings:
+        if !std.isObject(Settings) then (error 'Settings must be an object')
+        else Settings,
     },
   },
-  withAssets(Assets): {
+  setAssets(Assets): {
     Properties+::: {
-      Assets: (if std.isArray(Assets) then Assets else [Assets]),
+      Assets:
+        if !std.isArray(Assets) then (error 'Assets must be an array')
+        else Assets,
     },
   },
-  withAssetsMixin(Assets): {
+  setAssetsMixin(Assets): {
     Properties+::: {
-      Assets+: (if std.isArray(Assets) then Assets else [Assets]),
+      Assets+: Assets,
     },
   },
-  withManagedLoginBrandingId(ManagedLoginBrandingId): {
-    assert std.isString(ManagedLoginBrandingId) : 'ManagedLoginBrandingId must be a string',
+  setManagedLoginBrandingId(ManagedLoginBrandingId): {
     Properties+::: {
-      ManagedLoginBrandingId: ManagedLoginBrandingId,
+      ManagedLoginBrandingId:
+        if !std.isString(ManagedLoginBrandingId) then (error 'ManagedLoginBrandingId must be a string')
+        else if std.isEmpty(ManagedLoginBrandingId) then (error 'ManagedLoginBrandingId must be not empty')
+        else ManagedLoginBrandingId,
     },
   },
-  withReturnMergedResources(ReturnMergedResources): {
-    assert std.isBoolean(ReturnMergedResources) : 'ReturnMergedResources must be a boolean',
+  setReturnMergedResources(ReturnMergedResources): {
     Properties+::: {
-      ReturnMergedResources: ReturnMergedResources,
+      ReturnMergedResources:
+        if !std.isBoolean(ReturnMergedResources) then (error 'ReturnMergedResources must be a boolean') else ReturnMergedResources,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DefaultAction) : 'DefaultAction must be a string',
-      assert DefaultAction == 'ALLOW' || DefaultAction == 'DENY' : "DefaultAction should be 'ALLOW' or 'DENY'",
-      DefaultAction: DefaultAction,
-      PolicyStatements: (if std.isArray(PolicyStatements) then PolicyStatements else [PolicyStatements]),
+      DefaultAction:
+        if !std.isString(DefaultAction) then (error 'DefaultAction must be a string')
+        else if std.isEmpty(DefaultAction) then (error 'DefaultAction must be not empty')
+        else if DefaultAction != 'ALLOW' && DefaultAction != 'DENY' then (error "DefaultAction should be 'ALLOW' or 'DENY'")
+        else DefaultAction,
+      PolicyStatements:
+        if !std.isArray(PolicyStatements) then (error 'PolicyStatements must be an array')
+        else PolicyStatements,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,98 +22,113 @@
     Metadata:: [],
     Type: 'AWS::SES::MailManagerTrafficPolicy',
   },
-  withMaxMessageSizeBytes(MaxMessageSizeBytes): {
-    assert std.isNumber(MaxMessageSizeBytes) : 'MaxMessageSizeBytes must be a number',
+  setMaxMessageSizeBytes(MaxMessageSizeBytes): {
     Properties+::: {
-      MaxMessageSizeBytes: MaxMessageSizeBytes,
+      MaxMessageSizeBytes:
+        if !std.isNumber(MaxMessageSizeBytes) then (error 'MaxMessageSizeBytes must be an number')
+        else if MaxMessageSizeBytes < 1 then error ('MaxMessageSizeBytes should be at least 1')
+        else MaxMessageSizeBytes,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrafficPolicyArn(TrafficPolicyArn): {
-    assert std.isString(TrafficPolicyArn) : 'TrafficPolicyArn must be a string',
+  setTrafficPolicyArn(TrafficPolicyArn): {
     Properties+::: {
-      TrafficPolicyArn: TrafficPolicyArn,
+      TrafficPolicyArn:
+        if !std.isString(TrafficPolicyArn) then (error 'TrafficPolicyArn must be a string')
+        else if std.isEmpty(TrafficPolicyArn) then (error 'TrafficPolicyArn must be not empty')
+        else TrafficPolicyArn,
     },
   },
-  withTrafficPolicyId(TrafficPolicyId): {
-    assert std.isString(TrafficPolicyId) : 'TrafficPolicyId must be a string',
+  setTrafficPolicyId(TrafficPolicyId): {
     Properties+::: {
-      TrafficPolicyId: TrafficPolicyId,
+      TrafficPolicyId:
+        if !std.isString(TrafficPolicyId) then (error 'TrafficPolicyId must be a string')
+        else if std.isEmpty(TrafficPolicyId) then (error 'TrafficPolicyId must be not empty')
+        else if std.length(TrafficPolicyId) < 1 then error ('TrafficPolicyId should have at least 1 characters')
+        else if std.length(TrafficPolicyId) > 100 then error ('TrafficPolicyId should have not more than 100 characters')
+        else TrafficPolicyId,
     },
   },
-  withTrafficPolicyName(TrafficPolicyName): {
-    assert std.isString(TrafficPolicyName) : 'TrafficPolicyName must be a string',
+  setTrafficPolicyName(TrafficPolicyName): {
     Properties+::: {
-      TrafficPolicyName: TrafficPolicyName,
+      TrafficPolicyName:
+        if !std.isString(TrafficPolicyName) then (error 'TrafficPolicyName must be a string')
+        else if std.isEmpty(TrafficPolicyName) then (error 'TrafficPolicyName must be not empty')
+        else if std.length(TrafficPolicyName) < 3 then error ('TrafficPolicyName should have at least 3 characters')
+        else if std.length(TrafficPolicyName) > 63 then error ('TrafficPolicyName should have not more than 63 characters')
+        else TrafficPolicyName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -8,16 +8,32 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Type) : 'Type must be a string',
-      assert Type == 'ShadowMode' : "Type should be 'ShadowMode'",
-      Type: Type,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isString(EndpointName) : 'EndpointName must be a string',
-      EndpointName: EndpointName,
-      ModelVariants: (if std.isArray(ModelVariants) then ModelVariants else [ModelVariants]),
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 120 then error ('Name should have not more than 120 characters')
+        else Name,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'ShadowMode' then (error "Type should be 'ShadowMode'")
+        else Type,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else if std.length(EndpointName) > 63 then error ('EndpointName should have not more than 63 characters')
+        else EndpointName,
+      ModelVariants:
+        if !std.isArray(ModelVariants) then (error 'ModelVariants must be an array')
+        else if std.length(ModelVariants) > 2 then error ('ModelVariants cannot have more than 2 items')
+        else ModelVariants,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,148 +43,182 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::InferenceExperiment',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withEndpointMetadata(EndpointMetadata): {
-    assert std.isObject(EndpointMetadata) : 'EndpointMetadata must be a object',
+  setEndpointMetadata(EndpointMetadata): {
     Properties+::: {
-      EndpointMetadata: EndpointMetadata,
+      EndpointMetadata:
+        if !std.isObject(EndpointMetadata) then (error 'EndpointMetadata must be an object')
+        else if !std.objectHas(EndpointMetadata, 'EndpointName') then (error ' have attribute EndpointName')
+        else EndpointMetadata,
     },
   },
-  withSchedule(Schedule): {
-    assert std.isObject(Schedule) : 'Schedule must be a object',
+  setSchedule(Schedule): {
     Properties+::: {
-      Schedule: Schedule,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else Schedule,
     },
   },
-  withKmsKey(KmsKey): {
-    assert std.isString(KmsKey) : 'KmsKey must be a string',
+  setKmsKey(KmsKey): {
     Properties+::: {
-      KmsKey: KmsKey,
+      KmsKey:
+        if !std.isString(KmsKey) then (error 'KmsKey must be a string')
+        else if std.isEmpty(KmsKey) then (error 'KmsKey must be not empty')
+        else if std.length(KmsKey) > 2048 then error ('KmsKey should have not more than 2048 characters')
+        else KmsKey,
     },
   },
-  withDataStorageConfig(DataStorageConfig): {
-    assert std.isObject(DataStorageConfig) : 'DataStorageConfig must be a object',
+  setDataStorageConfig(DataStorageConfig): {
     Properties+::: {
-      DataStorageConfig: DataStorageConfig,
+      DataStorageConfig:
+        if !std.isObject(DataStorageConfig) then (error 'DataStorageConfig must be an object')
+        else if !std.objectHas(DataStorageConfig, 'Destination') then (error ' have attribute Destination')
+        else DataStorageConfig,
     },
   },
-  withShadowModeConfig(ShadowModeConfig): {
-    assert std.isObject(ShadowModeConfig) : 'ShadowModeConfig must be a object',
+  setShadowModeConfig(ShadowModeConfig): {
     Properties+::: {
-      ShadowModeConfig: ShadowModeConfig,
+      ShadowModeConfig:
+        if !std.isObject(ShadowModeConfig) then (error 'ShadowModeConfig must be an object')
+        else if !std.objectHas(ShadowModeConfig, 'SourceModelVariantName') then (error ' have attribute SourceModelVariantName')
+        else if !std.objectHas(ShadowModeConfig, 'ShadowModelVariants') then (error ' have attribute ShadowModelVariants')
+        else ShadowModeConfig,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isString(LastModifiedTime) : 'LastModifiedTime must be a string',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isString(LastModifiedTime) then (error 'LastModifiedTime must be a string')
+        else if std.isEmpty(LastModifiedTime) then (error 'LastModifiedTime must be not empty')
+        else LastModifiedTime,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'Creating' || Status == 'Created' || Status == 'Updating' || Status == 'Starting' || Status == 'Stopping' || Status == 'Running' || Status == 'Completed' || Status == 'Cancelled' : "Status should be 'Creating' or 'Created' or 'Updating' or 'Starting' or 'Stopping' or 'Running' or 'Completed' or 'Cancelled'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'Creating' && Status != 'Created' && Status != 'Updating' && Status != 'Starting' && Status != 'Stopping' && Status != 'Running' && Status != 'Completed' && Status != 'Cancelled' then (error "Status should be 'Creating' or 'Created' or 'Updating' or 'Starting' or 'Stopping' or 'Running' or 'Completed' or 'Cancelled'")
+        else Status,
     },
   },
-  withStatusReason(StatusReason): {
-    assert std.isString(StatusReason) : 'StatusReason must be a string',
+  setStatusReason(StatusReason): {
     Properties+::: {
-      StatusReason: StatusReason,
+      StatusReason:
+        if !std.isString(StatusReason) then (error 'StatusReason must be a string')
+        else if std.isEmpty(StatusReason) then (error 'StatusReason must be not empty')
+        else if std.length(StatusReason) < 1 then error ('StatusReason should have at least 1 characters')
+        else if std.length(StatusReason) > 1024 then error ('StatusReason should have not more than 1024 characters')
+        else StatusReason,
     },
   },
-  withDesiredState(DesiredState): {
-    assert std.isString(DesiredState) : 'DesiredState must be a string',
-    assert DesiredState == 'Running' || DesiredState == 'Completed' || DesiredState == 'Cancelled' : "DesiredState should be 'Running' or 'Completed' or 'Cancelled'",
+  setDesiredState(DesiredState): {
     Properties+::: {
-      DesiredState: DesiredState,
+      DesiredState:
+        if !std.isString(DesiredState) then (error 'DesiredState must be a string')
+        else if std.isEmpty(DesiredState) then (error 'DesiredState must be not empty')
+        else if DesiredState != 'Running' && DesiredState != 'Completed' && DesiredState != 'Cancelled' then (error "DesiredState should be 'Running' or 'Completed' or 'Cancelled'")
+        else DesiredState,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

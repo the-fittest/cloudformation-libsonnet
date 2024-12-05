@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Database) : 'Database must be a string',
-      Database: Database,
-      assert std.isString(QueryString) : 'QueryString must be a string',
-      QueryString: QueryString,
+      Database:
+        if !std.isString(Database) then (error 'Database must be a string')
+        else if std.isEmpty(Database) then (error 'Database must be not empty')
+        else if std.length(Database) < 1 then error ('Database should have at least 1 characters')
+        else if std.length(Database) > 255 then error ('Database should have not more than 255 characters')
+        else Database,
+      QueryString:
+        if !std.isString(QueryString) then (error 'QueryString must be a string')
+        else if std.isEmpty(QueryString) then (error 'QueryString must be not empty')
+        else if std.length(QueryString) < 1 then error ('QueryString should have at least 1 characters')
+        else if std.length(QueryString) > 262144 then error ('QueryString should have not more than 262144 characters')
+        else QueryString,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,88 +26,102 @@
     Metadata:: [],
     Type: 'AWS::Athena::NamedQuery',
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withWorkGroup(WorkGroup): {
-    assert std.isString(WorkGroup) : 'WorkGroup must be a string',
+  setWorkGroup(WorkGroup): {
     Properties+::: {
-      WorkGroup: WorkGroup,
+      WorkGroup:
+        if !std.isString(WorkGroup) then (error 'WorkGroup must be a string')
+        else if std.isEmpty(WorkGroup) then (error 'WorkGroup must be not empty')
+        else if std.length(WorkGroup) < 1 then error ('WorkGroup should have at least 1 characters')
+        else if std.length(WorkGroup) > 128 then error ('WorkGroup should have not more than 128 characters')
+        else WorkGroup,
     },
   },
-  withNamedQueryId(NamedQueryId): {
-    assert std.isString(NamedQueryId) : 'NamedQueryId must be a string',
+  setNamedQueryId(NamedQueryId): {
     Properties+::: {
-      NamedQueryId: NamedQueryId,
+      NamedQueryId:
+        if !std.isString(NamedQueryId) then (error 'NamedQueryId must be a string')
+        else if std.isEmpty(NamedQueryId) then (error 'NamedQueryId must be not empty')
+        else NamedQueryId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

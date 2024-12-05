@@ -8,16 +8,27 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(DataQualityAppSpecification) : 'DataQualityAppSpecification must be an object',
-      DataQualityAppSpecification: DataQualityAppSpecification,
-      assert std.isObject(DataQualityJobInput) : 'DataQualityJobInput must be an object',
-      DataQualityJobInput: DataQualityJobInput,
-      assert std.isObject(DataQualityJobOutputConfig) : 'DataQualityJobOutputConfig must be an object',
-      DataQualityJobOutputConfig: DataQualityJobOutputConfig,
-      assert std.isObject(JobResources) : 'JobResources must be an object',
-      JobResources: JobResources,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      DataQualityAppSpecification:
+        if !std.isObject(DataQualityAppSpecification) then (error 'DataQualityAppSpecification must be an object')
+        else if !std.objectHas(DataQualityAppSpecification, 'ImageUri') then (error ' have attribute ImageUri')
+        else DataQualityAppSpecification,
+      DataQualityJobInput:
+        if !std.isObject(DataQualityJobInput) then (error 'DataQualityJobInput must be an object')
+        else DataQualityJobInput,
+      DataQualityJobOutputConfig:
+        if !std.isObject(DataQualityJobOutputConfig) then (error 'DataQualityJobOutputConfig must be an object')
+        else if !std.objectHas(DataQualityJobOutputConfig, 'MonitoringOutputs') then (error ' have attribute MonitoringOutputs')
+        else DataQualityJobOutputConfig,
+      JobResources:
+        if !std.isObject(JobResources) then (error 'JobResources must be an object')
+        else if !std.objectHas(JobResources, 'ClusterConfig') then (error ' have attribute ClusterConfig')
+        else JobResources,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,116 +38,135 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::DataQualityJobDefinition',
   },
-  withJobDefinitionArn(JobDefinitionArn): {
-    assert std.isString(JobDefinitionArn) : 'JobDefinitionArn must be a string',
+  setJobDefinitionArn(JobDefinitionArn): {
     Properties+::: {
-      JobDefinitionArn: JobDefinitionArn,
+      JobDefinitionArn:
+        if !std.isString(JobDefinitionArn) then (error 'JobDefinitionArn must be a string')
+        else if std.isEmpty(JobDefinitionArn) then (error 'JobDefinitionArn must be not empty')
+        else if std.length(JobDefinitionArn) < 1 then error ('JobDefinitionArn should have at least 1 characters')
+        else if std.length(JobDefinitionArn) > 256 then error ('JobDefinitionArn should have not more than 256 characters')
+        else JobDefinitionArn,
     },
   },
-  withJobDefinitionName(JobDefinitionName): {
-    assert std.isString(JobDefinitionName) : 'JobDefinitionName must be a string',
+  setJobDefinitionName(JobDefinitionName): {
     Properties+::: {
-      JobDefinitionName: JobDefinitionName,
+      JobDefinitionName:
+        if !std.isString(JobDefinitionName) then (error 'JobDefinitionName must be a string')
+        else if std.isEmpty(JobDefinitionName) then (error 'JobDefinitionName must be not empty')
+        else if std.length(JobDefinitionName) > 63 then error ('JobDefinitionName should have not more than 63 characters')
+        else JobDefinitionName,
     },
   },
-  withDataQualityBaselineConfig(DataQualityBaselineConfig): {
-    assert std.isObject(DataQualityBaselineConfig) : 'DataQualityBaselineConfig must be a object',
+  setDataQualityBaselineConfig(DataQualityBaselineConfig): {
     Properties+::: {
-      DataQualityBaselineConfig: DataQualityBaselineConfig,
+      DataQualityBaselineConfig:
+        if !std.isObject(DataQualityBaselineConfig) then (error 'DataQualityBaselineConfig must be an object')
+        else DataQualityBaselineConfig,
     },
   },
-  withNetworkConfig(NetworkConfig): {
-    assert std.isObject(NetworkConfig) : 'NetworkConfig must be a object',
+  setNetworkConfig(NetworkConfig): {
     Properties+::: {
-      NetworkConfig: NetworkConfig,
+      NetworkConfig:
+        if !std.isObject(NetworkConfig) then (error 'NetworkConfig must be an object')
+        else NetworkConfig,
     },
   },
-  withEndpointName(EndpointName): {
-    assert std.isString(EndpointName) : 'EndpointName must be a string',
+  setEndpointName(EndpointName): {
     Properties+::: {
-      EndpointName: EndpointName,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else if std.length(EndpointName) > 63 then error ('EndpointName should have not more than 63 characters')
+        else EndpointName,
     },
   },
-  withStoppingCondition(StoppingCondition): {
-    assert std.isObject(StoppingCondition) : 'StoppingCondition must be a object',
+  setStoppingCondition(StoppingCondition): {
     Properties+::: {
-      StoppingCondition: StoppingCondition,
+      StoppingCondition:
+        if !std.isObject(StoppingCondition) then (error 'StoppingCondition must be an object')
+        else if !std.objectHas(StoppingCondition, 'MaxRuntimeInSeconds') then (error ' have attribute MaxRuntimeInSeconds')
+        else StoppingCondition,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

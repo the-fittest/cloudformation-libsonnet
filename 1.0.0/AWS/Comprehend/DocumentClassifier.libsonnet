@@ -7,15 +7,26 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DocumentClassifierName) : 'DocumentClassifierName must be a string',
-      DocumentClassifierName: DocumentClassifierName,
-      assert std.isString(DataAccessRoleArn) : 'DataAccessRoleArn must be a string',
-      DataAccessRoleArn: DataAccessRoleArn,
-      assert std.isObject(InputDataConfig) : 'InputDataConfig must be an object',
-      InputDataConfig: InputDataConfig,
-      assert std.isString(LanguageCode) : 'LanguageCode must be a string',
-      assert LanguageCode == 'en' || LanguageCode == 'es' || LanguageCode == 'fr' || LanguageCode == 'it' || LanguageCode == 'de' || LanguageCode == 'pt' : "LanguageCode should be 'en' or 'es' or 'fr' or 'it' or 'de' or 'pt'",
-      LanguageCode: LanguageCode,
+      DocumentClassifierName:
+        if !std.isString(DocumentClassifierName) then (error 'DocumentClassifierName must be a string')
+        else if std.isEmpty(DocumentClassifierName) then (error 'DocumentClassifierName must be not empty')
+        else if std.length(DocumentClassifierName) < 1 then error ('DocumentClassifierName should have at least 1 characters')
+        else if std.length(DocumentClassifierName) > 63 then error ('DocumentClassifierName should have not more than 63 characters')
+        else DocumentClassifierName,
+      DataAccessRoleArn:
+        if !std.isString(DataAccessRoleArn) then (error 'DataAccessRoleArn must be a string')
+        else if std.isEmpty(DataAccessRoleArn) then (error 'DataAccessRoleArn must be not empty')
+        else if std.length(DataAccessRoleArn) < 20 then error ('DataAccessRoleArn should have at least 20 characters')
+        else if std.length(DataAccessRoleArn) > 2048 then error ('DataAccessRoleArn should have not more than 2048 characters')
+        else DataAccessRoleArn,
+      InputDataConfig:
+        if !std.isObject(InputDataConfig) then (error 'InputDataConfig must be an object')
+        else InputDataConfig,
+      LanguageCode:
+        if !std.isString(LanguageCode) then (error 'LanguageCode must be a string')
+        else if std.isEmpty(LanguageCode) then (error 'LanguageCode must be not empty')
+        else if LanguageCode != 'en' && LanguageCode != 'es' && LanguageCode != 'fr' && LanguageCode != 'it' && LanguageCode != 'de' && LanguageCode != 'pt' then (error "LanguageCode should be 'en' or 'es' or 'fr' or 'it' or 'de' or 'pt'")
+        else LanguageCode,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,123 +36,151 @@
     Metadata:: [],
     Type: 'AWS::Comprehend::DocumentClassifier',
   },
-  withOutputDataConfig(OutputDataConfig): {
-    assert std.isObject(OutputDataConfig) : 'OutputDataConfig must be a object',
+  setOutputDataConfig(OutputDataConfig): {
     Properties+::: {
-      OutputDataConfig: OutputDataConfig,
+      OutputDataConfig:
+        if !std.isObject(OutputDataConfig) then (error 'OutputDataConfig must be an object')
+        else OutputDataConfig,
     },
   },
-  withModelKmsKeyId(ModelKmsKeyId): {
-    assert std.isString(ModelKmsKeyId) : 'ModelKmsKeyId must be a string',
+  setModelKmsKeyId(ModelKmsKeyId): {
     Properties+::: {
-      ModelKmsKeyId: ModelKmsKeyId,
+      ModelKmsKeyId:
+        if !std.isString(ModelKmsKeyId) then (error 'ModelKmsKeyId must be a string')
+        else if std.isEmpty(ModelKmsKeyId) then (error 'ModelKmsKeyId must be not empty')
+        else if std.length(ModelKmsKeyId) < 1 then error ('ModelKmsKeyId should have at least 1 characters')
+        else if std.length(ModelKmsKeyId) > 2048 then error ('ModelKmsKeyId should have not more than 2048 characters')
+        else ModelKmsKeyId,
     },
   },
-  withModelPolicy(ModelPolicy): {
-    assert std.isString(ModelPolicy) : 'ModelPolicy must be a string',
+  setModelPolicy(ModelPolicy): {
     Properties+::: {
-      ModelPolicy: ModelPolicy,
+      ModelPolicy:
+        if !std.isString(ModelPolicy) then (error 'ModelPolicy must be a string')
+        else if std.isEmpty(ModelPolicy) then (error 'ModelPolicy must be not empty')
+        else if std.length(ModelPolicy) < 1 then error ('ModelPolicy should have at least 1 characters')
+        else if std.length(ModelPolicy) > 20000 then error ('ModelPolicy should have not more than 20000 characters')
+        else ModelPolicy,
     },
   },
-  withMode(Mode): {
-    assert std.isString(Mode) : 'Mode must be a string',
-    assert Mode == 'MULTI_CLASS' || Mode == 'MULTI_LABEL' : "Mode should be 'MULTI_CLASS' or 'MULTI_LABEL'",
+  setMode(Mode): {
     Properties+::: {
-      Mode: Mode,
+      Mode:
+        if !std.isString(Mode) then (error 'Mode must be a string')
+        else if std.isEmpty(Mode) then (error 'Mode must be not empty')
+        else if Mode != 'MULTI_CLASS' && Mode != 'MULTI_LABEL' then (error "Mode should be 'MULTI_CLASS' or 'MULTI_LABEL'")
+        else Mode,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVersionName(VersionName): {
-    assert std.isString(VersionName) : 'VersionName must be a string',
+  setVersionName(VersionName): {
     Properties+::: {
-      VersionName: VersionName,
+      VersionName:
+        if !std.isString(VersionName) then (error 'VersionName must be a string')
+        else if std.isEmpty(VersionName) then (error 'VersionName must be not empty')
+        else if std.length(VersionName) < 1 then error ('VersionName should have at least 1 characters')
+        else if std.length(VersionName) > 63 then error ('VersionName should have not more than 63 characters')
+        else VersionName,
     },
   },
-  withVolumeKmsKeyId(VolumeKmsKeyId): {
-    assert std.isString(VolumeKmsKeyId) : 'VolumeKmsKeyId must be a string',
+  setVolumeKmsKeyId(VolumeKmsKeyId): {
     Properties+::: {
-      VolumeKmsKeyId: VolumeKmsKeyId,
+      VolumeKmsKeyId:
+        if !std.isString(VolumeKmsKeyId) then (error 'VolumeKmsKeyId must be a string')
+        else if std.isEmpty(VolumeKmsKeyId) then (error 'VolumeKmsKeyId must be not empty')
+        else if std.length(VolumeKmsKeyId) < 1 then error ('VolumeKmsKeyId should have at least 1 characters')
+        else if std.length(VolumeKmsKeyId) > 2048 then error ('VolumeKmsKeyId should have not more than 2048 characters')
+        else VolumeKmsKeyId,
     },
   },
-  withVpcConfig(VpcConfig): {
-    assert std.isObject(VpcConfig) : 'VpcConfig must be a object',
+  setVpcConfig(VpcConfig): {
     Properties+::: {
-      VpcConfig: VpcConfig,
+      VpcConfig:
+        if !std.isObject(VpcConfig) then (error 'VpcConfig must be an object')
+        else if !std.objectHas(VpcConfig, 'SecurityGroupIds') then (error ' have attribute SecurityGroupIds')
+        else if !std.objectHas(VpcConfig, 'Subnets') then (error ' have attribute Subnets')
+        else VpcConfig,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

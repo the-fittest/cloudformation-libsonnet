@@ -4,9 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MetricType) : 'MetricType must be a string',
-      assert MetricType == 'string-list' || MetricType == 'ip-address-list' || MetricType == 'number-list' || MetricType == 'number' : "MetricType should be 'string-list' or 'ip-address-list' or 'number-list' or 'number'",
-      MetricType: MetricType,
+      MetricType:
+        if !std.isString(MetricType) then (error 'MetricType must be a string')
+        else if std.isEmpty(MetricType) then (error 'MetricType must be not empty')
+        else if MetricType != 'string-list' && MetricType != 'ip-address-list' && MetricType != 'number-list' && MetricType != 'number' then (error "MetricType should be 'string-list' or 'ip-address-list' or 'number-list' or 'number'")
+        else MetricType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -16,92 +18,106 @@
     Metadata:: [],
     Type: 'AWS::IoT::CustomMetric',
   },
-  withMetricName(MetricName): {
-    assert std.isString(MetricName) : 'MetricName must be a string',
+  setMetricName(MetricName): {
     Properties+::: {
-      MetricName: MetricName,
+      MetricName:
+        if !std.isString(MetricName) then (error 'MetricName must be a string')
+        else if std.isEmpty(MetricName) then (error 'MetricName must be not empty')
+        else if std.length(MetricName) < 1 then error ('MetricName should have at least 1 characters')
+        else if std.length(MetricName) > 128 then error ('MetricName should have not more than 128 characters')
+        else MetricName,
     },
   },
-  withDisplayName(DisplayName): {
-    assert std.isString(DisplayName) : 'DisplayName must be a string',
+  setDisplayName(DisplayName): {
     Properties+::: {
-      DisplayName: DisplayName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else if std.length(DisplayName) > 128 then error ('DisplayName should have not more than 128 characters')
+        else DisplayName,
     },
   },
-  withMetricArn(MetricArn): {
-    assert std.isString(MetricArn) : 'MetricArn must be a string',
+  setMetricArn(MetricArn): {
     Properties+::: {
-      MetricArn: MetricArn,
+      MetricArn:
+        if !std.isString(MetricArn) then (error 'MetricArn must be a string')
+        else if std.isEmpty(MetricArn) then (error 'MetricArn must be not empty')
+        else if std.length(MetricArn) < 20 then error ('MetricArn should have at least 20 characters')
+        else if std.length(MetricArn) > 2048 then error ('MetricArn should have not more than 2048 characters')
+        else MetricArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,7 +4,9 @@
   ): {
     local base = self,
     Properties: {
-      Listeners: (if std.isArray(Listeners) then Listeners else [Listeners]),
+      Listeners:
+        if !std.isArray(Listeners) then (error 'Listeners must be an array')
+        else Listeners,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,222 +16,267 @@
     Metadata:: [],
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer',
   },
-  withSecurityGroups(SecurityGroups): {
+  setSecurityGroups(SecurityGroups): {
     Properties+::: {
-      SecurityGroups: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups:
+        if !std.isArray(SecurityGroups) then (error 'SecurityGroups must be an array')
+        else SecurityGroups,
     },
   },
-  withSecurityGroupsMixin(SecurityGroups): {
+  setSecurityGroupsMixin(SecurityGroups): {
     Properties+::: {
-      SecurityGroups+: (if std.isArray(SecurityGroups) then SecurityGroups else [SecurityGroups]),
+      SecurityGroups+: SecurityGroups,
     },
   },
-  withConnectionDrainingPolicy(ConnectionDrainingPolicy): {
-    assert std.isObject(ConnectionDrainingPolicy) : 'ConnectionDrainingPolicy must be a object',
+  setConnectionDrainingPolicy(ConnectionDrainingPolicy): {
     Properties+::: {
-      ConnectionDrainingPolicy: ConnectionDrainingPolicy,
+      ConnectionDrainingPolicy:
+        if !std.isObject(ConnectionDrainingPolicy) then (error 'ConnectionDrainingPolicy must be an object')
+        else if !std.objectHas(ConnectionDrainingPolicy, 'Enabled') then (error ' have attribute Enabled')
+        else ConnectionDrainingPolicy,
     },
   },
-  withPolicies(Policies): {
+  setPolicies(Policies): {
     Properties+::: {
-      Policies: (if std.isArray(Policies) then Policies else [Policies]),
+      Policies:
+        if !std.isArray(Policies) then (error 'Policies must be an array')
+        else Policies,
     },
   },
-  withPoliciesMixin(Policies): {
+  setPoliciesMixin(Policies): {
     Properties+::: {
-      Policies+: (if std.isArray(Policies) then Policies else [Policies]),
+      Policies+: Policies,
     },
   },
-  withScheme(Scheme): {
-    assert std.isString(Scheme) : 'Scheme must be a string',
+  setScheme(Scheme): {
     Properties+::: {
-      Scheme: Scheme,
+      Scheme:
+        if !std.isString(Scheme) then (error 'Scheme must be a string')
+        else if std.isEmpty(Scheme) then (error 'Scheme must be not empty')
+        else Scheme,
     },
   },
-  withAvailabilityZones(AvailabilityZones): {
+  setAvailabilityZones(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones:
+        if !std.isArray(AvailabilityZones) then (error 'AvailabilityZones must be an array')
+        else AvailabilityZones,
     },
   },
-  withAvailabilityZonesMixin(AvailabilityZones): {
+  setAvailabilityZonesMixin(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones+: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones+: AvailabilityZones,
     },
   },
-  withSourceSecurityGroupOwnerAlias(SourceSecurityGroupOwnerAlias): {
-    assert std.isString(SourceSecurityGroupOwnerAlias) : 'SourceSecurityGroupOwnerAlias must be a string',
+  setSourceSecurityGroupOwnerAlias(SourceSecurityGroupOwnerAlias): {
     Properties+::: {
-      SourceSecurityGroupOwnerAlias: SourceSecurityGroupOwnerAlias,
+      SourceSecurityGroupOwnerAlias:
+        if !std.isString(SourceSecurityGroupOwnerAlias) then (error 'SourceSecurityGroupOwnerAlias must be a string')
+        else if std.isEmpty(SourceSecurityGroupOwnerAlias) then (error 'SourceSecurityGroupOwnerAlias must be not empty')
+        else SourceSecurityGroupOwnerAlias,
     },
   },
-  withHealthCheck(HealthCheck): {
-    assert std.isObject(HealthCheck) : 'HealthCheck must be a object',
+  setHealthCheck(HealthCheck): {
     Properties+::: {
-      HealthCheck: HealthCheck,
+      HealthCheck:
+        if !std.isObject(HealthCheck) then (error 'HealthCheck must be an object')
+        else if !std.objectHas(HealthCheck, 'Target') then (error ' have attribute Target')
+        else if !std.objectHas(HealthCheck, 'UnhealthyThreshold') then (error ' have attribute UnhealthyThreshold')
+        else if !std.objectHas(HealthCheck, 'Timeout') then (error ' have attribute Timeout')
+        else if !std.objectHas(HealthCheck, 'HealthyThreshold') then (error ' have attribute HealthyThreshold')
+        else if !std.objectHas(HealthCheck, 'Interval') then (error ' have attribute Interval')
+        else HealthCheck,
     },
   },
-  withCanonicalHostedZoneNameID(CanonicalHostedZoneNameID): {
-    assert std.isString(CanonicalHostedZoneNameID) : 'CanonicalHostedZoneNameID must be a string',
+  setCanonicalHostedZoneNameID(CanonicalHostedZoneNameID): {
     Properties+::: {
-      CanonicalHostedZoneNameID: CanonicalHostedZoneNameID,
+      CanonicalHostedZoneNameID:
+        if !std.isString(CanonicalHostedZoneNameID) then (error 'CanonicalHostedZoneNameID must be a string')
+        else if std.isEmpty(CanonicalHostedZoneNameID) then (error 'CanonicalHostedZoneNameID must be not empty')
+        else CanonicalHostedZoneNameID,
     },
   },
-  withCanonicalHostedZoneName(CanonicalHostedZoneName): {
-    assert std.isString(CanonicalHostedZoneName) : 'CanonicalHostedZoneName must be a string',
+  setCanonicalHostedZoneName(CanonicalHostedZoneName): {
     Properties+::: {
-      CanonicalHostedZoneName: CanonicalHostedZoneName,
+      CanonicalHostedZoneName:
+        if !std.isString(CanonicalHostedZoneName) then (error 'CanonicalHostedZoneName must be a string')
+        else if std.isEmpty(CanonicalHostedZoneName) then (error 'CanonicalHostedZoneName must be not empty')
+        else CanonicalHostedZoneName,
     },
   },
-  withDNSName(DNSName): {
-    assert std.isString(DNSName) : 'DNSName must be a string',
+  setDNSName(DNSName): {
     Properties+::: {
-      DNSName: DNSName,
+      DNSName:
+        if !std.isString(DNSName) then (error 'DNSName must be a string')
+        else if std.isEmpty(DNSName) then (error 'DNSName must be not empty')
+        else DNSName,
     },
   },
-  withAccessLoggingPolicy(AccessLoggingPolicy): {
-    assert std.isObject(AccessLoggingPolicy) : 'AccessLoggingPolicy must be a object',
+  setAccessLoggingPolicy(AccessLoggingPolicy): {
     Properties+::: {
-      AccessLoggingPolicy: AccessLoggingPolicy,
+      AccessLoggingPolicy:
+        if !std.isObject(AccessLoggingPolicy) then (error 'AccessLoggingPolicy must be an object')
+        else if !std.objectHas(AccessLoggingPolicy, 'Enabled') then (error ' have attribute Enabled')
+        else if !std.objectHas(AccessLoggingPolicy, 'S3BucketName') then (error ' have attribute S3BucketName')
+        else AccessLoggingPolicy,
     },
   },
-  withInstances(Instances): {
+  setInstances(Instances): {
     Properties+::: {
-      Instances: (if std.isArray(Instances) then Instances else [Instances]),
+      Instances:
+        if !std.isArray(Instances) then (error 'Instances must be an array')
+        else Instances,
     },
   },
-  withInstancesMixin(Instances): {
+  setInstancesMixin(Instances): {
     Properties+::: {
-      Instances+: (if std.isArray(Instances) then Instances else [Instances]),
+      Instances+: Instances,
     },
   },
-  withLoadBalancerName(LoadBalancerName): {
-    assert std.isString(LoadBalancerName) : 'LoadBalancerName must be a string',
+  setLoadBalancerName(LoadBalancerName): {
     Properties+::: {
-      LoadBalancerName: LoadBalancerName,
+      LoadBalancerName:
+        if !std.isString(LoadBalancerName) then (error 'LoadBalancerName must be a string')
+        else if std.isEmpty(LoadBalancerName) then (error 'LoadBalancerName must be not empty')
+        else LoadBalancerName,
     },
   },
-  withSubnets(Subnets): {
+  setSubnets(Subnets): {
     Properties+::: {
-      Subnets: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets:
+        if !std.isArray(Subnets) then (error 'Subnets must be an array')
+        else Subnets,
     },
   },
-  withSubnetsMixin(Subnets): {
+  setSubnetsMixin(Subnets): {
     Properties+::: {
-      Subnets+: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets+: Subnets,
     },
   },
-  withCrossZone(CrossZone): {
-    assert std.isBoolean(CrossZone) : 'CrossZone must be a boolean',
+  setCrossZone(CrossZone): {
     Properties+::: {
-      CrossZone: CrossZone,
+      CrossZone:
+        if !std.isBoolean(CrossZone) then (error 'CrossZone must be a boolean') else CrossZone,
     },
   },
-  withAppCookieStickinessPolicy(AppCookieStickinessPolicy): {
+  setAppCookieStickinessPolicy(AppCookieStickinessPolicy): {
     Properties+::: {
-      AppCookieStickinessPolicy: (if std.isArray(AppCookieStickinessPolicy) then AppCookieStickinessPolicy else [AppCookieStickinessPolicy]),
+      AppCookieStickinessPolicy:
+        if !std.isArray(AppCookieStickinessPolicy) then (error 'AppCookieStickinessPolicy must be an array')
+        else AppCookieStickinessPolicy,
     },
   },
-  withAppCookieStickinessPolicyMixin(AppCookieStickinessPolicy): {
+  setAppCookieStickinessPolicyMixin(AppCookieStickinessPolicy): {
     Properties+::: {
-      AppCookieStickinessPolicy+: (if std.isArray(AppCookieStickinessPolicy) then AppCookieStickinessPolicy else [AppCookieStickinessPolicy]),
+      AppCookieStickinessPolicy+: AppCookieStickinessPolicy,
     },
   },
-  withLBCookieStickinessPolicy(LBCookieStickinessPolicy): {
+  setLBCookieStickinessPolicy(LBCookieStickinessPolicy): {
     Properties+::: {
-      LBCookieStickinessPolicy: (if std.isArray(LBCookieStickinessPolicy) then LBCookieStickinessPolicy else [LBCookieStickinessPolicy]),
+      LBCookieStickinessPolicy:
+        if !std.isArray(LBCookieStickinessPolicy) then (error 'LBCookieStickinessPolicy must be an array')
+        else LBCookieStickinessPolicy,
     },
   },
-  withLBCookieStickinessPolicyMixin(LBCookieStickinessPolicy): {
+  setLBCookieStickinessPolicyMixin(LBCookieStickinessPolicy): {
     Properties+::: {
-      LBCookieStickinessPolicy+: (if std.isArray(LBCookieStickinessPolicy) then LBCookieStickinessPolicy else [LBCookieStickinessPolicy]),
+      LBCookieStickinessPolicy+: LBCookieStickinessPolicy,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withSourceSecurityGroupGroupName(SourceSecurityGroupGroupName): {
-    assert std.isString(SourceSecurityGroupGroupName) : 'SourceSecurityGroupGroupName must be a string',
+  setSourceSecurityGroupGroupName(SourceSecurityGroupGroupName): {
     Properties+::: {
-      SourceSecurityGroupGroupName: SourceSecurityGroupGroupName,
+      SourceSecurityGroupGroupName:
+        if !std.isString(SourceSecurityGroupGroupName) then (error 'SourceSecurityGroupGroupName must be a string')
+        else if std.isEmpty(SourceSecurityGroupGroupName) then (error 'SourceSecurityGroupGroupName must be not empty')
+        else SourceSecurityGroupGroupName,
     },
   },
-  withConnectionSettings(ConnectionSettings): {
-    assert std.isObject(ConnectionSettings) : 'ConnectionSettings must be a object',
+  setConnectionSettings(ConnectionSettings): {
     Properties+::: {
-      ConnectionSettings: ConnectionSettings,
+      ConnectionSettings:
+        if !std.isObject(ConnectionSettings) then (error 'ConnectionSettings must be an object')
+        else if !std.objectHas(ConnectionSettings, 'IdleTimeout') then (error ' have attribute IdleTimeout')
+        else ConnectionSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,218 +10,286 @@
     Metadata:: [],
     Type: 'AWS::Timestream::InfluxDBInstance',
   },
-  withUsername(Username): {
-    assert std.isString(Username) : 'Username must be a string',
+  setUsername(Username): {
     Properties+::: {
-      Username: Username,
+      Username:
+        if !std.isString(Username) then (error 'Username must be a string')
+        else if std.isEmpty(Username) then (error 'Username must be not empty')
+        else if std.length(Username) < 1 then error ('Username should have at least 1 characters')
+        else if std.length(Username) > 64 then error ('Username should have not more than 64 characters')
+        else Username,
     },
   },
-  withPassword(Password): {
-    assert std.isString(Password) : 'Password must be a string',
+  setPassword(Password): {
     Properties+::: {
-      Password: Password,
+      Password:
+        if !std.isString(Password) then (error 'Password must be a string')
+        else if std.isEmpty(Password) then (error 'Password must be not empty')
+        else if std.length(Password) < 8 then error ('Password should have at least 8 characters')
+        else if std.length(Password) > 64 then error ('Password should have not more than 64 characters')
+        else Password,
     },
   },
-  withOrganization(Organization): {
-    assert std.isString(Organization) : 'Organization must be a string',
+  setOrganization(Organization): {
     Properties+::: {
-      Organization: Organization,
+      Organization:
+        if !std.isString(Organization) then (error 'Organization must be a string')
+        else if std.isEmpty(Organization) then (error 'Organization must be not empty')
+        else if std.length(Organization) < 1 then error ('Organization should have at least 1 characters')
+        else if std.length(Organization) > 64 then error ('Organization should have not more than 64 characters')
+        else Organization,
     },
   },
-  withBucket(Bucket): {
-    assert std.isString(Bucket) : 'Bucket must be a string',
+  setBucket(Bucket): {
     Properties+::: {
-      Bucket: Bucket,
+      Bucket:
+        if !std.isString(Bucket) then (error 'Bucket must be a string')
+        else if std.isEmpty(Bucket) then (error 'Bucket must be not empty')
+        else if std.length(Bucket) < 2 then error ('Bucket should have at least 2 characters')
+        else if std.length(Bucket) > 64 then error ('Bucket should have not more than 64 characters')
+        else Bucket,
     },
   },
-  withDbInstanceType(DbInstanceType): {
-    assert std.isString(DbInstanceType) : 'DbInstanceType must be a string',
-    assert DbInstanceType == 'db.influx.medium' || DbInstanceType == 'db.influx.large' || DbInstanceType == 'db.influx.xlarge' || DbInstanceType == 'db.influx.2xlarge' || DbInstanceType == 'db.influx.4xlarge' || DbInstanceType == 'db.influx.8xlarge' || DbInstanceType == 'db.influx.12xlarge' || DbInstanceType == 'db.influx.16xlarge' : "DbInstanceType should be 'db.influx.medium' or 'db.influx.large' or 'db.influx.xlarge' or 'db.influx.2xlarge' or 'db.influx.4xlarge' or 'db.influx.8xlarge' or 'db.influx.12xlarge' or 'db.influx.16xlarge'",
+  setDbInstanceType(DbInstanceType): {
     Properties+::: {
-      DbInstanceType: DbInstanceType,
+      DbInstanceType:
+        if !std.isString(DbInstanceType) then (error 'DbInstanceType must be a string')
+        else if std.isEmpty(DbInstanceType) then (error 'DbInstanceType must be not empty')
+        else if DbInstanceType != 'db.influx.medium' && DbInstanceType != 'db.influx.large' && DbInstanceType != 'db.influx.xlarge' && DbInstanceType != 'db.influx.2xlarge' && DbInstanceType != 'db.influx.4xlarge' && DbInstanceType != 'db.influx.8xlarge' && DbInstanceType != 'db.influx.12xlarge' && DbInstanceType != 'db.influx.16xlarge' then (error "DbInstanceType should be 'db.influx.medium' or 'db.influx.large' or 'db.influx.xlarge' or 'db.influx.2xlarge' or 'db.influx.4xlarge' or 'db.influx.8xlarge' or 'db.influx.12xlarge' or 'db.influx.16xlarge'")
+        else DbInstanceType,
     },
   },
-  withVpcSubnetIds(VpcSubnetIds): {
+  setVpcSubnetIds(VpcSubnetIds): {
     Properties+::: {
-      VpcSubnetIds: (if std.isArray(VpcSubnetIds) then VpcSubnetIds else [VpcSubnetIds]),
+      VpcSubnetIds:
+        if !std.isArray(VpcSubnetIds) then (error 'VpcSubnetIds must be an array')
+        else if std.length(VpcSubnetIds) < 1 then error ('VpcSubnetIds cannot have less than 1 items')
+        else if std.length(VpcSubnetIds) > 3 then error ('VpcSubnetIds cannot have more than 3 items')
+        else VpcSubnetIds,
     },
   },
-  withVpcSubnetIdsMixin(VpcSubnetIds): {
+  setVpcSubnetIdsMixin(VpcSubnetIds): {
     Properties+::: {
-      VpcSubnetIds+: (if std.isArray(VpcSubnetIds) then VpcSubnetIds else [VpcSubnetIds]),
+      VpcSubnetIds+: VpcSubnetIds,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else if std.length(VpcSecurityGroupIds) < 1 then error ('VpcSecurityGroupIds cannot have less than 1 items')
+        else if std.length(VpcSecurityGroupIds) > 5 then error ('VpcSecurityGroupIds cannot have more than 5 items')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withDbStorageType(DbStorageType): {
-    assert std.isString(DbStorageType) : 'DbStorageType must be a string',
-    assert DbStorageType == 'InfluxIOIncludedT1' || DbStorageType == 'InfluxIOIncludedT2' || DbStorageType == 'InfluxIOIncludedT3' : "DbStorageType should be 'InfluxIOIncludedT1' or 'InfluxIOIncludedT2' or 'InfluxIOIncludedT3'",
+  setDbStorageType(DbStorageType): {
     Properties+::: {
-      DbStorageType: DbStorageType,
+      DbStorageType:
+        if !std.isString(DbStorageType) then (error 'DbStorageType must be a string')
+        else if std.isEmpty(DbStorageType) then (error 'DbStorageType must be not empty')
+        else if DbStorageType != 'InfluxIOIncludedT1' && DbStorageType != 'InfluxIOIncludedT2' && DbStorageType != 'InfluxIOIncludedT3' then (error "DbStorageType should be 'InfluxIOIncludedT1' or 'InfluxIOIncludedT2' or 'InfluxIOIncludedT3'")
+        else DbStorageType,
     },
   },
-  withAllocatedStorage(AllocatedStorage): {
-    assert std.isNumber(AllocatedStorage) : 'AllocatedStorage must be a number',
+  setAllocatedStorage(AllocatedStorage): {
     Properties+::: {
-      AllocatedStorage: AllocatedStorage,
+      AllocatedStorage:
+        if !std.isNumber(AllocatedStorage) then (error 'AllocatedStorage must be an number')
+        else if AllocatedStorage < 20 then error ('AllocatedStorage should be at least 20')
+        else if AllocatedStorage > 16384 then error ('AllocatedStorage should be not more than 16384')
+        else AllocatedStorage,
     },
   },
-  withDbParameterGroupIdentifier(DbParameterGroupIdentifier): {
-    assert std.isString(DbParameterGroupIdentifier) : 'DbParameterGroupIdentifier must be a string',
+  setDbParameterGroupIdentifier(DbParameterGroupIdentifier): {
     Properties+::: {
-      DbParameterGroupIdentifier: DbParameterGroupIdentifier,
+      DbParameterGroupIdentifier:
+        if !std.isString(DbParameterGroupIdentifier) then (error 'DbParameterGroupIdentifier must be a string')
+        else if std.isEmpty(DbParameterGroupIdentifier) then (error 'DbParameterGroupIdentifier must be not empty')
+        else if std.length(DbParameterGroupIdentifier) < 3 then error ('DbParameterGroupIdentifier should have at least 3 characters')
+        else if std.length(DbParameterGroupIdentifier) > 64 then error ('DbParameterGroupIdentifier should have not more than 64 characters')
+        else DbParameterGroupIdentifier,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else if Port < 1024 then error ('Port should be at least 1024')
+        else if Port > 65535 then error ('Port should be not more than 65535')
+        else Port,
     },
   },
-  withLogDeliveryConfiguration(LogDeliveryConfiguration): {
-    assert std.isObject(LogDeliveryConfiguration) : 'LogDeliveryConfiguration must be a object',
+  setLogDeliveryConfiguration(LogDeliveryConfiguration): {
     Properties+::: {
-      LogDeliveryConfiguration: LogDeliveryConfiguration,
+      LogDeliveryConfiguration:
+        if !std.isObject(LogDeliveryConfiguration) then (error 'LogDeliveryConfiguration must be an object')
+        else if !std.objectHas(LogDeliveryConfiguration, 'S3Configuration') then (error ' have attribute S3Configuration')
+        else LogDeliveryConfiguration,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATING' || Status == 'AVAILABLE' || Status == 'DELETING' || Status == 'MODIFYING' || Status == 'UPDATING' || Status == 'UPDATING_DEPLOYMENT_TYPE' || Status == 'UPDATING_INSTANCE_TYPE' || Status == 'DELETED' || Status == 'FAILED' : "Status should be 'CREATING' or 'AVAILABLE' or 'DELETING' or 'MODIFYING' or 'UPDATING' or 'UPDATING_DEPLOYMENT_TYPE' or 'UPDATING_INSTANCE_TYPE' or 'DELETED' or 'FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATING' && Status != 'AVAILABLE' && Status != 'DELETING' && Status != 'MODIFYING' && Status != 'UPDATING' && Status != 'UPDATING_DEPLOYMENT_TYPE' && Status != 'UPDATING_INSTANCE_TYPE' && Status != 'DELETED' && Status != 'FAILED' then (error "Status should be 'CREATING' or 'AVAILABLE' or 'DELETING' or 'MODIFYING' or 'UPDATING' or 'UPDATING_DEPLOYMENT_TYPE' or 'UPDATING_INSTANCE_TYPE' or 'DELETED' or 'FAILED'")
+        else Status,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 1011 then error ('Arn should have not more than 1011 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 3 then error ('Name should have at least 3 characters')
+        else if std.length(Name) > 40 then error ('Name should have not more than 40 characters')
+        else Name,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else AvailabilityZone,
     },
   },
-  withSecondaryAvailabilityZone(SecondaryAvailabilityZone): {
-    assert std.isString(SecondaryAvailabilityZone) : 'SecondaryAvailabilityZone must be a string',
+  setSecondaryAvailabilityZone(SecondaryAvailabilityZone): {
     Properties+::: {
-      SecondaryAvailabilityZone: SecondaryAvailabilityZone,
+      SecondaryAvailabilityZone:
+        if !std.isString(SecondaryAvailabilityZone) then (error 'SecondaryAvailabilityZone must be a string')
+        else if std.isEmpty(SecondaryAvailabilityZone) then (error 'SecondaryAvailabilityZone must be not empty')
+        else SecondaryAvailabilityZone,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withInfluxAuthParametersSecretArn(InfluxAuthParametersSecretArn): {
-    assert std.isString(InfluxAuthParametersSecretArn) : 'InfluxAuthParametersSecretArn must be a string',
+  setInfluxAuthParametersSecretArn(InfluxAuthParametersSecretArn): {
     Properties+::: {
-      InfluxAuthParametersSecretArn: InfluxAuthParametersSecretArn,
+      InfluxAuthParametersSecretArn:
+        if !std.isString(InfluxAuthParametersSecretArn) then (error 'InfluxAuthParametersSecretArn must be a string')
+        else if std.isEmpty(InfluxAuthParametersSecretArn) then (error 'InfluxAuthParametersSecretArn must be not empty')
+        else InfluxAuthParametersSecretArn,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 3 then error ('Id should have at least 3 characters')
+        else if std.length(Id) > 64 then error ('Id should have not more than 64 characters')
+        else Id,
     },
   },
-  withDeploymentType(DeploymentType): {
-    assert std.isString(DeploymentType) : 'DeploymentType must be a string',
-    assert DeploymentType == 'SINGLE_AZ' || DeploymentType == 'WITH_MULTIAZ_STANDBY' : "DeploymentType should be 'SINGLE_AZ' or 'WITH_MULTIAZ_STANDBY'",
+  setDeploymentType(DeploymentType): {
     Properties+::: {
-      DeploymentType: DeploymentType,
+      DeploymentType:
+        if !std.isString(DeploymentType) then (error 'DeploymentType must be a string')
+        else if std.isEmpty(DeploymentType) then (error 'DeploymentType must be not empty')
+        else if DeploymentType != 'SINGLE_AZ' && DeploymentType != 'WITH_MULTIAZ_STANDBY' then (error "DeploymentType should be 'SINGLE_AZ' or 'WITH_MULTIAZ_STANDBY'")
+        else DeploymentType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

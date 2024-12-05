@@ -6,12 +6,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FlywheelName) : 'FlywheelName must be a string',
-      FlywheelName: FlywheelName,
-      assert std.isString(DataAccessRoleArn) : 'DataAccessRoleArn must be a string',
-      DataAccessRoleArn: DataAccessRoleArn,
-      assert std.isString(DataLakeS3Uri) : 'DataLakeS3Uri must be a string',
-      DataLakeS3Uri: DataLakeS3Uri,
+      FlywheelName:
+        if !std.isString(FlywheelName) then (error 'FlywheelName must be a string')
+        else if std.isEmpty(FlywheelName) then (error 'FlywheelName must be not empty')
+        else if std.length(FlywheelName) < 1 then error ('FlywheelName should have at least 1 characters')
+        else if std.length(FlywheelName) > 63 then error ('FlywheelName should have not more than 63 characters')
+        else FlywheelName,
+      DataAccessRoleArn:
+        if !std.isString(DataAccessRoleArn) then (error 'DataAccessRoleArn must be a string')
+        else if std.isEmpty(DataAccessRoleArn) then (error 'DataAccessRoleArn must be not empty')
+        else if std.length(DataAccessRoleArn) < 20 then error ('DataAccessRoleArn should have at least 20 characters')
+        else if std.length(DataAccessRoleArn) > 2048 then error ('DataAccessRoleArn should have not more than 2048 characters')
+        else DataAccessRoleArn,
+      DataLakeS3Uri:
+        if !std.isString(DataLakeS3Uri) then (error 'DataLakeS3Uri must be a string')
+        else if std.isEmpty(DataLakeS3Uri) then (error 'DataLakeS3Uri must be not empty')
+        else if std.length(DataLakeS3Uri) > 512 then error ('DataLakeS3Uri should have not more than 512 characters')
+        else DataLakeS3Uri,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,105 +32,119 @@
     Metadata:: [],
     Type: 'AWS::Comprehend::Flywheel',
   },
-  withActiveModelArn(ActiveModelArn): {
-    assert std.isString(ActiveModelArn) : 'ActiveModelArn must be a string',
+  setActiveModelArn(ActiveModelArn): {
     Properties+::: {
-      ActiveModelArn: ActiveModelArn,
+      ActiveModelArn:
+        if !std.isString(ActiveModelArn) then (error 'ActiveModelArn must be a string')
+        else if std.isEmpty(ActiveModelArn) then (error 'ActiveModelArn must be not empty')
+        else if std.length(ActiveModelArn) > 256 then error ('ActiveModelArn should have not more than 256 characters')
+        else ActiveModelArn,
     },
   },
-  withDataSecurityConfig(DataSecurityConfig): {
-    assert std.isObject(DataSecurityConfig) : 'DataSecurityConfig must be a object',
+  setDataSecurityConfig(DataSecurityConfig): {
     Properties+::: {
-      DataSecurityConfig: DataSecurityConfig,
+      DataSecurityConfig:
+        if !std.isObject(DataSecurityConfig) then (error 'DataSecurityConfig must be an object')
+        else DataSecurityConfig,
     },
   },
-  withModelType(ModelType): {
-    assert std.isString(ModelType) : 'ModelType must be a string',
-    assert ModelType == 'DOCUMENT_CLASSIFIER' || ModelType == 'ENTITY_RECOGNIZER' : "ModelType should be 'DOCUMENT_CLASSIFIER' or 'ENTITY_RECOGNIZER'",
+  setModelType(ModelType): {
     Properties+::: {
-      ModelType: ModelType,
+      ModelType:
+        if !std.isString(ModelType) then (error 'ModelType must be a string')
+        else if std.isEmpty(ModelType) then (error 'ModelType must be not empty')
+        else if ModelType != 'DOCUMENT_CLASSIFIER' && ModelType != 'ENTITY_RECOGNIZER' then (error "ModelType should be 'DOCUMENT_CLASSIFIER' or 'ENTITY_RECOGNIZER'")
+        else ModelType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTaskConfig(TaskConfig): {
-    assert std.isObject(TaskConfig) : 'TaskConfig must be a object',
+  setTaskConfig(TaskConfig): {
     Properties+::: {
-      TaskConfig: TaskConfig,
+      TaskConfig:
+        if !std.isObject(TaskConfig) then (error 'TaskConfig must be an object')
+        else if !std.objectHas(TaskConfig, 'LanguageCode') then (error ' have attribute LanguageCode')
+        else TaskConfig,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 256 then error ('Arn should have not more than 256 characters')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

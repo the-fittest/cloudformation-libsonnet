@@ -7,14 +7,28 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(MaxUnits) : 'MaxUnits must be a number',
-      MaxUnits: MaxUnits,
-      assert std.isNumber(MinUnits) : 'MinUnits must be a number',
-      MinUnits: MinUnits,
-      assert std.isString(PipelineConfigurationBody) : 'PipelineConfigurationBody must be a string',
-      PipelineConfigurationBody: PipelineConfigurationBody,
-      assert std.isString(PipelineName) : 'PipelineName must be a string',
-      PipelineName: PipelineName,
+      MaxUnits:
+        if !std.isNumber(MaxUnits) then (error 'MaxUnits must be an number')
+        else if MaxUnits < 1 then error ('MaxUnits should be at least 1')
+        else if MaxUnits > 384 then error ('MaxUnits should be not more than 384')
+        else MaxUnits,
+      MinUnits:
+        if !std.isNumber(MinUnits) then (error 'MinUnits must be an number')
+        else if MinUnits < 1 then error ('MinUnits should be at least 1')
+        else if MinUnits > 384 then error ('MinUnits should be not more than 384')
+        else MinUnits,
+      PipelineConfigurationBody:
+        if !std.isString(PipelineConfigurationBody) then (error 'PipelineConfigurationBody must be a string')
+        else if std.isEmpty(PipelineConfigurationBody) then (error 'PipelineConfigurationBody must be not empty')
+        else if std.length(PipelineConfigurationBody) < 1 then error ('PipelineConfigurationBody should have at least 1 characters')
+        else if std.length(PipelineConfigurationBody) > 24000 then error ('PipelineConfigurationBody should have not more than 24000 characters')
+        else PipelineConfigurationBody,
+      PipelineName:
+        if !std.isString(PipelineName) then (error 'PipelineName must be a string')
+        else if std.isEmpty(PipelineName) then (error 'PipelineName must be not empty')
+        else if std.length(PipelineName) < 3 then error ('PipelineName should have at least 3 characters')
+        else if std.length(PipelineName) > 28 then error ('PipelineName should have not more than 28 characters')
+        else PipelineName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,130 +38,151 @@
     Metadata:: [],
     Type: 'AWS::OSIS::Pipeline',
   },
-  withBufferOptions(BufferOptions): {
-    assert std.isObject(BufferOptions) : 'BufferOptions must be a object',
+  setBufferOptions(BufferOptions): {
     Properties+::: {
-      BufferOptions: BufferOptions,
+      BufferOptions:
+        if !std.isObject(BufferOptions) then (error 'BufferOptions must be an object')
+        else if !std.objectHas(BufferOptions, 'PersistentBufferEnabled') then (error ' have attribute PersistentBufferEnabled')
+        else BufferOptions,
     },
   },
-  withEncryptionAtRestOptions(EncryptionAtRestOptions): {
-    assert std.isObject(EncryptionAtRestOptions) : 'EncryptionAtRestOptions must be a object',
+  setEncryptionAtRestOptions(EncryptionAtRestOptions): {
     Properties+::: {
-      EncryptionAtRestOptions: EncryptionAtRestOptions,
+      EncryptionAtRestOptions:
+        if !std.isObject(EncryptionAtRestOptions) then (error 'EncryptionAtRestOptions must be an object')
+        else if !std.objectHas(EncryptionAtRestOptions, 'KmsKeyArn') then (error ' have attribute KmsKeyArn')
+        else EncryptionAtRestOptions,
     },
   },
-  withLogPublishingOptions(LogPublishingOptions): {
-    assert std.isObject(LogPublishingOptions) : 'LogPublishingOptions must be a object',
+  setLogPublishingOptions(LogPublishingOptions): {
     Properties+::: {
-      LogPublishingOptions: LogPublishingOptions,
+      LogPublishingOptions:
+        if !std.isObject(LogPublishingOptions) then (error 'LogPublishingOptions must be an object')
+        else LogPublishingOptions,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVpcOptions(VpcOptions): {
-    assert std.isObject(VpcOptions) : 'VpcOptions must be a object',
+  setVpcOptions(VpcOptions): {
     Properties+::: {
-      VpcOptions: VpcOptions,
+      VpcOptions:
+        if !std.isObject(VpcOptions) then (error 'VpcOptions must be an object')
+        else if !std.objectHas(VpcOptions, 'SubnetIds') then (error ' have attribute SubnetIds')
+        else VpcOptions,
     },
   },
-  withVpcEndpoints(VpcEndpoints): {
+  setVpcEndpoints(VpcEndpoints): {
     Properties+::: {
-      VpcEndpoints: (if std.isArray(VpcEndpoints) then VpcEndpoints else [VpcEndpoints]),
+      VpcEndpoints:
+        if !std.isArray(VpcEndpoints) then (error 'VpcEndpoints must be an array')
+        else VpcEndpoints,
     },
   },
-  withVpcEndpointsMixin(VpcEndpoints): {
+  setVpcEndpointsMixin(VpcEndpoints): {
     Properties+::: {
-      VpcEndpoints+: (if std.isArray(VpcEndpoints) then VpcEndpoints else [VpcEndpoints]),
+      VpcEndpoints+: VpcEndpoints,
     },
   },
-  withVpcEndpointService(VpcEndpointService): {
-    assert std.isString(VpcEndpointService) : 'VpcEndpointService must be a string',
+  setVpcEndpointService(VpcEndpointService): {
     Properties+::: {
-      VpcEndpointService: VpcEndpointService,
+      VpcEndpointService:
+        if !std.isString(VpcEndpointService) then (error 'VpcEndpointService must be a string')
+        else if std.isEmpty(VpcEndpointService) then (error 'VpcEndpointService must be not empty')
+        else if std.length(VpcEndpointService) < 1 then error ('VpcEndpointService should have at least 1 characters')
+        else if std.length(VpcEndpointService) > 128 then error ('VpcEndpointService should have not more than 128 characters')
+        else VpcEndpointService,
     },
   },
-  withPipelineArn(PipelineArn): {
-    assert std.isString(PipelineArn) : 'PipelineArn must be a string',
+  setPipelineArn(PipelineArn): {
     Properties+::: {
-      PipelineArn: PipelineArn,
+      PipelineArn:
+        if !std.isString(PipelineArn) then (error 'PipelineArn must be a string')
+        else if std.isEmpty(PipelineArn) then (error 'PipelineArn must be not empty')
+        else if std.length(PipelineArn) < 46 then error ('PipelineArn should have at least 46 characters')
+        else if std.length(PipelineArn) > 76 then error ('PipelineArn should have not more than 76 characters')
+        else PipelineArn,
     },
   },
-  withIngestEndpointUrls(IngestEndpointUrls): {
+  setIngestEndpointUrls(IngestEndpointUrls): {
     Properties+::: {
-      IngestEndpointUrls: (if std.isArray(IngestEndpointUrls) then IngestEndpointUrls else [IngestEndpointUrls]),
+      IngestEndpointUrls:
+        if !std.isArray(IngestEndpointUrls) then (error 'IngestEndpointUrls must be an array')
+        else IngestEndpointUrls,
     },
   },
-  withIngestEndpointUrlsMixin(IngestEndpointUrls): {
+  setIngestEndpointUrlsMixin(IngestEndpointUrls): {
     Properties+::: {
-      IngestEndpointUrls+: (if std.isArray(IngestEndpointUrls) then IngestEndpointUrls else [IngestEndpointUrls]),
+      IngestEndpointUrls+: IngestEndpointUrls,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

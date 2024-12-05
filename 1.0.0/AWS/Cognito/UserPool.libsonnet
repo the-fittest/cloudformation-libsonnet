@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,283 +10,356 @@
     Metadata:: [],
     Type: 'AWS::Cognito::UserPool',
   },
-  withUserPoolName(UserPoolName): {
-    assert std.isString(UserPoolName) : 'UserPoolName must be a string',
+  setUserPoolName(UserPoolName): {
     Properties+::: {
-      UserPoolName: UserPoolName,
+      UserPoolName:
+        if !std.isString(UserPoolName) then (error 'UserPoolName must be a string')
+        else if std.isEmpty(UserPoolName) then (error 'UserPoolName must be not empty')
+        else if std.length(UserPoolName) < 1 then error ('UserPoolName should have at least 1 characters')
+        else if std.length(UserPoolName) > 128 then error ('UserPoolName should have not more than 128 characters')
+        else UserPoolName,
     },
   },
-  withPolicies(Policies): {
-    assert std.isObject(Policies) : 'Policies must be a object',
+  setPolicies(Policies): {
     Properties+::: {
-      Policies: Policies,
+      Policies:
+        if !std.isObject(Policies) then (error 'Policies must be an object')
+        else Policies,
     },
   },
-  withAccountRecoverySetting(AccountRecoverySetting): {
-    assert std.isObject(AccountRecoverySetting) : 'AccountRecoverySetting must be a object',
+  setAccountRecoverySetting(AccountRecoverySetting): {
     Properties+::: {
-      AccountRecoverySetting: AccountRecoverySetting,
+      AccountRecoverySetting:
+        if !std.isObject(AccountRecoverySetting) then (error 'AccountRecoverySetting must be an object')
+        else AccountRecoverySetting,
     },
   },
-  withAdminCreateUserConfig(AdminCreateUserConfig): {
-    assert std.isObject(AdminCreateUserConfig) : 'AdminCreateUserConfig must be a object',
+  setAdminCreateUserConfig(AdminCreateUserConfig): {
     Properties+::: {
-      AdminCreateUserConfig: AdminCreateUserConfig,
+      AdminCreateUserConfig:
+        if !std.isObject(AdminCreateUserConfig) then (error 'AdminCreateUserConfig must be an object')
+        else AdminCreateUserConfig,
     },
   },
-  withAliasAttributes(AliasAttributes): {
+  setAliasAttributes(AliasAttributes): {
     Properties+::: {
-      AliasAttributes: (if std.isArray(AliasAttributes) then AliasAttributes else [AliasAttributes]),
+      AliasAttributes:
+        if !std.isArray(AliasAttributes) then (error 'AliasAttributes must be an array')
+        else AliasAttributes,
     },
   },
-  withAliasAttributesMixin(AliasAttributes): {
+  setAliasAttributesMixin(AliasAttributes): {
     Properties+::: {
-      AliasAttributes+: (if std.isArray(AliasAttributes) then AliasAttributes else [AliasAttributes]),
+      AliasAttributes+: AliasAttributes,
     },
   },
-  withUsernameAttributes(UsernameAttributes): {
+  setUsernameAttributes(UsernameAttributes): {
     Properties+::: {
-      UsernameAttributes: (if std.isArray(UsernameAttributes) then UsernameAttributes else [UsernameAttributes]),
+      UsernameAttributes:
+        if !std.isArray(UsernameAttributes) then (error 'UsernameAttributes must be an array')
+        else UsernameAttributes,
     },
   },
-  withUsernameAttributesMixin(UsernameAttributes): {
+  setUsernameAttributesMixin(UsernameAttributes): {
     Properties+::: {
-      UsernameAttributes+: (if std.isArray(UsernameAttributes) then UsernameAttributes else [UsernameAttributes]),
+      UsernameAttributes+: UsernameAttributes,
     },
   },
-  withAutoVerifiedAttributes(AutoVerifiedAttributes): {
+  setAutoVerifiedAttributes(AutoVerifiedAttributes): {
     Properties+::: {
-      AutoVerifiedAttributes: (if std.isArray(AutoVerifiedAttributes) then AutoVerifiedAttributes else [AutoVerifiedAttributes]),
+      AutoVerifiedAttributes:
+        if !std.isArray(AutoVerifiedAttributes) then (error 'AutoVerifiedAttributes must be an array')
+        else AutoVerifiedAttributes,
     },
   },
-  withAutoVerifiedAttributesMixin(AutoVerifiedAttributes): {
+  setAutoVerifiedAttributesMixin(AutoVerifiedAttributes): {
     Properties+::: {
-      AutoVerifiedAttributes+: (if std.isArray(AutoVerifiedAttributes) then AutoVerifiedAttributes else [AutoVerifiedAttributes]),
+      AutoVerifiedAttributes+: AutoVerifiedAttributes,
     },
   },
-  withDeviceConfiguration(DeviceConfiguration): {
-    assert std.isObject(DeviceConfiguration) : 'DeviceConfiguration must be a object',
+  setDeviceConfiguration(DeviceConfiguration): {
     Properties+::: {
-      DeviceConfiguration: DeviceConfiguration,
+      DeviceConfiguration:
+        if !std.isObject(DeviceConfiguration) then (error 'DeviceConfiguration must be an object')
+        else DeviceConfiguration,
     },
   },
-  withEmailConfiguration(EmailConfiguration): {
-    assert std.isObject(EmailConfiguration) : 'EmailConfiguration must be a object',
+  setEmailConfiguration(EmailConfiguration): {
     Properties+::: {
-      EmailConfiguration: EmailConfiguration,
+      EmailConfiguration:
+        if !std.isObject(EmailConfiguration) then (error 'EmailConfiguration must be an object')
+        else EmailConfiguration,
     },
   },
-  withEmailVerificationMessage(EmailVerificationMessage): {
-    assert std.isString(EmailVerificationMessage) : 'EmailVerificationMessage must be a string',
+  setEmailVerificationMessage(EmailVerificationMessage): {
     Properties+::: {
-      EmailVerificationMessage: EmailVerificationMessage,
+      EmailVerificationMessage:
+        if !std.isString(EmailVerificationMessage) then (error 'EmailVerificationMessage must be a string')
+        else if std.isEmpty(EmailVerificationMessage) then (error 'EmailVerificationMessage must be not empty')
+        else if std.length(EmailVerificationMessage) < 6 then error ('EmailVerificationMessage should have at least 6 characters')
+        else if std.length(EmailVerificationMessage) > 20000 then error ('EmailVerificationMessage should have not more than 20000 characters')
+        else EmailVerificationMessage,
     },
   },
-  withEmailVerificationSubject(EmailVerificationSubject): {
-    assert std.isString(EmailVerificationSubject) : 'EmailVerificationSubject must be a string',
+  setEmailVerificationSubject(EmailVerificationSubject): {
     Properties+::: {
-      EmailVerificationSubject: EmailVerificationSubject,
+      EmailVerificationSubject:
+        if !std.isString(EmailVerificationSubject) then (error 'EmailVerificationSubject must be a string')
+        else if std.isEmpty(EmailVerificationSubject) then (error 'EmailVerificationSubject must be not empty')
+        else if std.length(EmailVerificationSubject) < 1 then error ('EmailVerificationSubject should have at least 1 characters')
+        else if std.length(EmailVerificationSubject) > 140 then error ('EmailVerificationSubject should have not more than 140 characters')
+        else EmailVerificationSubject,
     },
   },
-  withDeletionProtection(DeletionProtection): {
-    assert std.isString(DeletionProtection) : 'DeletionProtection must be a string',
+  setDeletionProtection(DeletionProtection): {
     Properties+::: {
-      DeletionProtection: DeletionProtection,
+      DeletionProtection:
+        if !std.isString(DeletionProtection) then (error 'DeletionProtection must be a string')
+        else if std.isEmpty(DeletionProtection) then (error 'DeletionProtection must be not empty')
+        else DeletionProtection,
     },
   },
-  withLambdaConfig(LambdaConfig): {
-    assert std.isObject(LambdaConfig) : 'LambdaConfig must be a object',
+  setLambdaConfig(LambdaConfig): {
     Properties+::: {
-      LambdaConfig: LambdaConfig,
+      LambdaConfig:
+        if !std.isObject(LambdaConfig) then (error 'LambdaConfig must be an object')
+        else LambdaConfig,
     },
   },
-  withMfaConfiguration(MfaConfiguration): {
-    assert std.isString(MfaConfiguration) : 'MfaConfiguration must be a string',
+  setMfaConfiguration(MfaConfiguration): {
     Properties+::: {
-      MfaConfiguration: MfaConfiguration,
+      MfaConfiguration:
+        if !std.isString(MfaConfiguration) then (error 'MfaConfiguration must be a string')
+        else if std.isEmpty(MfaConfiguration) then (error 'MfaConfiguration must be not empty')
+        else MfaConfiguration,
     },
   },
-  withEnabledMfas(EnabledMfas): {
+  setEnabledMfas(EnabledMfas): {
     Properties+::: {
-      EnabledMfas: (if std.isArray(EnabledMfas) then EnabledMfas else [EnabledMfas]),
+      EnabledMfas:
+        if !std.isArray(EnabledMfas) then (error 'EnabledMfas must be an array')
+        else EnabledMfas,
     },
   },
-  withEnabledMfasMixin(EnabledMfas): {
+  setEnabledMfasMixin(EnabledMfas): {
     Properties+::: {
-      EnabledMfas+: (if std.isArray(EnabledMfas) then EnabledMfas else [EnabledMfas]),
+      EnabledMfas+: EnabledMfas,
     },
   },
-  withSmsAuthenticationMessage(SmsAuthenticationMessage): {
-    assert std.isString(SmsAuthenticationMessage) : 'SmsAuthenticationMessage must be a string',
+  setSmsAuthenticationMessage(SmsAuthenticationMessage): {
     Properties+::: {
-      SmsAuthenticationMessage: SmsAuthenticationMessage,
+      SmsAuthenticationMessage:
+        if !std.isString(SmsAuthenticationMessage) then (error 'SmsAuthenticationMessage must be a string')
+        else if std.isEmpty(SmsAuthenticationMessage) then (error 'SmsAuthenticationMessage must be not empty')
+        else if std.length(SmsAuthenticationMessage) < 6 then error ('SmsAuthenticationMessage should have at least 6 characters')
+        else if std.length(SmsAuthenticationMessage) > 140 then error ('SmsAuthenticationMessage should have not more than 140 characters')
+        else SmsAuthenticationMessage,
     },
   },
-  withEmailAuthenticationMessage(EmailAuthenticationMessage): {
-    assert std.isString(EmailAuthenticationMessage) : 'EmailAuthenticationMessage must be a string',
+  setEmailAuthenticationMessage(EmailAuthenticationMessage): {
     Properties+::: {
-      EmailAuthenticationMessage: EmailAuthenticationMessage,
+      EmailAuthenticationMessage:
+        if !std.isString(EmailAuthenticationMessage) then (error 'EmailAuthenticationMessage must be a string')
+        else if std.isEmpty(EmailAuthenticationMessage) then (error 'EmailAuthenticationMessage must be not empty')
+        else if std.length(EmailAuthenticationMessage) < 6 then error ('EmailAuthenticationMessage should have at least 6 characters')
+        else if std.length(EmailAuthenticationMessage) > 20000 then error ('EmailAuthenticationMessage should have not more than 20000 characters')
+        else EmailAuthenticationMessage,
     },
   },
-  withEmailAuthenticationSubject(EmailAuthenticationSubject): {
-    assert std.isString(EmailAuthenticationSubject) : 'EmailAuthenticationSubject must be a string',
+  setEmailAuthenticationSubject(EmailAuthenticationSubject): {
     Properties+::: {
-      EmailAuthenticationSubject: EmailAuthenticationSubject,
+      EmailAuthenticationSubject:
+        if !std.isString(EmailAuthenticationSubject) then (error 'EmailAuthenticationSubject must be a string')
+        else if std.isEmpty(EmailAuthenticationSubject) then (error 'EmailAuthenticationSubject must be not empty')
+        else if std.length(EmailAuthenticationSubject) < 1 then error ('EmailAuthenticationSubject should have at least 1 characters')
+        else if std.length(EmailAuthenticationSubject) > 140 then error ('EmailAuthenticationSubject should have not more than 140 characters')
+        else EmailAuthenticationSubject,
     },
   },
-  withSmsConfiguration(SmsConfiguration): {
-    assert std.isObject(SmsConfiguration) : 'SmsConfiguration must be a object',
+  setSmsConfiguration(SmsConfiguration): {
     Properties+::: {
-      SmsConfiguration: SmsConfiguration,
+      SmsConfiguration:
+        if !std.isObject(SmsConfiguration) then (error 'SmsConfiguration must be an object')
+        else SmsConfiguration,
     },
   },
-  withSmsVerificationMessage(SmsVerificationMessage): {
-    assert std.isString(SmsVerificationMessage) : 'SmsVerificationMessage must be a string',
+  setSmsVerificationMessage(SmsVerificationMessage): {
     Properties+::: {
-      SmsVerificationMessage: SmsVerificationMessage,
+      SmsVerificationMessage:
+        if !std.isString(SmsVerificationMessage) then (error 'SmsVerificationMessage must be a string')
+        else if std.isEmpty(SmsVerificationMessage) then (error 'SmsVerificationMessage must be not empty')
+        else if std.length(SmsVerificationMessage) < 6 then error ('SmsVerificationMessage should have at least 6 characters')
+        else if std.length(SmsVerificationMessage) > 140 then error ('SmsVerificationMessage should have not more than 140 characters')
+        else SmsVerificationMessage,
     },
   },
-  withWebAuthnRelyingPartyID(WebAuthnRelyingPartyID): {
-    assert std.isString(WebAuthnRelyingPartyID) : 'WebAuthnRelyingPartyID must be a string',
+  setWebAuthnRelyingPartyID(WebAuthnRelyingPartyID): {
     Properties+::: {
-      WebAuthnRelyingPartyID: WebAuthnRelyingPartyID,
+      WebAuthnRelyingPartyID:
+        if !std.isString(WebAuthnRelyingPartyID) then (error 'WebAuthnRelyingPartyID must be a string')
+        else if std.isEmpty(WebAuthnRelyingPartyID) then (error 'WebAuthnRelyingPartyID must be not empty')
+        else if std.length(WebAuthnRelyingPartyID) < 1 then error ('WebAuthnRelyingPartyID should have at least 1 characters')
+        else if std.length(WebAuthnRelyingPartyID) > 63 then error ('WebAuthnRelyingPartyID should have not more than 63 characters')
+        else WebAuthnRelyingPartyID,
     },
   },
-  withWebAuthnUserVerification(WebAuthnUserVerification): {
-    assert std.isString(WebAuthnUserVerification) : 'WebAuthnUserVerification must be a string',
+  setWebAuthnUserVerification(WebAuthnUserVerification): {
     Properties+::: {
-      WebAuthnUserVerification: WebAuthnUserVerification,
+      WebAuthnUserVerification:
+        if !std.isString(WebAuthnUserVerification) then (error 'WebAuthnUserVerification must be a string')
+        else if std.isEmpty(WebAuthnUserVerification) then (error 'WebAuthnUserVerification must be not empty')
+        else if std.length(WebAuthnUserVerification) < 1 then error ('WebAuthnUserVerification should have at least 1 characters')
+        else if std.length(WebAuthnUserVerification) > 9 then error ('WebAuthnUserVerification should have not more than 9 characters')
+        else WebAuthnUserVerification,
     },
   },
-  withSchema(Schema): {
+  setSchema(Schema): {
     Properties+::: {
-      Schema: (if std.isArray(Schema) then Schema else [Schema]),
+      Schema:
+        if !std.isArray(Schema) then (error 'Schema must be an array')
+        else Schema,
     },
   },
-  withSchemaMixin(Schema): {
+  setSchemaMixin(Schema): {
     Properties+::: {
-      Schema+: (if std.isArray(Schema) then Schema else [Schema]),
+      Schema+: Schema,
     },
   },
-  withUsernameConfiguration(UsernameConfiguration): {
-    assert std.isObject(UsernameConfiguration) : 'UsernameConfiguration must be a object',
+  setUsernameConfiguration(UsernameConfiguration): {
     Properties+::: {
-      UsernameConfiguration: UsernameConfiguration,
+      UsernameConfiguration:
+        if !std.isObject(UsernameConfiguration) then (error 'UsernameConfiguration must be an object')
+        else UsernameConfiguration,
     },
   },
-  withUserAttributeUpdateSettings(UserAttributeUpdateSettings): {
-    assert std.isObject(UserAttributeUpdateSettings) : 'UserAttributeUpdateSettings must be a object',
+  setUserAttributeUpdateSettings(UserAttributeUpdateSettings): {
     Properties+::: {
-      UserAttributeUpdateSettings: UserAttributeUpdateSettings,
+      UserAttributeUpdateSettings:
+        if !std.isObject(UserAttributeUpdateSettings) then (error 'UserAttributeUpdateSettings must be an object')
+        else if !std.objectHas(UserAttributeUpdateSettings, 'AttributesRequireVerificationBeforeUpdate') then (error ' have attribute AttributesRequireVerificationBeforeUpdate')
+        else UserAttributeUpdateSettings,
     },
   },
-  withUserPoolTags(UserPoolTags): {
-    assert std.isObject(UserPoolTags) : 'UserPoolTags must be a object',
+  setUserPoolTags(UserPoolTags): {
     Properties+::: {
-      UserPoolTags: UserPoolTags,
+      UserPoolTags:
+        if !std.isObject(UserPoolTags) then (error 'UserPoolTags must be an object')
+        else UserPoolTags,
     },
   },
-  withVerificationMessageTemplate(VerificationMessageTemplate): {
-    assert std.isObject(VerificationMessageTemplate) : 'VerificationMessageTemplate must be a object',
+  setVerificationMessageTemplate(VerificationMessageTemplate): {
     Properties+::: {
-      VerificationMessageTemplate: VerificationMessageTemplate,
+      VerificationMessageTemplate:
+        if !std.isObject(VerificationMessageTemplate) then (error 'VerificationMessageTemplate must be an object')
+        else VerificationMessageTemplate,
     },
   },
-  withUserPoolAddOns(UserPoolAddOns): {
-    assert std.isObject(UserPoolAddOns) : 'UserPoolAddOns must be a object',
+  setUserPoolAddOns(UserPoolAddOns): {
     Properties+::: {
-      UserPoolAddOns: UserPoolAddOns,
+      UserPoolAddOns:
+        if !std.isObject(UserPoolAddOns) then (error 'UserPoolAddOns must be an object')
+        else UserPoolAddOns,
     },
   },
-  withProviderName(ProviderName): {
-    assert std.isString(ProviderName) : 'ProviderName must be a string',
+  setProviderName(ProviderName): {
     Properties+::: {
-      ProviderName: ProviderName,
+      ProviderName:
+        if !std.isString(ProviderName) then (error 'ProviderName must be a string')
+        else if std.isEmpty(ProviderName) then (error 'ProviderName must be not empty')
+        else ProviderName,
     },
   },
-  withProviderURL(ProviderURL): {
-    assert std.isString(ProviderURL) : 'ProviderURL must be a string',
+  setProviderURL(ProviderURL): {
     Properties+::: {
-      ProviderURL: ProviderURL,
+      ProviderURL:
+        if !std.isString(ProviderURL) then (error 'ProviderURL must be a string')
+        else if std.isEmpty(ProviderURL) then (error 'ProviderURL must be not empty')
+        else ProviderURL,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withUserPoolId(UserPoolId): {
-    assert std.isString(UserPoolId) : 'UserPoolId must be a string',
+  setUserPoolId(UserPoolId): {
     Properties+::: {
-      UserPoolId: UserPoolId,
+      UserPoolId:
+        if !std.isString(UserPoolId) then (error 'UserPoolId must be a string')
+        else if std.isEmpty(UserPoolId) then (error 'UserPoolId must be not empty')
+        else UserPoolId,
     },
   },
-  withUserPoolTier(UserPoolTier): {
-    assert std.isString(UserPoolTier) : 'UserPoolTier must be a string',
-    assert UserPoolTier == 'LITE' || UserPoolTier == 'ESSENTIALS' || UserPoolTier == 'PLUS' : "UserPoolTier should be 'LITE' or 'ESSENTIALS' or 'PLUS'",
+  setUserPoolTier(UserPoolTier): {
     Properties+::: {
-      UserPoolTier: UserPoolTier,
+      UserPoolTier:
+        if !std.isString(UserPoolTier) then (error 'UserPoolTier must be a string')
+        else if std.isEmpty(UserPoolTier) then (error 'UserPoolTier must be not empty')
+        else if UserPoolTier != 'LITE' && UserPoolTier != 'ESSENTIALS' && UserPoolTier != 'PLUS' then (error "UserPoolTier should be 'LITE' or 'ESSENTIALS' or 'PLUS'")
+        else UserPoolTier,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

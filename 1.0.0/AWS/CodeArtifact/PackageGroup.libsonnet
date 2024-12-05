@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Pattern) : 'Pattern must be a string',
-      Pattern: Pattern,
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
+      Pattern:
+        if !std.isString(Pattern) then (error 'Pattern must be a string')
+        else if std.isEmpty(Pattern) then (error 'Pattern must be not empty')
+        else if std.length(Pattern) < 2 then error ('Pattern should have at least 2 characters')
+        else if std.length(Pattern) > 520 then error ('Pattern should have not more than 520 characters')
+        else Pattern,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 2 then error ('DomainName should have at least 2 characters')
+        else if std.length(DomainName) > 50 then error ('DomainName should have not more than 50 characters')
+        else DomainName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,104 +26,120 @@
     Metadata:: [],
     Type: 'AWS::CodeArtifact::PackageGroup',
   },
-  withDomainOwner(DomainOwner): {
-    assert std.isString(DomainOwner) : 'DomainOwner must be a string',
+  setDomainOwner(DomainOwner): {
     Properties+::: {
-      DomainOwner: DomainOwner,
+      DomainOwner:
+        if !std.isString(DomainOwner) then (error 'DomainOwner must be a string')
+        else if std.isEmpty(DomainOwner) then (error 'DomainOwner must be not empty')
+        else DomainOwner,
     },
   },
-  withContactInfo(ContactInfo): {
-    assert std.isString(ContactInfo) : 'ContactInfo must be a string',
+  setContactInfo(ContactInfo): {
     Properties+::: {
-      ContactInfo: ContactInfo,
+      ContactInfo:
+        if !std.isString(ContactInfo) then (error 'ContactInfo must be a string')
+        else if std.isEmpty(ContactInfo) then (error 'ContactInfo must be not empty')
+        else if std.length(ContactInfo) > 1000 then error ('ContactInfo should have not more than 1000 characters')
+        else ContactInfo,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withOriginConfiguration(OriginConfiguration): {
-    assert std.isObject(OriginConfiguration) : 'OriginConfiguration must be a object',
+  setOriginConfiguration(OriginConfiguration): {
     Properties+::: {
-      OriginConfiguration: OriginConfiguration,
+      OriginConfiguration:
+        if !std.isObject(OriginConfiguration) then (error 'OriginConfiguration must be an object')
+        else if !std.objectHas(OriginConfiguration, 'Restrictions') then (error ' have attribute Restrictions')
+        else OriginConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

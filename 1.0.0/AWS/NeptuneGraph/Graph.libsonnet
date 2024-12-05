@@ -4,8 +4,9 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(ProvisionedMemory) : 'ProvisionedMemory must be a number',
-      ProvisionedMemory: ProvisionedMemory,
+      ProvisionedMemory:
+        if !std.isNumber(ProvisionedMemory) then (error 'ProvisionedMemory must be an number')
+        else ProvisionedMemory,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,122 +16,138 @@
     Metadata:: [],
     Type: 'AWS::NeptuneGraph::Graph',
   },
-  withDeletionProtection(DeletionProtection): {
-    assert std.isBoolean(DeletionProtection) : 'DeletionProtection must be a boolean',
+  setDeletionProtection(DeletionProtection): {
     Properties+::: {
-      DeletionProtection: DeletionProtection,
+      DeletionProtection:
+        if !std.isBoolean(DeletionProtection) then (error 'DeletionProtection must be a boolean') else DeletionProtection,
     },
   },
-  withGraphName(GraphName): {
-    assert std.isString(GraphName) : 'GraphName must be a string',
+  setGraphName(GraphName): {
     Properties+::: {
-      GraphName: GraphName,
+      GraphName:
+        if !std.isString(GraphName) then (error 'GraphName must be a string')
+        else if std.isEmpty(GraphName) then (error 'GraphName must be not empty')
+        else if std.length(GraphName) < 1 then error ('GraphName should have at least 1 characters')
+        else if std.length(GraphName) > 63 then error ('GraphName should have not more than 63 characters')
+        else GraphName,
     },
   },
-  withPublicConnectivity(PublicConnectivity): {
-    assert std.isBoolean(PublicConnectivity) : 'PublicConnectivity must be a boolean',
+  setPublicConnectivity(PublicConnectivity): {
     Properties+::: {
-      PublicConnectivity: PublicConnectivity,
+      PublicConnectivity:
+        if !std.isBoolean(PublicConnectivity) then (error 'PublicConnectivity must be a boolean') else PublicConnectivity,
     },
   },
-  withReplicaCount(ReplicaCount): {
-    assert std.isNumber(ReplicaCount) : 'ReplicaCount must be a number',
+  setReplicaCount(ReplicaCount): {
     Properties+::: {
-      ReplicaCount: ReplicaCount,
+      ReplicaCount:
+        if !std.isNumber(ReplicaCount) then (error 'ReplicaCount must be an number')
+        else ReplicaCount,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVectorSearchConfiguration(VectorSearchConfiguration): {
-    assert std.isObject(VectorSearchConfiguration) : 'VectorSearchConfiguration must be a object',
+  setVectorSearchConfiguration(VectorSearchConfiguration): {
     Properties+::: {
-      VectorSearchConfiguration: VectorSearchConfiguration,
+      VectorSearchConfiguration:
+        if !std.isObject(VectorSearchConfiguration) then (error 'VectorSearchConfiguration must be an object')
+        else if !std.objectHas(VectorSearchConfiguration, 'VectorSearchDimension') then (error ' have attribute VectorSearchDimension')
+        else VectorSearchConfiguration,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withGraphArn(GraphArn): {
-    assert std.isString(GraphArn) : 'GraphArn must be a string',
+  setGraphArn(GraphArn): {
     Properties+::: {
-      GraphArn: GraphArn,
+      GraphArn:
+        if !std.isString(GraphArn) then (error 'GraphArn must be a string')
+        else if std.isEmpty(GraphArn) then (error 'GraphArn must be not empty')
+        else GraphArn,
     },
   },
-  withGraphId(GraphId): {
-    assert std.isString(GraphId) : 'GraphId must be a string',
+  setGraphId(GraphId): {
     Properties+::: {
-      GraphId: GraphId,
+      GraphId:
+        if !std.isString(GraphId) then (error 'GraphId must be a string')
+        else if std.isEmpty(GraphId) then (error 'GraphId must be not empty')
+        else GraphId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

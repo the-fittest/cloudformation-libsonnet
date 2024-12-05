@@ -6,10 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      EgressCidrBlocks: (if std.isArray(EgressCidrBlocks) then EgressCidrBlocks else [EgressCidrBlocks]),
-      Networks: (if std.isArray(Networks) then Networks else [Networks]),
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      EgressCidrBlocks:
+        if !std.isArray(EgressCidrBlocks) then (error 'EgressCidrBlocks must be an array')
+        else EgressCidrBlocks,
+      Networks:
+        if !std.isArray(Networks) then (error 'Networks must be an array')
+        else if std.length(Networks) < 1 then error ('Networks cannot have less than 1 items')
+        else if std.length(Networks) > 4 then error ('Networks cannot have more than 4 items')
+        else Networks,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,77 +27,81 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::Gateway',
   },
-  withGatewayArn(GatewayArn): {
-    assert std.isString(GatewayArn) : 'GatewayArn must be a string',
+  setGatewayArn(GatewayArn): {
     Properties+::: {
-      GatewayArn: GatewayArn,
+      GatewayArn:
+        if !std.isString(GatewayArn) then (error 'GatewayArn must be a string')
+        else if std.isEmpty(GatewayArn) then (error 'GatewayArn must be not empty')
+        else GatewayArn,
     },
   },
-  withGatewayState(GatewayState): {
-    assert std.isString(GatewayState) : 'GatewayState must be a string',
-    assert GatewayState == 'CREATING' || GatewayState == 'ACTIVE' || GatewayState == 'UPDATING' || GatewayState == 'ERROR' || GatewayState == 'DELETING' || GatewayState == 'DELETED' : "GatewayState should be 'CREATING' or 'ACTIVE' or 'UPDATING' or 'ERROR' or 'DELETING' or 'DELETED'",
+  setGatewayState(GatewayState): {
     Properties+::: {
-      GatewayState: GatewayState,
+      GatewayState:
+        if !std.isString(GatewayState) then (error 'GatewayState must be a string')
+        else if std.isEmpty(GatewayState) then (error 'GatewayState must be not empty')
+        else if GatewayState != 'CREATING' && GatewayState != 'ACTIVE' && GatewayState != 'UPDATING' && GatewayState != 'ERROR' && GatewayState != 'DELETING' && GatewayState != 'DELETED' then (error "GatewayState should be 'CREATING' or 'ACTIVE' or 'UPDATING' or 'ERROR' or 'DELETING' or 'DELETED'")
+        else GatewayState,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,101 +10,115 @@
     Metadata:: [],
     Type: 'AWS::GameLift::Build',
   },
-  withBuildId(BuildId): {
-    assert std.isString(BuildId) : 'BuildId must be a string',
+  setBuildId(BuildId): {
     Properties+::: {
-      BuildId: BuildId,
+      BuildId:
+        if !std.isString(BuildId) then (error 'BuildId must be a string')
+        else if std.isEmpty(BuildId) then (error 'BuildId must be not empty')
+        else BuildId,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withOperatingSystem(OperatingSystem): {
-    assert std.isString(OperatingSystem) : 'OperatingSystem must be a string',
-    assert OperatingSystem == 'AMAZON_LINUX' || OperatingSystem == 'AMAZON_LINUX_2' || OperatingSystem == 'AMAZON_LINUX_2023' || OperatingSystem == 'WINDOWS_2012' || OperatingSystem == 'WINDOWS_2016' : "OperatingSystem should be 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2023' or 'WINDOWS_2012' or 'WINDOWS_2016'",
+  setOperatingSystem(OperatingSystem): {
     Properties+::: {
-      OperatingSystem: OperatingSystem,
+      OperatingSystem:
+        if !std.isString(OperatingSystem) then (error 'OperatingSystem must be a string')
+        else if std.isEmpty(OperatingSystem) then (error 'OperatingSystem must be not empty')
+        else if OperatingSystem != 'AMAZON_LINUX' && OperatingSystem != 'AMAZON_LINUX_2' && OperatingSystem != 'AMAZON_LINUX_2023' && OperatingSystem != 'WINDOWS_2012' && OperatingSystem != 'WINDOWS_2016' then (error "OperatingSystem should be 'AMAZON_LINUX' or 'AMAZON_LINUX_2' or 'AMAZON_LINUX_2023' or 'WINDOWS_2012' or 'WINDOWS_2016'")
+        else OperatingSystem,
     },
   },
-  withStorageLocation(StorageLocation): {
-    assert std.isObject(StorageLocation) : 'StorageLocation must be a object',
+  setStorageLocation(StorageLocation): {
     Properties+::: {
-      StorageLocation: StorageLocation,
+      StorageLocation:
+        if !std.isObject(StorageLocation) then (error 'StorageLocation must be an object')
+        else if !std.objectHas(StorageLocation, 'Bucket') then (error ' have attribute Bucket')
+        else if !std.objectHas(StorageLocation, 'Key') then (error ' have attribute Key')
+        else if !std.objectHas(StorageLocation, 'RoleArn') then (error ' have attribute RoleArn')
+        else StorageLocation,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withServerSdkVersion(ServerSdkVersion): {
-    assert std.isString(ServerSdkVersion) : 'ServerSdkVersion must be a string',
+  setServerSdkVersion(ServerSdkVersion): {
     Properties+::: {
-      ServerSdkVersion: ServerSdkVersion,
+      ServerSdkVersion:
+        if !std.isString(ServerSdkVersion) then (error 'ServerSdkVersion must be a string')
+        else if std.isEmpty(ServerSdkVersion) then (error 'ServerSdkVersion must be not empty')
+        else ServerSdkVersion,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

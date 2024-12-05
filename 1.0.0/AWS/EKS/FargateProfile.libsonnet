@@ -6,11 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterName) : 'ClusterName must be a string',
-      ClusterName: ClusterName,
-      assert std.isString(PodExecutionRoleArn) : 'PodExecutionRoleArn must be a string',
-      PodExecutionRoleArn: PodExecutionRoleArn,
-      Selectors: (if std.isArray(Selectors) then Selectors else [Selectors]),
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else if std.length(ClusterName) < 1 then error ('ClusterName should have at least 1 characters')
+        else ClusterName,
+      PodExecutionRoleArn:
+        if !std.isString(PodExecutionRoleArn) then (error 'PodExecutionRoleArn must be a string')
+        else if std.isEmpty(PodExecutionRoleArn) then (error 'PodExecutionRoleArn must be not empty')
+        else if std.length(PodExecutionRoleArn) < 1 then error ('PodExecutionRoleArn should have at least 1 characters')
+        else PodExecutionRoleArn,
+      Selectors:
+        if !std.isArray(Selectors) then (error 'Selectors must be an array')
+        else if std.length(Selectors) < 1 then error ('Selectors cannot have less than 1 items')
+        else Selectors,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,96 +29,105 @@
     Metadata:: [],
     Type: 'AWS::EKS::FargateProfile',
   },
-  withFargateProfileName(FargateProfileName): {
-    assert std.isString(FargateProfileName) : 'FargateProfileName must be a string',
+  setFargateProfileName(FargateProfileName): {
     Properties+::: {
-      FargateProfileName: FargateProfileName,
+      FargateProfileName:
+        if !std.isString(FargateProfileName) then (error 'FargateProfileName must be a string')
+        else if std.isEmpty(FargateProfileName) then (error 'FargateProfileName must be not empty')
+        else if std.length(FargateProfileName) < 1 then error ('FargateProfileName should have at least 1 characters')
+        else FargateProfileName,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withSubnets(Subnets): {
+  setSubnets(Subnets): {
     Properties+::: {
-      Subnets: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets:
+        if !std.isArray(Subnets) then (error 'Subnets must be an array')
+        else Subnets,
     },
   },
-  withSubnetsMixin(Subnets): {
+  setSubnetsMixin(Subnets): {
     Properties+::: {
-      Subnets+: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      Subnets+: Subnets,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

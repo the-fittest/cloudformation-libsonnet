@@ -5,10 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DiskName) : 'DiskName must be a string',
-      DiskName: DiskName,
-      assert std.isNumber(SizeInGb) : 'SizeInGb must be a number',
-      SizeInGb: SizeInGb,
+      DiskName:
+        if !std.isString(DiskName) then (error 'DiskName must be a string')
+        else if std.isEmpty(DiskName) then (error 'DiskName must be not empty')
+        else if std.length(DiskName) < 1 then error ('DiskName should have at least 1 characters')
+        else if std.length(DiskName) > 254 then error ('DiskName should have not more than 254 characters')
+        else DiskName,
+      SizeInGb:
+        if !std.isNumber(SizeInGb) then (error 'SizeInGb must be an number')
+        else SizeInGb,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,150 +23,174 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Disk',
   },
-  withDiskArn(DiskArn): {
-    assert std.isString(DiskArn) : 'DiskArn must be a string',
+  setDiskArn(DiskArn): {
     Properties+::: {
-      DiskArn: DiskArn,
+      DiskArn:
+        if !std.isString(DiskArn) then (error 'DiskArn must be a string')
+        else if std.isEmpty(DiskArn) then (error 'DiskArn must be not empty')
+        else DiskArn,
     },
   },
-  withSupportCode(SupportCode): {
-    assert std.isString(SupportCode) : 'SupportCode must be a string',
+  setSupportCode(SupportCode): {
     Properties+::: {
-      SupportCode: SupportCode,
+      SupportCode:
+        if !std.isString(SupportCode) then (error 'SupportCode must be a string')
+        else if std.isEmpty(SupportCode) then (error 'SupportCode must be not empty')
+        else SupportCode,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else if std.length(AvailabilityZone) < 1 then error ('AvailabilityZone should have at least 1 characters')
+        else if std.length(AvailabilityZone) > 255 then error ('AvailabilityZone should have not more than 255 characters')
+        else AvailabilityZone,
     },
   },
-  withLocation(Location): {
-    assert std.isObject(Location) : 'Location must be a object',
+  setLocation(Location): {
     Properties+::: {
-      Location: Location,
+      Location:
+        if !std.isObject(Location) then (error 'Location must be an object')
+        else Location,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else ResourceType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAddOns(AddOns): {
+  setAddOns(AddOns): {
     Properties+::: {
-      AddOns: (if std.isArray(AddOns) then AddOns else [AddOns]),
+      AddOns:
+        if !std.isArray(AddOns) then (error 'AddOns must be an array')
+        else AddOns,
     },
   },
-  withAddOnsMixin(AddOns): {
+  setAddOnsMixin(AddOns): {
     Properties+::: {
-      AddOns+: (if std.isArray(AddOns) then AddOns else [AddOns]),
+      AddOns+: AddOns,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withAttachmentState(AttachmentState): {
-    assert std.isString(AttachmentState) : 'AttachmentState must be a string',
+  setAttachmentState(AttachmentState): {
     Properties+::: {
-      AttachmentState: AttachmentState,
+      AttachmentState:
+        if !std.isString(AttachmentState) then (error 'AttachmentState must be a string')
+        else if std.isEmpty(AttachmentState) then (error 'AttachmentState must be not empty')
+        else AttachmentState,
     },
   },
-  withIops(Iops): {
-    assert std.isNumber(Iops) : 'Iops must be a number',
+  setIops(Iops): {
     Properties+::: {
-      Iops: Iops,
+      Iops:
+        if !std.isNumber(Iops) then (error 'Iops must be an number')
+        else Iops,
     },
   },
-  withIsAttached(IsAttached): {
-    assert std.isBoolean(IsAttached) : 'IsAttached must be a boolean',
+  setIsAttached(IsAttached): {
     Properties+::: {
-      IsAttached: IsAttached,
+      IsAttached:
+        if !std.isBoolean(IsAttached) then (error 'IsAttached must be a boolean') else IsAttached,
     },
   },
-  withPath(Path): {
-    assert std.isString(Path) : 'Path must be a string',
+  setPath(Path): {
     Properties+::: {
-      Path: Path,
+      Path:
+        if !std.isString(Path) then (error 'Path must be a string')
+        else if std.isEmpty(Path) then (error 'Path must be not empty')
+        else Path,
     },
   },
-  withAttachedTo(AttachedTo): {
-    assert std.isString(AttachedTo) : 'AttachedTo must be a string',
+  setAttachedTo(AttachedTo): {
     Properties+::: {
-      AttachedTo: AttachedTo,
+      AttachedTo:
+        if !std.isString(AttachedTo) then (error 'AttachedTo must be a string')
+        else if std.isEmpty(AttachedTo) then (error 'AttachedTo must be not empty')
+        else AttachedTo,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

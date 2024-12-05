@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,98 +17,106 @@
     Metadata:: [],
     Type: 'AWS::ApiGatewayV2::DomainName',
   },
-  withMutualTlsAuthentication(MutualTlsAuthentication): {
-    assert std.isObject(MutualTlsAuthentication) : 'MutualTlsAuthentication must be a object',
+  setMutualTlsAuthentication(MutualTlsAuthentication): {
     Properties+::: {
-      MutualTlsAuthentication: MutualTlsAuthentication,
+      MutualTlsAuthentication:
+        if !std.isObject(MutualTlsAuthentication) then (error 'MutualTlsAuthentication must be an object')
+        else MutualTlsAuthentication,
     },
   },
-  withRegionalHostedZoneId(RegionalHostedZoneId): {
-    assert std.isString(RegionalHostedZoneId) : 'RegionalHostedZoneId must be a string',
+  setRegionalHostedZoneId(RegionalHostedZoneId): {
     Properties+::: {
-      RegionalHostedZoneId: RegionalHostedZoneId,
+      RegionalHostedZoneId:
+        if !std.isString(RegionalHostedZoneId) then (error 'RegionalHostedZoneId must be a string')
+        else if std.isEmpty(RegionalHostedZoneId) then (error 'RegionalHostedZoneId must be not empty')
+        else RegionalHostedZoneId,
     },
   },
-  withRegionalDomainName(RegionalDomainName): {
-    assert std.isString(RegionalDomainName) : 'RegionalDomainName must be a string',
+  setRegionalDomainName(RegionalDomainName): {
     Properties+::: {
-      RegionalDomainName: RegionalDomainName,
+      RegionalDomainName:
+        if !std.isString(RegionalDomainName) then (error 'RegionalDomainName must be a string')
+        else if std.isEmpty(RegionalDomainName) then (error 'RegionalDomainName must be not empty')
+        else RegionalDomainName,
     },
   },
-  withDomainNameConfigurations(DomainNameConfigurations): {
+  setDomainNameConfigurations(DomainNameConfigurations): {
     Properties+::: {
-      DomainNameConfigurations: (if std.isArray(DomainNameConfigurations) then DomainNameConfigurations else [DomainNameConfigurations]),
+      DomainNameConfigurations:
+        if !std.isArray(DomainNameConfigurations) then (error 'DomainNameConfigurations must be an array')
+        else DomainNameConfigurations,
     },
   },
-  withDomainNameConfigurationsMixin(DomainNameConfigurations): {
+  setDomainNameConfigurationsMixin(DomainNameConfigurations): {
     Properties+::: {
-      DomainNameConfigurations+: (if std.isArray(DomainNameConfigurations) then DomainNameConfigurations else [DomainNameConfigurations]),
+      DomainNameConfigurations+: DomainNameConfigurations,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

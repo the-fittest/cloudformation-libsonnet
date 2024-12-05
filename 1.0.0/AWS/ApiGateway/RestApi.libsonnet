@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,171 +10,192 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::RestApi',
   },
-  withPolicy(Policy): {
+  setPolicy(Policy): {
     Properties+::: {
       Policy: Policy,
     },
   },
-  withBodyS3Location(BodyS3Location): {
-    assert std.isObject(BodyS3Location) : 'BodyS3Location must be a object',
+  setBodyS3Location(BodyS3Location): {
     Properties+::: {
-      BodyS3Location: BodyS3Location,
+      BodyS3Location:
+        if !std.isObject(BodyS3Location) then (error 'BodyS3Location must be an object')
+        else BodyS3Location,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withMinimumCompressionSize(MinimumCompressionSize): {
-    assert std.isNumber(MinimumCompressionSize) : 'MinimumCompressionSize must be a number',
+  setMinimumCompressionSize(MinimumCompressionSize): {
     Properties+::: {
-      MinimumCompressionSize: MinimumCompressionSize,
+      MinimumCompressionSize:
+        if !std.isNumber(MinimumCompressionSize) then (error 'MinimumCompressionSize must be an number')
+        else MinimumCompressionSize,
     },
   },
-  withParameters(Parameters): {
+  setParameters(Parameters): {
     Properties+::: {
       Parameters: Parameters,
     },
   },
-  withCloneFrom(CloneFrom): {
-    assert std.isString(CloneFrom) : 'CloneFrom must be a string',
+  setCloneFrom(CloneFrom): {
     Properties+::: {
-      CloneFrom: CloneFrom,
+      CloneFrom:
+        if !std.isString(CloneFrom) then (error 'CloneFrom must be a string')
+        else if std.isEmpty(CloneFrom) then (error 'CloneFrom must be not empty')
+        else CloneFrom,
     },
   },
-  withMode(Mode): {
-    assert std.isString(Mode) : 'Mode must be a string',
+  setMode(Mode): {
     Properties+::: {
-      Mode: Mode,
+      Mode:
+        if !std.isString(Mode) then (error 'Mode must be a string')
+        else if std.isEmpty(Mode) then (error 'Mode must be not empty')
+        else Mode,
     },
   },
-  withRestApiId(RestApiId): {
-    assert std.isString(RestApiId) : 'RestApiId must be a string',
+  setRestApiId(RestApiId): {
     Properties+::: {
-      RestApiId: RestApiId,
+      RestApiId:
+        if !std.isString(RestApiId) then (error 'RestApiId must be a string')
+        else if std.isEmpty(RestApiId) then (error 'RestApiId must be not empty')
+        else RestApiId,
     },
   },
-  withDisableExecuteApiEndpoint(DisableExecuteApiEndpoint): {
-    assert std.isBoolean(DisableExecuteApiEndpoint) : 'DisableExecuteApiEndpoint must be a boolean',
+  setDisableExecuteApiEndpoint(DisableExecuteApiEndpoint): {
     Properties+::: {
-      DisableExecuteApiEndpoint: DisableExecuteApiEndpoint,
+      DisableExecuteApiEndpoint:
+        if !std.isBoolean(DisableExecuteApiEndpoint) then (error 'DisableExecuteApiEndpoint must be a boolean') else DisableExecuteApiEndpoint,
     },
   },
-  withFailOnWarnings(FailOnWarnings): {
-    assert std.isBoolean(FailOnWarnings) : 'FailOnWarnings must be a boolean',
+  setFailOnWarnings(FailOnWarnings): {
     Properties+::: {
-      FailOnWarnings: FailOnWarnings,
+      FailOnWarnings:
+        if !std.isBoolean(FailOnWarnings) then (error 'FailOnWarnings must be a boolean') else FailOnWarnings,
     },
   },
-  withBinaryMediaTypes(BinaryMediaTypes): {
+  setBinaryMediaTypes(BinaryMediaTypes): {
     Properties+::: {
-      BinaryMediaTypes: (if std.isArray(BinaryMediaTypes) then BinaryMediaTypes else [BinaryMediaTypes]),
+      BinaryMediaTypes:
+        if !std.isArray(BinaryMediaTypes) then (error 'BinaryMediaTypes must be an array')
+        else BinaryMediaTypes,
     },
   },
-  withBinaryMediaTypesMixin(BinaryMediaTypes): {
+  setBinaryMediaTypesMixin(BinaryMediaTypes): {
     Properties+::: {
-      BinaryMediaTypes+: (if std.isArray(BinaryMediaTypes) then BinaryMediaTypes else [BinaryMediaTypes]),
+      BinaryMediaTypes+: BinaryMediaTypes,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withRootResourceId(RootResourceId): {
-    assert std.isString(RootResourceId) : 'RootResourceId must be a string',
+  setRootResourceId(RootResourceId): {
     Properties+::: {
-      RootResourceId: RootResourceId,
+      RootResourceId:
+        if !std.isString(RootResourceId) then (error 'RootResourceId must be a string')
+        else if std.isEmpty(RootResourceId) then (error 'RootResourceId must be not empty')
+        else RootResourceId,
     },
   },
-  withApiKeySourceType(ApiKeySourceType): {
-    assert std.isString(ApiKeySourceType) : 'ApiKeySourceType must be a string',
+  setApiKeySourceType(ApiKeySourceType): {
     Properties+::: {
-      ApiKeySourceType: ApiKeySourceType,
+      ApiKeySourceType:
+        if !std.isString(ApiKeySourceType) then (error 'ApiKeySourceType must be a string')
+        else if std.isEmpty(ApiKeySourceType) then (error 'ApiKeySourceType must be not empty')
+        else ApiKeySourceType,
     },
   },
-  withEndpointConfiguration(EndpointConfiguration): {
-    assert std.isObject(EndpointConfiguration) : 'EndpointConfiguration must be a object',
+  setEndpointConfiguration(EndpointConfiguration): {
     Properties+::: {
-      EndpointConfiguration: EndpointConfiguration,
+      EndpointConfiguration:
+        if !std.isObject(EndpointConfiguration) then (error 'EndpointConfiguration must be an object')
+        else EndpointConfiguration,
     },
   },
-  withBody(Body): {
+  setBody(Body): {
     Properties+::: {
       Body: Body,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

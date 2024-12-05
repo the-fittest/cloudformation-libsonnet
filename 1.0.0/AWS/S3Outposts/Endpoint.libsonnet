@@ -6,12 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(OutpostId) : 'OutpostId must be a string',
-      OutpostId: OutpostId,
-      assert std.isString(SecurityGroupId) : 'SecurityGroupId must be a string',
-      SecurityGroupId: SecurityGroupId,
-      assert std.isString(SubnetId) : 'SubnetId must be a string',
-      SubnetId: SubnetId,
+      OutpostId:
+        if !std.isString(OutpostId) then (error 'OutpostId must be a string')
+        else if std.isEmpty(OutpostId) then (error 'OutpostId must be not empty')
+        else OutpostId,
+      SecurityGroupId:
+        if !std.isString(SecurityGroupId) then (error 'SecurityGroupId must be a string')
+        else if std.isEmpty(SecurityGroupId) then (error 'SecurityGroupId must be not empty')
+        else if std.length(SecurityGroupId) < 1 then error ('SecurityGroupId should have at least 1 characters')
+        else if std.length(SecurityGroupId) > 100 then error ('SecurityGroupId should have not more than 100 characters')
+        else SecurityGroupId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else if std.length(SubnetId) < 1 then error ('SubnetId should have at least 1 characters')
+        else if std.length(SubnetId) > 100 then error ('SubnetId should have not more than 100 characters')
+        else SubnetId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,124 +31,147 @@
     Metadata:: [],
     Type: 'AWS::S3Outposts::Endpoint',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 5 then error ('Arn should have at least 5 characters')
+        else if std.length(Arn) > 500 then error ('Arn should have not more than 500 characters')
+        else Arn,
     },
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else if std.length(CidrBlock) < 1 then error ('CidrBlock should have at least 1 characters')
+        else if std.length(CidrBlock) > 20 then error ('CidrBlock should have not more than 20 characters')
+        else CidrBlock,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 5 then error ('Id should have at least 5 characters')
+        else if std.length(Id) > 500 then error ('Id should have not more than 500 characters')
+        else Id,
     },
   },
-  withNetworkInterfaces(NetworkInterfaces): {
+  setNetworkInterfaces(NetworkInterfaces): {
     Properties+::: {
-      NetworkInterfaces: (if std.isArray(NetworkInterfaces) then NetworkInterfaces else [NetworkInterfaces]),
+      NetworkInterfaces:
+        if !std.isArray(NetworkInterfaces) then (error 'NetworkInterfaces must be an array')
+        else NetworkInterfaces,
     },
   },
-  withNetworkInterfacesMixin(NetworkInterfaces): {
+  setNetworkInterfacesMixin(NetworkInterfaces): {
     Properties+::: {
-      NetworkInterfaces+: (if std.isArray(NetworkInterfaces) then NetworkInterfaces else [NetworkInterfaces]),
+      NetworkInterfaces+: NetworkInterfaces,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'Available' || Status == 'Pending' || Status == 'Deleting' || Status == 'Create_Failed' || Status == 'Delete_Failed' : "Status should be 'Available' or 'Pending' or 'Deleting' or 'Create_Failed' or 'Delete_Failed'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'Available' && Status != 'Pending' && Status != 'Deleting' && Status != 'Create_Failed' && Status != 'Delete_Failed' then (error "Status should be 'Available' or 'Pending' or 'Deleting' or 'Create_Failed' or 'Delete_Failed'")
+        else Status,
     },
   },
-  withAccessType(AccessType): {
-    assert std.isString(AccessType) : 'AccessType must be a string',
-    assert AccessType == 'CustomerOwnedIp' || AccessType == 'Private' : "AccessType should be 'CustomerOwnedIp' or 'Private'",
+  setAccessType(AccessType): {
     Properties+::: {
-      AccessType: AccessType,
+      AccessType:
+        if !std.isString(AccessType) then (error 'AccessType must be a string')
+        else if std.isEmpty(AccessType) then (error 'AccessType must be not empty')
+        else if AccessType != 'CustomerOwnedIp' && AccessType != 'Private' then (error "AccessType should be 'CustomerOwnedIp' or 'Private'")
+        else AccessType,
     },
   },
-  withCustomerOwnedIpv4Pool(CustomerOwnedIpv4Pool): {
-    assert std.isString(CustomerOwnedIpv4Pool) : 'CustomerOwnedIpv4Pool must be a string',
+  setCustomerOwnedIpv4Pool(CustomerOwnedIpv4Pool): {
     Properties+::: {
-      CustomerOwnedIpv4Pool: CustomerOwnedIpv4Pool,
+      CustomerOwnedIpv4Pool:
+        if !std.isString(CustomerOwnedIpv4Pool) then (error 'CustomerOwnedIpv4Pool must be a string')
+        else if std.isEmpty(CustomerOwnedIpv4Pool) then (error 'CustomerOwnedIpv4Pool must be not empty')
+        else CustomerOwnedIpv4Pool,
     },
   },
-  withFailedReason(FailedReason): {
-    assert std.isObject(FailedReason) : 'FailedReason must be a object',
+  setFailedReason(FailedReason): {
     Properties+::: {
-      FailedReason: FailedReason,
+      FailedReason:
+        if !std.isObject(FailedReason) then (error 'FailedReason must be an object')
+        else FailedReason,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

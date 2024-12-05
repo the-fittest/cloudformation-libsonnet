@@ -5,11 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FlowArn) : 'FlowArn must be a string',
-      FlowArn: FlowArn,
-      assert std.isString(Protocol) : 'Protocol must be a string',
-      assert Protocol == 'zixi-push' || Protocol == 'rtp-fec' || Protocol == 'rtp' || Protocol == 'zixi-pull' || Protocol == 'rist' || Protocol == 'fujitsu-qos' || Protocol == 'srt-listener' || Protocol == 'srt-caller' || Protocol == 'st2110-jpegxs' || Protocol == 'cdi' : "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'zixi-pull' or 'rist' or 'fujitsu-qos' or 'srt-listener' or 'srt-caller' or 'st2110-jpegxs' or 'cdi'",
-      Protocol: Protocol,
+      FlowArn:
+        if !std.isString(FlowArn) then (error 'FlowArn must be a string')
+        else if std.isEmpty(FlowArn) then (error 'FlowArn must be not empty')
+        else FlowArn,
+      Protocol:
+        if !std.isString(Protocol) then (error 'Protocol must be a string')
+        else if std.isEmpty(Protocol) then (error 'Protocol must be not empty')
+        else if Protocol != 'zixi-push' && Protocol != 'rtp-fec' && Protocol != 'rtp' && Protocol != 'zixi-pull' && Protocol != 'rist' && Protocol != 'fujitsu-qos' && Protocol != 'srt-listener' && Protocol != 'srt-caller' && Protocol != 'st2110-jpegxs' && Protocol != 'cdi' then (error "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'zixi-pull' or 'rist' or 'fujitsu-qos' or 'srt-listener' or 'srt-caller' or 'st2110-jpegxs' or 'cdi'")
+        else Protocol,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,163 +23,189 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::FlowOutput',
   },
-  withOutputArn(OutputArn): {
-    assert std.isString(OutputArn) : 'OutputArn must be a string',
+  setOutputArn(OutputArn): {
     Properties+::: {
-      OutputArn: OutputArn,
+      OutputArn:
+        if !std.isString(OutputArn) then (error 'OutputArn must be a string')
+        else if std.isEmpty(OutputArn) then (error 'OutputArn must be not empty')
+        else OutputArn,
     },
   },
-  withCidrAllowList(CidrAllowList): {
+  setCidrAllowList(CidrAllowList): {
     Properties+::: {
-      CidrAllowList: (if std.isArray(CidrAllowList) then CidrAllowList else [CidrAllowList]),
+      CidrAllowList:
+        if !std.isArray(CidrAllowList) then (error 'CidrAllowList must be an array')
+        else CidrAllowList,
     },
   },
-  withCidrAllowListMixin(CidrAllowList): {
+  setCidrAllowListMixin(CidrAllowList): {
     Properties+::: {
-      CidrAllowList+: (if std.isArray(CidrAllowList) then CidrAllowList else [CidrAllowList]),
+      CidrAllowList+: CidrAllowList,
     },
   },
-  withEncryption(Encryption): {
-    assert std.isObject(Encryption) : 'Encryption must be a object',
+  setEncryption(Encryption): {
     Properties+::: {
-      Encryption: Encryption,
+      Encryption:
+        if !std.isObject(Encryption) then (error 'Encryption must be an object')
+        else if !std.objectHas(Encryption, 'RoleArn') then (error ' have attribute RoleArn')
+        else if !std.objectHas(Encryption, 'SecretArn') then (error ' have attribute SecretArn')
+        else Encryption,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withDestination(Destination): {
-    assert std.isString(Destination) : 'Destination must be a string',
+  setDestination(Destination): {
     Properties+::: {
-      Destination: Destination,
+      Destination:
+        if !std.isString(Destination) then (error 'Destination must be a string')
+        else if std.isEmpty(Destination) then (error 'Destination must be not empty')
+        else Destination,
     },
   },
-  withMaxLatency(MaxLatency): {
-    assert std.isNumber(MaxLatency) : 'MaxLatency must be a number',
+  setMaxLatency(MaxLatency): {
     Properties+::: {
-      MaxLatency: MaxLatency,
+      MaxLatency:
+        if !std.isNumber(MaxLatency) then (error 'MaxLatency must be an number')
+        else MaxLatency,
     },
   },
-  withMinLatency(MinLatency): {
-    assert std.isNumber(MinLatency) : 'MinLatency must be a number',
+  setMinLatency(MinLatency): {
     Properties+::: {
-      MinLatency: MinLatency,
+      MinLatency:
+        if !std.isNumber(MinLatency) then (error 'MinLatency must be an number')
+        else MinLatency,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withRemoteId(RemoteId): {
-    assert std.isString(RemoteId) : 'RemoteId must be a string',
+  setRemoteId(RemoteId): {
     Properties+::: {
-      RemoteId: RemoteId,
+      RemoteId:
+        if !std.isString(RemoteId) then (error 'RemoteId must be a string')
+        else if std.isEmpty(RemoteId) then (error 'RemoteId must be not empty')
+        else RemoteId,
     },
   },
-  withSmoothingLatency(SmoothingLatency): {
-    assert std.isNumber(SmoothingLatency) : 'SmoothingLatency must be a number',
+  setSmoothingLatency(SmoothingLatency): {
     Properties+::: {
-      SmoothingLatency: SmoothingLatency,
+      SmoothingLatency:
+        if !std.isNumber(SmoothingLatency) then (error 'SmoothingLatency must be an number')
+        else SmoothingLatency,
     },
   },
-  withStreamId(StreamId): {
-    assert std.isString(StreamId) : 'StreamId must be a string',
+  setStreamId(StreamId): {
     Properties+::: {
-      StreamId: StreamId,
+      StreamId:
+        if !std.isString(StreamId) then (error 'StreamId must be a string')
+        else if std.isEmpty(StreamId) then (error 'StreamId must be not empty')
+        else StreamId,
     },
   },
-  withVpcInterfaceAttachment(VpcInterfaceAttachment): {
-    assert std.isObject(VpcInterfaceAttachment) : 'VpcInterfaceAttachment must be a object',
+  setVpcInterfaceAttachment(VpcInterfaceAttachment): {
     Properties+::: {
-      VpcInterfaceAttachment: VpcInterfaceAttachment,
+      VpcInterfaceAttachment:
+        if !std.isObject(VpcInterfaceAttachment) then (error 'VpcInterfaceAttachment must be an object')
+        else VpcInterfaceAttachment,
     },
   },
-  withMediaStreamOutputConfigurations(MediaStreamOutputConfigurations): {
+  setMediaStreamOutputConfigurations(MediaStreamOutputConfigurations): {
     Properties+::: {
-      MediaStreamOutputConfigurations: (if std.isArray(MediaStreamOutputConfigurations) then MediaStreamOutputConfigurations else [MediaStreamOutputConfigurations]),
+      MediaStreamOutputConfigurations:
+        if !std.isArray(MediaStreamOutputConfigurations) then (error 'MediaStreamOutputConfigurations must be an array')
+        else MediaStreamOutputConfigurations,
     },
   },
-  withMediaStreamOutputConfigurationsMixin(MediaStreamOutputConfigurations): {
+  setMediaStreamOutputConfigurationsMixin(MediaStreamOutputConfigurations): {
     Properties+::: {
-      MediaStreamOutputConfigurations+: (if std.isArray(MediaStreamOutputConfigurations) then MediaStreamOutputConfigurations else [MediaStreamOutputConfigurations]),
+      MediaStreamOutputConfigurations+: MediaStreamOutputConfigurations,
     },
   },
-  withOutputStatus(OutputStatus): {
-    assert std.isString(OutputStatus) : 'OutputStatus must be a string',
-    assert OutputStatus == 'ENABLED' || OutputStatus == 'DISABLED' : "OutputStatus should be 'ENABLED' or 'DISABLED'",
+  setOutputStatus(OutputStatus): {
     Properties+::: {
-      OutputStatus: OutputStatus,
+      OutputStatus:
+        if !std.isString(OutputStatus) then (error 'OutputStatus must be a string')
+        else if std.isEmpty(OutputStatus) then (error 'OutputStatus must be not empty')
+        else if OutputStatus != 'ENABLED' && OutputStatus != 'DISABLED' then (error "OutputStatus should be 'ENABLED' or 'DISABLED'")
+        else OutputStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

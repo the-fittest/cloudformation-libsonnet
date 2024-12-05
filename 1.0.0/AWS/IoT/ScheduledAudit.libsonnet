@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Frequency) : 'Frequency must be a string',
-      assert Frequency == 'DAILY' || Frequency == 'WEEKLY' || Frequency == 'BIWEEKLY' || Frequency == 'MONTHLY' : "Frequency should be 'DAILY' or 'WEEKLY' or 'BIWEEKLY' or 'MONTHLY'",
-      Frequency: Frequency,
-      TargetCheckNames: (if std.isArray(TargetCheckNames) then TargetCheckNames else [TargetCheckNames]),
+      Frequency:
+        if !std.isString(Frequency) then (error 'Frequency must be a string')
+        else if std.isEmpty(Frequency) then (error 'Frequency must be not empty')
+        else if Frequency != 'DAILY' && Frequency != 'WEEKLY' && Frequency != 'BIWEEKLY' && Frequency != 'MONTHLY' then (error "Frequency should be 'DAILY' or 'WEEKLY' or 'BIWEEKLY' or 'MONTHLY'")
+        else Frequency,
+      TargetCheckNames:
+        if !std.isArray(TargetCheckNames) then (error 'TargetCheckNames must be an array')
+        else TargetCheckNames,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,99 +22,114 @@
     Metadata:: [],
     Type: 'AWS::IoT::ScheduledAudit',
   },
-  withScheduledAuditName(ScheduledAuditName): {
-    assert std.isString(ScheduledAuditName) : 'ScheduledAuditName must be a string',
+  setScheduledAuditName(ScheduledAuditName): {
     Properties+::: {
-      ScheduledAuditName: ScheduledAuditName,
+      ScheduledAuditName:
+        if !std.isString(ScheduledAuditName) then (error 'ScheduledAuditName must be a string')
+        else if std.isEmpty(ScheduledAuditName) then (error 'ScheduledAuditName must be not empty')
+        else if std.length(ScheduledAuditName) < 1 then error ('ScheduledAuditName should have at least 1 characters')
+        else if std.length(ScheduledAuditName) > 128 then error ('ScheduledAuditName should have not more than 128 characters')
+        else ScheduledAuditName,
     },
   },
-  withDayOfMonth(DayOfMonth): {
-    assert std.isString(DayOfMonth) : 'DayOfMonth must be a string',
+  setDayOfMonth(DayOfMonth): {
     Properties+::: {
-      DayOfMonth: DayOfMonth,
+      DayOfMonth:
+        if !std.isString(DayOfMonth) then (error 'DayOfMonth must be a string')
+        else if std.isEmpty(DayOfMonth) then (error 'DayOfMonth must be not empty')
+        else DayOfMonth,
     },
   },
-  withDayOfWeek(DayOfWeek): {
-    assert std.isString(DayOfWeek) : 'DayOfWeek must be a string',
-    assert DayOfWeek == 'SUN' || DayOfWeek == 'MON' || DayOfWeek == 'TUE' || DayOfWeek == 'WED' || DayOfWeek == 'THU' || DayOfWeek == 'FRI' || DayOfWeek == 'SAT' || DayOfWeek == 'UNSET_VALUE' : "DayOfWeek should be 'SUN' or 'MON' or 'TUE' or 'WED' or 'THU' or 'FRI' or 'SAT' or 'UNSET_VALUE'",
+  setDayOfWeek(DayOfWeek): {
     Properties+::: {
-      DayOfWeek: DayOfWeek,
+      DayOfWeek:
+        if !std.isString(DayOfWeek) then (error 'DayOfWeek must be a string')
+        else if std.isEmpty(DayOfWeek) then (error 'DayOfWeek must be not empty')
+        else if DayOfWeek != 'SUN' && DayOfWeek != 'MON' && DayOfWeek != 'TUE' && DayOfWeek != 'WED' && DayOfWeek != 'THU' && DayOfWeek != 'FRI' && DayOfWeek != 'SAT' && DayOfWeek != 'UNSET_VALUE' then (error "DayOfWeek should be 'SUN' or 'MON' or 'TUE' or 'WED' or 'THU' or 'FRI' or 'SAT' or 'UNSET_VALUE'")
+        else DayOfWeek,
     },
   },
-  withScheduledAuditArn(ScheduledAuditArn): {
-    assert std.isString(ScheduledAuditArn) : 'ScheduledAuditArn must be a string',
+  setScheduledAuditArn(ScheduledAuditArn): {
     Properties+::: {
-      ScheduledAuditArn: ScheduledAuditArn,
+      ScheduledAuditArn:
+        if !std.isString(ScheduledAuditArn) then (error 'ScheduledAuditArn must be a string')
+        else if std.isEmpty(ScheduledAuditArn) then (error 'ScheduledAuditArn must be not empty')
+        else if std.length(ScheduledAuditArn) < 20 then error ('ScheduledAuditArn should have at least 20 characters')
+        else if std.length(ScheduledAuditArn) > 2048 then error ('ScheduledAuditArn should have not more than 2048 characters')
+        else ScheduledAuditArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

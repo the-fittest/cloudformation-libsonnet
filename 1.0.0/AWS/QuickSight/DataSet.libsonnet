@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,231 +10,284 @@
     Metadata:: [],
     Type: 'AWS::QuickSight::DataSet',
   },
-  withPhysicalTableMap(PhysicalTableMap): {
-    assert std.isObject(PhysicalTableMap) : 'PhysicalTableMap must be a object',
+  setPhysicalTableMap(PhysicalTableMap): {
     Properties+::: {
-      PhysicalTableMap: PhysicalTableMap,
+      PhysicalTableMap:
+        if !std.isObject(PhysicalTableMap) then (error 'PhysicalTableMap must be an object')
+        else PhysicalTableMap,
     },
   },
-  withCreatedTime(CreatedTime): {
-    assert std.isString(CreatedTime) : 'CreatedTime must be a string',
+  setCreatedTime(CreatedTime): {
     Properties+::: {
-      CreatedTime: CreatedTime,
+      CreatedTime:
+        if !std.isString(CreatedTime) then (error 'CreatedTime must be a string')
+        else if std.isEmpty(CreatedTime) then (error 'CreatedTime must be not empty')
+        else CreatedTime,
     },
   },
-  withFieldFolders(FieldFolders): {
-    assert std.isObject(FieldFolders) : 'FieldFolders must be a object',
+  setFieldFolders(FieldFolders): {
     Properties+::: {
-      FieldFolders: FieldFolders,
+      FieldFolders:
+        if !std.isObject(FieldFolders) then (error 'FieldFolders must be an object')
+        else FieldFolders,
     },
   },
-  withLastUpdatedTime(LastUpdatedTime): {
-    assert std.isString(LastUpdatedTime) : 'LastUpdatedTime must be a string',
+  setLastUpdatedTime(LastUpdatedTime): {
     Properties+::: {
-      LastUpdatedTime: LastUpdatedTime,
+      LastUpdatedTime:
+        if !std.isString(LastUpdatedTime) then (error 'LastUpdatedTime must be a string')
+        else if std.isEmpty(LastUpdatedTime) then (error 'LastUpdatedTime must be not empty')
+        else LastUpdatedTime,
     },
   },
-  withDataSetId(DataSetId): {
-    assert std.isString(DataSetId) : 'DataSetId must be a string',
+  setDataSetId(DataSetId): {
     Properties+::: {
-      DataSetId: DataSetId,
+      DataSetId:
+        if !std.isString(DataSetId) then (error 'DataSetId must be a string')
+        else if std.isEmpty(DataSetId) then (error 'DataSetId must be not empty')
+        else DataSetId,
     },
   },
-  withFolderArns(FolderArns): {
+  setFolderArns(FolderArns): {
     Properties+::: {
-      FolderArns: (if std.isArray(FolderArns) then FolderArns else [FolderArns]),
+      FolderArns:
+        if !std.isArray(FolderArns) then (error 'FolderArns must be an array')
+        else if std.length(FolderArns) > 10 then error ('FolderArns cannot have more than 10 items')
+        else FolderArns,
     },
   },
-  withFolderArnsMixin(FolderArns): {
+  setFolderArnsMixin(FolderArns): {
     Properties+::: {
-      FolderArns+: (if std.isArray(FolderArns) then FolderArns else [FolderArns]),
+      FolderArns+: FolderArns,
     },
   },
-  withConsumedSpiceCapacityInBytes(ConsumedSpiceCapacityInBytes): {
-    assert std.isNumber(ConsumedSpiceCapacityInBytes) : 'ConsumedSpiceCapacityInBytes must be a number',
+  setConsumedSpiceCapacityInBytes(ConsumedSpiceCapacityInBytes): {
     Properties+::: {
-      ConsumedSpiceCapacityInBytes: ConsumedSpiceCapacityInBytes,
+      ConsumedSpiceCapacityInBytes:
+        if !std.isNumber(ConsumedSpiceCapacityInBytes) then (error 'ConsumedSpiceCapacityInBytes must be an number')
+        else ConsumedSpiceCapacityInBytes,
     },
   },
-  withRowLevelPermissionDataSet(RowLevelPermissionDataSet): {
-    assert std.isObject(RowLevelPermissionDataSet) : 'RowLevelPermissionDataSet must be a object',
+  setRowLevelPermissionDataSet(RowLevelPermissionDataSet): {
     Properties+::: {
-      RowLevelPermissionDataSet: RowLevelPermissionDataSet,
+      RowLevelPermissionDataSet:
+        if !std.isObject(RowLevelPermissionDataSet) then (error 'RowLevelPermissionDataSet must be an object')
+        else if !std.objectHas(RowLevelPermissionDataSet, 'Arn') then (error ' have attribute Arn')
+        else if !std.objectHas(RowLevelPermissionDataSet, 'PermissionPolicy') then (error ' have attribute PermissionPolicy')
+        else RowLevelPermissionDataSet,
     },
   },
-  withDataSetRefreshProperties(DataSetRefreshProperties): {
-    assert std.isObject(DataSetRefreshProperties) : 'DataSetRefreshProperties must be a object',
+  setDataSetRefreshProperties(DataSetRefreshProperties): {
     Properties+::: {
-      DataSetRefreshProperties: DataSetRefreshProperties,
+      DataSetRefreshProperties:
+        if !std.isObject(DataSetRefreshProperties) then (error 'DataSetRefreshProperties must be an object')
+        else DataSetRefreshProperties,
     },
   },
-  withRowLevelPermissionTagConfiguration(RowLevelPermissionTagConfiguration): {
-    assert std.isObject(RowLevelPermissionTagConfiguration) : 'RowLevelPermissionTagConfiguration must be a object',
+  setRowLevelPermissionTagConfiguration(RowLevelPermissionTagConfiguration): {
     Properties+::: {
-      RowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration,
+      RowLevelPermissionTagConfiguration:
+        if !std.isObject(RowLevelPermissionTagConfiguration) then (error 'RowLevelPermissionTagConfiguration must be an object')
+        else if !std.objectHas(RowLevelPermissionTagConfiguration, 'TagRules') then (error ' have attribute TagRules')
+        else RowLevelPermissionTagConfiguration,
     },
   },
-  withIngestionWaitPolicy(IngestionWaitPolicy): {
-    assert std.isObject(IngestionWaitPolicy) : 'IngestionWaitPolicy must be a object',
+  setIngestionWaitPolicy(IngestionWaitPolicy): {
     Properties+::: {
-      IngestionWaitPolicy: IngestionWaitPolicy,
+      IngestionWaitPolicy:
+        if !std.isObject(IngestionWaitPolicy) then (error 'IngestionWaitPolicy must be an object')
+        else IngestionWaitPolicy,
     },
   },
-  withColumnLevelPermissionRules(ColumnLevelPermissionRules): {
+  setColumnLevelPermissionRules(ColumnLevelPermissionRules): {
     Properties+::: {
-      ColumnLevelPermissionRules: (if std.isArray(ColumnLevelPermissionRules) then ColumnLevelPermissionRules else [ColumnLevelPermissionRules]),
+      ColumnLevelPermissionRules:
+        if !std.isArray(ColumnLevelPermissionRules) then (error 'ColumnLevelPermissionRules must be an array')
+        else if std.length(ColumnLevelPermissionRules) < 1 then error ('ColumnLevelPermissionRules cannot have less than 1 items')
+        else ColumnLevelPermissionRules,
     },
   },
-  withColumnLevelPermissionRulesMixin(ColumnLevelPermissionRules): {
+  setColumnLevelPermissionRulesMixin(ColumnLevelPermissionRules): {
     Properties+::: {
-      ColumnLevelPermissionRules+: (if std.isArray(ColumnLevelPermissionRules) then ColumnLevelPermissionRules else [ColumnLevelPermissionRules]),
+      ColumnLevelPermissionRules+: ColumnLevelPermissionRules,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withColumnGroups(ColumnGroups): {
+  setColumnGroups(ColumnGroups): {
     Properties+::: {
-      ColumnGroups: (if std.isArray(ColumnGroups) then ColumnGroups else [ColumnGroups]),
+      ColumnGroups:
+        if !std.isArray(ColumnGroups) then (error 'ColumnGroups must be an array')
+        else if std.length(ColumnGroups) < 1 then error ('ColumnGroups cannot have less than 1 items')
+        else if std.length(ColumnGroups) > 8 then error ('ColumnGroups cannot have more than 8 items')
+        else ColumnGroups,
     },
   },
-  withColumnGroupsMixin(ColumnGroups): {
+  setColumnGroupsMixin(ColumnGroups): {
     Properties+::: {
-      ColumnGroups+: (if std.isArray(ColumnGroups) then ColumnGroups else [ColumnGroups]),
+      ColumnGroups+: ColumnGroups,
     },
   },
-  withImportMode(ImportMode): {
-    assert std.isString(ImportMode) : 'ImportMode must be a string',
-    assert ImportMode == 'SPICE' || ImportMode == 'DIRECT_QUERY' : "ImportMode should be 'SPICE' or 'DIRECT_QUERY'",
+  setImportMode(ImportMode): {
     Properties+::: {
-      ImportMode: ImportMode,
+      ImportMode:
+        if !std.isString(ImportMode) then (error 'ImportMode must be a string')
+        else if std.isEmpty(ImportMode) then (error 'ImportMode must be not empty')
+        else if ImportMode != 'SPICE' && ImportMode != 'DIRECT_QUERY' then (error "ImportMode should be 'SPICE' or 'DIRECT_QUERY'")
+        else ImportMode,
     },
   },
-  withDatasetParameters(DatasetParameters): {
+  setDatasetParameters(DatasetParameters): {
     Properties+::: {
-      DatasetParameters: (if std.isArray(DatasetParameters) then DatasetParameters else [DatasetParameters]),
+      DatasetParameters:
+        if !std.isArray(DatasetParameters) then (error 'DatasetParameters must be an array')
+        else if std.length(DatasetParameters) > 32 then error ('DatasetParameters cannot have more than 32 items')
+        else DatasetParameters,
     },
   },
-  withDatasetParametersMixin(DatasetParameters): {
+  setDatasetParametersMixin(DatasetParameters): {
     Properties+::: {
-      DatasetParameters+: (if std.isArray(DatasetParameters) then DatasetParameters else [DatasetParameters]),
+      DatasetParameters+: DatasetParameters,
     },
   },
-  withLogicalTableMap(LogicalTableMap): {
-    assert std.isObject(LogicalTableMap) : 'LogicalTableMap must be a object',
+  setLogicalTableMap(LogicalTableMap): {
     Properties+::: {
-      LogicalTableMap: LogicalTableMap,
+      LogicalTableMap:
+        if !std.isObject(LogicalTableMap) then (error 'LogicalTableMap must be an object')
+        else LogicalTableMap,
     },
   },
-  withAwsAccountId(AwsAccountId): {
-    assert std.isString(AwsAccountId) : 'AwsAccountId must be a string',
+  setAwsAccountId(AwsAccountId): {
     Properties+::: {
-      AwsAccountId: AwsAccountId,
+      AwsAccountId:
+        if !std.isString(AwsAccountId) then (error 'AwsAccountId must be a string')
+        else if std.isEmpty(AwsAccountId) then (error 'AwsAccountId must be not empty')
+        else if std.length(AwsAccountId) < 12 then error ('AwsAccountId should have at least 12 characters')
+        else if std.length(AwsAccountId) > 12 then error ('AwsAccountId should have not more than 12 characters')
+        else AwsAccountId,
     },
   },
-  withDataSetUsageConfiguration(DataSetUsageConfiguration): {
-    assert std.isObject(DataSetUsageConfiguration) : 'DataSetUsageConfiguration must be a object',
+  setDataSetUsageConfiguration(DataSetUsageConfiguration): {
     Properties+::: {
-      DataSetUsageConfiguration: DataSetUsageConfiguration,
+      DataSetUsageConfiguration:
+        if !std.isObject(DataSetUsageConfiguration) then (error 'DataSetUsageConfiguration must be an object')
+        else DataSetUsageConfiguration,
     },
   },
-  withPermissions(Permissions): {
+  setPermissions(Permissions): {
     Properties+::: {
-      Permissions: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions:
+        if !std.isArray(Permissions) then (error 'Permissions must be an array')
+        else if std.length(Permissions) < 1 then error ('Permissions cannot have less than 1 items')
+        else if std.length(Permissions) > 64 then error ('Permissions cannot have more than 64 items')
+        else Permissions,
     },
   },
-  withPermissionsMixin(Permissions): {
+  setPermissionsMixin(Permissions): {
     Properties+::: {
-      Permissions+: (if std.isArray(Permissions) then Permissions else [Permissions]),
+      Permissions+: Permissions,
     },
   },
-  withOutputColumns(OutputColumns): {
+  setOutputColumns(OutputColumns): {
     Properties+::: {
-      OutputColumns: (if std.isArray(OutputColumns) then OutputColumns else [OutputColumns]),
+      OutputColumns:
+        if !std.isArray(OutputColumns) then (error 'OutputColumns must be an array')
+        else OutputColumns,
     },
   },
-  withOutputColumnsMixin(OutputColumns): {
+  setOutputColumnsMixin(OutputColumns): {
     Properties+::: {
-      OutputColumns+: (if std.isArray(OutputColumns) then OutputColumns else [OutputColumns]),
+      OutputColumns+: OutputColumns,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

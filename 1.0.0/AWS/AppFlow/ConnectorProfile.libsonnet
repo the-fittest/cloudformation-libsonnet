@@ -6,14 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ConnectorProfileName) : 'ConnectorProfileName must be a string',
-      ConnectorProfileName: ConnectorProfileName,
-      assert std.isString(ConnectionMode) : 'ConnectionMode must be a string',
-      assert ConnectionMode == 'Public' || ConnectionMode == 'Private' : "ConnectionMode should be 'Public' or 'Private'",
-      ConnectionMode: ConnectionMode,
-      assert std.isString(ConnectorType) : 'ConnectorType must be a string',
-      assert ConnectorType == 'Salesforce' || ConnectorType == 'Pardot' || ConnectorType == 'Singular' || ConnectorType == 'Slack' || ConnectorType == 'Redshift' || ConnectorType == 'Marketo' || ConnectorType == 'Googleanalytics' || ConnectorType == 'Zendesk' || ConnectorType == 'Servicenow' || ConnectorType == 'SAPOData' || ConnectorType == 'Datadog' || ConnectorType == 'Trendmicro' || ConnectorType == 'Snowflake' || ConnectorType == 'Dynatrace' || ConnectorType == 'Infornexus' || ConnectorType == 'Amplitude' || ConnectorType == 'Veeva' || ConnectorType == 'CustomConnector' : "ConnectorType should be 'Salesforce' or 'Pardot' or 'Singular' or 'Slack' or 'Redshift' or 'Marketo' or 'Googleanalytics' or 'Zendesk' or 'Servicenow' or 'SAPOData' or 'Datadog' or 'Trendmicro' or 'Snowflake' or 'Dynatrace' or 'Infornexus' or 'Amplitude' or 'Veeva' or 'CustomConnector'",
-      ConnectorType: ConnectorType,
+      ConnectorProfileName:
+        if !std.isString(ConnectorProfileName) then (error 'ConnectorProfileName must be a string')
+        else if std.isEmpty(ConnectorProfileName) then (error 'ConnectorProfileName must be not empty')
+        else if std.length(ConnectorProfileName) > 256 then error ('ConnectorProfileName should have not more than 256 characters')
+        else ConnectorProfileName,
+      ConnectionMode:
+        if !std.isString(ConnectionMode) then (error 'ConnectionMode must be a string')
+        else if std.isEmpty(ConnectionMode) then (error 'ConnectionMode must be not empty')
+        else if ConnectionMode != 'Public' && ConnectionMode != 'Private' then (error "ConnectionMode should be 'Public' or 'Private'")
+        else ConnectionMode,
+      ConnectorType:
+        if !std.isString(ConnectorType) then (error 'ConnectorType must be a string')
+        else if std.isEmpty(ConnectorType) then (error 'ConnectorType must be not empty')
+        else if ConnectorType != 'Salesforce' && ConnectorType != 'Pardot' && ConnectorType != 'Singular' && ConnectorType != 'Slack' && ConnectorType != 'Redshift' && ConnectorType != 'Marketo' && ConnectorType != 'Googleanalytics' && ConnectorType != 'Zendesk' && ConnectorType != 'Servicenow' && ConnectorType != 'SAPOData' && ConnectorType != 'Datadog' && ConnectorType != 'Trendmicro' && ConnectorType != 'Snowflake' && ConnectorType != 'Dynatrace' && ConnectorType != 'Infornexus' && ConnectorType != 'Amplitude' && ConnectorType != 'Veeva' && ConnectorType != 'CustomConnector' then (error "ConnectorType should be 'Salesforce' or 'Pardot' or 'Singular' or 'Slack' or 'Redshift' or 'Marketo' or 'Googleanalytics' or 'Zendesk' or 'Servicenow' or 'SAPOData' or 'Datadog' or 'Trendmicro' or 'Snowflake' or 'Dynatrace' or 'Infornexus' or 'Amplitude' or 'Veeva' or 'CustomConnector'")
+        else ConnectorType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,94 +30,108 @@
     Metadata:: [],
     Type: 'AWS::AppFlow::ConnectorProfile',
   },
-  withConnectorProfileArn(ConnectorProfileArn): {
-    assert std.isString(ConnectorProfileArn) : 'ConnectorProfileArn must be a string',
+  setConnectorProfileArn(ConnectorProfileArn): {
     Properties+::: {
-      ConnectorProfileArn: ConnectorProfileArn,
+      ConnectorProfileArn:
+        if !std.isString(ConnectorProfileArn) then (error 'ConnectorProfileArn must be a string')
+        else if std.isEmpty(ConnectorProfileArn) then (error 'ConnectorProfileArn must be not empty')
+        else if std.length(ConnectorProfileArn) > 512 then error ('ConnectorProfileArn should have not more than 512 characters')
+        else ConnectorProfileArn,
     },
   },
-  withConnectorLabel(ConnectorLabel): {
-    assert std.isString(ConnectorLabel) : 'ConnectorLabel must be a string',
+  setConnectorLabel(ConnectorLabel): {
     Properties+::: {
-      ConnectorLabel: ConnectorLabel,
+      ConnectorLabel:
+        if !std.isString(ConnectorLabel) then (error 'ConnectorLabel must be a string')
+        else if std.isEmpty(ConnectorLabel) then (error 'ConnectorLabel must be not empty')
+        else if std.length(ConnectorLabel) > 256 then error ('ConnectorLabel should have not more than 256 characters')
+        else ConnectorLabel,
     },
   },
-  withKMSArn(KMSArn): {
-    assert std.isString(KMSArn) : 'KMSArn must be a string',
+  setKMSArn(KMSArn): {
     Properties+::: {
-      KMSArn: KMSArn,
+      KMSArn:
+        if !std.isString(KMSArn) then (error 'KMSArn must be a string')
+        else if std.isEmpty(KMSArn) then (error 'KMSArn must be not empty')
+        else if std.length(KMSArn) < 20 then error ('KMSArn should have at least 20 characters')
+        else if std.length(KMSArn) > 2048 then error ('KMSArn should have not more than 2048 characters')
+        else KMSArn,
     },
   },
-  withConnectorProfileConfig(ConnectorProfileConfig): {
-    assert std.isObject(ConnectorProfileConfig) : 'ConnectorProfileConfig must be a object',
+  setConnectorProfileConfig(ConnectorProfileConfig): {
     Properties+::: {
-      ConnectorProfileConfig: ConnectorProfileConfig,
+      ConnectorProfileConfig:
+        if !std.isObject(ConnectorProfileConfig) then (error 'ConnectorProfileConfig must be an object')
+        else ConnectorProfileConfig,
     },
   },
-  withCredentialsArn(CredentialsArn): {
-    assert std.isString(CredentialsArn) : 'CredentialsArn must be a string',
+  setCredentialsArn(CredentialsArn): {
     Properties+::: {
-      CredentialsArn: CredentialsArn,
+      CredentialsArn:
+        if !std.isString(CredentialsArn) then (error 'CredentialsArn must be a string')
+        else if std.isEmpty(CredentialsArn) then (error 'CredentialsArn must be not empty')
+        else if std.length(CredentialsArn) > 512 then error ('CredentialsArn should have not more than 512 characters')
+        else CredentialsArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

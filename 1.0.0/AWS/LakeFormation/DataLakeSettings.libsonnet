@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,138 +10,151 @@
     Metadata:: [],
     Type: 'AWS::LakeFormation::DataLakeSettings',
   },
-  withAllowExternalDataFiltering(AllowExternalDataFiltering): {
-    assert std.isBoolean(AllowExternalDataFiltering) : 'AllowExternalDataFiltering must be a boolean',
+  setAllowExternalDataFiltering(AllowExternalDataFiltering): {
     Properties+::: {
-      AllowExternalDataFiltering: AllowExternalDataFiltering,
+      AllowExternalDataFiltering:
+        if !std.isBoolean(AllowExternalDataFiltering) then (error 'AllowExternalDataFiltering must be a boolean') else AllowExternalDataFiltering,
     },
   },
-  withExternalDataFilteringAllowList(ExternalDataFilteringAllowList): {
-    assert std.isObject(ExternalDataFilteringAllowList) : 'ExternalDataFilteringAllowList must be a object',
+  setExternalDataFilteringAllowList(ExternalDataFilteringAllowList): {
     Properties+::: {
-      ExternalDataFilteringAllowList: ExternalDataFilteringAllowList,
+      ExternalDataFilteringAllowList:
+        if !std.isObject(ExternalDataFilteringAllowList) then (error 'ExternalDataFilteringAllowList must be an object')
+        else ExternalDataFilteringAllowList,
     },
   },
-  withCreateTableDefaultPermissions(CreateTableDefaultPermissions): {
-    assert std.isObject(CreateTableDefaultPermissions) : 'CreateTableDefaultPermissions must be a object',
+  setCreateTableDefaultPermissions(CreateTableDefaultPermissions): {
     Properties+::: {
-      CreateTableDefaultPermissions: CreateTableDefaultPermissions,
+      CreateTableDefaultPermissions:
+        if !std.isObject(CreateTableDefaultPermissions) then (error 'CreateTableDefaultPermissions must be an object')
+        else CreateTableDefaultPermissions,
     },
   },
-  withMutationType(MutationType): {
-    assert std.isString(MutationType) : 'MutationType must be a string',
+  setMutationType(MutationType): {
     Properties+::: {
-      MutationType: MutationType,
+      MutationType:
+        if !std.isString(MutationType) then (error 'MutationType must be a string')
+        else if std.isEmpty(MutationType) then (error 'MutationType must be not empty')
+        else MutationType,
     },
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withAllowFullTableExternalDataAccess(AllowFullTableExternalDataAccess): {
-    assert std.isBoolean(AllowFullTableExternalDataAccess) : 'AllowFullTableExternalDataAccess must be a boolean',
+  setAllowFullTableExternalDataAccess(AllowFullTableExternalDataAccess): {
     Properties+::: {
-      AllowFullTableExternalDataAccess: AllowFullTableExternalDataAccess,
+      AllowFullTableExternalDataAccess:
+        if !std.isBoolean(AllowFullTableExternalDataAccess) then (error 'AllowFullTableExternalDataAccess must be a boolean') else AllowFullTableExternalDataAccess,
     },
   },
-  withAdmins(Admins): {
-    assert std.isObject(Admins) : 'Admins must be a object',
+  setAdmins(Admins): {
     Properties+::: {
-      Admins: Admins,
+      Admins:
+        if !std.isObject(Admins) then (error 'Admins must be an object')
+        else Admins,
     },
   },
-  withCreateDatabaseDefaultPermissions(CreateDatabaseDefaultPermissions): {
-    assert std.isObject(CreateDatabaseDefaultPermissions) : 'CreateDatabaseDefaultPermissions must be a object',
+  setCreateDatabaseDefaultPermissions(CreateDatabaseDefaultPermissions): {
     Properties+::: {
-      CreateDatabaseDefaultPermissions: CreateDatabaseDefaultPermissions,
+      CreateDatabaseDefaultPermissions:
+        if !std.isObject(CreateDatabaseDefaultPermissions) then (error 'CreateDatabaseDefaultPermissions must be an object')
+        else CreateDatabaseDefaultPermissions,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAuthorizedSessionTagValueList(AuthorizedSessionTagValueList): {
+  setAuthorizedSessionTagValueList(AuthorizedSessionTagValueList): {
     Properties+::: {
-      AuthorizedSessionTagValueList: (if std.isArray(AuthorizedSessionTagValueList) then AuthorizedSessionTagValueList else [AuthorizedSessionTagValueList]),
+      AuthorizedSessionTagValueList:
+        if !std.isArray(AuthorizedSessionTagValueList) then (error 'AuthorizedSessionTagValueList must be an array')
+        else AuthorizedSessionTagValueList,
     },
   },
-  withAuthorizedSessionTagValueListMixin(AuthorizedSessionTagValueList): {
+  setAuthorizedSessionTagValueListMixin(AuthorizedSessionTagValueList): {
     Properties+::: {
-      AuthorizedSessionTagValueList+: (if std.isArray(AuthorizedSessionTagValueList) then AuthorizedSessionTagValueList else [AuthorizedSessionTagValueList]),
+      AuthorizedSessionTagValueList+: AuthorizedSessionTagValueList,
     },
   },
-  withTrustedResourceOwners(TrustedResourceOwners): {
+  setTrustedResourceOwners(TrustedResourceOwners): {
     Properties+::: {
-      TrustedResourceOwners: (if std.isArray(TrustedResourceOwners) then TrustedResourceOwners else [TrustedResourceOwners]),
+      TrustedResourceOwners:
+        if !std.isArray(TrustedResourceOwners) then (error 'TrustedResourceOwners must be an array')
+        else TrustedResourceOwners,
     },
   },
-  withTrustedResourceOwnersMixin(TrustedResourceOwners): {
+  setTrustedResourceOwnersMixin(TrustedResourceOwners): {
     Properties+::: {
-      TrustedResourceOwners+: (if std.isArray(TrustedResourceOwners) then TrustedResourceOwners else [TrustedResourceOwners]),
+      TrustedResourceOwners+: TrustedResourceOwners,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

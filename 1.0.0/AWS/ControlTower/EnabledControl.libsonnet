@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetIdentifier) : 'TargetIdentifier must be a string',
-      TargetIdentifier: TargetIdentifier,
-      assert std.isString(ControlIdentifier) : 'ControlIdentifier must be a string',
-      ControlIdentifier: ControlIdentifier,
+      TargetIdentifier:
+        if !std.isString(TargetIdentifier) then (error 'TargetIdentifier must be a string')
+        else if std.isEmpty(TargetIdentifier) then (error 'TargetIdentifier must be not empty')
+        else if std.length(TargetIdentifier) < 20 then error ('TargetIdentifier should have at least 20 characters')
+        else if std.length(TargetIdentifier) > 2048 then error ('TargetIdentifier should have not more than 2048 characters')
+        else TargetIdentifier,
+      ControlIdentifier:
+        if !std.isString(ControlIdentifier) then (error 'ControlIdentifier must be a string')
+        else if std.isEmpty(ControlIdentifier) then (error 'ControlIdentifier must be not empty')
+        else if std.length(ControlIdentifier) < 20 then error ('ControlIdentifier should have at least 20 characters')
+        else if std.length(ControlIdentifier) > 2048 then error ('ControlIdentifier should have not more than 2048 characters')
+        else ControlIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,84 +26,91 @@
     Metadata:: [],
     Type: 'AWS::ControlTower::EnabledControl',
   },
-  withParameters(Parameters): {
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters:
+        if !std.isArray(Parameters) then (error 'Parameters must be an array')
+        else if std.length(Parameters) < 1 then error ('Parameters cannot have less than 1 items')
+        else Parameters,
     },
   },
-  withParametersMixin(Parameters): {
+  setParametersMixin(Parameters): {
     Properties+::: {
-      Parameters+: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters+: Parameters,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

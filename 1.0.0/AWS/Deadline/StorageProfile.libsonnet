@@ -6,13 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DisplayName) : 'DisplayName must be a string',
-      DisplayName: DisplayName,
-      assert std.isString(FarmId) : 'FarmId must be a string',
-      FarmId: FarmId,
-      assert std.isString(OsFamily) : 'OsFamily must be a string',
-      assert OsFamily == 'WINDOWS' || OsFamily == 'LINUX' || OsFamily == 'MACOS' : "OsFamily should be 'WINDOWS' or 'LINUX' or 'MACOS'",
-      OsFamily: OsFamily,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else if std.length(DisplayName) < 1 then error ('DisplayName should have at least 1 characters')
+        else if std.length(DisplayName) > 100 then error ('DisplayName should have not more than 100 characters')
+        else DisplayName,
+      FarmId:
+        if !std.isString(FarmId) then (error 'FarmId must be a string')
+        else if std.isEmpty(FarmId) then (error 'FarmId must be not empty')
+        else FarmId,
+      OsFamily:
+        if !std.isString(OsFamily) then (error 'OsFamily must be a string')
+        else if std.isEmpty(OsFamily) then (error 'OsFamily must be not empty')
+        else if OsFamily != 'WINDOWS' && OsFamily != 'LINUX' && OsFamily != 'MACOS' then (error "OsFamily should be 'WINDOWS' or 'LINUX' or 'MACOS'")
+        else OsFamily,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,80 +30,85 @@
     Metadata:: [],
     Type: 'AWS::Deadline::StorageProfile',
   },
-  withFileSystemLocations(FileSystemLocations): {
+  setFileSystemLocations(FileSystemLocations): {
     Properties+::: {
-      FileSystemLocations: (if std.isArray(FileSystemLocations) then FileSystemLocations else [FileSystemLocations]),
+      FileSystemLocations:
+        if !std.isArray(FileSystemLocations) then (error 'FileSystemLocations must be an array')
+        else if std.length(FileSystemLocations) > 20 then error ('FileSystemLocations cannot have more than 20 items')
+        else FileSystemLocations,
     },
   },
-  withFileSystemLocationsMixin(FileSystemLocations): {
+  setFileSystemLocationsMixin(FileSystemLocations): {
     Properties+::: {
-      FileSystemLocations+: (if std.isArray(FileSystemLocations) then FileSystemLocations else [FileSystemLocations]),
+      FileSystemLocations+: FileSystemLocations,
     },
   },
-  withStorageProfileId(StorageProfileId): {
-    assert std.isString(StorageProfileId) : 'StorageProfileId must be a string',
+  setStorageProfileId(StorageProfileId): {
     Properties+::: {
-      StorageProfileId: StorageProfileId,
+      StorageProfileId:
+        if !std.isString(StorageProfileId) then (error 'StorageProfileId must be a string')
+        else if std.isEmpty(StorageProfileId) then (error 'StorageProfileId must be not empty')
+        else StorageProfileId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainId) : 'DomainId must be a string',
-      DomainId: DomainId,
-      assert std.isString(SpaceName) : 'SpaceName must be a string',
-      SpaceName: SpaceName,
+      DomainId:
+        if !std.isString(DomainId) then (error 'DomainId must be a string')
+        else if std.isEmpty(DomainId) then (error 'DomainId must be not empty')
+        else if std.length(DomainId) < 1 then error ('DomainId should have at least 1 characters')
+        else if std.length(DomainId) > 63 then error ('DomainId should have not more than 63 characters')
+        else DomainId,
+      SpaceName:
+        if !std.isString(SpaceName) then (error 'SpaceName must be a string')
+        else if std.isEmpty(SpaceName) then (error 'SpaceName must be not empty')
+        else if std.length(SpaceName) < 1 then error ('SpaceName should have at least 1 characters')
+        else if std.length(SpaceName) > 63 then error ('SpaceName should have not more than 63 characters')
+        else SpaceName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,110 +26,127 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::Space',
   },
-  withSpaceArn(SpaceArn): {
-    assert std.isString(SpaceArn) : 'SpaceArn must be a string',
+  setSpaceArn(SpaceArn): {
     Properties+::: {
-      SpaceArn: SpaceArn,
+      SpaceArn:
+        if !std.isString(SpaceArn) then (error 'SpaceArn must be a string')
+        else if std.isEmpty(SpaceArn) then (error 'SpaceArn must be not empty')
+        else if std.length(SpaceArn) > 256 then error ('SpaceArn should have not more than 256 characters')
+        else SpaceArn,
     },
   },
-  withSpaceSettings(SpaceSettings): {
-    assert std.isObject(SpaceSettings) : 'SpaceSettings must be a object',
+  setSpaceSettings(SpaceSettings): {
     Properties+::: {
-      SpaceSettings: SpaceSettings,
+      SpaceSettings:
+        if !std.isObject(SpaceSettings) then (error 'SpaceSettings must be an object')
+        else SpaceSettings,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withOwnershipSettings(OwnershipSettings): {
-    assert std.isObject(OwnershipSettings) : 'OwnershipSettings must be a object',
+  setOwnershipSettings(OwnershipSettings): {
     Properties+::: {
-      OwnershipSettings: OwnershipSettings,
+      OwnershipSettings:
+        if !std.isObject(OwnershipSettings) then (error 'OwnershipSettings must be an object')
+        else if !std.objectHas(OwnershipSettings, 'OwnerUserProfileName') then (error ' have attribute OwnerUserProfileName')
+        else OwnershipSettings,
     },
   },
-  withSpaceSharingSettings(SpaceSharingSettings): {
-    assert std.isObject(SpaceSharingSettings) : 'SpaceSharingSettings must be a object',
+  setSpaceSharingSettings(SpaceSharingSettings): {
     Properties+::: {
-      SpaceSharingSettings: SpaceSharingSettings,
+      SpaceSharingSettings:
+        if !std.isObject(SpaceSharingSettings) then (error 'SpaceSharingSettings must be an object')
+        else if !std.objectHas(SpaceSharingSettings, 'SharingType') then (error ' have attribute SharingType')
+        else SpaceSharingSettings,
     },
   },
-  withSpaceDisplayName(SpaceDisplayName): {
-    assert std.isString(SpaceDisplayName) : 'SpaceDisplayName must be a string',
+  setSpaceDisplayName(SpaceDisplayName): {
     Properties+::: {
-      SpaceDisplayName: SpaceDisplayName,
+      SpaceDisplayName:
+        if !std.isString(SpaceDisplayName) then (error 'SpaceDisplayName must be a string')
+        else if std.isEmpty(SpaceDisplayName) then (error 'SpaceDisplayName must be not empty')
+        else if std.length(SpaceDisplayName) > 64 then error ('SpaceDisplayName should have not more than 64 characters')
+        else SpaceDisplayName,
     },
   },
-  withUrl(Url): {
-    assert std.isString(Url) : 'Url must be a string',
+  setUrl(Url): {
     Properties+::: {
-      Url: Url,
+      Url:
+        if !std.isString(Url) then (error 'Url must be a string')
+        else if std.isEmpty(Url) then (error 'Url must be not empty')
+        else if std.length(Url) > 1024 then error ('Url should have not more than 1024 characters')
+        else Url,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

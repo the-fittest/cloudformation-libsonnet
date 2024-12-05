@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,146 +17,166 @@
     Metadata:: [],
     Type: 'AWS::Batch::JobDefinition',
   },
-  withParameters(Parameters): {
-    assert std.isObject(Parameters) : 'Parameters must be a object',
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: Parameters,
+      Parameters:
+        if !std.isObject(Parameters) then (error 'Parameters must be an object')
+        else Parameters,
     },
   },
-  withTimeout(Timeout): {
-    assert std.isObject(Timeout) : 'Timeout must be a object',
+  setTimeout(Timeout): {
     Properties+::: {
-      Timeout: Timeout,
+      Timeout:
+        if !std.isObject(Timeout) then (error 'Timeout must be an object')
+        else Timeout,
     },
   },
-  withJobDefinitionName(JobDefinitionName): {
-    assert std.isString(JobDefinitionName) : 'JobDefinitionName must be a string',
+  setJobDefinitionName(JobDefinitionName): {
     Properties+::: {
-      JobDefinitionName: JobDefinitionName,
+      JobDefinitionName:
+        if !std.isString(JobDefinitionName) then (error 'JobDefinitionName must be a string')
+        else if std.isEmpty(JobDefinitionName) then (error 'JobDefinitionName must be not empty')
+        else JobDefinitionName,
     },
   },
-  withPropagateTags(PropagateTags): {
-    assert std.isBoolean(PropagateTags) : 'PropagateTags must be a boolean',
+  setPropagateTags(PropagateTags): {
     Properties+::: {
-      PropagateTags: PropagateTags,
+      PropagateTags:
+        if !std.isBoolean(PropagateTags) then (error 'PropagateTags must be a boolean') else PropagateTags,
     },
   },
-  withPlatformCapabilities(PlatformCapabilities): {
+  setPlatformCapabilities(PlatformCapabilities): {
     Properties+::: {
-      PlatformCapabilities: (if std.isArray(PlatformCapabilities) then PlatformCapabilities else [PlatformCapabilities]),
+      PlatformCapabilities:
+        if !std.isArray(PlatformCapabilities) then (error 'PlatformCapabilities must be an array')
+        else PlatformCapabilities,
     },
   },
-  withPlatformCapabilitiesMixin(PlatformCapabilities): {
+  setPlatformCapabilitiesMixin(PlatformCapabilities): {
     Properties+::: {
-      PlatformCapabilities+: (if std.isArray(PlatformCapabilities) then PlatformCapabilities else [PlatformCapabilities]),
+      PlatformCapabilities+: PlatformCapabilities,
     },
   },
-  withEksProperties(EksProperties): {
-    assert std.isObject(EksProperties) : 'EksProperties must be a object',
+  setEksProperties(EksProperties): {
     Properties+::: {
-      EksProperties: EksProperties,
+      EksProperties:
+        if !std.isObject(EksProperties) then (error 'EksProperties must be an object')
+        else EksProperties,
     },
   },
-  withNodeProperties(NodeProperties): {
-    assert std.isObject(NodeProperties) : 'NodeProperties must be a object',
+  setNodeProperties(NodeProperties): {
     Properties+::: {
-      NodeProperties: NodeProperties,
+      NodeProperties:
+        if !std.isObject(NodeProperties) then (error 'NodeProperties must be an object')
+        else if !std.objectHas(NodeProperties, 'MainNode') then (error ' have attribute MainNode')
+        else if !std.objectHas(NodeProperties, 'NodeRangeProperties') then (error ' have attribute NodeRangeProperties')
+        else if !std.objectHas(NodeProperties, 'NumNodes') then (error ' have attribute NumNodes')
+        else NodeProperties,
     },
   },
-  withSchedulingPriority(SchedulingPriority): {
-    assert std.isNumber(SchedulingPriority) : 'SchedulingPriority must be a number',
+  setSchedulingPriority(SchedulingPriority): {
     Properties+::: {
-      SchedulingPriority: SchedulingPriority,
+      SchedulingPriority:
+        if !std.isNumber(SchedulingPriority) then (error 'SchedulingPriority must be an number')
+        else SchedulingPriority,
     },
   },
-  withContainerProperties(ContainerProperties): {
-    assert std.isObject(ContainerProperties) : 'ContainerProperties must be a object',
+  setContainerProperties(ContainerProperties): {
     Properties+::: {
-      ContainerProperties: ContainerProperties,
+      ContainerProperties:
+        if !std.isObject(ContainerProperties) then (error 'ContainerProperties must be an object')
+        else if !std.objectHas(ContainerProperties, 'Image') then (error ' have attribute Image')
+        else ContainerProperties,
     },
   },
-  withEcsProperties(EcsProperties): {
-    assert std.isObject(EcsProperties) : 'EcsProperties must be a object',
+  setEcsProperties(EcsProperties): {
     Properties+::: {
-      EcsProperties: EcsProperties,
+      EcsProperties:
+        if !std.isObject(EcsProperties) then (error 'EcsProperties must be an object')
+        else if !std.objectHas(EcsProperties, 'TaskProperties') then (error ' have attribute TaskProperties')
+        else EcsProperties,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withRetryStrategy(RetryStrategy): {
-    assert std.isObject(RetryStrategy) : 'RetryStrategy must be a object',
+  setRetryStrategy(RetryStrategy): {
     Properties+::: {
-      RetryStrategy: RetryStrategy,
+      RetryStrategy:
+        if !std.isObject(RetryStrategy) then (error 'RetryStrategy must be an object')
+        else RetryStrategy,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

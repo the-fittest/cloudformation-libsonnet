@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,134 +10,152 @@
     Metadata:: [],
     Type: 'AWS::EC2::CapacityReservationFleet',
   },
-  withAllocationStrategy(AllocationStrategy): {
-    assert std.isString(AllocationStrategy) : 'AllocationStrategy must be a string',
+  setAllocationStrategy(AllocationStrategy): {
     Properties+::: {
-      AllocationStrategy: AllocationStrategy,
+      AllocationStrategy:
+        if !std.isString(AllocationStrategy) then (error 'AllocationStrategy must be a string')
+        else if std.isEmpty(AllocationStrategy) then (error 'AllocationStrategy must be not empty')
+        else AllocationStrategy,
     },
   },
-  withTagSpecifications(TagSpecifications): {
+  setTagSpecifications(TagSpecifications): {
     Properties+::: {
-      TagSpecifications: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications:
+        if !std.isArray(TagSpecifications) then (error 'TagSpecifications must be an array')
+        else TagSpecifications,
     },
   },
-  withTagSpecificationsMixin(TagSpecifications): {
+  setTagSpecificationsMixin(TagSpecifications): {
     Properties+::: {
-      TagSpecifications+: (if std.isArray(TagSpecifications) then TagSpecifications else [TagSpecifications]),
+      TagSpecifications+: TagSpecifications,
     },
   },
-  withInstanceTypeSpecifications(InstanceTypeSpecifications): {
+  setInstanceTypeSpecifications(InstanceTypeSpecifications): {
     Properties+::: {
-      InstanceTypeSpecifications: (if std.isArray(InstanceTypeSpecifications) then InstanceTypeSpecifications else [InstanceTypeSpecifications]),
+      InstanceTypeSpecifications:
+        if !std.isArray(InstanceTypeSpecifications) then (error 'InstanceTypeSpecifications must be an array')
+        else if std.length(InstanceTypeSpecifications) > 50 then error ('InstanceTypeSpecifications cannot have more than 50 items')
+        else InstanceTypeSpecifications,
     },
   },
-  withInstanceTypeSpecificationsMixin(InstanceTypeSpecifications): {
+  setInstanceTypeSpecificationsMixin(InstanceTypeSpecifications): {
     Properties+::: {
-      InstanceTypeSpecifications+: (if std.isArray(InstanceTypeSpecifications) then InstanceTypeSpecifications else [InstanceTypeSpecifications]),
+      InstanceTypeSpecifications+: InstanceTypeSpecifications,
     },
   },
-  withTotalTargetCapacity(TotalTargetCapacity): {
-    assert std.isNumber(TotalTargetCapacity) : 'TotalTargetCapacity must be a number',
+  setTotalTargetCapacity(TotalTargetCapacity): {
     Properties+::: {
-      TotalTargetCapacity: TotalTargetCapacity,
+      TotalTargetCapacity:
+        if !std.isNumber(TotalTargetCapacity) then (error 'TotalTargetCapacity must be an number')
+        else if TotalTargetCapacity < 1 then error ('TotalTargetCapacity should be at least 1')
+        else if TotalTargetCapacity > 25000 then error ('TotalTargetCapacity should be not more than 25000')
+        else TotalTargetCapacity,
     },
   },
-  withEndDate(EndDate): {
-    assert std.isString(EndDate) : 'EndDate must be a string',
+  setEndDate(EndDate): {
     Properties+::: {
-      EndDate: EndDate,
+      EndDate:
+        if !std.isString(EndDate) then (error 'EndDate must be a string')
+        else if std.isEmpty(EndDate) then (error 'EndDate must be not empty')
+        else EndDate,
     },
   },
-  withInstanceMatchCriteria(InstanceMatchCriteria): {
-    assert std.isString(InstanceMatchCriteria) : 'InstanceMatchCriteria must be a string',
-    assert InstanceMatchCriteria == 'open' : "InstanceMatchCriteria should be 'open'",
+  setInstanceMatchCriteria(InstanceMatchCriteria): {
     Properties+::: {
-      InstanceMatchCriteria: InstanceMatchCriteria,
+      InstanceMatchCriteria:
+        if !std.isString(InstanceMatchCriteria) then (error 'InstanceMatchCriteria must be a string')
+        else if std.isEmpty(InstanceMatchCriteria) then (error 'InstanceMatchCriteria must be not empty')
+        else if InstanceMatchCriteria != 'open' then (error "InstanceMatchCriteria should be 'open'")
+        else InstanceMatchCriteria,
     },
   },
-  withCapacityReservationFleetId(CapacityReservationFleetId): {
-    assert std.isString(CapacityReservationFleetId) : 'CapacityReservationFleetId must be a string',
+  setCapacityReservationFleetId(CapacityReservationFleetId): {
     Properties+::: {
-      CapacityReservationFleetId: CapacityReservationFleetId,
+      CapacityReservationFleetId:
+        if !std.isString(CapacityReservationFleetId) then (error 'CapacityReservationFleetId must be a string')
+        else if std.isEmpty(CapacityReservationFleetId) then (error 'CapacityReservationFleetId must be not empty')
+        else CapacityReservationFleetId,
     },
   },
-  withTenancy(Tenancy): {
-    assert std.isString(Tenancy) : 'Tenancy must be a string',
-    assert Tenancy == 'default' : "Tenancy should be 'default'",
+  setTenancy(Tenancy): {
     Properties+::: {
-      Tenancy: Tenancy,
+      Tenancy:
+        if !std.isString(Tenancy) then (error 'Tenancy must be a string')
+        else if std.isEmpty(Tenancy) then (error 'Tenancy must be not empty')
+        else if Tenancy != 'default' then (error "Tenancy should be 'default'")
+        else Tenancy,
     },
   },
-  withRemoveEndDate(RemoveEndDate): {
-    assert std.isBoolean(RemoveEndDate) : 'RemoveEndDate must be a boolean',
+  setRemoveEndDate(RemoveEndDate): {
     Properties+::: {
-      RemoveEndDate: RemoveEndDate,
+      RemoveEndDate:
+        if !std.isBoolean(RemoveEndDate) then (error 'RemoveEndDate must be a boolean') else RemoveEndDate,
     },
   },
-  withNoRemoveEndDate(NoRemoveEndDate): {
-    assert std.isBoolean(NoRemoveEndDate) : 'NoRemoveEndDate must be a boolean',
+  setNoRemoveEndDate(NoRemoveEndDate): {
     Properties+::: {
-      NoRemoveEndDate: NoRemoveEndDate,
+      NoRemoveEndDate:
+        if !std.isBoolean(NoRemoveEndDate) then (error 'NoRemoveEndDate must be a boolean') else NoRemoveEndDate,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

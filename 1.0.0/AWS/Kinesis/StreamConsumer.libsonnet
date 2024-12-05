@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ConsumerName) : 'ConsumerName must be a string',
-      ConsumerName: ConsumerName,
-      assert std.isString(StreamARN) : 'StreamARN must be a string',
-      StreamARN: StreamARN,
+      ConsumerName:
+        if !std.isString(ConsumerName) then (error 'ConsumerName must be a string')
+        else if std.isEmpty(ConsumerName) then (error 'ConsumerName must be not empty')
+        else ConsumerName,
+      StreamARN:
+        if !std.isString(StreamARN) then (error 'StreamARN must be a string')
+        else if std.isEmpty(StreamARN) then (error 'StreamARN must be not empty')
+        else StreamARN,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,88 +22,96 @@
     Metadata:: [],
     Type: 'AWS::Kinesis::StreamConsumer',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withConsumerCreationTimestamp(ConsumerCreationTimestamp): {
-    assert std.isString(ConsumerCreationTimestamp) : 'ConsumerCreationTimestamp must be a string',
+  setConsumerCreationTimestamp(ConsumerCreationTimestamp): {
     Properties+::: {
-      ConsumerCreationTimestamp: ConsumerCreationTimestamp,
+      ConsumerCreationTimestamp:
+        if !std.isString(ConsumerCreationTimestamp) then (error 'ConsumerCreationTimestamp must be a string')
+        else if std.isEmpty(ConsumerCreationTimestamp) then (error 'ConsumerCreationTimestamp must be not empty')
+        else ConsumerCreationTimestamp,
     },
   },
-  withConsumerARN(ConsumerARN): {
-    assert std.isString(ConsumerARN) : 'ConsumerARN must be a string',
+  setConsumerARN(ConsumerARN): {
     Properties+::: {
-      ConsumerARN: ConsumerARN,
+      ConsumerARN:
+        if !std.isString(ConsumerARN) then (error 'ConsumerARN must be a string')
+        else if std.isEmpty(ConsumerARN) then (error 'ConsumerARN must be not empty')
+        else ConsumerARN,
     },
   },
-  withConsumerStatus(ConsumerStatus): {
-    assert std.isString(ConsumerStatus) : 'ConsumerStatus must be a string',
+  setConsumerStatus(ConsumerStatus): {
     Properties+::: {
-      ConsumerStatus: ConsumerStatus,
+      ConsumerStatus:
+        if !std.isString(ConsumerStatus) then (error 'ConsumerStatus must be a string')
+        else if std.isEmpty(ConsumerStatus) then (error 'ConsumerStatus must be not empty')
+        else ConsumerStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

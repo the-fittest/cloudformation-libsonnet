@@ -5,10 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
-      assert std.isNumber(DefaultExpirationDays) : 'DefaultExpirationDays must be a number',
-      DefaultExpirationDays: DefaultExpirationDays,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 64 then error ('DomainName should have not more than 64 characters')
+        else DomainName,
+      DefaultExpirationDays:
+        if !std.isNumber(DefaultExpirationDays) then (error 'DefaultExpirationDays must be an number')
+        else if DefaultExpirationDays < 1 then error ('DefaultExpirationDays should be at least 1')
+        else if DefaultExpirationDays > 1098 then error ('DefaultExpirationDays should be not more than 1098')
+        else DefaultExpirationDays,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,116 +25,134 @@
     Metadata:: [],
     Type: 'AWS::CustomerProfiles::Domain',
   },
-  withDeadLetterQueueUrl(DeadLetterQueueUrl): {
-    assert std.isString(DeadLetterQueueUrl) : 'DeadLetterQueueUrl must be a string',
+  setDeadLetterQueueUrl(DeadLetterQueueUrl): {
     Properties+::: {
-      DeadLetterQueueUrl: DeadLetterQueueUrl,
+      DeadLetterQueueUrl:
+        if !std.isString(DeadLetterQueueUrl) then (error 'DeadLetterQueueUrl must be a string')
+        else if std.isEmpty(DeadLetterQueueUrl) then (error 'DeadLetterQueueUrl must be not empty')
+        else if std.length(DeadLetterQueueUrl) > 255 then error ('DeadLetterQueueUrl should have not more than 255 characters')
+        else DeadLetterQueueUrl,
     },
   },
-  withDefaultEncryptionKey(DefaultEncryptionKey): {
-    assert std.isString(DefaultEncryptionKey) : 'DefaultEncryptionKey must be a string',
+  setDefaultEncryptionKey(DefaultEncryptionKey): {
     Properties+::: {
-      DefaultEncryptionKey: DefaultEncryptionKey,
+      DefaultEncryptionKey:
+        if !std.isString(DefaultEncryptionKey) then (error 'DefaultEncryptionKey must be a string')
+        else if std.isEmpty(DefaultEncryptionKey) then (error 'DefaultEncryptionKey must be not empty')
+        else if std.length(DefaultEncryptionKey) > 255 then error ('DefaultEncryptionKey should have not more than 255 characters')
+        else DefaultEncryptionKey,
     },
   },
-  withMatching(Matching): {
-    assert std.isObject(Matching) : 'Matching must be a object',
+  setMatching(Matching): {
     Properties+::: {
-      Matching: Matching,
+      Matching:
+        if !std.isObject(Matching) then (error 'Matching must be an object')
+        else if !std.objectHas(Matching, 'Enabled') then (error ' have attribute Enabled')
+        else Matching,
     },
   },
-  withRuleBasedMatching(RuleBasedMatching): {
-    assert std.isObject(RuleBasedMatching) : 'RuleBasedMatching must be a object',
+  setRuleBasedMatching(RuleBasedMatching): {
     Properties+::: {
-      RuleBasedMatching: RuleBasedMatching,
+      RuleBasedMatching:
+        if !std.isObject(RuleBasedMatching) then (error 'RuleBasedMatching must be an object')
+        else if !std.objectHas(RuleBasedMatching, 'Enabled') then (error ' have attribute Enabled')
+        else RuleBasedMatching,
     },
   },
-  withStats(Stats): {
-    assert std.isObject(Stats) : 'Stats must be a object',
+  setStats(Stats): {
     Properties+::: {
-      Stats: Stats,
+      Stats:
+        if !std.isObject(Stats) then (error 'Stats must be an object')
+        else Stats,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withLastUpdatedAt(LastUpdatedAt): {
-    assert std.isString(LastUpdatedAt) : 'LastUpdatedAt must be a string',
+  setLastUpdatedAt(LastUpdatedAt): {
     Properties+::: {
-      LastUpdatedAt: LastUpdatedAt,
+      LastUpdatedAt:
+        if !std.isString(LastUpdatedAt) then (error 'LastUpdatedAt must be a string')
+        else if std.isEmpty(LastUpdatedAt) then (error 'LastUpdatedAt must be not empty')
+        else LastUpdatedAt,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

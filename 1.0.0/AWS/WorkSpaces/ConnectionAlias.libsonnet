@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ConnectionString) : 'ConnectionString must be a string',
-      ConnectionString: ConnectionString,
+      ConnectionString:
+        if !std.isString(ConnectionString) then (error 'ConnectionString must be a string')
+        else if std.isEmpty(ConnectionString) then (error 'ConnectionString must be not empty')
+        else if std.length(ConnectionString) < 1 then error ('ConnectionString should have at least 1 characters')
+        else if std.length(ConnectionString) > 255 then error ('ConnectionString should have not more than 255 characters')
+        else ConnectionString,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,97 +19,107 @@
     Metadata:: [],
     Type: 'AWS::WorkSpaces::ConnectionAlias',
   },
-  withAssociations(Associations): {
+  setAssociations(Associations): {
     Properties+::: {
-      Associations: (if std.isArray(Associations) then Associations else [Associations]),
+      Associations:
+        if !std.isArray(Associations) then (error 'Associations must be an array')
+        else Associations,
     },
   },
-  withAssociationsMixin(Associations): {
+  setAssociationsMixin(Associations): {
     Properties+::: {
-      Associations+: (if std.isArray(Associations) then Associations else [Associations]),
+      Associations+: Associations,
     },
   },
-  withAliasId(AliasId): {
-    assert std.isString(AliasId) : 'AliasId must be a string',
+  setAliasId(AliasId): {
     Properties+::: {
-      AliasId: AliasId,
+      AliasId:
+        if !std.isString(AliasId) then (error 'AliasId must be a string')
+        else if std.isEmpty(AliasId) then (error 'AliasId must be not empty')
+        else if std.length(AliasId) < 13 then error ('AliasId should have at least 13 characters')
+        else if std.length(AliasId) > 68 then error ('AliasId should have not more than 68 characters')
+        else AliasId,
     },
   },
-  withConnectionAliasState(ConnectionAliasState): {
-    assert std.isString(ConnectionAliasState) : 'ConnectionAliasState must be a string',
-    assert ConnectionAliasState == 'CREATING' || ConnectionAliasState == 'CREATED' || ConnectionAliasState == 'DELETING' : "ConnectionAliasState should be 'CREATING' or 'CREATED' or 'DELETING'",
+  setConnectionAliasState(ConnectionAliasState): {
     Properties+::: {
-      ConnectionAliasState: ConnectionAliasState,
+      ConnectionAliasState:
+        if !std.isString(ConnectionAliasState) then (error 'ConnectionAliasState must be a string')
+        else if std.isEmpty(ConnectionAliasState) then (error 'ConnectionAliasState must be not empty')
+        else if ConnectionAliasState != 'CREATING' && ConnectionAliasState != 'CREATED' && ConnectionAliasState != 'DELETING' then (error "ConnectionAliasState should be 'CREATING' or 'CREATED' or 'DELETING'")
+        else ConnectionAliasState,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

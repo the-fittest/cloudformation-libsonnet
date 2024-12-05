@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IpamId) : 'IpamId must be a string',
-      IpamId: IpamId,
+      IpamId:
+        if !std.isString(IpamId) then (error 'IpamId must be a string')
+        else if std.isEmpty(IpamId) then (error 'IpamId must be not empty')
+        else IpamId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,117 +17,130 @@
     Metadata:: [],
     Type: 'AWS::EC2::IPAMScope',
   },
-  withIpamScopeId(IpamScopeId): {
-    assert std.isString(IpamScopeId) : 'IpamScopeId must be a string',
+  setIpamScopeId(IpamScopeId): {
     Properties+::: {
-      IpamScopeId: IpamScopeId,
+      IpamScopeId:
+        if !std.isString(IpamScopeId) then (error 'IpamScopeId must be a string')
+        else if std.isEmpty(IpamScopeId) then (error 'IpamScopeId must be not empty')
+        else IpamScopeId,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withIpamArn(IpamArn): {
-    assert std.isString(IpamArn) : 'IpamArn must be a string',
+  setIpamArn(IpamArn): {
     Properties+::: {
-      IpamArn: IpamArn,
+      IpamArn:
+        if !std.isString(IpamArn) then (error 'IpamArn must be a string')
+        else if std.isEmpty(IpamArn) then (error 'IpamArn must be not empty')
+        else IpamArn,
     },
   },
-  withIpamScopeType(IpamScopeType): {
-    assert std.isString(IpamScopeType) : 'IpamScopeType must be a string',
-    assert IpamScopeType == 'public' || IpamScopeType == 'private' : "IpamScopeType should be 'public' or 'private'",
+  setIpamScopeType(IpamScopeType): {
     Properties+::: {
-      IpamScopeType: IpamScopeType,
+      IpamScopeType:
+        if !std.isString(IpamScopeType) then (error 'IpamScopeType must be a string')
+        else if std.isEmpty(IpamScopeType) then (error 'IpamScopeType must be not empty')
+        else if IpamScopeType != 'public' && IpamScopeType != 'private' then (error "IpamScopeType should be 'public' or 'private'")
+        else IpamScopeType,
     },
   },
-  withIsDefault(IsDefault): {
-    assert std.isBoolean(IsDefault) : 'IsDefault must be a boolean',
+  setIsDefault(IsDefault): {
     Properties+::: {
-      IsDefault: IsDefault,
+      IsDefault:
+        if !std.isBoolean(IsDefault) then (error 'IsDefault must be a boolean') else IsDefault,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withPoolCount(PoolCount): {
-    assert std.isNumber(PoolCount) : 'PoolCount must be a number',
+  setPoolCount(PoolCount): {
     Properties+::: {
-      PoolCount: PoolCount,
+      PoolCount:
+        if !std.isNumber(PoolCount) then (error 'PoolCount must be an number')
+        else PoolCount,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

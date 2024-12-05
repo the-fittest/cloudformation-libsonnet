@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceName) : 'InstanceName must be a string',
-      InstanceName: InstanceName,
-      assert std.isString(BlueprintId) : 'BlueprintId must be a string',
-      BlueprintId: BlueprintId,
-      assert std.isString(BundleId) : 'BundleId must be a string',
-      BundleId: BundleId,
+      InstanceName:
+        if !std.isString(InstanceName) then (error 'InstanceName must be a string')
+        else if std.isEmpty(InstanceName) then (error 'InstanceName must be not empty')
+        else if std.length(InstanceName) < 1 then error ('InstanceName should have at least 1 characters')
+        else if std.length(InstanceName) > 254 then error ('InstanceName should have not more than 254 characters')
+        else InstanceName,
+      BlueprintId:
+        if !std.isString(BlueprintId) then (error 'BlueprintId must be a string')
+        else if std.isEmpty(BlueprintId) then (error 'BlueprintId must be not empty')
+        else if std.length(BlueprintId) < 1 then error ('BlueprintId should have at least 1 characters')
+        else if std.length(BlueprintId) > 255 then error ('BlueprintId should have not more than 255 characters')
+        else BlueprintId,
+      BundleId:
+        if !std.isString(BundleId) then (error 'BundleId must be a string')
+        else if std.isEmpty(BundleId) then (error 'BundleId must be not empty')
+        else if std.length(BundleId) < 1 then error ('BundleId should have at least 1 characters')
+        else if std.length(BundleId) > 255 then error ('BundleId should have not more than 255 characters')
+        else BundleId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,184 +33,217 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Instance',
   },
-  withSupportCode(SupportCode): {
-    assert std.isString(SupportCode) : 'SupportCode must be a string',
+  setSupportCode(SupportCode): {
     Properties+::: {
-      SupportCode: SupportCode,
+      SupportCode:
+        if !std.isString(SupportCode) then (error 'SupportCode must be a string')
+        else if std.isEmpty(SupportCode) then (error 'SupportCode must be not empty')
+        else SupportCode,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else ResourceType,
     },
   },
-  withIsStaticIp(IsStaticIp): {
-    assert std.isBoolean(IsStaticIp) : 'IsStaticIp must be a boolean',
+  setIsStaticIp(IsStaticIp): {
     Properties+::: {
-      IsStaticIp: IsStaticIp,
+      IsStaticIp:
+        if !std.isBoolean(IsStaticIp) then (error 'IsStaticIp must be a boolean') else IsStaticIp,
     },
   },
-  withPrivateIpAddress(PrivateIpAddress): {
-    assert std.isString(PrivateIpAddress) : 'PrivateIpAddress must be a string',
+  setPrivateIpAddress(PrivateIpAddress): {
     Properties+::: {
-      PrivateIpAddress: PrivateIpAddress,
+      PrivateIpAddress:
+        if !std.isString(PrivateIpAddress) then (error 'PrivateIpAddress must be a string')
+        else if std.isEmpty(PrivateIpAddress) then (error 'PrivateIpAddress must be not empty')
+        else PrivateIpAddress,
     },
   },
-  withPublicIpAddress(PublicIpAddress): {
-    assert std.isString(PublicIpAddress) : 'PublicIpAddress must be a string',
+  setPublicIpAddress(PublicIpAddress): {
     Properties+::: {
-      PublicIpAddress: PublicIpAddress,
+      PublicIpAddress:
+        if !std.isString(PublicIpAddress) then (error 'PublicIpAddress must be a string')
+        else if std.isEmpty(PublicIpAddress) then (error 'PublicIpAddress must be not empty')
+        else PublicIpAddress,
     },
   },
-  withIpv6Addresses(Ipv6Addresses): {
+  setIpv6Addresses(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses:
+        if !std.isArray(Ipv6Addresses) then (error 'Ipv6Addresses must be an array')
+        else Ipv6Addresses,
     },
   },
-  withIpv6AddressesMixin(Ipv6Addresses): {
+  setIpv6AddressesMixin(Ipv6Addresses): {
     Properties+::: {
-      Ipv6Addresses+: (if std.isArray(Ipv6Addresses) then Ipv6Addresses else [Ipv6Addresses]),
+      Ipv6Addresses+: Ipv6Addresses,
     },
   },
-  withLocation(Location): {
-    assert std.isObject(Location) : 'Location must be a object',
+  setLocation(Location): {
     Properties+::: {
-      Location: Location,
+      Location:
+        if !std.isObject(Location) then (error 'Location must be an object')
+        else Location,
     },
   },
-  withHardware(Hardware): {
-    assert std.isObject(Hardware) : 'Hardware must be a object',
+  setHardware(Hardware): {
     Properties+::: {
-      Hardware: Hardware,
+      Hardware:
+        if !std.isObject(Hardware) then (error 'Hardware must be an object')
+        else Hardware,
     },
   },
-  withState(State): {
-    assert std.isObject(State) : 'State must be a object',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isObject(State) then (error 'State must be an object')
+        else State,
     },
   },
-  withNetworking(Networking): {
-    assert std.isObject(Networking) : 'Networking must be a object',
+  setNetworking(Networking): {
     Properties+::: {
-      Networking: Networking,
+      Networking:
+        if !std.isObject(Networking) then (error 'Networking must be an object')
+        else if !std.objectHas(Networking, 'Ports') then (error ' have attribute Ports')
+        else Networking,
     },
   },
-  withUserName(UserName): {
-    assert std.isString(UserName) : 'UserName must be a string',
+  setUserName(UserName): {
     Properties+::: {
-      UserName: UserName,
+      UserName:
+        if !std.isString(UserName) then (error 'UserName must be a string')
+        else if std.isEmpty(UserName) then (error 'UserName must be not empty')
+        else UserName,
     },
   },
-  withSshKeyName(SshKeyName): {
-    assert std.isString(SshKeyName) : 'SshKeyName must be a string',
+  setSshKeyName(SshKeyName): {
     Properties+::: {
-      SshKeyName: SshKeyName,
+      SshKeyName:
+        if !std.isString(SshKeyName) then (error 'SshKeyName must be a string')
+        else if std.isEmpty(SshKeyName) then (error 'SshKeyName must be not empty')
+        else SshKeyName,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else if std.length(AvailabilityZone) < 1 then error ('AvailabilityZone should have at least 1 characters')
+        else if std.length(AvailabilityZone) > 255 then error ('AvailabilityZone should have not more than 255 characters')
+        else AvailabilityZone,
     },
   },
-  withAddOns(AddOns): {
+  setAddOns(AddOns): {
     Properties+::: {
-      AddOns: (if std.isArray(AddOns) then AddOns else [AddOns]),
+      AddOns:
+        if !std.isArray(AddOns) then (error 'AddOns must be an array')
+        else AddOns,
     },
   },
-  withAddOnsMixin(AddOns): {
+  setAddOnsMixin(AddOns): {
     Properties+::: {
-      AddOns+: (if std.isArray(AddOns) then AddOns else [AddOns]),
+      AddOns+: AddOns,
     },
   },
-  withUserData(UserData): {
-    assert std.isString(UserData) : 'UserData must be a string',
+  setUserData(UserData): {
     Properties+::: {
-      UserData: UserData,
+      UserData:
+        if !std.isString(UserData) then (error 'UserData must be a string')
+        else if std.isEmpty(UserData) then (error 'UserData must be not empty')
+        else UserData,
     },
   },
-  withKeyPairName(KeyPairName): {
-    assert std.isString(KeyPairName) : 'KeyPairName must be a string',
+  setKeyPairName(KeyPairName): {
     Properties+::: {
-      KeyPairName: KeyPairName,
+      KeyPairName:
+        if !std.isString(KeyPairName) then (error 'KeyPairName must be a string')
+        else if std.isEmpty(KeyPairName) then (error 'KeyPairName must be not empty')
+        else KeyPairName,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withInstanceArn(InstanceArn): {
-    assert std.isString(InstanceArn) : 'InstanceArn must be a string',
+  setInstanceArn(InstanceArn): {
     Properties+::: {
-      InstanceArn: InstanceArn,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else InstanceArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

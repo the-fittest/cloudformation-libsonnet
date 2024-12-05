@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DisplayName) : 'DisplayName must be a string',
-      DisplayName: DisplayName,
-      assert std.isString(FarmId) : 'FarmId must be a string',
-      FarmId: FarmId,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else if std.length(DisplayName) < 1 then error ('DisplayName should have at least 1 characters')
+        else if std.length(DisplayName) > 100 then error ('DisplayName should have not more than 100 characters')
+        else DisplayName,
+      FarmId:
+        if !std.isString(FarmId) then (error 'FarmId must be a string')
+        else if std.isEmpty(FarmId) then (error 'FarmId must be not empty')
+        else FarmId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,137 +24,162 @@
     Metadata:: [],
     Type: 'AWS::Deadline::Queue',
   },
-  withAllowedStorageProfileIds(AllowedStorageProfileIds): {
+  setAllowedStorageProfileIds(AllowedStorageProfileIds): {
     Properties+::: {
-      AllowedStorageProfileIds: (if std.isArray(AllowedStorageProfileIds) then AllowedStorageProfileIds else [AllowedStorageProfileIds]),
+      AllowedStorageProfileIds:
+        if !std.isArray(AllowedStorageProfileIds) then (error 'AllowedStorageProfileIds must be an array')
+        else if std.length(AllowedStorageProfileIds) > 20 then error ('AllowedStorageProfileIds cannot have more than 20 items')
+        else AllowedStorageProfileIds,
     },
   },
-  withAllowedStorageProfileIdsMixin(AllowedStorageProfileIds): {
+  setAllowedStorageProfileIdsMixin(AllowedStorageProfileIds): {
     Properties+::: {
-      AllowedStorageProfileIds+: (if std.isArray(AllowedStorageProfileIds) then AllowedStorageProfileIds else [AllowedStorageProfileIds]),
+      AllowedStorageProfileIds+: AllowedStorageProfileIds,
     },
   },
-  withDefaultBudgetAction(DefaultBudgetAction): {
-    assert std.isString(DefaultBudgetAction) : 'DefaultBudgetAction must be a string',
-    assert DefaultBudgetAction == 'NONE' || DefaultBudgetAction == 'STOP_SCHEDULING_AND_COMPLETE_TASKS' || DefaultBudgetAction == 'STOP_SCHEDULING_AND_CANCEL_TASKS' : "DefaultBudgetAction should be 'NONE' or 'STOP_SCHEDULING_AND_COMPLETE_TASKS' or 'STOP_SCHEDULING_AND_CANCEL_TASKS'",
+  setDefaultBudgetAction(DefaultBudgetAction): {
     Properties+::: {
-      DefaultBudgetAction: DefaultBudgetAction,
+      DefaultBudgetAction:
+        if !std.isString(DefaultBudgetAction) then (error 'DefaultBudgetAction must be a string')
+        else if std.isEmpty(DefaultBudgetAction) then (error 'DefaultBudgetAction must be not empty')
+        else if DefaultBudgetAction != 'NONE' && DefaultBudgetAction != 'STOP_SCHEDULING_AND_COMPLETE_TASKS' && DefaultBudgetAction != 'STOP_SCHEDULING_AND_CANCEL_TASKS' then (error "DefaultBudgetAction should be 'NONE' or 'STOP_SCHEDULING_AND_COMPLETE_TASKS' or 'STOP_SCHEDULING_AND_CANCEL_TASKS'")
+        else DefaultBudgetAction,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 100 then error ('Description should have not more than 100 characters')
+        else Description,
     },
   },
-  withJobAttachmentSettings(JobAttachmentSettings): {
-    assert std.isObject(JobAttachmentSettings) : 'JobAttachmentSettings must be a object',
+  setJobAttachmentSettings(JobAttachmentSettings): {
     Properties+::: {
-      JobAttachmentSettings: JobAttachmentSettings,
+      JobAttachmentSettings:
+        if !std.isObject(JobAttachmentSettings) then (error 'JobAttachmentSettings must be an object')
+        else if !std.objectHas(JobAttachmentSettings, 'RootPrefix') then (error ' have attribute RootPrefix')
+        else if !std.objectHas(JobAttachmentSettings, 'S3BucketName') then (error ' have attribute S3BucketName')
+        else JobAttachmentSettings,
     },
   },
-  withJobRunAsUser(JobRunAsUser): {
-    assert std.isObject(JobRunAsUser) : 'JobRunAsUser must be a object',
+  setJobRunAsUser(JobRunAsUser): {
     Properties+::: {
-      JobRunAsUser: JobRunAsUser,
+      JobRunAsUser:
+        if !std.isObject(JobRunAsUser) then (error 'JobRunAsUser must be an object')
+        else if !std.objectHas(JobRunAsUser, 'RunAs') then (error ' have attribute RunAs')
+        else JobRunAsUser,
     },
   },
-  withQueueId(QueueId): {
-    assert std.isString(QueueId) : 'QueueId must be a string',
+  setQueueId(QueueId): {
     Properties+::: {
-      QueueId: QueueId,
+      QueueId:
+        if !std.isString(QueueId) then (error 'QueueId must be a string')
+        else if std.isEmpty(QueueId) then (error 'QueueId must be not empty')
+        else QueueId,
     },
   },
-  withRequiredFileSystemLocationNames(RequiredFileSystemLocationNames): {
+  setRequiredFileSystemLocationNames(RequiredFileSystemLocationNames): {
     Properties+::: {
-      RequiredFileSystemLocationNames: (if std.isArray(RequiredFileSystemLocationNames) then RequiredFileSystemLocationNames else [RequiredFileSystemLocationNames]),
+      RequiredFileSystemLocationNames:
+        if !std.isArray(RequiredFileSystemLocationNames) then (error 'RequiredFileSystemLocationNames must be an array')
+        else if std.length(RequiredFileSystemLocationNames) > 20 then error ('RequiredFileSystemLocationNames cannot have more than 20 items')
+        else RequiredFileSystemLocationNames,
     },
   },
-  withRequiredFileSystemLocationNamesMixin(RequiredFileSystemLocationNames): {
+  setRequiredFileSystemLocationNamesMixin(RequiredFileSystemLocationNames): {
     Properties+::: {
-      RequiredFileSystemLocationNames+: (if std.isArray(RequiredFileSystemLocationNames) then RequiredFileSystemLocationNames else [RequiredFileSystemLocationNames]),
+      RequiredFileSystemLocationNames+: RequiredFileSystemLocationNames,
     },
   },
-  withRoleArn(RoleArn): {
-    assert std.isString(RoleArn) : 'RoleArn must be a string',
+  setRoleArn(RoleArn): {
     Properties+::: {
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

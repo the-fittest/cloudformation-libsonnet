@@ -9,19 +9,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
-      assert std.isObject(TriggerEventSource) : 'TriggerEventSource must be an object',
-      TriggerEventSource: TriggerEventSource,
-      assert std.isString(Function) : 'Function must be a string',
-      Function: Function,
-      assert std.isObject(Actions) : 'Actions must be an object',
-      Actions: Actions,
-      assert std.isString(PublishStatus) : 'PublishStatus must be a string',
-      assert PublishStatus == 'DRAFT' || PublishStatus == 'PUBLISHED' : "PublishStatus should be 'DRAFT' or 'PUBLISHED'",
-      PublishStatus: PublishStatus,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else InstanceArn,
+      TriggerEventSource:
+        if !std.isObject(TriggerEventSource) then (error 'TriggerEventSource must be an object')
+        else if !std.objectHas(TriggerEventSource, 'EventSourceName') then (error ' have attribute EventSourceName')
+        else TriggerEventSource,
+      Function:
+        if !std.isString(Function) then (error 'Function must be a string')
+        else if std.isEmpty(Function) then (error 'Function must be not empty')
+        else Function,
+      Actions:
+        if !std.isObject(Actions) then (error 'Actions must be an object')
+        else Actions,
+      PublishStatus:
+        if !std.isString(PublishStatus) then (error 'PublishStatus must be a string')
+        else if std.isEmpty(PublishStatus) then (error 'PublishStatus must be not empty')
+        else if PublishStatus != 'DRAFT' && PublishStatus != 'PUBLISHED' then (error "PublishStatus should be 'DRAFT' or 'PUBLISHED'")
+        else PublishStatus,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -31,80 +42,85 @@
     Metadata:: [],
     Type: 'AWS::Connect::Rule',
   },
-  withRuleArn(RuleArn): {
-    assert std.isString(RuleArn) : 'RuleArn must be a string',
+  setRuleArn(RuleArn): {
     Properties+::: {
-      RuleArn: RuleArn,
+      RuleArn:
+        if !std.isString(RuleArn) then (error 'RuleArn must be a string')
+        else if std.isEmpty(RuleArn) then (error 'RuleArn must be not empty')
+        else RuleArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

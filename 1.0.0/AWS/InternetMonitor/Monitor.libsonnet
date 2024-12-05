@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MonitorName) : 'MonitorName must be a string',
-      MonitorName: MonitorName,
+      MonitorName:
+        if !std.isString(MonitorName) then (error 'MonitorName must be a string')
+        else if std.isEmpty(MonitorName) then (error 'MonitorName must be not empty')
+        else if std.length(MonitorName) < 1 then error ('MonitorName should have at least 1 characters')
+        else if std.length(MonitorName) > 255 then error ('MonitorName should have not more than 255 characters')
+        else MonitorName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,178 +19,212 @@
     Metadata:: [],
     Type: 'AWS::InternetMonitor::Monitor',
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withModifiedAt(ModifiedAt): {
-    assert std.isString(ModifiedAt) : 'ModifiedAt must be a string',
+  setModifiedAt(ModifiedAt): {
     Properties+::: {
-      ModifiedAt: ModifiedAt,
+      ModifiedAt:
+        if !std.isString(ModifiedAt) then (error 'ModifiedAt must be a string')
+        else if std.isEmpty(ModifiedAt) then (error 'ModifiedAt must be not empty')
+        else ModifiedAt,
     },
   },
-  withMonitorArn(MonitorArn): {
-    assert std.isString(MonitorArn) : 'MonitorArn must be a string',
+  setMonitorArn(MonitorArn): {
     Properties+::: {
-      MonitorArn: MonitorArn,
+      MonitorArn:
+        if !std.isString(MonitorArn) then (error 'MonitorArn must be a string')
+        else if std.isEmpty(MonitorArn) then (error 'MonitorArn must be not empty')
+        else if std.length(MonitorArn) < 20 then error ('MonitorArn should have at least 20 characters')
+        else if std.length(MonitorArn) > 512 then error ('MonitorArn should have not more than 512 characters')
+        else MonitorArn,
     },
   },
-  withLinkedAccountId(LinkedAccountId): {
-    assert std.isString(LinkedAccountId) : 'LinkedAccountId must be a string',
+  setLinkedAccountId(LinkedAccountId): {
     Properties+::: {
-      LinkedAccountId: LinkedAccountId,
+      LinkedAccountId:
+        if !std.isString(LinkedAccountId) then (error 'LinkedAccountId must be a string')
+        else if std.isEmpty(LinkedAccountId) then (error 'LinkedAccountId must be not empty')
+        else if std.length(LinkedAccountId) < 12 then error ('LinkedAccountId should have at least 12 characters')
+        else if std.length(LinkedAccountId) > 12 then error ('LinkedAccountId should have not more than 12 characters')
+        else LinkedAccountId,
     },
   },
-  withIncludeLinkedAccounts(IncludeLinkedAccounts): {
-    assert std.isBoolean(IncludeLinkedAccounts) : 'IncludeLinkedAccounts must be a boolean',
+  setIncludeLinkedAccounts(IncludeLinkedAccounts): {
     Properties+::: {
-      IncludeLinkedAccounts: IncludeLinkedAccounts,
+      IncludeLinkedAccounts:
+        if !std.isBoolean(IncludeLinkedAccounts) then (error 'IncludeLinkedAccounts must be a boolean') else IncludeLinkedAccounts,
     },
   },
-  withProcessingStatus(ProcessingStatus): {
-    assert std.isString(ProcessingStatus) : 'ProcessingStatus must be a string',
-    assert ProcessingStatus == 'OK' || ProcessingStatus == 'INACTIVE' || ProcessingStatus == 'COLLECTING_DATA' || ProcessingStatus == 'INSUFFICIENT_DATA' || ProcessingStatus == 'FAULT_SERVICE' || ProcessingStatus == 'FAULT_ACCESS_CLOUDWATCH' : "ProcessingStatus should be 'OK' or 'INACTIVE' or 'COLLECTING_DATA' or 'INSUFFICIENT_DATA' or 'FAULT_SERVICE' or 'FAULT_ACCESS_CLOUDWATCH'",
+  setProcessingStatus(ProcessingStatus): {
     Properties+::: {
-      ProcessingStatus: ProcessingStatus,
+      ProcessingStatus:
+        if !std.isString(ProcessingStatus) then (error 'ProcessingStatus must be a string')
+        else if std.isEmpty(ProcessingStatus) then (error 'ProcessingStatus must be not empty')
+        else if ProcessingStatus != 'OK' && ProcessingStatus != 'INACTIVE' && ProcessingStatus != 'COLLECTING_DATA' && ProcessingStatus != 'INSUFFICIENT_DATA' && ProcessingStatus != 'FAULT_SERVICE' && ProcessingStatus != 'FAULT_ACCESS_CLOUDWATCH' then (error "ProcessingStatus should be 'OK' or 'INACTIVE' or 'COLLECTING_DATA' or 'INSUFFICIENT_DATA' or 'FAULT_SERVICE' or 'FAULT_ACCESS_CLOUDWATCH'")
+        else ProcessingStatus,
     },
   },
-  withProcessingStatusInfo(ProcessingStatusInfo): {
-    assert std.isString(ProcessingStatusInfo) : 'ProcessingStatusInfo must be a string',
+  setProcessingStatusInfo(ProcessingStatusInfo): {
     Properties+::: {
-      ProcessingStatusInfo: ProcessingStatusInfo,
+      ProcessingStatusInfo:
+        if !std.isString(ProcessingStatusInfo) then (error 'ProcessingStatusInfo must be a string')
+        else if std.isEmpty(ProcessingStatusInfo) then (error 'ProcessingStatusInfo must be not empty')
+        else ProcessingStatusInfo,
     },
   },
-  withResources(Resources): {
+  setResources(Resources): {
     Properties+::: {
-      Resources: (if std.isArray(Resources) then Resources else [Resources]),
+      Resources:
+        if !std.isArray(Resources) then (error 'Resources must be an array')
+        else Resources,
     },
   },
-  withResourcesMixin(Resources): {
+  setResourcesMixin(Resources): {
     Properties+::: {
-      Resources+: (if std.isArray(Resources) then Resources else [Resources]),
+      Resources+: Resources,
     },
   },
-  withResourcesToAdd(ResourcesToAdd): {
+  setResourcesToAdd(ResourcesToAdd): {
     Properties+::: {
-      ResourcesToAdd: (if std.isArray(ResourcesToAdd) then ResourcesToAdd else [ResourcesToAdd]),
+      ResourcesToAdd:
+        if !std.isArray(ResourcesToAdd) then (error 'ResourcesToAdd must be an array')
+        else ResourcesToAdd,
     },
   },
-  withResourcesToAddMixin(ResourcesToAdd): {
+  setResourcesToAddMixin(ResourcesToAdd): {
     Properties+::: {
-      ResourcesToAdd+: (if std.isArray(ResourcesToAdd) then ResourcesToAdd else [ResourcesToAdd]),
+      ResourcesToAdd+: ResourcesToAdd,
     },
   },
-  withResourcesToRemove(ResourcesToRemove): {
+  setResourcesToRemove(ResourcesToRemove): {
     Properties+::: {
-      ResourcesToRemove: (if std.isArray(ResourcesToRemove) then ResourcesToRemove else [ResourcesToRemove]),
+      ResourcesToRemove:
+        if !std.isArray(ResourcesToRemove) then (error 'ResourcesToRemove must be an array')
+        else ResourcesToRemove,
     },
   },
-  withResourcesToRemoveMixin(ResourcesToRemove): {
+  setResourcesToRemoveMixin(ResourcesToRemove): {
     Properties+::: {
-      ResourcesToRemove+: (if std.isArray(ResourcesToRemove) then ResourcesToRemove else [ResourcesToRemove]),
+      ResourcesToRemove+: ResourcesToRemove,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'PENDING' || Status == 'ACTIVE' || Status == 'INACTIVE' || Status == 'ERROR' : "Status should be 'PENDING' or 'ACTIVE' or 'INACTIVE' or 'ERROR'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'PENDING' && Status != 'ACTIVE' && Status != 'INACTIVE' && Status != 'ERROR' then (error "Status should be 'PENDING' or 'ACTIVE' or 'INACTIVE' or 'ERROR'")
+        else Status,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withMaxCityNetworksToMonitor(MaxCityNetworksToMonitor): {
-    assert std.isNumber(MaxCityNetworksToMonitor) : 'MaxCityNetworksToMonitor must be a number',
+  setMaxCityNetworksToMonitor(MaxCityNetworksToMonitor): {
     Properties+::: {
-      MaxCityNetworksToMonitor: MaxCityNetworksToMonitor,
+      MaxCityNetworksToMonitor:
+        if !std.isNumber(MaxCityNetworksToMonitor) then (error 'MaxCityNetworksToMonitor must be an number')
+        else if MaxCityNetworksToMonitor < 1 then error ('MaxCityNetworksToMonitor should be at least 1')
+        else if MaxCityNetworksToMonitor > 500000 then error ('MaxCityNetworksToMonitor should be not more than 500000')
+        else MaxCityNetworksToMonitor,
     },
   },
-  withTrafficPercentageToMonitor(TrafficPercentageToMonitor): {
-    assert std.isNumber(TrafficPercentageToMonitor) : 'TrafficPercentageToMonitor must be a number',
+  setTrafficPercentageToMonitor(TrafficPercentageToMonitor): {
     Properties+::: {
-      TrafficPercentageToMonitor: TrafficPercentageToMonitor,
+      TrafficPercentageToMonitor:
+        if !std.isNumber(TrafficPercentageToMonitor) then (error 'TrafficPercentageToMonitor must be an number')
+        else if TrafficPercentageToMonitor < 1 then error ('TrafficPercentageToMonitor should be at least 1')
+        else if TrafficPercentageToMonitor > 100 then error ('TrafficPercentageToMonitor should be not more than 100')
+        else TrafficPercentageToMonitor,
     },
   },
-  withInternetMeasurementsLogDelivery(InternetMeasurementsLogDelivery): {
-    assert std.isObject(InternetMeasurementsLogDelivery) : 'InternetMeasurementsLogDelivery must be a object',
+  setInternetMeasurementsLogDelivery(InternetMeasurementsLogDelivery): {
     Properties+::: {
-      InternetMeasurementsLogDelivery: InternetMeasurementsLogDelivery,
+      InternetMeasurementsLogDelivery:
+        if !std.isObject(InternetMeasurementsLogDelivery) then (error 'InternetMeasurementsLogDelivery must be an object')
+        else InternetMeasurementsLogDelivery,
     },
   },
-  withHealthEventsConfig(HealthEventsConfig): {
-    assert std.isObject(HealthEventsConfig) : 'HealthEventsConfig must be a object',
+  setHealthEventsConfig(HealthEventsConfig): {
     Properties+::: {
-      HealthEventsConfig: HealthEventsConfig,
+      HealthEventsConfig:
+        if !std.isObject(HealthEventsConfig) then (error 'HealthEventsConfig must be an object')
+        else HealthEventsConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

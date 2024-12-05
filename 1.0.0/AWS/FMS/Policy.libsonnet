@@ -7,14 +7,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isBoolean(ExcludeResourceTags) : 'ExcludeResourceTags must be a boolean',
-      ExcludeResourceTags: ExcludeResourceTags,
-      assert std.isString(PolicyName) : 'PolicyName must be a string',
-      PolicyName: PolicyName,
-      assert std.isBoolean(RemediationEnabled) : 'RemediationEnabled must be a boolean',
-      RemediationEnabled: RemediationEnabled,
-      assert std.isObject(SecurityServicePolicyData) : 'SecurityServicePolicyData must be an object',
-      SecurityServicePolicyData: SecurityServicePolicyData,
+      ExcludeResourceTags:
+        if !std.isBoolean(ExcludeResourceTags) then (error 'ExcludeResourceTags must be a boolean') else ExcludeResourceTags,
+      PolicyName:
+        if !std.isString(PolicyName) then (error 'PolicyName must be a string')
+        else if std.isEmpty(PolicyName) then (error 'PolicyName must be not empty')
+        else if std.length(PolicyName) < 1 then error ('PolicyName should have at least 1 characters')
+        else if std.length(PolicyName) > 1024 then error ('PolicyName should have not more than 1024 characters')
+        else PolicyName,
+      RemediationEnabled:
+        if !std.isBoolean(RemediationEnabled) then (error 'RemediationEnabled must be a boolean') else RemediationEnabled,
+      SecurityServicePolicyData:
+        if !std.isObject(SecurityServicePolicyData) then (error 'SecurityServicePolicyData must be an object')
+        else if !std.objectHas(SecurityServicePolicyData, 'Type') then (error ' have attribute Type')
+        else SecurityServicePolicyData,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,152 +30,178 @@
     Metadata:: [],
     Type: 'AWS::FMS::Policy',
   },
-  withExcludeMap(ExcludeMap): {
-    assert std.isObject(ExcludeMap) : 'ExcludeMap must be a object',
+  setExcludeMap(ExcludeMap): {
     Properties+::: {
-      ExcludeMap: ExcludeMap,
+      ExcludeMap:
+        if !std.isObject(ExcludeMap) then (error 'ExcludeMap must be an object')
+        else ExcludeMap,
     },
   },
-  withIncludeMap(IncludeMap): {
-    assert std.isObject(IncludeMap) : 'IncludeMap must be a object',
+  setIncludeMap(IncludeMap): {
     Properties+::: {
-      IncludeMap: IncludeMap,
+      IncludeMap:
+        if !std.isObject(IncludeMap) then (error 'IncludeMap must be an object')
+        else IncludeMap,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 36 then error ('Id should have at least 36 characters')
+        else if std.length(Id) > 36 then error ('Id should have not more than 36 characters')
+        else Id,
     },
   },
-  withPolicyDescription(PolicyDescription): {
-    assert std.isString(PolicyDescription) : 'PolicyDescription must be a string',
+  setPolicyDescription(PolicyDescription): {
     Properties+::: {
-      PolicyDescription: PolicyDescription,
+      PolicyDescription:
+        if !std.isString(PolicyDescription) then (error 'PolicyDescription must be a string')
+        else if std.isEmpty(PolicyDescription) then (error 'PolicyDescription must be not empty')
+        else if std.length(PolicyDescription) > 256 then error ('PolicyDescription should have not more than 256 characters')
+        else PolicyDescription,
     },
   },
-  withResourceTags(ResourceTags): {
+  setResourceTags(ResourceTags): {
     Properties+::: {
-      ResourceTags: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags:
+        if !std.isArray(ResourceTags) then (error 'ResourceTags must be an array')
+        else if std.length(ResourceTags) > 8 then error ('ResourceTags cannot have more than 8 items')
+        else ResourceTags,
     },
   },
-  withResourceTagsMixin(ResourceTags): {
+  setResourceTagsMixin(ResourceTags): {
     Properties+::: {
-      ResourceTags+: (if std.isArray(ResourceTags) then ResourceTags else [ResourceTags]),
+      ResourceTags+: ResourceTags,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else if std.length(ResourceType) < 1 then error ('ResourceType should have at least 1 characters')
+        else if std.length(ResourceType) > 128 then error ('ResourceType should have not more than 128 characters')
+        else ResourceType,
     },
   },
-  withResourceTypeList(ResourceTypeList): {
+  setResourceTypeList(ResourceTypeList): {
     Properties+::: {
-      ResourceTypeList: (if std.isArray(ResourceTypeList) then ResourceTypeList else [ResourceTypeList]),
+      ResourceTypeList:
+        if !std.isArray(ResourceTypeList) then (error 'ResourceTypeList must be an array')
+        else ResourceTypeList,
     },
   },
-  withResourceTypeListMixin(ResourceTypeList): {
+  setResourceTypeListMixin(ResourceTypeList): {
     Properties+::: {
-      ResourceTypeList+: (if std.isArray(ResourceTypeList) then ResourceTypeList else [ResourceTypeList]),
+      ResourceTypeList+: ResourceTypeList,
     },
   },
-  withResourceSetIds(ResourceSetIds): {
+  setResourceSetIds(ResourceSetIds): {
     Properties+::: {
-      ResourceSetIds: (if std.isArray(ResourceSetIds) then ResourceSetIds else [ResourceSetIds]),
+      ResourceSetIds:
+        if !std.isArray(ResourceSetIds) then (error 'ResourceSetIds must be an array')
+        else ResourceSetIds,
     },
   },
-  withResourceSetIdsMixin(ResourceSetIds): {
+  setResourceSetIdsMixin(ResourceSetIds): {
     Properties+::: {
-      ResourceSetIds+: (if std.isArray(ResourceSetIds) then ResourceSetIds else [ResourceSetIds]),
+      ResourceSetIds+: ResourceSetIds,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 1024 then error ('Arn should have not more than 1024 characters')
+        else Arn,
     },
   },
-  withDeleteAllPolicyResources(DeleteAllPolicyResources): {
-    assert std.isBoolean(DeleteAllPolicyResources) : 'DeleteAllPolicyResources must be a boolean',
+  setDeleteAllPolicyResources(DeleteAllPolicyResources): {
     Properties+::: {
-      DeleteAllPolicyResources: DeleteAllPolicyResources,
+      DeleteAllPolicyResources:
+        if !std.isBoolean(DeleteAllPolicyResources) then (error 'DeleteAllPolicyResources must be a boolean') else DeleteAllPolicyResources,
     },
   },
-  withResourcesCleanUp(ResourcesCleanUp): {
-    assert std.isBoolean(ResourcesCleanUp) : 'ResourcesCleanUp must be a boolean',
+  setResourcesCleanUp(ResourcesCleanUp): {
     Properties+::: {
-      ResourcesCleanUp: ResourcesCleanUp,
+      ResourcesCleanUp:
+        if !std.isBoolean(ResourcesCleanUp) then (error 'ResourcesCleanUp must be a boolean') else ResourcesCleanUp,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

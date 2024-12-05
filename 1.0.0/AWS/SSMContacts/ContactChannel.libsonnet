@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,101 +10,115 @@
     Metadata:: [],
     Type: 'AWS::SSMContacts::ContactChannel',
   },
-  withContactId(ContactId): {
-    assert std.isString(ContactId) : 'ContactId must be a string',
+  setContactId(ContactId): {
     Properties+::: {
-      ContactId: ContactId,
+      ContactId:
+        if !std.isString(ContactId) then (error 'ContactId must be a string')
+        else if std.isEmpty(ContactId) then (error 'ContactId must be not empty')
+        else if std.length(ContactId) < 1 then error ('ContactId should have at least 1 characters')
+        else if std.length(ContactId) > 2048 then error ('ContactId should have not more than 2048 characters')
+        else ContactId,
     },
   },
-  withChannelName(ChannelName): {
-    assert std.isString(ChannelName) : 'ChannelName must be a string',
+  setChannelName(ChannelName): {
     Properties+::: {
-      ChannelName: ChannelName,
+      ChannelName:
+        if !std.isString(ChannelName) then (error 'ChannelName must be a string')
+        else if std.isEmpty(ChannelName) then (error 'ChannelName must be not empty')
+        else if std.length(ChannelName) < 1 then error ('ChannelName should have at least 1 characters')
+        else if std.length(ChannelName) > 255 then error ('ChannelName should have not more than 255 characters')
+        else ChannelName,
     },
   },
-  withChannelType(ChannelType): {
-    assert std.isString(ChannelType) : 'ChannelType must be a string',
-    assert ChannelType == 'SMS' || ChannelType == 'VOICE' || ChannelType == 'EMAIL' : "ChannelType should be 'SMS' or 'VOICE' or 'EMAIL'",
+  setChannelType(ChannelType): {
     Properties+::: {
-      ChannelType: ChannelType,
+      ChannelType:
+        if !std.isString(ChannelType) then (error 'ChannelType must be a string')
+        else if std.isEmpty(ChannelType) then (error 'ChannelType must be not empty')
+        else if ChannelType != 'SMS' && ChannelType != 'VOICE' && ChannelType != 'EMAIL' then (error "ChannelType should be 'SMS' or 'VOICE' or 'EMAIL'")
+        else ChannelType,
     },
   },
-  withDeferActivation(DeferActivation): {
-    assert std.isBoolean(DeferActivation) : 'DeferActivation must be a boolean',
+  setDeferActivation(DeferActivation): {
     Properties+::: {
-      DeferActivation: DeferActivation,
+      DeferActivation:
+        if !std.isBoolean(DeferActivation) then (error 'DeferActivation must be a boolean') else DeferActivation,
     },
   },
-  withChannelAddress(ChannelAddress): {
-    assert std.isString(ChannelAddress) : 'ChannelAddress must be a string',
+  setChannelAddress(ChannelAddress): {
     Properties+::: {
-      ChannelAddress: ChannelAddress,
+      ChannelAddress:
+        if !std.isString(ChannelAddress) then (error 'ChannelAddress must be a string')
+        else if std.isEmpty(ChannelAddress) then (error 'ChannelAddress must be not empty')
+        else ChannelAddress,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

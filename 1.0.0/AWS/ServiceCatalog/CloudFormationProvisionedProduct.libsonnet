@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,173 +10,222 @@
     Metadata:: [],
     Type: 'AWS::ServiceCatalog::CloudFormationProvisionedProduct',
   },
-  withAcceptLanguage(AcceptLanguage): {
-    assert std.isString(AcceptLanguage) : 'AcceptLanguage must be a string',
-    assert AcceptLanguage == 'en' || AcceptLanguage == 'jp' || AcceptLanguage == 'zh' : "AcceptLanguage should be 'en' or 'jp' or 'zh'",
+  setAcceptLanguage(AcceptLanguage): {
     Properties+::: {
-      AcceptLanguage: AcceptLanguage,
+      AcceptLanguage:
+        if !std.isString(AcceptLanguage) then (error 'AcceptLanguage must be a string')
+        else if std.isEmpty(AcceptLanguage) then (error 'AcceptLanguage must be not empty')
+        else if AcceptLanguage != 'en' && AcceptLanguage != 'jp' && AcceptLanguage != 'zh' then (error "AcceptLanguage should be 'en' or 'jp' or 'zh'")
+        else AcceptLanguage,
     },
   },
-  withNotificationArns(NotificationArns): {
+  setNotificationArns(NotificationArns): {
     Properties+::: {
-      NotificationArns: (if std.isArray(NotificationArns) then NotificationArns else [NotificationArns]),
+      NotificationArns:
+        if !std.isArray(NotificationArns) then (error 'NotificationArns must be an array')
+        else if std.length(NotificationArns) > 5 then error ('NotificationArns cannot have more than 5 items')
+        else NotificationArns,
     },
   },
-  withNotificationArnsMixin(NotificationArns): {
+  setNotificationArnsMixin(NotificationArns): {
     Properties+::: {
-      NotificationArns+: (if std.isArray(NotificationArns) then NotificationArns else [NotificationArns]),
+      NotificationArns+: NotificationArns,
     },
   },
-  withPathId(PathId): {
-    assert std.isString(PathId) : 'PathId must be a string',
+  setPathId(PathId): {
     Properties+::: {
-      PathId: PathId,
+      PathId:
+        if !std.isString(PathId) then (error 'PathId must be a string')
+        else if std.isEmpty(PathId) then (error 'PathId must be not empty')
+        else if std.length(PathId) < 1 then error ('PathId should have at least 1 characters')
+        else if std.length(PathId) > 100 then error ('PathId should have not more than 100 characters')
+        else PathId,
     },
   },
-  withPathName(PathName): {
-    assert std.isString(PathName) : 'PathName must be a string',
+  setPathName(PathName): {
     Properties+::: {
-      PathName: PathName,
+      PathName:
+        if !std.isString(PathName) then (error 'PathName must be a string')
+        else if std.isEmpty(PathName) then (error 'PathName must be not empty')
+        else if std.length(PathName) < 1 then error ('PathName should have at least 1 characters')
+        else if std.length(PathName) > 100 then error ('PathName should have not more than 100 characters')
+        else PathName,
     },
   },
-  withProductId(ProductId): {
-    assert std.isString(ProductId) : 'ProductId must be a string',
+  setProductId(ProductId): {
     Properties+::: {
-      ProductId: ProductId,
+      ProductId:
+        if !std.isString(ProductId) then (error 'ProductId must be a string')
+        else if std.isEmpty(ProductId) then (error 'ProductId must be not empty')
+        else if std.length(ProductId) < 1 then error ('ProductId should have at least 1 characters')
+        else if std.length(ProductId) > 100 then error ('ProductId should have not more than 100 characters')
+        else ProductId,
     },
   },
-  withProductName(ProductName): {
-    assert std.isString(ProductName) : 'ProductName must be a string',
+  setProductName(ProductName): {
     Properties+::: {
-      ProductName: ProductName,
+      ProductName:
+        if !std.isString(ProductName) then (error 'ProductName must be a string')
+        else if std.isEmpty(ProductName) then (error 'ProductName must be not empty')
+        else if std.length(ProductName) < 1 then error ('ProductName should have at least 1 characters')
+        else if std.length(ProductName) > 128 then error ('ProductName should have not more than 128 characters')
+        else ProductName,
     },
   },
-  withProvisionedProductName(ProvisionedProductName): {
-    assert std.isString(ProvisionedProductName) : 'ProvisionedProductName must be a string',
+  setProvisionedProductName(ProvisionedProductName): {
     Properties+::: {
-      ProvisionedProductName: ProvisionedProductName,
+      ProvisionedProductName:
+        if !std.isString(ProvisionedProductName) then (error 'ProvisionedProductName must be a string')
+        else if std.isEmpty(ProvisionedProductName) then (error 'ProvisionedProductName must be not empty')
+        else if std.length(ProvisionedProductName) < 1 then error ('ProvisionedProductName should have at least 1 characters')
+        else if std.length(ProvisionedProductName) > 128 then error ('ProvisionedProductName should have not more than 128 characters')
+        else ProvisionedProductName,
     },
   },
-  withProvisioningArtifactId(ProvisioningArtifactId): {
-    assert std.isString(ProvisioningArtifactId) : 'ProvisioningArtifactId must be a string',
+  setProvisioningArtifactId(ProvisioningArtifactId): {
     Properties+::: {
-      ProvisioningArtifactId: ProvisioningArtifactId,
+      ProvisioningArtifactId:
+        if !std.isString(ProvisioningArtifactId) then (error 'ProvisioningArtifactId must be a string')
+        else if std.isEmpty(ProvisioningArtifactId) then (error 'ProvisioningArtifactId must be not empty')
+        else if std.length(ProvisioningArtifactId) < 1 then error ('ProvisioningArtifactId should have at least 1 characters')
+        else if std.length(ProvisioningArtifactId) > 100 then error ('ProvisioningArtifactId should have not more than 100 characters')
+        else ProvisioningArtifactId,
     },
   },
-  withProvisioningArtifactName(ProvisioningArtifactName): {
-    assert std.isString(ProvisioningArtifactName) : 'ProvisioningArtifactName must be a string',
+  setProvisioningArtifactName(ProvisioningArtifactName): {
     Properties+::: {
-      ProvisioningArtifactName: ProvisioningArtifactName,
+      ProvisioningArtifactName:
+        if !std.isString(ProvisioningArtifactName) then (error 'ProvisioningArtifactName must be a string')
+        else if std.isEmpty(ProvisioningArtifactName) then (error 'ProvisioningArtifactName must be not empty')
+        else ProvisioningArtifactName,
     },
   },
-  withProvisioningParameters(ProvisioningParameters): {
+  setProvisioningParameters(ProvisioningParameters): {
     Properties+::: {
-      ProvisioningParameters: (if std.isArray(ProvisioningParameters) then ProvisioningParameters else [ProvisioningParameters]),
+      ProvisioningParameters:
+        if !std.isArray(ProvisioningParameters) then (error 'ProvisioningParameters must be an array')
+        else ProvisioningParameters,
     },
   },
-  withProvisioningParametersMixin(ProvisioningParameters): {
+  setProvisioningParametersMixin(ProvisioningParameters): {
     Properties+::: {
-      ProvisioningParameters+: (if std.isArray(ProvisioningParameters) then ProvisioningParameters else [ProvisioningParameters]),
+      ProvisioningParameters+: ProvisioningParameters,
     },
   },
-  withProvisioningPreferences(ProvisioningPreferences): {
-    assert std.isObject(ProvisioningPreferences) : 'ProvisioningPreferences must be a object',
+  setProvisioningPreferences(ProvisioningPreferences): {
     Properties+::: {
-      ProvisioningPreferences: ProvisioningPreferences,
+      ProvisioningPreferences:
+        if !std.isObject(ProvisioningPreferences) then (error 'ProvisioningPreferences must be an object')
+        else ProvisioningPreferences,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withProvisionedProductId(ProvisionedProductId): {
-    assert std.isString(ProvisionedProductId) : 'ProvisionedProductId must be a string',
+  setProvisionedProductId(ProvisionedProductId): {
     Properties+::: {
-      ProvisionedProductId: ProvisionedProductId,
+      ProvisionedProductId:
+        if !std.isString(ProvisionedProductId) then (error 'ProvisionedProductId must be a string')
+        else if std.isEmpty(ProvisionedProductId) then (error 'ProvisionedProductId must be not empty')
+        else if std.length(ProvisionedProductId) < 1 then error ('ProvisionedProductId should have at least 1 characters')
+        else if std.length(ProvisionedProductId) > 50 then error ('ProvisionedProductId should have not more than 50 characters')
+        else ProvisionedProductId,
     },
   },
-  withRecordId(RecordId): {
-    assert std.isString(RecordId) : 'RecordId must be a string',
+  setRecordId(RecordId): {
     Properties+::: {
-      RecordId: RecordId,
+      RecordId:
+        if !std.isString(RecordId) then (error 'RecordId must be a string')
+        else if std.isEmpty(RecordId) then (error 'RecordId must be not empty')
+        else if std.length(RecordId) < 1 then error ('RecordId should have at least 1 characters')
+        else if std.length(RecordId) > 50 then error ('RecordId should have not more than 50 characters')
+        else RecordId,
     },
   },
-  withCloudformationStackArn(CloudformationStackArn): {
-    assert std.isString(CloudformationStackArn) : 'CloudformationStackArn must be a string',
+  setCloudformationStackArn(CloudformationStackArn): {
     Properties+::: {
-      CloudformationStackArn: CloudformationStackArn,
+      CloudformationStackArn:
+        if !std.isString(CloudformationStackArn) then (error 'CloudformationStackArn must be a string')
+        else if std.isEmpty(CloudformationStackArn) then (error 'CloudformationStackArn must be not empty')
+        else if std.length(CloudformationStackArn) < 1 then error ('CloudformationStackArn should have at least 1 characters')
+        else if std.length(CloudformationStackArn) > 256 then error ('CloudformationStackArn should have not more than 256 characters')
+        else CloudformationStackArn,
     },
   },
-  withOutputs(Outputs): {
-    assert std.isObject(Outputs) : 'Outputs must be a object',
+  setOutputs(Outputs): {
     Properties+::: {
-      Outputs: Outputs,
+      Outputs:
+        if !std.isObject(Outputs) then (error 'Outputs must be an object')
+        else Outputs,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

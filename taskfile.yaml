@@ -21,13 +21,12 @@ tasks:
       - jb install
 
   format:
+    dir: '1.0.0'
     cmds:
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/**/*.libsonnet
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s ./1.0.0/AWS/main.libsonnet
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s tests/*.jsonnet
-      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s *.jsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s **/*.libsonnet
+      - jsonnetfmt -i --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s **/**/*.libsonnet
 
-  schemas-download:
+  schemas-download:cloudformation:
     deps: [install]
     cmds:
       - wget https://schema.cloudformation.eu-central-1.amazonaws.com/CloudformationSchema.zip -O schemas.zip
@@ -37,10 +36,15 @@ tasks:
       - test -d schemas
       - test -f schemas.zip
 
-  generate:
-    deps: ['schemas-download']
+  generate:cloudformation:
+    deps: ['schemas-download:cloudformation']
     cmds:
       - node .generator/new.js
+      - task: format
+
+  generate:asl:
+    cmds:
+      - node .generator/asl.js
       - task: format
 
   install:test:

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,132 +10,158 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::TypeActivation',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withExecutionRoleArn(ExecutionRoleArn): {
-    assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
+  setExecutionRoleArn(ExecutionRoleArn): {
     Properties+::: {
-      ExecutionRoleArn: ExecutionRoleArn,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
     },
   },
-  withPublisherId(PublisherId): {
-    assert std.isString(PublisherId) : 'PublisherId must be a string',
+  setPublisherId(PublisherId): {
     Properties+::: {
-      PublisherId: PublisherId,
+      PublisherId:
+        if !std.isString(PublisherId) then (error 'PublisherId must be a string')
+        else if std.isEmpty(PublisherId) then (error 'PublisherId must be not empty')
+        else if std.length(PublisherId) < 1 then error ('PublisherId should have at least 1 characters')
+        else if std.length(PublisherId) > 40 then error ('PublisherId should have not more than 40 characters')
+        else PublisherId,
     },
   },
-  withLoggingConfig(LoggingConfig): {
-    assert std.isObject(LoggingConfig) : 'LoggingConfig must be a object',
+  setLoggingConfig(LoggingConfig): {
     Properties+::: {
-      LoggingConfig: LoggingConfig,
+      LoggingConfig:
+        if !std.isObject(LoggingConfig) then (error 'LoggingConfig must be an object')
+        else LoggingConfig,
     },
   },
-  withPublicTypeArn(PublicTypeArn): {
-    assert std.isString(PublicTypeArn) : 'PublicTypeArn must be a string',
+  setPublicTypeArn(PublicTypeArn): {
     Properties+::: {
-      PublicTypeArn: PublicTypeArn,
+      PublicTypeArn:
+        if !std.isString(PublicTypeArn) then (error 'PublicTypeArn must be a string')
+        else if std.isEmpty(PublicTypeArn) then (error 'PublicTypeArn must be not empty')
+        else if std.length(PublicTypeArn) > 1024 then error ('PublicTypeArn should have not more than 1024 characters')
+        else PublicTypeArn,
     },
   },
-  withAutoUpdate(AutoUpdate): {
-    assert std.isBoolean(AutoUpdate) : 'AutoUpdate must be a boolean',
+  setAutoUpdate(AutoUpdate): {
     Properties+::: {
-      AutoUpdate: AutoUpdate,
+      AutoUpdate:
+        if !std.isBoolean(AutoUpdate) then (error 'AutoUpdate must be a boolean') else AutoUpdate,
     },
   },
-  withTypeNameAlias(TypeNameAlias): {
-    assert std.isString(TypeNameAlias) : 'TypeNameAlias must be a string',
+  setTypeNameAlias(TypeNameAlias): {
     Properties+::: {
-      TypeNameAlias: TypeNameAlias,
+      TypeNameAlias:
+        if !std.isString(TypeNameAlias) then (error 'TypeNameAlias must be a string')
+        else if std.isEmpty(TypeNameAlias) then (error 'TypeNameAlias must be not empty')
+        else if std.length(TypeNameAlias) < 10 then error ('TypeNameAlias should have at least 10 characters')
+        else if std.length(TypeNameAlias) > 204 then error ('TypeNameAlias should have not more than 204 characters')
+        else TypeNameAlias,
     },
   },
-  withVersionBump(VersionBump): {
-    assert std.isString(VersionBump) : 'VersionBump must be a string',
-    assert VersionBump == 'MAJOR' || VersionBump == 'MINOR' : "VersionBump should be 'MAJOR' or 'MINOR'",
+  setVersionBump(VersionBump): {
     Properties+::: {
-      VersionBump: VersionBump,
+      VersionBump:
+        if !std.isString(VersionBump) then (error 'VersionBump must be a string')
+        else if std.isEmpty(VersionBump) then (error 'VersionBump must be not empty')
+        else if VersionBump != 'MAJOR' && VersionBump != 'MINOR' then (error "VersionBump should be 'MAJOR' or 'MINOR'")
+        else VersionBump,
     },
   },
-  withMajorVersion(MajorVersion): {
-    assert std.isString(MajorVersion) : 'MajorVersion must be a string',
+  setMajorVersion(MajorVersion): {
     Properties+::: {
-      MajorVersion: MajorVersion,
+      MajorVersion:
+        if !std.isString(MajorVersion) then (error 'MajorVersion must be a string')
+        else if std.isEmpty(MajorVersion) then (error 'MajorVersion must be not empty')
+        else if std.length(MajorVersion) < 1 then error ('MajorVersion should have at least 1 characters')
+        else if std.length(MajorVersion) > 100000 then error ('MajorVersion should have not more than 100000 characters')
+        else MajorVersion,
     },
   },
-  withTypeName(TypeName): {
-    assert std.isString(TypeName) : 'TypeName must be a string',
+  setTypeName(TypeName): {
     Properties+::: {
-      TypeName: TypeName,
+      TypeName:
+        if !std.isString(TypeName) then (error 'TypeName must be a string')
+        else if std.isEmpty(TypeName) then (error 'TypeName must be not empty')
+        else TypeName,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'RESOURCE' || Type == 'MODULE' || Type == 'HOOK' : "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'RESOURCE' && Type != 'MODULE' && Type != 'HOOK' then (error "Type should be 'RESOURCE' or 'MODULE' or 'HOOK'")
+        else Type,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

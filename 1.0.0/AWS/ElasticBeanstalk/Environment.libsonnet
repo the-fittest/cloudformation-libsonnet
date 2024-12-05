@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApplicationName) : 'ApplicationName must be a string',
-      ApplicationName: ApplicationName,
+      ApplicationName:
+        if !std.isString(ApplicationName) then (error 'ApplicationName must be a string')
+        else if std.isEmpty(ApplicationName) then (error 'ApplicationName must be not empty')
+        else ApplicationName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,144 +17,167 @@
     Metadata:: [],
     Type: 'AWS::ElasticBeanstalk::Environment',
   },
-  withPlatformArn(PlatformArn): {
-    assert std.isString(PlatformArn) : 'PlatformArn must be a string',
+  setPlatformArn(PlatformArn): {
     Properties+::: {
-      PlatformArn: PlatformArn,
+      PlatformArn:
+        if !std.isString(PlatformArn) then (error 'PlatformArn must be a string')
+        else if std.isEmpty(PlatformArn) then (error 'PlatformArn must be not empty')
+        else PlatformArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withEnvironmentName(EnvironmentName): {
-    assert std.isString(EnvironmentName) : 'EnvironmentName must be a string',
+  setEnvironmentName(EnvironmentName): {
     Properties+::: {
-      EnvironmentName: EnvironmentName,
+      EnvironmentName:
+        if !std.isString(EnvironmentName) then (error 'EnvironmentName must be a string')
+        else if std.isEmpty(EnvironmentName) then (error 'EnvironmentName must be not empty')
+        else EnvironmentName,
     },
   },
-  withOperationsRole(OperationsRole): {
-    assert std.isString(OperationsRole) : 'OperationsRole must be a string',
+  setOperationsRole(OperationsRole): {
     Properties+::: {
-      OperationsRole: OperationsRole,
+      OperationsRole:
+        if !std.isString(OperationsRole) then (error 'OperationsRole must be a string')
+        else if std.isEmpty(OperationsRole) then (error 'OperationsRole must be not empty')
+        else OperationsRole,
     },
   },
-  withTier(Tier): {
-    assert std.isObject(Tier) : 'Tier must be a object',
+  setTier(Tier): {
     Properties+::: {
-      Tier: Tier,
+      Tier:
+        if !std.isObject(Tier) then (error 'Tier must be an object')
+        else Tier,
     },
   },
-  withVersionLabel(VersionLabel): {
-    assert std.isString(VersionLabel) : 'VersionLabel must be a string',
+  setVersionLabel(VersionLabel): {
     Properties+::: {
-      VersionLabel: VersionLabel,
+      VersionLabel:
+        if !std.isString(VersionLabel) then (error 'VersionLabel must be a string')
+        else if std.isEmpty(VersionLabel) then (error 'VersionLabel must be not empty')
+        else VersionLabel,
     },
   },
-  withEndpointURL(EndpointURL): {
-    assert std.isString(EndpointURL) : 'EndpointURL must be a string',
+  setEndpointURL(EndpointURL): {
     Properties+::: {
-      EndpointURL: EndpointURL,
+      EndpointURL:
+        if !std.isString(EndpointURL) then (error 'EndpointURL must be a string')
+        else if std.isEmpty(EndpointURL) then (error 'EndpointURL must be not empty')
+        else EndpointURL,
     },
   },
-  withOptionSettings(OptionSettings): {
+  setOptionSettings(OptionSettings): {
     Properties+::: {
-      OptionSettings: (if std.isArray(OptionSettings) then OptionSettings else [OptionSettings]),
+      OptionSettings:
+        if !std.isArray(OptionSettings) then (error 'OptionSettings must be an array')
+        else OptionSettings,
     },
   },
-  withOptionSettingsMixin(OptionSettings): {
+  setOptionSettingsMixin(OptionSettings): {
     Properties+::: {
-      OptionSettings+: (if std.isArray(OptionSettings) then OptionSettings else [OptionSettings]),
+      OptionSettings+: OptionSettings,
     },
   },
-  withTemplateName(TemplateName): {
-    assert std.isString(TemplateName) : 'TemplateName must be a string',
+  setTemplateName(TemplateName): {
     Properties+::: {
-      TemplateName: TemplateName,
+      TemplateName:
+        if !std.isString(TemplateName) then (error 'TemplateName must be a string')
+        else if std.isEmpty(TemplateName) then (error 'TemplateName must be not empty')
+        else TemplateName,
     },
   },
-  withSolutionStackName(SolutionStackName): {
-    assert std.isString(SolutionStackName) : 'SolutionStackName must be a string',
+  setSolutionStackName(SolutionStackName): {
     Properties+::: {
-      SolutionStackName: SolutionStackName,
+      SolutionStackName:
+        if !std.isString(SolutionStackName) then (error 'SolutionStackName must be a string')
+        else if std.isEmpty(SolutionStackName) then (error 'SolutionStackName must be not empty')
+        else SolutionStackName,
     },
   },
-  withCNAMEPrefix(CNAMEPrefix): {
-    assert std.isString(CNAMEPrefix) : 'CNAMEPrefix must be a string',
+  setCNAMEPrefix(CNAMEPrefix): {
     Properties+::: {
-      CNAMEPrefix: CNAMEPrefix,
+      CNAMEPrefix:
+        if !std.isString(CNAMEPrefix) then (error 'CNAMEPrefix must be a string')
+        else if std.isEmpty(CNAMEPrefix) then (error 'CNAMEPrefix must be not empty')
+        else CNAMEPrefix,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

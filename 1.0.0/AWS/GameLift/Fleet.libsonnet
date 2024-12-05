@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 1024 then error ('Name should have not more than 1024 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,250 +19,313 @@
     Metadata:: [],
     Type: 'AWS::GameLift::Fleet',
   },
-  withScalingPolicies(ScalingPolicies): {
+  setScalingPolicies(ScalingPolicies): {
     Properties+::: {
-      ScalingPolicies: (if std.isArray(ScalingPolicies) then ScalingPolicies else [ScalingPolicies]),
+      ScalingPolicies:
+        if !std.isArray(ScalingPolicies) then (error 'ScalingPolicies must be an array')
+        else if std.length(ScalingPolicies) > 50 then error ('ScalingPolicies cannot have more than 50 items')
+        else ScalingPolicies,
     },
   },
-  withScalingPoliciesMixin(ScalingPolicies): {
+  setScalingPoliciesMixin(ScalingPolicies): {
     Properties+::: {
-      ScalingPolicies+: (if std.isArray(ScalingPolicies) then ScalingPolicies else [ScalingPolicies]),
+      ScalingPolicies+: ScalingPolicies,
     },
   },
-  withAnywhereConfiguration(AnywhereConfiguration): {
+  setAnywhereConfiguration(AnywhereConfiguration): {
     Properties+::: {
       AnywhereConfiguration: AnywhereConfiguration,
     },
   },
-  withApplyCapacity(ApplyCapacity): {
-    assert std.isString(ApplyCapacity) : 'ApplyCapacity must be a string',
-    assert ApplyCapacity == 'ON_UPDATE' || ApplyCapacity == 'ON_CREATE_AND_UPDATE' : "ApplyCapacity should be 'ON_UPDATE' or 'ON_CREATE_AND_UPDATE'",
+  setApplyCapacity(ApplyCapacity): {
     Properties+::: {
-      ApplyCapacity: ApplyCapacity,
+      ApplyCapacity:
+        if !std.isString(ApplyCapacity) then (error 'ApplyCapacity must be a string')
+        else if std.isEmpty(ApplyCapacity) then (error 'ApplyCapacity must be not empty')
+        else if ApplyCapacity != 'ON_UPDATE' && ApplyCapacity != 'ON_CREATE_AND_UPDATE' then (error "ApplyCapacity should be 'ON_UPDATE' or 'ON_CREATE_AND_UPDATE'")
+        else ApplyCapacity,
     },
   },
-  withCertificateConfiguration(CertificateConfiguration): {
-    assert std.isObject(CertificateConfiguration) : 'CertificateConfiguration must be a object',
+  setCertificateConfiguration(CertificateConfiguration): {
     Properties+::: {
-      CertificateConfiguration: CertificateConfiguration,
+      CertificateConfiguration:
+        if !std.isObject(CertificateConfiguration) then (error 'CertificateConfiguration must be an object')
+        else if !std.objectHas(CertificateConfiguration, 'CertificateType') then (error ' have attribute CertificateType')
+        else CertificateConfiguration,
     },
   },
-  withComputeType(ComputeType): {
-    assert std.isString(ComputeType) : 'ComputeType must be a string',
-    assert ComputeType == 'EC2' || ComputeType == 'ANYWHERE' : "ComputeType should be 'EC2' or 'ANYWHERE'",
+  setComputeType(ComputeType): {
     Properties+::: {
-      ComputeType: ComputeType,
+      ComputeType:
+        if !std.isString(ComputeType) then (error 'ComputeType must be a string')
+        else if std.isEmpty(ComputeType) then (error 'ComputeType must be not empty')
+        else if ComputeType != 'EC2' && ComputeType != 'ANYWHERE' then (error "ComputeType should be 'EC2' or 'ANYWHERE'")
+        else ComputeType,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withDesiredEC2Instances(DesiredEC2Instances): {
-    assert std.isNumber(DesiredEC2Instances) : 'DesiredEC2Instances must be a number',
+  setDesiredEC2Instances(DesiredEC2Instances): {
     Properties+::: {
-      DesiredEC2Instances: DesiredEC2Instances,
+      DesiredEC2Instances:
+        if !std.isNumber(DesiredEC2Instances) then (error 'DesiredEC2Instances must be an number')
+        else DesiredEC2Instances,
     },
   },
-  withEC2InboundPermissions(EC2InboundPermissions): {
+  setEC2InboundPermissions(EC2InboundPermissions): {
     Properties+::: {
-      EC2InboundPermissions: (if std.isArray(EC2InboundPermissions) then EC2InboundPermissions else [EC2InboundPermissions]),
+      EC2InboundPermissions:
+        if !std.isArray(EC2InboundPermissions) then (error 'EC2InboundPermissions must be an array')
+        else if std.length(EC2InboundPermissions) > 50 then error ('EC2InboundPermissions cannot have more than 50 items')
+        else EC2InboundPermissions,
     },
   },
-  withEC2InboundPermissionsMixin(EC2InboundPermissions): {
+  setEC2InboundPermissionsMixin(EC2InboundPermissions): {
     Properties+::: {
-      EC2InboundPermissions+: (if std.isArray(EC2InboundPermissions) then EC2InboundPermissions else [EC2InboundPermissions]),
+      EC2InboundPermissions+: EC2InboundPermissions,
     },
   },
-  withEC2InstanceType(EC2InstanceType): {
-    assert std.isString(EC2InstanceType) : 'EC2InstanceType must be a string',
+  setEC2InstanceType(EC2InstanceType): {
     Properties+::: {
-      EC2InstanceType: EC2InstanceType,
+      EC2InstanceType:
+        if !std.isString(EC2InstanceType) then (error 'EC2InstanceType must be a string')
+        else if std.isEmpty(EC2InstanceType) then (error 'EC2InstanceType must be not empty')
+        else EC2InstanceType,
     },
   },
-  withFleetType(FleetType): {
-    assert std.isString(FleetType) : 'FleetType must be a string',
-    assert FleetType == 'ON_DEMAND' || FleetType == 'SPOT' : "FleetType should be 'ON_DEMAND' or 'SPOT'",
+  setFleetType(FleetType): {
     Properties+::: {
-      FleetType: FleetType,
+      FleetType:
+        if !std.isString(FleetType) then (error 'FleetType must be a string')
+        else if std.isEmpty(FleetType) then (error 'FleetType must be not empty')
+        else if FleetType != 'ON_DEMAND' && FleetType != 'SPOT' then (error "FleetType should be 'ON_DEMAND' or 'SPOT'")
+        else FleetType,
     },
   },
-  withInstanceRoleARN(InstanceRoleARN): {
-    assert std.isString(InstanceRoleARN) : 'InstanceRoleARN must be a string',
+  setInstanceRoleARN(InstanceRoleARN): {
     Properties+::: {
-      InstanceRoleARN: InstanceRoleARN,
+      InstanceRoleARN:
+        if !std.isString(InstanceRoleARN) then (error 'InstanceRoleARN must be a string')
+        else if std.isEmpty(InstanceRoleARN) then (error 'InstanceRoleARN must be not empty')
+        else if std.length(InstanceRoleARN) < 1 then error ('InstanceRoleARN should have at least 1 characters')
+        else InstanceRoleARN,
     },
   },
-  withInstanceRoleCredentialsProvider(InstanceRoleCredentialsProvider): {
-    assert std.isString(InstanceRoleCredentialsProvider) : 'InstanceRoleCredentialsProvider must be a string',
-    assert InstanceRoleCredentialsProvider == 'SHARED_CREDENTIAL_FILE' : "InstanceRoleCredentialsProvider should be 'SHARED_CREDENTIAL_FILE'",
+  setInstanceRoleCredentialsProvider(InstanceRoleCredentialsProvider): {
     Properties+::: {
-      InstanceRoleCredentialsProvider: InstanceRoleCredentialsProvider,
+      InstanceRoleCredentialsProvider:
+        if !std.isString(InstanceRoleCredentialsProvider) then (error 'InstanceRoleCredentialsProvider must be a string')
+        else if std.isEmpty(InstanceRoleCredentialsProvider) then (error 'InstanceRoleCredentialsProvider must be not empty')
+        else if InstanceRoleCredentialsProvider != 'SHARED_CREDENTIAL_FILE' then (error "InstanceRoleCredentialsProvider should be 'SHARED_CREDENTIAL_FILE'")
+        else InstanceRoleCredentialsProvider,
     },
   },
-  withLocations(Locations): {
+  setLocations(Locations): {
     Properties+::: {
-      Locations: (if std.isArray(Locations) then Locations else [Locations]),
+      Locations:
+        if !std.isArray(Locations) then (error 'Locations must be an array')
+        else if std.length(Locations) < 1 then error ('Locations cannot have less than 1 items')
+        else if std.length(Locations) > 100 then error ('Locations cannot have more than 100 items')
+        else Locations,
     },
   },
-  withLocationsMixin(Locations): {
+  setLocationsMixin(Locations): {
     Properties+::: {
-      Locations+: (if std.isArray(Locations) then Locations else [Locations]),
+      Locations+: Locations,
     },
   },
-  withLogPaths(LogPaths): {
+  setLogPaths(LogPaths): {
     Properties+::: {
-      LogPaths: (if std.isArray(LogPaths) then LogPaths else [LogPaths]),
+      LogPaths:
+        if !std.isArray(LogPaths) then (error 'LogPaths must be an array')
+        else LogPaths,
     },
   },
-  withLogPathsMixin(LogPaths): {
+  setLogPathsMixin(LogPaths): {
     Properties+::: {
-      LogPaths+: (if std.isArray(LogPaths) then LogPaths else [LogPaths]),
+      LogPaths+: LogPaths,
     },
   },
-  withMaxSize(MaxSize): {
-    assert std.isNumber(MaxSize) : 'MaxSize must be a number',
+  setMaxSize(MaxSize): {
     Properties+::: {
-      MaxSize: MaxSize,
+      MaxSize:
+        if !std.isNumber(MaxSize) then (error 'MaxSize must be an number')
+        else MaxSize,
     },
   },
-  withMetricGroups(MetricGroups): {
+  setMetricGroups(MetricGroups): {
     Properties+::: {
-      MetricGroups: (if std.isArray(MetricGroups) then MetricGroups else [MetricGroups]),
+      MetricGroups:
+        if !std.isArray(MetricGroups) then (error 'MetricGroups must be an array')
+        else if std.length(MetricGroups) > 1 then error ('MetricGroups cannot have more than 1 items')
+        else MetricGroups,
     },
   },
-  withMetricGroupsMixin(MetricGroups): {
+  setMetricGroupsMixin(MetricGroups): {
     Properties+::: {
-      MetricGroups+: (if std.isArray(MetricGroups) then MetricGroups else [MetricGroups]),
+      MetricGroups+: MetricGroups,
     },
   },
-  withMinSize(MinSize): {
-    assert std.isNumber(MinSize) : 'MinSize must be a number',
+  setMinSize(MinSize): {
     Properties+::: {
-      MinSize: MinSize,
+      MinSize:
+        if !std.isNumber(MinSize) then (error 'MinSize must be an number')
+        else MinSize,
     },
   },
-  withNewGameSessionProtectionPolicy(NewGameSessionProtectionPolicy): {
-    assert std.isString(NewGameSessionProtectionPolicy) : 'NewGameSessionProtectionPolicy must be a string',
-    assert NewGameSessionProtectionPolicy == 'FullProtection' || NewGameSessionProtectionPolicy == 'NoProtection' : "NewGameSessionProtectionPolicy should be 'FullProtection' or 'NoProtection'",
+  setNewGameSessionProtectionPolicy(NewGameSessionProtectionPolicy): {
     Properties+::: {
-      NewGameSessionProtectionPolicy: NewGameSessionProtectionPolicy,
+      NewGameSessionProtectionPolicy:
+        if !std.isString(NewGameSessionProtectionPolicy) then (error 'NewGameSessionProtectionPolicy must be a string')
+        else if std.isEmpty(NewGameSessionProtectionPolicy) then (error 'NewGameSessionProtectionPolicy must be not empty')
+        else if NewGameSessionProtectionPolicy != 'FullProtection' && NewGameSessionProtectionPolicy != 'NoProtection' then (error "NewGameSessionProtectionPolicy should be 'FullProtection' or 'NoProtection'")
+        else NewGameSessionProtectionPolicy,
     },
   },
-  withPeerVpcAwsAccountId(PeerVpcAwsAccountId): {
-    assert std.isString(PeerVpcAwsAccountId) : 'PeerVpcAwsAccountId must be a string',
+  setPeerVpcAwsAccountId(PeerVpcAwsAccountId): {
     Properties+::: {
-      PeerVpcAwsAccountId: PeerVpcAwsAccountId,
+      PeerVpcAwsAccountId:
+        if !std.isString(PeerVpcAwsAccountId) then (error 'PeerVpcAwsAccountId must be a string')
+        else if std.isEmpty(PeerVpcAwsAccountId) then (error 'PeerVpcAwsAccountId must be not empty')
+        else if std.length(PeerVpcAwsAccountId) < 1 then error ('PeerVpcAwsAccountId should have at least 1 characters')
+        else if std.length(PeerVpcAwsAccountId) > 1024 then error ('PeerVpcAwsAccountId should have not more than 1024 characters')
+        else PeerVpcAwsAccountId,
     },
   },
-  withPeerVpcId(PeerVpcId): {
-    assert std.isString(PeerVpcId) : 'PeerVpcId must be a string',
+  setPeerVpcId(PeerVpcId): {
     Properties+::: {
-      PeerVpcId: PeerVpcId,
+      PeerVpcId:
+        if !std.isString(PeerVpcId) then (error 'PeerVpcId must be a string')
+        else if std.isEmpty(PeerVpcId) then (error 'PeerVpcId must be not empty')
+        else if std.length(PeerVpcId) < 1 then error ('PeerVpcId should have at least 1 characters')
+        else if std.length(PeerVpcId) > 1024 then error ('PeerVpcId should have not more than 1024 characters')
+        else PeerVpcId,
     },
   },
-  withResourceCreationLimitPolicy(ResourceCreationLimitPolicy): {
-    assert std.isObject(ResourceCreationLimitPolicy) : 'ResourceCreationLimitPolicy must be a object',
+  setResourceCreationLimitPolicy(ResourceCreationLimitPolicy): {
     Properties+::: {
-      ResourceCreationLimitPolicy: ResourceCreationLimitPolicy,
+      ResourceCreationLimitPolicy:
+        if !std.isObject(ResourceCreationLimitPolicy) then (error 'ResourceCreationLimitPolicy must be an object')
+        else ResourceCreationLimitPolicy,
     },
   },
-  withFleetId(FleetId): {
-    assert std.isString(FleetId) : 'FleetId must be a string',
+  setFleetId(FleetId): {
     Properties+::: {
-      FleetId: FleetId,
+      FleetId:
+        if !std.isString(FleetId) then (error 'FleetId must be a string')
+        else if std.isEmpty(FleetId) then (error 'FleetId must be not empty')
+        else FleetId,
     },
   },
-  withBuildId(BuildId): {
-    assert std.isString(BuildId) : 'BuildId must be a string',
+  setBuildId(BuildId): {
     Properties+::: {
-      BuildId: BuildId,
+      BuildId:
+        if !std.isString(BuildId) then (error 'BuildId must be a string')
+        else if std.isEmpty(BuildId) then (error 'BuildId must be not empty')
+        else BuildId,
     },
   },
-  withScriptId(ScriptId): {
-    assert std.isString(ScriptId) : 'ScriptId must be a string',
+  setScriptId(ScriptId): {
     Properties+::: {
-      ScriptId: ScriptId,
+      ScriptId:
+        if !std.isString(ScriptId) then (error 'ScriptId must be a string')
+        else if std.isEmpty(ScriptId) then (error 'ScriptId must be not empty')
+        else ScriptId,
     },
   },
-  withRuntimeConfiguration(RuntimeConfiguration): {
-    assert std.isObject(RuntimeConfiguration) : 'RuntimeConfiguration must be a object',
+  setRuntimeConfiguration(RuntimeConfiguration): {
     Properties+::: {
-      RuntimeConfiguration: RuntimeConfiguration,
+      RuntimeConfiguration:
+        if !std.isObject(RuntimeConfiguration) then (error 'RuntimeConfiguration must be an object')
+        else RuntimeConfiguration,
     },
   },
-  withServerLaunchParameters(ServerLaunchParameters): {
-    assert std.isString(ServerLaunchParameters) : 'ServerLaunchParameters must be a string',
+  setServerLaunchParameters(ServerLaunchParameters): {
     Properties+::: {
-      ServerLaunchParameters: ServerLaunchParameters,
+      ServerLaunchParameters:
+        if !std.isString(ServerLaunchParameters) then (error 'ServerLaunchParameters must be a string')
+        else if std.isEmpty(ServerLaunchParameters) then (error 'ServerLaunchParameters must be not empty')
+        else if std.length(ServerLaunchParameters) < 1 then error ('ServerLaunchParameters should have at least 1 characters')
+        else if std.length(ServerLaunchParameters) > 1024 then error ('ServerLaunchParameters should have not more than 1024 characters')
+        else ServerLaunchParameters,
     },
   },
-  withServerLaunchPath(ServerLaunchPath): {
-    assert std.isString(ServerLaunchPath) : 'ServerLaunchPath must be a string',
+  setServerLaunchPath(ServerLaunchPath): {
     Properties+::: {
-      ServerLaunchPath: ServerLaunchPath,
+      ServerLaunchPath:
+        if !std.isString(ServerLaunchPath) then (error 'ServerLaunchPath must be a string')
+        else if std.isEmpty(ServerLaunchPath) then (error 'ServerLaunchPath must be not empty')
+        else if std.length(ServerLaunchPath) < 1 then error ('ServerLaunchPath should have at least 1 characters')
+        else if std.length(ServerLaunchPath) > 1024 then error ('ServerLaunchPath should have not more than 1024 characters')
+        else ServerLaunchPath,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

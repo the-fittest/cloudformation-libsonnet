@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,112 +10,127 @@
     Metadata:: [],
     Type: 'AWS::Logs::LogGroup',
   },
-  withLogGroupName(LogGroupName): {
-    assert std.isString(LogGroupName) : 'LogGroupName must be a string',
+  setLogGroupName(LogGroupName): {
     Properties+::: {
-      LogGroupName: LogGroupName,
+      LogGroupName:
+        if !std.isString(LogGroupName) then (error 'LogGroupName must be a string')
+        else if std.isEmpty(LogGroupName) then (error 'LogGroupName must be not empty')
+        else if std.length(LogGroupName) < 1 then error ('LogGroupName should have at least 1 characters')
+        else if std.length(LogGroupName) > 512 then error ('LogGroupName should have not more than 512 characters')
+        else LogGroupName,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else if std.length(KmsKeyId) > 256 then error ('KmsKeyId should have not more than 256 characters')
+        else KmsKeyId,
     },
   },
-  withDataProtectionPolicy(DataProtectionPolicy): {
-    assert std.isObject(DataProtectionPolicy) : 'DataProtectionPolicy must be a object',
+  setDataProtectionPolicy(DataProtectionPolicy): {
     Properties+::: {
-      DataProtectionPolicy: DataProtectionPolicy,
+      DataProtectionPolicy:
+        if !std.isObject(DataProtectionPolicy) then (error 'DataProtectionPolicy must be an object')
+        else DataProtectionPolicy,
     },
   },
-  withLogGroupClass(LogGroupClass): {
-    assert std.isString(LogGroupClass) : 'LogGroupClass must be a string',
-    assert LogGroupClass == 'STANDARD' || LogGroupClass == 'INFREQUENT_ACCESS' : "LogGroupClass should be 'STANDARD' or 'INFREQUENT_ACCESS'",
+  setLogGroupClass(LogGroupClass): {
     Properties+::: {
-      LogGroupClass: LogGroupClass,
+      LogGroupClass:
+        if !std.isString(LogGroupClass) then (error 'LogGroupClass must be a string')
+        else if std.isEmpty(LogGroupClass) then (error 'LogGroupClass must be not empty')
+        else if LogGroupClass != 'STANDARD' && LogGroupClass != 'INFREQUENT_ACCESS' then (error "LogGroupClass should be 'STANDARD' or 'INFREQUENT_ACCESS'")
+        else LogGroupClass,
     },
   },
-  withRetentionInDays(RetentionInDays): {
-    assert std.isNumber(RetentionInDays) : 'RetentionInDays must be a number',
-    assert RetentionInDays == 1 || RetentionInDays == 3 || RetentionInDays == 5 || RetentionInDays == 7 || RetentionInDays == 14 || RetentionInDays == 30 || RetentionInDays == 60 || RetentionInDays == 90 || RetentionInDays == 120 || RetentionInDays == 150 || RetentionInDays == 180 || RetentionInDays == 365 || RetentionInDays == 400 || RetentionInDays == 545 || RetentionInDays == 731 || RetentionInDays == 1096 || RetentionInDays == 1827 || RetentionInDays == 2192 || RetentionInDays == 2557 || RetentionInDays == 2922 || RetentionInDays == 3288 || RetentionInDays == 3653 : 'RetentionInDays should be 1 or 3 or 5 or 7 or 14 or 30 or 60 or 90 or 120 or 150 or 180 or 365 or 400 or 545 or 731 or 1096 or 1827 or 2192 or 2557 or 2922 or 3288 or 3653',
+  setRetentionInDays(RetentionInDays): {
     Properties+::: {
-      RetentionInDays: RetentionInDays,
+      RetentionInDays:
+        if !std.isNumber(RetentionInDays) then (error 'RetentionInDays must be an number')
+        else if RetentionInDays != 1 && RetentionInDays != 3 && RetentionInDays != 5 && RetentionInDays != 7 && RetentionInDays != 14 && RetentionInDays != 30 && RetentionInDays != 60 && RetentionInDays != 90 && RetentionInDays != 120 && RetentionInDays != 150 && RetentionInDays != 180 && RetentionInDays != 365 && RetentionInDays != 400 && RetentionInDays != 545 && RetentionInDays != 731 && RetentionInDays != 1096 && RetentionInDays != 1827 && RetentionInDays != 2192 && RetentionInDays != 2557 && RetentionInDays != 2922 && RetentionInDays != 3288 && RetentionInDays != 3653 then error ('RetentionInDays should be 1 or 3 or 5 or 7 or 14 or 30 or 60 or 90 or 120 or 150 or 180 or 365 or 400 or 545 or 731 or 1096 or 1827 or 2192 or 2557 or 2922 or 3288 or 3653')
+        else RetentionInDays,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

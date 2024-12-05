@@ -12,23 +12,42 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(Capacity) : 'Capacity must be an object',
-      Capacity: Capacity,
-      assert std.isObject(ConnectorConfiguration) : 'ConnectorConfiguration must be an object',
-      ConnectorConfiguration: ConnectorConfiguration,
-      assert std.isString(ConnectorName) : 'ConnectorName must be a string',
-      ConnectorName: ConnectorName,
-      assert std.isString(KafkaConnectVersion) : 'KafkaConnectVersion must be a string',
-      KafkaConnectVersion: KafkaConnectVersion,
-      assert std.isObject(KafkaCluster) : 'KafkaCluster must be an object',
-      KafkaCluster: KafkaCluster,
-      assert std.isObject(KafkaClusterClientAuthentication) : 'KafkaClusterClientAuthentication must be an object',
-      KafkaClusterClientAuthentication: KafkaClusterClientAuthentication,
-      assert std.isObject(KafkaClusterEncryptionInTransit) : 'KafkaClusterEncryptionInTransit must be an object',
-      KafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit,
-      Plugins: (if std.isArray(Plugins) then Plugins else [Plugins]),
-      assert std.isString(ServiceExecutionRoleArn) : 'ServiceExecutionRoleArn must be a string',
-      ServiceExecutionRoleArn: ServiceExecutionRoleArn,
+      Capacity:
+        if !std.isObject(Capacity) then (error 'Capacity must be an object')
+        else Capacity,
+      ConnectorConfiguration:
+        if !std.isObject(ConnectorConfiguration) then (error 'ConnectorConfiguration must be an object')
+        else ConnectorConfiguration,
+      ConnectorName:
+        if !std.isString(ConnectorName) then (error 'ConnectorName must be a string')
+        else if std.isEmpty(ConnectorName) then (error 'ConnectorName must be not empty')
+        else if std.length(ConnectorName) < 1 then error ('ConnectorName should have at least 1 characters')
+        else if std.length(ConnectorName) > 128 then error ('ConnectorName should have not more than 128 characters')
+        else ConnectorName,
+      KafkaConnectVersion:
+        if !std.isString(KafkaConnectVersion) then (error 'KafkaConnectVersion must be a string')
+        else if std.isEmpty(KafkaConnectVersion) then (error 'KafkaConnectVersion must be not empty')
+        else KafkaConnectVersion,
+      KafkaCluster:
+        if !std.isObject(KafkaCluster) then (error 'KafkaCluster must be an object')
+        else if !std.objectHas(KafkaCluster, 'ApacheKafkaCluster') then (error ' have attribute ApacheKafkaCluster')
+        else KafkaCluster,
+      KafkaClusterClientAuthentication:
+        if !std.isObject(KafkaClusterClientAuthentication) then (error 'KafkaClusterClientAuthentication must be an object')
+        else if !std.objectHas(KafkaClusterClientAuthentication, 'AuthenticationType') then (error ' have attribute AuthenticationType')
+        else KafkaClusterClientAuthentication,
+      KafkaClusterEncryptionInTransit:
+        if !std.isObject(KafkaClusterEncryptionInTransit) then (error 'KafkaClusterEncryptionInTransit must be an object')
+        else if !std.objectHas(KafkaClusterEncryptionInTransit, 'EncryptionType') then (error ' have attribute EncryptionType')
+        else KafkaClusterEncryptionInTransit,
+      Plugins:
+        if !std.isArray(Plugins) then (error 'Plugins must be an array')
+        else if std.length(Plugins) < 1 then error ('Plugins cannot have less than 1 items')
+        else Plugins,
+      ServiceExecutionRoleArn:
+        if !std.isString(ServiceExecutionRoleArn) then (error 'ServiceExecutionRoleArn must be a string')
+        else if std.isEmpty(ServiceExecutionRoleArn) then (error 'ServiceExecutionRoleArn must be not empty')
+        else ServiceExecutionRoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -38,98 +57,110 @@
     Metadata:: [],
     Type: 'AWS::KafkaConnect::Connector',
   },
-  withConnectorArn(ConnectorArn): {
-    assert std.isString(ConnectorArn) : 'ConnectorArn must be a string',
+  setConnectorArn(ConnectorArn): {
     Properties+::: {
-      ConnectorArn: ConnectorArn,
+      ConnectorArn:
+        if !std.isString(ConnectorArn) then (error 'ConnectorArn must be a string')
+        else if std.isEmpty(ConnectorArn) then (error 'ConnectorArn must be not empty')
+        else ConnectorArn,
     },
   },
-  withConnectorDescription(ConnectorDescription): {
-    assert std.isString(ConnectorDescription) : 'ConnectorDescription must be a string',
+  setConnectorDescription(ConnectorDescription): {
     Properties+::: {
-      ConnectorDescription: ConnectorDescription,
+      ConnectorDescription:
+        if !std.isString(ConnectorDescription) then (error 'ConnectorDescription must be a string')
+        else if std.isEmpty(ConnectorDescription) then (error 'ConnectorDescription must be not empty')
+        else if std.length(ConnectorDescription) > 1024 then error ('ConnectorDescription should have not more than 1024 characters')
+        else ConnectorDescription,
     },
   },
-  withLogDelivery(LogDelivery): {
-    assert std.isObject(LogDelivery) : 'LogDelivery must be a object',
+  setLogDelivery(LogDelivery): {
     Properties+::: {
-      LogDelivery: LogDelivery,
+      LogDelivery:
+        if !std.isObject(LogDelivery) then (error 'LogDelivery must be an object')
+        else if !std.objectHas(LogDelivery, 'WorkerLogDelivery') then (error ' have attribute WorkerLogDelivery')
+        else LogDelivery,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withWorkerConfiguration(WorkerConfiguration): {
-    assert std.isObject(WorkerConfiguration) : 'WorkerConfiguration must be a object',
+  setWorkerConfiguration(WorkerConfiguration): {
     Properties+::: {
-      WorkerConfiguration: WorkerConfiguration,
+      WorkerConfiguration:
+        if !std.isObject(WorkerConfiguration) then (error 'WorkerConfiguration must be an object')
+        else if !std.objectHas(WorkerConfiguration, 'Revision') then (error ' have attribute Revision')
+        else if !std.objectHas(WorkerConfiguration, 'WorkerConfigurationArn') then (error ' have attribute WorkerConfigurationArn')
+        else WorkerConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

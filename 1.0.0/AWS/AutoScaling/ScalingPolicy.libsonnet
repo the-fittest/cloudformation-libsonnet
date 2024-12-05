@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AutoScalingGroupName) : 'AutoScalingGroupName must be a string',
-      AutoScalingGroupName: AutoScalingGroupName,
+      AutoScalingGroupName:
+        if !std.isString(AutoScalingGroupName) then (error 'AutoScalingGroupName must be a string')
+        else if std.isEmpty(AutoScalingGroupName) then (error 'AutoScalingGroupName must be not empty')
+        else AutoScalingGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,140 +17,161 @@
     Metadata:: [],
     Type: 'AWS::AutoScaling::ScalingPolicy',
   },
-  withMetricAggregationType(MetricAggregationType): {
-    assert std.isString(MetricAggregationType) : 'MetricAggregationType must be a string',
+  setMetricAggregationType(MetricAggregationType): {
     Properties+::: {
-      MetricAggregationType: MetricAggregationType,
+      MetricAggregationType:
+        if !std.isString(MetricAggregationType) then (error 'MetricAggregationType must be a string')
+        else if std.isEmpty(MetricAggregationType) then (error 'MetricAggregationType must be not empty')
+        else MetricAggregationType,
     },
   },
-  withPolicyName(PolicyName): {
-    assert std.isString(PolicyName) : 'PolicyName must be a string',
+  setPolicyName(PolicyName): {
     Properties+::: {
-      PolicyName: PolicyName,
+      PolicyName:
+        if !std.isString(PolicyName) then (error 'PolicyName must be a string')
+        else if std.isEmpty(PolicyName) then (error 'PolicyName must be not empty')
+        else PolicyName,
     },
   },
-  withPolicyType(PolicyType): {
-    assert std.isString(PolicyType) : 'PolicyType must be a string',
+  setPolicyType(PolicyType): {
     Properties+::: {
-      PolicyType: PolicyType,
+      PolicyType:
+        if !std.isString(PolicyType) then (error 'PolicyType must be a string')
+        else if std.isEmpty(PolicyType) then (error 'PolicyType must be not empty')
+        else PolicyType,
     },
   },
-  withPredictiveScalingConfiguration(PredictiveScalingConfiguration): {
-    assert std.isObject(PredictiveScalingConfiguration) : 'PredictiveScalingConfiguration must be a object',
+  setPredictiveScalingConfiguration(PredictiveScalingConfiguration): {
     Properties+::: {
-      PredictiveScalingConfiguration: PredictiveScalingConfiguration,
+      PredictiveScalingConfiguration:
+        if !std.isObject(PredictiveScalingConfiguration) then (error 'PredictiveScalingConfiguration must be an object')
+        else if !std.objectHas(PredictiveScalingConfiguration, 'MetricSpecifications') then (error ' have attribute MetricSpecifications')
+        else PredictiveScalingConfiguration,
     },
   },
-  withScalingAdjustment(ScalingAdjustment): {
-    assert std.isNumber(ScalingAdjustment) : 'ScalingAdjustment must be a number',
+  setScalingAdjustment(ScalingAdjustment): {
     Properties+::: {
-      ScalingAdjustment: ScalingAdjustment,
+      ScalingAdjustment:
+        if !std.isNumber(ScalingAdjustment) then (error 'ScalingAdjustment must be an number')
+        else ScalingAdjustment,
     },
   },
-  withCooldown(Cooldown): {
-    assert std.isString(Cooldown) : 'Cooldown must be a string',
+  setCooldown(Cooldown): {
     Properties+::: {
-      Cooldown: Cooldown,
+      Cooldown:
+        if !std.isString(Cooldown) then (error 'Cooldown must be a string')
+        else if std.isEmpty(Cooldown) then (error 'Cooldown must be not empty')
+        else Cooldown,
     },
   },
-  withStepAdjustments(StepAdjustments): {
+  setStepAdjustments(StepAdjustments): {
     Properties+::: {
-      StepAdjustments: (if std.isArray(StepAdjustments) then StepAdjustments else [StepAdjustments]),
+      StepAdjustments:
+        if !std.isArray(StepAdjustments) then (error 'StepAdjustments must be an array')
+        else StepAdjustments,
     },
   },
-  withStepAdjustmentsMixin(StepAdjustments): {
+  setStepAdjustmentsMixin(StepAdjustments): {
     Properties+::: {
-      StepAdjustments+: (if std.isArray(StepAdjustments) then StepAdjustments else [StepAdjustments]),
+      StepAdjustments+: StepAdjustments,
     },
   },
-  withMinAdjustmentMagnitude(MinAdjustmentMagnitude): {
-    assert std.isNumber(MinAdjustmentMagnitude) : 'MinAdjustmentMagnitude must be a number',
+  setMinAdjustmentMagnitude(MinAdjustmentMagnitude): {
     Properties+::: {
-      MinAdjustmentMagnitude: MinAdjustmentMagnitude,
+      MinAdjustmentMagnitude:
+        if !std.isNumber(MinAdjustmentMagnitude) then (error 'MinAdjustmentMagnitude must be an number')
+        else MinAdjustmentMagnitude,
     },
   },
-  withTargetTrackingConfiguration(TargetTrackingConfiguration): {
-    assert std.isObject(TargetTrackingConfiguration) : 'TargetTrackingConfiguration must be a object',
+  setTargetTrackingConfiguration(TargetTrackingConfiguration): {
     Properties+::: {
-      TargetTrackingConfiguration: TargetTrackingConfiguration,
+      TargetTrackingConfiguration:
+        if !std.isObject(TargetTrackingConfiguration) then (error 'TargetTrackingConfiguration must be an object')
+        else if !std.objectHas(TargetTrackingConfiguration, 'TargetValue') then (error ' have attribute TargetValue')
+        else TargetTrackingConfiguration,
     },
   },
-  withEstimatedInstanceWarmup(EstimatedInstanceWarmup): {
-    assert std.isNumber(EstimatedInstanceWarmup) : 'EstimatedInstanceWarmup must be a number',
+  setEstimatedInstanceWarmup(EstimatedInstanceWarmup): {
     Properties+::: {
-      EstimatedInstanceWarmup: EstimatedInstanceWarmup,
+      EstimatedInstanceWarmup:
+        if !std.isNumber(EstimatedInstanceWarmup) then (error 'EstimatedInstanceWarmup must be an number')
+        else EstimatedInstanceWarmup,
     },
   },
-  withAdjustmentType(AdjustmentType): {
-    assert std.isString(AdjustmentType) : 'AdjustmentType must be a string',
+  setAdjustmentType(AdjustmentType): {
     Properties+::: {
-      AdjustmentType: AdjustmentType,
+      AdjustmentType:
+        if !std.isString(AdjustmentType) then (error 'AdjustmentType must be a string')
+        else if std.isEmpty(AdjustmentType) then (error 'AdjustmentType must be not empty')
+        else AdjustmentType,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

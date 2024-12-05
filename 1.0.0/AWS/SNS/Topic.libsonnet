@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,154 +10,174 @@
     Metadata:: [],
     Type: 'AWS::SNS::Topic',
   },
-  withDisplayName(DisplayName): {
-    assert std.isString(DisplayName) : 'DisplayName must be a string',
+  setDisplayName(DisplayName): {
     Properties+::: {
-      DisplayName: DisplayName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else DisplayName,
     },
   },
-  withKmsMasterKeyId(KmsMasterKeyId): {
-    assert std.isString(KmsMasterKeyId) : 'KmsMasterKeyId must be a string',
+  setKmsMasterKeyId(KmsMasterKeyId): {
     Properties+::: {
-      KmsMasterKeyId: KmsMasterKeyId,
+      KmsMasterKeyId:
+        if !std.isString(KmsMasterKeyId) then (error 'KmsMasterKeyId must be a string')
+        else if std.isEmpty(KmsMasterKeyId) then (error 'KmsMasterKeyId must be not empty')
+        else KmsMasterKeyId,
     },
   },
-  withDataProtectionPolicy(DataProtectionPolicy): {
-    assert std.isObject(DataProtectionPolicy) : 'DataProtectionPolicy must be a object',
+  setDataProtectionPolicy(DataProtectionPolicy): {
     Properties+::: {
-      DataProtectionPolicy: DataProtectionPolicy,
+      DataProtectionPolicy:
+        if !std.isObject(DataProtectionPolicy) then (error 'DataProtectionPolicy must be an object')
+        else DataProtectionPolicy,
     },
   },
-  withSubscription(Subscription): {
+  setSubscription(Subscription): {
     Properties+::: {
-      Subscription: (if std.isArray(Subscription) then Subscription else [Subscription]),
+      Subscription:
+        if !std.isArray(Subscription) then (error 'Subscription must be an array')
+        else Subscription,
     },
   },
-  withSubscriptionMixin(Subscription): {
+  setSubscriptionMixin(Subscription): {
     Properties+::: {
-      Subscription+: (if std.isArray(Subscription) then Subscription else [Subscription]),
+      Subscription+: Subscription,
     },
   },
-  withFifoTopic(FifoTopic): {
-    assert std.isBoolean(FifoTopic) : 'FifoTopic must be a boolean',
+  setFifoTopic(FifoTopic): {
     Properties+::: {
-      FifoTopic: FifoTopic,
+      FifoTopic:
+        if !std.isBoolean(FifoTopic) then (error 'FifoTopic must be a boolean') else FifoTopic,
     },
   },
-  withContentBasedDeduplication(ContentBasedDeduplication): {
-    assert std.isBoolean(ContentBasedDeduplication) : 'ContentBasedDeduplication must be a boolean',
+  setContentBasedDeduplication(ContentBasedDeduplication): {
     Properties+::: {
-      ContentBasedDeduplication: ContentBasedDeduplication,
+      ContentBasedDeduplication:
+        if !std.isBoolean(ContentBasedDeduplication) then (error 'ContentBasedDeduplication must be a boolean') else ContentBasedDeduplication,
     },
   },
-  withArchivePolicy(ArchivePolicy): {
-    assert std.isObject(ArchivePolicy) : 'ArchivePolicy must be a object',
+  setArchivePolicy(ArchivePolicy): {
     Properties+::: {
-      ArchivePolicy: ArchivePolicy,
+      ArchivePolicy:
+        if !std.isObject(ArchivePolicy) then (error 'ArchivePolicy must be an object')
+        else ArchivePolicy,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTopicName(TopicName): {
-    assert std.isString(TopicName) : 'TopicName must be a string',
+  setTopicName(TopicName): {
     Properties+::: {
-      TopicName: TopicName,
+      TopicName:
+        if !std.isString(TopicName) then (error 'TopicName must be a string')
+        else if std.isEmpty(TopicName) then (error 'TopicName must be not empty')
+        else TopicName,
     },
   },
-  withTopicArn(TopicArn): {
-    assert std.isString(TopicArn) : 'TopicArn must be a string',
+  setTopicArn(TopicArn): {
     Properties+::: {
-      TopicArn: TopicArn,
+      TopicArn:
+        if !std.isString(TopicArn) then (error 'TopicArn must be a string')
+        else if std.isEmpty(TopicArn) then (error 'TopicArn must be not empty')
+        else TopicArn,
     },
   },
-  withSignatureVersion(SignatureVersion): {
-    assert std.isString(SignatureVersion) : 'SignatureVersion must be a string',
+  setSignatureVersion(SignatureVersion): {
     Properties+::: {
-      SignatureVersion: SignatureVersion,
+      SignatureVersion:
+        if !std.isString(SignatureVersion) then (error 'SignatureVersion must be a string')
+        else if std.isEmpty(SignatureVersion) then (error 'SignatureVersion must be not empty')
+        else SignatureVersion,
     },
   },
-  withTracingConfig(TracingConfig): {
-    assert std.isString(TracingConfig) : 'TracingConfig must be a string',
+  setTracingConfig(TracingConfig): {
     Properties+::: {
-      TracingConfig: TracingConfig,
+      TracingConfig:
+        if !std.isString(TracingConfig) then (error 'TracingConfig must be a string')
+        else if std.isEmpty(TracingConfig) then (error 'TracingConfig must be not empty')
+        else TracingConfig,
     },
   },
-  withDeliveryStatusLogging(DeliveryStatusLogging): {
+  setDeliveryStatusLogging(DeliveryStatusLogging): {
     Properties+::: {
-      DeliveryStatusLogging: (if std.isArray(DeliveryStatusLogging) then DeliveryStatusLogging else [DeliveryStatusLogging]),
+      DeliveryStatusLogging:
+        if !std.isArray(DeliveryStatusLogging) then (error 'DeliveryStatusLogging must be an array')
+        else DeliveryStatusLogging,
     },
   },
-  withDeliveryStatusLoggingMixin(DeliveryStatusLogging): {
+  setDeliveryStatusLoggingMixin(DeliveryStatusLogging): {
     Properties+::: {
-      DeliveryStatusLogging+: (if std.isArray(DeliveryStatusLogging) then DeliveryStatusLogging else [DeliveryStatusLogging]),
+      DeliveryStatusLogging+: DeliveryStatusLogging,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

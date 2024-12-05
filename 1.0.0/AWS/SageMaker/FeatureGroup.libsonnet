@@ -7,13 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FeatureGroupName) : 'FeatureGroupName must be a string',
-      FeatureGroupName: FeatureGroupName,
-      assert std.isString(RecordIdentifierFeatureName) : 'RecordIdentifierFeatureName must be a string',
-      RecordIdentifierFeatureName: RecordIdentifierFeatureName,
-      assert std.isString(EventTimeFeatureName) : 'EventTimeFeatureName must be a string',
-      EventTimeFeatureName: EventTimeFeatureName,
-      FeatureDefinitions: (if std.isArray(FeatureDefinitions) then FeatureDefinitions else [FeatureDefinitions]),
+      FeatureGroupName:
+        if !std.isString(FeatureGroupName) then (error 'FeatureGroupName must be a string')
+        else if std.isEmpty(FeatureGroupName) then (error 'FeatureGroupName must be not empty')
+        else if std.length(FeatureGroupName) < 1 then error ('FeatureGroupName should have at least 1 characters')
+        else if std.length(FeatureGroupName) > 64 then error ('FeatureGroupName should have not more than 64 characters')
+        else FeatureGroupName,
+      RecordIdentifierFeatureName:
+        if !std.isString(RecordIdentifierFeatureName) then (error 'RecordIdentifierFeatureName must be a string')
+        else if std.isEmpty(RecordIdentifierFeatureName) then (error 'RecordIdentifierFeatureName must be not empty')
+        else if std.length(RecordIdentifierFeatureName) < 1 then error ('RecordIdentifierFeatureName should have at least 1 characters')
+        else if std.length(RecordIdentifierFeatureName) > 64 then error ('RecordIdentifierFeatureName should have not more than 64 characters')
+        else RecordIdentifierFeatureName,
+      EventTimeFeatureName:
+        if !std.isString(EventTimeFeatureName) then (error 'EventTimeFeatureName must be a string')
+        else if std.isEmpty(EventTimeFeatureName) then (error 'EventTimeFeatureName must be not empty')
+        else if std.length(EventTimeFeatureName) < 1 then error ('EventTimeFeatureName should have at least 1 characters')
+        else if std.length(EventTimeFeatureName) > 64 then error ('EventTimeFeatureName should have not more than 64 characters')
+        else EventTimeFeatureName,
+      FeatureDefinitions:
+        if !std.isArray(FeatureDefinitions) then (error 'FeatureDefinitions must be an array')
+        else if std.length(FeatureDefinitions) < 1 then error ('FeatureDefinitions cannot have less than 1 items')
+        else if std.length(FeatureDefinitions) > 2500 then error ('FeatureDefinitions cannot have more than 2500 items')
+        else FeatureDefinitions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,116 +39,135 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::FeatureGroup',
   },
-  withOnlineStoreConfig(OnlineStoreConfig): {
-    assert std.isObject(OnlineStoreConfig) : 'OnlineStoreConfig must be a object',
+  setOnlineStoreConfig(OnlineStoreConfig): {
     Properties+::: {
-      OnlineStoreConfig: OnlineStoreConfig,
+      OnlineStoreConfig:
+        if !std.isObject(OnlineStoreConfig) then (error 'OnlineStoreConfig must be an object')
+        else OnlineStoreConfig,
     },
   },
-  withOfflineStoreConfig(OfflineStoreConfig): {
-    assert std.isObject(OfflineStoreConfig) : 'OfflineStoreConfig must be a object',
+  setOfflineStoreConfig(OfflineStoreConfig): {
     Properties+::: {
-      OfflineStoreConfig: OfflineStoreConfig,
+      OfflineStoreConfig:
+        if !std.isObject(OfflineStoreConfig) then (error 'OfflineStoreConfig must be an object')
+        else if !std.objectHas(OfflineStoreConfig, 'S3StorageConfig') then (error ' have attribute S3StorageConfig')
+        else OfflineStoreConfig,
     },
   },
-  withThroughputConfig(ThroughputConfig): {
-    assert std.isObject(ThroughputConfig) : 'ThroughputConfig must be a object',
+  setThroughputConfig(ThroughputConfig): {
     Properties+::: {
-      ThroughputConfig: ThroughputConfig,
+      ThroughputConfig:
+        if !std.isObject(ThroughputConfig) then (error 'ThroughputConfig must be an object')
+        else if !std.objectHas(ThroughputConfig, 'ThroughputMode') then (error ' have attribute ThroughputMode')
+        else ThroughputConfig,
     },
   },
-  withRoleArn(RoleArn): {
-    assert std.isString(RoleArn) : 'RoleArn must be a string',
+  setRoleArn(RoleArn): {
     Properties+::: {
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 128 then error ('Description should have not more than 128 characters')
+        else Description,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withFeatureGroupStatus(FeatureGroupStatus): {
-    assert std.isString(FeatureGroupStatus) : 'FeatureGroupStatus must be a string',
+  setFeatureGroupStatus(FeatureGroupStatus): {
     Properties+::: {
-      FeatureGroupStatus: FeatureGroupStatus,
+      FeatureGroupStatus:
+        if !std.isString(FeatureGroupStatus) then (error 'FeatureGroupStatus must be a string')
+        else if std.isEmpty(FeatureGroupStatus) then (error 'FeatureGroupStatus must be not empty')
+        else FeatureGroupStatus,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -7,15 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TeamId) : 'TeamId must be a string',
-      TeamId: TeamId,
-      assert std.isString(ChannelId) : 'ChannelId must be a string',
-      ChannelId: ChannelId,
-      assert std.isString(NotifyOnCaseSeverity) : 'NotifyOnCaseSeverity must be a string',
-      assert NotifyOnCaseSeverity == 'none' || NotifyOnCaseSeverity == 'all' || NotifyOnCaseSeverity == 'high' : "NotifyOnCaseSeverity should be 'none' or 'all' or 'high'",
-      NotifyOnCaseSeverity: NotifyOnCaseSeverity,
-      assert std.isString(ChannelRoleArn) : 'ChannelRoleArn must be a string',
-      ChannelRoleArn: ChannelRoleArn,
+      TeamId:
+        if !std.isString(TeamId) then (error 'TeamId must be a string')
+        else if std.isEmpty(TeamId) then (error 'TeamId must be not empty')
+        else if std.length(TeamId) < 1 then error ('TeamId should have at least 1 characters')
+        else if std.length(TeamId) > 256 then error ('TeamId should have not more than 256 characters')
+        else TeamId,
+      ChannelId:
+        if !std.isString(ChannelId) then (error 'ChannelId must be a string')
+        else if std.isEmpty(ChannelId) then (error 'ChannelId must be not empty')
+        else if std.length(ChannelId) < 1 then error ('ChannelId should have at least 1 characters')
+        else if std.length(ChannelId) > 256 then error ('ChannelId should have not more than 256 characters')
+        else ChannelId,
+      NotifyOnCaseSeverity:
+        if !std.isString(NotifyOnCaseSeverity) then (error 'NotifyOnCaseSeverity must be a string')
+        else if std.isEmpty(NotifyOnCaseSeverity) then (error 'NotifyOnCaseSeverity must be not empty')
+        else if NotifyOnCaseSeverity != 'none' && NotifyOnCaseSeverity != 'all' && NotifyOnCaseSeverity != 'high' then (error "NotifyOnCaseSeverity should be 'none' or 'all' or 'high'")
+        else NotifyOnCaseSeverity,
+      ChannelRoleArn:
+        if !std.isString(ChannelRoleArn) then (error 'ChannelRoleArn must be a string')
+        else if std.isEmpty(ChannelRoleArn) then (error 'ChannelRoleArn must be not empty')
+        else if std.length(ChannelRoleArn) < 31 then error ('ChannelRoleArn should have at least 31 characters')
+        else if std.length(ChannelRoleArn) > 2048 then error ('ChannelRoleArn should have not more than 2048 characters')
+        else ChannelRoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,88 +39,92 @@
     Metadata:: [],
     Type: 'AWS::SupportApp::SlackChannelConfiguration',
   },
-  withChannelName(ChannelName): {
-    assert std.isString(ChannelName) : 'ChannelName must be a string',
+  setChannelName(ChannelName): {
     Properties+::: {
-      ChannelName: ChannelName,
+      ChannelName:
+        if !std.isString(ChannelName) then (error 'ChannelName must be a string')
+        else if std.isEmpty(ChannelName) then (error 'ChannelName must be not empty')
+        else if std.length(ChannelName) < 1 then error ('ChannelName should have at least 1 characters')
+        else if std.length(ChannelName) > 256 then error ('ChannelName should have not more than 256 characters')
+        else ChannelName,
     },
   },
-  withNotifyOnCreateOrReopenCase(NotifyOnCreateOrReopenCase): {
-    assert std.isBoolean(NotifyOnCreateOrReopenCase) : 'NotifyOnCreateOrReopenCase must be a boolean',
+  setNotifyOnCreateOrReopenCase(NotifyOnCreateOrReopenCase): {
     Properties+::: {
-      NotifyOnCreateOrReopenCase: NotifyOnCreateOrReopenCase,
+      NotifyOnCreateOrReopenCase:
+        if !std.isBoolean(NotifyOnCreateOrReopenCase) then (error 'NotifyOnCreateOrReopenCase must be a boolean') else NotifyOnCreateOrReopenCase,
     },
   },
-  withNotifyOnAddCorrespondenceToCase(NotifyOnAddCorrespondenceToCase): {
-    assert std.isBoolean(NotifyOnAddCorrespondenceToCase) : 'NotifyOnAddCorrespondenceToCase must be a boolean',
+  setNotifyOnAddCorrespondenceToCase(NotifyOnAddCorrespondenceToCase): {
     Properties+::: {
-      NotifyOnAddCorrespondenceToCase: NotifyOnAddCorrespondenceToCase,
+      NotifyOnAddCorrespondenceToCase:
+        if !std.isBoolean(NotifyOnAddCorrespondenceToCase) then (error 'NotifyOnAddCorrespondenceToCase must be a boolean') else NotifyOnAddCorrespondenceToCase,
     },
   },
-  withNotifyOnResolveCase(NotifyOnResolveCase): {
-    assert std.isBoolean(NotifyOnResolveCase) : 'NotifyOnResolveCase must be a boolean',
+  setNotifyOnResolveCase(NotifyOnResolveCase): {
     Properties+::: {
-      NotifyOnResolveCase: NotifyOnResolveCase,
+      NotifyOnResolveCase:
+        if !std.isBoolean(NotifyOnResolveCase) then (error 'NotifyOnResolveCase must be a boolean') else NotifyOnResolveCase,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

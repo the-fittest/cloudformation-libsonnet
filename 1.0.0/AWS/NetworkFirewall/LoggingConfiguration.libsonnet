@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FirewallArn) : 'FirewallArn must be a string',
-      FirewallArn: FirewallArn,
-      assert std.isObject(LoggingConfiguration) : 'LoggingConfiguration must be an object',
-      LoggingConfiguration: LoggingConfiguration,
+      FirewallArn:
+        if !std.isString(FirewallArn) then (error 'FirewallArn must be a string')
+        else if std.isEmpty(FirewallArn) then (error 'FirewallArn must be not empty')
+        else if std.length(FirewallArn) < 1 then error ('FirewallArn should have at least 1 characters')
+        else if std.length(FirewallArn) > 256 then error ('FirewallArn should have not more than 256 characters')
+        else FirewallArn,
+      LoggingConfiguration:
+        if !std.isObject(LoggingConfiguration) then (error 'LoggingConfiguration must be an object')
+        else if !std.objectHas(LoggingConfiguration, 'LogDestinationConfigs') then (error ' have attribute LogDestinationConfigs')
+        else LoggingConfiguration,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,70 +24,74 @@
     Metadata:: [],
     Type: 'AWS::NetworkFirewall::LoggingConfiguration',
   },
-  withFirewallName(FirewallName): {
-    assert std.isString(FirewallName) : 'FirewallName must be a string',
+  setFirewallName(FirewallName): {
     Properties+::: {
-      FirewallName: FirewallName,
+      FirewallName:
+        if !std.isString(FirewallName) then (error 'FirewallName must be a string')
+        else if std.isEmpty(FirewallName) then (error 'FirewallName must be not empty')
+        else if std.length(FirewallName) < 1 then error ('FirewallName should have at least 1 characters')
+        else if std.length(FirewallName) > 128 then error ('FirewallName should have not more than 128 characters')
+        else FirewallName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -6,13 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(Grantee) : 'Grantee must be an object',
-      Grantee: Grantee,
-      assert std.isString(Permission) : 'Permission must be a string',
-      assert Permission == 'READ' || Permission == 'WRITE' || Permission == 'READWRITE' : "Permission should be 'READ' or 'WRITE' or 'READWRITE'",
-      Permission: Permission,
-      assert std.isString(AccessGrantsLocationId) : 'AccessGrantsLocationId must be a string',
-      AccessGrantsLocationId: AccessGrantsLocationId,
+      Grantee:
+        if !std.isObject(Grantee) then (error 'Grantee must be an object')
+        else if !std.objectHas(Grantee, 'GranteeType') then (error ' have attribute GranteeType')
+        else if !std.objectHas(Grantee, 'GranteeIdentifier') then (error ' have attribute GranteeIdentifier')
+        else Grantee,
+      Permission:
+        if !std.isString(Permission) then (error 'Permission must be a string')
+        else if std.isEmpty(Permission) then (error 'Permission must be not empty')
+        else if Permission != 'READ' && Permission != 'WRITE' && Permission != 'READWRITE' then (error "Permission should be 'READ' or 'WRITE' or 'READWRITE'")
+        else Permission,
+      AccessGrantsLocationId:
+        if !std.isString(AccessGrantsLocationId) then (error 'AccessGrantsLocationId must be a string')
+        else if std.isEmpty(AccessGrantsLocationId) then (error 'AccessGrantsLocationId must be not empty')
+        else AccessGrantsLocationId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,111 +29,125 @@
     Metadata:: [],
     Type: 'AWS::S3::AccessGrant',
   },
-  withAccessGrantId(AccessGrantId): {
-    assert std.isString(AccessGrantId) : 'AccessGrantId must be a string',
+  setAccessGrantId(AccessGrantId): {
     Properties+::: {
-      AccessGrantId: AccessGrantId,
+      AccessGrantId:
+        if !std.isString(AccessGrantId) then (error 'AccessGrantId must be a string')
+        else if std.isEmpty(AccessGrantId) then (error 'AccessGrantId must be not empty')
+        else AccessGrantId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withApplicationArn(ApplicationArn): {
-    assert std.isString(ApplicationArn) : 'ApplicationArn must be a string',
+  setApplicationArn(ApplicationArn): {
     Properties+::: {
-      ApplicationArn: ApplicationArn,
+      ApplicationArn:
+        if !std.isString(ApplicationArn) then (error 'ApplicationArn must be a string')
+        else if std.isEmpty(ApplicationArn) then (error 'ApplicationArn must be not empty')
+        else ApplicationArn,
     },
   },
-  withS3PrefixType(S3PrefixType): {
-    assert std.isString(S3PrefixType) : 'S3PrefixType must be a string',
-    assert S3PrefixType == 'Object' : "S3PrefixType should be 'Object'",
+  setS3PrefixType(S3PrefixType): {
     Properties+::: {
-      S3PrefixType: S3PrefixType,
+      S3PrefixType:
+        if !std.isString(S3PrefixType) then (error 'S3PrefixType must be a string')
+        else if std.isEmpty(S3PrefixType) then (error 'S3PrefixType must be not empty')
+        else if S3PrefixType != 'Object' then (error "S3PrefixType should be 'Object'")
+        else S3PrefixType,
     },
   },
-  withGrantScope(GrantScope): {
-    assert std.isString(GrantScope) : 'GrantScope must be a string',
+  setGrantScope(GrantScope): {
     Properties+::: {
-      GrantScope: GrantScope,
+      GrantScope:
+        if !std.isString(GrantScope) then (error 'GrantScope must be a string')
+        else if std.isEmpty(GrantScope) then (error 'GrantScope must be not empty')
+        else GrantScope,
     },
   },
-  withAccessGrantArn(AccessGrantArn): {
-    assert std.isString(AccessGrantArn) : 'AccessGrantArn must be a string',
+  setAccessGrantArn(AccessGrantArn): {
     Properties+::: {
-      AccessGrantArn: AccessGrantArn,
+      AccessGrantArn:
+        if !std.isString(AccessGrantArn) then (error 'AccessGrantArn must be a string')
+        else if std.isEmpty(AccessGrantArn) then (error 'AccessGrantArn must be not empty')
+        else AccessGrantArn,
     },
   },
-  withAccessGrantsLocationConfiguration(AccessGrantsLocationConfiguration): {
-    assert std.isObject(AccessGrantsLocationConfiguration) : 'AccessGrantsLocationConfiguration must be a object',
+  setAccessGrantsLocationConfiguration(AccessGrantsLocationConfiguration): {
     Properties+::: {
-      AccessGrantsLocationConfiguration: AccessGrantsLocationConfiguration,
+      AccessGrantsLocationConfiguration:
+        if !std.isObject(AccessGrantsLocationConfiguration) then (error 'AccessGrantsLocationConfiguration must be an object')
+        else if !std.objectHas(AccessGrantsLocationConfiguration, 'S3SubPrefix') then (error ' have attribute S3SubPrefix')
+        else AccessGrantsLocationConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

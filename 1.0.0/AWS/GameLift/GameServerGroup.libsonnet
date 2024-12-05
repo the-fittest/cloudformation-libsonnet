@@ -6,11 +6,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GameServerGroupName) : 'GameServerGroupName must be a string',
-      GameServerGroupName: GameServerGroupName,
-      InstanceDefinitions: (if std.isArray(InstanceDefinitions) then InstanceDefinitions else [InstanceDefinitions]),
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      GameServerGroupName:
+        if !std.isString(GameServerGroupName) then (error 'GameServerGroupName must be a string')
+        else if std.isEmpty(GameServerGroupName) then (error 'GameServerGroupName must be not empty')
+        else if std.length(GameServerGroupName) < 1 then error ('GameServerGroupName should have at least 1 characters')
+        else if std.length(GameServerGroupName) > 128 then error ('GameServerGroupName should have not more than 128 characters')
+        else GameServerGroupName,
+      InstanceDefinitions:
+        if !std.isArray(InstanceDefinitions) then (error 'InstanceDefinitions must be an array')
+        else if std.length(InstanceDefinitions) < 2 then error ('InstanceDefinitions cannot have less than 2 items')
+        else if std.length(InstanceDefinitions) > 20 then error ('InstanceDefinitions cannot have more than 20 items')
+        else InstanceDefinitions,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 256 then error ('RoleArn should have not more than 256 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,141 +32,167 @@
     Metadata:: [],
     Type: 'AWS::GameLift::GameServerGroup',
   },
-  withAutoScalingGroupArn(AutoScalingGroupArn): {
-    assert std.isString(AutoScalingGroupArn) : 'AutoScalingGroupArn must be a string',
+  setAutoScalingGroupArn(AutoScalingGroupArn): {
     Properties+::: {
-      AutoScalingGroupArn: AutoScalingGroupArn,
+      AutoScalingGroupArn:
+        if !std.isString(AutoScalingGroupArn) then (error 'AutoScalingGroupArn must be a string')
+        else if std.isEmpty(AutoScalingGroupArn) then (error 'AutoScalingGroupArn must be not empty')
+        else if std.length(AutoScalingGroupArn) > 256 then error ('AutoScalingGroupArn should have not more than 256 characters')
+        else AutoScalingGroupArn,
     },
   },
-  withAutoScalingPolicy(AutoScalingPolicy): {
-    assert std.isObject(AutoScalingPolicy) : 'AutoScalingPolicy must be a object',
+  setAutoScalingPolicy(AutoScalingPolicy): {
     Properties+::: {
-      AutoScalingPolicy: AutoScalingPolicy,
+      AutoScalingPolicy:
+        if !std.isObject(AutoScalingPolicy) then (error 'AutoScalingPolicy must be an object')
+        else if !std.objectHas(AutoScalingPolicy, 'TargetTrackingConfiguration') then (error ' have attribute TargetTrackingConfiguration')
+        else AutoScalingPolicy,
     },
   },
-  withBalancingStrategy(BalancingStrategy): {
-    assert std.isString(BalancingStrategy) : 'BalancingStrategy must be a string',
-    assert BalancingStrategy == 'SPOT_ONLY' || BalancingStrategy == 'SPOT_PREFERRED' || BalancingStrategy == 'ON_DEMAND_ONLY' : "BalancingStrategy should be 'SPOT_ONLY' or 'SPOT_PREFERRED' or 'ON_DEMAND_ONLY'",
+  setBalancingStrategy(BalancingStrategy): {
     Properties+::: {
-      BalancingStrategy: BalancingStrategy,
+      BalancingStrategy:
+        if !std.isString(BalancingStrategy) then (error 'BalancingStrategy must be a string')
+        else if std.isEmpty(BalancingStrategy) then (error 'BalancingStrategy must be not empty')
+        else if BalancingStrategy != 'SPOT_ONLY' && BalancingStrategy != 'SPOT_PREFERRED' && BalancingStrategy != 'ON_DEMAND_ONLY' then (error "BalancingStrategy should be 'SPOT_ONLY' or 'SPOT_PREFERRED' or 'ON_DEMAND_ONLY'")
+        else BalancingStrategy,
     },
   },
-  withDeleteOption(DeleteOption): {
-    assert std.isString(DeleteOption) : 'DeleteOption must be a string',
-    assert DeleteOption == 'SAFE_DELETE' || DeleteOption == 'FORCE_DELETE' || DeleteOption == 'RETAIN' : "DeleteOption should be 'SAFE_DELETE' or 'FORCE_DELETE' or 'RETAIN'",
+  setDeleteOption(DeleteOption): {
     Properties+::: {
-      DeleteOption: DeleteOption,
+      DeleteOption:
+        if !std.isString(DeleteOption) then (error 'DeleteOption must be a string')
+        else if std.isEmpty(DeleteOption) then (error 'DeleteOption must be not empty')
+        else if DeleteOption != 'SAFE_DELETE' && DeleteOption != 'FORCE_DELETE' && DeleteOption != 'RETAIN' then (error "DeleteOption should be 'SAFE_DELETE' or 'FORCE_DELETE' or 'RETAIN'")
+        else DeleteOption,
     },
   },
-  withGameServerGroupArn(GameServerGroupArn): {
-    assert std.isString(GameServerGroupArn) : 'GameServerGroupArn must be a string',
+  setGameServerGroupArn(GameServerGroupArn): {
     Properties+::: {
-      GameServerGroupArn: GameServerGroupArn,
+      GameServerGroupArn:
+        if !std.isString(GameServerGroupArn) then (error 'GameServerGroupArn must be a string')
+        else if std.isEmpty(GameServerGroupArn) then (error 'GameServerGroupArn must be not empty')
+        else if std.length(GameServerGroupArn) < 1 then error ('GameServerGroupArn should have at least 1 characters')
+        else if std.length(GameServerGroupArn) > 256 then error ('GameServerGroupArn should have not more than 256 characters')
+        else GameServerGroupArn,
     },
   },
-  withGameServerProtectionPolicy(GameServerProtectionPolicy): {
-    assert std.isString(GameServerProtectionPolicy) : 'GameServerProtectionPolicy must be a string',
-    assert GameServerProtectionPolicy == 'NO_PROTECTION' || GameServerProtectionPolicy == 'FULL_PROTECTION' : "GameServerProtectionPolicy should be 'NO_PROTECTION' or 'FULL_PROTECTION'",
+  setGameServerProtectionPolicy(GameServerProtectionPolicy): {
     Properties+::: {
-      GameServerProtectionPolicy: GameServerProtectionPolicy,
+      GameServerProtectionPolicy:
+        if !std.isString(GameServerProtectionPolicy) then (error 'GameServerProtectionPolicy must be a string')
+        else if std.isEmpty(GameServerProtectionPolicy) then (error 'GameServerProtectionPolicy must be not empty')
+        else if GameServerProtectionPolicy != 'NO_PROTECTION' && GameServerProtectionPolicy != 'FULL_PROTECTION' then (error "GameServerProtectionPolicy should be 'NO_PROTECTION' or 'FULL_PROTECTION'")
+        else GameServerProtectionPolicy,
     },
   },
-  withLaunchTemplate(LaunchTemplate): {
-    assert std.isObject(LaunchTemplate) : 'LaunchTemplate must be a object',
+  setLaunchTemplate(LaunchTemplate): {
     Properties+::: {
-      LaunchTemplate: LaunchTemplate,
+      LaunchTemplate:
+        if !std.isObject(LaunchTemplate) then (error 'LaunchTemplate must be an object')
+        else LaunchTemplate,
     },
   },
-  withMaxSize(MaxSize): {
-    assert std.isNumber(MaxSize) : 'MaxSize must be a number',
+  setMaxSize(MaxSize): {
     Properties+::: {
-      MaxSize: MaxSize,
+      MaxSize:
+        if !std.isNumber(MaxSize) then (error 'MaxSize must be an number')
+        else if MaxSize < 1 then error ('MaxSize should be at least 1')
+        else MaxSize,
     },
   },
-  withMinSize(MinSize): {
-    assert std.isNumber(MinSize) : 'MinSize must be a number',
+  setMinSize(MinSize): {
     Properties+::: {
-      MinSize: MinSize,
+      MinSize:
+        if !std.isNumber(MinSize) then (error 'MinSize must be an number')
+        else MinSize,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVpcSubnets(VpcSubnets): {
+  setVpcSubnets(VpcSubnets): {
     Properties+::: {
-      VpcSubnets: (if std.isArray(VpcSubnets) then VpcSubnets else [VpcSubnets]),
+      VpcSubnets:
+        if !std.isArray(VpcSubnets) then (error 'VpcSubnets must be an array')
+        else if std.length(VpcSubnets) < 1 then error ('VpcSubnets cannot have less than 1 items')
+        else if std.length(VpcSubnets) > 20 then error ('VpcSubnets cannot have more than 20 items')
+        else VpcSubnets,
     },
   },
-  withVpcSubnetsMixin(VpcSubnets): {
+  setVpcSubnetsMixin(VpcSubnets): {
     Properties+::: {
-      VpcSubnets+: (if std.isArray(VpcSubnets) then VpcSubnets else [VpcSubnets]),
+      VpcSubnets+: VpcSubnets,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

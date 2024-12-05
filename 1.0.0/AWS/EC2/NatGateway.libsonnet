@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(SubnetId) : 'SubnetId must be a string',
-      SubnetId: SubnetId,
+      SubnetId:
+        if !std.isString(SubnetId) then (error 'SubnetId must be a string')
+        else if std.isEmpty(SubnetId) then (error 'SubnetId must be not empty')
+        else SubnetId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,130 +17,147 @@
     Metadata:: [],
     Type: 'AWS::EC2::NatGateway',
   },
-  withSecondaryAllocationIds(SecondaryAllocationIds): {
+  setSecondaryAllocationIds(SecondaryAllocationIds): {
     Properties+::: {
-      SecondaryAllocationIds: (if std.isArray(SecondaryAllocationIds) then SecondaryAllocationIds else [SecondaryAllocationIds]),
+      SecondaryAllocationIds:
+        if !std.isArray(SecondaryAllocationIds) then (error 'SecondaryAllocationIds must be an array')
+        else SecondaryAllocationIds,
     },
   },
-  withSecondaryAllocationIdsMixin(SecondaryAllocationIds): {
+  setSecondaryAllocationIdsMixin(SecondaryAllocationIds): {
     Properties+::: {
-      SecondaryAllocationIds+: (if std.isArray(SecondaryAllocationIds) then SecondaryAllocationIds else [SecondaryAllocationIds]),
+      SecondaryAllocationIds+: SecondaryAllocationIds,
     },
   },
-  withPrivateIpAddress(PrivateIpAddress): {
-    assert std.isString(PrivateIpAddress) : 'PrivateIpAddress must be a string',
+  setPrivateIpAddress(PrivateIpAddress): {
     Properties+::: {
-      PrivateIpAddress: PrivateIpAddress,
+      PrivateIpAddress:
+        if !std.isString(PrivateIpAddress) then (error 'PrivateIpAddress must be a string')
+        else if std.isEmpty(PrivateIpAddress) then (error 'PrivateIpAddress must be not empty')
+        else PrivateIpAddress,
     },
   },
-  withConnectivityType(ConnectivityType): {
-    assert std.isString(ConnectivityType) : 'ConnectivityType must be a string',
+  setConnectivityType(ConnectivityType): {
     Properties+::: {
-      ConnectivityType: ConnectivityType,
+      ConnectivityType:
+        if !std.isString(ConnectivityType) then (error 'ConnectivityType must be a string')
+        else if std.isEmpty(ConnectivityType) then (error 'ConnectivityType must be not empty')
+        else ConnectivityType,
     },
   },
-  withSecondaryPrivateIpAddresses(SecondaryPrivateIpAddresses): {
+  setSecondaryPrivateIpAddresses(SecondaryPrivateIpAddresses): {
     Properties+::: {
-      SecondaryPrivateIpAddresses: (if std.isArray(SecondaryPrivateIpAddresses) then SecondaryPrivateIpAddresses else [SecondaryPrivateIpAddresses]),
+      SecondaryPrivateIpAddresses:
+        if !std.isArray(SecondaryPrivateIpAddresses) then (error 'SecondaryPrivateIpAddresses must be an array')
+        else SecondaryPrivateIpAddresses,
     },
   },
-  withSecondaryPrivateIpAddressesMixin(SecondaryPrivateIpAddresses): {
+  setSecondaryPrivateIpAddressesMixin(SecondaryPrivateIpAddresses): {
     Properties+::: {
-      SecondaryPrivateIpAddresses+: (if std.isArray(SecondaryPrivateIpAddresses) then SecondaryPrivateIpAddresses else [SecondaryPrivateIpAddresses]),
+      SecondaryPrivateIpAddresses+: SecondaryPrivateIpAddresses,
     },
   },
-  withSecondaryPrivateIpAddressCount(SecondaryPrivateIpAddressCount): {
-    assert std.isNumber(SecondaryPrivateIpAddressCount) : 'SecondaryPrivateIpAddressCount must be a number',
+  setSecondaryPrivateIpAddressCount(SecondaryPrivateIpAddressCount): {
     Properties+::: {
-      SecondaryPrivateIpAddressCount: SecondaryPrivateIpAddressCount,
+      SecondaryPrivateIpAddressCount:
+        if !std.isNumber(SecondaryPrivateIpAddressCount) then (error 'SecondaryPrivateIpAddressCount must be an number')
+        else if SecondaryPrivateIpAddressCount < 1 then error ('SecondaryPrivateIpAddressCount should be at least 1')
+        else SecondaryPrivateIpAddressCount,
     },
   },
-  withAllocationId(AllocationId): {
-    assert std.isString(AllocationId) : 'AllocationId must be a string',
+  setAllocationId(AllocationId): {
     Properties+::: {
-      AllocationId: AllocationId,
+      AllocationId:
+        if !std.isString(AllocationId) then (error 'AllocationId must be a string')
+        else if std.isEmpty(AllocationId) then (error 'AllocationId must be not empty')
+        else AllocationId,
     },
   },
-  withNatGatewayId(NatGatewayId): {
-    assert std.isString(NatGatewayId) : 'NatGatewayId must be a string',
+  setNatGatewayId(NatGatewayId): {
     Properties+::: {
-      NatGatewayId: NatGatewayId,
+      NatGatewayId:
+        if !std.isString(NatGatewayId) then (error 'NatGatewayId must be a string')
+        else if std.isEmpty(NatGatewayId) then (error 'NatGatewayId must be not empty')
+        else NatGatewayId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withMaxDrainDurationSeconds(MaxDrainDurationSeconds): {
-    assert std.isNumber(MaxDrainDurationSeconds) : 'MaxDrainDurationSeconds must be a number',
+  setMaxDrainDurationSeconds(MaxDrainDurationSeconds): {
     Properties+::: {
-      MaxDrainDurationSeconds: MaxDrainDurationSeconds,
+      MaxDrainDurationSeconds:
+        if !std.isNumber(MaxDrainDurationSeconds) then (error 'MaxDrainDurationSeconds must be an number')
+        else MaxDrainDurationSeconds,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

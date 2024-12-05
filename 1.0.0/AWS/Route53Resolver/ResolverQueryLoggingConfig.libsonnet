@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,126 +10,159 @@
     Metadata:: [],
     Type: 'AWS::Route53Resolver::ResolverQueryLoggingConfig',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 1 then error ('Id should have at least 1 characters')
+        else if std.length(Id) > 64 then error ('Id should have not more than 64 characters')
+        else Id,
     },
   },
-  withOwnerId(OwnerId): {
-    assert std.isString(OwnerId) : 'OwnerId must be a string',
+  setOwnerId(OwnerId): {
     Properties+::: {
-      OwnerId: OwnerId,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else if std.length(OwnerId) < 12 then error ('OwnerId should have at least 12 characters')
+        else if std.length(OwnerId) > 32 then error ('OwnerId should have not more than 32 characters')
+        else OwnerId,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATING' || Status == 'CREATED' || Status == 'DELETING' || Status == 'FAILED' : "Status should be 'CREATING' or 'CREATED' or 'DELETING' or 'FAILED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATING' && Status != 'CREATED' && Status != 'DELETING' && Status != 'FAILED' then (error "Status should be 'CREATING' or 'CREATED' or 'DELETING' or 'FAILED'")
+        else Status,
     },
   },
-  withShareStatus(ShareStatus): {
-    assert std.isString(ShareStatus) : 'ShareStatus must be a string',
-    assert ShareStatus == 'NOT_SHARED' || ShareStatus == 'SHARED_WITH_ME' || ShareStatus == 'SHARED_BY_ME' : "ShareStatus should be 'NOT_SHARED' or 'SHARED_WITH_ME' or 'SHARED_BY_ME'",
+  setShareStatus(ShareStatus): {
     Properties+::: {
-      ShareStatus: ShareStatus,
+      ShareStatus:
+        if !std.isString(ShareStatus) then (error 'ShareStatus must be a string')
+        else if std.isEmpty(ShareStatus) then (error 'ShareStatus must be not empty')
+        else if ShareStatus != 'NOT_SHARED' && ShareStatus != 'SHARED_WITH_ME' && ShareStatus != 'SHARED_BY_ME' then (error "ShareStatus should be 'NOT_SHARED' or 'SHARED_WITH_ME' or 'SHARED_BY_ME'")
+        else ShareStatus,
     },
   },
-  withAssociationCount(AssociationCount): {
-    assert std.isNumber(AssociationCount) : 'AssociationCount must be a number',
+  setAssociationCount(AssociationCount): {
     Properties+::: {
-      AssociationCount: AssociationCount,
+      AssociationCount:
+        if !std.isNumber(AssociationCount) then (error 'AssociationCount must be an number')
+        else AssociationCount,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 600 then error ('Arn should have not more than 600 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
   },
-  withCreatorRequestId(CreatorRequestId): {
-    assert std.isString(CreatorRequestId) : 'CreatorRequestId must be a string',
+  setCreatorRequestId(CreatorRequestId): {
     Properties+::: {
-      CreatorRequestId: CreatorRequestId,
+      CreatorRequestId:
+        if !std.isString(CreatorRequestId) then (error 'CreatorRequestId must be a string')
+        else if std.isEmpty(CreatorRequestId) then (error 'CreatorRequestId must be not empty')
+        else if std.length(CreatorRequestId) < 1 then error ('CreatorRequestId should have at least 1 characters')
+        else if std.length(CreatorRequestId) > 255 then error ('CreatorRequestId should have not more than 255 characters')
+        else CreatorRequestId,
     },
   },
-  withDestinationArn(DestinationArn): {
-    assert std.isString(DestinationArn) : 'DestinationArn must be a string',
+  setDestinationArn(DestinationArn): {
     Properties+::: {
-      DestinationArn: DestinationArn,
+      DestinationArn:
+        if !std.isString(DestinationArn) then (error 'DestinationArn must be a string')
+        else if std.isEmpty(DestinationArn) then (error 'DestinationArn must be not empty')
+        else if std.length(DestinationArn) < 1 then error ('DestinationArn should have at least 1 characters')
+        else if std.length(DestinationArn) > 600 then error ('DestinationArn should have not more than 600 characters')
+        else DestinationArn,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else if std.length(CreationTime) < 20 then error ('CreationTime should have at least 20 characters')
+        else if std.length(CreationTime) > 40 then error ('CreationTime should have not more than 40 characters')
+        else CreationTime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

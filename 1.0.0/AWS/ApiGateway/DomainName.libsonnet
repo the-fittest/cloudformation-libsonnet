@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,140 +10,162 @@
     Metadata:: [],
     Type: 'AWS::ApiGateway::DomainName',
   },
-  withMutualTlsAuthentication(MutualTlsAuthentication): {
-    assert std.isObject(MutualTlsAuthentication) : 'MutualTlsAuthentication must be a object',
+  setMutualTlsAuthentication(MutualTlsAuthentication): {
     Properties+::: {
-      MutualTlsAuthentication: MutualTlsAuthentication,
+      MutualTlsAuthentication:
+        if !std.isObject(MutualTlsAuthentication) then (error 'MutualTlsAuthentication must be an object')
+        else MutualTlsAuthentication,
     },
   },
-  withOwnershipVerificationCertificateArn(OwnershipVerificationCertificateArn): {
-    assert std.isString(OwnershipVerificationCertificateArn) : 'OwnershipVerificationCertificateArn must be a string',
+  setOwnershipVerificationCertificateArn(OwnershipVerificationCertificateArn): {
     Properties+::: {
-      OwnershipVerificationCertificateArn: OwnershipVerificationCertificateArn,
+      OwnershipVerificationCertificateArn:
+        if !std.isString(OwnershipVerificationCertificateArn) then (error 'OwnershipVerificationCertificateArn must be a string')
+        else if std.isEmpty(OwnershipVerificationCertificateArn) then (error 'OwnershipVerificationCertificateArn must be not empty')
+        else OwnershipVerificationCertificateArn,
     },
   },
-  withRegionalHostedZoneId(RegionalHostedZoneId): {
-    assert std.isString(RegionalHostedZoneId) : 'RegionalHostedZoneId must be a string',
+  setRegionalHostedZoneId(RegionalHostedZoneId): {
     Properties+::: {
-      RegionalHostedZoneId: RegionalHostedZoneId,
+      RegionalHostedZoneId:
+        if !std.isString(RegionalHostedZoneId) then (error 'RegionalHostedZoneId must be a string')
+        else if std.isEmpty(RegionalHostedZoneId) then (error 'RegionalHostedZoneId must be not empty')
+        else RegionalHostedZoneId,
     },
   },
-  withRegionalDomainName(RegionalDomainName): {
-    assert std.isString(RegionalDomainName) : 'RegionalDomainName must be a string',
+  setRegionalDomainName(RegionalDomainName): {
     Properties+::: {
-      RegionalDomainName: RegionalDomainName,
+      RegionalDomainName:
+        if !std.isString(RegionalDomainName) then (error 'RegionalDomainName must be a string')
+        else if std.isEmpty(RegionalDomainName) then (error 'RegionalDomainName must be not empty')
+        else RegionalDomainName,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
   },
-  withSecurityPolicy(SecurityPolicy): {
-    assert std.isString(SecurityPolicy) : 'SecurityPolicy must be a string',
+  setSecurityPolicy(SecurityPolicy): {
     Properties+::: {
-      SecurityPolicy: SecurityPolicy,
+      SecurityPolicy:
+        if !std.isString(SecurityPolicy) then (error 'SecurityPolicy must be a string')
+        else if std.isEmpty(SecurityPolicy) then (error 'SecurityPolicy must be not empty')
+        else SecurityPolicy,
     },
   },
-  withDistributionHostedZoneId(DistributionHostedZoneId): {
-    assert std.isString(DistributionHostedZoneId) : 'DistributionHostedZoneId must be a string',
+  setDistributionHostedZoneId(DistributionHostedZoneId): {
     Properties+::: {
-      DistributionHostedZoneId: DistributionHostedZoneId,
+      DistributionHostedZoneId:
+        if !std.isString(DistributionHostedZoneId) then (error 'DistributionHostedZoneId must be a string')
+        else if std.isEmpty(DistributionHostedZoneId) then (error 'DistributionHostedZoneId must be not empty')
+        else DistributionHostedZoneId,
     },
   },
-  withEndpointConfiguration(EndpointConfiguration): {
-    assert std.isObject(EndpointConfiguration) : 'EndpointConfiguration must be a object',
+  setEndpointConfiguration(EndpointConfiguration): {
     Properties+::: {
-      EndpointConfiguration: EndpointConfiguration,
+      EndpointConfiguration:
+        if !std.isObject(EndpointConfiguration) then (error 'EndpointConfiguration must be an object')
+        else EndpointConfiguration,
     },
   },
-  withDistributionDomainName(DistributionDomainName): {
-    assert std.isString(DistributionDomainName) : 'DistributionDomainName must be a string',
+  setDistributionDomainName(DistributionDomainName): {
     Properties+::: {
-      DistributionDomainName: DistributionDomainName,
+      DistributionDomainName:
+        if !std.isString(DistributionDomainName) then (error 'DistributionDomainName must be a string')
+        else if std.isEmpty(DistributionDomainName) then (error 'DistributionDomainName must be not empty')
+        else DistributionDomainName,
     },
   },
-  withRegionalCertificateArn(RegionalCertificateArn): {
-    assert std.isString(RegionalCertificateArn) : 'RegionalCertificateArn must be a string',
+  setRegionalCertificateArn(RegionalCertificateArn): {
     Properties+::: {
-      RegionalCertificateArn: RegionalCertificateArn,
+      RegionalCertificateArn:
+        if !std.isString(RegionalCertificateArn) then (error 'RegionalCertificateArn must be a string')
+        else if std.isEmpty(RegionalCertificateArn) then (error 'RegionalCertificateArn must be not empty')
+        else RegionalCertificateArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCertificateArn(CertificateArn): {
-    assert std.isString(CertificateArn) : 'CertificateArn must be a string',
+  setCertificateArn(CertificateArn): {
     Properties+::: {
-      CertificateArn: CertificateArn,
+      CertificateArn:
+        if !std.isString(CertificateArn) then (error 'CertificateArn must be a string')
+        else if std.isEmpty(CertificateArn) then (error 'CertificateArn must be not empty')
+        else CertificateArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

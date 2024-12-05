@@ -6,12 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(LoRaWAN) : 'LoRaWAN must be an object',
-      LoRaWAN: LoRaWAN,
-      assert std.isString(FirmwareUpdateImage) : 'FirmwareUpdateImage must be a string',
-      FirmwareUpdateImage: FirmwareUpdateImage,
-      assert std.isString(FirmwareUpdateRole) : 'FirmwareUpdateRole must be a string',
-      FirmwareUpdateRole: FirmwareUpdateRole,
+      LoRaWAN:
+        if !std.isObject(LoRaWAN) then (error 'LoRaWAN must be an object')
+        else if !std.objectHas(LoRaWAN, 'RfRegion') then (error ' have attribute RfRegion')
+        else LoRaWAN,
+      FirmwareUpdateImage:
+        if !std.isString(FirmwareUpdateImage) then (error 'FirmwareUpdateImage must be a string')
+        else if std.isEmpty(FirmwareUpdateImage) then (error 'FirmwareUpdateImage must be not empty')
+        else if std.length(FirmwareUpdateImage) < 1 then error ('FirmwareUpdateImage should have at least 1 characters')
+        else if std.length(FirmwareUpdateImage) > 2048 then error ('FirmwareUpdateImage should have not more than 2048 characters')
+        else FirmwareUpdateImage,
+      FirmwareUpdateRole:
+        if !std.isString(FirmwareUpdateRole) then (error 'FirmwareUpdateRole must be a string')
+        else if std.isEmpty(FirmwareUpdateRole) then (error 'FirmwareUpdateRole must be not empty')
+        else if std.length(FirmwareUpdateRole) < 1 then error ('FirmwareUpdateRole should have at least 1 characters')
+        else if std.length(FirmwareUpdateRole) > 256 then error ('FirmwareUpdateRole should have not more than 256 characters')
+        else FirmwareUpdateRole,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,128 +31,156 @@
     Metadata:: [],
     Type: 'AWS::IoTWireless::FuotaTask',
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 256 then error ('Name should have not more than 256 characters')
+        else Name,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) > 256 then error ('Id should have not more than 256 characters')
+        else Id,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withFuotaTaskStatus(FuotaTaskStatus): {
-    assert std.isString(FuotaTaskStatus) : 'FuotaTaskStatus must be a string',
+  setFuotaTaskStatus(FuotaTaskStatus): {
     Properties+::: {
-      FuotaTaskStatus: FuotaTaskStatus,
+      FuotaTaskStatus:
+        if !std.isString(FuotaTaskStatus) then (error 'FuotaTaskStatus must be a string')
+        else if std.isEmpty(FuotaTaskStatus) then (error 'FuotaTaskStatus must be not empty')
+        else FuotaTaskStatus,
     },
   },
-  withAssociateWirelessDevice(AssociateWirelessDevice): {
-    assert std.isString(AssociateWirelessDevice) : 'AssociateWirelessDevice must be a string',
+  setAssociateWirelessDevice(AssociateWirelessDevice): {
     Properties+::: {
-      AssociateWirelessDevice: AssociateWirelessDevice,
+      AssociateWirelessDevice:
+        if !std.isString(AssociateWirelessDevice) then (error 'AssociateWirelessDevice must be a string')
+        else if std.isEmpty(AssociateWirelessDevice) then (error 'AssociateWirelessDevice must be not empty')
+        else if std.length(AssociateWirelessDevice) > 256 then error ('AssociateWirelessDevice should have not more than 256 characters')
+        else AssociateWirelessDevice,
     },
   },
-  withDisassociateWirelessDevice(DisassociateWirelessDevice): {
-    assert std.isString(DisassociateWirelessDevice) : 'DisassociateWirelessDevice must be a string',
+  setDisassociateWirelessDevice(DisassociateWirelessDevice): {
     Properties+::: {
-      DisassociateWirelessDevice: DisassociateWirelessDevice,
+      DisassociateWirelessDevice:
+        if !std.isString(DisassociateWirelessDevice) then (error 'DisassociateWirelessDevice must be a string')
+        else if std.isEmpty(DisassociateWirelessDevice) then (error 'DisassociateWirelessDevice must be not empty')
+        else if std.length(DisassociateWirelessDevice) > 256 then error ('DisassociateWirelessDevice should have not more than 256 characters')
+        else DisassociateWirelessDevice,
     },
   },
-  withAssociateMulticastGroup(AssociateMulticastGroup): {
-    assert std.isString(AssociateMulticastGroup) : 'AssociateMulticastGroup must be a string',
+  setAssociateMulticastGroup(AssociateMulticastGroup): {
     Properties+::: {
-      AssociateMulticastGroup: AssociateMulticastGroup,
+      AssociateMulticastGroup:
+        if !std.isString(AssociateMulticastGroup) then (error 'AssociateMulticastGroup must be a string')
+        else if std.isEmpty(AssociateMulticastGroup) then (error 'AssociateMulticastGroup must be not empty')
+        else if std.length(AssociateMulticastGroup) > 256 then error ('AssociateMulticastGroup should have not more than 256 characters')
+        else AssociateMulticastGroup,
     },
   },
-  withDisassociateMulticastGroup(DisassociateMulticastGroup): {
-    assert std.isString(DisassociateMulticastGroup) : 'DisassociateMulticastGroup must be a string',
+  setDisassociateMulticastGroup(DisassociateMulticastGroup): {
     Properties+::: {
-      DisassociateMulticastGroup: DisassociateMulticastGroup,
+      DisassociateMulticastGroup:
+        if !std.isString(DisassociateMulticastGroup) then (error 'DisassociateMulticastGroup must be a string')
+        else if std.isEmpty(DisassociateMulticastGroup) then (error 'DisassociateMulticastGroup must be not empty')
+        else if std.length(DisassociateMulticastGroup) > 256 then error ('DisassociateMulticastGroup should have not more than 256 characters')
+        else DisassociateMulticastGroup,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

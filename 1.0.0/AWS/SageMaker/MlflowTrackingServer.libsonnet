@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TrackingServerName) : 'TrackingServerName must be a string',
-      TrackingServerName: TrackingServerName,
-      assert std.isString(ArtifactStoreUri) : 'ArtifactStoreUri must be a string',
-      ArtifactStoreUri: ArtifactStoreUri,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      TrackingServerName:
+        if !std.isString(TrackingServerName) then (error 'TrackingServerName must be a string')
+        else if std.isEmpty(TrackingServerName) then (error 'TrackingServerName must be not empty')
+        else if std.length(TrackingServerName) < 1 then error ('TrackingServerName should have at least 1 characters')
+        else if std.length(TrackingServerName) > 256 then error ('TrackingServerName should have not more than 256 characters')
+        else TrackingServerName,
+      ArtifactStoreUri:
+        if !std.isString(ArtifactStoreUri) then (error 'ArtifactStoreUri must be a string')
+        else if std.isEmpty(ArtifactStoreUri) then (error 'ArtifactStoreUri must be not empty')
+        else if std.length(ArtifactStoreUri) < 1 then error ('ArtifactStoreUri should have at least 1 characters')
+        else if std.length(ArtifactStoreUri) > 2048 then error ('ArtifactStoreUri should have not more than 2048 characters')
+        else ArtifactStoreUri,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 20 then error ('RoleArn should have at least 20 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,105 +33,121 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::MlflowTrackingServer',
   },
-  withTrackingServerArn(TrackingServerArn): {
-    assert std.isString(TrackingServerArn) : 'TrackingServerArn must be a string',
+  setTrackingServerArn(TrackingServerArn): {
     Properties+::: {
-      TrackingServerArn: TrackingServerArn,
+      TrackingServerArn:
+        if !std.isString(TrackingServerArn) then (error 'TrackingServerArn must be a string')
+        else if std.isEmpty(TrackingServerArn) then (error 'TrackingServerArn must be not empty')
+        else if std.length(TrackingServerArn) > 2048 then error ('TrackingServerArn should have not more than 2048 characters')
+        else TrackingServerArn,
     },
   },
-  withTrackingServerSize(TrackingServerSize): {
-    assert std.isString(TrackingServerSize) : 'TrackingServerSize must be a string',
-    assert TrackingServerSize == 'Small' || TrackingServerSize == 'Medium' || TrackingServerSize == 'Large' : "TrackingServerSize should be 'Small' or 'Medium' or 'Large'",
+  setTrackingServerSize(TrackingServerSize): {
     Properties+::: {
-      TrackingServerSize: TrackingServerSize,
+      TrackingServerSize:
+        if !std.isString(TrackingServerSize) then (error 'TrackingServerSize must be a string')
+        else if std.isEmpty(TrackingServerSize) then (error 'TrackingServerSize must be not empty')
+        else if TrackingServerSize != 'Small' && TrackingServerSize != 'Medium' && TrackingServerSize != 'Large' then (error "TrackingServerSize should be 'Small' or 'Medium' or 'Large'")
+        else TrackingServerSize,
     },
   },
-  withMlflowVersion(MlflowVersion): {
-    assert std.isString(MlflowVersion) : 'MlflowVersion must be a string',
+  setMlflowVersion(MlflowVersion): {
     Properties+::: {
-      MlflowVersion: MlflowVersion,
+      MlflowVersion:
+        if !std.isString(MlflowVersion) then (error 'MlflowVersion must be a string')
+        else if std.isEmpty(MlflowVersion) then (error 'MlflowVersion must be not empty')
+        else if std.length(MlflowVersion) < 1 then error ('MlflowVersion should have at least 1 characters')
+        else if std.length(MlflowVersion) > 32 then error ('MlflowVersion should have not more than 32 characters')
+        else MlflowVersion,
     },
   },
-  withAutomaticModelRegistration(AutomaticModelRegistration): {
-    assert std.isBoolean(AutomaticModelRegistration) : 'AutomaticModelRegistration must be a boolean',
+  setAutomaticModelRegistration(AutomaticModelRegistration): {
     Properties+::: {
-      AutomaticModelRegistration: AutomaticModelRegistration,
+      AutomaticModelRegistration:
+        if !std.isBoolean(AutomaticModelRegistration) then (error 'AutomaticModelRegistration must be a boolean') else AutomaticModelRegistration,
     },
   },
-  withWeeklyMaintenanceWindowStart(WeeklyMaintenanceWindowStart): {
-    assert std.isString(WeeklyMaintenanceWindowStart) : 'WeeklyMaintenanceWindowStart must be a string',
+  setWeeklyMaintenanceWindowStart(WeeklyMaintenanceWindowStart): {
     Properties+::: {
-      WeeklyMaintenanceWindowStart: WeeklyMaintenanceWindowStart,
+      WeeklyMaintenanceWindowStart:
+        if !std.isString(WeeklyMaintenanceWindowStart) then (error 'WeeklyMaintenanceWindowStart must be a string')
+        else if std.isEmpty(WeeklyMaintenanceWindowStart) then (error 'WeeklyMaintenanceWindowStart must be not empty')
+        else if std.length(WeeklyMaintenanceWindowStart) > 9 then error ('WeeklyMaintenanceWindowStart should have not more than 9 characters')
+        else WeeklyMaintenanceWindowStart,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

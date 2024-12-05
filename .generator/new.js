@@ -5,6 +5,8 @@ import Handlebars from "handlebars";
 import pkg from '../package.json' assert {type: 'json'};
 import {globSync} from "glob";
 import {parse} from "path";
+const {getOptionalProperties} = await import('./utils/getOptionalProperties.js');
+const {getRequiredProperties} = await import('./utils/getRequiredProperties.js');
 
 const version = pkg.version;
 const libsDir = `${process.cwd()}/${version}`;
@@ -24,33 +26,10 @@ if (!existsSync(templateDir)) {
   throw new Error(`template directory ${templateDir} does not exists!`);
 }
 
-if (existsSync(libsDir)) {
-  rmSync(libsDir, {recursive: true, force: true});
-  mkdirSync(libsDir);
-}
-
 const rootTemplate = readFileSync(`${templateDir}/root.handlebars`, 'utf8');
 const getProvider = schema => _.first(_.split(_.get(schema, 'typeName'), '::'))
 const getModule = schema => _.nth(_.split(_.get(schema, 'typeName'), '::'), 1)
 const getResource = schema => _.last(_.split(_.get(schema, 'typeName'), '::'))
-const getOptionalProperties = (schema) => {
-  const properties = _.get(schema, 'properties')
-  const propertiesKeys = _.keys(properties);
-  const requiredPropertiesKeys = _.get(schema, 'required', []);
-  const optionalPropertiesKeys = _.difference(propertiesKeys, requiredPropertiesKeys)
-  return _.pick(properties, optionalPropertiesKeys);
-};
-const getRequiredProperties = (schema) => {
-  const properties = _.get(schema, 'properties')
-  const requiredPropertiesKeys = _.get(schema, 'required', []);
-  const requiredProperties = _.pick(properties, requiredPropertiesKeys);
-
-  if (_.isEmpty(requiredProperties)) {
-    return null;
-  }
-
-  return requiredProperties;
-};
 
 Handlebars.registerPartial("optionalArrayProperty", readFileSync(`${templateDir}/property/optional/array.handlebars`, 'utf8'));
 Handlebars.registerPartial("optionalDefaultProperty", readFileSync(`${templateDir}/property/optional/default.handlebars`, 'utf8'));
@@ -96,10 +75,11 @@ let blacklist = [
   'aws-quicksight-dashboard'
 ]
 
+let initialized = false;
+
 for (const file of files) {
   const filenameWithoutExtension = parse(file).name;
   if (_.includes(blacklist, filenameWithoutExtension)) continue;
-  console.log(filenameWithoutExtension);
   let schema = '';
   schema = JSON.parse(readFileSync(file, 'utf8'));
   _.set(schema, 'type', 'object')
@@ -110,7 +90,16 @@ for (const file of files) {
   const provider = getProvider(schema);
   const module = getModule(schema);
   const resource = getResource(schema);
+  const providerPath = `${libsDir}/${provider}`;
   const modulePath = `${libsDir}/${provider}/${module}`;
+
+  if (!initialized){
+    if (existsSync(providerPath)) {
+      rmSync(providerPath, {recursive: true, force: true});
+    }
+    mkdirSync(providerPath);
+    initialized = true;
+  }
 
   if (!existsSync(`${modulePath}`)) {
     mkdirSync(`${modulePath}`, {recursive: true});

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,262 +10,307 @@
     Metadata:: [],
     Type: 'AWS::ECS::Service',
   },
-  withPlatformVersion(PlatformVersion): {
-    assert std.isString(PlatformVersion) : 'PlatformVersion must be a string',
+  setPlatformVersion(PlatformVersion): {
     Properties+::: {
-      PlatformVersion: PlatformVersion,
+      PlatformVersion:
+        if !std.isString(PlatformVersion) then (error 'PlatformVersion must be a string')
+        else if std.isEmpty(PlatformVersion) then (error 'PlatformVersion must be not empty')
+        else PlatformVersion,
     },
   },
-  withPropagateTags(PropagateTags): {
-    assert std.isString(PropagateTags) : 'PropagateTags must be a string',
-    assert PropagateTags == 'SERVICE' || PropagateTags == 'TASK_DEFINITION' : "PropagateTags should be 'SERVICE' or 'TASK_DEFINITION'",
+  setPropagateTags(PropagateTags): {
     Properties+::: {
-      PropagateTags: PropagateTags,
+      PropagateTags:
+        if !std.isString(PropagateTags) then (error 'PropagateTags must be a string')
+        else if std.isEmpty(PropagateTags) then (error 'PropagateTags must be not empty')
+        else if PropagateTags != 'SERVICE' && PropagateTags != 'TASK_DEFINITION' then (error "PropagateTags should be 'SERVICE' or 'TASK_DEFINITION'")
+        else PropagateTags,
     },
   },
-  withServiceArn(ServiceArn): {
-    assert std.isString(ServiceArn) : 'ServiceArn must be a string',
+  setServiceArn(ServiceArn): {
     Properties+::: {
-      ServiceArn: ServiceArn,
+      ServiceArn:
+        if !std.isString(ServiceArn) then (error 'ServiceArn must be a string')
+        else if std.isEmpty(ServiceArn) then (error 'ServiceArn must be not empty')
+        else ServiceArn,
     },
   },
-  withPlacementStrategies(PlacementStrategies): {
+  setPlacementStrategies(PlacementStrategies): {
     Properties+::: {
-      PlacementStrategies: (if std.isArray(PlacementStrategies) then PlacementStrategies else [PlacementStrategies]),
+      PlacementStrategies:
+        if !std.isArray(PlacementStrategies) then (error 'PlacementStrategies must be an array')
+        else PlacementStrategies,
     },
   },
-  withPlacementStrategiesMixin(PlacementStrategies): {
+  setPlacementStrategiesMixin(PlacementStrategies): {
     Properties+::: {
-      PlacementStrategies+: (if std.isArray(PlacementStrategies) then PlacementStrategies else [PlacementStrategies]),
+      PlacementStrategies+: PlacementStrategies,
     },
   },
-  withServiceRegistries(ServiceRegistries): {
+  setServiceRegistries(ServiceRegistries): {
     Properties+::: {
-      ServiceRegistries: (if std.isArray(ServiceRegistries) then ServiceRegistries else [ServiceRegistries]),
+      ServiceRegistries:
+        if !std.isArray(ServiceRegistries) then (error 'ServiceRegistries must be an array')
+        else ServiceRegistries,
     },
   },
-  withServiceRegistriesMixin(ServiceRegistries): {
+  setServiceRegistriesMixin(ServiceRegistries): {
     Properties+::: {
-      ServiceRegistries+: (if std.isArray(ServiceRegistries) then ServiceRegistries else [ServiceRegistries]),
+      ServiceRegistries+: ServiceRegistries,
     },
   },
-  withVolumeConfigurations(VolumeConfigurations): {
+  setVolumeConfigurations(VolumeConfigurations): {
     Properties+::: {
-      VolumeConfigurations: (if std.isArray(VolumeConfigurations) then VolumeConfigurations else [VolumeConfigurations]),
+      VolumeConfigurations:
+        if !std.isArray(VolumeConfigurations) then (error 'VolumeConfigurations must be an array')
+        else VolumeConfigurations,
     },
   },
-  withVolumeConfigurationsMixin(VolumeConfigurations): {
+  setVolumeConfigurationsMixin(VolumeConfigurations): {
     Properties+::: {
-      VolumeConfigurations+: (if std.isArray(VolumeConfigurations) then VolumeConfigurations else [VolumeConfigurations]),
+      VolumeConfigurations+: VolumeConfigurations,
     },
   },
-  withCapacityProviderStrategy(CapacityProviderStrategy): {
+  setCapacityProviderStrategy(CapacityProviderStrategy): {
     Properties+::: {
-      CapacityProviderStrategy: (if std.isArray(CapacityProviderStrategy) then CapacityProviderStrategy else [CapacityProviderStrategy]),
+      CapacityProviderStrategy:
+        if !std.isArray(CapacityProviderStrategy) then (error 'CapacityProviderStrategy must be an array')
+        else CapacityProviderStrategy,
     },
   },
-  withCapacityProviderStrategyMixin(CapacityProviderStrategy): {
+  setCapacityProviderStrategyMixin(CapacityProviderStrategy): {
     Properties+::: {
-      CapacityProviderStrategy+: (if std.isArray(CapacityProviderStrategy) then CapacityProviderStrategy else [CapacityProviderStrategy]),
+      CapacityProviderStrategy+: CapacityProviderStrategy,
     },
   },
-  withLaunchType(LaunchType): {
-    assert std.isString(LaunchType) : 'LaunchType must be a string',
-    assert LaunchType == 'EC2' || LaunchType == 'FARGATE' || LaunchType == 'EXTERNAL' : "LaunchType should be 'EC2' or 'FARGATE' or 'EXTERNAL'",
+  setLaunchType(LaunchType): {
     Properties+::: {
-      LaunchType: LaunchType,
+      LaunchType:
+        if !std.isString(LaunchType) then (error 'LaunchType must be a string')
+        else if std.isEmpty(LaunchType) then (error 'LaunchType must be not empty')
+        else if LaunchType != 'EC2' && LaunchType != 'FARGATE' && LaunchType != 'EXTERNAL' then (error "LaunchType should be 'EC2' or 'FARGATE' or 'EXTERNAL'")
+        else LaunchType,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withAvailabilityZoneRebalancing(AvailabilityZoneRebalancing): {
-    assert std.isString(AvailabilityZoneRebalancing) : 'AvailabilityZoneRebalancing must be a string',
-    assert AvailabilityZoneRebalancing == 'ENABLED' || AvailabilityZoneRebalancing == 'DISABLED' : "AvailabilityZoneRebalancing should be 'ENABLED' or 'DISABLED'",
+  setAvailabilityZoneRebalancing(AvailabilityZoneRebalancing): {
     Properties+::: {
-      AvailabilityZoneRebalancing: AvailabilityZoneRebalancing,
+      AvailabilityZoneRebalancing:
+        if !std.isString(AvailabilityZoneRebalancing) then (error 'AvailabilityZoneRebalancing must be a string')
+        else if std.isEmpty(AvailabilityZoneRebalancing) then (error 'AvailabilityZoneRebalancing must be not empty')
+        else if AvailabilityZoneRebalancing != 'ENABLED' && AvailabilityZoneRebalancing != 'DISABLED' then (error "AvailabilityZoneRebalancing should be 'ENABLED' or 'DISABLED'")
+        else AvailabilityZoneRebalancing,
     },
   },
-  withSchedulingStrategy(SchedulingStrategy): {
-    assert std.isString(SchedulingStrategy) : 'SchedulingStrategy must be a string',
-    assert SchedulingStrategy == 'DAEMON' || SchedulingStrategy == 'REPLICA' : "SchedulingStrategy should be 'DAEMON' or 'REPLICA'",
+  setSchedulingStrategy(SchedulingStrategy): {
     Properties+::: {
-      SchedulingStrategy: SchedulingStrategy,
+      SchedulingStrategy:
+        if !std.isString(SchedulingStrategy) then (error 'SchedulingStrategy must be a string')
+        else if std.isEmpty(SchedulingStrategy) then (error 'SchedulingStrategy must be not empty')
+        else if SchedulingStrategy != 'DAEMON' && SchedulingStrategy != 'REPLICA' then (error "SchedulingStrategy should be 'DAEMON' or 'REPLICA'")
+        else SchedulingStrategy,
     },
   },
-  withNetworkConfiguration(NetworkConfiguration): {
-    assert std.isObject(NetworkConfiguration) : 'NetworkConfiguration must be a object',
+  setNetworkConfiguration(NetworkConfiguration): {
     Properties+::: {
-      NetworkConfiguration: NetworkConfiguration,
+      NetworkConfiguration:
+        if !std.isObject(NetworkConfiguration) then (error 'NetworkConfiguration must be an object')
+        else NetworkConfiguration,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withHealthCheckGracePeriodSeconds(HealthCheckGracePeriodSeconds): {
-    assert std.isNumber(HealthCheckGracePeriodSeconds) : 'HealthCheckGracePeriodSeconds must be a number',
+  setHealthCheckGracePeriodSeconds(HealthCheckGracePeriodSeconds): {
     Properties+::: {
-      HealthCheckGracePeriodSeconds: HealthCheckGracePeriodSeconds,
+      HealthCheckGracePeriodSeconds:
+        if !std.isNumber(HealthCheckGracePeriodSeconds) then (error 'HealthCheckGracePeriodSeconds must be an number')
+        else HealthCheckGracePeriodSeconds,
     },
   },
-  withEnableECSManagedTags(EnableECSManagedTags): {
-    assert std.isBoolean(EnableECSManagedTags) : 'EnableECSManagedTags must be a boolean',
+  setEnableECSManagedTags(EnableECSManagedTags): {
     Properties+::: {
-      EnableECSManagedTags: EnableECSManagedTags,
+      EnableECSManagedTags:
+        if !std.isBoolean(EnableECSManagedTags) then (error 'EnableECSManagedTags must be a boolean') else EnableECSManagedTags,
     },
   },
-  withEnableExecuteCommand(EnableExecuteCommand): {
-    assert std.isBoolean(EnableExecuteCommand) : 'EnableExecuteCommand must be a boolean',
+  setEnableExecuteCommand(EnableExecuteCommand): {
     Properties+::: {
-      EnableExecuteCommand: EnableExecuteCommand,
+      EnableExecuteCommand:
+        if !std.isBoolean(EnableExecuteCommand) then (error 'EnableExecuteCommand must be a boolean') else EnableExecuteCommand,
     },
   },
-  withPlacementConstraints(PlacementConstraints): {
+  setPlacementConstraints(PlacementConstraints): {
     Properties+::: {
-      PlacementConstraints: (if std.isArray(PlacementConstraints) then PlacementConstraints else [PlacementConstraints]),
+      PlacementConstraints:
+        if !std.isArray(PlacementConstraints) then (error 'PlacementConstraints must be an array')
+        else PlacementConstraints,
     },
   },
-  withPlacementConstraintsMixin(PlacementConstraints): {
+  setPlacementConstraintsMixin(PlacementConstraints): {
     Properties+::: {
-      PlacementConstraints+: (if std.isArray(PlacementConstraints) then PlacementConstraints else [PlacementConstraints]),
+      PlacementConstraints+: PlacementConstraints,
     },
   },
-  withCluster(Cluster): {
-    assert std.isString(Cluster) : 'Cluster must be a string',
+  setCluster(Cluster): {
     Properties+::: {
-      Cluster: Cluster,
+      Cluster:
+        if !std.isString(Cluster) then (error 'Cluster must be a string')
+        else if std.isEmpty(Cluster) then (error 'Cluster must be not empty')
+        else Cluster,
     },
   },
-  withLoadBalancers(LoadBalancers): {
+  setLoadBalancers(LoadBalancers): {
     Properties+::: {
-      LoadBalancers: (if std.isArray(LoadBalancers) then LoadBalancers else [LoadBalancers]),
+      LoadBalancers:
+        if !std.isArray(LoadBalancers) then (error 'LoadBalancers must be an array')
+        else LoadBalancers,
     },
   },
-  withLoadBalancersMixin(LoadBalancers): {
+  setLoadBalancersMixin(LoadBalancers): {
     Properties+::: {
-      LoadBalancers+: (if std.isArray(LoadBalancers) then LoadBalancers else [LoadBalancers]),
+      LoadBalancers+: LoadBalancers,
     },
   },
-  withServiceConnectConfiguration(ServiceConnectConfiguration): {
-    assert std.isObject(ServiceConnectConfiguration) : 'ServiceConnectConfiguration must be a object',
+  setServiceConnectConfiguration(ServiceConnectConfiguration): {
     Properties+::: {
-      ServiceConnectConfiguration: ServiceConnectConfiguration,
+      ServiceConnectConfiguration:
+        if !std.isObject(ServiceConnectConfiguration) then (error 'ServiceConnectConfiguration must be an object')
+        else if !std.objectHas(ServiceConnectConfiguration, 'Enabled') then (error ' have attribute Enabled')
+        else ServiceConnectConfiguration,
     },
   },
-  withDesiredCount(DesiredCount): {
-    assert std.isNumber(DesiredCount) : 'DesiredCount must be a number',
+  setDesiredCount(DesiredCount): {
     Properties+::: {
-      DesiredCount: DesiredCount,
+      DesiredCount:
+        if !std.isNumber(DesiredCount) then (error 'DesiredCount must be an number')
+        else DesiredCount,
     },
   },
-  withVpcLatticeConfigurations(VpcLatticeConfigurations): {
+  setVpcLatticeConfigurations(VpcLatticeConfigurations): {
     Properties+::: {
-      VpcLatticeConfigurations: (if std.isArray(VpcLatticeConfigurations) then VpcLatticeConfigurations else [VpcLatticeConfigurations]),
+      VpcLatticeConfigurations:
+        if !std.isArray(VpcLatticeConfigurations) then (error 'VpcLatticeConfigurations must be an array')
+        else VpcLatticeConfigurations,
     },
   },
-  withVpcLatticeConfigurationsMixin(VpcLatticeConfigurations): {
+  setVpcLatticeConfigurationsMixin(VpcLatticeConfigurations): {
     Properties+::: {
-      VpcLatticeConfigurations+: (if std.isArray(VpcLatticeConfigurations) then VpcLatticeConfigurations else [VpcLatticeConfigurations]),
+      VpcLatticeConfigurations+: VpcLatticeConfigurations,
     },
   },
-  withDeploymentController(DeploymentController): {
-    assert std.isObject(DeploymentController) : 'DeploymentController must be a object',
+  setDeploymentController(DeploymentController): {
     Properties+::: {
-      DeploymentController: DeploymentController,
+      DeploymentController:
+        if !std.isObject(DeploymentController) then (error 'DeploymentController must be an object')
+        else DeploymentController,
     },
   },
-  withRole(Role): {
-    assert std.isString(Role) : 'Role must be a string',
+  setRole(Role): {
     Properties+::: {
-      Role: Role,
+      Role:
+        if !std.isString(Role) then (error 'Role must be a string')
+        else if std.isEmpty(Role) then (error 'Role must be not empty')
+        else Role,
     },
   },
-  withTaskDefinition(TaskDefinition): {
-    assert std.isString(TaskDefinition) : 'TaskDefinition must be a string',
+  setTaskDefinition(TaskDefinition): {
     Properties+::: {
-      TaskDefinition: TaskDefinition,
+      TaskDefinition:
+        if !std.isString(TaskDefinition) then (error 'TaskDefinition must be a string')
+        else if std.isEmpty(TaskDefinition) then (error 'TaskDefinition must be not empty')
+        else TaskDefinition,
     },
   },
-  withServiceName(ServiceName): {
-    assert std.isString(ServiceName) : 'ServiceName must be a string',
+  setServiceName(ServiceName): {
     Properties+::: {
-      ServiceName: ServiceName,
+      ServiceName:
+        if !std.isString(ServiceName) then (error 'ServiceName must be a string')
+        else if std.isEmpty(ServiceName) then (error 'ServiceName must be not empty')
+        else ServiceName,
     },
   },
-  withDeploymentConfiguration(DeploymentConfiguration): {
-    assert std.isObject(DeploymentConfiguration) : 'DeploymentConfiguration must be a object',
+  setDeploymentConfiguration(DeploymentConfiguration): {
     Properties+::: {
-      DeploymentConfiguration: DeploymentConfiguration,
+      DeploymentConfiguration:
+        if !std.isObject(DeploymentConfiguration) then (error 'DeploymentConfiguration must be an object')
+        else DeploymentConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(S3Config) : 'S3Config must be an object',
-      S3Config: S3Config,
+      S3Config:
+        if !std.isObject(S3Config) then (error 'S3Config must be an object')
+        else if !std.objectHas(S3Config, 'BucketAccessRoleArn') then (error ' have attribute BucketAccessRoleArn')
+        else S3Config,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,105 +17,122 @@
     Metadata:: [],
     Type: 'AWS::DataSync::LocationS3',
   },
-  withS3BucketArn(S3BucketArn): {
-    assert std.isString(S3BucketArn) : 'S3BucketArn must be a string',
+  setS3BucketArn(S3BucketArn): {
     Properties+::: {
-      S3BucketArn: S3BucketArn,
+      S3BucketArn:
+        if !std.isString(S3BucketArn) then (error 'S3BucketArn must be a string')
+        else if std.isEmpty(S3BucketArn) then (error 'S3BucketArn must be not empty')
+        else if std.length(S3BucketArn) > 156 then error ('S3BucketArn should have not more than 156 characters')
+        else S3BucketArn,
     },
   },
-  withSubdirectory(Subdirectory): {
-    assert std.isString(Subdirectory) : 'Subdirectory must be a string',
+  setSubdirectory(Subdirectory): {
     Properties+::: {
-      Subdirectory: Subdirectory,
+      Subdirectory:
+        if !std.isString(Subdirectory) then (error 'Subdirectory must be a string')
+        else if std.isEmpty(Subdirectory) then (error 'Subdirectory must be not empty')
+        else if std.length(Subdirectory) > 1024 then error ('Subdirectory should have not more than 1024 characters')
+        else Subdirectory,
     },
   },
-  withS3StorageClass(S3StorageClass): {
-    assert std.isString(S3StorageClass) : 'S3StorageClass must be a string',
-    assert S3StorageClass == 'STANDARD' || S3StorageClass == 'STANDARD_IA' || S3StorageClass == 'ONEZONE_IA' || S3StorageClass == 'INTELLIGENT_TIERING' || S3StorageClass == 'GLACIER' || S3StorageClass == 'GLACIER_INSTANT_RETRIEVAL' || S3StorageClass == 'DEEP_ARCHIVE' : "S3StorageClass should be 'STANDARD' or 'STANDARD_IA' or 'ONEZONE_IA' or 'INTELLIGENT_TIERING' or 'GLACIER' or 'GLACIER_INSTANT_RETRIEVAL' or 'DEEP_ARCHIVE'",
+  setS3StorageClass(S3StorageClass): {
     Properties+::: {
-      S3StorageClass: S3StorageClass,
+      S3StorageClass:
+        if !std.isString(S3StorageClass) then (error 'S3StorageClass must be a string')
+        else if std.isEmpty(S3StorageClass) then (error 'S3StorageClass must be not empty')
+        else if S3StorageClass != 'STANDARD' && S3StorageClass != 'STANDARD_IA' && S3StorageClass != 'ONEZONE_IA' && S3StorageClass != 'INTELLIGENT_TIERING' && S3StorageClass != 'GLACIER' && S3StorageClass != 'GLACIER_INSTANT_RETRIEVAL' && S3StorageClass != 'DEEP_ARCHIVE' then (error "S3StorageClass should be 'STANDARD' or 'STANDARD_IA' or 'ONEZONE_IA' or 'INTELLIGENT_TIERING' or 'GLACIER' or 'GLACIER_INSTANT_RETRIEVAL' or 'DEEP_ARCHIVE'")
+        else S3StorageClass,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLocationArn(LocationArn): {
-    assert std.isString(LocationArn) : 'LocationArn must be a string',
+  setLocationArn(LocationArn): {
     Properties+::: {
-      LocationArn: LocationArn,
+      LocationArn:
+        if !std.isString(LocationArn) then (error 'LocationArn must be a string')
+        else if std.isEmpty(LocationArn) then (error 'LocationArn must be not empty')
+        else if std.length(LocationArn) > 128 then error ('LocationArn should have not more than 128 characters')
+        else LocationArn,
     },
   },
-  withLocationUri(LocationUri): {
-    assert std.isString(LocationUri) : 'LocationUri must be a string',
+  setLocationUri(LocationUri): {
     Properties+::: {
-      LocationUri: LocationUri,
+      LocationUri:
+        if !std.isString(LocationUri) then (error 'LocationUri must be a string')
+        else if std.isEmpty(LocationUri) then (error 'LocationUri must be not empty')
+        else if std.length(LocationUri) > 4356 then error ('LocationUri should have not more than 4356 characters')
+        else LocationUri,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

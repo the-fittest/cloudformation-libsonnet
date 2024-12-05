@@ -5,10 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AzureBlobAuthenticationType) : 'AzureBlobAuthenticationType must be a string',
-      assert AzureBlobAuthenticationType == 'SAS' : "AzureBlobAuthenticationType should be 'SAS'",
-      AzureBlobAuthenticationType: AzureBlobAuthenticationType,
-      AgentArns: (if std.isArray(AgentArns) then AgentArns else [AgentArns]),
+      AzureBlobAuthenticationType:
+        if !std.isString(AzureBlobAuthenticationType) then (error 'AzureBlobAuthenticationType must be a string')
+        else if std.isEmpty(AzureBlobAuthenticationType) then (error 'AzureBlobAuthenticationType must be not empty')
+        else if AzureBlobAuthenticationType != 'SAS' then (error "AzureBlobAuthenticationType should be 'SAS'")
+        else AzureBlobAuthenticationType,
+      AgentArns:
+        if !std.isArray(AgentArns) then (error 'AgentArns must be an array')
+        else if std.length(AgentArns) < 1 then error ('AgentArns cannot have less than 1 items')
+        else if std.length(AgentArns) > 4 then error ('AgentArns cannot have more than 4 items')
+        else AgentArns,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,118 +24,139 @@
     Metadata:: [],
     Type: 'AWS::DataSync::LocationAzureBlob',
   },
-  withAzureBlobSasConfiguration(AzureBlobSasConfiguration): {
-    assert std.isObject(AzureBlobSasConfiguration) : 'AzureBlobSasConfiguration must be a object',
+  setAzureBlobSasConfiguration(AzureBlobSasConfiguration): {
     Properties+::: {
-      AzureBlobSasConfiguration: AzureBlobSasConfiguration,
+      AzureBlobSasConfiguration:
+        if !std.isObject(AzureBlobSasConfiguration) then (error 'AzureBlobSasConfiguration must be an object')
+        else if !std.objectHas(AzureBlobSasConfiguration, 'AzureBlobSasToken') then (error ' have attribute AzureBlobSasToken')
+        else AzureBlobSasConfiguration,
     },
   },
-  withAzureBlobContainerUrl(AzureBlobContainerUrl): {
-    assert std.isString(AzureBlobContainerUrl) : 'AzureBlobContainerUrl must be a string',
+  setAzureBlobContainerUrl(AzureBlobContainerUrl): {
     Properties+::: {
-      AzureBlobContainerUrl: AzureBlobContainerUrl,
+      AzureBlobContainerUrl:
+        if !std.isString(AzureBlobContainerUrl) then (error 'AzureBlobContainerUrl must be a string')
+        else if std.isEmpty(AzureBlobContainerUrl) then (error 'AzureBlobContainerUrl must be not empty')
+        else if std.length(AzureBlobContainerUrl) > 325 then error ('AzureBlobContainerUrl should have not more than 325 characters')
+        else AzureBlobContainerUrl,
     },
   },
-  withAzureBlobType(AzureBlobType): {
-    assert std.isString(AzureBlobType) : 'AzureBlobType must be a string',
-    assert AzureBlobType == 'BLOCK' : "AzureBlobType should be 'BLOCK'",
+  setAzureBlobType(AzureBlobType): {
     Properties+::: {
-      AzureBlobType: AzureBlobType,
+      AzureBlobType:
+        if !std.isString(AzureBlobType) then (error 'AzureBlobType must be a string')
+        else if std.isEmpty(AzureBlobType) then (error 'AzureBlobType must be not empty')
+        else if AzureBlobType != 'BLOCK' then (error "AzureBlobType should be 'BLOCK'")
+        else AzureBlobType,
     },
   },
-  withAzureAccessTier(AzureAccessTier): {
-    assert std.isString(AzureAccessTier) : 'AzureAccessTier must be a string',
-    assert AzureAccessTier == 'HOT' || AzureAccessTier == 'COOL' || AzureAccessTier == 'ARCHIVE' : "AzureAccessTier should be 'HOT' or 'COOL' or 'ARCHIVE'",
+  setAzureAccessTier(AzureAccessTier): {
     Properties+::: {
-      AzureAccessTier: AzureAccessTier,
+      AzureAccessTier:
+        if !std.isString(AzureAccessTier) then (error 'AzureAccessTier must be a string')
+        else if std.isEmpty(AzureAccessTier) then (error 'AzureAccessTier must be not empty')
+        else if AzureAccessTier != 'HOT' && AzureAccessTier != 'COOL' && AzureAccessTier != 'ARCHIVE' then (error "AzureAccessTier should be 'HOT' or 'COOL' or 'ARCHIVE'")
+        else AzureAccessTier,
     },
   },
-  withSubdirectory(Subdirectory): {
-    assert std.isString(Subdirectory) : 'Subdirectory must be a string',
+  setSubdirectory(Subdirectory): {
     Properties+::: {
-      Subdirectory: Subdirectory,
+      Subdirectory:
+        if !std.isString(Subdirectory) then (error 'Subdirectory must be a string')
+        else if std.isEmpty(Subdirectory) then (error 'Subdirectory must be not empty')
+        else if std.length(Subdirectory) > 1024 then error ('Subdirectory should have not more than 1024 characters')
+        else Subdirectory,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withLocationArn(LocationArn): {
-    assert std.isString(LocationArn) : 'LocationArn must be a string',
+  setLocationArn(LocationArn): {
     Properties+::: {
-      LocationArn: LocationArn,
+      LocationArn:
+        if !std.isString(LocationArn) then (error 'LocationArn must be a string')
+        else if std.isEmpty(LocationArn) then (error 'LocationArn must be not empty')
+        else if std.length(LocationArn) > 128 then error ('LocationArn should have not more than 128 characters')
+        else LocationArn,
     },
   },
-  withLocationUri(LocationUri): {
-    assert std.isString(LocationUri) : 'LocationUri must be a string',
+  setLocationUri(LocationUri): {
     Properties+::: {
-      LocationUri: LocationUri,
+      LocationUri:
+        if !std.isString(LocationUri) then (error 'LocationUri must be a string')
+        else if std.isEmpty(LocationUri) then (error 'LocationUri must be not empty')
+        else if std.length(LocationUri) > 4356 then error ('LocationUri should have not more than 4356 characters')
+        else LocationUri,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

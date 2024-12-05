@@ -5,9 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      Steps: (if std.isArray(Steps) then Steps else [Steps]),
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Steps:
+        if !std.isArray(Steps) then (error 'Steps must be an array')
+        else if std.length(Steps) < 1 then error ('Steps cannot have less than 1 items')
+        else if std.length(Steps) > 20 then error ('Steps cannot have more than 20 items')
+        else Steps,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,119 +23,137 @@
     Metadata:: [],
     Type: 'AWS::AppTest::TestCase',
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withLastUpdateTime(LastUpdateTime): {
-    assert std.isString(LastUpdateTime) : 'LastUpdateTime must be a string',
+  setLastUpdateTime(LastUpdateTime): {
     Properties+::: {
-      LastUpdateTime: LastUpdateTime,
+      LastUpdateTime:
+        if !std.isString(LastUpdateTime) then (error 'LastUpdateTime must be a string')
+        else if std.isEmpty(LastUpdateTime) then (error 'LastUpdateTime must be not empty')
+        else LastUpdateTime,
     },
   },
-  withLatestVersion(LatestVersion): {
-    assert std.isObject(LatestVersion) : 'LatestVersion must be a object',
+  setLatestVersion(LatestVersion): {
     Properties+::: {
-      LatestVersion: LatestVersion,
+      LatestVersion:
+        if !std.isObject(LatestVersion) then (error 'LatestVersion must be an object')
+        else if !std.objectHas(LatestVersion, 'Status') then (error ' have attribute Status')
+        else if !std.objectHas(LatestVersion, 'Version') then (error ' have attribute Version')
+        else LatestVersion,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'Active' || Status == 'Deleting' : "Status should be 'Active' or 'Deleting'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'Active' && Status != 'Deleting' then (error "Status should be 'Active' or 'Deleting'")
+        else Status,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withTestCaseArn(TestCaseArn): {
-    assert std.isString(TestCaseArn) : 'TestCaseArn must be a string',
+  setTestCaseArn(TestCaseArn): {
     Properties+::: {
-      TestCaseArn: TestCaseArn,
+      TestCaseArn:
+        if !std.isString(TestCaseArn) then (error 'TestCaseArn must be a string')
+        else if std.isEmpty(TestCaseArn) then (error 'TestCaseArn must be not empty')
+        else TestCaseArn,
     },
   },
-  withTestCaseId(TestCaseId): {
-    assert std.isString(TestCaseId) : 'TestCaseId must be a string',
+  setTestCaseId(TestCaseId): {
     Properties+::: {
-      TestCaseId: TestCaseId,
+      TestCaseId:
+        if !std.isString(TestCaseId) then (error 'TestCaseId must be a string')
+        else if std.isEmpty(TestCaseId) then (error 'TestCaseId must be not empty')
+        else TestCaseId,
     },
   },
-  withTestCaseVersion(TestCaseVersion): {
-    assert std.isNumber(TestCaseVersion) : 'TestCaseVersion must be a number',
+  setTestCaseVersion(TestCaseVersion): {
     Properties+::: {
-      TestCaseVersion: TestCaseVersion,
+      TestCaseVersion:
+        if !std.isNumber(TestCaseVersion) then (error 'TestCaseVersion must be an number')
+        else TestCaseVersion,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

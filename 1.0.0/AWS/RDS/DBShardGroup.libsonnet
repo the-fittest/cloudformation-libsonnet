@@ -5,10 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DBClusterIdentifier) : 'DBClusterIdentifier must be a string',
-      DBClusterIdentifier: DBClusterIdentifier,
-      assert std.isNumber(MaxACU) : 'MaxACU must be a number',
-      MaxACU: MaxACU,
+      DBClusterIdentifier:
+        if !std.isString(DBClusterIdentifier) then (error 'DBClusterIdentifier must be a string')
+        else if std.isEmpty(DBClusterIdentifier) then (error 'DBClusterIdentifier must be not empty')
+        else if std.length(DBClusterIdentifier) < 1 then error ('DBClusterIdentifier should have at least 1 characters')
+        else if std.length(DBClusterIdentifier) > 63 then error ('DBClusterIdentifier should have not more than 63 characters')
+        else DBClusterIdentifier,
+      MaxACU:
+        if !std.isNumber(MaxACU) then (error 'MaxACU must be an number')
+        else MaxACU,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,110 +23,123 @@
     Metadata:: [],
     Type: 'AWS::RDS::DBShardGroup',
   },
-  withDBShardGroupResourceId(DBShardGroupResourceId): {
-    assert std.isString(DBShardGroupResourceId) : 'DBShardGroupResourceId must be a string',
+  setDBShardGroupResourceId(DBShardGroupResourceId): {
     Properties+::: {
-      DBShardGroupResourceId: DBShardGroupResourceId,
+      DBShardGroupResourceId:
+        if !std.isString(DBShardGroupResourceId) then (error 'DBShardGroupResourceId must be a string')
+        else if std.isEmpty(DBShardGroupResourceId) then (error 'DBShardGroupResourceId must be not empty')
+        else DBShardGroupResourceId,
     },
   },
-  withDBShardGroupIdentifier(DBShardGroupIdentifier): {
-    assert std.isString(DBShardGroupIdentifier) : 'DBShardGroupIdentifier must be a string',
+  setDBShardGroupIdentifier(DBShardGroupIdentifier): {
     Properties+::: {
-      DBShardGroupIdentifier: DBShardGroupIdentifier,
+      DBShardGroupIdentifier:
+        if !std.isString(DBShardGroupIdentifier) then (error 'DBShardGroupIdentifier must be a string')
+        else if std.isEmpty(DBShardGroupIdentifier) then (error 'DBShardGroupIdentifier must be not empty')
+        else if std.length(DBShardGroupIdentifier) < 1 then error ('DBShardGroupIdentifier should have at least 1 characters')
+        else if std.length(DBShardGroupIdentifier) > 63 then error ('DBShardGroupIdentifier should have not more than 63 characters')
+        else DBShardGroupIdentifier,
     },
   },
-  withComputeRedundancy(ComputeRedundancy): {
-    assert std.isNumber(ComputeRedundancy) : 'ComputeRedundancy must be a number',
+  setComputeRedundancy(ComputeRedundancy): {
     Properties+::: {
-      ComputeRedundancy: ComputeRedundancy,
+      ComputeRedundancy:
+        if !std.isNumber(ComputeRedundancy) then (error 'ComputeRedundancy must be an number')
+        else ComputeRedundancy,
     },
   },
-  withMinACU(MinACU): {
-    assert std.isNumber(MinACU) : 'MinACU must be a number',
+  setMinACU(MinACU): {
     Properties+::: {
-      MinACU: MinACU,
+      MinACU:
+        if !std.isNumber(MinACU) then (error 'MinACU must be an number')
+        else MinACU,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else Endpoint,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

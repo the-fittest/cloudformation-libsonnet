@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(MinSize) : 'MinSize must be a string',
-      MinSize: MinSize,
-      assert std.isString(MaxSize) : 'MaxSize must be a string',
-      MaxSize: MaxSize,
+      MinSize:
+        if !std.isString(MinSize) then (error 'MinSize must be a string')
+        else if std.isEmpty(MinSize) then (error 'MinSize must be not empty')
+        else MinSize,
+      MaxSize:
+        if !std.isString(MaxSize) then (error 'MaxSize must be a string')
+        else if std.isEmpty(MaxSize) then (error 'MaxSize must be not empty')
+        else MaxSize,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,302 +22,358 @@
     Metadata:: [],
     Type: 'AWS::AutoScaling::AutoScalingGroup',
   },
-  withLifecycleHookSpecificationList(LifecycleHookSpecificationList): {
+  setLifecycleHookSpecificationList(LifecycleHookSpecificationList): {
     Properties+::: {
-      LifecycleHookSpecificationList: (if std.isArray(LifecycleHookSpecificationList) then LifecycleHookSpecificationList else [LifecycleHookSpecificationList]),
+      LifecycleHookSpecificationList:
+        if !std.isArray(LifecycleHookSpecificationList) then (error 'LifecycleHookSpecificationList must be an array')
+        else LifecycleHookSpecificationList,
     },
   },
-  withLifecycleHookSpecificationListMixin(LifecycleHookSpecificationList): {
+  setLifecycleHookSpecificationListMixin(LifecycleHookSpecificationList): {
     Properties+::: {
-      LifecycleHookSpecificationList+: (if std.isArray(LifecycleHookSpecificationList) then LifecycleHookSpecificationList else [LifecycleHookSpecificationList]),
+      LifecycleHookSpecificationList+: LifecycleHookSpecificationList,
     },
   },
-  withLoadBalancerNames(LoadBalancerNames): {
+  setLoadBalancerNames(LoadBalancerNames): {
     Properties+::: {
-      LoadBalancerNames: (if std.isArray(LoadBalancerNames) then LoadBalancerNames else [LoadBalancerNames]),
+      LoadBalancerNames:
+        if !std.isArray(LoadBalancerNames) then (error 'LoadBalancerNames must be an array')
+        else LoadBalancerNames,
     },
   },
-  withLoadBalancerNamesMixin(LoadBalancerNames): {
+  setLoadBalancerNamesMixin(LoadBalancerNames): {
     Properties+::: {
-      LoadBalancerNames+: (if std.isArray(LoadBalancerNames) then LoadBalancerNames else [LoadBalancerNames]),
+      LoadBalancerNames+: LoadBalancerNames,
     },
   },
-  withLaunchConfigurationName(LaunchConfigurationName): {
-    assert std.isString(LaunchConfigurationName) : 'LaunchConfigurationName must be a string',
+  setLaunchConfigurationName(LaunchConfigurationName): {
     Properties+::: {
-      LaunchConfigurationName: LaunchConfigurationName,
+      LaunchConfigurationName:
+        if !std.isString(LaunchConfigurationName) then (error 'LaunchConfigurationName must be a string')
+        else if std.isEmpty(LaunchConfigurationName) then (error 'LaunchConfigurationName must be not empty')
+        else LaunchConfigurationName,
     },
   },
-  withServiceLinkedRoleARN(ServiceLinkedRoleARN): {
-    assert std.isString(ServiceLinkedRoleARN) : 'ServiceLinkedRoleARN must be a string',
+  setServiceLinkedRoleARN(ServiceLinkedRoleARN): {
     Properties+::: {
-      ServiceLinkedRoleARN: ServiceLinkedRoleARN,
+      ServiceLinkedRoleARN:
+        if !std.isString(ServiceLinkedRoleARN) then (error 'ServiceLinkedRoleARN must be a string')
+        else if std.isEmpty(ServiceLinkedRoleARN) then (error 'ServiceLinkedRoleARN must be not empty')
+        else ServiceLinkedRoleARN,
     },
   },
-  withAvailabilityZoneImpairmentPolicy(AvailabilityZoneImpairmentPolicy): {
-    assert std.isObject(AvailabilityZoneImpairmentPolicy) : 'AvailabilityZoneImpairmentPolicy must be a object',
+  setAvailabilityZoneImpairmentPolicy(AvailabilityZoneImpairmentPolicy): {
     Properties+::: {
-      AvailabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy,
+      AvailabilityZoneImpairmentPolicy:
+        if !std.isObject(AvailabilityZoneImpairmentPolicy) then (error 'AvailabilityZoneImpairmentPolicy must be an object')
+        else if !std.objectHas(AvailabilityZoneImpairmentPolicy, 'ImpairedZoneHealthCheckBehavior') then (error ' have attribute ImpairedZoneHealthCheckBehavior')
+        else if !std.objectHas(AvailabilityZoneImpairmentPolicy, 'ZonalShiftEnabled') then (error ' have attribute ZonalShiftEnabled')
+        else AvailabilityZoneImpairmentPolicy,
     },
   },
-  withTargetGroupARNs(TargetGroupARNs): {
+  setTargetGroupARNs(TargetGroupARNs): {
     Properties+::: {
-      TargetGroupARNs: (if std.isArray(TargetGroupARNs) then TargetGroupARNs else [TargetGroupARNs]),
+      TargetGroupARNs:
+        if !std.isArray(TargetGroupARNs) then (error 'TargetGroupARNs must be an array')
+        else TargetGroupARNs,
     },
   },
-  withTargetGroupARNsMixin(TargetGroupARNs): {
+  setTargetGroupARNsMixin(TargetGroupARNs): {
     Properties+::: {
-      TargetGroupARNs+: (if std.isArray(TargetGroupARNs) then TargetGroupARNs else [TargetGroupARNs]),
+      TargetGroupARNs+: TargetGroupARNs,
     },
   },
-  withCooldown(Cooldown): {
-    assert std.isString(Cooldown) : 'Cooldown must be a string',
+  setCooldown(Cooldown): {
     Properties+::: {
-      Cooldown: Cooldown,
+      Cooldown:
+        if !std.isString(Cooldown) then (error 'Cooldown must be a string')
+        else if std.isEmpty(Cooldown) then (error 'Cooldown must be not empty')
+        else Cooldown,
     },
   },
-  withNotificationConfigurations(NotificationConfigurations): {
+  setNotificationConfigurations(NotificationConfigurations): {
     Properties+::: {
-      NotificationConfigurations: (if std.isArray(NotificationConfigurations) then NotificationConfigurations else [NotificationConfigurations]),
+      NotificationConfigurations:
+        if !std.isArray(NotificationConfigurations) then (error 'NotificationConfigurations must be an array')
+        else NotificationConfigurations,
     },
   },
-  withNotificationConfigurationsMixin(NotificationConfigurations): {
+  setNotificationConfigurationsMixin(NotificationConfigurations): {
     Properties+::: {
-      NotificationConfigurations+: (if std.isArray(NotificationConfigurations) then NotificationConfigurations else [NotificationConfigurations]),
+      NotificationConfigurations+: NotificationConfigurations,
     },
   },
-  withDesiredCapacity(DesiredCapacity): {
-    assert std.isString(DesiredCapacity) : 'DesiredCapacity must be a string',
+  setDesiredCapacity(DesiredCapacity): {
     Properties+::: {
-      DesiredCapacity: DesiredCapacity,
+      DesiredCapacity:
+        if !std.isString(DesiredCapacity) then (error 'DesiredCapacity must be a string')
+        else if std.isEmpty(DesiredCapacity) then (error 'DesiredCapacity must be not empty')
+        else DesiredCapacity,
     },
   },
-  withHealthCheckGracePeriod(HealthCheckGracePeriod): {
-    assert std.isNumber(HealthCheckGracePeriod) : 'HealthCheckGracePeriod must be a number',
+  setHealthCheckGracePeriod(HealthCheckGracePeriod): {
     Properties+::: {
-      HealthCheckGracePeriod: HealthCheckGracePeriod,
+      HealthCheckGracePeriod:
+        if !std.isNumber(HealthCheckGracePeriod) then (error 'HealthCheckGracePeriod must be an number')
+        else HealthCheckGracePeriod,
     },
   },
-  withDefaultInstanceWarmup(DefaultInstanceWarmup): {
-    assert std.isNumber(DefaultInstanceWarmup) : 'DefaultInstanceWarmup must be a number',
+  setDefaultInstanceWarmup(DefaultInstanceWarmup): {
     Properties+::: {
-      DefaultInstanceWarmup: DefaultInstanceWarmup,
+      DefaultInstanceWarmup:
+        if !std.isNumber(DefaultInstanceWarmup) then (error 'DefaultInstanceWarmup must be an number')
+        else DefaultInstanceWarmup,
     },
   },
-  withSkipZonalShiftValidation(SkipZonalShiftValidation): {
-    assert std.isBoolean(SkipZonalShiftValidation) : 'SkipZonalShiftValidation must be a boolean',
+  setSkipZonalShiftValidation(SkipZonalShiftValidation): {
     Properties+::: {
-      SkipZonalShiftValidation: SkipZonalShiftValidation,
+      SkipZonalShiftValidation:
+        if !std.isBoolean(SkipZonalShiftValidation) then (error 'SkipZonalShiftValidation must be a boolean') else SkipZonalShiftValidation,
     },
   },
-  withNewInstancesProtectedFromScaleIn(NewInstancesProtectedFromScaleIn): {
-    assert std.isBoolean(NewInstancesProtectedFromScaleIn) : 'NewInstancesProtectedFromScaleIn must be a boolean',
+  setNewInstancesProtectedFromScaleIn(NewInstancesProtectedFromScaleIn): {
     Properties+::: {
-      NewInstancesProtectedFromScaleIn: NewInstancesProtectedFromScaleIn,
+      NewInstancesProtectedFromScaleIn:
+        if !std.isBoolean(NewInstancesProtectedFromScaleIn) then (error 'NewInstancesProtectedFromScaleIn must be a boolean') else NewInstancesProtectedFromScaleIn,
     },
   },
-  withLaunchTemplate(LaunchTemplate): {
-    assert std.isObject(LaunchTemplate) : 'LaunchTemplate must be a object',
+  setLaunchTemplate(LaunchTemplate): {
     Properties+::: {
-      LaunchTemplate: LaunchTemplate,
+      LaunchTemplate:
+        if !std.isObject(LaunchTemplate) then (error 'LaunchTemplate must be an object')
+        else if !std.objectHas(LaunchTemplate, 'Version') then (error ' have attribute Version')
+        else LaunchTemplate,
     },
   },
-  withMixedInstancesPolicy(MixedInstancesPolicy): {
-    assert std.isObject(MixedInstancesPolicy) : 'MixedInstancesPolicy must be a object',
+  setMixedInstancesPolicy(MixedInstancesPolicy): {
     Properties+::: {
-      MixedInstancesPolicy: MixedInstancesPolicy,
+      MixedInstancesPolicy:
+        if !std.isObject(MixedInstancesPolicy) then (error 'MixedInstancesPolicy must be an object')
+        else if !std.objectHas(MixedInstancesPolicy, 'LaunchTemplate') then (error ' have attribute LaunchTemplate')
+        else MixedInstancesPolicy,
     },
   },
-  withVPCZoneIdentifier(VPCZoneIdentifier): {
+  setVPCZoneIdentifier(VPCZoneIdentifier): {
     Properties+::: {
-      VPCZoneIdentifier: (if std.isArray(VPCZoneIdentifier) then VPCZoneIdentifier else [VPCZoneIdentifier]),
+      VPCZoneIdentifier:
+        if !std.isArray(VPCZoneIdentifier) then (error 'VPCZoneIdentifier must be an array')
+        else VPCZoneIdentifier,
     },
   },
-  withVPCZoneIdentifierMixin(VPCZoneIdentifier): {
+  setVPCZoneIdentifierMixin(VPCZoneIdentifier): {
     Properties+::: {
-      VPCZoneIdentifier+: (if std.isArray(VPCZoneIdentifier) then VPCZoneIdentifier else [VPCZoneIdentifier]),
+      VPCZoneIdentifier+: VPCZoneIdentifier,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withContext(Context): {
-    assert std.isString(Context) : 'Context must be a string',
+  setContext(Context): {
     Properties+::: {
-      Context: Context,
+      Context:
+        if !std.isString(Context) then (error 'Context must be a string')
+        else if std.isEmpty(Context) then (error 'Context must be not empty')
+        else Context,
     },
   },
-  withCapacityRebalance(CapacityRebalance): {
-    assert std.isBoolean(CapacityRebalance) : 'CapacityRebalance must be a boolean',
+  setCapacityRebalance(CapacityRebalance): {
     Properties+::: {
-      CapacityRebalance: CapacityRebalance,
+      CapacityRebalance:
+        if !std.isBoolean(CapacityRebalance) then (error 'CapacityRebalance must be a boolean') else CapacityRebalance,
     },
   },
-  withInstanceId(InstanceId): {
-    assert std.isString(InstanceId) : 'InstanceId must be a string',
+  setInstanceId(InstanceId): {
     Properties+::: {
-      InstanceId: InstanceId,
+      InstanceId:
+        if !std.isString(InstanceId) then (error 'InstanceId must be a string')
+        else if std.isEmpty(InstanceId) then (error 'InstanceId must be not empty')
+        else InstanceId,
     },
   },
-  withAvailabilityZones(AvailabilityZones): {
+  setAvailabilityZones(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones:
+        if !std.isArray(AvailabilityZones) then (error 'AvailabilityZones must be an array')
+        else AvailabilityZones,
     },
   },
-  withAvailabilityZonesMixin(AvailabilityZones): {
+  setAvailabilityZonesMixin(AvailabilityZones): {
     Properties+::: {
-      AvailabilityZones+: (if std.isArray(AvailabilityZones) then AvailabilityZones else [AvailabilityZones]),
+      AvailabilityZones+: AvailabilityZones,
     },
   },
-  withNotificationConfiguration(NotificationConfiguration): {
-    assert std.isObject(NotificationConfiguration) : 'NotificationConfiguration must be a object',
+  setNotificationConfiguration(NotificationConfiguration): {
     Properties+::: {
-      NotificationConfiguration: NotificationConfiguration,
+      NotificationConfiguration:
+        if !std.isObject(NotificationConfiguration) then (error 'NotificationConfiguration must be an object')
+        else if !std.objectHas(NotificationConfiguration, 'TopicARN') then (error ' have attribute TopicARN')
+        else NotificationConfiguration,
     },
   },
-  withAvailabilityZoneDistribution(AvailabilityZoneDistribution): {
-    assert std.isObject(AvailabilityZoneDistribution) : 'AvailabilityZoneDistribution must be a object',
+  setAvailabilityZoneDistribution(AvailabilityZoneDistribution): {
     Properties+::: {
-      AvailabilityZoneDistribution: AvailabilityZoneDistribution,
+      AvailabilityZoneDistribution:
+        if !std.isObject(AvailabilityZoneDistribution) then (error 'AvailabilityZoneDistribution must be an object')
+        else AvailabilityZoneDistribution,
     },
   },
-  withMetricsCollection(MetricsCollection): {
+  setMetricsCollection(MetricsCollection): {
     Properties+::: {
-      MetricsCollection: (if std.isArray(MetricsCollection) then MetricsCollection else [MetricsCollection]),
+      MetricsCollection:
+        if !std.isArray(MetricsCollection) then (error 'MetricsCollection must be an array')
+        else MetricsCollection,
     },
   },
-  withMetricsCollectionMixin(MetricsCollection): {
+  setMetricsCollectionMixin(MetricsCollection): {
     Properties+::: {
-      MetricsCollection+: (if std.isArray(MetricsCollection) then MetricsCollection else [MetricsCollection]),
+      MetricsCollection+: MetricsCollection,
     },
   },
-  withInstanceMaintenancePolicy(InstanceMaintenancePolicy): {
-    assert std.isObject(InstanceMaintenancePolicy) : 'InstanceMaintenancePolicy must be a object',
+  setInstanceMaintenancePolicy(InstanceMaintenancePolicy): {
     Properties+::: {
-      InstanceMaintenancePolicy: InstanceMaintenancePolicy,
+      InstanceMaintenancePolicy:
+        if !std.isObject(InstanceMaintenancePolicy) then (error 'InstanceMaintenancePolicy must be an object')
+        else InstanceMaintenancePolicy,
     },
   },
-  withTerminationPolicies(TerminationPolicies): {
+  setTerminationPolicies(TerminationPolicies): {
     Properties+::: {
-      TerminationPolicies: (if std.isArray(TerminationPolicies) then TerminationPolicies else [TerminationPolicies]),
+      TerminationPolicies:
+        if !std.isArray(TerminationPolicies) then (error 'TerminationPolicies must be an array')
+        else TerminationPolicies,
     },
   },
-  withTerminationPoliciesMixin(TerminationPolicies): {
+  setTerminationPoliciesMixin(TerminationPolicies): {
     Properties+::: {
-      TerminationPolicies+: (if std.isArray(TerminationPolicies) then TerminationPolicies else [TerminationPolicies]),
+      TerminationPolicies+: TerminationPolicies,
     },
   },
-  withAutoScalingGroupName(AutoScalingGroupName): {
-    assert std.isString(AutoScalingGroupName) : 'AutoScalingGroupName must be a string',
+  setAutoScalingGroupName(AutoScalingGroupName): {
     Properties+::: {
-      AutoScalingGroupName: AutoScalingGroupName,
+      AutoScalingGroupName:
+        if !std.isString(AutoScalingGroupName) then (error 'AutoScalingGroupName must be a string')
+        else if std.isEmpty(AutoScalingGroupName) then (error 'AutoScalingGroupName must be not empty')
+        else AutoScalingGroupName,
     },
   },
-  withTrafficSources(TrafficSources): {
+  setTrafficSources(TrafficSources): {
     Properties+::: {
-      TrafficSources: (if std.isArray(TrafficSources) then TrafficSources else [TrafficSources]),
+      TrafficSources:
+        if !std.isArray(TrafficSources) then (error 'TrafficSources must be an array')
+        else TrafficSources,
     },
   },
-  withTrafficSourcesMixin(TrafficSources): {
+  setTrafficSourcesMixin(TrafficSources): {
     Properties+::: {
-      TrafficSources+: (if std.isArray(TrafficSources) then TrafficSources else [TrafficSources]),
+      TrafficSources+: TrafficSources,
     },
   },
-  withDesiredCapacityType(DesiredCapacityType): {
-    assert std.isString(DesiredCapacityType) : 'DesiredCapacityType must be a string',
+  setDesiredCapacityType(DesiredCapacityType): {
     Properties+::: {
-      DesiredCapacityType: DesiredCapacityType,
+      DesiredCapacityType:
+        if !std.isString(DesiredCapacityType) then (error 'DesiredCapacityType must be a string')
+        else if std.isEmpty(DesiredCapacityType) then (error 'DesiredCapacityType must be not empty')
+        else DesiredCapacityType,
     },
   },
-  withPlacementGroup(PlacementGroup): {
-    assert std.isString(PlacementGroup) : 'PlacementGroup must be a string',
+  setPlacementGroup(PlacementGroup): {
     Properties+::: {
-      PlacementGroup: PlacementGroup,
+      PlacementGroup:
+        if !std.isString(PlacementGroup) then (error 'PlacementGroup must be a string')
+        else if std.isEmpty(PlacementGroup) then (error 'PlacementGroup must be not empty')
+        else PlacementGroup,
     },
   },
-  withCapacityReservationSpecification(CapacityReservationSpecification): {
-    assert std.isObject(CapacityReservationSpecification) : 'CapacityReservationSpecification must be a object',
+  setCapacityReservationSpecification(CapacityReservationSpecification): {
     Properties+::: {
-      CapacityReservationSpecification: CapacityReservationSpecification,
+      CapacityReservationSpecification:
+        if !std.isObject(CapacityReservationSpecification) then (error 'CapacityReservationSpecification must be an object')
+        else if !std.objectHas(CapacityReservationSpecification, 'CapacityReservationPreference') then (error ' have attribute CapacityReservationPreference')
+        else CapacityReservationSpecification,
     },
   },
-  withHealthCheckType(HealthCheckType): {
-    assert std.isString(HealthCheckType) : 'HealthCheckType must be a string',
+  setHealthCheckType(HealthCheckType): {
     Properties+::: {
-      HealthCheckType: HealthCheckType,
+      HealthCheckType:
+        if !std.isString(HealthCheckType) then (error 'HealthCheckType must be a string')
+        else if std.isEmpty(HealthCheckType) then (error 'HealthCheckType must be not empty')
+        else HealthCheckType,
     },
   },
-  withMaxInstanceLifetime(MaxInstanceLifetime): {
-    assert std.isNumber(MaxInstanceLifetime) : 'MaxInstanceLifetime must be a number',
+  setMaxInstanceLifetime(MaxInstanceLifetime): {
     Properties+::: {
-      MaxInstanceLifetime: MaxInstanceLifetime,
+      MaxInstanceLifetime:
+        if !std.isNumber(MaxInstanceLifetime) then (error 'MaxInstanceLifetime must be an number')
+        else MaxInstanceLifetime,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

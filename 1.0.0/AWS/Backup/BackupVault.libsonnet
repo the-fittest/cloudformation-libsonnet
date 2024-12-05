@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(BackupVaultName) : 'BackupVaultName must be a string',
-      BackupVaultName: BackupVaultName,
+      BackupVaultName:
+        if !std.isString(BackupVaultName) then (error 'BackupVaultName must be a string')
+        else if std.isEmpty(BackupVaultName) then (error 'BackupVaultName must be not empty')
+        else BackupVaultName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,99 +17,109 @@
     Metadata:: [],
     Type: 'AWS::Backup::BackupVault',
   },
-  withAccessPolicy(AccessPolicy): {
+  setAccessPolicy(AccessPolicy): {
     Properties+::: {
       AccessPolicy: AccessPolicy,
     },
   },
-  withBackupVaultTags(BackupVaultTags): {
-    assert std.isObject(BackupVaultTags) : 'BackupVaultTags must be a object',
+  setBackupVaultTags(BackupVaultTags): {
     Properties+::: {
-      BackupVaultTags: BackupVaultTags,
+      BackupVaultTags:
+        if !std.isObject(BackupVaultTags) then (error 'BackupVaultTags must be an object')
+        else BackupVaultTags,
     },
   },
-  withEncryptionKeyArn(EncryptionKeyArn): {
-    assert std.isString(EncryptionKeyArn) : 'EncryptionKeyArn must be a string',
+  setEncryptionKeyArn(EncryptionKeyArn): {
     Properties+::: {
-      EncryptionKeyArn: EncryptionKeyArn,
+      EncryptionKeyArn:
+        if !std.isString(EncryptionKeyArn) then (error 'EncryptionKeyArn must be a string')
+        else if std.isEmpty(EncryptionKeyArn) then (error 'EncryptionKeyArn must be not empty')
+        else EncryptionKeyArn,
     },
   },
-  withNotifications(Notifications): {
-    assert std.isObject(Notifications) : 'Notifications must be a object',
+  setNotifications(Notifications): {
     Properties+::: {
-      Notifications: Notifications,
+      Notifications:
+        if !std.isObject(Notifications) then (error 'Notifications must be an object')
+        else if !std.objectHas(Notifications, 'SNSTopicArn') then (error ' have attribute SNSTopicArn')
+        else if !std.objectHas(Notifications, 'BackupVaultEvents') then (error ' have attribute BackupVaultEvents')
+        else Notifications,
     },
   },
-  withLockConfiguration(LockConfiguration): {
-    assert std.isObject(LockConfiguration) : 'LockConfiguration must be a object',
+  setLockConfiguration(LockConfiguration): {
     Properties+::: {
-      LockConfiguration: LockConfiguration,
+      LockConfiguration:
+        if !std.isObject(LockConfiguration) then (error 'LockConfiguration must be an object')
+        else if !std.objectHas(LockConfiguration, 'MinRetentionDays') then (error ' have attribute MinRetentionDays')
+        else LockConfiguration,
     },
   },
-  withBackupVaultArn(BackupVaultArn): {
-    assert std.isString(BackupVaultArn) : 'BackupVaultArn must be a string',
+  setBackupVaultArn(BackupVaultArn): {
     Properties+::: {
-      BackupVaultArn: BackupVaultArn,
+      BackupVaultArn:
+        if !std.isString(BackupVaultArn) then (error 'BackupVaultArn must be a string')
+        else if std.isEmpty(BackupVaultArn) then (error 'BackupVaultArn must be not empty')
+        else BackupVaultArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

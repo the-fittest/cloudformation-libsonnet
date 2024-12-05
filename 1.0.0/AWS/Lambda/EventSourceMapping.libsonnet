@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FunctionName) : 'FunctionName must be a string',
-      FunctionName: FunctionName,
+      FunctionName:
+        if !std.isString(FunctionName) then (error 'FunctionName must be a string')
+        else if std.isEmpty(FunctionName) then (error 'FunctionName must be not empty')
+        else if std.length(FunctionName) < 1 then error ('FunctionName should have at least 1 characters')
+        else if std.length(FunctionName) > 140 then error ('FunctionName should have not more than 140 characters')
+        else FunctionName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,252 +19,314 @@
     Metadata:: [],
     Type: 'AWS::Lambda::EventSourceMapping',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 36 then error ('Id should have at least 36 characters')
+        else if std.length(Id) > 36 then error ('Id should have not more than 36 characters')
+        else Id,
     },
   },
-  withBatchSize(BatchSize): {
-    assert std.isNumber(BatchSize) : 'BatchSize must be a number',
+  setBatchSize(BatchSize): {
     Properties+::: {
-      BatchSize: BatchSize,
+      BatchSize:
+        if !std.isNumber(BatchSize) then (error 'BatchSize must be an number')
+        else if BatchSize < 1 then error ('BatchSize should be at least 1')
+        else if BatchSize > 10000 then error ('BatchSize should be not more than 10000')
+        else BatchSize,
     },
   },
-  withBisectBatchOnFunctionError(BisectBatchOnFunctionError): {
-    assert std.isBoolean(BisectBatchOnFunctionError) : 'BisectBatchOnFunctionError must be a boolean',
+  setBisectBatchOnFunctionError(BisectBatchOnFunctionError): {
     Properties+::: {
-      BisectBatchOnFunctionError: BisectBatchOnFunctionError,
+      BisectBatchOnFunctionError:
+        if !std.isBoolean(BisectBatchOnFunctionError) then (error 'BisectBatchOnFunctionError must be a boolean') else BisectBatchOnFunctionError,
     },
   },
-  withDestinationConfig(DestinationConfig): {
-    assert std.isObject(DestinationConfig) : 'DestinationConfig must be a object',
+  setDestinationConfig(DestinationConfig): {
     Properties+::: {
-      DestinationConfig: DestinationConfig,
+      DestinationConfig:
+        if !std.isObject(DestinationConfig) then (error 'DestinationConfig must be an object')
+        else DestinationConfig,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withEventSourceArn(EventSourceArn): {
-    assert std.isString(EventSourceArn) : 'EventSourceArn must be a string',
+  setEventSourceArn(EventSourceArn): {
     Properties+::: {
-      EventSourceArn: EventSourceArn,
+      EventSourceArn:
+        if !std.isString(EventSourceArn) then (error 'EventSourceArn must be a string')
+        else if std.isEmpty(EventSourceArn) then (error 'EventSourceArn must be not empty')
+        else if std.length(EventSourceArn) < 12 then error ('EventSourceArn should have at least 12 characters')
+        else if std.length(EventSourceArn) > 1024 then error ('EventSourceArn should have not more than 1024 characters')
+        else EventSourceArn,
     },
   },
-  withEventSourceMappingArn(EventSourceMappingArn): {
-    assert std.isString(EventSourceMappingArn) : 'EventSourceMappingArn must be a string',
+  setEventSourceMappingArn(EventSourceMappingArn): {
     Properties+::: {
-      EventSourceMappingArn: EventSourceMappingArn,
+      EventSourceMappingArn:
+        if !std.isString(EventSourceMappingArn) then (error 'EventSourceMappingArn must be a string')
+        else if std.isEmpty(EventSourceMappingArn) then (error 'EventSourceMappingArn must be not empty')
+        else if std.length(EventSourceMappingArn) < 85 then error ('EventSourceMappingArn should have at least 85 characters')
+        else if std.length(EventSourceMappingArn) > 120 then error ('EventSourceMappingArn should have not more than 120 characters')
+        else EventSourceMappingArn,
     },
   },
-  withFilterCriteria(FilterCriteria): {
-    assert std.isObject(FilterCriteria) : 'FilterCriteria must be a object',
+  setFilterCriteria(FilterCriteria): {
     Properties+::: {
-      FilterCriteria: FilterCriteria,
+      FilterCriteria:
+        if !std.isObject(FilterCriteria) then (error 'FilterCriteria must be an object')
+        else FilterCriteria,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 12 then error ('KmsKeyArn should have at least 12 characters')
+        else if std.length(KmsKeyArn) > 2048 then error ('KmsKeyArn should have not more than 2048 characters')
+        else KmsKeyArn,
     },
   },
-  withMaximumBatchingWindowInSeconds(MaximumBatchingWindowInSeconds): {
-    assert std.isNumber(MaximumBatchingWindowInSeconds) : 'MaximumBatchingWindowInSeconds must be a number',
+  setMaximumBatchingWindowInSeconds(MaximumBatchingWindowInSeconds): {
     Properties+::: {
-      MaximumBatchingWindowInSeconds: MaximumBatchingWindowInSeconds,
+      MaximumBatchingWindowInSeconds:
+        if !std.isNumber(MaximumBatchingWindowInSeconds) then (error 'MaximumBatchingWindowInSeconds must be an number')
+        else if MaximumBatchingWindowInSeconds > 300 then error ('MaximumBatchingWindowInSeconds should be not more than 300')
+        else MaximumBatchingWindowInSeconds,
     },
   },
-  withMaximumRecordAgeInSeconds(MaximumRecordAgeInSeconds): {
-    assert std.isNumber(MaximumRecordAgeInSeconds) : 'MaximumRecordAgeInSeconds must be a number',
+  setMaximumRecordAgeInSeconds(MaximumRecordAgeInSeconds): {
     Properties+::: {
-      MaximumRecordAgeInSeconds: MaximumRecordAgeInSeconds,
+      MaximumRecordAgeInSeconds:
+        if !std.isNumber(MaximumRecordAgeInSeconds) then (error 'MaximumRecordAgeInSeconds must be an number')
+        else if MaximumRecordAgeInSeconds < -1 then error ('MaximumRecordAgeInSeconds should be at least -1')
+        else if MaximumRecordAgeInSeconds > 604800 then error ('MaximumRecordAgeInSeconds should be not more than 604800')
+        else MaximumRecordAgeInSeconds,
     },
   },
-  withMaximumRetryAttempts(MaximumRetryAttempts): {
-    assert std.isNumber(MaximumRetryAttempts) : 'MaximumRetryAttempts must be a number',
+  setMaximumRetryAttempts(MaximumRetryAttempts): {
     Properties+::: {
-      MaximumRetryAttempts: MaximumRetryAttempts,
+      MaximumRetryAttempts:
+        if !std.isNumber(MaximumRetryAttempts) then (error 'MaximumRetryAttempts must be an number')
+        else if MaximumRetryAttempts < -1 then error ('MaximumRetryAttempts should be at least -1')
+        else if MaximumRetryAttempts > 10000 then error ('MaximumRetryAttempts should be not more than 10000')
+        else MaximumRetryAttempts,
     },
   },
-  withParallelizationFactor(ParallelizationFactor): {
-    assert std.isNumber(ParallelizationFactor) : 'ParallelizationFactor must be a number',
+  setParallelizationFactor(ParallelizationFactor): {
     Properties+::: {
-      ParallelizationFactor: ParallelizationFactor,
+      ParallelizationFactor:
+        if !std.isNumber(ParallelizationFactor) then (error 'ParallelizationFactor must be an number')
+        else if ParallelizationFactor < 1 then error ('ParallelizationFactor should be at least 1')
+        else if ParallelizationFactor > 10 then error ('ParallelizationFactor should be not more than 10')
+        else ParallelizationFactor,
     },
   },
-  withStartingPosition(StartingPosition): {
-    assert std.isString(StartingPosition) : 'StartingPosition must be a string',
+  setStartingPosition(StartingPosition): {
     Properties+::: {
-      StartingPosition: StartingPosition,
+      StartingPosition:
+        if !std.isString(StartingPosition) then (error 'StartingPosition must be a string')
+        else if std.isEmpty(StartingPosition) then (error 'StartingPosition must be not empty')
+        else if std.length(StartingPosition) < 6 then error ('StartingPosition should have at least 6 characters')
+        else if std.length(StartingPosition) > 12 then error ('StartingPosition should have not more than 12 characters')
+        else StartingPosition,
     },
   },
-  withStartingPositionTimestamp(StartingPositionTimestamp): {
-    assert std.isNumber(StartingPositionTimestamp) : 'StartingPositionTimestamp must be a number',
+  setStartingPositionTimestamp(StartingPositionTimestamp): {
     Properties+::: {
-      StartingPositionTimestamp: StartingPositionTimestamp,
+      StartingPositionTimestamp:
+        if !std.isNumber(StartingPositionTimestamp) then (error 'StartingPositionTimestamp must be an number')
+        else StartingPositionTimestamp,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTopics(Topics): {
+  setTopics(Topics): {
     Properties+::: {
-      Topics: (if std.isArray(Topics) then Topics else [Topics]),
+      Topics:
+        if !std.isArray(Topics) then (error 'Topics must be an array')
+        else if std.length(Topics) < 1 then error ('Topics cannot have less than 1 items')
+        else if std.length(Topics) > 1 then error ('Topics cannot have more than 1 items')
+        else Topics,
     },
   },
-  withTopicsMixin(Topics): {
+  setTopicsMixin(Topics): {
     Properties+::: {
-      Topics+: (if std.isArray(Topics) then Topics else [Topics]),
+      Topics+: Topics,
     },
   },
-  withQueues(Queues): {
+  setQueues(Queues): {
     Properties+::: {
-      Queues: (if std.isArray(Queues) then Queues else [Queues]),
+      Queues:
+        if !std.isArray(Queues) then (error 'Queues must be an array')
+        else if std.length(Queues) < 1 then error ('Queues cannot have less than 1 items')
+        else if std.length(Queues) > 1 then error ('Queues cannot have more than 1 items')
+        else Queues,
     },
   },
-  withQueuesMixin(Queues): {
+  setQueuesMixin(Queues): {
     Properties+::: {
-      Queues+: (if std.isArray(Queues) then Queues else [Queues]),
+      Queues+: Queues,
     },
   },
-  withSourceAccessConfigurations(SourceAccessConfigurations): {
+  setSourceAccessConfigurations(SourceAccessConfigurations): {
     Properties+::: {
-      SourceAccessConfigurations: (if std.isArray(SourceAccessConfigurations) then SourceAccessConfigurations else [SourceAccessConfigurations]),
+      SourceAccessConfigurations:
+        if !std.isArray(SourceAccessConfigurations) then (error 'SourceAccessConfigurations must be an array')
+        else if std.length(SourceAccessConfigurations) < 1 then error ('SourceAccessConfigurations cannot have less than 1 items')
+        else if std.length(SourceAccessConfigurations) > 22 then error ('SourceAccessConfigurations cannot have more than 22 items')
+        else SourceAccessConfigurations,
     },
   },
-  withSourceAccessConfigurationsMixin(SourceAccessConfigurations): {
+  setSourceAccessConfigurationsMixin(SourceAccessConfigurations): {
     Properties+::: {
-      SourceAccessConfigurations+: (if std.isArray(SourceAccessConfigurations) then SourceAccessConfigurations else [SourceAccessConfigurations]),
+      SourceAccessConfigurations+: SourceAccessConfigurations,
     },
   },
-  withTumblingWindowInSeconds(TumblingWindowInSeconds): {
-    assert std.isNumber(TumblingWindowInSeconds) : 'TumblingWindowInSeconds must be a number',
+  setTumblingWindowInSeconds(TumblingWindowInSeconds): {
     Properties+::: {
-      TumblingWindowInSeconds: TumblingWindowInSeconds,
+      TumblingWindowInSeconds:
+        if !std.isNumber(TumblingWindowInSeconds) then (error 'TumblingWindowInSeconds must be an number')
+        else if TumblingWindowInSeconds > 900 then error ('TumblingWindowInSeconds should be not more than 900')
+        else TumblingWindowInSeconds,
     },
   },
-  withFunctionResponseTypes(FunctionResponseTypes): {
+  setFunctionResponseTypes(FunctionResponseTypes): {
     Properties+::: {
-      FunctionResponseTypes: (if std.isArray(FunctionResponseTypes) then FunctionResponseTypes else [FunctionResponseTypes]),
+      FunctionResponseTypes:
+        if !std.isArray(FunctionResponseTypes) then (error 'FunctionResponseTypes must be an array')
+        else FunctionResponseTypes,
     },
   },
-  withFunctionResponseTypesMixin(FunctionResponseTypes): {
+  setFunctionResponseTypesMixin(FunctionResponseTypes): {
     Properties+::: {
-      FunctionResponseTypes+: (if std.isArray(FunctionResponseTypes) then FunctionResponseTypes else [FunctionResponseTypes]),
+      FunctionResponseTypes+: FunctionResponseTypes,
     },
   },
-  withSelfManagedEventSource(SelfManagedEventSource): {
-    assert std.isObject(SelfManagedEventSource) : 'SelfManagedEventSource must be a object',
+  setSelfManagedEventSource(SelfManagedEventSource): {
     Properties+::: {
-      SelfManagedEventSource: SelfManagedEventSource,
+      SelfManagedEventSource:
+        if !std.isObject(SelfManagedEventSource) then (error 'SelfManagedEventSource must be an object')
+        else SelfManagedEventSource,
     },
   },
-  withAmazonManagedKafkaEventSourceConfig(AmazonManagedKafkaEventSourceConfig): {
-    assert std.isObject(AmazonManagedKafkaEventSourceConfig) : 'AmazonManagedKafkaEventSourceConfig must be a object',
+  setAmazonManagedKafkaEventSourceConfig(AmazonManagedKafkaEventSourceConfig): {
     Properties+::: {
-      AmazonManagedKafkaEventSourceConfig: AmazonManagedKafkaEventSourceConfig,
+      AmazonManagedKafkaEventSourceConfig:
+        if !std.isObject(AmazonManagedKafkaEventSourceConfig) then (error 'AmazonManagedKafkaEventSourceConfig must be an object')
+        else AmazonManagedKafkaEventSourceConfig,
     },
   },
-  withSelfManagedKafkaEventSourceConfig(SelfManagedKafkaEventSourceConfig): {
-    assert std.isObject(SelfManagedKafkaEventSourceConfig) : 'SelfManagedKafkaEventSourceConfig must be a object',
+  setSelfManagedKafkaEventSourceConfig(SelfManagedKafkaEventSourceConfig): {
     Properties+::: {
-      SelfManagedKafkaEventSourceConfig: SelfManagedKafkaEventSourceConfig,
+      SelfManagedKafkaEventSourceConfig:
+        if !std.isObject(SelfManagedKafkaEventSourceConfig) then (error 'SelfManagedKafkaEventSourceConfig must be an object')
+        else SelfManagedKafkaEventSourceConfig,
     },
   },
-  withScalingConfig(ScalingConfig): {
-    assert std.isObject(ScalingConfig) : 'ScalingConfig must be a object',
+  setScalingConfig(ScalingConfig): {
     Properties+::: {
-      ScalingConfig: ScalingConfig,
+      ScalingConfig:
+        if !std.isObject(ScalingConfig) then (error 'ScalingConfig must be an object')
+        else ScalingConfig,
     },
   },
-  withDocumentDBEventSourceConfig(DocumentDBEventSourceConfig): {
-    assert std.isObject(DocumentDBEventSourceConfig) : 'DocumentDBEventSourceConfig must be a object',
+  setDocumentDBEventSourceConfig(DocumentDBEventSourceConfig): {
     Properties+::: {
-      DocumentDBEventSourceConfig: DocumentDBEventSourceConfig,
+      DocumentDBEventSourceConfig:
+        if !std.isObject(DocumentDBEventSourceConfig) then (error 'DocumentDBEventSourceConfig must be an object')
+        else DocumentDBEventSourceConfig,
     },
   },
-  withProvisionedPollerConfig(ProvisionedPollerConfig): {
-    assert std.isObject(ProvisionedPollerConfig) : 'ProvisionedPollerConfig must be a object',
+  setProvisionedPollerConfig(ProvisionedPollerConfig): {
     Properties+::: {
-      ProvisionedPollerConfig: ProvisionedPollerConfig,
+      ProvisionedPollerConfig:
+        if !std.isObject(ProvisionedPollerConfig) then (error 'ProvisionedPollerConfig must be an object')
+        else ProvisionedPollerConfig,
     },
   },
-  withMetricsConfig(MetricsConfig): {
-    assert std.isObject(MetricsConfig) : 'MetricsConfig must be a object',
+  setMetricsConfig(MetricsConfig): {
     Properties+::: {
-      MetricsConfig: MetricsConfig,
+      MetricsConfig:
+        if !std.isObject(MetricsConfig) then (error 'MetricsConfig must be an object')
+        else MetricsConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

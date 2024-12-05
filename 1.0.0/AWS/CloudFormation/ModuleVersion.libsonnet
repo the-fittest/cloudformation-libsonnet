@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ModuleName) : 'ModuleName must be a string',
-      ModuleName: ModuleName,
-      assert std.isString(ModulePackage) : 'ModulePackage must be a string',
-      ModulePackage: ModulePackage,
+      ModuleName:
+        if !std.isString(ModuleName) then (error 'ModuleName must be a string')
+        else if std.isEmpty(ModuleName) then (error 'ModuleName must be not empty')
+        else ModuleName,
+      ModulePackage:
+        if !std.isString(ModulePackage) then (error 'ModulePackage must be a string')
+        else if std.isEmpty(ModulePackage) then (error 'ModulePackage must be not empty')
+        else ModulePackage,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,113 +22,132 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::ModuleVersion',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withDocumentationUrl(DocumentationUrl): {
-    assert std.isString(DocumentationUrl) : 'DocumentationUrl must be a string',
+  setDocumentationUrl(DocumentationUrl): {
     Properties+::: {
-      DocumentationUrl: DocumentationUrl,
+      DocumentationUrl:
+        if !std.isString(DocumentationUrl) then (error 'DocumentationUrl must be a string')
+        else if std.isEmpty(DocumentationUrl) then (error 'DocumentationUrl must be not empty')
+        else if std.length(DocumentationUrl) > 4096 then error ('DocumentationUrl should have not more than 4096 characters')
+        else DocumentationUrl,
     },
   },
-  withIsDefaultVersion(IsDefaultVersion): {
-    assert std.isBoolean(IsDefaultVersion) : 'IsDefaultVersion must be a boolean',
+  setIsDefaultVersion(IsDefaultVersion): {
     Properties+::: {
-      IsDefaultVersion: IsDefaultVersion,
+      IsDefaultVersion:
+        if !std.isBoolean(IsDefaultVersion) then (error 'IsDefaultVersion must be a boolean') else IsDefaultVersion,
     },
   },
-  withSchema(Schema): {
-    assert std.isString(Schema) : 'Schema must be a string',
+  setSchema(Schema): {
     Properties+::: {
-      Schema: Schema,
+      Schema:
+        if !std.isString(Schema) then (error 'Schema must be a string')
+        else if std.isEmpty(Schema) then (error 'Schema must be not empty')
+        else if std.length(Schema) < 1 then error ('Schema should have at least 1 characters')
+        else if std.length(Schema) > 16777216 then error ('Schema should have not more than 16777216 characters')
+        else Schema,
     },
   },
-  withTimeCreated(TimeCreated): {
-    assert std.isString(TimeCreated) : 'TimeCreated must be a string',
+  setTimeCreated(TimeCreated): {
     Properties+::: {
-      TimeCreated: TimeCreated,
+      TimeCreated:
+        if !std.isString(TimeCreated) then (error 'TimeCreated must be a string')
+        else if std.isEmpty(TimeCreated) then (error 'TimeCreated must be not empty')
+        else TimeCreated,
     },
   },
-  withVersionId(VersionId): {
-    assert std.isString(VersionId) : 'VersionId must be a string',
+  setVersionId(VersionId): {
     Properties+::: {
-      VersionId: VersionId,
+      VersionId:
+        if !std.isString(VersionId) then (error 'VersionId must be a string')
+        else if std.isEmpty(VersionId) then (error 'VersionId must be not empty')
+        else VersionId,
     },
   },
-  withVisibility(Visibility): {
-    assert std.isString(Visibility) : 'Visibility must be a string',
-    assert Visibility == 'PRIVATE' : "Visibility should be 'PRIVATE'",
+  setVisibility(Visibility): {
     Properties+::: {
-      Visibility: Visibility,
+      Visibility:
+        if !std.isString(Visibility) then (error 'Visibility must be a string')
+        else if std.isEmpty(Visibility) then (error 'Visibility must be not empty')
+        else if Visibility != 'PRIVATE' then (error "Visibility should be 'PRIVATE'")
+        else Visibility,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

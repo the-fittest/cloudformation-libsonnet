@@ -5,10 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AccessRole) : 'AccessRole must be a string',
-      AccessRole: AccessRole,
-      assert std.isString(Url) : 'Url must be a string',
-      Url: Url,
+      AccessRole:
+        if !std.isString(AccessRole) then (error 'AccessRole must be a string')
+        else if std.isEmpty(AccessRole) then (error 'AccessRole must be not empty')
+        else if std.length(AccessRole) < 20 then error ('AccessRole should have at least 20 characters')
+        else if std.length(AccessRole) > 2048 then error ('AccessRole should have not more than 2048 characters')
+        else AccessRole,
+      Url:
+        if !std.isString(Url) then (error 'Url must be a string')
+        else if std.isEmpty(Url) then (error 'Url must be not empty')
+        else if std.length(Url) > 255 then error ('Url should have not more than 255 characters')
+        else Url,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,120 +25,142 @@
     Metadata:: [],
     Type: 'AWS::Transfer::Connector',
   },
-  withAs2Config(As2Config): {
-    assert std.isObject(As2Config) : 'As2Config must be a object',
+  setAs2Config(As2Config): {
     Properties+::: {
-      As2Config: As2Config,
+      As2Config:
+        if !std.isObject(As2Config) then (error 'As2Config must be an object')
+        else As2Config,
     },
   },
-  withSftpConfig(SftpConfig): {
-    assert std.isObject(SftpConfig) : 'SftpConfig must be a object',
+  setSftpConfig(SftpConfig): {
     Properties+::: {
-      SftpConfig: SftpConfig,
+      SftpConfig:
+        if !std.isObject(SftpConfig) then (error 'SftpConfig must be an object')
+        else SftpConfig,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 1600 then error ('Arn should have not more than 1600 characters')
+        else Arn,
     },
   },
-  withConnectorId(ConnectorId): {
-    assert std.isString(ConnectorId) : 'ConnectorId must be a string',
+  setConnectorId(ConnectorId): {
     Properties+::: {
-      ConnectorId: ConnectorId,
+      ConnectorId:
+        if !std.isString(ConnectorId) then (error 'ConnectorId must be a string')
+        else if std.isEmpty(ConnectorId) then (error 'ConnectorId must be not empty')
+        else if std.length(ConnectorId) < 19 then error ('ConnectorId should have at least 19 characters')
+        else if std.length(ConnectorId) > 19 then error ('ConnectorId should have not more than 19 characters')
+        else ConnectorId,
     },
   },
-  withLoggingRole(LoggingRole): {
-    assert std.isString(LoggingRole) : 'LoggingRole must be a string',
+  setLoggingRole(LoggingRole): {
     Properties+::: {
-      LoggingRole: LoggingRole,
+      LoggingRole:
+        if !std.isString(LoggingRole) then (error 'LoggingRole must be a string')
+        else if std.isEmpty(LoggingRole) then (error 'LoggingRole must be not empty')
+        else if std.length(LoggingRole) < 20 then error ('LoggingRole should have at least 20 characters')
+        else if std.length(LoggingRole) > 2048 then error ('LoggingRole should have not more than 2048 characters')
+        else LoggingRole,
     },
   },
-  withServiceManagedEgressIpAddresses(ServiceManagedEgressIpAddresses): {
+  setServiceManagedEgressIpAddresses(ServiceManagedEgressIpAddresses): {
     Properties+::: {
-      ServiceManagedEgressIpAddresses: (if std.isArray(ServiceManagedEgressIpAddresses) then ServiceManagedEgressIpAddresses else [ServiceManagedEgressIpAddresses]),
+      ServiceManagedEgressIpAddresses:
+        if !std.isArray(ServiceManagedEgressIpAddresses) then (error 'ServiceManagedEgressIpAddresses must be an array')
+        else ServiceManagedEgressIpAddresses,
     },
   },
-  withServiceManagedEgressIpAddressesMixin(ServiceManagedEgressIpAddresses): {
+  setServiceManagedEgressIpAddressesMixin(ServiceManagedEgressIpAddresses): {
     Properties+::: {
-      ServiceManagedEgressIpAddresses+: (if std.isArray(ServiceManagedEgressIpAddresses) then ServiceManagedEgressIpAddresses else [ServiceManagedEgressIpAddresses]),
+      ServiceManagedEgressIpAddresses+: ServiceManagedEgressIpAddresses,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withSecurityPolicyName(SecurityPolicyName): {
-    assert std.isString(SecurityPolicyName) : 'SecurityPolicyName must be a string',
+  setSecurityPolicyName(SecurityPolicyName): {
     Properties+::: {
-      SecurityPolicyName: SecurityPolicyName,
+      SecurityPolicyName:
+        if !std.isString(SecurityPolicyName) then (error 'SecurityPolicyName must be a string')
+        else if std.isEmpty(SecurityPolicyName) then (error 'SecurityPolicyName must be not empty')
+        else if std.length(SecurityPolicyName) > 50 then error ('SecurityPolicyName should have not more than 50 characters')
+        else SecurityPolicyName,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

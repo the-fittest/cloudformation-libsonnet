@@ -5,9 +5,13 @@
   ): {
     local base = self,
     Properties: {
-      Stages: (if std.isArray(Stages) then Stages else [Stages]),
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      Stages:
+        if !std.isArray(Stages) then (error 'Stages must be an array')
+        else Stages,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,152 +21,173 @@
     Metadata:: [],
     Type: 'AWS::CodePipeline::Pipeline',
   },
-  withArtifactStores(ArtifactStores): {
+  setArtifactStores(ArtifactStores): {
     Properties+::: {
-      ArtifactStores: (if std.isArray(ArtifactStores) then ArtifactStores else [ArtifactStores]),
+      ArtifactStores:
+        if !std.isArray(ArtifactStores) then (error 'ArtifactStores must be an array')
+        else ArtifactStores,
     },
   },
-  withArtifactStoresMixin(ArtifactStores): {
+  setArtifactStoresMixin(ArtifactStores): {
     Properties+::: {
-      ArtifactStores+: (if std.isArray(ArtifactStores) then ArtifactStores else [ArtifactStores]),
+      ArtifactStores+: ArtifactStores,
     },
   },
-  withDisableInboundStageTransitions(DisableInboundStageTransitions): {
+  setDisableInboundStageTransitions(DisableInboundStageTransitions): {
     Properties+::: {
-      DisableInboundStageTransitions: (if std.isArray(DisableInboundStageTransitions) then DisableInboundStageTransitions else [DisableInboundStageTransitions]),
+      DisableInboundStageTransitions:
+        if !std.isArray(DisableInboundStageTransitions) then (error 'DisableInboundStageTransitions must be an array')
+        else DisableInboundStageTransitions,
     },
   },
-  withDisableInboundStageTransitionsMixin(DisableInboundStageTransitions): {
+  setDisableInboundStageTransitionsMixin(DisableInboundStageTransitions): {
     Properties+::: {
-      DisableInboundStageTransitions+: (if std.isArray(DisableInboundStageTransitions) then DisableInboundStageTransitions else [DisableInboundStageTransitions]),
+      DisableInboundStageTransitions+: DisableInboundStageTransitions,
     },
   },
-  withExecutionMode(ExecutionMode): {
-    assert std.isString(ExecutionMode) : 'ExecutionMode must be a string',
-    assert ExecutionMode == 'QUEUED' || ExecutionMode == 'SUPERSEDED' || ExecutionMode == 'PARALLEL' : "ExecutionMode should be 'QUEUED' or 'SUPERSEDED' or 'PARALLEL'",
+  setExecutionMode(ExecutionMode): {
     Properties+::: {
-      ExecutionMode: ExecutionMode,
+      ExecutionMode:
+        if !std.isString(ExecutionMode) then (error 'ExecutionMode must be a string')
+        else if std.isEmpty(ExecutionMode) then (error 'ExecutionMode must be not empty')
+        else if ExecutionMode != 'QUEUED' && ExecutionMode != 'SUPERSEDED' && ExecutionMode != 'PARALLEL' then (error "ExecutionMode should be 'QUEUED' or 'SUPERSEDED' or 'PARALLEL'")
+        else ExecutionMode,
     },
   },
-  withRestartExecutionOnUpdate(RestartExecutionOnUpdate): {
-    assert std.isBoolean(RestartExecutionOnUpdate) : 'RestartExecutionOnUpdate must be a boolean',
+  setRestartExecutionOnUpdate(RestartExecutionOnUpdate): {
     Properties+::: {
-      RestartExecutionOnUpdate: RestartExecutionOnUpdate,
+      RestartExecutionOnUpdate:
+        if !std.isBoolean(RestartExecutionOnUpdate) then (error 'RestartExecutionOnUpdate must be a boolean') else RestartExecutionOnUpdate,
     },
   },
-  withTriggers(Triggers): {
+  setTriggers(Triggers): {
     Properties+::: {
-      Triggers: (if std.isArray(Triggers) then Triggers else [Triggers]),
+      Triggers:
+        if !std.isArray(Triggers) then (error 'Triggers must be an array')
+        else Triggers,
     },
   },
-  withTriggersMixin(Triggers): {
+  setTriggersMixin(Triggers): {
     Properties+::: {
-      Triggers+: (if std.isArray(Triggers) then Triggers else [Triggers]),
+      Triggers+: Triggers,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withVariables(Variables): {
+  setVariables(Variables): {
     Properties+::: {
-      Variables: (if std.isArray(Variables) then Variables else [Variables]),
+      Variables:
+        if !std.isArray(Variables) then (error 'Variables must be an array')
+        else Variables,
     },
   },
-  withVariablesMixin(Variables): {
+  setVariablesMixin(Variables): {
     Properties+::: {
-      Variables+: (if std.isArray(Variables) then Variables else [Variables]),
+      Variables+: Variables,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withArtifactStore(ArtifactStore): {
-    assert std.isObject(ArtifactStore) : 'ArtifactStore must be a object',
+  setArtifactStore(ArtifactStore): {
     Properties+::: {
-      ArtifactStore: ArtifactStore,
+      ArtifactStore:
+        if !std.isObject(ArtifactStore) then (error 'ArtifactStore must be an object')
+        else if !std.objectHas(ArtifactStore, 'Type') then (error ' have attribute Type')
+        else if !std.objectHas(ArtifactStore, 'Location') then (error ' have attribute Location')
+        else ArtifactStore,
     },
   },
-  withPipelineType(PipelineType): {
-    assert std.isString(PipelineType) : 'PipelineType must be a string',
-    assert PipelineType == 'V1' || PipelineType == 'V2' : "PipelineType should be 'V1' or 'V2'",
+  setPipelineType(PipelineType): {
     Properties+::: {
-      PipelineType: PipelineType,
+      PipelineType:
+        if !std.isString(PipelineType) then (error 'PipelineType must be a string')
+        else if std.isEmpty(PipelineType) then (error 'PipelineType must be not empty')
+        else if PipelineType != 'V1' && PipelineType != 'V2' then (error "PipelineType should be 'V1' or 'V2'")
+        else PipelineType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

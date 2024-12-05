@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,129 +10,157 @@
     Metadata:: [],
     Type: 'AWS::Proton::EnvironmentAccountConnection',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCodebuildRoleArn(CodebuildRoleArn): {
-    assert std.isString(CodebuildRoleArn) : 'CodebuildRoleArn must be a string',
+  setCodebuildRoleArn(CodebuildRoleArn): {
     Properties+::: {
-      CodebuildRoleArn: CodebuildRoleArn,
+      CodebuildRoleArn:
+        if !std.isString(CodebuildRoleArn) then (error 'CodebuildRoleArn must be a string')
+        else if std.isEmpty(CodebuildRoleArn) then (error 'CodebuildRoleArn must be not empty')
+        else if std.length(CodebuildRoleArn) < 1 then error ('CodebuildRoleArn should have at least 1 characters')
+        else if std.length(CodebuildRoleArn) > 200 then error ('CodebuildRoleArn should have not more than 200 characters')
+        else CodebuildRoleArn,
     },
   },
-  withComponentRoleArn(ComponentRoleArn): {
-    assert std.isString(ComponentRoleArn) : 'ComponentRoleArn must be a string',
+  setComponentRoleArn(ComponentRoleArn): {
     Properties+::: {
-      ComponentRoleArn: ComponentRoleArn,
+      ComponentRoleArn:
+        if !std.isString(ComponentRoleArn) then (error 'ComponentRoleArn must be a string')
+        else if std.isEmpty(ComponentRoleArn) then (error 'ComponentRoleArn must be not empty')
+        else if std.length(ComponentRoleArn) < 1 then error ('ComponentRoleArn should have at least 1 characters')
+        else if std.length(ComponentRoleArn) > 200 then error ('ComponentRoleArn should have not more than 200 characters')
+        else ComponentRoleArn,
     },
   },
-  withEnvironmentAccountId(EnvironmentAccountId): {
-    assert std.isString(EnvironmentAccountId) : 'EnvironmentAccountId must be a string',
+  setEnvironmentAccountId(EnvironmentAccountId): {
     Properties+::: {
-      EnvironmentAccountId: EnvironmentAccountId,
+      EnvironmentAccountId:
+        if !std.isString(EnvironmentAccountId) then (error 'EnvironmentAccountId must be a string')
+        else if std.isEmpty(EnvironmentAccountId) then (error 'EnvironmentAccountId must be not empty')
+        else EnvironmentAccountId,
     },
   },
-  withEnvironmentName(EnvironmentName): {
-    assert std.isString(EnvironmentName) : 'EnvironmentName must be a string',
+  setEnvironmentName(EnvironmentName): {
     Properties+::: {
-      EnvironmentName: EnvironmentName,
+      EnvironmentName:
+        if !std.isString(EnvironmentName) then (error 'EnvironmentName must be a string')
+        else if std.isEmpty(EnvironmentName) then (error 'EnvironmentName must be not empty')
+        else if std.length(EnvironmentName) < 1 then error ('EnvironmentName should have at least 1 characters')
+        else if std.length(EnvironmentName) > 100 then error ('EnvironmentName should have not more than 100 characters')
+        else EnvironmentName,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withManagementAccountId(ManagementAccountId): {
-    assert std.isString(ManagementAccountId) : 'ManagementAccountId must be a string',
+  setManagementAccountId(ManagementAccountId): {
     Properties+::: {
-      ManagementAccountId: ManagementAccountId,
+      ManagementAccountId:
+        if !std.isString(ManagementAccountId) then (error 'ManagementAccountId must be a string')
+        else if std.isEmpty(ManagementAccountId) then (error 'ManagementAccountId must be not empty')
+        else ManagementAccountId,
     },
   },
-  withRoleArn(RoleArn): {
-    assert std.isString(RoleArn) : 'RoleArn must be a string',
+  setRoleArn(RoleArn): {
     Properties+::: {
-      RoleArn: RoleArn,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 200 then error ('RoleArn should have not more than 200 characters')
+        else RoleArn,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'PENDING' || Status == 'CONNECTED' || Status == 'REJECTED' : "Status should be 'PENDING' or 'CONNECTED' or 'REJECTED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'PENDING' && Status != 'CONNECTED' && Status != 'REJECTED' then (error "Status should be 'PENDING' or 'CONNECTED' or 'REJECTED'")
+        else Status,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

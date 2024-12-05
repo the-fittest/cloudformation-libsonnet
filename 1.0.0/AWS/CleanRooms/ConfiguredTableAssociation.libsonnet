@@ -7,14 +7,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ConfiguredTableIdentifier) : 'ConfiguredTableIdentifier must be a string',
-      ConfiguredTableIdentifier: ConfiguredTableIdentifier,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isString(MembershipIdentifier) : 'MembershipIdentifier must be a string',
-      MembershipIdentifier: MembershipIdentifier,
+      ConfiguredTableIdentifier:
+        if !std.isString(ConfiguredTableIdentifier) then (error 'ConfiguredTableIdentifier must be a string')
+        else if std.isEmpty(ConfiguredTableIdentifier) then (error 'ConfiguredTableIdentifier must be not empty')
+        else if std.length(ConfiguredTableIdentifier) < 36 then error ('ConfiguredTableIdentifier should have at least 36 characters')
+        else if std.length(ConfiguredTableIdentifier) > 36 then error ('ConfiguredTableIdentifier should have not more than 36 characters')
+        else ConfiguredTableIdentifier,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 32 then error ('RoleArn should have at least 32 characters')
+        else if std.length(RoleArn) > 512 then error ('RoleArn should have not more than 512 characters')
+        else RoleArn,
+      MembershipIdentifier:
+        if !std.isString(MembershipIdentifier) then (error 'MembershipIdentifier must be a string')
+        else if std.isEmpty(MembershipIdentifier) then (error 'MembershipIdentifier must be not empty')
+        else if std.length(MembershipIdentifier) < 36 then error ('MembershipIdentifier should have at least 36 characters')
+        else if std.length(MembershipIdentifier) > 36 then error ('MembershipIdentifier should have not more than 36 characters')
+        else MembershipIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,102 +39,118 @@
     Metadata:: [],
     Type: 'AWS::CleanRooms::ConfiguredTableAssociation',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 100 then error ('Arn should have not more than 100 characters')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withConfiguredTableAssociationIdentifier(ConfiguredTableAssociationIdentifier): {
-    assert std.isString(ConfiguredTableAssociationIdentifier) : 'ConfiguredTableAssociationIdentifier must be a string',
+  setConfiguredTableAssociationIdentifier(ConfiguredTableAssociationIdentifier): {
     Properties+::: {
-      ConfiguredTableAssociationIdentifier: ConfiguredTableAssociationIdentifier,
+      ConfiguredTableAssociationIdentifier:
+        if !std.isString(ConfiguredTableAssociationIdentifier) then (error 'ConfiguredTableAssociationIdentifier must be a string')
+        else if std.isEmpty(ConfiguredTableAssociationIdentifier) then (error 'ConfiguredTableAssociationIdentifier must be not empty')
+        else if std.length(ConfiguredTableAssociationIdentifier) < 36 then error ('ConfiguredTableAssociationIdentifier should have at least 36 characters')
+        else if std.length(ConfiguredTableAssociationIdentifier) > 36 then error ('ConfiguredTableAssociationIdentifier should have not more than 36 characters')
+        else ConfiguredTableAssociationIdentifier,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withConfiguredTableAssociationAnalysisRules(ConfiguredTableAssociationAnalysisRules): {
+  setConfiguredTableAssociationAnalysisRules(ConfiguredTableAssociationAnalysisRules): {
     Properties+::: {
-      ConfiguredTableAssociationAnalysisRules: (if std.isArray(ConfiguredTableAssociationAnalysisRules) then ConfiguredTableAssociationAnalysisRules else [ConfiguredTableAssociationAnalysisRules]),
+      ConfiguredTableAssociationAnalysisRules:
+        if !std.isArray(ConfiguredTableAssociationAnalysisRules) then (error 'ConfiguredTableAssociationAnalysisRules must be an array')
+        else if std.length(ConfiguredTableAssociationAnalysisRules) < 1 then error ('ConfiguredTableAssociationAnalysisRules cannot have less than 1 items')
+        else if std.length(ConfiguredTableAssociationAnalysisRules) > 1 then error ('ConfiguredTableAssociationAnalysisRules cannot have more than 1 items')
+        else ConfiguredTableAssociationAnalysisRules,
     },
   },
-  withConfiguredTableAssociationAnalysisRulesMixin(ConfiguredTableAssociationAnalysisRules): {
+  setConfiguredTableAssociationAnalysisRulesMixin(ConfiguredTableAssociationAnalysisRules): {
     Properties+::: {
-      ConfiguredTableAssociationAnalysisRules+: (if std.isArray(ConfiguredTableAssociationAnalysisRules) then ConfiguredTableAssociationAnalysisRules else [ConfiguredTableAssociationAnalysisRules]),
+      ConfiguredTableAssociationAnalysisRules+: ConfiguredTableAssociationAnalysisRules,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

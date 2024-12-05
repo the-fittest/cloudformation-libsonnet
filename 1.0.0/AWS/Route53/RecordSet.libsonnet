@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,164 +22,193 @@
     Metadata:: [],
     Type: 'AWS::Route53::RecordSet',
   },
-  withHealthCheckId(HealthCheckId): {
-    assert std.isString(HealthCheckId) : 'HealthCheckId must be a string',
+  setHealthCheckId(HealthCheckId): {
     Properties+::: {
-      HealthCheckId: HealthCheckId,
+      HealthCheckId:
+        if !std.isString(HealthCheckId) then (error 'HealthCheckId must be a string')
+        else if std.isEmpty(HealthCheckId) then (error 'HealthCheckId must be not empty')
+        else HealthCheckId,
     },
   },
-  withAliasTarget(AliasTarget): {
-    assert std.isObject(AliasTarget) : 'AliasTarget must be a object',
+  setAliasTarget(AliasTarget): {
     Properties+::: {
-      AliasTarget: AliasTarget,
+      AliasTarget:
+        if !std.isObject(AliasTarget) then (error 'AliasTarget must be an object')
+        else if !std.objectHas(AliasTarget, 'HostedZoneId') then (error ' have attribute HostedZoneId')
+        else if !std.objectHas(AliasTarget, 'DNSName') then (error ' have attribute DNSName')
+        else AliasTarget,
     },
   },
-  withComment(Comment): {
-    assert std.isString(Comment) : 'Comment must be a string',
+  setComment(Comment): {
     Properties+::: {
-      Comment: Comment,
+      Comment:
+        if !std.isString(Comment) then (error 'Comment must be a string')
+        else if std.isEmpty(Comment) then (error 'Comment must be not empty')
+        else Comment,
     },
   },
-  withHostedZoneName(HostedZoneName): {
-    assert std.isString(HostedZoneName) : 'HostedZoneName must be a string',
+  setHostedZoneName(HostedZoneName): {
     Properties+::: {
-      HostedZoneName: HostedZoneName,
+      HostedZoneName:
+        if !std.isString(HostedZoneName) then (error 'HostedZoneName must be a string')
+        else if std.isEmpty(HostedZoneName) then (error 'HostedZoneName must be not empty')
+        else HostedZoneName,
     },
   },
-  withResourceRecords(ResourceRecords): {
+  setResourceRecords(ResourceRecords): {
     Properties+::: {
-      ResourceRecords: (if std.isArray(ResourceRecords) then ResourceRecords else [ResourceRecords]),
+      ResourceRecords:
+        if !std.isArray(ResourceRecords) then (error 'ResourceRecords must be an array')
+        else ResourceRecords,
     },
   },
-  withResourceRecordsMixin(ResourceRecords): {
+  setResourceRecordsMixin(ResourceRecords): {
     Properties+::: {
-      ResourceRecords+: (if std.isArray(ResourceRecords) then ResourceRecords else [ResourceRecords]),
+      ResourceRecords+: ResourceRecords,
     },
   },
-  withHostedZoneId(HostedZoneId): {
-    assert std.isString(HostedZoneId) : 'HostedZoneId must be a string',
+  setHostedZoneId(HostedZoneId): {
     Properties+::: {
-      HostedZoneId: HostedZoneId,
+      HostedZoneId:
+        if !std.isString(HostedZoneId) then (error 'HostedZoneId must be a string')
+        else if std.isEmpty(HostedZoneId) then (error 'HostedZoneId must be not empty')
+        else HostedZoneId,
     },
   },
-  withSetIdentifier(SetIdentifier): {
-    assert std.isString(SetIdentifier) : 'SetIdentifier must be a string',
+  setSetIdentifier(SetIdentifier): {
     Properties+::: {
-      SetIdentifier: SetIdentifier,
+      SetIdentifier:
+        if !std.isString(SetIdentifier) then (error 'SetIdentifier must be a string')
+        else if std.isEmpty(SetIdentifier) then (error 'SetIdentifier must be not empty')
+        else SetIdentifier,
     },
   },
-  withTTL(TTL): {
-    assert std.isString(TTL) : 'TTL must be a string',
+  setTTL(TTL): {
     Properties+::: {
-      TTL: TTL,
+      TTL:
+        if !std.isString(TTL) then (error 'TTL must be a string')
+        else if std.isEmpty(TTL) then (error 'TTL must be not empty')
+        else TTL,
     },
   },
-  withWeight(Weight): {
-    assert std.isNumber(Weight) : 'Weight must be a number',
+  setWeight(Weight): {
     Properties+::: {
-      Weight: Weight,
+      Weight:
+        if !std.isNumber(Weight) then (error 'Weight must be an number')
+        else Weight,
     },
   },
-  withCidrRoutingConfig(CidrRoutingConfig): {
-    assert std.isObject(CidrRoutingConfig) : 'CidrRoutingConfig must be a object',
+  setCidrRoutingConfig(CidrRoutingConfig): {
     Properties+::: {
-      CidrRoutingConfig: CidrRoutingConfig,
+      CidrRoutingConfig:
+        if !std.isObject(CidrRoutingConfig) then (error 'CidrRoutingConfig must be an object')
+        else if !std.objectHas(CidrRoutingConfig, 'CollectionId') then (error ' have attribute CollectionId')
+        else if !std.objectHas(CidrRoutingConfig, 'LocationName') then (error ' have attribute LocationName')
+        else CidrRoutingConfig,
     },
   },
-  withFailover(Failover): {
-    assert std.isString(Failover) : 'Failover must be a string',
+  setFailover(Failover): {
     Properties+::: {
-      Failover: Failover,
+      Failover:
+        if !std.isString(Failover) then (error 'Failover must be a string')
+        else if std.isEmpty(Failover) then (error 'Failover must be not empty')
+        else Failover,
     },
   },
-  withGeoProximityLocation(GeoProximityLocation): {
-    assert std.isObject(GeoProximityLocation) : 'GeoProximityLocation must be a object',
+  setGeoProximityLocation(GeoProximityLocation): {
     Properties+::: {
-      GeoProximityLocation: GeoProximityLocation,
+      GeoProximityLocation:
+        if !std.isObject(GeoProximityLocation) then (error 'GeoProximityLocation must be an object')
+        else GeoProximityLocation,
     },
   },
-  withRegion(Region): {
-    assert std.isString(Region) : 'Region must be a string',
+  setRegion(Region): {
     Properties+::: {
-      Region: Region,
+      Region:
+        if !std.isString(Region) then (error 'Region must be a string')
+        else if std.isEmpty(Region) then (error 'Region must be not empty')
+        else Region,
     },
   },
-  withGeoLocation(GeoLocation): {
-    assert std.isObject(GeoLocation) : 'GeoLocation must be a object',
+  setGeoLocation(GeoLocation): {
     Properties+::: {
-      GeoLocation: GeoLocation,
+      GeoLocation:
+        if !std.isObject(GeoLocation) then (error 'GeoLocation must be an object')
+        else GeoLocation,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withMultiValueAnswer(MultiValueAnswer): {
-    assert std.isBoolean(MultiValueAnswer) : 'MultiValueAnswer must be a boolean',
+  setMultiValueAnswer(MultiValueAnswer): {
     Properties+::: {
-      MultiValueAnswer: MultiValueAnswer,
+      MultiValueAnswer:
+        if !std.isBoolean(MultiValueAnswer) then (error 'MultiValueAnswer must be a boolean') else MultiValueAnswer,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(GuardrailIdentifier) : 'GuardrailIdentifier must be a string',
-      GuardrailIdentifier: GuardrailIdentifier,
+      GuardrailIdentifier:
+        if !std.isString(GuardrailIdentifier) then (error 'GuardrailIdentifier must be a string')
+        else if std.isEmpty(GuardrailIdentifier) then (error 'GuardrailIdentifier must be not empty')
+        else if std.length(GuardrailIdentifier) > 2048 then error ('GuardrailIdentifier should have not more than 2048 characters')
+        else GuardrailIdentifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +18,100 @@
     Metadata:: [],
     Type: 'AWS::Bedrock::GuardrailVersion',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 200 then error ('Description should have not more than 200 characters')
+        else Description,
     },
   },
-  withGuardrailArn(GuardrailArn): {
-    assert std.isString(GuardrailArn) : 'GuardrailArn must be a string',
+  setGuardrailArn(GuardrailArn): {
     Properties+::: {
-      GuardrailArn: GuardrailArn,
+      GuardrailArn:
+        if !std.isString(GuardrailArn) then (error 'GuardrailArn must be a string')
+        else if std.isEmpty(GuardrailArn) then (error 'GuardrailArn must be not empty')
+        else if std.length(GuardrailArn) > 2048 then error ('GuardrailArn should have not more than 2048 characters')
+        else GuardrailArn,
     },
   },
-  withGuardrailId(GuardrailId): {
-    assert std.isString(GuardrailId) : 'GuardrailId must be a string',
+  setGuardrailId(GuardrailId): {
     Properties+::: {
-      GuardrailId: GuardrailId,
+      GuardrailId:
+        if !std.isString(GuardrailId) then (error 'GuardrailId must be a string')
+        else if std.isEmpty(GuardrailId) then (error 'GuardrailId must be not empty')
+        else if std.length(GuardrailId) > 64 then error ('GuardrailId should have not more than 64 characters')
+        else GuardrailId,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

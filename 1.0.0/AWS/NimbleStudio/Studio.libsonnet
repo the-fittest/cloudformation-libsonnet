@@ -7,14 +7,25 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DisplayName) : 'DisplayName must be a string',
-      DisplayName: DisplayName,
-      assert std.isString(UserRoleArn) : 'UserRoleArn must be a string',
-      UserRoleArn: UserRoleArn,
-      assert std.isString(AdminRoleArn) : 'AdminRoleArn must be a string',
-      AdminRoleArn: AdminRoleArn,
-      assert std.isString(StudioName) : 'StudioName must be a string',
-      StudioName: StudioName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else if std.length(DisplayName) > 64 then error ('DisplayName should have not more than 64 characters')
+        else DisplayName,
+      UserRoleArn:
+        if !std.isString(UserRoleArn) then (error 'UserRoleArn must be a string')
+        else if std.isEmpty(UserRoleArn) then (error 'UserRoleArn must be not empty')
+        else UserRoleArn,
+      AdminRoleArn:
+        if !std.isString(AdminRoleArn) then (error 'AdminRoleArn must be a string')
+        else if std.isEmpty(AdminRoleArn) then (error 'AdminRoleArn must be not empty')
+        else AdminRoleArn,
+      StudioName:
+        if !std.isString(StudioName) then (error 'StudioName must be a string')
+        else if std.isEmpty(StudioName) then (error 'StudioName must be not empty')
+        else if std.length(StudioName) < 3 then error ('StudioName should have at least 3 characters')
+        else if std.length(StudioName) > 64 then error ('StudioName should have not more than 64 characters')
+        else StudioName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,100 +35,112 @@
     Metadata:: [],
     Type: 'AWS::NimbleStudio::Studio',
   },
-  withHomeRegion(HomeRegion): {
-    assert std.isString(HomeRegion) : 'HomeRegion must be a string',
+  setHomeRegion(HomeRegion): {
     Properties+::: {
-      HomeRegion: HomeRegion,
+      HomeRegion:
+        if !std.isString(HomeRegion) then (error 'HomeRegion must be a string')
+        else if std.isEmpty(HomeRegion) then (error 'HomeRegion must be not empty')
+        else if std.length(HomeRegion) > 50 then error ('HomeRegion should have not more than 50 characters')
+        else HomeRegion,
     },
   },
-  withSsoClientId(SsoClientId): {
-    assert std.isString(SsoClientId) : 'SsoClientId must be a string',
+  setSsoClientId(SsoClientId): {
     Properties+::: {
-      SsoClientId: SsoClientId,
+      SsoClientId:
+        if !std.isString(SsoClientId) then (error 'SsoClientId must be a string')
+        else if std.isEmpty(SsoClientId) then (error 'SsoClientId must be not empty')
+        else SsoClientId,
     },
   },
-  withStudioEncryptionConfiguration(StudioEncryptionConfiguration): {
-    assert std.isObject(StudioEncryptionConfiguration) : 'StudioEncryptionConfiguration must be a object',
+  setStudioEncryptionConfiguration(StudioEncryptionConfiguration): {
     Properties+::: {
-      StudioEncryptionConfiguration: StudioEncryptionConfiguration,
+      StudioEncryptionConfiguration:
+        if !std.isObject(StudioEncryptionConfiguration) then (error 'StudioEncryptionConfiguration must be an object')
+        else if !std.objectHas(StudioEncryptionConfiguration, 'KeyType') then (error ' have attribute KeyType')
+        else StudioEncryptionConfiguration,
     },
   },
-  withStudioId(StudioId): {
-    assert std.isString(StudioId) : 'StudioId must be a string',
+  setStudioId(StudioId): {
     Properties+::: {
-      StudioId: StudioId,
+      StudioId:
+        if !std.isString(StudioId) then (error 'StudioId must be a string')
+        else if std.isEmpty(StudioId) then (error 'StudioId must be not empty')
+        else StudioId,
     },
   },
-  withStudioUrl(StudioUrl): {
-    assert std.isString(StudioUrl) : 'StudioUrl must be a string',
+  setStudioUrl(StudioUrl): {
     Properties+::: {
-      StudioUrl: StudioUrl,
+      StudioUrl:
+        if !std.isString(StudioUrl) then (error 'StudioUrl must be a string')
+        else if std.isEmpty(StudioUrl) then (error 'StudioUrl must be not empty')
+        else StudioUrl,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

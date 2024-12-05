@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TrackerName) : 'TrackerName must be a string',
-      TrackerName: TrackerName,
+      TrackerName:
+        if !std.isString(TrackerName) then (error 'TrackerName must be a string')
+        else if std.isEmpty(TrackerName) then (error 'TrackerName must be not empty')
+        else if std.length(TrackerName) < 1 then error ('TrackerName should have at least 1 characters')
+        else if std.length(TrackerName) > 100 then error ('TrackerName should have not more than 100 characters')
+        else TrackerName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,142 +19,168 @@
     Metadata:: [],
     Type: 'AWS::Location::Tracker',
   },
-  withCreateTime(CreateTime): {
-    assert std.isString(CreateTime) : 'CreateTime must be a string',
+  setCreateTime(CreateTime): {
     Properties+::: {
-      CreateTime: CreateTime,
+      CreateTime:
+        if !std.isString(CreateTime) then (error 'CreateTime must be a string')
+        else if std.isEmpty(CreateTime) then (error 'CreateTime must be not empty')
+        else CreateTime,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1000 then error ('Description should have not more than 1000 characters')
+        else Description,
     },
   },
-  withEventBridgeEnabled(EventBridgeEnabled): {
-    assert std.isBoolean(EventBridgeEnabled) : 'EventBridgeEnabled must be a boolean',
+  setEventBridgeEnabled(EventBridgeEnabled): {
     Properties+::: {
-      EventBridgeEnabled: EventBridgeEnabled,
+      EventBridgeEnabled:
+        if !std.isBoolean(EventBridgeEnabled) then (error 'EventBridgeEnabled must be a boolean') else EventBridgeEnabled,
     },
   },
-  withKmsKeyEnableGeospatialQueries(KmsKeyEnableGeospatialQueries): {
-    assert std.isBoolean(KmsKeyEnableGeospatialQueries) : 'KmsKeyEnableGeospatialQueries must be a boolean',
+  setKmsKeyEnableGeospatialQueries(KmsKeyEnableGeospatialQueries): {
     Properties+::: {
-      KmsKeyEnableGeospatialQueries: KmsKeyEnableGeospatialQueries,
+      KmsKeyEnableGeospatialQueries:
+        if !std.isBoolean(KmsKeyEnableGeospatialQueries) then (error 'KmsKeyEnableGeospatialQueries must be a boolean') else KmsKeyEnableGeospatialQueries,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else if std.length(KmsKeyId) < 1 then error ('KmsKeyId should have at least 1 characters')
+        else if std.length(KmsKeyId) > 2048 then error ('KmsKeyId should have not more than 2048 characters')
+        else KmsKeyId,
     },
   },
-  withPositionFiltering(PositionFiltering): {
-    assert std.isString(PositionFiltering) : 'PositionFiltering must be a string',
-    assert PositionFiltering == 'TimeBased' || PositionFiltering == 'DistanceBased' || PositionFiltering == 'AccuracyBased' : "PositionFiltering should be 'TimeBased' or 'DistanceBased' or 'AccuracyBased'",
+  setPositionFiltering(PositionFiltering): {
     Properties+::: {
-      PositionFiltering: PositionFiltering,
+      PositionFiltering:
+        if !std.isString(PositionFiltering) then (error 'PositionFiltering must be a string')
+        else if std.isEmpty(PositionFiltering) then (error 'PositionFiltering must be not empty')
+        else if PositionFiltering != 'TimeBased' && PositionFiltering != 'DistanceBased' && PositionFiltering != 'AccuracyBased' then (error "PositionFiltering should be 'TimeBased' or 'DistanceBased' or 'AccuracyBased'")
+        else PositionFiltering,
     },
   },
-  withPricingPlan(PricingPlan): {
-    assert std.isString(PricingPlan) : 'PricingPlan must be a string',
-    assert PricingPlan == 'RequestBasedUsage' : "PricingPlan should be 'RequestBasedUsage'",
+  setPricingPlan(PricingPlan): {
     Properties+::: {
-      PricingPlan: PricingPlan,
+      PricingPlan:
+        if !std.isString(PricingPlan) then (error 'PricingPlan must be a string')
+        else if std.isEmpty(PricingPlan) then (error 'PricingPlan must be not empty')
+        else if PricingPlan != 'RequestBasedUsage' then (error "PricingPlan should be 'RequestBasedUsage'")
+        else PricingPlan,
     },
   },
-  withPricingPlanDataSource(PricingPlanDataSource): {
-    assert std.isString(PricingPlanDataSource) : 'PricingPlanDataSource must be a string',
+  setPricingPlanDataSource(PricingPlanDataSource): {
     Properties+::: {
-      PricingPlanDataSource: PricingPlanDataSource,
+      PricingPlanDataSource:
+        if !std.isString(PricingPlanDataSource) then (error 'PricingPlanDataSource must be a string')
+        else if std.isEmpty(PricingPlanDataSource) then (error 'PricingPlanDataSource must be not empty')
+        else PricingPlanDataSource,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTrackerArn(TrackerArn): {
-    assert std.isString(TrackerArn) : 'TrackerArn must be a string',
+  setTrackerArn(TrackerArn): {
     Properties+::: {
-      TrackerArn: TrackerArn,
+      TrackerArn:
+        if !std.isString(TrackerArn) then (error 'TrackerArn must be a string')
+        else if std.isEmpty(TrackerArn) then (error 'TrackerArn must be not empty')
+        else if std.length(TrackerArn) > 1600 then error ('TrackerArn should have not more than 1600 characters')
+        else TrackerArn,
     },
   },
-  withUpdateTime(UpdateTime): {
-    assert std.isString(UpdateTime) : 'UpdateTime must be a string',
+  setUpdateTime(UpdateTime): {
     Properties+::: {
-      UpdateTime: UpdateTime,
+      UpdateTime:
+        if !std.isString(UpdateTime) then (error 'UpdateTime must be a string')
+        else if std.isEmpty(UpdateTime) then (error 'UpdateTime must be not empty')
+        else UpdateTime,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 1600 then error ('Arn should have not more than 1600 characters')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

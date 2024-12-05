@@ -9,18 +9,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(Code) : 'Code must be an object',
-      Code: Code,
-      assert std.isString(ArtifactS3Location) : 'ArtifactS3Location must be a string',
-      ArtifactS3Location: ArtifactS3Location,
-      assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
-      ExecutionRoleArn: ExecutionRoleArn,
-      assert std.isObject(Schedule) : 'Schedule must be an object',
-      Schedule: Schedule,
-      assert std.isString(RuntimeVersion) : 'RuntimeVersion must be a string',
-      RuntimeVersion: RuntimeVersion,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Code:
+        if !std.isObject(Code) then (error 'Code must be an object')
+        else if !std.objectHas(Code, 'Handler') then (error ' have attribute Handler')
+        else Code,
+      ArtifactS3Location:
+        if !std.isString(ArtifactS3Location) then (error 'ArtifactS3Location must be a string')
+        else if std.isEmpty(ArtifactS3Location) then (error 'ArtifactS3Location must be not empty')
+        else ArtifactS3Location,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
+      Schedule:
+        if !std.isObject(Schedule) then (error 'Schedule must be an object')
+        else if !std.objectHas(Schedule, 'Expression') then (error ' have attribute Expression')
+        else Schedule,
+      RuntimeVersion:
+        if !std.isString(RuntimeVersion) then (error 'RuntimeVersion must be a string')
+        else if std.isEmpty(RuntimeVersion) then (error 'RuntimeVersion must be not empty')
+        else RuntimeVersion,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -30,151 +42,170 @@
     Metadata:: [],
     Type: 'AWS::Synthetics::Canary',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withArtifactConfig(ArtifactConfig): {
-    assert std.isObject(ArtifactConfig) : 'ArtifactConfig must be a object',
+  setArtifactConfig(ArtifactConfig): {
     Properties+::: {
-      ArtifactConfig: ArtifactConfig,
+      ArtifactConfig:
+        if !std.isObject(ArtifactConfig) then (error 'ArtifactConfig must be an object')
+        else ArtifactConfig,
     },
   },
-  withSuccessRetentionPeriod(SuccessRetentionPeriod): {
-    assert std.isNumber(SuccessRetentionPeriod) : 'SuccessRetentionPeriod must be a number',
+  setSuccessRetentionPeriod(SuccessRetentionPeriod): {
     Properties+::: {
-      SuccessRetentionPeriod: SuccessRetentionPeriod,
+      SuccessRetentionPeriod:
+        if !std.isNumber(SuccessRetentionPeriod) then (error 'SuccessRetentionPeriod must be an number')
+        else SuccessRetentionPeriod,
     },
   },
-  withFailureRetentionPeriod(FailureRetentionPeriod): {
-    assert std.isNumber(FailureRetentionPeriod) : 'FailureRetentionPeriod must be a number',
+  setFailureRetentionPeriod(FailureRetentionPeriod): {
     Properties+::: {
-      FailureRetentionPeriod: FailureRetentionPeriod,
+      FailureRetentionPeriod:
+        if !std.isNumber(FailureRetentionPeriod) then (error 'FailureRetentionPeriod must be an number')
+        else FailureRetentionPeriod,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withVPCConfig(VPCConfig): {
-    assert std.isObject(VPCConfig) : 'VPCConfig must be a object',
+  setVPCConfig(VPCConfig): {
     Properties+::: {
-      VPCConfig: VPCConfig,
+      VPCConfig:
+        if !std.isObject(VPCConfig) then (error 'VPCConfig must be an object')
+        else if !std.objectHas(VPCConfig, 'SubnetIds') then (error ' have attribute SubnetIds')
+        else if !std.objectHas(VPCConfig, 'SecurityGroupIds') then (error ' have attribute SecurityGroupIds')
+        else VPCConfig,
     },
   },
-  withRunConfig(RunConfig): {
-    assert std.isObject(RunConfig) : 'RunConfig must be a object',
+  setRunConfig(RunConfig): {
     Properties+::: {
-      RunConfig: RunConfig,
+      RunConfig:
+        if !std.isObject(RunConfig) then (error 'RunConfig must be an object')
+        else RunConfig,
     },
   },
-  withStartCanaryAfterCreation(StartCanaryAfterCreation): {
-    assert std.isBoolean(StartCanaryAfterCreation) : 'StartCanaryAfterCreation must be a boolean',
+  setStartCanaryAfterCreation(StartCanaryAfterCreation): {
     Properties+::: {
-      StartCanaryAfterCreation: StartCanaryAfterCreation,
+      StartCanaryAfterCreation:
+        if !std.isBoolean(StartCanaryAfterCreation) then (error 'StartCanaryAfterCreation must be a boolean') else StartCanaryAfterCreation,
     },
   },
-  withVisualReference(VisualReference): {
-    assert std.isObject(VisualReference) : 'VisualReference must be a object',
+  setVisualReference(VisualReference): {
     Properties+::: {
-      VisualReference: VisualReference,
+      VisualReference:
+        if !std.isObject(VisualReference) then (error 'VisualReference must be an object')
+        else if !std.objectHas(VisualReference, 'BaseCanaryRunId') then (error ' have attribute BaseCanaryRunId')
+        else VisualReference,
     },
   },
-  withDeleteLambdaResourcesOnCanaryDeletion(DeleteLambdaResourcesOnCanaryDeletion): {
-    assert std.isBoolean(DeleteLambdaResourcesOnCanaryDeletion) : 'DeleteLambdaResourcesOnCanaryDeletion must be a boolean',
+  setDeleteLambdaResourcesOnCanaryDeletion(DeleteLambdaResourcesOnCanaryDeletion): {
     Properties+::: {
-      DeleteLambdaResourcesOnCanaryDeletion: DeleteLambdaResourcesOnCanaryDeletion,
+      DeleteLambdaResourcesOnCanaryDeletion:
+        if !std.isBoolean(DeleteLambdaResourcesOnCanaryDeletion) then (error 'DeleteLambdaResourcesOnCanaryDeletion must be a boolean') else DeleteLambdaResourcesOnCanaryDeletion,
     },
   },
-  withResourcesToReplicateTags(ResourcesToReplicateTags): {
+  setResourcesToReplicateTags(ResourcesToReplicateTags): {
     Properties+::: {
-      ResourcesToReplicateTags: (if std.isArray(ResourcesToReplicateTags) then ResourcesToReplicateTags else [ResourcesToReplicateTags]),
+      ResourcesToReplicateTags:
+        if !std.isArray(ResourcesToReplicateTags) then (error 'ResourcesToReplicateTags must be an array')
+        else ResourcesToReplicateTags,
     },
   },
-  withResourcesToReplicateTagsMixin(ResourcesToReplicateTags): {
+  setResourcesToReplicateTagsMixin(ResourcesToReplicateTags): {
     Properties+::: {
-      ResourcesToReplicateTags+: (if std.isArray(ResourcesToReplicateTags) then ResourcesToReplicateTags else [ResourcesToReplicateTags]),
+      ResourcesToReplicateTags+: ResourcesToReplicateTags,
     },
   },
-  withProvisionedResourceCleanup(ProvisionedResourceCleanup): {
-    assert std.isString(ProvisionedResourceCleanup) : 'ProvisionedResourceCleanup must be a string',
-    assert ProvisionedResourceCleanup == 'AUTOMATIC' || ProvisionedResourceCleanup == 'OFF' : "ProvisionedResourceCleanup should be 'AUTOMATIC' or 'OFF'",
+  setProvisionedResourceCleanup(ProvisionedResourceCleanup): {
     Properties+::: {
-      ProvisionedResourceCleanup: ProvisionedResourceCleanup,
+      ProvisionedResourceCleanup:
+        if !std.isString(ProvisionedResourceCleanup) then (error 'ProvisionedResourceCleanup must be a string')
+        else if std.isEmpty(ProvisionedResourceCleanup) then (error 'ProvisionedResourceCleanup must be not empty')
+        else if ProvisionedResourceCleanup != 'AUTOMATIC' && ProvisionedResourceCleanup != 'OFF' then (error "ProvisionedResourceCleanup should be 'AUTOMATIC' or 'OFF'")
+        else ProvisionedResourceCleanup,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,145 +10,183 @@
     Metadata:: [],
     Type: 'AWS::DMS::InstanceProfile',
   },
-  withInstanceProfileArn(InstanceProfileArn): {
-    assert std.isString(InstanceProfileArn) : 'InstanceProfileArn must be a string',
+  setInstanceProfileArn(InstanceProfileArn): {
     Properties+::: {
-      InstanceProfileArn: InstanceProfileArn,
+      InstanceProfileArn:
+        if !std.isString(InstanceProfileArn) then (error 'InstanceProfileArn must be a string')
+        else if std.isEmpty(InstanceProfileArn) then (error 'InstanceProfileArn must be not empty')
+        else if std.length(InstanceProfileArn) < 1 then error ('InstanceProfileArn should have at least 1 characters')
+        else if std.length(InstanceProfileArn) > 255 then error ('InstanceProfileArn should have not more than 255 characters')
+        else InstanceProfileArn,
     },
   },
-  withInstanceProfileIdentifier(InstanceProfileIdentifier): {
-    assert std.isString(InstanceProfileIdentifier) : 'InstanceProfileIdentifier must be a string',
+  setInstanceProfileIdentifier(InstanceProfileIdentifier): {
     Properties+::: {
-      InstanceProfileIdentifier: InstanceProfileIdentifier,
+      InstanceProfileIdentifier:
+        if !std.isString(InstanceProfileIdentifier) then (error 'InstanceProfileIdentifier must be a string')
+        else if std.isEmpty(InstanceProfileIdentifier) then (error 'InstanceProfileIdentifier must be not empty')
+        else if std.length(InstanceProfileIdentifier) < 1 then error ('InstanceProfileIdentifier should have at least 1 characters')
+        else if std.length(InstanceProfileIdentifier) > 255 then error ('InstanceProfileIdentifier should have not more than 255 characters')
+        else InstanceProfileIdentifier,
     },
   },
-  withAvailabilityZone(AvailabilityZone): {
-    assert std.isString(AvailabilityZone) : 'AvailabilityZone must be a string',
+  setAvailabilityZone(AvailabilityZone): {
     Properties+::: {
-      AvailabilityZone: AvailabilityZone,
+      AvailabilityZone:
+        if !std.isString(AvailabilityZone) then (error 'AvailabilityZone must be a string')
+        else if std.isEmpty(AvailabilityZone) then (error 'AvailabilityZone must be not empty')
+        else if std.length(AvailabilityZone) < 1 then error ('AvailabilityZone should have at least 1 characters')
+        else if std.length(AvailabilityZone) > 255 then error ('AvailabilityZone should have not more than 255 characters')
+        else AvailabilityZone,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 1 then error ('KmsKeyArn should have at least 1 characters')
+        else if std.length(KmsKeyArn) > 255 then error ('KmsKeyArn should have not more than 255 characters')
+        else KmsKeyArn,
     },
   },
-  withPubliclyAccessible(PubliclyAccessible): {
-    assert std.isBoolean(PubliclyAccessible) : 'PubliclyAccessible must be a boolean',
+  setPubliclyAccessible(PubliclyAccessible): {
     Properties+::: {
-      PubliclyAccessible: PubliclyAccessible,
+      PubliclyAccessible:
+        if !std.isBoolean(PubliclyAccessible) then (error 'PubliclyAccessible must be a boolean') else PubliclyAccessible,
     },
   },
-  withNetworkType(NetworkType): {
-    assert std.isString(NetworkType) : 'NetworkType must be a string',
-    assert NetworkType == 'IPV4' || NetworkType == 'DUAL' : "NetworkType should be 'IPV4' or 'DUAL'",
+  setNetworkType(NetworkType): {
     Properties+::: {
-      NetworkType: NetworkType,
+      NetworkType:
+        if !std.isString(NetworkType) then (error 'NetworkType must be a string')
+        else if std.isEmpty(NetworkType) then (error 'NetworkType must be not empty')
+        else if NetworkType != 'IPV4' && NetworkType != 'DUAL' then (error "NetworkType should be 'IPV4' or 'DUAL'")
+        else NetworkType,
     },
   },
-  withInstanceProfileName(InstanceProfileName): {
-    assert std.isString(InstanceProfileName) : 'InstanceProfileName must be a string',
+  setInstanceProfileName(InstanceProfileName): {
     Properties+::: {
-      InstanceProfileName: InstanceProfileName,
+      InstanceProfileName:
+        if !std.isString(InstanceProfileName) then (error 'InstanceProfileName must be a string')
+        else if std.isEmpty(InstanceProfileName) then (error 'InstanceProfileName must be not empty')
+        else if std.length(InstanceProfileName) < 1 then error ('InstanceProfileName should have at least 1 characters')
+        else if std.length(InstanceProfileName) > 255 then error ('InstanceProfileName should have not more than 255 characters')
+        else InstanceProfileName,
     },
   },
-  withInstanceProfileCreationTime(InstanceProfileCreationTime): {
-    assert std.isString(InstanceProfileCreationTime) : 'InstanceProfileCreationTime must be a string',
+  setInstanceProfileCreationTime(InstanceProfileCreationTime): {
     Properties+::: {
-      InstanceProfileCreationTime: InstanceProfileCreationTime,
+      InstanceProfileCreationTime:
+        if !std.isString(InstanceProfileCreationTime) then (error 'InstanceProfileCreationTime must be a string')
+        else if std.isEmpty(InstanceProfileCreationTime) then (error 'InstanceProfileCreationTime must be not empty')
+        else if std.length(InstanceProfileCreationTime) < 1 then error ('InstanceProfileCreationTime should have at least 1 characters')
+        else if std.length(InstanceProfileCreationTime) > 40 then error ('InstanceProfileCreationTime should have not more than 40 characters')
+        else InstanceProfileCreationTime,
     },
   },
-  withSubnetGroupIdentifier(SubnetGroupIdentifier): {
-    assert std.isString(SubnetGroupIdentifier) : 'SubnetGroupIdentifier must be a string',
+  setSubnetGroupIdentifier(SubnetGroupIdentifier): {
     Properties+::: {
-      SubnetGroupIdentifier: SubnetGroupIdentifier,
+      SubnetGroupIdentifier:
+        if !std.isString(SubnetGroupIdentifier) then (error 'SubnetGroupIdentifier must be a string')
+        else if std.isEmpty(SubnetGroupIdentifier) then (error 'SubnetGroupIdentifier must be not empty')
+        else if std.length(SubnetGroupIdentifier) < 1 then error ('SubnetGroupIdentifier should have at least 1 characters')
+        else if std.length(SubnetGroupIdentifier) > 255 then error ('SubnetGroupIdentifier should have not more than 255 characters')
+        else SubnetGroupIdentifier,
     },
   },
-  withVpcSecurityGroups(VpcSecurityGroups): {
+  setVpcSecurityGroups(VpcSecurityGroups): {
     Properties+::: {
-      VpcSecurityGroups: (if std.isArray(VpcSecurityGroups) then VpcSecurityGroups else [VpcSecurityGroups]),
+      VpcSecurityGroups:
+        if !std.isArray(VpcSecurityGroups) then (error 'VpcSecurityGroups must be an array')
+        else VpcSecurityGroups,
     },
   },
-  withVpcSecurityGroupsMixin(VpcSecurityGroups): {
+  setVpcSecurityGroupsMixin(VpcSecurityGroups): {
     Properties+::: {
-      VpcSecurityGroups+: (if std.isArray(VpcSecurityGroups) then VpcSecurityGroups else [VpcSecurityGroups]),
+      VpcSecurityGroups+: VpcSecurityGroups,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

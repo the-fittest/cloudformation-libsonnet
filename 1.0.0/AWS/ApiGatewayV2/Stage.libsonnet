@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(StageName) : 'StageName must be a string',
-      StageName: StageName,
-      assert std.isString(ApiId) : 'ApiId must be a string',
-      ApiId: ApiId,
+      StageName:
+        if !std.isString(StageName) then (error 'StageName must be a string')
+        else if std.isEmpty(StageName) then (error 'StageName must be not empty')
+        else StageName,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,130 +22,145 @@
     Metadata:: [],
     Type: 'AWS::ApiGatewayV2::Stage',
   },
-  withDeploymentId(DeploymentId): {
-    assert std.isString(DeploymentId) : 'DeploymentId must be a string',
+  setDeploymentId(DeploymentId): {
     Properties+::: {
-      DeploymentId: DeploymentId,
+      DeploymentId:
+        if !std.isString(DeploymentId) then (error 'DeploymentId must be a string')
+        else if std.isEmpty(DeploymentId) then (error 'DeploymentId must be not empty')
+        else DeploymentId,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withAutoDeploy(AutoDeploy): {
-    assert std.isBoolean(AutoDeploy) : 'AutoDeploy must be a boolean',
+  setAutoDeploy(AutoDeploy): {
     Properties+::: {
-      AutoDeploy: AutoDeploy,
+      AutoDeploy:
+        if !std.isBoolean(AutoDeploy) then (error 'AutoDeploy must be a boolean') else AutoDeploy,
     },
   },
-  withRouteSettings(RouteSettings): {
-    assert std.isObject(RouteSettings) : 'RouteSettings must be a object',
+  setRouteSettings(RouteSettings): {
     Properties+::: {
-      RouteSettings: RouteSettings,
+      RouteSettings:
+        if !std.isObject(RouteSettings) then (error 'RouteSettings must be an object')
+        else RouteSettings,
     },
   },
-  withStageVariables(StageVariables): {
-    assert std.isObject(StageVariables) : 'StageVariables must be a object',
+  setStageVariables(StageVariables): {
     Properties+::: {
-      StageVariables: StageVariables,
+      StageVariables:
+        if !std.isObject(StageVariables) then (error 'StageVariables must be an object')
+        else StageVariables,
     },
   },
-  withAccessPolicyId(AccessPolicyId): {
-    assert std.isString(AccessPolicyId) : 'AccessPolicyId must be a string',
+  setAccessPolicyId(AccessPolicyId): {
     Properties+::: {
-      AccessPolicyId: AccessPolicyId,
+      AccessPolicyId:
+        if !std.isString(AccessPolicyId) then (error 'AccessPolicyId must be a string')
+        else if std.isEmpty(AccessPolicyId) then (error 'AccessPolicyId must be not empty')
+        else AccessPolicyId,
     },
   },
-  withClientCertificateId(ClientCertificateId): {
-    assert std.isString(ClientCertificateId) : 'ClientCertificateId must be a string',
+  setClientCertificateId(ClientCertificateId): {
     Properties+::: {
-      ClientCertificateId: ClientCertificateId,
+      ClientCertificateId:
+        if !std.isString(ClientCertificateId) then (error 'ClientCertificateId must be a string')
+        else if std.isEmpty(ClientCertificateId) then (error 'ClientCertificateId must be not empty')
+        else ClientCertificateId,
     },
   },
-  withAccessLogSettings(AccessLogSettings): {
-    assert std.isObject(AccessLogSettings) : 'AccessLogSettings must be a object',
+  setAccessLogSettings(AccessLogSettings): {
     Properties+::: {
-      AccessLogSettings: AccessLogSettings,
+      AccessLogSettings:
+        if !std.isObject(AccessLogSettings) then (error 'AccessLogSettings must be an object')
+        else AccessLogSettings,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDefaultRouteSettings(DefaultRouteSettings): {
-    assert std.isObject(DefaultRouteSettings) : 'DefaultRouteSettings must be a object',
+  setDefaultRouteSettings(DefaultRouteSettings): {
     Properties+::: {
-      DefaultRouteSettings: DefaultRouteSettings,
+      DefaultRouteSettings:
+        if !std.isObject(DefaultRouteSettings) then (error 'DefaultRouteSettings must be an object')
+        else DefaultRouteSettings,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

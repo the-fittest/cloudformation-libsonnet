@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Type) : 'Type must be a string',
-      Type: Type,
-      assert std.isString(CustomerGatewayId) : 'CustomerGatewayId must be a string',
-      CustomerGatewayId: CustomerGatewayId,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
+      CustomerGatewayId:
+        if !std.isString(CustomerGatewayId) then (error 'CustomerGatewayId must be a string')
+        else if std.isEmpty(CustomerGatewayId) then (error 'CustomerGatewayId must be not empty')
+        else CustomerGatewayId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,156 +22,180 @@
     Metadata:: [],
     Type: 'AWS::EC2::VPNConnection',
   },
-  withRemoteIpv6NetworkCidr(RemoteIpv6NetworkCidr): {
-    assert std.isString(RemoteIpv6NetworkCidr) : 'RemoteIpv6NetworkCidr must be a string',
+  setRemoteIpv6NetworkCidr(RemoteIpv6NetworkCidr): {
     Properties+::: {
-      RemoteIpv6NetworkCidr: RemoteIpv6NetworkCidr,
+      RemoteIpv6NetworkCidr:
+        if !std.isString(RemoteIpv6NetworkCidr) then (error 'RemoteIpv6NetworkCidr must be a string')
+        else if std.isEmpty(RemoteIpv6NetworkCidr) then (error 'RemoteIpv6NetworkCidr must be not empty')
+        else RemoteIpv6NetworkCidr,
     },
   },
-  withRemoteIpv4NetworkCidr(RemoteIpv4NetworkCidr): {
-    assert std.isString(RemoteIpv4NetworkCidr) : 'RemoteIpv4NetworkCidr must be a string',
+  setRemoteIpv4NetworkCidr(RemoteIpv4NetworkCidr): {
     Properties+::: {
-      RemoteIpv4NetworkCidr: RemoteIpv4NetworkCidr,
+      RemoteIpv4NetworkCidr:
+        if !std.isString(RemoteIpv4NetworkCidr) then (error 'RemoteIpv4NetworkCidr must be a string')
+        else if std.isEmpty(RemoteIpv4NetworkCidr) then (error 'RemoteIpv4NetworkCidr must be not empty')
+        else RemoteIpv4NetworkCidr,
     },
   },
-  withVpnTunnelOptionsSpecifications(VpnTunnelOptionsSpecifications): {
+  setVpnTunnelOptionsSpecifications(VpnTunnelOptionsSpecifications): {
     Properties+::: {
-      VpnTunnelOptionsSpecifications: (if std.isArray(VpnTunnelOptionsSpecifications) then VpnTunnelOptionsSpecifications else [VpnTunnelOptionsSpecifications]),
+      VpnTunnelOptionsSpecifications:
+        if !std.isArray(VpnTunnelOptionsSpecifications) then (error 'VpnTunnelOptionsSpecifications must be an array')
+        else VpnTunnelOptionsSpecifications,
     },
   },
-  withVpnTunnelOptionsSpecificationsMixin(VpnTunnelOptionsSpecifications): {
+  setVpnTunnelOptionsSpecificationsMixin(VpnTunnelOptionsSpecifications): {
     Properties+::: {
-      VpnTunnelOptionsSpecifications+: (if std.isArray(VpnTunnelOptionsSpecifications) then VpnTunnelOptionsSpecifications else [VpnTunnelOptionsSpecifications]),
+      VpnTunnelOptionsSpecifications+: VpnTunnelOptionsSpecifications,
     },
   },
-  withOutsideIpAddressType(OutsideIpAddressType): {
-    assert std.isString(OutsideIpAddressType) : 'OutsideIpAddressType must be a string',
+  setOutsideIpAddressType(OutsideIpAddressType): {
     Properties+::: {
-      OutsideIpAddressType: OutsideIpAddressType,
+      OutsideIpAddressType:
+        if !std.isString(OutsideIpAddressType) then (error 'OutsideIpAddressType must be a string')
+        else if std.isEmpty(OutsideIpAddressType) then (error 'OutsideIpAddressType must be not empty')
+        else OutsideIpAddressType,
     },
   },
-  withStaticRoutesOnly(StaticRoutesOnly): {
-    assert std.isBoolean(StaticRoutesOnly) : 'StaticRoutesOnly must be a boolean',
+  setStaticRoutesOnly(StaticRoutesOnly): {
     Properties+::: {
-      StaticRoutesOnly: StaticRoutesOnly,
+      StaticRoutesOnly:
+        if !std.isBoolean(StaticRoutesOnly) then (error 'StaticRoutesOnly must be a boolean') else StaticRoutesOnly,
     },
   },
-  withEnableAcceleration(EnableAcceleration): {
-    assert std.isBoolean(EnableAcceleration) : 'EnableAcceleration must be a boolean',
+  setEnableAcceleration(EnableAcceleration): {
     Properties+::: {
-      EnableAcceleration: EnableAcceleration,
+      EnableAcceleration:
+        if !std.isBoolean(EnableAcceleration) then (error 'EnableAcceleration must be a boolean') else EnableAcceleration,
     },
   },
-  withTransitGatewayId(TransitGatewayId): {
-    assert std.isString(TransitGatewayId) : 'TransitGatewayId must be a string',
+  setTransitGatewayId(TransitGatewayId): {
     Properties+::: {
-      TransitGatewayId: TransitGatewayId,
+      TransitGatewayId:
+        if !std.isString(TransitGatewayId) then (error 'TransitGatewayId must be a string')
+        else if std.isEmpty(TransitGatewayId) then (error 'TransitGatewayId must be not empty')
+        else TransitGatewayId,
     },
   },
-  withLocalIpv4NetworkCidr(LocalIpv4NetworkCidr): {
-    assert std.isString(LocalIpv4NetworkCidr) : 'LocalIpv4NetworkCidr must be a string',
+  setLocalIpv4NetworkCidr(LocalIpv4NetworkCidr): {
     Properties+::: {
-      LocalIpv4NetworkCidr: LocalIpv4NetworkCidr,
+      LocalIpv4NetworkCidr:
+        if !std.isString(LocalIpv4NetworkCidr) then (error 'LocalIpv4NetworkCidr must be a string')
+        else if std.isEmpty(LocalIpv4NetworkCidr) then (error 'LocalIpv4NetworkCidr must be not empty')
+        else LocalIpv4NetworkCidr,
     },
   },
-  withVpnGatewayId(VpnGatewayId): {
-    assert std.isString(VpnGatewayId) : 'VpnGatewayId must be a string',
+  setVpnGatewayId(VpnGatewayId): {
     Properties+::: {
-      VpnGatewayId: VpnGatewayId,
+      VpnGatewayId:
+        if !std.isString(VpnGatewayId) then (error 'VpnGatewayId must be a string')
+        else if std.isEmpty(VpnGatewayId) then (error 'VpnGatewayId must be not empty')
+        else VpnGatewayId,
     },
   },
-  withTransportTransitGatewayAttachmentId(TransportTransitGatewayAttachmentId): {
-    assert std.isString(TransportTransitGatewayAttachmentId) : 'TransportTransitGatewayAttachmentId must be a string',
+  setTransportTransitGatewayAttachmentId(TransportTransitGatewayAttachmentId): {
     Properties+::: {
-      TransportTransitGatewayAttachmentId: TransportTransitGatewayAttachmentId,
+      TransportTransitGatewayAttachmentId:
+        if !std.isString(TransportTransitGatewayAttachmentId) then (error 'TransportTransitGatewayAttachmentId must be a string')
+        else if std.isEmpty(TransportTransitGatewayAttachmentId) then (error 'TransportTransitGatewayAttachmentId must be not empty')
+        else TransportTransitGatewayAttachmentId,
     },
   },
-  withLocalIpv6NetworkCidr(LocalIpv6NetworkCidr): {
-    assert std.isString(LocalIpv6NetworkCidr) : 'LocalIpv6NetworkCidr must be a string',
+  setLocalIpv6NetworkCidr(LocalIpv6NetworkCidr): {
     Properties+::: {
-      LocalIpv6NetworkCidr: LocalIpv6NetworkCidr,
+      LocalIpv6NetworkCidr:
+        if !std.isString(LocalIpv6NetworkCidr) then (error 'LocalIpv6NetworkCidr must be a string')
+        else if std.isEmpty(LocalIpv6NetworkCidr) then (error 'LocalIpv6NetworkCidr must be not empty')
+        else LocalIpv6NetworkCidr,
     },
   },
-  withVpnConnectionId(VpnConnectionId): {
-    assert std.isString(VpnConnectionId) : 'VpnConnectionId must be a string',
+  setVpnConnectionId(VpnConnectionId): {
     Properties+::: {
-      VpnConnectionId: VpnConnectionId,
+      VpnConnectionId:
+        if !std.isString(VpnConnectionId) then (error 'VpnConnectionId must be a string')
+        else if std.isEmpty(VpnConnectionId) then (error 'VpnConnectionId must be not empty')
+        else VpnConnectionId,
     },
   },
-  withTunnelInsideIpVersion(TunnelInsideIpVersion): {
-    assert std.isString(TunnelInsideIpVersion) : 'TunnelInsideIpVersion must be a string',
+  setTunnelInsideIpVersion(TunnelInsideIpVersion): {
     Properties+::: {
-      TunnelInsideIpVersion: TunnelInsideIpVersion,
+      TunnelInsideIpVersion:
+        if !std.isString(TunnelInsideIpVersion) then (error 'TunnelInsideIpVersion must be a string')
+        else if std.isEmpty(TunnelInsideIpVersion) then (error 'TunnelInsideIpVersion must be not empty')
+        else TunnelInsideIpVersion,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

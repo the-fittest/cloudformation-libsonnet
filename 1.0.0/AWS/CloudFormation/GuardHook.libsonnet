@@ -9,19 +9,32 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(RuleLocation) : 'RuleLocation must be an object',
-      RuleLocation: RuleLocation,
-      assert std.isString(HookStatus) : 'HookStatus must be a string',
-      assert HookStatus == 'ENABLED' || HookStatus == 'DISABLED' : "HookStatus should be 'ENABLED' or 'DISABLED'",
-      HookStatus: HookStatus,
-      TargetOperations: (if std.isArray(TargetOperations) then TargetOperations else [TargetOperations]),
-      assert std.isString(FailureMode) : 'FailureMode must be a string',
-      assert FailureMode == 'FAIL' || FailureMode == 'WARN' : "FailureMode should be 'FAIL' or 'WARN'",
-      FailureMode: FailureMode,
-      assert std.isString(Alias) : 'Alias must be a string',
-      Alias: Alias,
-      assert std.isString(ExecutionRole) : 'ExecutionRole must be a string',
-      ExecutionRole: ExecutionRole,
+      RuleLocation:
+        if !std.isObject(RuleLocation) then (error 'RuleLocation must be an object')
+        else if !std.objectHas(RuleLocation, 'Uri') then (error ' have attribute Uri')
+        else RuleLocation,
+      HookStatus:
+        if !std.isString(HookStatus) then (error 'HookStatus must be a string')
+        else if std.isEmpty(HookStatus) then (error 'HookStatus must be not empty')
+        else if HookStatus != 'ENABLED' && HookStatus != 'DISABLED' then (error "HookStatus should be 'ENABLED' or 'DISABLED'")
+        else HookStatus,
+      TargetOperations:
+        if !std.isArray(TargetOperations) then (error 'TargetOperations must be an array')
+        else TargetOperations,
+      FailureMode:
+        if !std.isString(FailureMode) then (error 'FailureMode must be a string')
+        else if std.isEmpty(FailureMode) then (error 'FailureMode must be not empty')
+        else if FailureMode != 'FAIL' && FailureMode != 'WARN' then (error "FailureMode should be 'FAIL' or 'WARN'")
+        else FailureMode,
+      Alias:
+        if !std.isString(Alias) then (error 'Alias must be a string')
+        else if std.isEmpty(Alias) then (error 'Alias must be not empty')
+        else Alias,
+      ExecutionRole:
+        if !std.isString(ExecutionRole) then (error 'ExecutionRole must be a string')
+        else if std.isEmpty(ExecutionRole) then (error 'ExecutionRole must be not empty')
+        else if std.length(ExecutionRole) > 256 then error ('ExecutionRole should have not more than 256 characters')
+        else ExecutionRole,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -31,93 +44,100 @@
     Metadata:: [],
     Type: 'AWS::CloudFormation::GuardHook',
   },
-  withLogBucket(LogBucket): {
-    assert std.isString(LogBucket) : 'LogBucket must be a string',
+  setLogBucket(LogBucket): {
     Properties+::: {
-      LogBucket: LogBucket,
+      LogBucket:
+        if !std.isString(LogBucket) then (error 'LogBucket must be a string')
+        else if std.isEmpty(LogBucket) then (error 'LogBucket must be not empty')
+        else LogBucket,
     },
   },
-  withTargetFilters(TargetFilters): {
-    assert std.isObject(TargetFilters) : 'TargetFilters must be a object',
+  setTargetFilters(TargetFilters): {
     Properties+::: {
-      TargetFilters: TargetFilters,
+      TargetFilters:
+        if !std.isObject(TargetFilters) then (error 'TargetFilters must be an object')
+        else TargetFilters,
     },
   },
-  withStackFilters(StackFilters): {
-    assert std.isObject(StackFilters) : 'StackFilters must be a object',
+  setStackFilters(StackFilters): {
     Properties+::: {
-      StackFilters: StackFilters,
+      StackFilters:
+        if !std.isObject(StackFilters) then (error 'StackFilters must be an object')
+        else if !std.objectHas(StackFilters, 'FilteringCriteria') then (error ' have attribute FilteringCriteria')
+        else StackFilters,
     },
   },
-  withHookArn(HookArn): {
-    assert std.isString(HookArn) : 'HookArn must be a string',
+  setHookArn(HookArn): {
     Properties+::: {
-      HookArn: HookArn,
+      HookArn:
+        if !std.isString(HookArn) then (error 'HookArn must be a string')
+        else if std.isEmpty(HookArn) then (error 'HookArn must be not empty')
+        else HookArn,
     },
   },
-  withOptions(Options): {
+  setOptions(Options): {
     Properties+::: {
       Options: Options,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,116 +10,130 @@
     Metadata:: [],
     Type: 'AWS::AppRunner::AutoScalingConfiguration',
   },
-  withAutoScalingConfigurationArn(AutoScalingConfigurationArn): {
-    assert std.isString(AutoScalingConfigurationArn) : 'AutoScalingConfigurationArn must be a string',
+  setAutoScalingConfigurationArn(AutoScalingConfigurationArn): {
     Properties+::: {
-      AutoScalingConfigurationArn: AutoScalingConfigurationArn,
+      AutoScalingConfigurationArn:
+        if !std.isString(AutoScalingConfigurationArn) then (error 'AutoScalingConfigurationArn must be a string')
+        else if std.isEmpty(AutoScalingConfigurationArn) then (error 'AutoScalingConfigurationArn must be not empty')
+        else if std.length(AutoScalingConfigurationArn) < 1 then error ('AutoScalingConfigurationArn should have at least 1 characters')
+        else if std.length(AutoScalingConfigurationArn) > 1011 then error ('AutoScalingConfigurationArn should have not more than 1011 characters')
+        else AutoScalingConfigurationArn,
     },
   },
-  withAutoScalingConfigurationName(AutoScalingConfigurationName): {
-    assert std.isString(AutoScalingConfigurationName) : 'AutoScalingConfigurationName must be a string',
+  setAutoScalingConfigurationName(AutoScalingConfigurationName): {
     Properties+::: {
-      AutoScalingConfigurationName: AutoScalingConfigurationName,
+      AutoScalingConfigurationName:
+        if !std.isString(AutoScalingConfigurationName) then (error 'AutoScalingConfigurationName must be a string')
+        else if std.isEmpty(AutoScalingConfigurationName) then (error 'AutoScalingConfigurationName must be not empty')
+        else if std.length(AutoScalingConfigurationName) < 4 then error ('AutoScalingConfigurationName should have at least 4 characters')
+        else if std.length(AutoScalingConfigurationName) > 32 then error ('AutoScalingConfigurationName should have not more than 32 characters')
+        else AutoScalingConfigurationName,
     },
   },
-  withAutoScalingConfigurationRevision(AutoScalingConfigurationRevision): {
-    assert std.isNumber(AutoScalingConfigurationRevision) : 'AutoScalingConfigurationRevision must be a number',
+  setAutoScalingConfigurationRevision(AutoScalingConfigurationRevision): {
     Properties+::: {
-      AutoScalingConfigurationRevision: AutoScalingConfigurationRevision,
+      AutoScalingConfigurationRevision:
+        if !std.isNumber(AutoScalingConfigurationRevision) then (error 'AutoScalingConfigurationRevision must be an number')
+        else AutoScalingConfigurationRevision,
     },
   },
-  withMaxConcurrency(MaxConcurrency): {
-    assert std.isNumber(MaxConcurrency) : 'MaxConcurrency must be a number',
+  setMaxConcurrency(MaxConcurrency): {
     Properties+::: {
-      MaxConcurrency: MaxConcurrency,
+      MaxConcurrency:
+        if !std.isNumber(MaxConcurrency) then (error 'MaxConcurrency must be an number')
+        else MaxConcurrency,
     },
   },
-  withMaxSize(MaxSize): {
-    assert std.isNumber(MaxSize) : 'MaxSize must be a number',
+  setMaxSize(MaxSize): {
     Properties+::: {
-      MaxSize: MaxSize,
+      MaxSize:
+        if !std.isNumber(MaxSize) then (error 'MaxSize must be an number')
+        else MaxSize,
     },
   },
-  withMinSize(MinSize): {
-    assert std.isNumber(MinSize) : 'MinSize must be a number',
+  setMinSize(MinSize): {
     Properties+::: {
-      MinSize: MinSize,
+      MinSize:
+        if !std.isNumber(MinSize) then (error 'MinSize must be an number')
+        else MinSize,
     },
   },
-  withLatest(Latest): {
-    assert std.isBoolean(Latest) : 'Latest must be a boolean',
+  setLatest(Latest): {
     Properties+::: {
-      Latest: Latest,
+      Latest:
+        if !std.isBoolean(Latest) then (error 'Latest must be a boolean') else Latest,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

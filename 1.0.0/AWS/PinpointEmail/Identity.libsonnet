@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,134 +17,151 @@
     Metadata:: [],
     Type: 'AWS::PinpointEmail::Identity',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withIdentityDNSRecordName3(IdentityDNSRecordName3): {
-    assert std.isString(IdentityDNSRecordName3) : 'IdentityDNSRecordName3 must be a string',
+  setIdentityDNSRecordName3(IdentityDNSRecordName3): {
     Properties+::: {
-      IdentityDNSRecordName3: IdentityDNSRecordName3,
+      IdentityDNSRecordName3:
+        if !std.isString(IdentityDNSRecordName3) then (error 'IdentityDNSRecordName3 must be a string')
+        else if std.isEmpty(IdentityDNSRecordName3) then (error 'IdentityDNSRecordName3 must be not empty')
+        else IdentityDNSRecordName3,
     },
   },
-  withIdentityDNSRecordName1(IdentityDNSRecordName1): {
-    assert std.isString(IdentityDNSRecordName1) : 'IdentityDNSRecordName1 must be a string',
+  setIdentityDNSRecordName1(IdentityDNSRecordName1): {
     Properties+::: {
-      IdentityDNSRecordName1: IdentityDNSRecordName1,
+      IdentityDNSRecordName1:
+        if !std.isString(IdentityDNSRecordName1) then (error 'IdentityDNSRecordName1 must be a string')
+        else if std.isEmpty(IdentityDNSRecordName1) then (error 'IdentityDNSRecordName1 must be not empty')
+        else IdentityDNSRecordName1,
     },
   },
-  withIdentityDNSRecordName2(IdentityDNSRecordName2): {
-    assert std.isString(IdentityDNSRecordName2) : 'IdentityDNSRecordName2 must be a string',
+  setIdentityDNSRecordName2(IdentityDNSRecordName2): {
     Properties+::: {
-      IdentityDNSRecordName2: IdentityDNSRecordName2,
+      IdentityDNSRecordName2:
+        if !std.isString(IdentityDNSRecordName2) then (error 'IdentityDNSRecordName2 must be a string')
+        else if std.isEmpty(IdentityDNSRecordName2) then (error 'IdentityDNSRecordName2 must be not empty')
+        else IdentityDNSRecordName2,
     },
   },
-  withIdentityDNSRecordValue3(IdentityDNSRecordValue3): {
-    assert std.isString(IdentityDNSRecordValue3) : 'IdentityDNSRecordValue3 must be a string',
+  setIdentityDNSRecordValue3(IdentityDNSRecordValue3): {
     Properties+::: {
-      IdentityDNSRecordValue3: IdentityDNSRecordValue3,
+      IdentityDNSRecordValue3:
+        if !std.isString(IdentityDNSRecordValue3) then (error 'IdentityDNSRecordValue3 must be a string')
+        else if std.isEmpty(IdentityDNSRecordValue3) then (error 'IdentityDNSRecordValue3 must be not empty')
+        else IdentityDNSRecordValue3,
     },
   },
-  withIdentityDNSRecordValue2(IdentityDNSRecordValue2): {
-    assert std.isString(IdentityDNSRecordValue2) : 'IdentityDNSRecordValue2 must be a string',
+  setIdentityDNSRecordValue2(IdentityDNSRecordValue2): {
     Properties+::: {
-      IdentityDNSRecordValue2: IdentityDNSRecordValue2,
+      IdentityDNSRecordValue2:
+        if !std.isString(IdentityDNSRecordValue2) then (error 'IdentityDNSRecordValue2 must be a string')
+        else if std.isEmpty(IdentityDNSRecordValue2) then (error 'IdentityDNSRecordValue2 must be not empty')
+        else IdentityDNSRecordValue2,
     },
   },
-  withIdentityDNSRecordValue1(IdentityDNSRecordValue1): {
-    assert std.isString(IdentityDNSRecordValue1) : 'IdentityDNSRecordValue1 must be a string',
+  setIdentityDNSRecordValue1(IdentityDNSRecordValue1): {
     Properties+::: {
-      IdentityDNSRecordValue1: IdentityDNSRecordValue1,
+      IdentityDNSRecordValue1:
+        if !std.isString(IdentityDNSRecordValue1) then (error 'IdentityDNSRecordValue1 must be a string')
+        else if std.isEmpty(IdentityDNSRecordValue1) then (error 'IdentityDNSRecordValue1 must be not empty')
+        else IdentityDNSRecordValue1,
     },
   },
-  withFeedbackForwardingEnabled(FeedbackForwardingEnabled): {
-    assert std.isBoolean(FeedbackForwardingEnabled) : 'FeedbackForwardingEnabled must be a boolean',
+  setFeedbackForwardingEnabled(FeedbackForwardingEnabled): {
     Properties+::: {
-      FeedbackForwardingEnabled: FeedbackForwardingEnabled,
+      FeedbackForwardingEnabled:
+        if !std.isBoolean(FeedbackForwardingEnabled) then (error 'FeedbackForwardingEnabled must be a boolean') else FeedbackForwardingEnabled,
     },
   },
-  withDkimSigningEnabled(DkimSigningEnabled): {
-    assert std.isBoolean(DkimSigningEnabled) : 'DkimSigningEnabled must be a boolean',
+  setDkimSigningEnabled(DkimSigningEnabled): {
     Properties+::: {
-      DkimSigningEnabled: DkimSigningEnabled,
+      DkimSigningEnabled:
+        if !std.isBoolean(DkimSigningEnabled) then (error 'DkimSigningEnabled must be a boolean') else DkimSigningEnabled,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withMailFromAttributes(MailFromAttributes): {
-    assert std.isObject(MailFromAttributes) : 'MailFromAttributes must be a object',
+  setMailFromAttributes(MailFromAttributes): {
     Properties+::: {
-      MailFromAttributes: MailFromAttributes,
+      MailFromAttributes:
+        if !std.isObject(MailFromAttributes) then (error 'MailFromAttributes must be an object')
+        else MailFromAttributes,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ImageName) : 'ImageName must be a string',
-      ImageName: ImageName,
-      assert std.isString(BaseImage) : 'BaseImage must be a string',
-      BaseImage: BaseImage,
+      ImageName:
+        if !std.isString(ImageName) then (error 'ImageName must be a string')
+        else if std.isEmpty(ImageName) then (error 'ImageName must be not empty')
+        else if std.length(ImageName) < 1 then error ('ImageName should have at least 1 characters')
+        else if std.length(ImageName) > 63 then error ('ImageName should have not more than 63 characters')
+        else ImageName,
+      BaseImage:
+        if !std.isString(BaseImage) then (error 'BaseImage must be a string')
+        else if std.isEmpty(BaseImage) then (error 'BaseImage must be not empty')
+        else if std.length(BaseImage) < 1 then error ('BaseImage should have at least 1 characters')
+        else if std.length(BaseImage) > 255 then error ('BaseImage should have not more than 255 characters')
+        else BaseImage,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,149 +26,187 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::ImageVersion',
   },
-  withImageArn(ImageArn): {
-    assert std.isString(ImageArn) : 'ImageArn must be a string',
+  setImageArn(ImageArn): {
     Properties+::: {
-      ImageArn: ImageArn,
+      ImageArn:
+        if !std.isString(ImageArn) then (error 'ImageArn must be a string')
+        else if std.isEmpty(ImageArn) then (error 'ImageArn must be not empty')
+        else if std.length(ImageArn) < 1 then error ('ImageArn should have at least 1 characters')
+        else if std.length(ImageArn) > 256 then error ('ImageArn should have not more than 256 characters')
+        else ImageArn,
     },
   },
-  withImageVersionArn(ImageVersionArn): {
-    assert std.isString(ImageVersionArn) : 'ImageVersionArn must be a string',
+  setImageVersionArn(ImageVersionArn): {
     Properties+::: {
-      ImageVersionArn: ImageVersionArn,
+      ImageVersionArn:
+        if !std.isString(ImageVersionArn) then (error 'ImageVersionArn must be a string')
+        else if std.isEmpty(ImageVersionArn) then (error 'ImageVersionArn must be not empty')
+        else if std.length(ImageVersionArn) < 1 then error ('ImageVersionArn should have at least 1 characters')
+        else if std.length(ImageVersionArn) > 256 then error ('ImageVersionArn should have not more than 256 characters')
+        else ImageVersionArn,
     },
   },
-  withContainerImage(ContainerImage): {
-    assert std.isString(ContainerImage) : 'ContainerImage must be a string',
+  setContainerImage(ContainerImage): {
     Properties+::: {
-      ContainerImage: ContainerImage,
+      ContainerImage:
+        if !std.isString(ContainerImage) then (error 'ContainerImage must be a string')
+        else if std.isEmpty(ContainerImage) then (error 'ContainerImage must be not empty')
+        else if std.length(ContainerImage) < 1 then error ('ContainerImage should have at least 1 characters')
+        else if std.length(ContainerImage) > 255 then error ('ContainerImage should have not more than 255 characters')
+        else ContainerImage,
     },
   },
-  withVersion(Version): {
-    assert std.isNumber(Version) : 'Version must be a number',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isNumber(Version) then (error 'Version must be an number')
+        else if Version < 1 then error ('Version should be at least 1')
+        else Version,
     },
   },
-  withAlias(Alias): {
-    assert std.isString(Alias) : 'Alias must be a string',
+  setAlias(Alias): {
     Properties+::: {
-      Alias: Alias,
+      Alias:
+        if !std.isString(Alias) then (error 'Alias must be a string')
+        else if std.isEmpty(Alias) then (error 'Alias must be not empty')
+        else if std.length(Alias) < 1 then error ('Alias should have at least 1 characters')
+        else if std.length(Alias) > 128 then error ('Alias should have not more than 128 characters')
+        else Alias,
     },
   },
-  withAliases(Aliases): {
+  setAliases(Aliases): {
     Properties+::: {
-      Aliases: (if std.isArray(Aliases) then Aliases else [Aliases]),
+      Aliases:
+        if !std.isArray(Aliases) then (error 'Aliases must be an array')
+        else Aliases,
     },
   },
-  withAliasesMixin(Aliases): {
+  setAliasesMixin(Aliases): {
     Properties+::: {
-      Aliases+: (if std.isArray(Aliases) then Aliases else [Aliases]),
+      Aliases+: Aliases,
     },
   },
-  withVendorGuidance(VendorGuidance): {
-    assert std.isString(VendorGuidance) : 'VendorGuidance must be a string',
-    assert VendorGuidance == 'NOT_PROVIDED' || VendorGuidance == 'STABLE' || VendorGuidance == 'TO_BE_ARCHIVED' || VendorGuidance == 'ARCHIVED' : "VendorGuidance should be 'NOT_PROVIDED' or 'STABLE' or 'TO_BE_ARCHIVED' or 'ARCHIVED'",
+  setVendorGuidance(VendorGuidance): {
     Properties+::: {
-      VendorGuidance: VendorGuidance,
+      VendorGuidance:
+        if !std.isString(VendorGuidance) then (error 'VendorGuidance must be a string')
+        else if std.isEmpty(VendorGuidance) then (error 'VendorGuidance must be not empty')
+        else if VendorGuidance != 'NOT_PROVIDED' && VendorGuidance != 'STABLE' && VendorGuidance != 'TO_BE_ARCHIVED' && VendorGuidance != 'ARCHIVED' then (error "VendorGuidance should be 'NOT_PROVIDED' or 'STABLE' or 'TO_BE_ARCHIVED' or 'ARCHIVED'")
+        else VendorGuidance,
     },
   },
-  withJobType(JobType): {
-    assert std.isString(JobType) : 'JobType must be a string',
-    assert JobType == 'TRAINING' || JobType == 'INFERENCE' || JobType == 'NOTEBOOK_KERNEL' : "JobType should be 'TRAINING' or 'INFERENCE' or 'NOTEBOOK_KERNEL'",
+  setJobType(JobType): {
     Properties+::: {
-      JobType: JobType,
+      JobType:
+        if !std.isString(JobType) then (error 'JobType must be a string')
+        else if std.isEmpty(JobType) then (error 'JobType must be not empty')
+        else if JobType != 'TRAINING' && JobType != 'INFERENCE' && JobType != 'NOTEBOOK_KERNEL' then (error "JobType should be 'TRAINING' or 'INFERENCE' or 'NOTEBOOK_KERNEL'")
+        else JobType,
     },
   },
-  withMLFramework(MLFramework): {
-    assert std.isString(MLFramework) : 'MLFramework must be a string',
+  setMLFramework(MLFramework): {
     Properties+::: {
-      MLFramework: MLFramework,
+      MLFramework:
+        if !std.isString(MLFramework) then (error 'MLFramework must be a string')
+        else if std.isEmpty(MLFramework) then (error 'MLFramework must be not empty')
+        else if std.length(MLFramework) < 1 then error ('MLFramework should have at least 1 characters')
+        else if std.length(MLFramework) > 128 then error ('MLFramework should have not more than 128 characters')
+        else MLFramework,
     },
   },
-  withProgrammingLang(ProgrammingLang): {
-    assert std.isString(ProgrammingLang) : 'ProgrammingLang must be a string',
+  setProgrammingLang(ProgrammingLang): {
     Properties+::: {
-      ProgrammingLang: ProgrammingLang,
+      ProgrammingLang:
+        if !std.isString(ProgrammingLang) then (error 'ProgrammingLang must be a string')
+        else if std.isEmpty(ProgrammingLang) then (error 'ProgrammingLang must be not empty')
+        else if std.length(ProgrammingLang) < 1 then error ('ProgrammingLang should have at least 1 characters')
+        else if std.length(ProgrammingLang) > 128 then error ('ProgrammingLang should have not more than 128 characters')
+        else ProgrammingLang,
     },
   },
-  withProcessor(Processor): {
-    assert std.isString(Processor) : 'Processor must be a string',
-    assert Processor == 'CPU' || Processor == 'GPU' : "Processor should be 'CPU' or 'GPU'",
+  setProcessor(Processor): {
     Properties+::: {
-      Processor: Processor,
+      Processor:
+        if !std.isString(Processor) then (error 'Processor must be a string')
+        else if std.isEmpty(Processor) then (error 'Processor must be not empty')
+        else if Processor != 'CPU' && Processor != 'GPU' then (error "Processor should be 'CPU' or 'GPU'")
+        else Processor,
     },
   },
-  withHorovod(Horovod): {
-    assert std.isBoolean(Horovod) : 'Horovod must be a boolean',
+  setHorovod(Horovod): {
     Properties+::: {
-      Horovod: Horovod,
+      Horovod:
+        if !std.isBoolean(Horovod) then (error 'Horovod must be a boolean') else Horovod,
     },
   },
-  withReleaseNotes(ReleaseNotes): {
-    assert std.isString(ReleaseNotes) : 'ReleaseNotes must be a string',
+  setReleaseNotes(ReleaseNotes): {
     Properties+::: {
-      ReleaseNotes: ReleaseNotes,
+      ReleaseNotes:
+        if !std.isString(ReleaseNotes) then (error 'ReleaseNotes must be a string')
+        else if std.isEmpty(ReleaseNotes) then (error 'ReleaseNotes must be not empty')
+        else if std.length(ReleaseNotes) < 1 then error ('ReleaseNotes should have at least 1 characters')
+        else if std.length(ReleaseNotes) > 255 then error ('ReleaseNotes should have not more than 255 characters')
+        else ReleaseNotes,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

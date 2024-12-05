@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,137 +10,160 @@
     Metadata:: [],
     Type: 'AWS::IVS::Channel',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 128 then error ('Arn should have not more than 128 characters')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) > 128 then error ('Name should have not more than 128 characters')
+        else Name,
     },
   },
-  withAuthorized(Authorized): {
-    assert std.isBoolean(Authorized) : 'Authorized must be a boolean',
+  setAuthorized(Authorized): {
     Properties+::: {
-      Authorized: Authorized,
+      Authorized:
+        if !std.isBoolean(Authorized) then (error 'Authorized must be a boolean') else Authorized,
     },
   },
-  withInsecureIngest(InsecureIngest): {
-    assert std.isBoolean(InsecureIngest) : 'InsecureIngest must be a boolean',
+  setInsecureIngest(InsecureIngest): {
     Properties+::: {
-      InsecureIngest: InsecureIngest,
+      InsecureIngest:
+        if !std.isBoolean(InsecureIngest) then (error 'InsecureIngest must be a boolean') else InsecureIngest,
     },
   },
-  withLatencyMode(LatencyMode): {
-    assert std.isString(LatencyMode) : 'LatencyMode must be a string',
-    assert LatencyMode == 'NORMAL' || LatencyMode == 'LOW' : "LatencyMode should be 'NORMAL' or 'LOW'",
+  setLatencyMode(LatencyMode): {
     Properties+::: {
-      LatencyMode: LatencyMode,
+      LatencyMode:
+        if !std.isString(LatencyMode) then (error 'LatencyMode must be a string')
+        else if std.isEmpty(LatencyMode) then (error 'LatencyMode must be not empty')
+        else if LatencyMode != 'NORMAL' && LatencyMode != 'LOW' then (error "LatencyMode should be 'NORMAL' or 'LOW'")
+        else LatencyMode,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
-    assert Type == 'STANDARD' || Type == 'BASIC' || Type == 'ADVANCED_SD' || Type == 'ADVANCED_HD' : "Type should be 'STANDARD' or 'BASIC' or 'ADVANCED_SD' or 'ADVANCED_HD'",
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else if Type != 'STANDARD' && Type != 'BASIC' && Type != 'ADVANCED_SD' && Type != 'ADVANCED_HD' then (error "Type should be 'STANDARD' or 'BASIC' or 'ADVANCED_SD' or 'ADVANCED_HD'")
+        else Type,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withPlaybackUrl(PlaybackUrl): {
-    assert std.isString(PlaybackUrl) : 'PlaybackUrl must be a string',
+  setPlaybackUrl(PlaybackUrl): {
     Properties+::: {
-      PlaybackUrl: PlaybackUrl,
+      PlaybackUrl:
+        if !std.isString(PlaybackUrl) then (error 'PlaybackUrl must be a string')
+        else if std.isEmpty(PlaybackUrl) then (error 'PlaybackUrl must be not empty')
+        else PlaybackUrl,
     },
   },
-  withIngestEndpoint(IngestEndpoint): {
-    assert std.isString(IngestEndpoint) : 'IngestEndpoint must be a string',
+  setIngestEndpoint(IngestEndpoint): {
     Properties+::: {
-      IngestEndpoint: IngestEndpoint,
+      IngestEndpoint:
+        if !std.isString(IngestEndpoint) then (error 'IngestEndpoint must be a string')
+        else if std.isEmpty(IngestEndpoint) then (error 'IngestEndpoint must be not empty')
+        else IngestEndpoint,
     },
   },
-  withRecordingConfigurationArn(RecordingConfigurationArn): {
-    assert std.isString(RecordingConfigurationArn) : 'RecordingConfigurationArn must be a string',
+  setRecordingConfigurationArn(RecordingConfigurationArn): {
     Properties+::: {
-      RecordingConfigurationArn: RecordingConfigurationArn,
+      RecordingConfigurationArn:
+        if !std.isString(RecordingConfigurationArn) then (error 'RecordingConfigurationArn must be a string')
+        else if std.isEmpty(RecordingConfigurationArn) then (error 'RecordingConfigurationArn must be not empty')
+        else if std.length(RecordingConfigurationArn) > 128 then error ('RecordingConfigurationArn should have not more than 128 characters')
+        else RecordingConfigurationArn,
     },
   },
-  withPreset(Preset): {
-    assert std.isString(Preset) : 'Preset must be a string',
-    assert Preset == '' || Preset == 'HIGHER_BANDWIDTH_DELIVERY' || Preset == 'CONSTRAINED_BANDWIDTH_DELIVERY' : "Preset should be '' or 'HIGHER_BANDWIDTH_DELIVERY' or 'CONSTRAINED_BANDWIDTH_DELIVERY'",
+  setPreset(Preset): {
     Properties+::: {
-      Preset: Preset,
+      Preset:
+        if !std.isString(Preset) then (error 'Preset must be a string')
+        else if std.isEmpty(Preset) then (error 'Preset must be not empty')
+        else if Preset != '' && Preset != 'HIGHER_BANDWIDTH_DELIVERY' && Preset != 'CONSTRAINED_BANDWIDTH_DELIVERY' then (error "Preset should be '' or 'HIGHER_BANDWIDTH_DELIVERY' or 'CONSTRAINED_BANDWIDTH_DELIVERY'")
+        else Preset,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

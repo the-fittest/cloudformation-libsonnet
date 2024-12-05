@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EndpointName) : 'EndpointName must be a string',
-      EndpointName: EndpointName,
-      assert std.isObject(Specification) : 'Specification must be an object',
-      Specification: Specification,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else if std.length(EndpointName) > 63 then error ('EndpointName should have not more than 63 characters')
+        else EndpointName,
+      Specification:
+        if !std.isObject(Specification) then (error 'Specification must be an object')
+        else Specification,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,129 +22,156 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::InferenceComponent',
   },
-  withInferenceComponentArn(InferenceComponentArn): {
-    assert std.isString(InferenceComponentArn) : 'InferenceComponentArn must be a string',
+  setInferenceComponentArn(InferenceComponentArn): {
     Properties+::: {
-      InferenceComponentArn: InferenceComponentArn,
+      InferenceComponentArn:
+        if !std.isString(InferenceComponentArn) then (error 'InferenceComponentArn must be a string')
+        else if std.isEmpty(InferenceComponentArn) then (error 'InferenceComponentArn must be not empty')
+        else if std.length(InferenceComponentArn) < 1 then error ('InferenceComponentArn should have at least 1 characters')
+        else if std.length(InferenceComponentArn) > 256 then error ('InferenceComponentArn should have not more than 256 characters')
+        else InferenceComponentArn,
     },
   },
-  withInferenceComponentName(InferenceComponentName): {
-    assert std.isString(InferenceComponentName) : 'InferenceComponentName must be a string',
+  setInferenceComponentName(InferenceComponentName): {
     Properties+::: {
-      InferenceComponentName: InferenceComponentName,
+      InferenceComponentName:
+        if !std.isString(InferenceComponentName) then (error 'InferenceComponentName must be a string')
+        else if std.isEmpty(InferenceComponentName) then (error 'InferenceComponentName must be not empty')
+        else if std.length(InferenceComponentName) > 63 then error ('InferenceComponentName should have not more than 63 characters')
+        else InferenceComponentName,
     },
   },
-  withEndpointArn(EndpointArn): {
-    assert std.isString(EndpointArn) : 'EndpointArn must be a string',
+  setEndpointArn(EndpointArn): {
     Properties+::: {
-      EndpointArn: EndpointArn,
+      EndpointArn:
+        if !std.isString(EndpointArn) then (error 'EndpointArn must be a string')
+        else if std.isEmpty(EndpointArn) then (error 'EndpointArn must be not empty')
+        else if std.length(EndpointArn) < 1 then error ('EndpointArn should have at least 1 characters')
+        else if std.length(EndpointArn) > 256 then error ('EndpointArn should have not more than 256 characters')
+        else EndpointArn,
     },
   },
-  withVariantName(VariantName): {
-    assert std.isString(VariantName) : 'VariantName must be a string',
+  setVariantName(VariantName): {
     Properties+::: {
-      VariantName: VariantName,
+      VariantName:
+        if !std.isString(VariantName) then (error 'VariantName must be a string')
+        else if std.isEmpty(VariantName) then (error 'VariantName must be not empty')
+        else if std.length(VariantName) > 63 then error ('VariantName should have not more than 63 characters')
+        else VariantName,
     },
   },
-  withFailureReason(FailureReason): {
-    assert std.isString(FailureReason) : 'FailureReason must be a string',
+  setFailureReason(FailureReason): {
     Properties+::: {
-      FailureReason: FailureReason,
+      FailureReason:
+        if !std.isString(FailureReason) then (error 'FailureReason must be a string')
+        else if std.isEmpty(FailureReason) then (error 'FailureReason must be not empty')
+        else if std.length(FailureReason) > 63 then error ('FailureReason should have not more than 63 characters')
+        else FailureReason,
     },
   },
-  withRuntimeConfig(RuntimeConfig): {
-    assert std.isObject(RuntimeConfig) : 'RuntimeConfig must be a object',
+  setRuntimeConfig(RuntimeConfig): {
     Properties+::: {
-      RuntimeConfig: RuntimeConfig,
+      RuntimeConfig:
+        if !std.isObject(RuntimeConfig) then (error 'RuntimeConfig must be an object')
+        else RuntimeConfig,
     },
   },
-  withInferenceComponentStatus(InferenceComponentStatus): {
-    assert std.isString(InferenceComponentStatus) : 'InferenceComponentStatus must be a string',
-    assert InferenceComponentStatus == 'InService' || InferenceComponentStatus == 'Creating' || InferenceComponentStatus == 'Updating' || InferenceComponentStatus == 'Failed' || InferenceComponentStatus == 'Deleting' : "InferenceComponentStatus should be 'InService' or 'Creating' or 'Updating' or 'Failed' or 'Deleting'",
+  setInferenceComponentStatus(InferenceComponentStatus): {
     Properties+::: {
-      InferenceComponentStatus: InferenceComponentStatus,
+      InferenceComponentStatus:
+        if !std.isString(InferenceComponentStatus) then (error 'InferenceComponentStatus must be a string')
+        else if std.isEmpty(InferenceComponentStatus) then (error 'InferenceComponentStatus must be not empty')
+        else if InferenceComponentStatus != 'InService' && InferenceComponentStatus != 'Creating' && InferenceComponentStatus != 'Updating' && InferenceComponentStatus != 'Failed' && InferenceComponentStatus != 'Deleting' then (error "InferenceComponentStatus should be 'InService' or 'Creating' or 'Updating' or 'Failed' or 'Deleting'")
+        else InferenceComponentStatus,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isString(LastModifiedTime) : 'LastModifiedTime must be a string',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isString(LastModifiedTime) then (error 'LastModifiedTime must be a string')
+        else if std.isEmpty(LastModifiedTime) then (error 'LastModifiedTime must be not empty')
+        else LastModifiedTime,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

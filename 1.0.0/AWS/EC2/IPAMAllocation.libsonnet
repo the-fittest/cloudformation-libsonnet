@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IpamPoolId) : 'IpamPoolId must be a string',
-      IpamPoolId: IpamPoolId,
+      IpamPoolId:
+        if !std.isString(IpamPoolId) then (error 'IpamPoolId must be a string')
+        else if std.isEmpty(IpamPoolId) then (error 'IpamPoolId must be not empty')
+        else IpamPoolId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,88 +17,95 @@
     Metadata:: [],
     Type: 'AWS::EC2::IPAMAllocation',
   },
-  withIpamPoolAllocationId(IpamPoolAllocationId): {
-    assert std.isString(IpamPoolAllocationId) : 'IpamPoolAllocationId must be a string',
+  setIpamPoolAllocationId(IpamPoolAllocationId): {
     Properties+::: {
-      IpamPoolAllocationId: IpamPoolAllocationId,
+      IpamPoolAllocationId:
+        if !std.isString(IpamPoolAllocationId) then (error 'IpamPoolAllocationId must be a string')
+        else if std.isEmpty(IpamPoolAllocationId) then (error 'IpamPoolAllocationId must be not empty')
+        else IpamPoolAllocationId,
     },
   },
-  withCidr(Cidr): {
-    assert std.isString(Cidr) : 'Cidr must be a string',
+  setCidr(Cidr): {
     Properties+::: {
-      Cidr: Cidr,
+      Cidr:
+        if !std.isString(Cidr) then (error 'Cidr must be a string')
+        else if std.isEmpty(Cidr) then (error 'Cidr must be not empty')
+        else Cidr,
     },
   },
-  withNetmaskLength(NetmaskLength): {
-    assert std.isNumber(NetmaskLength) : 'NetmaskLength must be a number',
+  setNetmaskLength(NetmaskLength): {
     Properties+::: {
-      NetmaskLength: NetmaskLength,
+      NetmaskLength:
+        if !std.isNumber(NetmaskLength) then (error 'NetmaskLength must be an number')
+        else NetmaskLength,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

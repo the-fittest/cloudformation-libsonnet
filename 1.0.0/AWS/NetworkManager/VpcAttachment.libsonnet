@@ -6,11 +6,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CoreNetworkId) : 'CoreNetworkId must be a string',
-      CoreNetworkId: CoreNetworkId,
-      assert std.isString(VpcArn) : 'VpcArn must be a string',
-      VpcArn: VpcArn,
-      SubnetArns: (if std.isArray(SubnetArns) then SubnetArns else [SubnetArns]),
+      CoreNetworkId:
+        if !std.isString(CoreNetworkId) then (error 'CoreNetworkId must be a string')
+        else if std.isEmpty(CoreNetworkId) then (error 'CoreNetworkId must be not empty')
+        else CoreNetworkId,
+      VpcArn:
+        if !std.isString(VpcArn) then (error 'VpcArn must be a string')
+        else if std.isEmpty(VpcArn) then (error 'VpcArn must be not empty')
+        else VpcArn,
+      SubnetArns:
+        if !std.isArray(SubnetArns) then (error 'SubnetArns must be an array')
+        else SubnetArns,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,164 +26,192 @@
     Metadata:: [],
     Type: 'AWS::NetworkManager::VpcAttachment',
   },
-  withCoreNetworkArn(CoreNetworkArn): {
-    assert std.isString(CoreNetworkArn) : 'CoreNetworkArn must be a string',
+  setCoreNetworkArn(CoreNetworkArn): {
     Properties+::: {
-      CoreNetworkArn: CoreNetworkArn,
+      CoreNetworkArn:
+        if !std.isString(CoreNetworkArn) then (error 'CoreNetworkArn must be a string')
+        else if std.isEmpty(CoreNetworkArn) then (error 'CoreNetworkArn must be not empty')
+        else CoreNetworkArn,
     },
   },
-  withAttachmentId(AttachmentId): {
-    assert std.isString(AttachmentId) : 'AttachmentId must be a string',
+  setAttachmentId(AttachmentId): {
     Properties+::: {
-      AttachmentId: AttachmentId,
+      AttachmentId:
+        if !std.isString(AttachmentId) then (error 'AttachmentId must be a string')
+        else if std.isEmpty(AttachmentId) then (error 'AttachmentId must be not empty')
+        else AttachmentId,
     },
   },
-  withOwnerAccountId(OwnerAccountId): {
-    assert std.isString(OwnerAccountId) : 'OwnerAccountId must be a string',
+  setOwnerAccountId(OwnerAccountId): {
     Properties+::: {
-      OwnerAccountId: OwnerAccountId,
+      OwnerAccountId:
+        if !std.isString(OwnerAccountId) then (error 'OwnerAccountId must be a string')
+        else if std.isEmpty(OwnerAccountId) then (error 'OwnerAccountId must be not empty')
+        else OwnerAccountId,
     },
   },
-  withAttachmentType(AttachmentType): {
-    assert std.isString(AttachmentType) : 'AttachmentType must be a string',
+  setAttachmentType(AttachmentType): {
     Properties+::: {
-      AttachmentType: AttachmentType,
+      AttachmentType:
+        if !std.isString(AttachmentType) then (error 'AttachmentType must be a string')
+        else if std.isEmpty(AttachmentType) then (error 'AttachmentType must be not empty')
+        else AttachmentType,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withEdgeLocation(EdgeLocation): {
-    assert std.isString(EdgeLocation) : 'EdgeLocation must be a string',
+  setEdgeLocation(EdgeLocation): {
     Properties+::: {
-      EdgeLocation: EdgeLocation,
+      EdgeLocation:
+        if !std.isString(EdgeLocation) then (error 'EdgeLocation must be a string')
+        else if std.isEmpty(EdgeLocation) then (error 'EdgeLocation must be not empty')
+        else EdgeLocation,
     },
   },
-  withResourceArn(ResourceArn): {
-    assert std.isString(ResourceArn) : 'ResourceArn must be a string',
+  setResourceArn(ResourceArn): {
     Properties+::: {
-      ResourceArn: ResourceArn,
+      ResourceArn:
+        if !std.isString(ResourceArn) then (error 'ResourceArn must be a string')
+        else if std.isEmpty(ResourceArn) then (error 'ResourceArn must be not empty')
+        else ResourceArn,
     },
   },
-  withAttachmentPolicyRuleNumber(AttachmentPolicyRuleNumber): {
-    assert std.isNumber(AttachmentPolicyRuleNumber) : 'AttachmentPolicyRuleNumber must be a number',
+  setAttachmentPolicyRuleNumber(AttachmentPolicyRuleNumber): {
     Properties+::: {
-      AttachmentPolicyRuleNumber: AttachmentPolicyRuleNumber,
+      AttachmentPolicyRuleNumber:
+        if !std.isNumber(AttachmentPolicyRuleNumber) then (error 'AttachmentPolicyRuleNumber must be an number')
+        else AttachmentPolicyRuleNumber,
     },
   },
-  withSegmentName(SegmentName): {
-    assert std.isString(SegmentName) : 'SegmentName must be a string',
+  setSegmentName(SegmentName): {
     Properties+::: {
-      SegmentName: SegmentName,
+      SegmentName:
+        if !std.isString(SegmentName) then (error 'SegmentName must be a string')
+        else if std.isEmpty(SegmentName) then (error 'SegmentName must be not empty')
+        else SegmentName,
     },
   },
-  withProposedSegmentChange(ProposedSegmentChange): {
-    assert std.isObject(ProposedSegmentChange) : 'ProposedSegmentChange must be a object',
+  setProposedSegmentChange(ProposedSegmentChange): {
     Properties+::: {
-      ProposedSegmentChange: ProposedSegmentChange,
+      ProposedSegmentChange:
+        if !std.isObject(ProposedSegmentChange) then (error 'ProposedSegmentChange must be an object')
+        else ProposedSegmentChange,
     },
   },
-  withNetworkFunctionGroupName(NetworkFunctionGroupName): {
-    assert std.isString(NetworkFunctionGroupName) : 'NetworkFunctionGroupName must be a string',
+  setNetworkFunctionGroupName(NetworkFunctionGroupName): {
     Properties+::: {
-      NetworkFunctionGroupName: NetworkFunctionGroupName,
+      NetworkFunctionGroupName:
+        if !std.isString(NetworkFunctionGroupName) then (error 'NetworkFunctionGroupName must be a string')
+        else if std.isEmpty(NetworkFunctionGroupName) then (error 'NetworkFunctionGroupName must be not empty')
+        else NetworkFunctionGroupName,
     },
   },
-  withProposedNetworkFunctionGroupChange(ProposedNetworkFunctionGroupChange): {
-    assert std.isObject(ProposedNetworkFunctionGroupChange) : 'ProposedNetworkFunctionGroupChange must be a object',
+  setProposedNetworkFunctionGroupChange(ProposedNetworkFunctionGroupChange): {
     Properties+::: {
-      ProposedNetworkFunctionGroupChange: ProposedNetworkFunctionGroupChange,
+      ProposedNetworkFunctionGroupChange:
+        if !std.isObject(ProposedNetworkFunctionGroupChange) then (error 'ProposedNetworkFunctionGroupChange must be an object')
+        else ProposedNetworkFunctionGroupChange,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withOptions(Options): {
-    assert std.isObject(Options) : 'Options must be a object',
+  setOptions(Options): {
     Properties+::: {
-      Options: Options,
+      Options:
+        if !std.isObject(Options) then (error 'Options must be an object')
+        else Options,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

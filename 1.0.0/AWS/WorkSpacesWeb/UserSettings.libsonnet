@@ -8,21 +8,31 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CopyAllowed) : 'CopyAllowed must be a string',
-      assert CopyAllowed == 'Disabled' || CopyAllowed == 'Enabled' : "CopyAllowed should be 'Disabled' or 'Enabled'",
-      CopyAllowed: CopyAllowed,
-      assert std.isString(DownloadAllowed) : 'DownloadAllowed must be a string',
-      assert DownloadAllowed == 'Disabled' || DownloadAllowed == 'Enabled' : "DownloadAllowed should be 'Disabled' or 'Enabled'",
-      DownloadAllowed: DownloadAllowed,
-      assert std.isString(PasteAllowed) : 'PasteAllowed must be a string',
-      assert PasteAllowed == 'Disabled' || PasteAllowed == 'Enabled' : "PasteAllowed should be 'Disabled' or 'Enabled'",
-      PasteAllowed: PasteAllowed,
-      assert std.isString(PrintAllowed) : 'PrintAllowed must be a string',
-      assert PrintAllowed == 'Disabled' || PrintAllowed == 'Enabled' : "PrintAllowed should be 'Disabled' or 'Enabled'",
-      PrintAllowed: PrintAllowed,
-      assert std.isString(UploadAllowed) : 'UploadAllowed must be a string',
-      assert UploadAllowed == 'Disabled' || UploadAllowed == 'Enabled' : "UploadAllowed should be 'Disabled' or 'Enabled'",
-      UploadAllowed: UploadAllowed,
+      CopyAllowed:
+        if !std.isString(CopyAllowed) then (error 'CopyAllowed must be a string')
+        else if std.isEmpty(CopyAllowed) then (error 'CopyAllowed must be not empty')
+        else if CopyAllowed != 'Disabled' && CopyAllowed != 'Enabled' then (error "CopyAllowed should be 'Disabled' or 'Enabled'")
+        else CopyAllowed,
+      DownloadAllowed:
+        if !std.isString(DownloadAllowed) then (error 'DownloadAllowed must be a string')
+        else if std.isEmpty(DownloadAllowed) then (error 'DownloadAllowed must be not empty')
+        else if DownloadAllowed != 'Disabled' && DownloadAllowed != 'Enabled' then (error "DownloadAllowed should be 'Disabled' or 'Enabled'")
+        else DownloadAllowed,
+      PasteAllowed:
+        if !std.isString(PasteAllowed) then (error 'PasteAllowed must be a string')
+        else if std.isEmpty(PasteAllowed) then (error 'PasteAllowed must be not empty')
+        else if PasteAllowed != 'Disabled' && PasteAllowed != 'Enabled' then (error "PasteAllowed should be 'Disabled' or 'Enabled'")
+        else PasteAllowed,
+      PrintAllowed:
+        if !std.isString(PrintAllowed) then (error 'PrintAllowed must be a string')
+        else if std.isEmpty(PrintAllowed) then (error 'PrintAllowed must be not empty')
+        else if PrintAllowed != 'Disabled' && PrintAllowed != 'Enabled' then (error "PrintAllowed should be 'Disabled' or 'Enabled'")
+        else PrintAllowed,
+      UploadAllowed:
+        if !std.isString(UploadAllowed) then (error 'UploadAllowed must be a string')
+        else if std.isEmpty(UploadAllowed) then (error 'UploadAllowed must be not empty')
+        else if UploadAllowed != 'Disabled' && UploadAllowed != 'Enabled' then (error "UploadAllowed should be 'Disabled' or 'Enabled'")
+        else UploadAllowed,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -32,127 +42,150 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::UserSettings',
   },
-  withAdditionalEncryptionContext(AdditionalEncryptionContext): {
-    assert std.isObject(AdditionalEncryptionContext) : 'AdditionalEncryptionContext must be a object',
+  setAdditionalEncryptionContext(AdditionalEncryptionContext): {
     Properties+::: {
-      AdditionalEncryptionContext: AdditionalEncryptionContext,
+      AdditionalEncryptionContext:
+        if !std.isObject(AdditionalEncryptionContext) then (error 'AdditionalEncryptionContext must be an object')
+        else AdditionalEncryptionContext,
     },
   },
-  withAssociatedPortalArns(AssociatedPortalArns): {
+  setAssociatedPortalArns(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns:
+        if !std.isArray(AssociatedPortalArns) then (error 'AssociatedPortalArns must be an array')
+        else AssociatedPortalArns,
     },
   },
-  withAssociatedPortalArnsMixin(AssociatedPortalArns): {
+  setAssociatedPortalArnsMixin(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns+: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns+: AssociatedPortalArns,
     },
   },
-  withCookieSynchronizationConfiguration(CookieSynchronizationConfiguration): {
-    assert std.isObject(CookieSynchronizationConfiguration) : 'CookieSynchronizationConfiguration must be a object',
+  setCookieSynchronizationConfiguration(CookieSynchronizationConfiguration): {
     Properties+::: {
-      CookieSynchronizationConfiguration: CookieSynchronizationConfiguration,
+      CookieSynchronizationConfiguration:
+        if !std.isObject(CookieSynchronizationConfiguration) then (error 'CookieSynchronizationConfiguration must be an object')
+        else if !std.objectHas(CookieSynchronizationConfiguration, 'Allowlist') then (error ' have attribute Allowlist')
+        else CookieSynchronizationConfiguration,
     },
   },
-  withCustomerManagedKey(CustomerManagedKey): {
-    assert std.isString(CustomerManagedKey) : 'CustomerManagedKey must be a string',
+  setCustomerManagedKey(CustomerManagedKey): {
     Properties+::: {
-      CustomerManagedKey: CustomerManagedKey,
+      CustomerManagedKey:
+        if !std.isString(CustomerManagedKey) then (error 'CustomerManagedKey must be a string')
+        else if std.isEmpty(CustomerManagedKey) then (error 'CustomerManagedKey must be not empty')
+        else if std.length(CustomerManagedKey) < 20 then error ('CustomerManagedKey should have at least 20 characters')
+        else if std.length(CustomerManagedKey) > 2048 then error ('CustomerManagedKey should have not more than 2048 characters')
+        else CustomerManagedKey,
     },
   },
-  withDisconnectTimeoutInMinutes(DisconnectTimeoutInMinutes): {
-    assert std.isNumber(DisconnectTimeoutInMinutes) : 'DisconnectTimeoutInMinutes must be a number',
+  setDisconnectTimeoutInMinutes(DisconnectTimeoutInMinutes): {
     Properties+::: {
-      DisconnectTimeoutInMinutes: DisconnectTimeoutInMinutes,
+      DisconnectTimeoutInMinutes:
+        if !std.isNumber(DisconnectTimeoutInMinutes) then (error 'DisconnectTimeoutInMinutes must be an number')
+        else if DisconnectTimeoutInMinutes < 1 then error ('DisconnectTimeoutInMinutes should be at least 1')
+        else if DisconnectTimeoutInMinutes > 600 then error ('DisconnectTimeoutInMinutes should be not more than 600')
+        else DisconnectTimeoutInMinutes,
     },
   },
-  withIdleDisconnectTimeoutInMinutes(IdleDisconnectTimeoutInMinutes): {
-    assert std.isNumber(IdleDisconnectTimeoutInMinutes) : 'IdleDisconnectTimeoutInMinutes must be a number',
+  setIdleDisconnectTimeoutInMinutes(IdleDisconnectTimeoutInMinutes): {
     Properties+::: {
-      IdleDisconnectTimeoutInMinutes: IdleDisconnectTimeoutInMinutes,
+      IdleDisconnectTimeoutInMinutes:
+        if !std.isNumber(IdleDisconnectTimeoutInMinutes) then (error 'IdleDisconnectTimeoutInMinutes must be an number')
+        else if IdleDisconnectTimeoutInMinutes > 60 then error ('IdleDisconnectTimeoutInMinutes should be not more than 60')
+        else IdleDisconnectTimeoutInMinutes,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUserSettingsArn(UserSettingsArn): {
-    assert std.isString(UserSettingsArn) : 'UserSettingsArn must be a string',
+  setUserSettingsArn(UserSettingsArn): {
     Properties+::: {
-      UserSettingsArn: UserSettingsArn,
+      UserSettingsArn:
+        if !std.isString(UserSettingsArn) then (error 'UserSettingsArn must be a string')
+        else if std.isEmpty(UserSettingsArn) then (error 'UserSettingsArn must be not empty')
+        else if std.length(UserSettingsArn) < 20 then error ('UserSettingsArn should have at least 20 characters')
+        else if std.length(UserSettingsArn) > 2048 then error ('UserSettingsArn should have not more than 2048 characters')
+        else UserSettingsArn,
     },
   },
-  withDeepLinkAllowed(DeepLinkAllowed): {
-    assert std.isString(DeepLinkAllowed) : 'DeepLinkAllowed must be a string',
-    assert DeepLinkAllowed == 'Disabled' || DeepLinkAllowed == 'Enabled' : "DeepLinkAllowed should be 'Disabled' or 'Enabled'",
+  setDeepLinkAllowed(DeepLinkAllowed): {
     Properties+::: {
-      DeepLinkAllowed: DeepLinkAllowed,
+      DeepLinkAllowed:
+        if !std.isString(DeepLinkAllowed) then (error 'DeepLinkAllowed must be a string')
+        else if std.isEmpty(DeepLinkAllowed) then (error 'DeepLinkAllowed must be not empty')
+        else if DeepLinkAllowed != 'Disabled' && DeepLinkAllowed != 'Enabled' then (error "DeepLinkAllowed should be 'Disabled' or 'Enabled'")
+        else DeepLinkAllowed,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

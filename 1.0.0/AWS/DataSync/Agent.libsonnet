@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,125 +10,145 @@
     Metadata:: [],
     Type: 'AWS::DataSync::Agent',
   },
-  withAgentName(AgentName): {
-    assert std.isString(AgentName) : 'AgentName must be a string',
+  setAgentName(AgentName): {
     Properties+::: {
-      AgentName: AgentName,
+      AgentName:
+        if !std.isString(AgentName) then (error 'AgentName must be a string')
+        else if std.isEmpty(AgentName) then (error 'AgentName must be not empty')
+        else if std.length(AgentName) > 256 then error ('AgentName should have not more than 256 characters')
+        else AgentName,
     },
   },
-  withActivationKey(ActivationKey): {
-    assert std.isString(ActivationKey) : 'ActivationKey must be a string',
+  setActivationKey(ActivationKey): {
     Properties+::: {
-      ActivationKey: ActivationKey,
+      ActivationKey:
+        if !std.isString(ActivationKey) then (error 'ActivationKey must be a string')
+        else if std.isEmpty(ActivationKey) then (error 'ActivationKey must be not empty')
+        else if std.length(ActivationKey) > 29 then error ('ActivationKey should have not more than 29 characters')
+        else ActivationKey,
     },
   },
-  withSecurityGroupArns(SecurityGroupArns): {
+  setSecurityGroupArns(SecurityGroupArns): {
     Properties+::: {
-      SecurityGroupArns: (if std.isArray(SecurityGroupArns) then SecurityGroupArns else [SecurityGroupArns]),
+      SecurityGroupArns:
+        if !std.isArray(SecurityGroupArns) then (error 'SecurityGroupArns must be an array')
+        else SecurityGroupArns,
     },
   },
-  withSecurityGroupArnsMixin(SecurityGroupArns): {
+  setSecurityGroupArnsMixin(SecurityGroupArns): {
     Properties+::: {
-      SecurityGroupArns+: (if std.isArray(SecurityGroupArns) then SecurityGroupArns else [SecurityGroupArns]),
+      SecurityGroupArns+: SecurityGroupArns,
     },
   },
-  withSubnetArns(SubnetArns): {
+  setSubnetArns(SubnetArns): {
     Properties+::: {
-      SubnetArns: (if std.isArray(SubnetArns) then SubnetArns else [SubnetArns]),
+      SubnetArns:
+        if !std.isArray(SubnetArns) then (error 'SubnetArns must be an array')
+        else SubnetArns,
     },
   },
-  withSubnetArnsMixin(SubnetArns): {
+  setSubnetArnsMixin(SubnetArns): {
     Properties+::: {
-      SubnetArns+: (if std.isArray(SubnetArns) then SubnetArns else [SubnetArns]),
+      SubnetArns+: SubnetArns,
     },
   },
-  withVpcEndpointId(VpcEndpointId): {
-    assert std.isString(VpcEndpointId) : 'VpcEndpointId must be a string',
+  setVpcEndpointId(VpcEndpointId): {
     Properties+::: {
-      VpcEndpointId: VpcEndpointId,
+      VpcEndpointId:
+        if !std.isString(VpcEndpointId) then (error 'VpcEndpointId must be a string')
+        else if std.isEmpty(VpcEndpointId) then (error 'VpcEndpointId must be not empty')
+        else VpcEndpointId,
     },
   },
-  withEndpointType(EndpointType): {
-    assert std.isString(EndpointType) : 'EndpointType must be a string',
-    assert EndpointType == 'FIPS' || EndpointType == 'PUBLIC' || EndpointType == 'PRIVATE_LINK' : "EndpointType should be 'FIPS' or 'PUBLIC' or 'PRIVATE_LINK'",
+  setEndpointType(EndpointType): {
     Properties+::: {
-      EndpointType: EndpointType,
+      EndpointType:
+        if !std.isString(EndpointType) then (error 'EndpointType must be a string')
+        else if std.isEmpty(EndpointType) then (error 'EndpointType must be not empty')
+        else if EndpointType != 'FIPS' && EndpointType != 'PUBLIC' && EndpointType != 'PRIVATE_LINK' then (error "EndpointType should be 'FIPS' or 'PUBLIC' or 'PRIVATE_LINK'")
+        else EndpointType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAgentArn(AgentArn): {
-    assert std.isString(AgentArn) : 'AgentArn must be a string',
+  setAgentArn(AgentArn): {
     Properties+::: {
-      AgentArn: AgentArn,
+      AgentArn:
+        if !std.isString(AgentArn) then (error 'AgentArn must be a string')
+        else if std.isEmpty(AgentArn) then (error 'AgentArn must be not empty')
+        else if std.length(AgentArn) > 128 then error ('AgentArn should have not more than 128 characters')
+        else AgentArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

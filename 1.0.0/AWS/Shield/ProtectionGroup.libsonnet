@@ -6,14 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Aggregation) : 'Aggregation must be a string',
-      assert Aggregation == 'SUM' || Aggregation == 'MEAN' || Aggregation == 'MAX' : "Aggregation should be 'SUM' or 'MEAN' or 'MAX'",
-      Aggregation: Aggregation,
-      assert std.isString(Pattern) : 'Pattern must be a string',
-      assert Pattern == 'ALL' || Pattern == 'ARBITRARY' || Pattern == 'BY_RESOURCE_TYPE' : "Pattern should be 'ALL' or 'ARBITRARY' or 'BY_RESOURCE_TYPE'",
-      Pattern: Pattern,
-      assert std.isString(ProtectionGroupId) : 'ProtectionGroupId must be a string',
-      ProtectionGroupId: ProtectionGroupId,
+      Aggregation:
+        if !std.isString(Aggregation) then (error 'Aggregation must be a string')
+        else if std.isEmpty(Aggregation) then (error 'Aggregation must be not empty')
+        else if Aggregation != 'SUM' && Aggregation != 'MEAN' && Aggregation != 'MAX' then (error "Aggregation should be 'SUM' or 'MEAN' or 'MAX'")
+        else Aggregation,
+      Pattern:
+        if !std.isString(Pattern) then (error 'Pattern must be a string')
+        else if std.isEmpty(Pattern) then (error 'Pattern must be not empty')
+        else if Pattern != 'ALL' && Pattern != 'ARBITRARY' && Pattern != 'BY_RESOURCE_TYPE' then (error "Pattern should be 'ALL' or 'ARBITRARY' or 'BY_RESOURCE_TYPE'")
+        else Pattern,
+      ProtectionGroupId:
+        if !std.isString(ProtectionGroupId) then (error 'ProtectionGroupId must be a string')
+        else if std.isEmpty(ProtectionGroupId) then (error 'ProtectionGroupId must be not empty')
+        else if std.length(ProtectionGroupId) < 1 then error ('ProtectionGroupId should have at least 1 characters')
+        else if std.length(ProtectionGroupId) > 36 then error ('ProtectionGroupId should have not more than 36 characters')
+        else ProtectionGroupId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,97 +31,107 @@
     Metadata:: [],
     Type: 'AWS::Shield::ProtectionGroup',
   },
-  withProtectionGroupArn(ProtectionGroupArn): {
-    assert std.isString(ProtectionGroupArn) : 'ProtectionGroupArn must be a string',
+  setProtectionGroupArn(ProtectionGroupArn): {
     Properties+::: {
-      ProtectionGroupArn: ProtectionGroupArn,
+      ProtectionGroupArn:
+        if !std.isString(ProtectionGroupArn) then (error 'ProtectionGroupArn must be a string')
+        else if std.isEmpty(ProtectionGroupArn) then (error 'ProtectionGroupArn must be not empty')
+        else ProtectionGroupArn,
     },
   },
-  withMembers(Members): {
+  setMembers(Members): {
     Properties+::: {
-      Members: (if std.isArray(Members) then Members else [Members]),
+      Members:
+        if !std.isArray(Members) then (error 'Members must be an array')
+        else if std.length(Members) > 10000 then error ('Members cannot have more than 10000 items')
+        else Members,
     },
   },
-  withMembersMixin(Members): {
+  setMembersMixin(Members): {
     Properties+::: {
-      Members+: (if std.isArray(Members) then Members else [Members]),
+      Members+: Members,
     },
   },
-  withResourceType(ResourceType): {
-    assert std.isString(ResourceType) : 'ResourceType must be a string',
-    assert ResourceType == 'CLOUDFRONT_DISTRIBUTION' || ResourceType == 'ROUTE_53_HOSTED_ZONE' || ResourceType == 'ELASTIC_IP_ALLOCATION' || ResourceType == 'CLASSIC_LOAD_BALANCER' || ResourceType == 'APPLICATION_LOAD_BALANCER' || ResourceType == 'GLOBAL_ACCELERATOR' : "ResourceType should be 'CLOUDFRONT_DISTRIBUTION' or 'ROUTE_53_HOSTED_ZONE' or 'ELASTIC_IP_ALLOCATION' or 'CLASSIC_LOAD_BALANCER' or 'APPLICATION_LOAD_BALANCER' or 'GLOBAL_ACCELERATOR'",
+  setResourceType(ResourceType): {
     Properties+::: {
-      ResourceType: ResourceType,
+      ResourceType:
+        if !std.isString(ResourceType) then (error 'ResourceType must be a string')
+        else if std.isEmpty(ResourceType) then (error 'ResourceType must be not empty')
+        else if ResourceType != 'CLOUDFRONT_DISTRIBUTION' && ResourceType != 'ROUTE_53_HOSTED_ZONE' && ResourceType != 'ELASTIC_IP_ALLOCATION' && ResourceType != 'CLASSIC_LOAD_BALANCER' && ResourceType != 'APPLICATION_LOAD_BALANCER' && ResourceType != 'GLOBAL_ACCELERATOR' then (error "ResourceType should be 'CLOUDFRONT_DISTRIBUTION' or 'ROUTE_53_HOSTED_ZONE' or 'ELASTIC_IP_ALLOCATION' or 'CLASSIC_LOAD_BALANCER' or 'APPLICATION_LOAD_BALANCER' or 'GLOBAL_ACCELERATOR'")
+        else ResourceType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

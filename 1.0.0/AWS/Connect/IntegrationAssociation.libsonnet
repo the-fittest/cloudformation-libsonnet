@@ -6,13 +6,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceId) : 'InstanceId must be a string',
-      InstanceId: InstanceId,
-      assert std.isString(IntegrationType) : 'IntegrationType must be a string',
-      assert IntegrationType == 'LEX_BOT' || IntegrationType == 'LAMBDA_FUNCTION' || IntegrationType == 'APPLICATION' : "IntegrationType should be 'LEX_BOT' or 'LAMBDA_FUNCTION' or 'APPLICATION'",
-      IntegrationType: IntegrationType,
-      assert std.isString(IntegrationArn) : 'IntegrationArn must be a string',
-      IntegrationArn: IntegrationArn,
+      InstanceId:
+        if !std.isString(InstanceId) then (error 'InstanceId must be a string')
+        else if std.isEmpty(InstanceId) then (error 'InstanceId must be not empty')
+        else if std.length(InstanceId) < 1 then error ('InstanceId should have at least 1 characters')
+        else if std.length(InstanceId) > 100 then error ('InstanceId should have not more than 100 characters')
+        else InstanceId,
+      IntegrationType:
+        if !std.isString(IntegrationType) then (error 'IntegrationType must be a string')
+        else if std.isEmpty(IntegrationType) then (error 'IntegrationType must be not empty')
+        else if IntegrationType != 'LEX_BOT' && IntegrationType != 'LAMBDA_FUNCTION' && IntegrationType != 'APPLICATION' then (error "IntegrationType should be 'LEX_BOT' or 'LAMBDA_FUNCTION' or 'APPLICATION'")
+        else IntegrationType,
+      IntegrationArn:
+        if !std.isString(IntegrationArn) then (error 'IntegrationArn must be a string')
+        else if std.isEmpty(IntegrationArn) then (error 'IntegrationArn must be not empty')
+        else if std.length(IntegrationArn) < 1 then error ('IntegrationArn should have at least 1 characters')
+        else if std.length(IntegrationArn) > 140 then error ('IntegrationArn should have not more than 140 characters')
+        else IntegrationArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,70 +32,72 @@
     Metadata:: [],
     Type: 'AWS::Connect::IntegrationAssociation',
   },
-  withIntegrationAssociationId(IntegrationAssociationId): {
-    assert std.isString(IntegrationAssociationId) : 'IntegrationAssociationId must be a string',
+  setIntegrationAssociationId(IntegrationAssociationId): {
     Properties+::: {
-      IntegrationAssociationId: IntegrationAssociationId,
+      IntegrationAssociationId:
+        if !std.isString(IntegrationAssociationId) then (error 'IntegrationAssociationId must be a string')
+        else if std.isEmpty(IntegrationAssociationId) then (error 'IntegrationAssociationId must be not empty')
+        else IntegrationAssociationId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

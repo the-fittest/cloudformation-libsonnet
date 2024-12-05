@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,179 +22,211 @@
     Metadata:: [],
     Type: 'AWS::MediaConnect::FlowSource',
   },
-  withFlowArn(FlowArn): {
-    assert std.isString(FlowArn) : 'FlowArn must be a string',
+  setFlowArn(FlowArn): {
     Properties+::: {
-      FlowArn: FlowArn,
+      FlowArn:
+        if !std.isString(FlowArn) then (error 'FlowArn must be a string')
+        else if std.isEmpty(FlowArn) then (error 'FlowArn must be not empty')
+        else FlowArn,
     },
   },
-  withSourceArn(SourceArn): {
-    assert std.isString(SourceArn) : 'SourceArn must be a string',
+  setSourceArn(SourceArn): {
     Properties+::: {
-      SourceArn: SourceArn,
+      SourceArn:
+        if !std.isString(SourceArn) then (error 'SourceArn must be a string')
+        else if std.isEmpty(SourceArn) then (error 'SourceArn must be not empty')
+        else SourceArn,
     },
   },
-  withDecryption(Decryption): {
-    assert std.isObject(Decryption) : 'Decryption must be a object',
+  setDecryption(Decryption): {
     Properties+::: {
-      Decryption: Decryption,
+      Decryption:
+        if !std.isObject(Decryption) then (error 'Decryption must be an object')
+        else if !std.objectHas(Decryption, 'RoleArn') then (error ' have attribute RoleArn')
+        else Decryption,
     },
   },
-  withEntitlementArn(EntitlementArn): {
-    assert std.isString(EntitlementArn) : 'EntitlementArn must be a string',
+  setEntitlementArn(EntitlementArn): {
     Properties+::: {
-      EntitlementArn: EntitlementArn,
+      EntitlementArn:
+        if !std.isString(EntitlementArn) then (error 'EntitlementArn must be a string')
+        else if std.isEmpty(EntitlementArn) then (error 'EntitlementArn must be not empty')
+        else EntitlementArn,
     },
   },
-  withGatewayBridgeSource(GatewayBridgeSource): {
-    assert std.isObject(GatewayBridgeSource) : 'GatewayBridgeSource must be a object',
+  setGatewayBridgeSource(GatewayBridgeSource): {
     Properties+::: {
-      GatewayBridgeSource: GatewayBridgeSource,
+      GatewayBridgeSource:
+        if !std.isObject(GatewayBridgeSource) then (error 'GatewayBridgeSource must be an object')
+        else if !std.objectHas(GatewayBridgeSource, 'BridgeArn') then (error ' have attribute BridgeArn')
+        else GatewayBridgeSource,
     },
   },
-  withIngestIp(IngestIp): {
-    assert std.isString(IngestIp) : 'IngestIp must be a string',
+  setIngestIp(IngestIp): {
     Properties+::: {
-      IngestIp: IngestIp,
+      IngestIp:
+        if !std.isString(IngestIp) then (error 'IngestIp must be a string')
+        else if std.isEmpty(IngestIp) then (error 'IngestIp must be not empty')
+        else IngestIp,
     },
   },
-  withIngestPort(IngestPort): {
-    assert std.isNumber(IngestPort) : 'IngestPort must be a number',
+  setIngestPort(IngestPort): {
     Properties+::: {
-      IngestPort: IngestPort,
+      IngestPort:
+        if !std.isNumber(IngestPort) then (error 'IngestPort must be an number')
+        else IngestPort,
     },
   },
-  withMaxBitrate(MaxBitrate): {
-    assert std.isNumber(MaxBitrate) : 'MaxBitrate must be a number',
+  setMaxBitrate(MaxBitrate): {
     Properties+::: {
-      MaxBitrate: MaxBitrate,
+      MaxBitrate:
+        if !std.isNumber(MaxBitrate) then (error 'MaxBitrate must be an number')
+        else MaxBitrate,
     },
   },
-  withMaxLatency(MaxLatency): {
-    assert std.isNumber(MaxLatency) : 'MaxLatency must be a number',
+  setMaxLatency(MaxLatency): {
     Properties+::: {
-      MaxLatency: MaxLatency,
+      MaxLatency:
+        if !std.isNumber(MaxLatency) then (error 'MaxLatency must be an number')
+        else MaxLatency,
     },
   },
-  withMinLatency(MinLatency): {
-    assert std.isNumber(MinLatency) : 'MinLatency must be a number',
+  setMinLatency(MinLatency): {
     Properties+::: {
-      MinLatency: MinLatency,
+      MinLatency:
+        if !std.isNumber(MinLatency) then (error 'MinLatency must be an number')
+        else MinLatency,
     },
   },
-  withProtocol(Protocol): {
-    assert std.isString(Protocol) : 'Protocol must be a string',
-    assert Protocol == 'zixi-push' || Protocol == 'rtp-fec' || Protocol == 'rtp' || Protocol == 'rist' || Protocol == 'srt-listener' || Protocol == 'srt-caller' : "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'rist' or 'srt-listener' or 'srt-caller'",
+  setProtocol(Protocol): {
     Properties+::: {
-      Protocol: Protocol,
+      Protocol:
+        if !std.isString(Protocol) then (error 'Protocol must be a string')
+        else if std.isEmpty(Protocol) then (error 'Protocol must be not empty')
+        else if Protocol != 'zixi-push' && Protocol != 'rtp-fec' && Protocol != 'rtp' && Protocol != 'rist' && Protocol != 'srt-listener' && Protocol != 'srt-caller' then (error "Protocol should be 'zixi-push' or 'rtp-fec' or 'rtp' or 'rist' or 'srt-listener' or 'srt-caller'")
+        else Protocol,
     },
   },
-  withSenderIpAddress(SenderIpAddress): {
-    assert std.isString(SenderIpAddress) : 'SenderIpAddress must be a string',
+  setSenderIpAddress(SenderIpAddress): {
     Properties+::: {
-      SenderIpAddress: SenderIpAddress,
+      SenderIpAddress:
+        if !std.isString(SenderIpAddress) then (error 'SenderIpAddress must be a string')
+        else if std.isEmpty(SenderIpAddress) then (error 'SenderIpAddress must be not empty')
+        else SenderIpAddress,
     },
   },
-  withSenderControlPort(SenderControlPort): {
-    assert std.isNumber(SenderControlPort) : 'SenderControlPort must be a number',
+  setSenderControlPort(SenderControlPort): {
     Properties+::: {
-      SenderControlPort: SenderControlPort,
+      SenderControlPort:
+        if !std.isNumber(SenderControlPort) then (error 'SenderControlPort must be an number')
+        else SenderControlPort,
     },
   },
-  withStreamId(StreamId): {
-    assert std.isString(StreamId) : 'StreamId must be a string',
+  setStreamId(StreamId): {
     Properties+::: {
-      StreamId: StreamId,
+      StreamId:
+        if !std.isString(StreamId) then (error 'StreamId must be a string')
+        else if std.isEmpty(StreamId) then (error 'StreamId must be not empty')
+        else StreamId,
     },
   },
-  withSourceIngestPort(SourceIngestPort): {
-    assert std.isString(SourceIngestPort) : 'SourceIngestPort must be a string',
+  setSourceIngestPort(SourceIngestPort): {
     Properties+::: {
-      SourceIngestPort: SourceIngestPort,
+      SourceIngestPort:
+        if !std.isString(SourceIngestPort) then (error 'SourceIngestPort must be a string')
+        else if std.isEmpty(SourceIngestPort) then (error 'SourceIngestPort must be not empty')
+        else SourceIngestPort,
     },
   },
-  withSourceListenerAddress(SourceListenerAddress): {
-    assert std.isString(SourceListenerAddress) : 'SourceListenerAddress must be a string',
+  setSourceListenerAddress(SourceListenerAddress): {
     Properties+::: {
-      SourceListenerAddress: SourceListenerAddress,
+      SourceListenerAddress:
+        if !std.isString(SourceListenerAddress) then (error 'SourceListenerAddress must be a string')
+        else if std.isEmpty(SourceListenerAddress) then (error 'SourceListenerAddress must be not empty')
+        else SourceListenerAddress,
     },
   },
-  withSourceListenerPort(SourceListenerPort): {
-    assert std.isNumber(SourceListenerPort) : 'SourceListenerPort must be a number',
+  setSourceListenerPort(SourceListenerPort): {
     Properties+::: {
-      SourceListenerPort: SourceListenerPort,
+      SourceListenerPort:
+        if !std.isNumber(SourceListenerPort) then (error 'SourceListenerPort must be an number')
+        else SourceListenerPort,
     },
   },
-  withVpcInterfaceName(VpcInterfaceName): {
-    assert std.isString(VpcInterfaceName) : 'VpcInterfaceName must be a string',
+  setVpcInterfaceName(VpcInterfaceName): {
     Properties+::: {
-      VpcInterfaceName: VpcInterfaceName,
+      VpcInterfaceName:
+        if !std.isString(VpcInterfaceName) then (error 'VpcInterfaceName must be a string')
+        else if std.isEmpty(VpcInterfaceName) then (error 'VpcInterfaceName must be not empty')
+        else VpcInterfaceName,
     },
   },
-  withWhitelistCidr(WhitelistCidr): {
-    assert std.isString(WhitelistCidr) : 'WhitelistCidr must be a string',
+  setWhitelistCidr(WhitelistCidr): {
     Properties+::: {
-      WhitelistCidr: WhitelistCidr,
+      WhitelistCidr:
+        if !std.isString(WhitelistCidr) then (error 'WhitelistCidr must be a string')
+        else if std.isEmpty(WhitelistCidr) then (error 'WhitelistCidr must be not empty')
+        else WhitelistCidr,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

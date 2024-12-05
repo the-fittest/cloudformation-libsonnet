@@ -9,17 +9,36 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CreatorDisplayName) : 'CreatorDisplayName must be a string',
-      CreatorDisplayName: CreatorDisplayName,
-      CreatorMemberAbilities: (if std.isArray(CreatorMemberAbilities) then CreatorMemberAbilities else [CreatorMemberAbilities]),
-      Members: (if std.isArray(Members) then Members else [Members]),
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
-      assert std.isString(QueryLogStatus) : 'QueryLogStatus must be a string',
-      assert QueryLogStatus == 'ENABLED' || QueryLogStatus == 'DISABLED' : "QueryLogStatus should be 'ENABLED' or 'DISABLED'",
-      QueryLogStatus: QueryLogStatus,
+      CreatorDisplayName:
+        if !std.isString(CreatorDisplayName) then (error 'CreatorDisplayName must be a string')
+        else if std.isEmpty(CreatorDisplayName) then (error 'CreatorDisplayName must be not empty')
+        else if std.length(CreatorDisplayName) < 1 then error ('CreatorDisplayName should have at least 1 characters')
+        else if std.length(CreatorDisplayName) > 100 then error ('CreatorDisplayName should have not more than 100 characters')
+        else CreatorDisplayName,
+      CreatorMemberAbilities:
+        if !std.isArray(CreatorMemberAbilities) then (error 'CreatorMemberAbilities must be an array')
+        else CreatorMemberAbilities,
+      Members:
+        if !std.isArray(Members) then (error 'Members must be an array')
+        else if std.length(Members) > 9 then error ('Members cannot have more than 9 items')
+        else Members,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 100 then error ('Name should have not more than 100 characters')
+        else Name,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
+      QueryLogStatus:
+        if !std.isString(QueryLogStatus) then (error 'QueryLogStatus must be a string')
+        else if std.isEmpty(QueryLogStatus) then (error 'QueryLogStatus must be not empty')
+        else if QueryLogStatus != 'ENABLED' && QueryLogStatus != 'DISABLED' then (error "QueryLogStatus should be 'ENABLED' or 'DISABLED'")
+        else QueryLogStatus,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -29,105 +48,123 @@
     Metadata:: [],
     Type: 'AWS::CleanRooms::Collaboration',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 100 then error ('Arn should have not more than 100 characters')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCollaborationIdentifier(CollaborationIdentifier): {
-    assert std.isString(CollaborationIdentifier) : 'CollaborationIdentifier must be a string',
+  setCollaborationIdentifier(CollaborationIdentifier): {
     Properties+::: {
-      CollaborationIdentifier: CollaborationIdentifier,
+      CollaborationIdentifier:
+        if !std.isString(CollaborationIdentifier) then (error 'CollaborationIdentifier must be a string')
+        else if std.isEmpty(CollaborationIdentifier) then (error 'CollaborationIdentifier must be not empty')
+        else if std.length(CollaborationIdentifier) < 36 then error ('CollaborationIdentifier should have at least 36 characters')
+        else if std.length(CollaborationIdentifier) > 36 then error ('CollaborationIdentifier should have not more than 36 characters')
+        else CollaborationIdentifier,
     },
   },
-  withDataEncryptionMetadata(DataEncryptionMetadata): {
-    assert std.isObject(DataEncryptionMetadata) : 'DataEncryptionMetadata must be a object',
+  setDataEncryptionMetadata(DataEncryptionMetadata): {
     Properties+::: {
-      DataEncryptionMetadata: DataEncryptionMetadata,
+      DataEncryptionMetadata:
+        if !std.isObject(DataEncryptionMetadata) then (error 'DataEncryptionMetadata must be an object')
+        else if !std.objectHas(DataEncryptionMetadata, 'AllowCleartext') then (error ' have attribute AllowCleartext')
+        else if !std.objectHas(DataEncryptionMetadata, 'AllowDuplicates') then (error ' have attribute AllowDuplicates')
+        else if !std.objectHas(DataEncryptionMetadata, 'AllowJoinsOnColumnsWithDifferentNames') then (error ' have attribute AllowJoinsOnColumnsWithDifferentNames')
+        else if !std.objectHas(DataEncryptionMetadata, 'PreserveNulls') then (error ' have attribute PreserveNulls')
+        else DataEncryptionMetadata,
     },
   },
-  withAnalyticsEngine(AnalyticsEngine): {
-    assert std.isString(AnalyticsEngine) : 'AnalyticsEngine must be a string',
-    assert AnalyticsEngine == 'CLEAN_ROOMS_SQL' || AnalyticsEngine == 'SPARK' : "AnalyticsEngine should be 'CLEAN_ROOMS_SQL' or 'SPARK'",
+  setAnalyticsEngine(AnalyticsEngine): {
     Properties+::: {
-      AnalyticsEngine: AnalyticsEngine,
+      AnalyticsEngine:
+        if !std.isString(AnalyticsEngine) then (error 'AnalyticsEngine must be a string')
+        else if std.isEmpty(AnalyticsEngine) then (error 'AnalyticsEngine must be not empty')
+        else if AnalyticsEngine != 'CLEAN_ROOMS_SQL' && AnalyticsEngine != 'SPARK' then (error "AnalyticsEngine should be 'CLEAN_ROOMS_SQL' or 'SPARK'")
+        else AnalyticsEngine,
     },
   },
-  withCreatorPaymentConfiguration(CreatorPaymentConfiguration): {
-    assert std.isObject(CreatorPaymentConfiguration) : 'CreatorPaymentConfiguration must be a object',
+  setCreatorPaymentConfiguration(CreatorPaymentConfiguration): {
     Properties+::: {
-      CreatorPaymentConfiguration: CreatorPaymentConfiguration,
+      CreatorPaymentConfiguration:
+        if !std.isObject(CreatorPaymentConfiguration) then (error 'CreatorPaymentConfiguration must be an object')
+        else if !std.objectHas(CreatorPaymentConfiguration, 'QueryCompute') then (error ' have attribute QueryCompute')
+        else CreatorPaymentConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

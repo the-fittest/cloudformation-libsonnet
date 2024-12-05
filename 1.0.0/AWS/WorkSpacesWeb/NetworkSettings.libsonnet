@@ -6,10 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      SecurityGroupIds: (if std.isArray(SecurityGroupIds) then SecurityGroupIds else [SecurityGroupIds]),
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
+      SecurityGroupIds:
+        if !std.isArray(SecurityGroupIds) then (error 'SecurityGroupIds must be an array')
+        else if std.length(SecurityGroupIds) < 1 then error ('SecurityGroupIds cannot have less than 1 items')
+        else if std.length(SecurityGroupIds) > 5 then error ('SecurityGroupIds cannot have more than 5 items')
+        else SecurityGroupIds,
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else if std.length(SubnetIds) < 2 then error ('SubnetIds cannot have less than 2 items')
+        else if std.length(SubnetIds) > 3 then error ('SubnetIds cannot have more than 3 items')
+        else SubnetIds,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else if std.length(VpcId) < 1 then error ('VpcId should have at least 1 characters')
+        else if std.length(VpcId) > 255 then error ('VpcId should have not more than 255 characters')
+        else VpcId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,90 +31,99 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesWeb::NetworkSettings',
   },
-  withAssociatedPortalArns(AssociatedPortalArns): {
+  setAssociatedPortalArns(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns:
+        if !std.isArray(AssociatedPortalArns) then (error 'AssociatedPortalArns must be an array')
+        else AssociatedPortalArns,
     },
   },
-  withAssociatedPortalArnsMixin(AssociatedPortalArns): {
+  setAssociatedPortalArnsMixin(AssociatedPortalArns): {
     Properties+::: {
-      AssociatedPortalArns+: (if std.isArray(AssociatedPortalArns) then AssociatedPortalArns else [AssociatedPortalArns]),
+      AssociatedPortalArns+: AssociatedPortalArns,
     },
   },
-  withNetworkSettingsArn(NetworkSettingsArn): {
-    assert std.isString(NetworkSettingsArn) : 'NetworkSettingsArn must be a string',
+  setNetworkSettingsArn(NetworkSettingsArn): {
     Properties+::: {
-      NetworkSettingsArn: NetworkSettingsArn,
+      NetworkSettingsArn:
+        if !std.isString(NetworkSettingsArn) then (error 'NetworkSettingsArn must be a string')
+        else if std.isEmpty(NetworkSettingsArn) then (error 'NetworkSettingsArn must be not empty')
+        else if std.length(NetworkSettingsArn) < 20 then error ('NetworkSettingsArn should have at least 20 characters')
+        else if std.length(NetworkSettingsArn) > 2048 then error ('NetworkSettingsArn should have not more than 2048 characters')
+        else NetworkSettingsArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

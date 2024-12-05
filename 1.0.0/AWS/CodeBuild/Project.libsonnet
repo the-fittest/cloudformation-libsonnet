@@ -7,14 +7,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isObject(Artifacts) : 'Artifacts must be an object',
-      Artifacts: Artifacts,
-      assert std.isString(ServiceRole) : 'ServiceRole must be a string',
-      ServiceRole: ServiceRole,
-      assert std.isObject(Environment) : 'Environment must be an object',
-      Environment: Environment,
-      assert std.isObject(Source) : 'Source must be an object',
-      Source: Source,
+      Artifacts:
+        if !std.isObject(Artifacts) then (error 'Artifacts must be an object')
+        else if !std.objectHas(Artifacts, 'Type') then (error ' have attribute Type')
+        else Artifacts,
+      ServiceRole:
+        if !std.isString(ServiceRole) then (error 'ServiceRole must be a string')
+        else if std.isEmpty(ServiceRole) then (error 'ServiceRole must be not empty')
+        else ServiceRole,
+      Environment:
+        if !std.isObject(Environment) then (error 'Environment must be an object')
+        else if !std.objectHas(Environment, 'Type') then (error ' have attribute Type')
+        else if !std.objectHas(Environment, 'Image') then (error ' have attribute Image')
+        else if !std.objectHas(Environment, 'ComputeType') then (error ' have attribute ComputeType')
+        else Environment,
+      Source:
+        if !std.isObject(Source) then (error 'Source must be an object')
+        else if !std.objectHas(Source, 'Type') then (error ' have attribute Type')
+        else Source,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -24,222 +34,258 @@
     Metadata:: [],
     Type: 'AWS::CodeBuild::Project',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withResourceAccessRole(ResourceAccessRole): {
-    assert std.isString(ResourceAccessRole) : 'ResourceAccessRole must be a string',
+  setResourceAccessRole(ResourceAccessRole): {
     Properties+::: {
-      ResourceAccessRole: ResourceAccessRole,
+      ResourceAccessRole:
+        if !std.isString(ResourceAccessRole) then (error 'ResourceAccessRole must be a string')
+        else if std.isEmpty(ResourceAccessRole) then (error 'ResourceAccessRole must be not empty')
+        else ResourceAccessRole,
     },
   },
-  withVpcConfig(VpcConfig): {
-    assert std.isObject(VpcConfig) : 'VpcConfig must be a object',
+  setVpcConfig(VpcConfig): {
     Properties+::: {
-      VpcConfig: VpcConfig,
+      VpcConfig:
+        if !std.isObject(VpcConfig) then (error 'VpcConfig must be an object')
+        else VpcConfig,
     },
   },
-  withSecondarySources(SecondarySources): {
+  setSecondarySources(SecondarySources): {
     Properties+::: {
-      SecondarySources: (if std.isArray(SecondarySources) then SecondarySources else [SecondarySources]),
+      SecondarySources:
+        if !std.isArray(SecondarySources) then (error 'SecondarySources must be an array')
+        else SecondarySources,
     },
   },
-  withSecondarySourcesMixin(SecondarySources): {
+  setSecondarySourcesMixin(SecondarySources): {
     Properties+::: {
-      SecondarySources+: (if std.isArray(SecondarySources) then SecondarySources else [SecondarySources]),
+      SecondarySources+: SecondarySources,
     },
   },
-  withEncryptionKey(EncryptionKey): {
-    assert std.isString(EncryptionKey) : 'EncryptionKey must be a string',
+  setEncryptionKey(EncryptionKey): {
     Properties+::: {
-      EncryptionKey: EncryptionKey,
+      EncryptionKey:
+        if !std.isString(EncryptionKey) then (error 'EncryptionKey must be a string')
+        else if std.isEmpty(EncryptionKey) then (error 'EncryptionKey must be not empty')
+        else EncryptionKey,
     },
   },
-  withSecondaryArtifacts(SecondaryArtifacts): {
+  setSecondaryArtifacts(SecondaryArtifacts): {
     Properties+::: {
-      SecondaryArtifacts: (if std.isArray(SecondaryArtifacts) then SecondaryArtifacts else [SecondaryArtifacts]),
+      SecondaryArtifacts:
+        if !std.isArray(SecondaryArtifacts) then (error 'SecondaryArtifacts must be an array')
+        else SecondaryArtifacts,
     },
   },
-  withSecondaryArtifactsMixin(SecondaryArtifacts): {
+  setSecondaryArtifactsMixin(SecondaryArtifacts): {
     Properties+::: {
-      SecondaryArtifacts+: (if std.isArray(SecondaryArtifacts) then SecondaryArtifacts else [SecondaryArtifacts]),
+      SecondaryArtifacts+: SecondaryArtifacts,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withLogsConfig(LogsConfig): {
-    assert std.isObject(LogsConfig) : 'LogsConfig must be a object',
+  setLogsConfig(LogsConfig): {
     Properties+::: {
-      LogsConfig: LogsConfig,
+      LogsConfig:
+        if !std.isObject(LogsConfig) then (error 'LogsConfig must be an object')
+        else LogsConfig,
     },
   },
-  withQueuedTimeoutInMinutes(QueuedTimeoutInMinutes): {
-    assert std.isNumber(QueuedTimeoutInMinutes) : 'QueuedTimeoutInMinutes must be a number',
+  setQueuedTimeoutInMinutes(QueuedTimeoutInMinutes): {
     Properties+::: {
-      QueuedTimeoutInMinutes: QueuedTimeoutInMinutes,
+      QueuedTimeoutInMinutes:
+        if !std.isNumber(QueuedTimeoutInMinutes) then (error 'QueuedTimeoutInMinutes must be an number')
+        else QueuedTimeoutInMinutes,
     },
   },
-  withSecondarySourceVersions(SecondarySourceVersions): {
+  setSecondarySourceVersions(SecondarySourceVersions): {
     Properties+::: {
-      SecondarySourceVersions: (if std.isArray(SecondarySourceVersions) then SecondarySourceVersions else [SecondarySourceVersions]),
+      SecondarySourceVersions:
+        if !std.isArray(SecondarySourceVersions) then (error 'SecondarySourceVersions must be an array')
+        else SecondarySourceVersions,
     },
   },
-  withSecondarySourceVersionsMixin(SecondarySourceVersions): {
+  setSecondarySourceVersionsMixin(SecondarySourceVersions): {
     Properties+::: {
-      SecondarySourceVersions+: (if std.isArray(SecondarySourceVersions) then SecondarySourceVersions else [SecondarySourceVersions]),
+      SecondarySourceVersions+: SecondarySourceVersions,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAutoRetryLimit(AutoRetryLimit): {
-    assert std.isNumber(AutoRetryLimit) : 'AutoRetryLimit must be a number',
+  setAutoRetryLimit(AutoRetryLimit): {
     Properties+::: {
-      AutoRetryLimit: AutoRetryLimit,
+      AutoRetryLimit:
+        if !std.isNumber(AutoRetryLimit) then (error 'AutoRetryLimit must be an number')
+        else AutoRetryLimit,
     },
   },
-  withSourceVersion(SourceVersion): {
-    assert std.isString(SourceVersion) : 'SourceVersion must be a string',
+  setSourceVersion(SourceVersion): {
     Properties+::: {
-      SourceVersion: SourceVersion,
+      SourceVersion:
+        if !std.isString(SourceVersion) then (error 'SourceVersion must be a string')
+        else if std.isEmpty(SourceVersion) then (error 'SourceVersion must be not empty')
+        else SourceVersion,
     },
   },
-  withTriggers(Triggers): {
-    assert std.isObject(Triggers) : 'Triggers must be a object',
+  setTriggers(Triggers): {
     Properties+::: {
-      Triggers: Triggers,
+      Triggers:
+        if !std.isObject(Triggers) then (error 'Triggers must be an object')
+        else Triggers,
     },
   },
-  withBadgeEnabled(BadgeEnabled): {
-    assert std.isBoolean(BadgeEnabled) : 'BadgeEnabled must be a boolean',
+  setBadgeEnabled(BadgeEnabled): {
     Properties+::: {
-      BadgeEnabled: BadgeEnabled,
+      BadgeEnabled:
+        if !std.isBoolean(BadgeEnabled) then (error 'BadgeEnabled must be a boolean') else BadgeEnabled,
     },
   },
-  withFileSystemLocations(FileSystemLocations): {
+  setFileSystemLocations(FileSystemLocations): {
     Properties+::: {
-      FileSystemLocations: (if std.isArray(FileSystemLocations) then FileSystemLocations else [FileSystemLocations]),
+      FileSystemLocations:
+        if !std.isArray(FileSystemLocations) then (error 'FileSystemLocations must be an array')
+        else FileSystemLocations,
     },
   },
-  withFileSystemLocationsMixin(FileSystemLocations): {
+  setFileSystemLocationsMixin(FileSystemLocations): {
     Properties+::: {
-      FileSystemLocations+: (if std.isArray(FileSystemLocations) then FileSystemLocations else [FileSystemLocations]),
+      FileSystemLocations+: FileSystemLocations,
     },
   },
-  withConcurrentBuildLimit(ConcurrentBuildLimit): {
-    assert std.isNumber(ConcurrentBuildLimit) : 'ConcurrentBuildLimit must be a number',
+  setConcurrentBuildLimit(ConcurrentBuildLimit): {
     Properties+::: {
-      ConcurrentBuildLimit: ConcurrentBuildLimit,
+      ConcurrentBuildLimit:
+        if !std.isNumber(ConcurrentBuildLimit) then (error 'ConcurrentBuildLimit must be an number')
+        else ConcurrentBuildLimit,
     },
   },
-  withVisibility(Visibility): {
-    assert std.isString(Visibility) : 'Visibility must be a string',
+  setVisibility(Visibility): {
     Properties+::: {
-      Visibility: Visibility,
+      Visibility:
+        if !std.isString(Visibility) then (error 'Visibility must be a string')
+        else if std.isEmpty(Visibility) then (error 'Visibility must be not empty')
+        else Visibility,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withBuildBatchConfig(BuildBatchConfig): {
-    assert std.isObject(BuildBatchConfig) : 'BuildBatchConfig must be a object',
+  setBuildBatchConfig(BuildBatchConfig): {
     Properties+::: {
-      BuildBatchConfig: BuildBatchConfig,
+      BuildBatchConfig:
+        if !std.isObject(BuildBatchConfig) then (error 'BuildBatchConfig must be an object')
+        else BuildBatchConfig,
     },
   },
-  withTimeoutInMinutes(TimeoutInMinutes): {
-    assert std.isNumber(TimeoutInMinutes) : 'TimeoutInMinutes must be a number',
+  setTimeoutInMinutes(TimeoutInMinutes): {
     Properties+::: {
-      TimeoutInMinutes: TimeoutInMinutes,
+      TimeoutInMinutes:
+        if !std.isNumber(TimeoutInMinutes) then (error 'TimeoutInMinutes must be an number')
+        else TimeoutInMinutes,
     },
   },
-  withCache(Cache): {
-    assert std.isObject(Cache) : 'Cache must be a object',
+  setCache(Cache): {
     Properties+::: {
-      Cache: Cache,
+      Cache:
+        if !std.isObject(Cache) then (error 'Cache must be an object')
+        else if !std.objectHas(Cache, 'Type') then (error ' have attribute Type')
+        else Cache,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

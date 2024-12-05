@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,135 +10,155 @@
     Metadata:: [],
     Type: 'AWS::Logs::LogAnomalyDetector',
   },
-  withAccountId(AccountId): {
-    assert std.isString(AccountId) : 'AccountId must be a string',
+  setAccountId(AccountId): {
     Properties+::: {
-      AccountId: AccountId,
+      AccountId:
+        if !std.isString(AccountId) then (error 'AccountId must be a string')
+        else if std.isEmpty(AccountId) then (error 'AccountId must be not empty')
+        else AccountId,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else if std.length(KmsKeyId) > 256 then error ('KmsKeyId should have not more than 256 characters')
+        else KmsKeyId,
     },
   },
-  withDetectorName(DetectorName): {
-    assert std.isString(DetectorName) : 'DetectorName must be a string',
+  setDetectorName(DetectorName): {
     Properties+::: {
-      DetectorName: DetectorName,
+      DetectorName:
+        if !std.isString(DetectorName) then (error 'DetectorName must be a string')
+        else if std.isEmpty(DetectorName) then (error 'DetectorName must be not empty')
+        else DetectorName,
     },
   },
-  withLogGroupArnList(LogGroupArnList): {
+  setLogGroupArnList(LogGroupArnList): {
     Properties+::: {
-      LogGroupArnList: (if std.isArray(LogGroupArnList) then LogGroupArnList else [LogGroupArnList]),
+      LogGroupArnList:
+        if !std.isArray(LogGroupArnList) then (error 'LogGroupArnList must be an array')
+        else LogGroupArnList,
     },
   },
-  withLogGroupArnListMixin(LogGroupArnList): {
+  setLogGroupArnListMixin(LogGroupArnList): {
     Properties+::: {
-      LogGroupArnList+: (if std.isArray(LogGroupArnList) then LogGroupArnList else [LogGroupArnList]),
+      LogGroupArnList+: LogGroupArnList,
     },
   },
-  withEvaluationFrequency(EvaluationFrequency): {
-    assert std.isString(EvaluationFrequency) : 'EvaluationFrequency must be a string',
-    assert EvaluationFrequency == 'FIVE_MIN' || EvaluationFrequency == 'TEN_MIN' || EvaluationFrequency == 'FIFTEEN_MIN' || EvaluationFrequency == 'THIRTY_MIN' || EvaluationFrequency == 'ONE_HOUR' : "EvaluationFrequency should be 'FIVE_MIN' or 'TEN_MIN' or 'FIFTEEN_MIN' or 'THIRTY_MIN' or 'ONE_HOUR'",
+  setEvaluationFrequency(EvaluationFrequency): {
     Properties+::: {
-      EvaluationFrequency: EvaluationFrequency,
+      EvaluationFrequency:
+        if !std.isString(EvaluationFrequency) then (error 'EvaluationFrequency must be a string')
+        else if std.isEmpty(EvaluationFrequency) then (error 'EvaluationFrequency must be not empty')
+        else if EvaluationFrequency != 'FIVE_MIN' && EvaluationFrequency != 'TEN_MIN' && EvaluationFrequency != 'FIFTEEN_MIN' && EvaluationFrequency != 'THIRTY_MIN' && EvaluationFrequency != 'ONE_HOUR' then (error "EvaluationFrequency should be 'FIVE_MIN' or 'TEN_MIN' or 'FIFTEEN_MIN' or 'THIRTY_MIN' or 'ONE_HOUR'")
+        else EvaluationFrequency,
     },
   },
-  withFilterPattern(FilterPattern): {
-    assert std.isString(FilterPattern) : 'FilterPattern must be a string',
+  setFilterPattern(FilterPattern): {
     Properties+::: {
-      FilterPattern: FilterPattern,
+      FilterPattern:
+        if !std.isString(FilterPattern) then (error 'FilterPattern must be a string')
+        else if std.isEmpty(FilterPattern) then (error 'FilterPattern must be not empty')
+        else FilterPattern,
     },
   },
-  withAnomalyDetectorStatus(AnomalyDetectorStatus): {
-    assert std.isString(AnomalyDetectorStatus) : 'AnomalyDetectorStatus must be a string',
+  setAnomalyDetectorStatus(AnomalyDetectorStatus): {
     Properties+::: {
-      AnomalyDetectorStatus: AnomalyDetectorStatus,
+      AnomalyDetectorStatus:
+        if !std.isString(AnomalyDetectorStatus) then (error 'AnomalyDetectorStatus must be a string')
+        else if std.isEmpty(AnomalyDetectorStatus) then (error 'AnomalyDetectorStatus must be not empty')
+        else AnomalyDetectorStatus,
     },
   },
-  withAnomalyVisibilityTime(AnomalyVisibilityTime): {
-    assert std.isNumber(AnomalyVisibilityTime) : 'AnomalyVisibilityTime must be a number',
+  setAnomalyVisibilityTime(AnomalyVisibilityTime): {
     Properties+::: {
-      AnomalyVisibilityTime: AnomalyVisibilityTime,
+      AnomalyVisibilityTime:
+        if !std.isNumber(AnomalyVisibilityTime) then (error 'AnomalyVisibilityTime must be an number')
+        else AnomalyVisibilityTime,
     },
   },
-  withCreationTimeStamp(CreationTimeStamp): {
-    assert std.isNumber(CreationTimeStamp) : 'CreationTimeStamp must be a number',
+  setCreationTimeStamp(CreationTimeStamp): {
     Properties+::: {
-      CreationTimeStamp: CreationTimeStamp,
+      CreationTimeStamp:
+        if !std.isNumber(CreationTimeStamp) then (error 'CreationTimeStamp must be an number')
+        else CreationTimeStamp,
     },
   },
-  withLastModifiedTimeStamp(LastModifiedTimeStamp): {
-    assert std.isNumber(LastModifiedTimeStamp) : 'LastModifiedTimeStamp must be a number',
+  setLastModifiedTimeStamp(LastModifiedTimeStamp): {
     Properties+::: {
-      LastModifiedTimeStamp: LastModifiedTimeStamp,
+      LastModifiedTimeStamp:
+        if !std.isNumber(LastModifiedTimeStamp) then (error 'LastModifiedTimeStamp must be an number')
+        else LastModifiedTimeStamp,
     },
   },
-  withAnomalyDetectorArn(AnomalyDetectorArn): {
-    assert std.isString(AnomalyDetectorArn) : 'AnomalyDetectorArn must be a string',
+  setAnomalyDetectorArn(AnomalyDetectorArn): {
     Properties+::: {
-      AnomalyDetectorArn: AnomalyDetectorArn,
+      AnomalyDetectorArn:
+        if !std.isString(AnomalyDetectorArn) then (error 'AnomalyDetectorArn must be a string')
+        else if std.isEmpty(AnomalyDetectorArn) then (error 'AnomalyDetectorArn must be not empty')
+        else AnomalyDetectorArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

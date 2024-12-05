@@ -9,18 +9,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RuleAction) : 'RuleAction must be a string',
-      RuleAction: RuleAction,
-      assert std.isString(SourceCidrBlock) : 'SourceCidrBlock must be a string',
-      SourceCidrBlock: SourceCidrBlock,
-      assert std.isNumber(RuleNumber) : 'RuleNumber must be a number',
-      RuleNumber: RuleNumber,
-      assert std.isString(DestinationCidrBlock) : 'DestinationCidrBlock must be a string',
-      DestinationCidrBlock: DestinationCidrBlock,
-      assert std.isString(TrafficMirrorFilterId) : 'TrafficMirrorFilterId must be a string',
-      TrafficMirrorFilterId: TrafficMirrorFilterId,
-      assert std.isString(TrafficDirection) : 'TrafficDirection must be a string',
-      TrafficDirection: TrafficDirection,
+      RuleAction:
+        if !std.isString(RuleAction) then (error 'RuleAction must be a string')
+        else if std.isEmpty(RuleAction) then (error 'RuleAction must be not empty')
+        else RuleAction,
+      SourceCidrBlock:
+        if !std.isString(SourceCidrBlock) then (error 'SourceCidrBlock must be a string')
+        else if std.isEmpty(SourceCidrBlock) then (error 'SourceCidrBlock must be not empty')
+        else SourceCidrBlock,
+      RuleNumber:
+        if !std.isNumber(RuleNumber) then (error 'RuleNumber must be an number')
+        else RuleNumber,
+      DestinationCidrBlock:
+        if !std.isString(DestinationCidrBlock) then (error 'DestinationCidrBlock must be a string')
+        else if std.isEmpty(DestinationCidrBlock) then (error 'DestinationCidrBlock must be not empty')
+        else DestinationCidrBlock,
+      TrafficMirrorFilterId:
+        if !std.isString(TrafficMirrorFilterId) then (error 'TrafficMirrorFilterId must be a string')
+        else if std.isEmpty(TrafficMirrorFilterId) then (error 'TrafficMirrorFilterId must be not empty')
+        else TrafficMirrorFilterId,
+      TrafficDirection:
+        if !std.isString(TrafficDirection) then (error 'TrafficDirection must be a string')
+        else if std.isEmpty(TrafficDirection) then (error 'TrafficDirection must be not empty')
+        else TrafficDirection,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -30,104 +41,117 @@
     Metadata:: [],
     Type: 'AWS::EC2::TrafficMirrorFilterRule',
   },
-  withDestinationPortRange(DestinationPortRange): {
-    assert std.isObject(DestinationPortRange) : 'DestinationPortRange must be a object',
+  setDestinationPortRange(DestinationPortRange): {
     Properties+::: {
-      DestinationPortRange: DestinationPortRange,
+      DestinationPortRange:
+        if !std.isObject(DestinationPortRange) then (error 'DestinationPortRange must be an object')
+        else if !std.objectHas(DestinationPortRange, 'FromPort') then (error ' have attribute FromPort')
+        else if !std.objectHas(DestinationPortRange, 'ToPort') then (error ' have attribute ToPort')
+        else DestinationPortRange,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withSourcePortRange(SourcePortRange): {
-    assert std.isObject(SourcePortRange) : 'SourcePortRange must be a object',
+  setSourcePortRange(SourcePortRange): {
     Properties+::: {
-      SourcePortRange: SourcePortRange,
+      SourcePortRange:
+        if !std.isObject(SourcePortRange) then (error 'SourcePortRange must be an object')
+        else if !std.objectHas(SourcePortRange, 'FromPort') then (error ' have attribute FromPort')
+        else if !std.objectHas(SourcePortRange, 'ToPort') then (error ' have attribute ToPort')
+        else SourcePortRange,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withProtocol(Protocol): {
-    assert std.isNumber(Protocol) : 'Protocol must be a number',
+  setProtocol(Protocol): {
     Properties+::: {
-      Protocol: Protocol,
+      Protocol:
+        if !std.isNumber(Protocol) then (error 'Protocol must be an number')
+        else Protocol,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

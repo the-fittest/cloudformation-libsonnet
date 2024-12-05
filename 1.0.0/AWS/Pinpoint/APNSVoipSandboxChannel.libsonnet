@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ApplicationId) : 'ApplicationId must be a string',
-      ApplicationId: ApplicationId,
+      ApplicationId:
+        if !std.isString(ApplicationId) then (error 'ApplicationId must be a string')
+        else if std.isEmpty(ApplicationId) then (error 'ApplicationId must be not empty')
+        else ApplicationId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,118 +17,134 @@
     Metadata:: [],
     Type: 'AWS::Pinpoint::APNSVoipSandboxChannel',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withBundleId(BundleId): {
-    assert std.isString(BundleId) : 'BundleId must be a string',
+  setBundleId(BundleId): {
     Properties+::: {
-      BundleId: BundleId,
+      BundleId:
+        if !std.isString(BundleId) then (error 'BundleId must be a string')
+        else if std.isEmpty(BundleId) then (error 'BundleId must be not empty')
+        else BundleId,
     },
   },
-  withPrivateKey(PrivateKey): {
-    assert std.isString(PrivateKey) : 'PrivateKey must be a string',
+  setPrivateKey(PrivateKey): {
     Properties+::: {
-      PrivateKey: PrivateKey,
+      PrivateKey:
+        if !std.isString(PrivateKey) then (error 'PrivateKey must be a string')
+        else if std.isEmpty(PrivateKey) then (error 'PrivateKey must be not empty')
+        else PrivateKey,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withDefaultAuthenticationMethod(DefaultAuthenticationMethod): {
-    assert std.isString(DefaultAuthenticationMethod) : 'DefaultAuthenticationMethod must be a string',
+  setDefaultAuthenticationMethod(DefaultAuthenticationMethod): {
     Properties+::: {
-      DefaultAuthenticationMethod: DefaultAuthenticationMethod,
+      DefaultAuthenticationMethod:
+        if !std.isString(DefaultAuthenticationMethod) then (error 'DefaultAuthenticationMethod must be a string')
+        else if std.isEmpty(DefaultAuthenticationMethod) then (error 'DefaultAuthenticationMethod must be not empty')
+        else DefaultAuthenticationMethod,
     },
   },
-  withTokenKey(TokenKey): {
-    assert std.isString(TokenKey) : 'TokenKey must be a string',
+  setTokenKey(TokenKey): {
     Properties+::: {
-      TokenKey: TokenKey,
+      TokenKey:
+        if !std.isString(TokenKey) then (error 'TokenKey must be a string')
+        else if std.isEmpty(TokenKey) then (error 'TokenKey must be not empty')
+        else TokenKey,
     },
   },
-  withTeamId(TeamId): {
-    assert std.isString(TeamId) : 'TeamId must be a string',
+  setTeamId(TeamId): {
     Properties+::: {
-      TeamId: TeamId,
+      TeamId:
+        if !std.isString(TeamId) then (error 'TeamId must be a string')
+        else if std.isEmpty(TeamId) then (error 'TeamId must be not empty')
+        else TeamId,
     },
   },
-  withCertificate(Certificate): {
-    assert std.isString(Certificate) : 'Certificate must be a string',
+  setCertificate(Certificate): {
     Properties+::: {
-      Certificate: Certificate,
+      Certificate:
+        if !std.isString(Certificate) then (error 'Certificate must be a string')
+        else if std.isEmpty(Certificate) then (error 'Certificate must be not empty')
+        else Certificate,
     },
   },
-  withTokenKeyId(TokenKeyId): {
-    assert std.isString(TokenKeyId) : 'TokenKeyId must be a string',
+  setTokenKeyId(TokenKeyId): {
     Properties+::: {
-      TokenKeyId: TokenKeyId,
+      TokenKeyId:
+        if !std.isString(TokenKeyId) then (error 'TokenKeyId must be a string')
+        else if std.isEmpty(TokenKeyId) then (error 'TokenKeyId must be not empty')
+        else TokenKeyId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

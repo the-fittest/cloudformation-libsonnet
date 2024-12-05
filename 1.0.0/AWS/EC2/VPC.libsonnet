@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,148 +10,167 @@
     Metadata:: [],
     Type: 'AWS::EC2::VPC',
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withInstanceTenancy(InstanceTenancy): {
-    assert std.isString(InstanceTenancy) : 'InstanceTenancy must be a string',
+  setInstanceTenancy(InstanceTenancy): {
     Properties+::: {
-      InstanceTenancy: InstanceTenancy,
+      InstanceTenancy:
+        if !std.isString(InstanceTenancy) then (error 'InstanceTenancy must be a string')
+        else if std.isEmpty(InstanceTenancy) then (error 'InstanceTenancy must be not empty')
+        else InstanceTenancy,
     },
   },
-  withIpv4NetmaskLength(Ipv4NetmaskLength): {
-    assert std.isNumber(Ipv4NetmaskLength) : 'Ipv4NetmaskLength must be a number',
+  setIpv4NetmaskLength(Ipv4NetmaskLength): {
     Properties+::: {
-      Ipv4NetmaskLength: Ipv4NetmaskLength,
+      Ipv4NetmaskLength:
+        if !std.isNumber(Ipv4NetmaskLength) then (error 'Ipv4NetmaskLength must be an number')
+        else Ipv4NetmaskLength,
     },
   },
-  withCidrBlockAssociations(CidrBlockAssociations): {
+  setCidrBlockAssociations(CidrBlockAssociations): {
     Properties+::: {
-      CidrBlockAssociations: (if std.isArray(CidrBlockAssociations) then CidrBlockAssociations else [CidrBlockAssociations]),
+      CidrBlockAssociations:
+        if !std.isArray(CidrBlockAssociations) then (error 'CidrBlockAssociations must be an array')
+        else CidrBlockAssociations,
     },
   },
-  withCidrBlockAssociationsMixin(CidrBlockAssociations): {
+  setCidrBlockAssociationsMixin(CidrBlockAssociations): {
     Properties+::: {
-      CidrBlockAssociations+: (if std.isArray(CidrBlockAssociations) then CidrBlockAssociations else [CidrBlockAssociations]),
+      CidrBlockAssociations+: CidrBlockAssociations,
     },
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else CidrBlock,
     },
   },
-  withIpv4IpamPoolId(Ipv4IpamPoolId): {
-    assert std.isString(Ipv4IpamPoolId) : 'Ipv4IpamPoolId must be a string',
+  setIpv4IpamPoolId(Ipv4IpamPoolId): {
     Properties+::: {
-      Ipv4IpamPoolId: Ipv4IpamPoolId,
+      Ipv4IpamPoolId:
+        if !std.isString(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be a string')
+        else if std.isEmpty(Ipv4IpamPoolId) then (error 'Ipv4IpamPoolId must be not empty')
+        else Ipv4IpamPoolId,
     },
   },
-  withDefaultNetworkAcl(DefaultNetworkAcl): {
-    assert std.isString(DefaultNetworkAcl) : 'DefaultNetworkAcl must be a string',
+  setDefaultNetworkAcl(DefaultNetworkAcl): {
     Properties+::: {
-      DefaultNetworkAcl: DefaultNetworkAcl,
+      DefaultNetworkAcl:
+        if !std.isString(DefaultNetworkAcl) then (error 'DefaultNetworkAcl must be a string')
+        else if std.isEmpty(DefaultNetworkAcl) then (error 'DefaultNetworkAcl must be not empty')
+        else DefaultNetworkAcl,
     },
   },
-  withEnableDnsSupport(EnableDnsSupport): {
-    assert std.isBoolean(EnableDnsSupport) : 'EnableDnsSupport must be a boolean',
+  setEnableDnsSupport(EnableDnsSupport): {
     Properties+::: {
-      EnableDnsSupport: EnableDnsSupport,
+      EnableDnsSupport:
+        if !std.isBoolean(EnableDnsSupport) then (error 'EnableDnsSupport must be a boolean') else EnableDnsSupport,
     },
   },
-  withIpv6CidrBlocks(Ipv6CidrBlocks): {
+  setIpv6CidrBlocks(Ipv6CidrBlocks): {
     Properties+::: {
-      Ipv6CidrBlocks: (if std.isArray(Ipv6CidrBlocks) then Ipv6CidrBlocks else [Ipv6CidrBlocks]),
+      Ipv6CidrBlocks:
+        if !std.isArray(Ipv6CidrBlocks) then (error 'Ipv6CidrBlocks must be an array')
+        else Ipv6CidrBlocks,
     },
   },
-  withIpv6CidrBlocksMixin(Ipv6CidrBlocks): {
+  setIpv6CidrBlocksMixin(Ipv6CidrBlocks): {
     Properties+::: {
-      Ipv6CidrBlocks+: (if std.isArray(Ipv6CidrBlocks) then Ipv6CidrBlocks else [Ipv6CidrBlocks]),
+      Ipv6CidrBlocks+: Ipv6CidrBlocks,
     },
   },
-  withDefaultSecurityGroup(DefaultSecurityGroup): {
-    assert std.isString(DefaultSecurityGroup) : 'DefaultSecurityGroup must be a string',
+  setDefaultSecurityGroup(DefaultSecurityGroup): {
     Properties+::: {
-      DefaultSecurityGroup: DefaultSecurityGroup,
+      DefaultSecurityGroup:
+        if !std.isString(DefaultSecurityGroup) then (error 'DefaultSecurityGroup must be a string')
+        else if std.isEmpty(DefaultSecurityGroup) then (error 'DefaultSecurityGroup must be not empty')
+        else DefaultSecurityGroup,
     },
   },
-  withEnableDnsHostnames(EnableDnsHostnames): {
-    assert std.isBoolean(EnableDnsHostnames) : 'EnableDnsHostnames must be a boolean',
+  setEnableDnsHostnames(EnableDnsHostnames): {
     Properties+::: {
-      EnableDnsHostnames: EnableDnsHostnames,
+      EnableDnsHostnames:
+        if !std.isBoolean(EnableDnsHostnames) then (error 'EnableDnsHostnames must be a boolean') else EnableDnsHostnames,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

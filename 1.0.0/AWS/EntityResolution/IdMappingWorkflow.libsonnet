@@ -7,13 +7,23 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(WorkflowName) : 'WorkflowName must be a string',
-      WorkflowName: WorkflowName,
-      InputSourceConfig: (if std.isArray(InputSourceConfig) then InputSourceConfig else [InputSourceConfig]),
-      assert std.isObject(IdMappingTechniques) : 'IdMappingTechniques must be an object',
-      IdMappingTechniques: IdMappingTechniques,
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
+      WorkflowName:
+        if !std.isString(WorkflowName) then (error 'WorkflowName must be a string')
+        else if std.isEmpty(WorkflowName) then (error 'WorkflowName must be not empty')
+        else if std.length(WorkflowName) > 255 then error ('WorkflowName should have not more than 255 characters')
+        else WorkflowName,
+      InputSourceConfig:
+        if !std.isArray(InputSourceConfig) then (error 'InputSourceConfig must be an array')
+        else if std.length(InputSourceConfig) < 1 then error ('InputSourceConfig cannot have less than 1 items')
+        else if std.length(InputSourceConfig) > 20 then error ('InputSourceConfig cannot have more than 20 items')
+        else InputSourceConfig,
+      IdMappingTechniques:
+        if !std.isObject(IdMappingTechniques) then (error 'IdMappingTechniques must be an object')
+        else IdMappingTechniques,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else RoleArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,108 +33,124 @@
     Metadata:: [],
     Type: 'AWS::EntityResolution::IdMappingWorkflow',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 255 then error ('Description should have not more than 255 characters')
+        else Description,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withOutputSourceConfig(OutputSourceConfig): {
+  setOutputSourceConfig(OutputSourceConfig): {
     Properties+::: {
-      OutputSourceConfig: (if std.isArray(OutputSourceConfig) then OutputSourceConfig else [OutputSourceConfig]),
+      OutputSourceConfig:
+        if !std.isArray(OutputSourceConfig) then (error 'OutputSourceConfig must be an array')
+        else if std.length(OutputSourceConfig) < 1 then error ('OutputSourceConfig cannot have less than 1 items')
+        else if std.length(OutputSourceConfig) > 1 then error ('OutputSourceConfig cannot have more than 1 items')
+        else OutputSourceConfig,
     },
   },
-  withOutputSourceConfigMixin(OutputSourceConfig): {
+  setOutputSourceConfigMixin(OutputSourceConfig): {
     Properties+::: {
-      OutputSourceConfig+: (if std.isArray(OutputSourceConfig) then OutputSourceConfig else [OutputSourceConfig]),
+      OutputSourceConfig+: OutputSourceConfig,
     },
   },
-  withWorkflowArn(WorkflowArn): {
-    assert std.isString(WorkflowArn) : 'WorkflowArn must be a string',
+  setWorkflowArn(WorkflowArn): {
     Properties+::: {
-      WorkflowArn: WorkflowArn,
+      WorkflowArn:
+        if !std.isString(WorkflowArn) then (error 'WorkflowArn must be a string')
+        else if std.isEmpty(WorkflowArn) then (error 'WorkflowArn must be not empty')
+        else WorkflowArn,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

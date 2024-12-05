@@ -7,13 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterIdentifier) : 'ClusterIdentifier must be a string',
-      ClusterIdentifier: ClusterIdentifier,
-      assert std.isString(SubnetGroupName) : 'SubnetGroupName must be a string',
-      SubnetGroupName: SubnetGroupName,
-      assert std.isString(EndpointName) : 'EndpointName must be a string',
-      EndpointName: EndpointName,
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      ClusterIdentifier:
+        if !std.isString(ClusterIdentifier) then (error 'ClusterIdentifier must be a string')
+        else if std.isEmpty(ClusterIdentifier) then (error 'ClusterIdentifier must be not empty')
+        else ClusterIdentifier,
+      SubnetGroupName:
+        if !std.isString(SubnetGroupName) then (error 'SubnetGroupName must be a string')
+        else if std.isEmpty(SubnetGroupName) then (error 'SubnetGroupName must be not empty')
+        else SubnetGroupName,
+      EndpointName:
+        if !std.isString(EndpointName) then (error 'EndpointName must be a string')
+        else if std.isEmpty(EndpointName) then (error 'EndpointName must be not empty')
+        else EndpointName,
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else VpcSecurityGroupIds,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,110 +31,122 @@
     Metadata:: [],
     Type: 'AWS::Redshift::EndpointAccess',
   },
-  withEndpointStatus(EndpointStatus): {
-    assert std.isString(EndpointStatus) : 'EndpointStatus must be a string',
+  setEndpointStatus(EndpointStatus): {
     Properties+::: {
-      EndpointStatus: EndpointStatus,
+      EndpointStatus:
+        if !std.isString(EndpointStatus) then (error 'EndpointStatus must be a string')
+        else if std.isEmpty(EndpointStatus) then (error 'EndpointStatus must be not empty')
+        else EndpointStatus,
     },
   },
-  withVpcEndpoint(VpcEndpoint): {
-    assert std.isObject(VpcEndpoint) : 'VpcEndpoint must be a object',
+  setVpcEndpoint(VpcEndpoint): {
     Properties+::: {
-      VpcEndpoint: VpcEndpoint,
+      VpcEndpoint:
+        if !std.isObject(VpcEndpoint) then (error 'VpcEndpoint must be an object')
+        else VpcEndpoint,
     },
   },
-  withAddress(Address): {
-    assert std.isString(Address) : 'Address must be a string',
+  setAddress(Address): {
     Properties+::: {
-      Address: Address,
+      Address:
+        if !std.isString(Address) then (error 'Address must be a string')
+        else if std.isEmpty(Address) then (error 'Address must be not empty')
+        else Address,
     },
   },
-  withResourceOwner(ResourceOwner): {
-    assert std.isString(ResourceOwner) : 'ResourceOwner must be a string',
+  setResourceOwner(ResourceOwner): {
     Properties+::: {
-      ResourceOwner: ResourceOwner,
+      ResourceOwner:
+        if !std.isString(ResourceOwner) then (error 'ResourceOwner must be a string')
+        else if std.isEmpty(ResourceOwner) then (error 'ResourceOwner must be not empty')
+        else ResourceOwner,
     },
   },
-  withPort(Port): {
-    assert std.isNumber(Port) : 'Port must be a number',
+  setPort(Port): {
     Properties+::: {
-      Port: Port,
+      Port:
+        if !std.isNumber(Port) then (error 'Port must be an number')
+        else Port,
     },
   },
-  withEndpointCreateTime(EndpointCreateTime): {
-    assert std.isString(EndpointCreateTime) : 'EndpointCreateTime must be a string',
+  setEndpointCreateTime(EndpointCreateTime): {
     Properties+::: {
-      EndpointCreateTime: EndpointCreateTime,
+      EndpointCreateTime:
+        if !std.isString(EndpointCreateTime) then (error 'EndpointCreateTime must be a string')
+        else if std.isEmpty(EndpointCreateTime) then (error 'EndpointCreateTime must be not empty')
+        else EndpointCreateTime,
     },
   },
-  withVpcSecurityGroups(VpcSecurityGroups): {
+  setVpcSecurityGroups(VpcSecurityGroups): {
     Properties+::: {
-      VpcSecurityGroups: (if std.isArray(VpcSecurityGroups) then VpcSecurityGroups else [VpcSecurityGroups]),
+      VpcSecurityGroups:
+        if !std.isArray(VpcSecurityGroups) then (error 'VpcSecurityGroups must be an array')
+        else VpcSecurityGroups,
     },
   },
-  withVpcSecurityGroupsMixin(VpcSecurityGroups): {
+  setVpcSecurityGroupsMixin(VpcSecurityGroups): {
     Properties+::: {
-      VpcSecurityGroups+: (if std.isArray(VpcSecurityGroups) then VpcSecurityGroups else [VpcSecurityGroups]),
+      VpcSecurityGroups+: VpcSecurityGroups,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

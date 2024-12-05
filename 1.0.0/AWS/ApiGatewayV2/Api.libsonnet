@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,178 +10,206 @@
     Metadata:: [],
     Type: 'AWS::ApiGatewayV2::Api',
   },
-  withRouteSelectionExpression(RouteSelectionExpression): {
-    assert std.isString(RouteSelectionExpression) : 'RouteSelectionExpression must be a string',
+  setRouteSelectionExpression(RouteSelectionExpression): {
     Properties+::: {
-      RouteSelectionExpression: RouteSelectionExpression,
+      RouteSelectionExpression:
+        if !std.isString(RouteSelectionExpression) then (error 'RouteSelectionExpression must be a string')
+        else if std.isEmpty(RouteSelectionExpression) then (error 'RouteSelectionExpression must be not empty')
+        else RouteSelectionExpression,
     },
   },
-  withBodyS3Location(BodyS3Location): {
-    assert std.isObject(BodyS3Location) : 'BodyS3Location must be a object',
+  setBodyS3Location(BodyS3Location): {
     Properties+::: {
-      BodyS3Location: BodyS3Location,
+      BodyS3Location:
+        if !std.isObject(BodyS3Location) then (error 'BodyS3Location must be an object')
+        else BodyS3Location,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withApiEndpoint(ApiEndpoint): {
-    assert std.isString(ApiEndpoint) : 'ApiEndpoint must be a string',
+  setApiEndpoint(ApiEndpoint): {
     Properties+::: {
-      ApiEndpoint: ApiEndpoint,
+      ApiEndpoint:
+        if !std.isString(ApiEndpoint) then (error 'ApiEndpoint must be a string')
+        else if std.isEmpty(ApiEndpoint) then (error 'ApiEndpoint must be not empty')
+        else ApiEndpoint,
     },
   },
-  withBasePath(BasePath): {
-    assert std.isString(BasePath) : 'BasePath must be a string',
+  setBasePath(BasePath): {
     Properties+::: {
-      BasePath: BasePath,
+      BasePath:
+        if !std.isString(BasePath) then (error 'BasePath must be a string')
+        else if std.isEmpty(BasePath) then (error 'BasePath must be not empty')
+        else BasePath,
     },
   },
-  withFailOnWarnings(FailOnWarnings): {
-    assert std.isBoolean(FailOnWarnings) : 'FailOnWarnings must be a boolean',
+  setFailOnWarnings(FailOnWarnings): {
     Properties+::: {
-      FailOnWarnings: FailOnWarnings,
+      FailOnWarnings:
+        if !std.isBoolean(FailOnWarnings) then (error 'FailOnWarnings must be a boolean') else FailOnWarnings,
     },
   },
-  withDisableExecuteApiEndpoint(DisableExecuteApiEndpoint): {
-    assert std.isBoolean(DisableExecuteApiEndpoint) : 'DisableExecuteApiEndpoint must be a boolean',
+  setDisableExecuteApiEndpoint(DisableExecuteApiEndpoint): {
     Properties+::: {
-      DisableExecuteApiEndpoint: DisableExecuteApiEndpoint,
+      DisableExecuteApiEndpoint:
+        if !std.isBoolean(DisableExecuteApiEndpoint) then (error 'DisableExecuteApiEndpoint must be a boolean') else DisableExecuteApiEndpoint,
     },
   },
-  withDisableSchemaValidation(DisableSchemaValidation): {
-    assert std.isBoolean(DisableSchemaValidation) : 'DisableSchemaValidation must be a boolean',
+  setDisableSchemaValidation(DisableSchemaValidation): {
     Properties+::: {
-      DisableSchemaValidation: DisableSchemaValidation,
+      DisableSchemaValidation:
+        if !std.isBoolean(DisableSchemaValidation) then (error 'DisableSchemaValidation must be a boolean') else DisableSchemaValidation,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withTarget(Target): {
-    assert std.isString(Target) : 'Target must be a string',
+  setTarget(Target): {
     Properties+::: {
-      Target: Target,
+      Target:
+        if !std.isString(Target) then (error 'Target must be a string')
+        else if std.isEmpty(Target) then (error 'Target must be not empty')
+        else Target,
     },
   },
-  withCredentialsArn(CredentialsArn): {
-    assert std.isString(CredentialsArn) : 'CredentialsArn must be a string',
+  setCredentialsArn(CredentialsArn): {
     Properties+::: {
-      CredentialsArn: CredentialsArn,
+      CredentialsArn:
+        if !std.isString(CredentialsArn) then (error 'CredentialsArn must be a string')
+        else if std.isEmpty(CredentialsArn) then (error 'CredentialsArn must be not empty')
+        else CredentialsArn,
     },
   },
-  withCorsConfiguration(CorsConfiguration): {
-    assert std.isObject(CorsConfiguration) : 'CorsConfiguration must be a object',
+  setCorsConfiguration(CorsConfiguration): {
     Properties+::: {
-      CorsConfiguration: CorsConfiguration,
+      CorsConfiguration:
+        if !std.isObject(CorsConfiguration) then (error 'CorsConfiguration must be an object')
+        else CorsConfiguration,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withProtocolType(ProtocolType): {
-    assert std.isString(ProtocolType) : 'ProtocolType must be a string',
+  setProtocolType(ProtocolType): {
     Properties+::: {
-      ProtocolType: ProtocolType,
+      ProtocolType:
+        if !std.isString(ProtocolType) then (error 'ProtocolType must be a string')
+        else if std.isEmpty(ProtocolType) then (error 'ProtocolType must be not empty')
+        else ProtocolType,
     },
   },
-  withRouteKey(RouteKey): {
-    assert std.isString(RouteKey) : 'RouteKey must be a string',
+  setRouteKey(RouteKey): {
     Properties+::: {
-      RouteKey: RouteKey,
+      RouteKey:
+        if !std.isString(RouteKey) then (error 'RouteKey must be a string')
+        else if std.isEmpty(RouteKey) then (error 'RouteKey must be not empty')
+        else RouteKey,
     },
   },
-  withApiId(ApiId): {
-    assert std.isString(ApiId) : 'ApiId must be a string',
+  setApiId(ApiId): {
     Properties+::: {
-      ApiId: ApiId,
+      ApiId:
+        if !std.isString(ApiId) then (error 'ApiId must be a string')
+        else if std.isEmpty(ApiId) then (error 'ApiId must be not empty')
+        else ApiId,
     },
   },
-  withBody(Body): {
-    assert std.isObject(Body) : 'Body must be a object',
+  setBody(Body): {
     Properties+::: {
-      Body: Body,
+      Body:
+        if !std.isObject(Body) then (error 'Body must be an object')
+        else Body,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withApiKeySelectionExpression(ApiKeySelectionExpression): {
-    assert std.isString(ApiKeySelectionExpression) : 'ApiKeySelectionExpression must be a string',
+  setApiKeySelectionExpression(ApiKeySelectionExpression): {
     Properties+::: {
-      ApiKeySelectionExpression: ApiKeySelectionExpression,
+      ApiKeySelectionExpression:
+        if !std.isString(ApiKeySelectionExpression) then (error 'ApiKeySelectionExpression must be a string')
+        else if std.isEmpty(ApiKeySelectionExpression) then (error 'ApiKeySelectionExpression must be not empty')
+        else ApiKeySelectionExpression,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

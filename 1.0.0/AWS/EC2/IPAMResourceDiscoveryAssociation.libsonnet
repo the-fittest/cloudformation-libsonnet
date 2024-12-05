@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IpamId) : 'IpamId must be a string',
-      IpamId: IpamId,
-      assert std.isString(IpamResourceDiscoveryId) : 'IpamResourceDiscoveryId must be a string',
-      IpamResourceDiscoveryId: IpamResourceDiscoveryId,
+      IpamId:
+        if !std.isString(IpamId) then (error 'IpamId must be a string')
+        else if std.isEmpty(IpamId) then (error 'IpamId must be not empty')
+        else IpamId,
+      IpamResourceDiscoveryId:
+        if !std.isString(IpamResourceDiscoveryId) then (error 'IpamResourceDiscoveryId must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryId) then (error 'IpamResourceDiscoveryId must be not empty')
+        else IpamResourceDiscoveryId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,122 +22,138 @@
     Metadata:: [],
     Type: 'AWS::EC2::IPAMResourceDiscoveryAssociation',
   },
-  withIpamArn(IpamArn): {
-    assert std.isString(IpamArn) : 'IpamArn must be a string',
+  setIpamArn(IpamArn): {
     Properties+::: {
-      IpamArn: IpamArn,
+      IpamArn:
+        if !std.isString(IpamArn) then (error 'IpamArn must be a string')
+        else if std.isEmpty(IpamArn) then (error 'IpamArn must be not empty')
+        else IpamArn,
     },
   },
-  withIpamRegion(IpamRegion): {
-    assert std.isString(IpamRegion) : 'IpamRegion must be a string',
+  setIpamRegion(IpamRegion): {
     Properties+::: {
-      IpamRegion: IpamRegion,
+      IpamRegion:
+        if !std.isString(IpamRegion) then (error 'IpamRegion must be a string')
+        else if std.isEmpty(IpamRegion) then (error 'IpamRegion must be not empty')
+        else IpamRegion,
     },
   },
-  withIpamResourceDiscoveryAssociationId(IpamResourceDiscoveryAssociationId): {
-    assert std.isString(IpamResourceDiscoveryAssociationId) : 'IpamResourceDiscoveryAssociationId must be a string',
+  setIpamResourceDiscoveryAssociationId(IpamResourceDiscoveryAssociationId): {
     Properties+::: {
-      IpamResourceDiscoveryAssociationId: IpamResourceDiscoveryAssociationId,
+      IpamResourceDiscoveryAssociationId:
+        if !std.isString(IpamResourceDiscoveryAssociationId) then (error 'IpamResourceDiscoveryAssociationId must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryAssociationId) then (error 'IpamResourceDiscoveryAssociationId must be not empty')
+        else IpamResourceDiscoveryAssociationId,
     },
   },
-  withIpamResourceDiscoveryAssociationArn(IpamResourceDiscoveryAssociationArn): {
-    assert std.isString(IpamResourceDiscoveryAssociationArn) : 'IpamResourceDiscoveryAssociationArn must be a string',
+  setIpamResourceDiscoveryAssociationArn(IpamResourceDiscoveryAssociationArn): {
     Properties+::: {
-      IpamResourceDiscoveryAssociationArn: IpamResourceDiscoveryAssociationArn,
+      IpamResourceDiscoveryAssociationArn:
+        if !std.isString(IpamResourceDiscoveryAssociationArn) then (error 'IpamResourceDiscoveryAssociationArn must be a string')
+        else if std.isEmpty(IpamResourceDiscoveryAssociationArn) then (error 'IpamResourceDiscoveryAssociationArn must be not empty')
+        else IpamResourceDiscoveryAssociationArn,
     },
   },
-  withIsDefault(IsDefault): {
-    assert std.isBoolean(IsDefault) : 'IsDefault must be a boolean',
+  setIsDefault(IsDefault): {
     Properties+::: {
-      IsDefault: IsDefault,
+      IsDefault:
+        if !std.isBoolean(IsDefault) then (error 'IsDefault must be a boolean') else IsDefault,
     },
   },
-  withOwnerId(OwnerId): {
-    assert std.isString(OwnerId) : 'OwnerId must be a string',
+  setOwnerId(OwnerId): {
     Properties+::: {
-      OwnerId: OwnerId,
+      OwnerId:
+        if !std.isString(OwnerId) then (error 'OwnerId must be a string')
+        else if std.isEmpty(OwnerId) then (error 'OwnerId must be not empty')
+        else OwnerId,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else State,
     },
   },
-  withResourceDiscoveryStatus(ResourceDiscoveryStatus): {
-    assert std.isString(ResourceDiscoveryStatus) : 'ResourceDiscoveryStatus must be a string',
+  setResourceDiscoveryStatus(ResourceDiscoveryStatus): {
     Properties+::: {
-      ResourceDiscoveryStatus: ResourceDiscoveryStatus,
+      ResourceDiscoveryStatus:
+        if !std.isString(ResourceDiscoveryStatus) then (error 'ResourceDiscoveryStatus must be a string')
+        else if std.isEmpty(ResourceDiscoveryStatus) then (error 'ResourceDiscoveryStatus must be not empty')
+        else ResourceDiscoveryStatus,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

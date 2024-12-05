@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FunctionName) : 'FunctionName must be a string',
-      FunctionName: FunctionName,
-      assert std.isString(Qualifier) : 'Qualifier must be a string',
-      Qualifier: Qualifier,
+      FunctionName:
+        if !std.isString(FunctionName) then (error 'FunctionName must be a string')
+        else if std.isEmpty(FunctionName) then (error 'FunctionName must be not empty')
+        else FunctionName,
+      Qualifier:
+        if !std.isString(Qualifier) then (error 'Qualifier must be a string')
+        else if std.isEmpty(Qualifier) then (error 'Qualifier must be not empty')
+        else Qualifier,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,82 +22,88 @@
     Metadata:: [],
     Type: 'AWS::Lambda::EventInvokeConfig',
   },
-  withDestinationConfig(DestinationConfig): {
-    assert std.isObject(DestinationConfig) : 'DestinationConfig must be a object',
+  setDestinationConfig(DestinationConfig): {
     Properties+::: {
-      DestinationConfig: DestinationConfig,
+      DestinationConfig:
+        if !std.isObject(DestinationConfig) then (error 'DestinationConfig must be an object')
+        else DestinationConfig,
     },
   },
-  withMaximumEventAgeInSeconds(MaximumEventAgeInSeconds): {
-    assert std.isNumber(MaximumEventAgeInSeconds) : 'MaximumEventAgeInSeconds must be a number',
+  setMaximumEventAgeInSeconds(MaximumEventAgeInSeconds): {
     Properties+::: {
-      MaximumEventAgeInSeconds: MaximumEventAgeInSeconds,
+      MaximumEventAgeInSeconds:
+        if !std.isNumber(MaximumEventAgeInSeconds) then (error 'MaximumEventAgeInSeconds must be an number')
+        else if MaximumEventAgeInSeconds < 60 then error ('MaximumEventAgeInSeconds should be at least 60')
+        else if MaximumEventAgeInSeconds > 21600 then error ('MaximumEventAgeInSeconds should be not more than 21600')
+        else MaximumEventAgeInSeconds,
     },
   },
-  withMaximumRetryAttempts(MaximumRetryAttempts): {
-    assert std.isNumber(MaximumRetryAttempts) : 'MaximumRetryAttempts must be a number',
+  setMaximumRetryAttempts(MaximumRetryAttempts): {
     Properties+::: {
-      MaximumRetryAttempts: MaximumRetryAttempts,
+      MaximumRetryAttempts:
+        if !std.isNumber(MaximumRetryAttempts) then (error 'MaximumRetryAttempts must be an number')
+        else if MaximumRetryAttempts > 2 then error ('MaximumRetryAttempts should be not more than 2')
+        else MaximumRetryAttempts,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

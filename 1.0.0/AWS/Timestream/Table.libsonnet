@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DatabaseName) : 'DatabaseName must be a string',
-      DatabaseName: DatabaseName,
+      DatabaseName:
+        if !std.isString(DatabaseName) then (error 'DatabaseName must be a string')
+        else if std.isEmpty(DatabaseName) then (error 'DatabaseName must be not empty')
+        else DatabaseName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,110 +17,123 @@
     Metadata:: [],
     Type: 'AWS::Timestream::Table',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withTableName(TableName): {
-    assert std.isString(TableName) : 'TableName must be a string',
+  setTableName(TableName): {
     Properties+::: {
-      TableName: TableName,
+      TableName:
+        if !std.isString(TableName) then (error 'TableName must be a string')
+        else if std.isEmpty(TableName) then (error 'TableName must be not empty')
+        else TableName,
     },
   },
-  withRetentionProperties(RetentionProperties): {
-    assert std.isObject(RetentionProperties) : 'RetentionProperties must be a object',
+  setRetentionProperties(RetentionProperties): {
     Properties+::: {
-      RetentionProperties: RetentionProperties,
+      RetentionProperties:
+        if !std.isObject(RetentionProperties) then (error 'RetentionProperties must be an object')
+        else RetentionProperties,
     },
   },
-  withSchema(Schema): {
-    assert std.isObject(Schema) : 'Schema must be a object',
+  setSchema(Schema): {
     Properties+::: {
-      Schema: Schema,
+      Schema:
+        if !std.isObject(Schema) then (error 'Schema must be an object')
+        else Schema,
     },
   },
-  withMagneticStoreWriteProperties(MagneticStoreWriteProperties): {
-    assert std.isObject(MagneticStoreWriteProperties) : 'MagneticStoreWriteProperties must be a object',
+  setMagneticStoreWriteProperties(MagneticStoreWriteProperties): {
     Properties+::: {
-      MagneticStoreWriteProperties: MagneticStoreWriteProperties,
+      MagneticStoreWriteProperties:
+        if !std.isObject(MagneticStoreWriteProperties) then (error 'MagneticStoreWriteProperties must be an object')
+        else if !std.objectHas(MagneticStoreWriteProperties, 'EnableMagneticStoreWrites') then (error ' have attribute EnableMagneticStoreWrites')
+        else MagneticStoreWriteProperties,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

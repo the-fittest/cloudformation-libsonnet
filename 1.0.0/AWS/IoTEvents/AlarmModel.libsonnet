@@ -5,10 +5,15 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RoleArn) : 'RoleArn must be a string',
-      RoleArn: RoleArn,
-      assert std.isObject(AlarmRule) : 'AlarmRule must be an object',
-      AlarmRule: AlarmRule,
+      RoleArn:
+        if !std.isString(RoleArn) then (error 'RoleArn must be a string')
+        else if std.isEmpty(RoleArn) then (error 'RoleArn must be not empty')
+        else if std.length(RoleArn) < 1 then error ('RoleArn should have at least 1 characters')
+        else if std.length(RoleArn) > 2048 then error ('RoleArn should have not more than 2048 characters')
+        else RoleArn,
+      AlarmRule:
+        if !std.isObject(AlarmRule) then (error 'AlarmRule must be an object')
+        else AlarmRule,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,110 +23,127 @@
     Metadata:: [],
     Type: 'AWS::IoTEvents::AlarmModel',
   },
-  withAlarmModelName(AlarmModelName): {
-    assert std.isString(AlarmModelName) : 'AlarmModelName must be a string',
+  setAlarmModelName(AlarmModelName): {
     Properties+::: {
-      AlarmModelName: AlarmModelName,
+      AlarmModelName:
+        if !std.isString(AlarmModelName) then (error 'AlarmModelName must be a string')
+        else if std.isEmpty(AlarmModelName) then (error 'AlarmModelName must be not empty')
+        else if std.length(AlarmModelName) < 1 then error ('AlarmModelName should have at least 1 characters')
+        else if std.length(AlarmModelName) > 128 then error ('AlarmModelName should have not more than 128 characters')
+        else AlarmModelName,
     },
   },
-  withAlarmModelDescription(AlarmModelDescription): {
-    assert std.isString(AlarmModelDescription) : 'AlarmModelDescription must be a string',
+  setAlarmModelDescription(AlarmModelDescription): {
     Properties+::: {
-      AlarmModelDescription: AlarmModelDescription,
+      AlarmModelDescription:
+        if !std.isString(AlarmModelDescription) then (error 'AlarmModelDescription must be a string')
+        else if std.isEmpty(AlarmModelDescription) then (error 'AlarmModelDescription must be not empty')
+        else if std.length(AlarmModelDescription) > 1024 then error ('AlarmModelDescription should have not more than 1024 characters')
+        else AlarmModelDescription,
     },
   },
-  withKey(Key): {
-    assert std.isString(Key) : 'Key must be a string',
+  setKey(Key): {
     Properties+::: {
-      Key: Key,
+      Key:
+        if !std.isString(Key) then (error 'Key must be a string')
+        else if std.isEmpty(Key) then (error 'Key must be not empty')
+        else if std.length(Key) < 1 then error ('Key should have at least 1 characters')
+        else if std.length(Key) > 128 then error ('Key should have not more than 128 characters')
+        else Key,
     },
   },
-  withSeverity(Severity): {
-    assert std.isNumber(Severity) : 'Severity must be a number',
+  setSeverity(Severity): {
     Properties+::: {
-      Severity: Severity,
+      Severity:
+        if !std.isNumber(Severity) then (error 'Severity must be an number')
+        else if Severity > 2147483647 then error ('Severity should be not more than 2147483647')
+        else Severity,
     },
   },
-  withAlarmEventActions(AlarmEventActions): {
-    assert std.isObject(AlarmEventActions) : 'AlarmEventActions must be a object',
+  setAlarmEventActions(AlarmEventActions): {
     Properties+::: {
-      AlarmEventActions: AlarmEventActions,
+      AlarmEventActions:
+        if !std.isObject(AlarmEventActions) then (error 'AlarmEventActions must be an object')
+        else AlarmEventActions,
     },
   },
-  withAlarmCapabilities(AlarmCapabilities): {
-    assert std.isObject(AlarmCapabilities) : 'AlarmCapabilities must be a object',
+  setAlarmCapabilities(AlarmCapabilities): {
     Properties+::: {
-      AlarmCapabilities: AlarmCapabilities,
+      AlarmCapabilities:
+        if !std.isObject(AlarmCapabilities) then (error 'AlarmCapabilities must be an object')
+        else AlarmCapabilities,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

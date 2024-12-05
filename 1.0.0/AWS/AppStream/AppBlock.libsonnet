@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isObject(SourceS3Location) : 'SourceS3Location must be an object',
-      SourceS3Location: SourceS3Location,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      SourceS3Location:
+        if !std.isObject(SourceS3Location) then (error 'SourceS3Location must be an object')
+        else if !std.objectHas(SourceS3Location, 'S3Bucket') then (error ' have attribute S3Bucket')
+        else SourceS3Location,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,116 +22,136 @@
     Metadata:: [],
     Type: 'AWS::AppStream::AppBlock',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withDisplayName(DisplayName): {
-    assert std.isString(DisplayName) : 'DisplayName must be a string',
+  setDisplayName(DisplayName): {
     Properties+::: {
-      DisplayName: DisplayName,
+      DisplayName:
+        if !std.isString(DisplayName) then (error 'DisplayName must be a string')
+        else if std.isEmpty(DisplayName) then (error 'DisplayName must be not empty')
+        else DisplayName,
     },
   },
-  withSetupScriptDetails(SetupScriptDetails): {
-    assert std.isObject(SetupScriptDetails) : 'SetupScriptDetails must be a object',
+  setSetupScriptDetails(SetupScriptDetails): {
     Properties+::: {
-      SetupScriptDetails: SetupScriptDetails,
+      SetupScriptDetails:
+        if !std.isObject(SetupScriptDetails) then (error 'SetupScriptDetails must be an object')
+        else if !std.objectHas(SetupScriptDetails, 'ScriptS3Location') then (error ' have attribute ScriptS3Location')
+        else if !std.objectHas(SetupScriptDetails, 'ExecutablePath') then (error ' have attribute ExecutablePath')
+        else if !std.objectHas(SetupScriptDetails, 'TimeoutInSeconds') then (error ' have attribute TimeoutInSeconds')
+        else SetupScriptDetails,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreatedTime(CreatedTime): {
-    assert std.isString(CreatedTime) : 'CreatedTime must be a string',
+  setCreatedTime(CreatedTime): {
     Properties+::: {
-      CreatedTime: CreatedTime,
+      CreatedTime:
+        if !std.isString(CreatedTime) then (error 'CreatedTime must be a string')
+        else if std.isEmpty(CreatedTime) then (error 'CreatedTime must be not empty')
+        else CreatedTime,
     },
   },
-  withPackagingType(PackagingType): {
-    assert std.isString(PackagingType) : 'PackagingType must be a string',
+  setPackagingType(PackagingType): {
     Properties+::: {
-      PackagingType: PackagingType,
+      PackagingType:
+        if !std.isString(PackagingType) then (error 'PackagingType must be a string')
+        else if std.isEmpty(PackagingType) then (error 'PackagingType must be not empty')
+        else PackagingType,
     },
   },
-  withPostSetupScriptDetails(PostSetupScriptDetails): {
-    assert std.isObject(PostSetupScriptDetails) : 'PostSetupScriptDetails must be a object',
+  setPostSetupScriptDetails(PostSetupScriptDetails): {
     Properties+::: {
-      PostSetupScriptDetails: PostSetupScriptDetails,
+      PostSetupScriptDetails:
+        if !std.isObject(PostSetupScriptDetails) then (error 'PostSetupScriptDetails must be an object')
+        else if !std.objectHas(PostSetupScriptDetails, 'ScriptS3Location') then (error ' have attribute ScriptS3Location')
+        else if !std.objectHas(PostSetupScriptDetails, 'ExecutablePath') then (error ' have attribute ExecutablePath')
+        else if !std.objectHas(PostSetupScriptDetails, 'TimeoutInSeconds') then (error ' have attribute TimeoutInSeconds')
+        else PostSetupScriptDetails,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AssetName) : 'AssetName must be a string',
-      AssetName: AssetName,
-      assert std.isString(AssetModelId) : 'AssetModelId must be a string',
-      AssetModelId: AssetModelId,
+      AssetName:
+        if !std.isString(AssetName) then (error 'AssetName must be a string')
+        else if std.isEmpty(AssetName) then (error 'AssetName must be not empty')
+        else AssetName,
+      AssetModelId:
+        if !std.isString(AssetModelId) then (error 'AssetModelId must be a string')
+        else if std.isEmpty(AssetModelId) then (error 'AssetModelId must be not empty')
+        else AssetModelId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,118 +22,136 @@
     Metadata:: [],
     Type: 'AWS::IoTSiteWise::Asset',
   },
-  withAssetId(AssetId): {
-    assert std.isString(AssetId) : 'AssetId must be a string',
+  setAssetId(AssetId): {
     Properties+::: {
-      AssetId: AssetId,
+      AssetId:
+        if !std.isString(AssetId) then (error 'AssetId must be a string')
+        else if std.isEmpty(AssetId) then (error 'AssetId must be not empty')
+        else if std.length(AssetId) < 36 then error ('AssetId should have at least 36 characters')
+        else if std.length(AssetId) > 36 then error ('AssetId should have not more than 36 characters')
+        else AssetId,
     },
   },
-  withAssetExternalId(AssetExternalId): {
-    assert std.isString(AssetExternalId) : 'AssetExternalId must be a string',
+  setAssetExternalId(AssetExternalId): {
     Properties+::: {
-      AssetExternalId: AssetExternalId,
+      AssetExternalId:
+        if !std.isString(AssetExternalId) then (error 'AssetExternalId must be a string')
+        else if std.isEmpty(AssetExternalId) then (error 'AssetExternalId must be not empty')
+        else if std.length(AssetExternalId) < 2 then error ('AssetExternalId should have at least 2 characters')
+        else if std.length(AssetExternalId) > 128 then error ('AssetExternalId should have not more than 128 characters')
+        else AssetExternalId,
     },
   },
-  withAssetArn(AssetArn): {
-    assert std.isString(AssetArn) : 'AssetArn must be a string',
+  setAssetArn(AssetArn): {
     Properties+::: {
-      AssetArn: AssetArn,
+      AssetArn:
+        if !std.isString(AssetArn) then (error 'AssetArn must be a string')
+        else if std.isEmpty(AssetArn) then (error 'AssetArn must be not empty')
+        else AssetArn,
     },
   },
-  withAssetDescription(AssetDescription): {
-    assert std.isString(AssetDescription) : 'AssetDescription must be a string',
+  setAssetDescription(AssetDescription): {
     Properties+::: {
-      AssetDescription: AssetDescription,
+      AssetDescription:
+        if !std.isString(AssetDescription) then (error 'AssetDescription must be a string')
+        else if std.isEmpty(AssetDescription) then (error 'AssetDescription must be not empty')
+        else AssetDescription,
     },
   },
-  withAssetProperties(AssetProperties): {
+  setAssetProperties(AssetProperties): {
     Properties+::: {
-      AssetProperties: (if std.isArray(AssetProperties) then AssetProperties else [AssetProperties]),
+      AssetProperties:
+        if !std.isArray(AssetProperties) then (error 'AssetProperties must be an array')
+        else AssetProperties,
     },
   },
-  withAssetPropertiesMixin(AssetProperties): {
+  setAssetPropertiesMixin(AssetProperties): {
     Properties+::: {
-      AssetProperties+: (if std.isArray(AssetProperties) then AssetProperties else [AssetProperties]),
+      AssetProperties+: AssetProperties,
     },
   },
-  withAssetHierarchies(AssetHierarchies): {
+  setAssetHierarchies(AssetHierarchies): {
     Properties+::: {
-      AssetHierarchies: (if std.isArray(AssetHierarchies) then AssetHierarchies else [AssetHierarchies]),
+      AssetHierarchies:
+        if !std.isArray(AssetHierarchies) then (error 'AssetHierarchies must be an array')
+        else AssetHierarchies,
     },
   },
-  withAssetHierarchiesMixin(AssetHierarchies): {
+  setAssetHierarchiesMixin(AssetHierarchies): {
     Properties+::: {
-      AssetHierarchies+: (if std.isArray(AssetHierarchies) then AssetHierarchies else [AssetHierarchies]),
+      AssetHierarchies+: AssetHierarchies,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DefaultInstanceProfileArn) : 'DefaultInstanceProfileArn must be a string',
-      DefaultInstanceProfileArn: DefaultInstanceProfileArn,
-      assert std.isString(ServiceRoleArn) : 'ServiceRoleArn must be a string',
-      ServiceRoleArn: ServiceRoleArn,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      DefaultInstanceProfileArn:
+        if !std.isString(DefaultInstanceProfileArn) then (error 'DefaultInstanceProfileArn must be a string')
+        else if std.isEmpty(DefaultInstanceProfileArn) then (error 'DefaultInstanceProfileArn must be not empty')
+        else DefaultInstanceProfileArn,
+      ServiceRoleArn:
+        if !std.isString(ServiceRoleArn) then (error 'ServiceRoleArn must be a string')
+        else if std.isEmpty(ServiceRoleArn) then (error 'ServiceRoleArn must be not empty')
+        else ServiceRoleArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,218 +27,253 @@
     Metadata:: [],
     Type: 'AWS::OpsWorks::Stack',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withAgentVersion(AgentVersion): {
-    assert std.isString(AgentVersion) : 'AgentVersion must be a string',
+  setAgentVersion(AgentVersion): {
     Properties+::: {
-      AgentVersion: AgentVersion,
+      AgentVersion:
+        if !std.isString(AgentVersion) then (error 'AgentVersion must be a string')
+        else if std.isEmpty(AgentVersion) then (error 'AgentVersion must be not empty')
+        else AgentVersion,
     },
   },
-  withAttributes(Attributes): {
-    assert std.isObject(Attributes) : 'Attributes must be a object',
+  setAttributes(Attributes): {
     Properties+::: {
-      Attributes: Attributes,
+      Attributes:
+        if !std.isObject(Attributes) then (error 'Attributes must be an object')
+        else Attributes,
     },
   },
-  withChefConfiguration(ChefConfiguration): {
-    assert std.isObject(ChefConfiguration) : 'ChefConfiguration must be a object',
+  setChefConfiguration(ChefConfiguration): {
     Properties+::: {
-      ChefConfiguration: ChefConfiguration,
+      ChefConfiguration:
+        if !std.isObject(ChefConfiguration) then (error 'ChefConfiguration must be an object')
+        else ChefConfiguration,
     },
   },
-  withCloneAppIds(CloneAppIds): {
+  setCloneAppIds(CloneAppIds): {
     Properties+::: {
-      CloneAppIds: (if std.isArray(CloneAppIds) then CloneAppIds else [CloneAppIds]),
+      CloneAppIds:
+        if !std.isArray(CloneAppIds) then (error 'CloneAppIds must be an array')
+        else CloneAppIds,
     },
   },
-  withCloneAppIdsMixin(CloneAppIds): {
+  setCloneAppIdsMixin(CloneAppIds): {
     Properties+::: {
-      CloneAppIds+: (if std.isArray(CloneAppIds) then CloneAppIds else [CloneAppIds]),
+      CloneAppIds+: CloneAppIds,
     },
   },
-  withClonePermissions(ClonePermissions): {
-    assert std.isBoolean(ClonePermissions) : 'ClonePermissions must be a boolean',
+  setClonePermissions(ClonePermissions): {
     Properties+::: {
-      ClonePermissions: ClonePermissions,
+      ClonePermissions:
+        if !std.isBoolean(ClonePermissions) then (error 'ClonePermissions must be a boolean') else ClonePermissions,
     },
   },
-  withConfigurationManager(ConfigurationManager): {
-    assert std.isObject(ConfigurationManager) : 'ConfigurationManager must be a object',
+  setConfigurationManager(ConfigurationManager): {
     Properties+::: {
-      ConfigurationManager: ConfigurationManager,
+      ConfigurationManager:
+        if !std.isObject(ConfigurationManager) then (error 'ConfigurationManager must be an object')
+        else ConfigurationManager,
     },
   },
-  withCustomCookbooksSource(CustomCookbooksSource): {
-    assert std.isObject(CustomCookbooksSource) : 'CustomCookbooksSource must be a object',
+  setCustomCookbooksSource(CustomCookbooksSource): {
     Properties+::: {
-      CustomCookbooksSource: CustomCookbooksSource,
+      CustomCookbooksSource:
+        if !std.isObject(CustomCookbooksSource) then (error 'CustomCookbooksSource must be an object')
+        else CustomCookbooksSource,
     },
   },
-  withCustomJson(CustomJson): {
-    assert std.isObject(CustomJson) : 'CustomJson must be a object',
+  setCustomJson(CustomJson): {
     Properties+::: {
-      CustomJson: CustomJson,
+      CustomJson:
+        if !std.isObject(CustomJson) then (error 'CustomJson must be an object')
+        else CustomJson,
     },
   },
-  withDefaultAvailabilityZone(DefaultAvailabilityZone): {
-    assert std.isString(DefaultAvailabilityZone) : 'DefaultAvailabilityZone must be a string',
+  setDefaultAvailabilityZone(DefaultAvailabilityZone): {
     Properties+::: {
-      DefaultAvailabilityZone: DefaultAvailabilityZone,
+      DefaultAvailabilityZone:
+        if !std.isString(DefaultAvailabilityZone) then (error 'DefaultAvailabilityZone must be a string')
+        else if std.isEmpty(DefaultAvailabilityZone) then (error 'DefaultAvailabilityZone must be not empty')
+        else DefaultAvailabilityZone,
     },
   },
-  withDefaultOs(DefaultOs): {
-    assert std.isString(DefaultOs) : 'DefaultOs must be a string',
+  setDefaultOs(DefaultOs): {
     Properties+::: {
-      DefaultOs: DefaultOs,
+      DefaultOs:
+        if !std.isString(DefaultOs) then (error 'DefaultOs must be a string')
+        else if std.isEmpty(DefaultOs) then (error 'DefaultOs must be not empty')
+        else DefaultOs,
     },
   },
-  withDefaultRootDeviceType(DefaultRootDeviceType): {
-    assert std.isString(DefaultRootDeviceType) : 'DefaultRootDeviceType must be a string',
+  setDefaultRootDeviceType(DefaultRootDeviceType): {
     Properties+::: {
-      DefaultRootDeviceType: DefaultRootDeviceType,
+      DefaultRootDeviceType:
+        if !std.isString(DefaultRootDeviceType) then (error 'DefaultRootDeviceType must be a string')
+        else if std.isEmpty(DefaultRootDeviceType) then (error 'DefaultRootDeviceType must be not empty')
+        else DefaultRootDeviceType,
     },
   },
-  withDefaultSshKeyName(DefaultSshKeyName): {
-    assert std.isString(DefaultSshKeyName) : 'DefaultSshKeyName must be a string',
+  setDefaultSshKeyName(DefaultSshKeyName): {
     Properties+::: {
-      DefaultSshKeyName: DefaultSshKeyName,
+      DefaultSshKeyName:
+        if !std.isString(DefaultSshKeyName) then (error 'DefaultSshKeyName must be a string')
+        else if std.isEmpty(DefaultSshKeyName) then (error 'DefaultSshKeyName must be not empty')
+        else DefaultSshKeyName,
     },
   },
-  withDefaultSubnetId(DefaultSubnetId): {
-    assert std.isString(DefaultSubnetId) : 'DefaultSubnetId must be a string',
+  setDefaultSubnetId(DefaultSubnetId): {
     Properties+::: {
-      DefaultSubnetId: DefaultSubnetId,
+      DefaultSubnetId:
+        if !std.isString(DefaultSubnetId) then (error 'DefaultSubnetId must be a string')
+        else if std.isEmpty(DefaultSubnetId) then (error 'DefaultSubnetId must be not empty')
+        else DefaultSubnetId,
     },
   },
-  withEcsClusterArn(EcsClusterArn): {
-    assert std.isString(EcsClusterArn) : 'EcsClusterArn must be a string',
+  setEcsClusterArn(EcsClusterArn): {
     Properties+::: {
-      EcsClusterArn: EcsClusterArn,
+      EcsClusterArn:
+        if !std.isString(EcsClusterArn) then (error 'EcsClusterArn must be a string')
+        else if std.isEmpty(EcsClusterArn) then (error 'EcsClusterArn must be not empty')
+        else EcsClusterArn,
     },
   },
-  withElasticIps(ElasticIps): {
+  setElasticIps(ElasticIps): {
     Properties+::: {
-      ElasticIps: (if std.isArray(ElasticIps) then ElasticIps else [ElasticIps]),
+      ElasticIps:
+        if !std.isArray(ElasticIps) then (error 'ElasticIps must be an array')
+        else ElasticIps,
     },
   },
-  withElasticIpsMixin(ElasticIps): {
+  setElasticIpsMixin(ElasticIps): {
     Properties+::: {
-      ElasticIps+: (if std.isArray(ElasticIps) then ElasticIps else [ElasticIps]),
+      ElasticIps+: ElasticIps,
     },
   },
-  withHostnameTheme(HostnameTheme): {
-    assert std.isString(HostnameTheme) : 'HostnameTheme must be a string',
+  setHostnameTheme(HostnameTheme): {
     Properties+::: {
-      HostnameTheme: HostnameTheme,
+      HostnameTheme:
+        if !std.isString(HostnameTheme) then (error 'HostnameTheme must be a string')
+        else if std.isEmpty(HostnameTheme) then (error 'HostnameTheme must be not empty')
+        else HostnameTheme,
     },
   },
-  withRdsDbInstances(RdsDbInstances): {
+  setRdsDbInstances(RdsDbInstances): {
     Properties+::: {
-      RdsDbInstances: (if std.isArray(RdsDbInstances) then RdsDbInstances else [RdsDbInstances]),
+      RdsDbInstances:
+        if !std.isArray(RdsDbInstances) then (error 'RdsDbInstances must be an array')
+        else RdsDbInstances,
     },
   },
-  withRdsDbInstancesMixin(RdsDbInstances): {
+  setRdsDbInstancesMixin(RdsDbInstances): {
     Properties+::: {
-      RdsDbInstances+: (if std.isArray(RdsDbInstances) then RdsDbInstances else [RdsDbInstances]),
+      RdsDbInstances+: RdsDbInstances,
     },
   },
-  withSourceStackId(SourceStackId): {
-    assert std.isString(SourceStackId) : 'SourceStackId must be a string',
+  setSourceStackId(SourceStackId): {
     Properties+::: {
-      SourceStackId: SourceStackId,
+      SourceStackId:
+        if !std.isString(SourceStackId) then (error 'SourceStackId must be a string')
+        else if std.isEmpty(SourceStackId) then (error 'SourceStackId must be not empty')
+        else SourceStackId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUseCustomCookbooks(UseCustomCookbooks): {
-    assert std.isBoolean(UseCustomCookbooks) : 'UseCustomCookbooks must be a boolean',
+  setUseCustomCookbooks(UseCustomCookbooks): {
     Properties+::: {
-      UseCustomCookbooks: UseCustomCookbooks,
+      UseCustomCookbooks:
+        if !std.isBoolean(UseCustomCookbooks) then (error 'UseCustomCookbooks must be a boolean') else UseCustomCookbooks,
     },
   },
-  withUseOpsworksSecurityGroups(UseOpsworksSecurityGroups): {
-    assert std.isBoolean(UseOpsworksSecurityGroups) : 'UseOpsworksSecurityGroups must be a boolean',
+  setUseOpsworksSecurityGroups(UseOpsworksSecurityGroups): {
     Properties+::: {
-      UseOpsworksSecurityGroups: UseOpsworksSecurityGroups,
+      UseOpsworksSecurityGroups:
+        if !std.isBoolean(UseOpsworksSecurityGroups) then (error 'UseOpsworksSecurityGroups must be a boolean') else UseOpsworksSecurityGroups,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

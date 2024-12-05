@@ -5,11 +5,16 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IdentityManagementType) : 'IdentityManagementType must be a string',
-      assert IdentityManagementType == 'SAML' || IdentityManagementType == 'CONNECT_MANAGED' || IdentityManagementType == 'EXISTING_DIRECTORY' : "IdentityManagementType should be 'SAML' or 'CONNECT_MANAGED' or 'EXISTING_DIRECTORY'",
-      IdentityManagementType: IdentityManagementType,
-      assert std.isObject(Attributes) : 'Attributes must be an object',
-      Attributes: Attributes,
+      IdentityManagementType:
+        if !std.isString(IdentityManagementType) then (error 'IdentityManagementType must be a string')
+        else if std.isEmpty(IdentityManagementType) then (error 'IdentityManagementType must be not empty')
+        else if IdentityManagementType != 'SAML' && IdentityManagementType != 'CONNECT_MANAGED' && IdentityManagementType != 'EXISTING_DIRECTORY' then (error "IdentityManagementType should be 'SAML' or 'CONNECT_MANAGED' or 'EXISTING_DIRECTORY'")
+        else IdentityManagementType,
+      Attributes:
+        if !std.isObject(Attributes) then (error 'Attributes must be an object')
+        else if !std.objectHas(Attributes, 'InboundCalls') then (error ' have attribute InboundCalls')
+        else if !std.objectHas(Attributes, 'OutboundCalls') then (error ' have attribute OutboundCalls')
+        else Attributes,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,117 +24,137 @@
     Metadata:: [],
     Type: 'AWS::Connect::Instance',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withInstanceAlias(InstanceAlias): {
-    assert std.isString(InstanceAlias) : 'InstanceAlias must be a string',
+  setInstanceAlias(InstanceAlias): {
     Properties+::: {
-      InstanceAlias: InstanceAlias,
+      InstanceAlias:
+        if !std.isString(InstanceAlias) then (error 'InstanceAlias must be a string')
+        else if std.isEmpty(InstanceAlias) then (error 'InstanceAlias must be not empty')
+        else if std.length(InstanceAlias) < 1 then error ('InstanceAlias should have at least 1 characters')
+        else if std.length(InstanceAlias) > 62 then error ('InstanceAlias should have not more than 62 characters')
+        else InstanceAlias,
     },
   },
-  withCreatedTime(CreatedTime): {
-    assert std.isString(CreatedTime) : 'CreatedTime must be a string',
+  setCreatedTime(CreatedTime): {
     Properties+::: {
-      CreatedTime: CreatedTime,
+      CreatedTime:
+        if !std.isString(CreatedTime) then (error 'CreatedTime must be a string')
+        else if std.isEmpty(CreatedTime) then (error 'CreatedTime must be not empty')
+        else CreatedTime,
     },
   },
-  withServiceRole(ServiceRole): {
-    assert std.isString(ServiceRole) : 'ServiceRole must be a string',
+  setServiceRole(ServiceRole): {
     Properties+::: {
-      ServiceRole: ServiceRole,
+      ServiceRole:
+        if !std.isString(ServiceRole) then (error 'ServiceRole must be a string')
+        else if std.isEmpty(ServiceRole) then (error 'ServiceRole must be not empty')
+        else ServiceRole,
     },
   },
-  withInstanceStatus(InstanceStatus): {
-    assert std.isString(InstanceStatus) : 'InstanceStatus must be a string',
-    assert InstanceStatus == 'CREATION_IN_PROGRESS' || InstanceStatus == 'CREATION_FAILED' || InstanceStatus == 'ACTIVE' : "InstanceStatus should be 'CREATION_IN_PROGRESS' or 'CREATION_FAILED' or 'ACTIVE'",
+  setInstanceStatus(InstanceStatus): {
     Properties+::: {
-      InstanceStatus: InstanceStatus,
+      InstanceStatus:
+        if !std.isString(InstanceStatus) then (error 'InstanceStatus must be a string')
+        else if std.isEmpty(InstanceStatus) then (error 'InstanceStatus must be not empty')
+        else if InstanceStatus != 'CREATION_IN_PROGRESS' && InstanceStatus != 'CREATION_FAILED' && InstanceStatus != 'ACTIVE' then (error "InstanceStatus should be 'CREATION_IN_PROGRESS' or 'CREATION_FAILED' or 'ACTIVE'")
+        else InstanceStatus,
     },
   },
-  withDirectoryId(DirectoryId): {
-    assert std.isString(DirectoryId) : 'DirectoryId must be a string',
+  setDirectoryId(DirectoryId): {
     Properties+::: {
-      DirectoryId: DirectoryId,
+      DirectoryId:
+        if !std.isString(DirectoryId) then (error 'DirectoryId must be a string')
+        else if std.isEmpty(DirectoryId) then (error 'DirectoryId must be not empty')
+        else if std.length(DirectoryId) < 12 then error ('DirectoryId should have at least 12 characters')
+        else if std.length(DirectoryId) > 12 then error ('DirectoryId should have not more than 12 characters')
+        else DirectoryId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

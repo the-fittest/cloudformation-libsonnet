@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ViewName) : 'ViewName must be a string',
-      ViewName: ViewName,
+      ViewName:
+        if !std.isString(ViewName) then (error 'ViewName must be a string')
+        else if std.isEmpty(ViewName) then (error 'ViewName must be not empty')
+        else ViewName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,98 +17,107 @@
     Metadata:: [],
     Type: 'AWS::ResourceExplorer2::View',
   },
-  withFilters(Filters): {
-    assert std.isObject(Filters) : 'Filters must be a object',
+  setFilters(Filters): {
     Properties+::: {
-      Filters: Filters,
+      Filters:
+        if !std.isObject(Filters) then (error 'Filters must be an object')
+        else if !std.objectHas(Filters, 'FilterString') then (error ' have attribute FilterString')
+        else Filters,
     },
   },
-  withIncludedProperties(IncludedProperties): {
+  setIncludedProperties(IncludedProperties): {
     Properties+::: {
-      IncludedProperties: (if std.isArray(IncludedProperties) then IncludedProperties else [IncludedProperties]),
+      IncludedProperties:
+        if !std.isArray(IncludedProperties) then (error 'IncludedProperties must be an array')
+        else IncludedProperties,
     },
   },
-  withIncludedPropertiesMixin(IncludedProperties): {
+  setIncludedPropertiesMixin(IncludedProperties): {
     Properties+::: {
-      IncludedProperties+: (if std.isArray(IncludedProperties) then IncludedProperties else [IncludedProperties]),
+      IncludedProperties+: IncludedProperties,
     },
   },
-  withScope(Scope): {
-    assert std.isString(Scope) : 'Scope must be a string',
+  setScope(Scope): {
     Properties+::: {
-      Scope: Scope,
+      Scope:
+        if !std.isString(Scope) then (error 'Scope must be a string')
+        else if std.isEmpty(Scope) then (error 'Scope must be not empty')
+        else Scope,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withViewArn(ViewArn): {
-    assert std.isString(ViewArn) : 'ViewArn must be a string',
+  setViewArn(ViewArn): {
     Properties+::: {
-      ViewArn: ViewArn,
+      ViewArn:
+        if !std.isString(ViewArn) then (error 'ViewArn must be a string')
+        else if std.isEmpty(ViewArn) then (error 'ViewArn must be not empty')
+        else ViewArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

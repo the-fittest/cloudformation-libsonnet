@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Role) : 'Role must be a string',
-      Role: Role,
-      assert std.isString(ServerId) : 'ServerId must be a string',
-      ServerId: ServerId,
-      assert std.isString(UserName) : 'UserName must be a string',
-      UserName: UserName,
+      Role:
+        if !std.isString(Role) then (error 'Role must be a string')
+        else if std.isEmpty(Role) then (error 'Role must be not empty')
+        else if std.length(Role) < 20 then error ('Role should have at least 20 characters')
+        else if std.length(Role) > 2048 then error ('Role should have not more than 2048 characters')
+        else Role,
+      ServerId:
+        if !std.isString(ServerId) then (error 'ServerId must be a string')
+        else if std.isEmpty(ServerId) then (error 'ServerId must be not empty')
+        else if std.length(ServerId) < 19 then error ('ServerId should have at least 19 characters')
+        else if std.length(ServerId) > 19 then error ('ServerId should have not more than 19 characters')
+        else ServerId,
+      UserName:
+        if !std.isString(UserName) then (error 'UserName must be a string')
+        else if std.isEmpty(UserName) then (error 'UserName must be not empty')
+        else if std.length(UserName) < 3 then error ('UserName should have at least 3 characters')
+        else if std.length(UserName) > 100 then error ('UserName should have not more than 100 characters')
+        else UserName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,125 +33,150 @@
     Metadata:: [],
     Type: 'AWS::Transfer::User',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 1600 then error ('Arn should have not more than 1600 characters')
+        else Arn,
     },
   },
-  withHomeDirectory(HomeDirectory): {
-    assert std.isString(HomeDirectory) : 'HomeDirectory must be a string',
+  setHomeDirectory(HomeDirectory): {
     Properties+::: {
-      HomeDirectory: HomeDirectory,
+      HomeDirectory:
+        if !std.isString(HomeDirectory) then (error 'HomeDirectory must be a string')
+        else if std.isEmpty(HomeDirectory) then (error 'HomeDirectory must be not empty')
+        else if std.length(HomeDirectory) > 1024 then error ('HomeDirectory should have not more than 1024 characters')
+        else HomeDirectory,
     },
   },
-  withHomeDirectoryMappings(HomeDirectoryMappings): {
+  setHomeDirectoryMappings(HomeDirectoryMappings): {
     Properties+::: {
-      HomeDirectoryMappings: (if std.isArray(HomeDirectoryMappings) then HomeDirectoryMappings else [HomeDirectoryMappings]),
+      HomeDirectoryMappings:
+        if !std.isArray(HomeDirectoryMappings) then (error 'HomeDirectoryMappings must be an array')
+        else if std.length(HomeDirectoryMappings) < 1 then error ('HomeDirectoryMappings cannot have less than 1 items')
+        else if std.length(HomeDirectoryMappings) > 50000 then error ('HomeDirectoryMappings cannot have more than 50000 items')
+        else HomeDirectoryMappings,
     },
   },
-  withHomeDirectoryMappingsMixin(HomeDirectoryMappings): {
+  setHomeDirectoryMappingsMixin(HomeDirectoryMappings): {
     Properties+::: {
-      HomeDirectoryMappings+: (if std.isArray(HomeDirectoryMappings) then HomeDirectoryMappings else [HomeDirectoryMappings]),
+      HomeDirectoryMappings+: HomeDirectoryMappings,
     },
   },
-  withHomeDirectoryType(HomeDirectoryType): {
-    assert std.isString(HomeDirectoryType) : 'HomeDirectoryType must be a string',
-    assert HomeDirectoryType == 'PATH' || HomeDirectoryType == 'LOGICAL' : "HomeDirectoryType should be 'PATH' or 'LOGICAL'",
+  setHomeDirectoryType(HomeDirectoryType): {
     Properties+::: {
-      HomeDirectoryType: HomeDirectoryType,
+      HomeDirectoryType:
+        if !std.isString(HomeDirectoryType) then (error 'HomeDirectoryType must be a string')
+        else if std.isEmpty(HomeDirectoryType) then (error 'HomeDirectoryType must be not empty')
+        else if HomeDirectoryType != 'PATH' && HomeDirectoryType != 'LOGICAL' then (error "HomeDirectoryType should be 'PATH' or 'LOGICAL'")
+        else HomeDirectoryType,
     },
   },
-  withPolicy(Policy): {
-    assert std.isString(Policy) : 'Policy must be a string',
+  setPolicy(Policy): {
     Properties+::: {
-      Policy: Policy,
+      Policy:
+        if !std.isString(Policy) then (error 'Policy must be a string')
+        else if std.isEmpty(Policy) then (error 'Policy must be not empty')
+        else if std.length(Policy) > 2048 then error ('Policy should have not more than 2048 characters')
+        else Policy,
     },
   },
-  withPosixProfile(PosixProfile): {
-    assert std.isObject(PosixProfile) : 'PosixProfile must be a object',
+  setPosixProfile(PosixProfile): {
     Properties+::: {
-      PosixProfile: PosixProfile,
+      PosixProfile:
+        if !std.isObject(PosixProfile) then (error 'PosixProfile must be an object')
+        else if !std.objectHas(PosixProfile, 'Gid') then (error ' have attribute Gid')
+        else if !std.objectHas(PosixProfile, 'Uid') then (error ' have attribute Uid')
+        else PosixProfile,
     },
   },
-  withSshPublicKeys(SshPublicKeys): {
+  setSshPublicKeys(SshPublicKeys): {
     Properties+::: {
-      SshPublicKeys: (if std.isArray(SshPublicKeys) then SshPublicKeys else [SshPublicKeys]),
+      SshPublicKeys:
+        if !std.isArray(SshPublicKeys) then (error 'SshPublicKeys must be an array')
+        else SshPublicKeys,
     },
   },
-  withSshPublicKeysMixin(SshPublicKeys): {
+  setSshPublicKeysMixin(SshPublicKeys): {
     Properties+::: {
-      SshPublicKeys+: (if std.isArray(SshPublicKeys) then SshPublicKeys else [SshPublicKeys]),
+      SshPublicKeys+: SshPublicKeys,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) < 1 then error ('Tags cannot have less than 1 items')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -8,16 +8,30 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(QueryString) : 'QueryString must be a string',
-      QueryString: QueryString,
-      assert std.isObject(ScheduleConfiguration) : 'ScheduleConfiguration must be an object',
-      ScheduleConfiguration: ScheduleConfiguration,
-      assert std.isObject(NotificationConfiguration) : 'NotificationConfiguration must be an object',
-      NotificationConfiguration: NotificationConfiguration,
-      assert std.isString(ScheduledQueryExecutionRoleArn) : 'ScheduledQueryExecutionRoleArn must be a string',
-      ScheduledQueryExecutionRoleArn: ScheduledQueryExecutionRoleArn,
-      assert std.isObject(ErrorReportConfiguration) : 'ErrorReportConfiguration must be an object',
-      ErrorReportConfiguration: ErrorReportConfiguration,
+      QueryString:
+        if !std.isString(QueryString) then (error 'QueryString must be a string')
+        else if std.isEmpty(QueryString) then (error 'QueryString must be not empty')
+        else if std.length(QueryString) < 1 then error ('QueryString should have at least 1 characters')
+        else if std.length(QueryString) > 262144 then error ('QueryString should have not more than 262144 characters')
+        else QueryString,
+      ScheduleConfiguration:
+        if !std.isObject(ScheduleConfiguration) then (error 'ScheduleConfiguration must be an object')
+        else if !std.objectHas(ScheduleConfiguration, 'ScheduleExpression') then (error ' have attribute ScheduleExpression')
+        else ScheduleConfiguration,
+      NotificationConfiguration:
+        if !std.isObject(NotificationConfiguration) then (error 'NotificationConfiguration must be an object')
+        else if !std.objectHas(NotificationConfiguration, 'SnsConfiguration') then (error ' have attribute SnsConfiguration')
+        else NotificationConfiguration,
+      ScheduledQueryExecutionRoleArn:
+        if !std.isString(ScheduledQueryExecutionRoleArn) then (error 'ScheduledQueryExecutionRoleArn must be a string')
+        else if std.isEmpty(ScheduledQueryExecutionRoleArn) then (error 'ScheduledQueryExecutionRoleArn must be not empty')
+        else if std.length(ScheduledQueryExecutionRoleArn) < 1 then error ('ScheduledQueryExecutionRoleArn should have at least 1 characters')
+        else if std.length(ScheduledQueryExecutionRoleArn) > 2048 then error ('ScheduledQueryExecutionRoleArn should have not more than 2048 characters')
+        else ScheduledQueryExecutionRoleArn,
+      ErrorReportConfiguration:
+        if !std.isObject(ErrorReportConfiguration) then (error 'ErrorReportConfiguration must be an object')
+        else if !std.objectHas(ErrorReportConfiguration, 'S3Configuration') then (error ' have attribute S3Configuration')
+        else ErrorReportConfiguration,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -27,152 +41,189 @@
     Metadata:: [],
     Type: 'AWS::Timestream::ScheduledQuery',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 1 then error ('Arn should have at least 1 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withScheduledQueryName(ScheduledQueryName): {
-    assert std.isString(ScheduledQueryName) : 'ScheduledQueryName must be a string',
+  setScheduledQueryName(ScheduledQueryName): {
     Properties+::: {
-      ScheduledQueryName: ScheduledQueryName,
+      ScheduledQueryName:
+        if !std.isString(ScheduledQueryName) then (error 'ScheduledQueryName must be a string')
+        else if std.isEmpty(ScheduledQueryName) then (error 'ScheduledQueryName must be not empty')
+        else if std.length(ScheduledQueryName) < 1 then error ('ScheduledQueryName should have at least 1 characters')
+        else if std.length(ScheduledQueryName) > 64 then error ('ScheduledQueryName should have not more than 64 characters')
+        else ScheduledQueryName,
     },
   },
-  withClientToken(ClientToken): {
-    assert std.isString(ClientToken) : 'ClientToken must be a string',
+  setClientToken(ClientToken): {
     Properties+::: {
-      ClientToken: ClientToken,
+      ClientToken:
+        if !std.isString(ClientToken) then (error 'ClientToken must be a string')
+        else if std.isEmpty(ClientToken) then (error 'ClientToken must be not empty')
+        else if std.length(ClientToken) < 32 then error ('ClientToken should have at least 32 characters')
+        else if std.length(ClientToken) > 128 then error ('ClientToken should have not more than 128 characters')
+        else ClientToken,
     },
   },
-  withTargetConfiguration(TargetConfiguration): {
-    assert std.isObject(TargetConfiguration) : 'TargetConfiguration must be a object',
+  setTargetConfiguration(TargetConfiguration): {
     Properties+::: {
-      TargetConfiguration: TargetConfiguration,
+      TargetConfiguration:
+        if !std.isObject(TargetConfiguration) then (error 'TargetConfiguration must be an object')
+        else if !std.objectHas(TargetConfiguration, 'TimestreamConfiguration') then (error ' have attribute TimestreamConfiguration')
+        else TargetConfiguration,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else if std.length(KmsKeyId) < 1 then error ('KmsKeyId should have at least 1 characters')
+        else if std.length(KmsKeyId) > 2048 then error ('KmsKeyId should have not more than 2048 characters')
+        else KmsKeyId,
     },
   },
-  withSQName(SQName): {
-    assert std.isString(SQName) : 'SQName must be a string',
+  setSQName(SQName): {
     Properties+::: {
-      SQName: SQName,
+      SQName:
+        if !std.isString(SQName) then (error 'SQName must be a string')
+        else if std.isEmpty(SQName) then (error 'SQName must be not empty')
+        else SQName,
     },
   },
-  withSQQueryString(SQQueryString): {
-    assert std.isString(SQQueryString) : 'SQQueryString must be a string',
+  setSQQueryString(SQQueryString): {
     Properties+::: {
-      SQQueryString: SQQueryString,
+      SQQueryString:
+        if !std.isString(SQQueryString) then (error 'SQQueryString must be a string')
+        else if std.isEmpty(SQQueryString) then (error 'SQQueryString must be not empty')
+        else SQQueryString,
     },
   },
-  withSQScheduleConfiguration(SQScheduleConfiguration): {
-    assert std.isString(SQScheduleConfiguration) : 'SQScheduleConfiguration must be a string',
+  setSQScheduleConfiguration(SQScheduleConfiguration): {
     Properties+::: {
-      SQScheduleConfiguration: SQScheduleConfiguration,
+      SQScheduleConfiguration:
+        if !std.isString(SQScheduleConfiguration) then (error 'SQScheduleConfiguration must be a string')
+        else if std.isEmpty(SQScheduleConfiguration) then (error 'SQScheduleConfiguration must be not empty')
+        else SQScheduleConfiguration,
     },
   },
-  withSQNotificationConfiguration(SQNotificationConfiguration): {
-    assert std.isString(SQNotificationConfiguration) : 'SQNotificationConfiguration must be a string',
+  setSQNotificationConfiguration(SQNotificationConfiguration): {
     Properties+::: {
-      SQNotificationConfiguration: SQNotificationConfiguration,
+      SQNotificationConfiguration:
+        if !std.isString(SQNotificationConfiguration) then (error 'SQNotificationConfiguration must be a string')
+        else if std.isEmpty(SQNotificationConfiguration) then (error 'SQNotificationConfiguration must be not empty')
+        else SQNotificationConfiguration,
     },
   },
-  withSQScheduledQueryExecutionRoleArn(SQScheduledQueryExecutionRoleArn): {
-    assert std.isString(SQScheduledQueryExecutionRoleArn) : 'SQScheduledQueryExecutionRoleArn must be a string',
+  setSQScheduledQueryExecutionRoleArn(SQScheduledQueryExecutionRoleArn): {
     Properties+::: {
-      SQScheduledQueryExecutionRoleArn: SQScheduledQueryExecutionRoleArn,
+      SQScheduledQueryExecutionRoleArn:
+        if !std.isString(SQScheduledQueryExecutionRoleArn) then (error 'SQScheduledQueryExecutionRoleArn must be a string')
+        else if std.isEmpty(SQScheduledQueryExecutionRoleArn) then (error 'SQScheduledQueryExecutionRoleArn must be not empty')
+        else SQScheduledQueryExecutionRoleArn,
     },
   },
-  withSQTargetConfiguration(SQTargetConfiguration): {
-    assert std.isString(SQTargetConfiguration) : 'SQTargetConfiguration must be a string',
+  setSQTargetConfiguration(SQTargetConfiguration): {
     Properties+::: {
-      SQTargetConfiguration: SQTargetConfiguration,
+      SQTargetConfiguration:
+        if !std.isString(SQTargetConfiguration) then (error 'SQTargetConfiguration must be a string')
+        else if std.isEmpty(SQTargetConfiguration) then (error 'SQTargetConfiguration must be not empty')
+        else SQTargetConfiguration,
     },
   },
-  withSQErrorReportConfiguration(SQErrorReportConfiguration): {
-    assert std.isString(SQErrorReportConfiguration) : 'SQErrorReportConfiguration must be a string',
+  setSQErrorReportConfiguration(SQErrorReportConfiguration): {
     Properties+::: {
-      SQErrorReportConfiguration: SQErrorReportConfiguration,
+      SQErrorReportConfiguration:
+        if !std.isString(SQErrorReportConfiguration) then (error 'SQErrorReportConfiguration must be a string')
+        else if std.isEmpty(SQErrorReportConfiguration) then (error 'SQErrorReportConfiguration must be not empty')
+        else SQErrorReportConfiguration,
     },
   },
-  withSQKmsKeyId(SQKmsKeyId): {
-    assert std.isString(SQKmsKeyId) : 'SQKmsKeyId must be a string',
+  setSQKmsKeyId(SQKmsKeyId): {
     Properties+::: {
-      SQKmsKeyId: SQKmsKeyId,
+      SQKmsKeyId:
+        if !std.isString(SQKmsKeyId) then (error 'SQKmsKeyId must be a string')
+        else if std.isEmpty(SQKmsKeyId) then (error 'SQKmsKeyId must be not empty')
+        else SQKmsKeyId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

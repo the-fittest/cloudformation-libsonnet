@@ -6,13 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EventType) : 'EventType must be a string',
-      assert EventType == 'MEDIALIVE_MULTIPLEX_ALERT' || EventType == 'MEDIALIVE_MULTIPLEX_STATE_CHANGE' || EventType == 'MEDIALIVE_CHANNEL_ALERT' || EventType == 'MEDIALIVE_CHANNEL_INPUT_CHANGE' || EventType == 'MEDIALIVE_CHANNEL_STATE_CHANGE' || EventType == 'MEDIAPACKAGE_INPUT_NOTIFICATION' || EventType == 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION' || EventType == 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION' || EventType == 'SIGNAL_MAP_ACTIVE_ALARM' || EventType == 'MEDIACONNECT_ALERT' || EventType == 'MEDIACONNECT_SOURCE_HEALTH' || EventType == 'MEDIACONNECT_OUTPUT_HEALTH' || EventType == 'MEDIACONNECT_FLOW_STATUS_CHANGE' : "EventType should be 'MEDIALIVE_MULTIPLEX_ALERT' or 'MEDIALIVE_MULTIPLEX_STATE_CHANGE' or 'MEDIALIVE_CHANNEL_ALERT' or 'MEDIALIVE_CHANNEL_INPUT_CHANGE' or 'MEDIALIVE_CHANNEL_STATE_CHANGE' or 'MEDIAPACKAGE_INPUT_NOTIFICATION' or 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION' or 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION' or 'SIGNAL_MAP_ACTIVE_ALARM' or 'MEDIACONNECT_ALERT' or 'MEDIACONNECT_SOURCE_HEALTH' or 'MEDIACONNECT_OUTPUT_HEALTH' or 'MEDIACONNECT_FLOW_STATUS_CHANGE'",
-      EventType: EventType,
-      assert std.isString(GroupIdentifier) : 'GroupIdentifier must be a string',
-      GroupIdentifier: GroupIdentifier,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      EventType:
+        if !std.isString(EventType) then (error 'EventType must be a string')
+        else if std.isEmpty(EventType) then (error 'EventType must be not empty')
+        else if EventType != 'MEDIALIVE_MULTIPLEX_ALERT' && EventType != 'MEDIALIVE_MULTIPLEX_STATE_CHANGE' && EventType != 'MEDIALIVE_CHANNEL_ALERT' && EventType != 'MEDIALIVE_CHANNEL_INPUT_CHANGE' && EventType != 'MEDIALIVE_CHANNEL_STATE_CHANGE' && EventType != 'MEDIAPACKAGE_INPUT_NOTIFICATION' && EventType != 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION' && EventType != 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION' && EventType != 'SIGNAL_MAP_ACTIVE_ALARM' && EventType != 'MEDIACONNECT_ALERT' && EventType != 'MEDIACONNECT_SOURCE_HEALTH' && EventType != 'MEDIACONNECT_OUTPUT_HEALTH' && EventType != 'MEDIACONNECT_FLOW_STATUS_CHANGE' then (error "EventType should be 'MEDIALIVE_MULTIPLEX_ALERT' or 'MEDIALIVE_MULTIPLEX_STATE_CHANGE' or 'MEDIALIVE_CHANNEL_ALERT' or 'MEDIALIVE_CHANNEL_INPUT_CHANGE' or 'MEDIALIVE_CHANNEL_STATE_CHANGE' or 'MEDIAPACKAGE_INPUT_NOTIFICATION' or 'MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION' or 'MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION' or 'SIGNAL_MAP_ACTIVE_ALARM' or 'MEDIACONNECT_ALERT' or 'MEDIACONNECT_SOURCE_HEALTH' or 'MEDIACONNECT_OUTPUT_HEALTH' or 'MEDIACONNECT_FLOW_STATUS_CHANGE'")
+        else EventType,
+      GroupIdentifier:
+        if !std.isString(GroupIdentifier) then (error 'GroupIdentifier must be a string')
+        else if std.isEmpty(GroupIdentifier) then (error 'GroupIdentifier must be not empty')
+        else GroupIdentifier,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 255 then error ('Name should have not more than 255 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -22,122 +30,144 @@
     Metadata:: [],
     Type: 'AWS::MediaLive::EventBridgeRuleTemplate',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
     },
   },
-  withEventTargets(EventTargets): {
+  setEventTargets(EventTargets): {
     Properties+::: {
-      EventTargets: (if std.isArray(EventTargets) then EventTargets else [EventTargets]),
+      EventTargets:
+        if !std.isArray(EventTargets) then (error 'EventTargets must be an array')
+        else EventTargets,
     },
   },
-  withEventTargetsMixin(EventTargets): {
+  setEventTargetsMixin(EventTargets): {
     Properties+::: {
-      EventTargets+: (if std.isArray(EventTargets) then EventTargets else [EventTargets]),
+      EventTargets+: EventTargets,
     },
   },
-  withGroupId(GroupId): {
-    assert std.isString(GroupId) : 'GroupId must be a string',
+  setGroupId(GroupId): {
     Properties+::: {
-      GroupId: GroupId,
+      GroupId:
+        if !std.isString(GroupId) then (error 'GroupId must be a string')
+        else if std.isEmpty(GroupId) then (error 'GroupId must be not empty')
+        else if std.length(GroupId) < 7 then error ('GroupId should have at least 7 characters')
+        else if std.length(GroupId) > 11 then error ('GroupId should have not more than 11 characters')
+        else GroupId,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else if std.length(Id) < 7 then error ('Id should have at least 7 characters')
+        else if std.length(Id) > 11 then error ('Id should have not more than 11 characters')
+        else Id,
     },
   },
-  withIdentifier(Identifier): {
-    assert std.isString(Identifier) : 'Identifier must be a string',
+  setIdentifier(Identifier): {
     Properties+::: {
-      Identifier: Identifier,
+      Identifier:
+        if !std.isString(Identifier) then (error 'Identifier must be a string')
+        else if std.isEmpty(Identifier) then (error 'Identifier must be not empty')
+        else Identifier,
     },
   },
-  withModifiedAt(ModifiedAt): {
-    assert std.isString(ModifiedAt) : 'ModifiedAt must be a string',
+  setModifiedAt(ModifiedAt): {
     Properties+::: {
-      ModifiedAt: ModifiedAt,
+      ModifiedAt:
+        if !std.isString(ModifiedAt) then (error 'ModifiedAt must be a string')
+        else if std.isEmpty(ModifiedAt) then (error 'ModifiedAt must be not empty')
+        else ModifiedAt,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

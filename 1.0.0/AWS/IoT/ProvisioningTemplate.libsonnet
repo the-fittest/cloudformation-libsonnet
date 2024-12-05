@@ -5,10 +5,14 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ProvisioningRoleArn) : 'ProvisioningRoleArn must be a string',
-      ProvisioningRoleArn: ProvisioningRoleArn,
-      assert std.isString(TemplateBody) : 'TemplateBody must be a string',
-      TemplateBody: TemplateBody,
+      ProvisioningRoleArn:
+        if !std.isString(ProvisioningRoleArn) then (error 'ProvisioningRoleArn must be a string')
+        else if std.isEmpty(ProvisioningRoleArn) then (error 'ProvisioningRoleArn must be not empty')
+        else ProvisioningRoleArn,
+      TemplateBody:
+        if !std.isString(TemplateBody) then (error 'TemplateBody must be a string')
+        else if std.isEmpty(TemplateBody) then (error 'TemplateBody must be not empty')
+        else TemplateBody,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,111 +22,125 @@
     Metadata:: [],
     Type: 'AWS::IoT::ProvisioningTemplate',
   },
-  withTemplateArn(TemplateArn): {
-    assert std.isString(TemplateArn) : 'TemplateArn must be a string',
+  setTemplateArn(TemplateArn): {
     Properties+::: {
-      TemplateArn: TemplateArn,
+      TemplateArn:
+        if !std.isString(TemplateArn) then (error 'TemplateArn must be a string')
+        else if std.isEmpty(TemplateArn) then (error 'TemplateArn must be not empty')
+        else TemplateArn,
     },
   },
-  withTemplateName(TemplateName): {
-    assert std.isString(TemplateName) : 'TemplateName must be a string',
+  setTemplateName(TemplateName): {
     Properties+::: {
-      TemplateName: TemplateName,
+      TemplateName:
+        if !std.isString(TemplateName) then (error 'TemplateName must be a string')
+        else if std.isEmpty(TemplateName) then (error 'TemplateName must be not empty')
+        else if std.length(TemplateName) < 1 then error ('TemplateName should have at least 1 characters')
+        else if std.length(TemplateName) > 36 then error ('TemplateName should have not more than 36 characters')
+        else TemplateName,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 500 then error ('Description should have not more than 500 characters')
+        else Description,
     },
   },
-  withEnabled(Enabled): {
-    assert std.isBoolean(Enabled) : 'Enabled must be a boolean',
+  setEnabled(Enabled): {
     Properties+::: {
-      Enabled: Enabled,
+      Enabled:
+        if !std.isBoolean(Enabled) then (error 'Enabled must be a boolean') else Enabled,
     },
   },
-  withTemplateType(TemplateType): {
-    assert std.isString(TemplateType) : 'TemplateType must be a string',
-    assert TemplateType == 'FLEET_PROVISIONING' || TemplateType == 'JITP' : "TemplateType should be 'FLEET_PROVISIONING' or 'JITP'",
+  setTemplateType(TemplateType): {
     Properties+::: {
-      TemplateType: TemplateType,
+      TemplateType:
+        if !std.isString(TemplateType) then (error 'TemplateType must be a string')
+        else if std.isEmpty(TemplateType) then (error 'TemplateType must be not empty')
+        else if TemplateType != 'FLEET_PROVISIONING' && TemplateType != 'JITP' then (error "TemplateType should be 'FLEET_PROVISIONING' or 'JITP'")
+        else TemplateType,
     },
   },
-  withPreProvisioningHook(PreProvisioningHook): {
-    assert std.isObject(PreProvisioningHook) : 'PreProvisioningHook must be a object',
+  setPreProvisioningHook(PreProvisioningHook): {
     Properties+::: {
-      PreProvisioningHook: PreProvisioningHook,
+      PreProvisioningHook:
+        if !std.isObject(PreProvisioningHook) then (error 'PreProvisioningHook must be an object')
+        else PreProvisioningHook,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

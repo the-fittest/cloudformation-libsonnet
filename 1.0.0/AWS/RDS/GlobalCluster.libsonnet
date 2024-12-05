@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,123 +10,139 @@
     Metadata:: [],
     Type: 'AWS::RDS::GlobalCluster',
   },
-  withEngine(Engine): {
-    assert std.isString(Engine) : 'Engine must be a string',
-    assert Engine == 'aurora' || Engine == 'aurora-mysql' || Engine == 'aurora-postgresql' : "Engine should be 'aurora' or 'aurora-mysql' or 'aurora-postgresql'",
+  setEngine(Engine): {
     Properties+::: {
-      Engine: Engine,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else if Engine != 'aurora' && Engine != 'aurora-mysql' && Engine != 'aurora-postgresql' then (error "Engine should be 'aurora' or 'aurora-mysql' or 'aurora-postgresql'")
+        else Engine,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withEngineLifecycleSupport(EngineLifecycleSupport): {
-    assert std.isString(EngineLifecycleSupport) : 'EngineLifecycleSupport must be a string',
+  setEngineLifecycleSupport(EngineLifecycleSupport): {
     Properties+::: {
-      EngineLifecycleSupport: EngineLifecycleSupport,
+      EngineLifecycleSupport:
+        if !std.isString(EngineLifecycleSupport) then (error 'EngineLifecycleSupport must be a string')
+        else if std.isEmpty(EngineLifecycleSupport) then (error 'EngineLifecycleSupport must be not empty')
+        else EngineLifecycleSupport,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withDeletionProtection(DeletionProtection): {
-    assert std.isBoolean(DeletionProtection) : 'DeletionProtection must be a boolean',
+  setDeletionProtection(DeletionProtection): {
     Properties+::: {
-      DeletionProtection: DeletionProtection,
+      DeletionProtection:
+        if !std.isBoolean(DeletionProtection) then (error 'DeletionProtection must be a boolean') else DeletionProtection,
     },
   },
-  withGlobalClusterIdentifier(GlobalClusterIdentifier): {
-    assert std.isString(GlobalClusterIdentifier) : 'GlobalClusterIdentifier must be a string',
+  setGlobalClusterIdentifier(GlobalClusterIdentifier): {
     Properties+::: {
-      GlobalClusterIdentifier: GlobalClusterIdentifier,
+      GlobalClusterIdentifier:
+        if !std.isString(GlobalClusterIdentifier) then (error 'GlobalClusterIdentifier must be a string')
+        else if std.isEmpty(GlobalClusterIdentifier) then (error 'GlobalClusterIdentifier must be not empty')
+        else if std.length(GlobalClusterIdentifier) < 1 then error ('GlobalClusterIdentifier should have at least 1 characters')
+        else if std.length(GlobalClusterIdentifier) > 63 then error ('GlobalClusterIdentifier should have not more than 63 characters')
+        else GlobalClusterIdentifier,
     },
   },
-  withSourceDBClusterIdentifier(SourceDBClusterIdentifier): {
-    assert std.isString(SourceDBClusterIdentifier) : 'SourceDBClusterIdentifier must be a string',
+  setSourceDBClusterIdentifier(SourceDBClusterIdentifier): {
     Properties+::: {
-      SourceDBClusterIdentifier: SourceDBClusterIdentifier,
+      SourceDBClusterIdentifier:
+        if !std.isString(SourceDBClusterIdentifier) then (error 'SourceDBClusterIdentifier must be a string')
+        else if std.isEmpty(SourceDBClusterIdentifier) then (error 'SourceDBClusterIdentifier must be not empty')
+        else SourceDBClusterIdentifier,
     },
   },
-  withStorageEncrypted(StorageEncrypted): {
-    assert std.isBoolean(StorageEncrypted) : 'StorageEncrypted must be a boolean',
+  setStorageEncrypted(StorageEncrypted): {
     Properties+::: {
-      StorageEncrypted: StorageEncrypted,
+      StorageEncrypted:
+        if !std.isBoolean(StorageEncrypted) then (error 'StorageEncrypted must be a boolean') else StorageEncrypted,
     },
   },
-  withGlobalEndpoint(GlobalEndpoint): {
-    assert std.isObject(GlobalEndpoint) : 'GlobalEndpoint must be a object',
+  setGlobalEndpoint(GlobalEndpoint): {
     Properties+::: {
-      GlobalEndpoint: GlobalEndpoint,
+      GlobalEndpoint:
+        if !std.isObject(GlobalEndpoint) then (error 'GlobalEndpoint must be an object')
+        else GlobalEndpoint,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

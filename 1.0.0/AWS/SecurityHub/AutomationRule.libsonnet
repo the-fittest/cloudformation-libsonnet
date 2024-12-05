@@ -8,15 +8,31 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(RuleOrder) : 'RuleOrder must be a number',
-      RuleOrder: RuleOrder,
-      assert std.isString(RuleName) : 'RuleName must be a string',
-      RuleName: RuleName,
-      assert std.isString(Description) : 'Description must be a string',
-      Description: Description,
-      assert std.isObject(Criteria) : 'Criteria must be an object',
-      Criteria: Criteria,
-      Actions: (if std.isArray(Actions) then Actions else [Actions]),
+      RuleOrder:
+        if !std.isNumber(RuleOrder) then (error 'RuleOrder must be an number')
+        else if RuleOrder < 1 then error ('RuleOrder should be at least 1')
+        else if RuleOrder > 1000 then error ('RuleOrder should be not more than 1000')
+        else RuleOrder,
+      RuleName:
+        if !std.isString(RuleName) then (error 'RuleName must be a string')
+        else if std.isEmpty(RuleName) then (error 'RuleName must be not empty')
+        else if std.length(RuleName) < 1 then error ('RuleName should have at least 1 characters')
+        else if std.length(RuleName) > 256 then error ('RuleName should have not more than 256 characters')
+        else RuleName,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 1024 then error ('Description should have not more than 1024 characters')
+        else Description,
+      Criteria:
+        if !std.isObject(Criteria) then (error 'Criteria must be an object')
+        else Criteria,
+      Actions:
+        if !std.isArray(Actions) then (error 'Actions must be an array')
+        else if std.length(Actions) < 1 then error ('Actions cannot have less than 1 items')
+        else if std.length(Actions) > 1 then error ('Actions cannot have more than 1 items')
+        else Actions,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -26,107 +42,120 @@
     Metadata:: [],
     Type: 'AWS::SecurityHub::AutomationRule',
   },
-  withRuleArn(RuleArn): {
-    assert std.isString(RuleArn) : 'RuleArn must be a string',
+  setRuleArn(RuleArn): {
     Properties+::: {
-      RuleArn: RuleArn,
+      RuleArn:
+        if !std.isString(RuleArn) then (error 'RuleArn must be a string')
+        else if std.isEmpty(RuleArn) then (error 'RuleArn must be not empty')
+        else RuleArn,
     },
   },
-  withRuleStatus(RuleStatus): {
-    assert std.isString(RuleStatus) : 'RuleStatus must be a string',
-    assert RuleStatus == 'ENABLED' || RuleStatus == 'DISABLED' : "RuleStatus should be 'ENABLED' or 'DISABLED'",
+  setRuleStatus(RuleStatus): {
     Properties+::: {
-      RuleStatus: RuleStatus,
+      RuleStatus:
+        if !std.isString(RuleStatus) then (error 'RuleStatus must be a string')
+        else if std.isEmpty(RuleStatus) then (error 'RuleStatus must be not empty')
+        else if RuleStatus != 'ENABLED' && RuleStatus != 'DISABLED' then (error "RuleStatus should be 'ENABLED' or 'DISABLED'")
+        else RuleStatus,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withCreatedBy(CreatedBy): {
-    assert std.isString(CreatedBy) : 'CreatedBy must be a string',
+  setCreatedBy(CreatedBy): {
     Properties+::: {
-      CreatedBy: CreatedBy,
+      CreatedBy:
+        if !std.isString(CreatedBy) then (error 'CreatedBy must be a string')
+        else if std.isEmpty(CreatedBy) then (error 'CreatedBy must be not empty')
+        else if std.length(CreatedBy) < 1 then error ('CreatedBy should have at least 1 characters')
+        else if std.length(CreatedBy) > 256 then error ('CreatedBy should have not more than 256 characters')
+        else CreatedBy,
     },
   },
-  withIsTerminal(IsTerminal): {
-    assert std.isBoolean(IsTerminal) : 'IsTerminal must be a boolean',
+  setIsTerminal(IsTerminal): {
     Properties+::: {
-      IsTerminal: IsTerminal,
+      IsTerminal:
+        if !std.isBoolean(IsTerminal) then (error 'IsTerminal must be a boolean') else IsTerminal,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

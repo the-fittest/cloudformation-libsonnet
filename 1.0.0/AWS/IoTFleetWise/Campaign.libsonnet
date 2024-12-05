@@ -7,13 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 100 then error ('Name should have not more than 100 characters')
+        else Name,
       CollectionScheme: CollectionScheme,
-      assert std.isString(SignalCatalogArn) : 'SignalCatalogArn must be a string',
-      SignalCatalogArn: SignalCatalogArn,
-      assert std.isString(TargetArn) : 'TargetArn must be a string',
-      TargetArn: TargetArn,
+      SignalCatalogArn:
+        if !std.isString(SignalCatalogArn) then (error 'SignalCatalogArn must be a string')
+        else if std.isEmpty(SignalCatalogArn) then (error 'SignalCatalogArn must be not empty')
+        else SignalCatalogArn,
+      TargetArn:
+        if !std.isString(TargetArn) then (error 'TargetArn must be a string')
+        else if std.isEmpty(TargetArn) then (error 'TargetArn must be not empty')
+        else TargetArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,207 +31,253 @@
     Metadata:: [],
     Type: 'AWS::IoTFleetWise::Campaign',
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'CREATING' || Status == 'WAITING_FOR_APPROVAL' || Status == 'RUNNING' || Status == 'SUSPENDED' : "Status should be 'CREATING' or 'WAITING_FOR_APPROVAL' or 'RUNNING' or 'SUSPENDED'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'CREATING' && Status != 'WAITING_FOR_APPROVAL' && Status != 'RUNNING' && Status != 'SUSPENDED' then (error "Status should be 'CREATING' or 'WAITING_FOR_APPROVAL' or 'RUNNING' or 'SUSPENDED'")
+        else Status,
     },
   },
-  withAction(Action): {
-    assert std.isString(Action) : 'Action must be a string',
-    assert Action == 'APPROVE' || Action == 'SUSPEND' || Action == 'RESUME' || Action == 'UPDATE' : "Action should be 'APPROVE' or 'SUSPEND' or 'RESUME' or 'UPDATE'",
+  setAction(Action): {
     Properties+::: {
-      Action: Action,
+      Action:
+        if !std.isString(Action) then (error 'Action must be a string')
+        else if std.isEmpty(Action) then (error 'Action must be not empty')
+        else if Action != 'APPROVE' && Action != 'SUSPEND' && Action != 'RESUME' && Action != 'UPDATE' then (error "Action should be 'APPROVE' or 'SUSPEND' or 'RESUME' or 'UPDATE'")
+        else Action,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withCompression(Compression): {
-    assert std.isString(Compression) : 'Compression must be a string',
-    assert Compression == 'OFF' || Compression == 'SNAPPY' : "Compression should be 'OFF' or 'SNAPPY'",
+  setCompression(Compression): {
     Properties+::: {
-      Compression: Compression,
+      Compression:
+        if !std.isString(Compression) then (error 'Compression must be a string')
+        else if std.isEmpty(Compression) then (error 'Compression must be not empty')
+        else if Compression != 'OFF' && Compression != 'SNAPPY' then (error "Compression should be 'OFF' or 'SNAPPY'")
+        else Compression,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 2048 then error ('Description should have not more than 2048 characters')
+        else Description,
     },
   },
-  withPriority(Priority): {
-    assert std.isNumber(Priority) : 'Priority must be a number',
+  setPriority(Priority): {
     Properties+::: {
-      Priority: Priority,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else Priority,
     },
   },
-  withSignalsToCollect(SignalsToCollect): {
+  setSignalsToCollect(SignalsToCollect): {
     Properties+::: {
-      SignalsToCollect: (if std.isArray(SignalsToCollect) then SignalsToCollect else [SignalsToCollect]),
+      SignalsToCollect:
+        if !std.isArray(SignalsToCollect) then (error 'SignalsToCollect must be an array')
+        else if std.length(SignalsToCollect) > 1000 then error ('SignalsToCollect cannot have more than 1000 items')
+        else SignalsToCollect,
     },
   },
-  withSignalsToCollectMixin(SignalsToCollect): {
+  setSignalsToCollectMixin(SignalsToCollect): {
     Properties+::: {
-      SignalsToCollect+: (if std.isArray(SignalsToCollect) then SignalsToCollect else [SignalsToCollect]),
+      SignalsToCollect+: SignalsToCollect,
     },
   },
-  withSignalsToFetch(SignalsToFetch): {
+  setSignalsToFetch(SignalsToFetch): {
     Properties+::: {
-      SignalsToFetch: (if std.isArray(SignalsToFetch) then SignalsToFetch else [SignalsToFetch]),
+      SignalsToFetch:
+        if !std.isArray(SignalsToFetch) then (error 'SignalsToFetch must be an array')
+        else if std.length(SignalsToFetch) > 10 then error ('SignalsToFetch cannot have more than 10 items')
+        else SignalsToFetch,
     },
   },
-  withSignalsToFetchMixin(SignalsToFetch): {
+  setSignalsToFetchMixin(SignalsToFetch): {
     Properties+::: {
-      SignalsToFetch+: (if std.isArray(SignalsToFetch) then SignalsToFetch else [SignalsToFetch]),
+      SignalsToFetch+: SignalsToFetch,
     },
   },
-  withDataDestinationConfigs(DataDestinationConfigs): {
+  setDataDestinationConfigs(DataDestinationConfigs): {
     Properties+::: {
-      DataDestinationConfigs: (if std.isArray(DataDestinationConfigs) then DataDestinationConfigs else [DataDestinationConfigs]),
+      DataDestinationConfigs:
+        if !std.isArray(DataDestinationConfigs) then (error 'DataDestinationConfigs must be an array')
+        else if std.length(DataDestinationConfigs) < 1 then error ('DataDestinationConfigs cannot have less than 1 items')
+        else if std.length(DataDestinationConfigs) > 1 then error ('DataDestinationConfigs cannot have more than 1 items')
+        else DataDestinationConfigs,
     },
   },
-  withDataDestinationConfigsMixin(DataDestinationConfigs): {
+  setDataDestinationConfigsMixin(DataDestinationConfigs): {
     Properties+::: {
-      DataDestinationConfigs+: (if std.isArray(DataDestinationConfigs) then DataDestinationConfigs else [DataDestinationConfigs]),
+      DataDestinationConfigs+: DataDestinationConfigs,
     },
   },
-  withStartTime(StartTime): {
-    assert std.isString(StartTime) : 'StartTime must be a string',
+  setStartTime(StartTime): {
     Properties+::: {
-      StartTime: StartTime,
+      StartTime:
+        if !std.isString(StartTime) then (error 'StartTime must be a string')
+        else if std.isEmpty(StartTime) then (error 'StartTime must be not empty')
+        else StartTime,
     },
   },
-  withExpiryTime(ExpiryTime): {
-    assert std.isString(ExpiryTime) : 'ExpiryTime must be a string',
+  setExpiryTime(ExpiryTime): {
     Properties+::: {
-      ExpiryTime: ExpiryTime,
+      ExpiryTime:
+        if !std.isString(ExpiryTime) then (error 'ExpiryTime must be a string')
+        else if std.isEmpty(ExpiryTime) then (error 'ExpiryTime must be not empty')
+        else ExpiryTime,
     },
   },
-  withLastModificationTime(LastModificationTime): {
-    assert std.isString(LastModificationTime) : 'LastModificationTime must be a string',
+  setLastModificationTime(LastModificationTime): {
     Properties+::: {
-      LastModificationTime: LastModificationTime,
+      LastModificationTime:
+        if !std.isString(LastModificationTime) then (error 'LastModificationTime must be a string')
+        else if std.isEmpty(LastModificationTime) then (error 'LastModificationTime must be not empty')
+        else LastModificationTime,
     },
   },
-  withSpoolingMode(SpoolingMode): {
-    assert std.isString(SpoolingMode) : 'SpoolingMode must be a string',
-    assert SpoolingMode == 'OFF' || SpoolingMode == 'TO_DISK' : "SpoolingMode should be 'OFF' or 'TO_DISK'",
+  setSpoolingMode(SpoolingMode): {
     Properties+::: {
-      SpoolingMode: SpoolingMode,
+      SpoolingMode:
+        if !std.isString(SpoolingMode) then (error 'SpoolingMode must be a string')
+        else if std.isEmpty(SpoolingMode) then (error 'SpoolingMode must be not empty')
+        else if SpoolingMode != 'OFF' && SpoolingMode != 'TO_DISK' then (error "SpoolingMode should be 'OFF' or 'TO_DISK'")
+        else SpoolingMode,
     },
   },
-  withPostTriggerCollectionDuration(PostTriggerCollectionDuration): {
-    assert std.isNumber(PostTriggerCollectionDuration) : 'PostTriggerCollectionDuration must be a number',
+  setPostTriggerCollectionDuration(PostTriggerCollectionDuration): {
     Properties+::: {
-      PostTriggerCollectionDuration: PostTriggerCollectionDuration,
+      PostTriggerCollectionDuration:
+        if !std.isNumber(PostTriggerCollectionDuration) then (error 'PostTriggerCollectionDuration must be an number')
+        else if PostTriggerCollectionDuration > 4294967295 then error ('PostTriggerCollectionDuration should be not more than 4294967295')
+        else PostTriggerCollectionDuration,
     },
   },
-  withDataExtraDimensions(DataExtraDimensions): {
+  setDataExtraDimensions(DataExtraDimensions): {
     Properties+::: {
-      DataExtraDimensions: (if std.isArray(DataExtraDimensions) then DataExtraDimensions else [DataExtraDimensions]),
+      DataExtraDimensions:
+        if !std.isArray(DataExtraDimensions) then (error 'DataExtraDimensions must be an array')
+        else if std.length(DataExtraDimensions) > 5 then error ('DataExtraDimensions cannot have more than 5 items')
+        else DataExtraDimensions,
     },
   },
-  withDataExtraDimensionsMixin(DataExtraDimensions): {
+  setDataExtraDimensionsMixin(DataExtraDimensions): {
     Properties+::: {
-      DataExtraDimensions+: (if std.isArray(DataExtraDimensions) then DataExtraDimensions else [DataExtraDimensions]),
+      DataExtraDimensions+: DataExtraDimensions,
     },
   },
-  withDiagnosticsMode(DiagnosticsMode): {
-    assert std.isString(DiagnosticsMode) : 'DiagnosticsMode must be a string',
-    assert DiagnosticsMode == 'OFF' || DiagnosticsMode == 'SEND_ACTIVE_DTCS' : "DiagnosticsMode should be 'OFF' or 'SEND_ACTIVE_DTCS'",
+  setDiagnosticsMode(DiagnosticsMode): {
     Properties+::: {
-      DiagnosticsMode: DiagnosticsMode,
+      DiagnosticsMode:
+        if !std.isString(DiagnosticsMode) then (error 'DiagnosticsMode must be a string')
+        else if std.isEmpty(DiagnosticsMode) then (error 'DiagnosticsMode must be not empty')
+        else if DiagnosticsMode != 'OFF' && DiagnosticsMode != 'SEND_ACTIVE_DTCS' then (error "DiagnosticsMode should be 'OFF' or 'SEND_ACTIVE_DTCS'")
+        else DiagnosticsMode,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDataPartitions(DataPartitions): {
+  setDataPartitions(DataPartitions): {
     Properties+::: {
-      DataPartitions: (if std.isArray(DataPartitions) then DataPartitions else [DataPartitions]),
+      DataPartitions:
+        if !std.isArray(DataPartitions) then (error 'DataPartitions must be an array')
+        else if std.length(DataPartitions) > 20 then error ('DataPartitions cannot have more than 20 items')
+        else DataPartitions,
     },
   },
-  withDataPartitionsMixin(DataPartitions): {
+  setDataPartitionsMixin(DataPartitions): {
     Properties+::: {
-      DataPartitions+: (if std.isArray(DataPartitions) then DataPartitions else [DataPartitions]),
+      DataPartitions+: DataPartitions,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -6,14 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetName) : 'TargetName must be a string',
-      TargetName: TargetName,
-      assert std.isString(TargetType) : 'TargetType must be a string',
-      assert TargetType == 'THING_GROUP' || TargetType == 'CLIENT_ID' || TargetType == 'SOURCE_IP' || TargetType == 'PRINCIPAL_ID' || TargetType == 'EVENT_TYPE' : "TargetType should be 'THING_GROUP' or 'CLIENT_ID' or 'SOURCE_IP' or 'PRINCIPAL_ID' or 'EVENT_TYPE'",
-      TargetType: TargetType,
-      assert std.isString(LogLevel) : 'LogLevel must be a string',
-      assert LogLevel == 'ERROR' || LogLevel == 'WARN' || LogLevel == 'INFO' || LogLevel == 'DEBUG' || LogLevel == 'DISABLED' : "LogLevel should be 'ERROR' or 'WARN' or 'INFO' or 'DEBUG' or 'DISABLED'",
-      LogLevel: LogLevel,
+      TargetName:
+        if !std.isString(TargetName) then (error 'TargetName must be a string')
+        else if std.isEmpty(TargetName) then (error 'TargetName must be not empty')
+        else if std.length(TargetName) < 1 then error ('TargetName should have at least 1 characters')
+        else if std.length(TargetName) > 128 then error ('TargetName should have not more than 128 characters')
+        else TargetName,
+      TargetType:
+        if !std.isString(TargetType) then (error 'TargetType must be a string')
+        else if std.isEmpty(TargetType) then (error 'TargetType must be not empty')
+        else if TargetType != 'THING_GROUP' && TargetType != 'CLIENT_ID' && TargetType != 'SOURCE_IP' && TargetType != 'PRINCIPAL_ID' && TargetType != 'EVENT_TYPE' then (error "TargetType should be 'THING_GROUP' or 'CLIENT_ID' or 'SOURCE_IP' or 'PRINCIPAL_ID' or 'EVENT_TYPE'")
+        else TargetType,
+      LogLevel:
+        if !std.isString(LogLevel) then (error 'LogLevel must be a string')
+        else if std.isEmpty(LogLevel) then (error 'LogLevel must be not empty')
+        else if LogLevel != 'ERROR' && LogLevel != 'WARN' && LogLevel != 'INFO' && LogLevel != 'DEBUG' && LogLevel != 'DISABLED' then (error "LogLevel should be 'ERROR' or 'WARN' or 'INFO' or 'DEBUG' or 'DISABLED'")
+        else LogLevel,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,70 +31,74 @@
     Metadata:: [],
     Type: 'AWS::IoT::ResourceSpecificLogging',
   },
-  withTargetId(TargetId): {
-    assert std.isString(TargetId) : 'TargetId must be a string',
+  setTargetId(TargetId): {
     Properties+::: {
-      TargetId: TargetId,
+      TargetId:
+        if !std.isString(TargetId) then (error 'TargetId must be a string')
+        else if std.isEmpty(TargetId) then (error 'TargetId must be not empty')
+        else if std.length(TargetId) < 13 then error ('TargetId should have at least 13 characters')
+        else if std.length(TargetId) > 140 then error ('TargetId should have not more than 140 characters')
+        else TargetId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

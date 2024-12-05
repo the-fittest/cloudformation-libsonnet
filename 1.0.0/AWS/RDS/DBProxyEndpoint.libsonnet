@@ -6,11 +6,20 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DBProxyName) : 'DBProxyName must be a string',
-      DBProxyName: DBProxyName,
-      assert std.isString(DBProxyEndpointName) : 'DBProxyEndpointName must be a string',
-      DBProxyEndpointName: DBProxyEndpointName,
-      VpcSubnetIds: (if std.isArray(VpcSubnetIds) then VpcSubnetIds else [VpcSubnetIds]),
+      DBProxyName:
+        if !std.isString(DBProxyName) then (error 'DBProxyName must be a string')
+        else if std.isEmpty(DBProxyName) then (error 'DBProxyName must be not empty')
+        else if std.length(DBProxyName) > 64 then error ('DBProxyName should have not more than 64 characters')
+        else DBProxyName,
+      DBProxyEndpointName:
+        if !std.isString(DBProxyEndpointName) then (error 'DBProxyEndpointName must be a string')
+        else if std.isEmpty(DBProxyEndpointName) then (error 'DBProxyEndpointName must be not empty')
+        else if std.length(DBProxyEndpointName) > 64 then error ('DBProxyEndpointName should have not more than 64 characters')
+        else DBProxyEndpointName,
+      VpcSubnetIds:
+        if !std.isArray(VpcSubnetIds) then (error 'VpcSubnetIds must be an array')
+        else if std.length(VpcSubnetIds) < 2 then error ('VpcSubnetIds cannot have less than 2 items')
+        else VpcSubnetIds,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,115 +29,129 @@
     Metadata:: [],
     Type: 'AWS::RDS::DBProxyEndpoint',
   },
-  withDBProxyEndpointArn(DBProxyEndpointArn): {
-    assert std.isString(DBProxyEndpointArn) : 'DBProxyEndpointArn must be a string',
+  setDBProxyEndpointArn(DBProxyEndpointArn): {
     Properties+::: {
-      DBProxyEndpointArn: DBProxyEndpointArn,
+      DBProxyEndpointArn:
+        if !std.isString(DBProxyEndpointArn) then (error 'DBProxyEndpointArn must be a string')
+        else if std.isEmpty(DBProxyEndpointArn) then (error 'DBProxyEndpointArn must be not empty')
+        else DBProxyEndpointArn,
     },
   },
-  withVpcId(VpcId): {
-    assert std.isString(VpcId) : 'VpcId must be a string',
+  setVpcId(VpcId): {
     Properties+::: {
-      VpcId: VpcId,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
     },
   },
-  withVpcSecurityGroupIds(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIds(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds:
+        if !std.isArray(VpcSecurityGroupIds) then (error 'VpcSecurityGroupIds must be an array')
+        else if std.length(VpcSecurityGroupIds) < 1 then error ('VpcSecurityGroupIds cannot have less than 1 items')
+        else VpcSecurityGroupIds,
     },
   },
-  withVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
+  setVpcSecurityGroupIdsMixin(VpcSecurityGroupIds): {
     Properties+::: {
-      VpcSecurityGroupIds+: (if std.isArray(VpcSecurityGroupIds) then VpcSecurityGroupIds else [VpcSecurityGroupIds]),
+      VpcSecurityGroupIds+: VpcSecurityGroupIds,
     },
   },
-  withEndpoint(Endpoint): {
-    assert std.isString(Endpoint) : 'Endpoint must be a string',
+  setEndpoint(Endpoint): {
     Properties+::: {
-      Endpoint: Endpoint,
+      Endpoint:
+        if !std.isString(Endpoint) then (error 'Endpoint must be a string')
+        else if std.isEmpty(Endpoint) then (error 'Endpoint must be not empty')
+        else if std.length(Endpoint) > 256 then error ('Endpoint should have not more than 256 characters')
+        else Endpoint,
     },
   },
-  withTargetRole(TargetRole): {
-    assert std.isString(TargetRole) : 'TargetRole must be a string',
-    assert TargetRole == 'READ_WRITE' || TargetRole == 'READ_ONLY' : "TargetRole should be 'READ_WRITE' or 'READ_ONLY'",
+  setTargetRole(TargetRole): {
     Properties+::: {
-      TargetRole: TargetRole,
+      TargetRole:
+        if !std.isString(TargetRole) then (error 'TargetRole must be a string')
+        else if std.isEmpty(TargetRole) then (error 'TargetRole must be not empty')
+        else if TargetRole != 'READ_WRITE' && TargetRole != 'READ_ONLY' then (error "TargetRole should be 'READ_WRITE' or 'READ_ONLY'")
+        else TargetRole,
     },
   },
-  withIsDefault(IsDefault): {
-    assert std.isBoolean(IsDefault) : 'IsDefault must be a boolean',
+  setIsDefault(IsDefault): {
     Properties+::: {
-      IsDefault: IsDefault,
+      IsDefault:
+        if !std.isBoolean(IsDefault) then (error 'IsDefault must be a boolean') else IsDefault,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

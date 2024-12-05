@@ -6,12 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DeviceIndex) : 'DeviceIndex must be a string',
-      DeviceIndex: DeviceIndex,
-      assert std.isString(InstanceId) : 'InstanceId must be a string',
-      InstanceId: InstanceId,
-      assert std.isString(NetworkInterfaceId) : 'NetworkInterfaceId must be a string',
-      NetworkInterfaceId: NetworkInterfaceId,
+      DeviceIndex:
+        if !std.isString(DeviceIndex) then (error 'DeviceIndex must be a string')
+        else if std.isEmpty(DeviceIndex) then (error 'DeviceIndex must be not empty')
+        else DeviceIndex,
+      InstanceId:
+        if !std.isString(InstanceId) then (error 'InstanceId must be a string')
+        else if std.isEmpty(InstanceId) then (error 'InstanceId must be not empty')
+        else InstanceId,
+      NetworkInterfaceId:
+        if !std.isString(NetworkInterfaceId) then (error 'NetworkInterfaceId must be a string')
+        else if std.isEmpty(NetworkInterfaceId) then (error 'NetworkInterfaceId must be not empty')
+        else NetworkInterfaceId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,82 +27,85 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkInterfaceAttachment',
   },
-  withAttachmentId(AttachmentId): {
-    assert std.isString(AttachmentId) : 'AttachmentId must be a string',
+  setAttachmentId(AttachmentId): {
     Properties+::: {
-      AttachmentId: AttachmentId,
+      AttachmentId:
+        if !std.isString(AttachmentId) then (error 'AttachmentId must be a string')
+        else if std.isEmpty(AttachmentId) then (error 'AttachmentId must be not empty')
+        else AttachmentId,
     },
   },
-  withDeleteOnTermination(DeleteOnTermination): {
-    assert std.isBoolean(DeleteOnTermination) : 'DeleteOnTermination must be a boolean',
+  setDeleteOnTermination(DeleteOnTermination): {
     Properties+::: {
-      DeleteOnTermination: DeleteOnTermination,
+      DeleteOnTermination:
+        if !std.isBoolean(DeleteOnTermination) then (error 'DeleteOnTermination must be a boolean') else DeleteOnTermination,
     },
   },
-  withEnaSrdSpecification(EnaSrdSpecification): {
-    assert std.isObject(EnaSrdSpecification) : 'EnaSrdSpecification must be a object',
+  setEnaSrdSpecification(EnaSrdSpecification): {
     Properties+::: {
-      EnaSrdSpecification: EnaSrdSpecification,
+      EnaSrdSpecification:
+        if !std.isObject(EnaSrdSpecification) then (error 'EnaSrdSpecification must be an object')
+        else EnaSrdSpecification,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

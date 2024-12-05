@@ -8,17 +8,29 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(FarmId) : 'FarmId must be a string',
-      FarmId: FarmId,
-      assert std.isString(QueueId) : 'QueueId must be a string',
-      QueueId: QueueId,
-      assert std.isNumber(Priority) : 'Priority must be a number',
-      Priority: Priority,
-      assert std.isString(Template) : 'Template must be a string',
-      Template: Template,
-      assert std.isString(TemplateType) : 'TemplateType must be a string',
-      assert TemplateType == 'JSON' || TemplateType == 'YAML' : "TemplateType should be 'JSON' or 'YAML'",
-      TemplateType: TemplateType,
+      FarmId:
+        if !std.isString(FarmId) then (error 'FarmId must be a string')
+        else if std.isEmpty(FarmId) then (error 'FarmId must be not empty')
+        else FarmId,
+      QueueId:
+        if !std.isString(QueueId) then (error 'QueueId must be a string')
+        else if std.isEmpty(QueueId) then (error 'QueueId must be not empty')
+        else QueueId,
+      Priority:
+        if !std.isNumber(Priority) then (error 'Priority must be an number')
+        else if Priority > 10000 then error ('Priority should be not more than 10000')
+        else Priority,
+      Template:
+        if !std.isString(Template) then (error 'Template must be a string')
+        else if std.isEmpty(Template) then (error 'Template must be not empty')
+        else if std.length(Template) < 1 then error ('Template should have at least 1 characters')
+        else if std.length(Template) > 15000 then error ('Template should have not more than 15000 characters')
+        else Template,
+      TemplateType:
+        if !std.isString(TemplateType) then (error 'TemplateType must be a string')
+        else if std.isEmpty(TemplateType) then (error 'TemplateType must be not empty')
+        else if TemplateType != 'JSON' && TemplateType != 'YAML' then (error "TemplateType should be 'JSON' or 'YAML'")
+        else TemplateType,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -28,76 +40,80 @@
     Metadata:: [],
     Type: 'AWS::Deadline::QueueEnvironment',
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
     },
   },
-  withQueueEnvironmentId(QueueEnvironmentId): {
-    assert std.isString(QueueEnvironmentId) : 'QueueEnvironmentId must be a string',
+  setQueueEnvironmentId(QueueEnvironmentId): {
     Properties+::: {
-      QueueEnvironmentId: QueueEnvironmentId,
+      QueueEnvironmentId:
+        if !std.isString(QueueEnvironmentId) then (error 'QueueEnvironmentId must be a string')
+        else if std.isEmpty(QueueEnvironmentId) then (error 'QueueEnvironmentId must be not empty')
+        else QueueEnvironmentId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

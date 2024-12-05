@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,259 +10,331 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::ModelPackage',
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withAdditionalInferenceSpecifications(AdditionalInferenceSpecifications): {
+  setAdditionalInferenceSpecifications(AdditionalInferenceSpecifications): {
     Properties+::: {
-      AdditionalInferenceSpecifications: (if std.isArray(AdditionalInferenceSpecifications) then AdditionalInferenceSpecifications else [AdditionalInferenceSpecifications]),
+      AdditionalInferenceSpecifications:
+        if !std.isArray(AdditionalInferenceSpecifications) then (error 'AdditionalInferenceSpecifications must be an array')
+        else if std.length(AdditionalInferenceSpecifications) < 1 then error ('AdditionalInferenceSpecifications cannot have less than 1 items')
+        else if std.length(AdditionalInferenceSpecifications) > 15 then error ('AdditionalInferenceSpecifications cannot have more than 15 items')
+        else AdditionalInferenceSpecifications,
     },
   },
-  withAdditionalInferenceSpecificationsMixin(AdditionalInferenceSpecifications): {
+  setAdditionalInferenceSpecificationsMixin(AdditionalInferenceSpecifications): {
     Properties+::: {
-      AdditionalInferenceSpecifications+: (if std.isArray(AdditionalInferenceSpecifications) then AdditionalInferenceSpecifications else [AdditionalInferenceSpecifications]),
+      AdditionalInferenceSpecifications+: AdditionalInferenceSpecifications,
     },
   },
-  withCertifyForMarketplace(CertifyForMarketplace): {
-    assert std.isBoolean(CertifyForMarketplace) : 'CertifyForMarketplace must be a boolean',
+  setCertifyForMarketplace(CertifyForMarketplace): {
     Properties+::: {
-      CertifyForMarketplace: CertifyForMarketplace,
+      CertifyForMarketplace:
+        if !std.isBoolean(CertifyForMarketplace) then (error 'CertifyForMarketplace must be a boolean') else CertifyForMarketplace,
     },
   },
-  withClientToken(ClientToken): {
-    assert std.isString(ClientToken) : 'ClientToken must be a string',
+  setClientToken(ClientToken): {
     Properties+::: {
-      ClientToken: ClientToken,
+      ClientToken:
+        if !std.isString(ClientToken) then (error 'ClientToken must be a string')
+        else if std.isEmpty(ClientToken) then (error 'ClientToken must be not empty')
+        else if std.length(ClientToken) < 1 then error ('ClientToken should have at least 1 characters')
+        else if std.length(ClientToken) > 36 then error ('ClientToken should have not more than 36 characters')
+        else ClientToken,
     },
   },
-  withCustomerMetadataProperties(CustomerMetadataProperties): {
-    assert std.isObject(CustomerMetadataProperties) : 'CustomerMetadataProperties must be a object',
+  setCustomerMetadataProperties(CustomerMetadataProperties): {
     Properties+::: {
-      CustomerMetadataProperties: CustomerMetadataProperties,
+      CustomerMetadataProperties:
+        if !std.isObject(CustomerMetadataProperties) then (error 'CustomerMetadataProperties must be an object')
+        else CustomerMetadataProperties,
     },
   },
-  withDomain(Domain): {
-    assert std.isString(Domain) : 'Domain must be a string',
+  setDomain(Domain): {
     Properties+::: {
-      Domain: Domain,
+      Domain:
+        if !std.isString(Domain) then (error 'Domain must be a string')
+        else if std.isEmpty(Domain) then (error 'Domain must be not empty')
+        else Domain,
     },
   },
-  withDriftCheckBaselines(DriftCheckBaselines): {
-    assert std.isObject(DriftCheckBaselines) : 'DriftCheckBaselines must be a object',
+  setDriftCheckBaselines(DriftCheckBaselines): {
     Properties+::: {
-      DriftCheckBaselines: DriftCheckBaselines,
+      DriftCheckBaselines:
+        if !std.isObject(DriftCheckBaselines) then (error 'DriftCheckBaselines must be an object')
+        else DriftCheckBaselines,
     },
   },
-  withInferenceSpecification(InferenceSpecification): {
-    assert std.isObject(InferenceSpecification) : 'InferenceSpecification must be a object',
+  setInferenceSpecification(InferenceSpecification): {
     Properties+::: {
-      InferenceSpecification: InferenceSpecification,
+      InferenceSpecification:
+        if !std.isObject(InferenceSpecification) then (error 'InferenceSpecification must be an object')
+        else if !std.objectHas(InferenceSpecification, 'Containers') then (error ' have attribute Containers')
+        else if !std.objectHas(InferenceSpecification, 'SupportedContentTypes') then (error ' have attribute SupportedContentTypes')
+        else if !std.objectHas(InferenceSpecification, 'SupportedResponseMIMETypes') then (error ' have attribute SupportedResponseMIMETypes')
+        else InferenceSpecification,
     },
   },
-  withMetadataProperties(MetadataProperties): {
-    assert std.isObject(MetadataProperties) : 'MetadataProperties must be a object',
+  setMetadataProperties(MetadataProperties): {
     Properties+::: {
-      MetadataProperties: MetadataProperties,
+      MetadataProperties:
+        if !std.isObject(MetadataProperties) then (error 'MetadataProperties must be an object')
+        else MetadataProperties,
     },
   },
-  withModelApprovalStatus(ModelApprovalStatus): {
-    assert std.isString(ModelApprovalStatus) : 'ModelApprovalStatus must be a string',
-    assert ModelApprovalStatus == 'Approved' || ModelApprovalStatus == 'Rejected' || ModelApprovalStatus == 'PendingManualApproval' : "ModelApprovalStatus should be 'Approved' or 'Rejected' or 'PendingManualApproval'",
+  setModelApprovalStatus(ModelApprovalStatus): {
     Properties+::: {
-      ModelApprovalStatus: ModelApprovalStatus,
+      ModelApprovalStatus:
+        if !std.isString(ModelApprovalStatus) then (error 'ModelApprovalStatus must be a string')
+        else if std.isEmpty(ModelApprovalStatus) then (error 'ModelApprovalStatus must be not empty')
+        else if ModelApprovalStatus != 'Approved' && ModelApprovalStatus != 'Rejected' && ModelApprovalStatus != 'PendingManualApproval' then (error "ModelApprovalStatus should be 'Approved' or 'Rejected' or 'PendingManualApproval'")
+        else ModelApprovalStatus,
     },
   },
-  withModelMetrics(ModelMetrics): {
-    assert std.isObject(ModelMetrics) : 'ModelMetrics must be a object',
+  setModelMetrics(ModelMetrics): {
     Properties+::: {
-      ModelMetrics: ModelMetrics,
+      ModelMetrics:
+        if !std.isObject(ModelMetrics) then (error 'ModelMetrics must be an object')
+        else ModelMetrics,
     },
   },
-  withModelPackageDescription(ModelPackageDescription): {
-    assert std.isString(ModelPackageDescription) : 'ModelPackageDescription must be a string',
+  setModelPackageDescription(ModelPackageDescription): {
     Properties+::: {
-      ModelPackageDescription: ModelPackageDescription,
+      ModelPackageDescription:
+        if !std.isString(ModelPackageDescription) then (error 'ModelPackageDescription must be a string')
+        else if std.isEmpty(ModelPackageDescription) then (error 'ModelPackageDescription must be not empty')
+        else if std.length(ModelPackageDescription) > 1024 then error ('ModelPackageDescription should have not more than 1024 characters')
+        else ModelPackageDescription,
     },
   },
-  withModelPackageGroupName(ModelPackageGroupName): {
-    assert std.isString(ModelPackageGroupName) : 'ModelPackageGroupName must be a string',
+  setModelPackageGroupName(ModelPackageGroupName): {
     Properties+::: {
-      ModelPackageGroupName: ModelPackageGroupName,
+      ModelPackageGroupName:
+        if !std.isString(ModelPackageGroupName) then (error 'ModelPackageGroupName must be a string')
+        else if std.isEmpty(ModelPackageGroupName) then (error 'ModelPackageGroupName must be not empty')
+        else if std.length(ModelPackageGroupName) < 1 then error ('ModelPackageGroupName should have at least 1 characters')
+        else if std.length(ModelPackageGroupName) > 170 then error ('ModelPackageGroupName should have not more than 170 characters')
+        else ModelPackageGroupName,
     },
   },
-  withModelPackageName(ModelPackageName): {
-    assert std.isString(ModelPackageName) : 'ModelPackageName must be a string',
+  setModelPackageName(ModelPackageName): {
     Properties+::: {
-      ModelPackageName: ModelPackageName,
+      ModelPackageName:
+        if !std.isString(ModelPackageName) then (error 'ModelPackageName must be a string')
+        else if std.isEmpty(ModelPackageName) then (error 'ModelPackageName must be not empty')
+        else ModelPackageName,
     },
   },
-  withSamplePayloadUrl(SamplePayloadUrl): {
-    assert std.isString(SamplePayloadUrl) : 'SamplePayloadUrl must be a string',
+  setSamplePayloadUrl(SamplePayloadUrl): {
     Properties+::: {
-      SamplePayloadUrl: SamplePayloadUrl,
+      SamplePayloadUrl:
+        if !std.isString(SamplePayloadUrl) then (error 'SamplePayloadUrl must be a string')
+        else if std.isEmpty(SamplePayloadUrl) then (error 'SamplePayloadUrl must be not empty')
+        else if std.length(SamplePayloadUrl) > 1024 then error ('SamplePayloadUrl should have not more than 1024 characters')
+        else SamplePayloadUrl,
     },
   },
-  withSkipModelValidation(SkipModelValidation): {
-    assert std.isString(SkipModelValidation) : 'SkipModelValidation must be a string',
-    assert SkipModelValidation == 'None' || SkipModelValidation == 'All' : "SkipModelValidation should be 'None' or 'All'",
+  setSkipModelValidation(SkipModelValidation): {
     Properties+::: {
-      SkipModelValidation: SkipModelValidation,
+      SkipModelValidation:
+        if !std.isString(SkipModelValidation) then (error 'SkipModelValidation must be a string')
+        else if std.isEmpty(SkipModelValidation) then (error 'SkipModelValidation must be not empty')
+        else if SkipModelValidation != 'None' && SkipModelValidation != 'All' then (error "SkipModelValidation should be 'None' or 'All'")
+        else SkipModelValidation,
     },
   },
-  withSourceAlgorithmSpecification(SourceAlgorithmSpecification): {
-    assert std.isObject(SourceAlgorithmSpecification) : 'SourceAlgorithmSpecification must be a object',
+  setSourceAlgorithmSpecification(SourceAlgorithmSpecification): {
     Properties+::: {
-      SourceAlgorithmSpecification: SourceAlgorithmSpecification,
+      SourceAlgorithmSpecification:
+        if !std.isObject(SourceAlgorithmSpecification) then (error 'SourceAlgorithmSpecification must be an object')
+        else if !std.objectHas(SourceAlgorithmSpecification, 'SourceAlgorithms') then (error ' have attribute SourceAlgorithms')
+        else SourceAlgorithmSpecification,
     },
   },
-  withTask(Task): {
-    assert std.isString(Task) : 'Task must be a string',
+  setTask(Task): {
     Properties+::: {
-      Task: Task,
+      Task:
+        if !std.isString(Task) then (error 'Task must be a string')
+        else if std.isEmpty(Task) then (error 'Task must be not empty')
+        else Task,
     },
   },
-  withValidationSpecification(ValidationSpecification): {
-    assert std.isObject(ValidationSpecification) : 'ValidationSpecification must be a object',
+  setValidationSpecification(ValidationSpecification): {
     Properties+::: {
-      ValidationSpecification: ValidationSpecification,
+      ValidationSpecification:
+        if !std.isObject(ValidationSpecification) then (error 'ValidationSpecification must be an object')
+        else if !std.objectHas(ValidationSpecification, 'ValidationProfiles') then (error ' have attribute ValidationProfiles')
+        else if !std.objectHas(ValidationSpecification, 'ValidationRole') then (error ' have attribute ValidationRole')
+        else ValidationSpecification,
     },
   },
-  withModelPackageArn(ModelPackageArn): {
-    assert std.isString(ModelPackageArn) : 'ModelPackageArn must be a string',
+  setModelPackageArn(ModelPackageArn): {
     Properties+::: {
-      ModelPackageArn: ModelPackageArn,
+      ModelPackageArn:
+        if !std.isString(ModelPackageArn) then (error 'ModelPackageArn must be a string')
+        else if std.isEmpty(ModelPackageArn) then (error 'ModelPackageArn must be not empty')
+        else if std.length(ModelPackageArn) < 1 then error ('ModelPackageArn should have at least 1 characters')
+        else if std.length(ModelPackageArn) > 2048 then error ('ModelPackageArn should have not more than 2048 characters')
+        else ModelPackageArn,
     },
   },
-  withApprovalDescription(ApprovalDescription): {
-    assert std.isString(ApprovalDescription) : 'ApprovalDescription must be a string',
+  setApprovalDescription(ApprovalDescription): {
     Properties+::: {
-      ApprovalDescription: ApprovalDescription,
+      ApprovalDescription:
+        if !std.isString(ApprovalDescription) then (error 'ApprovalDescription must be a string')
+        else if std.isEmpty(ApprovalDescription) then (error 'ApprovalDescription must be not empty')
+        else if std.length(ApprovalDescription) > 1024 then error ('ApprovalDescription should have not more than 1024 characters')
+        else ApprovalDescription,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withLastModifiedTime(LastModifiedTime): {
-    assert std.isString(LastModifiedTime) : 'LastModifiedTime must be a string',
+  setLastModifiedTime(LastModifiedTime): {
     Properties+::: {
-      LastModifiedTime: LastModifiedTime,
+      LastModifiedTime:
+        if !std.isString(LastModifiedTime) then (error 'LastModifiedTime must be a string')
+        else if std.isEmpty(LastModifiedTime) then (error 'LastModifiedTime must be not empty')
+        else LastModifiedTime,
     },
   },
-  withModelPackageStatus(ModelPackageStatus): {
-    assert std.isString(ModelPackageStatus) : 'ModelPackageStatus must be a string',
-    assert ModelPackageStatus == 'Pending' || ModelPackageStatus == 'Deleting' || ModelPackageStatus == 'InProgress' || ModelPackageStatus == 'Completed' || ModelPackageStatus == 'Failed' : "ModelPackageStatus should be 'Pending' or 'Deleting' or 'InProgress' or 'Completed' or 'Failed'",
+  setModelPackageStatus(ModelPackageStatus): {
     Properties+::: {
-      ModelPackageStatus: ModelPackageStatus,
+      ModelPackageStatus:
+        if !std.isString(ModelPackageStatus) then (error 'ModelPackageStatus must be a string')
+        else if std.isEmpty(ModelPackageStatus) then (error 'ModelPackageStatus must be not empty')
+        else if ModelPackageStatus != 'Pending' && ModelPackageStatus != 'Deleting' && ModelPackageStatus != 'InProgress' && ModelPackageStatus != 'Completed' && ModelPackageStatus != 'Failed' then (error "ModelPackageStatus should be 'Pending' or 'Deleting' or 'InProgress' or 'Completed' or 'Failed'")
+        else ModelPackageStatus,
     },
   },
-  withModelPackageVersion(ModelPackageVersion): {
-    assert std.isNumber(ModelPackageVersion) : 'ModelPackageVersion must be a number',
+  setModelPackageVersion(ModelPackageVersion): {
     Properties+::: {
-      ModelPackageVersion: ModelPackageVersion,
+      ModelPackageVersion:
+        if !std.isNumber(ModelPackageVersion) then (error 'ModelPackageVersion must be an number')
+        else if ModelPackageVersion < 1 then error ('ModelPackageVersion should be at least 1')
+        else ModelPackageVersion,
     },
   },
-  withAdditionalInferenceSpecificationsToAdd(AdditionalInferenceSpecificationsToAdd): {
+  setAdditionalInferenceSpecificationsToAdd(AdditionalInferenceSpecificationsToAdd): {
     Properties+::: {
-      AdditionalInferenceSpecificationsToAdd: (if std.isArray(AdditionalInferenceSpecificationsToAdd) then AdditionalInferenceSpecificationsToAdd else [AdditionalInferenceSpecificationsToAdd]),
+      AdditionalInferenceSpecificationsToAdd:
+        if !std.isArray(AdditionalInferenceSpecificationsToAdd) then (error 'AdditionalInferenceSpecificationsToAdd must be an array')
+        else if std.length(AdditionalInferenceSpecificationsToAdd) < 1 then error ('AdditionalInferenceSpecificationsToAdd cannot have less than 1 items')
+        else if std.length(AdditionalInferenceSpecificationsToAdd) > 15 then error ('AdditionalInferenceSpecificationsToAdd cannot have more than 15 items')
+        else AdditionalInferenceSpecificationsToAdd,
     },
   },
-  withAdditionalInferenceSpecificationsToAddMixin(AdditionalInferenceSpecificationsToAdd): {
+  setAdditionalInferenceSpecificationsToAddMixin(AdditionalInferenceSpecificationsToAdd): {
     Properties+::: {
-      AdditionalInferenceSpecificationsToAdd+: (if std.isArray(AdditionalInferenceSpecificationsToAdd) then AdditionalInferenceSpecificationsToAdd else [AdditionalInferenceSpecificationsToAdd]),
+      AdditionalInferenceSpecificationsToAdd+: AdditionalInferenceSpecificationsToAdd,
     },
   },
-  withModelPackageStatusDetails(ModelPackageStatusDetails): {
-    assert std.isObject(ModelPackageStatusDetails) : 'ModelPackageStatusDetails must be a object',
+  setModelPackageStatusDetails(ModelPackageStatusDetails): {
     Properties+::: {
-      ModelPackageStatusDetails: ModelPackageStatusDetails,
+      ModelPackageStatusDetails:
+        if !std.isObject(ModelPackageStatusDetails) then (error 'ModelPackageStatusDetails must be an object')
+        else ModelPackageStatusDetails,
     },
   },
-  withSourceUri(SourceUri): {
-    assert std.isString(SourceUri) : 'SourceUri must be a string',
+  setSourceUri(SourceUri): {
     Properties+::: {
-      SourceUri: SourceUri,
+      SourceUri:
+        if !std.isString(SourceUri) then (error 'SourceUri must be a string')
+        else if std.isEmpty(SourceUri) then (error 'SourceUri must be not empty')
+        else if std.length(SourceUri) > 1024 then error ('SourceUri should have not more than 1024 characters')
+        else SourceUri,
     },
   },
-  withModelCard(ModelCard): {
-    assert std.isObject(ModelCard) : 'ModelCard must be a object',
+  setModelCard(ModelCard): {
     Properties+::: {
-      ModelCard: ModelCard,
+      ModelCard:
+        if !std.isObject(ModelCard) then (error 'ModelCard must be an object')
+        else if !std.objectHas(ModelCard, 'ModelCardContent') then (error ' have attribute ModelCardContent')
+        else if !std.objectHas(ModelCard, 'ModelCardStatus') then (error ' have attribute ModelCardStatus')
+        else ModelCard,
     },
   },
-  withSecurityConfig(SecurityConfig): {
-    assert std.isObject(SecurityConfig) : 'SecurityConfig must be a object',
+  setSecurityConfig(SecurityConfig): {
     Properties+::: {
-      SecurityConfig: SecurityConfig,
+      SecurityConfig:
+        if !std.isObject(SecurityConfig) then (error 'SecurityConfig must be an object')
+        else if !std.objectHas(SecurityConfig, 'KmsKeyId') then (error ' have attribute KmsKeyId')
+        else SecurityConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

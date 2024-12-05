@@ -7,15 +7,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isNumber(DeploymentDurationInMinutes) : 'DeploymentDurationInMinutes must be a number',
-      DeploymentDurationInMinutes: DeploymentDurationInMinutes,
-      assert std.isNumber(GrowthFactor) : 'GrowthFactor must be a number',
-      GrowthFactor: GrowthFactor,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(ReplicateTo) : 'ReplicateTo must be a string',
-      assert ReplicateTo == 'NONE' || ReplicateTo == 'SSM_DOCUMENT' : "ReplicateTo should be 'NONE' or 'SSM_DOCUMENT'",
-      ReplicateTo: ReplicateTo,
+      DeploymentDurationInMinutes:
+        if !std.isNumber(DeploymentDurationInMinutes) then (error 'DeploymentDurationInMinutes must be an number')
+        else DeploymentDurationInMinutes,
+      GrowthFactor:
+        if !std.isNumber(GrowthFactor) then (error 'GrowthFactor must be an number')
+        else GrowthFactor,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else Name,
+      ReplicateTo:
+        if !std.isString(ReplicateTo) then (error 'ReplicateTo must be a string')
+        else if std.isEmpty(ReplicateTo) then (error 'ReplicateTo must be not empty')
+        else if ReplicateTo != 'NONE' && ReplicateTo != 'SSM_DOCUMENT' then (error "ReplicateTo should be 'NONE' or 'SSM_DOCUMENT'")
+        else ReplicateTo,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -25,99 +31,108 @@
     Metadata:: [],
     Type: 'AWS::AppConfig::DeploymentStrategy',
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else Description,
     },
   },
-  withFinalBakeTimeInMinutes(FinalBakeTimeInMinutes): {
-    assert std.isNumber(FinalBakeTimeInMinutes) : 'FinalBakeTimeInMinutes must be a number',
+  setFinalBakeTimeInMinutes(FinalBakeTimeInMinutes): {
     Properties+::: {
-      FinalBakeTimeInMinutes: FinalBakeTimeInMinutes,
+      FinalBakeTimeInMinutes:
+        if !std.isNumber(FinalBakeTimeInMinutes) then (error 'FinalBakeTimeInMinutes must be an number')
+        else FinalBakeTimeInMinutes,
     },
   },
-  withGrowthType(GrowthType): {
-    assert std.isString(GrowthType) : 'GrowthType must be a string',
-    assert GrowthType == 'EXPONENTIAL' || GrowthType == 'LINEAR' : "GrowthType should be 'EXPONENTIAL' or 'LINEAR'",
+  setGrowthType(GrowthType): {
     Properties+::: {
-      GrowthType: GrowthType,
+      GrowthType:
+        if !std.isString(GrowthType) then (error 'GrowthType must be a string')
+        else if std.isEmpty(GrowthType) then (error 'GrowthType must be not empty')
+        else if GrowthType != 'EXPONENTIAL' && GrowthType != 'LINEAR' then (error "GrowthType should be 'EXPONENTIAL' or 'LINEAR'")
+        else GrowthType,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

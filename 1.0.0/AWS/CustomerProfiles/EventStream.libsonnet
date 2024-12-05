@@ -6,12 +6,24 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DomainName) : 'DomainName must be a string',
-      DomainName: DomainName,
-      assert std.isString(EventStreamName) : 'EventStreamName must be a string',
-      EventStreamName: EventStreamName,
-      assert std.isString(Uri) : 'Uri must be a string',
-      Uri: Uri,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else if std.length(DomainName) < 1 then error ('DomainName should have at least 1 characters')
+        else if std.length(DomainName) > 64 then error ('DomainName should have not more than 64 characters')
+        else DomainName,
+      EventStreamName:
+        if !std.isString(EventStreamName) then (error 'EventStreamName must be a string')
+        else if std.isEmpty(EventStreamName) then (error 'EventStreamName must be not empty')
+        else if std.length(EventStreamName) < 1 then error ('EventStreamName should have at least 1 characters')
+        else if std.length(EventStreamName) > 255 then error ('EventStreamName should have not more than 255 characters')
+        else EventStreamName,
+      Uri:
+        if !std.isString(Uri) then (error 'Uri must be a string')
+        else if std.isEmpty(Uri) then (error 'Uri must be not empty')
+        else if std.length(Uri) < 1 then error ('Uri should have at least 1 characters')
+        else if std.length(Uri) > 255 then error ('Uri should have not more than 255 characters')
+        else Uri,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,99 +33,113 @@
     Metadata:: [],
     Type: 'AWS::CustomerProfiles::EventStream',
   },
-  withEventStreamArn(EventStreamArn): {
-    assert std.isString(EventStreamArn) : 'EventStreamArn must be a string',
+  setEventStreamArn(EventStreamArn): {
     Properties+::: {
-      EventStreamArn: EventStreamArn,
+      EventStreamArn:
+        if !std.isString(EventStreamArn) then (error 'EventStreamArn must be a string')
+        else if std.isEmpty(EventStreamArn) then (error 'EventStreamArn must be not empty')
+        else if std.length(EventStreamArn) < 1 then error ('EventStreamArn should have at least 1 characters')
+        else if std.length(EventStreamArn) > 255 then error ('EventStreamArn should have not more than 255 characters')
+        else EventStreamArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withState(State): {
-    assert std.isString(State) : 'State must be a string',
-    assert State == 'RUNNING' || State == 'STOPPED' : "State should be 'RUNNING' or 'STOPPED'",
+  setState(State): {
     Properties+::: {
-      State: State,
+      State:
+        if !std.isString(State) then (error 'State must be a string')
+        else if std.isEmpty(State) then (error 'State must be not empty')
+        else if State != 'RUNNING' && State != 'STOPPED' then (error "State should be 'RUNNING' or 'STOPPED'")
+        else State,
     },
   },
-  withDestinationDetails(DestinationDetails): {
-    assert std.isObject(DestinationDetails) : 'DestinationDetails must be a object',
+  setDestinationDetails(DestinationDetails): {
     Properties+::: {
-      DestinationDetails: DestinationDetails,
+      DestinationDetails:
+        if !std.isObject(DestinationDetails) then (error 'DestinationDetails must be an object')
+        else if !std.objectHas(DestinationDetails, 'Uri') then (error ' have attribute Uri')
+        else if !std.objectHas(DestinationDetails, 'Status') then (error ' have attribute Status')
+        else DestinationDetails,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

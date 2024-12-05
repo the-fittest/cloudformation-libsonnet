@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,202 +10,236 @@
     Metadata:: [],
     Type: 'AWS::ECS::TaskDefinition',
   },
-  withTaskRoleArn(TaskRoleArn): {
-    assert std.isString(TaskRoleArn) : 'TaskRoleArn must be a string',
+  setTaskRoleArn(TaskRoleArn): {
     Properties+::: {
-      TaskRoleArn: TaskRoleArn,
+      TaskRoleArn:
+        if !std.isString(TaskRoleArn) then (error 'TaskRoleArn must be a string')
+        else if std.isEmpty(TaskRoleArn) then (error 'TaskRoleArn must be not empty')
+        else TaskRoleArn,
     },
   },
-  withIpcMode(IpcMode): {
-    assert std.isString(IpcMode) : 'IpcMode must be a string',
+  setIpcMode(IpcMode): {
     Properties+::: {
-      IpcMode: IpcMode,
+      IpcMode:
+        if !std.isString(IpcMode) then (error 'IpcMode must be a string')
+        else if std.isEmpty(IpcMode) then (error 'IpcMode must be not empty')
+        else IpcMode,
     },
   },
-  withInferenceAccelerators(InferenceAccelerators): {
+  setInferenceAccelerators(InferenceAccelerators): {
     Properties+::: {
-      InferenceAccelerators: (if std.isArray(InferenceAccelerators) then InferenceAccelerators else [InferenceAccelerators]),
+      InferenceAccelerators:
+        if !std.isArray(InferenceAccelerators) then (error 'InferenceAccelerators must be an array')
+        else InferenceAccelerators,
     },
   },
-  withInferenceAcceleratorsMixin(InferenceAccelerators): {
+  setInferenceAcceleratorsMixin(InferenceAccelerators): {
     Properties+::: {
-      InferenceAccelerators+: (if std.isArray(InferenceAccelerators) then InferenceAccelerators else [InferenceAccelerators]),
+      InferenceAccelerators+: InferenceAccelerators,
     },
   },
-  withMemory(Memory): {
-    assert std.isString(Memory) : 'Memory must be a string',
+  setMemory(Memory): {
     Properties+::: {
-      Memory: Memory,
+      Memory:
+        if !std.isString(Memory) then (error 'Memory must be a string')
+        else if std.isEmpty(Memory) then (error 'Memory must be not empty')
+        else Memory,
     },
   },
-  withPlacementConstraints(PlacementConstraints): {
+  setPlacementConstraints(PlacementConstraints): {
     Properties+::: {
-      PlacementConstraints: (if std.isArray(PlacementConstraints) then PlacementConstraints else [PlacementConstraints]),
+      PlacementConstraints:
+        if !std.isArray(PlacementConstraints) then (error 'PlacementConstraints must be an array')
+        else PlacementConstraints,
     },
   },
-  withPlacementConstraintsMixin(PlacementConstraints): {
+  setPlacementConstraintsMixin(PlacementConstraints): {
     Properties+::: {
-      PlacementConstraints+: (if std.isArray(PlacementConstraints) then PlacementConstraints else [PlacementConstraints]),
+      PlacementConstraints+: PlacementConstraints,
     },
   },
-  withCpu(Cpu): {
-    assert std.isString(Cpu) : 'Cpu must be a string',
+  setCpu(Cpu): {
     Properties+::: {
-      Cpu: Cpu,
+      Cpu:
+        if !std.isString(Cpu) then (error 'Cpu must be a string')
+        else if std.isEmpty(Cpu) then (error 'Cpu must be not empty')
+        else Cpu,
     },
   },
-  withRequiresCompatibilities(RequiresCompatibilities): {
+  setRequiresCompatibilities(RequiresCompatibilities): {
     Properties+::: {
-      RequiresCompatibilities: (if std.isArray(RequiresCompatibilities) then RequiresCompatibilities else [RequiresCompatibilities]),
+      RequiresCompatibilities:
+        if !std.isArray(RequiresCompatibilities) then (error 'RequiresCompatibilities must be an array')
+        else RequiresCompatibilities,
     },
   },
-  withRequiresCompatibilitiesMixin(RequiresCompatibilities): {
+  setRequiresCompatibilitiesMixin(RequiresCompatibilities): {
     Properties+::: {
-      RequiresCompatibilities+: (if std.isArray(RequiresCompatibilities) then RequiresCompatibilities else [RequiresCompatibilities]),
+      RequiresCompatibilities+: RequiresCompatibilities,
     },
   },
-  withNetworkMode(NetworkMode): {
-    assert std.isString(NetworkMode) : 'NetworkMode must be a string',
+  setNetworkMode(NetworkMode): {
     Properties+::: {
-      NetworkMode: NetworkMode,
+      NetworkMode:
+        if !std.isString(NetworkMode) then (error 'NetworkMode must be a string')
+        else if std.isEmpty(NetworkMode) then (error 'NetworkMode must be not empty')
+        else NetworkMode,
     },
   },
-  withPidMode(PidMode): {
-    assert std.isString(PidMode) : 'PidMode must be a string',
+  setPidMode(PidMode): {
     Properties+::: {
-      PidMode: PidMode,
+      PidMode:
+        if !std.isString(PidMode) then (error 'PidMode must be a string')
+        else if std.isEmpty(PidMode) then (error 'PidMode must be not empty')
+        else PidMode,
     },
   },
-  withEnableFaultInjection(EnableFaultInjection): {
-    assert std.isBoolean(EnableFaultInjection) : 'EnableFaultInjection must be a boolean',
+  setEnableFaultInjection(EnableFaultInjection): {
     Properties+::: {
-      EnableFaultInjection: EnableFaultInjection,
+      EnableFaultInjection:
+        if !std.isBoolean(EnableFaultInjection) then (error 'EnableFaultInjection must be a boolean') else EnableFaultInjection,
     },
   },
-  withExecutionRoleArn(ExecutionRoleArn): {
-    assert std.isString(ExecutionRoleArn) : 'ExecutionRoleArn must be a string',
+  setExecutionRoleArn(ExecutionRoleArn): {
     Properties+::: {
-      ExecutionRoleArn: ExecutionRoleArn,
+      ExecutionRoleArn:
+        if !std.isString(ExecutionRoleArn) then (error 'ExecutionRoleArn must be a string')
+        else if std.isEmpty(ExecutionRoleArn) then (error 'ExecutionRoleArn must be not empty')
+        else ExecutionRoleArn,
     },
   },
-  withRuntimePlatform(RuntimePlatform): {
-    assert std.isObject(RuntimePlatform) : 'RuntimePlatform must be a object',
+  setRuntimePlatform(RuntimePlatform): {
     Properties+::: {
-      RuntimePlatform: RuntimePlatform,
+      RuntimePlatform:
+        if !std.isObject(RuntimePlatform) then (error 'RuntimePlatform must be an object')
+        else RuntimePlatform,
     },
   },
-  withProxyConfiguration(ProxyConfiguration): {
-    assert std.isObject(ProxyConfiguration) : 'ProxyConfiguration must be a object',
+  setProxyConfiguration(ProxyConfiguration): {
     Properties+::: {
-      ProxyConfiguration: ProxyConfiguration,
+      ProxyConfiguration:
+        if !std.isObject(ProxyConfiguration) then (error 'ProxyConfiguration must be an object')
+        else if !std.objectHas(ProxyConfiguration, 'ContainerName') then (error ' have attribute ContainerName')
+        else ProxyConfiguration,
     },
   },
-  withVolumes(Volumes): {
+  setVolumes(Volumes): {
     Properties+::: {
-      Volumes: (if std.isArray(Volumes) then Volumes else [Volumes]),
+      Volumes:
+        if !std.isArray(Volumes) then (error 'Volumes must be an array')
+        else Volumes,
     },
   },
-  withVolumesMixin(Volumes): {
+  setVolumesMixin(Volumes): {
     Properties+::: {
-      Volumes+: (if std.isArray(Volumes) then Volumes else [Volumes]),
+      Volumes+: Volumes,
     },
   },
-  withContainerDefinitions(ContainerDefinitions): {
+  setContainerDefinitions(ContainerDefinitions): {
     Properties+::: {
-      ContainerDefinitions: (if std.isArray(ContainerDefinitions) then ContainerDefinitions else [ContainerDefinitions]),
+      ContainerDefinitions:
+        if !std.isArray(ContainerDefinitions) then (error 'ContainerDefinitions must be an array')
+        else ContainerDefinitions,
     },
   },
-  withContainerDefinitionsMixin(ContainerDefinitions): {
+  setContainerDefinitionsMixin(ContainerDefinitions): {
     Properties+::: {
-      ContainerDefinitions+: (if std.isArray(ContainerDefinitions) then ContainerDefinitions else [ContainerDefinitions]),
+      ContainerDefinitions+: ContainerDefinitions,
     },
   },
-  withFamily(Family): {
-    assert std.isString(Family) : 'Family must be a string',
+  setFamily(Family): {
     Properties+::: {
-      Family: Family,
+      Family:
+        if !std.isString(Family) then (error 'Family must be a string')
+        else if std.isEmpty(Family) then (error 'Family must be not empty')
+        else Family,
     },
   },
-  withEphemeralStorage(EphemeralStorage): {
-    assert std.isObject(EphemeralStorage) : 'EphemeralStorage must be a object',
+  setEphemeralStorage(EphemeralStorage): {
     Properties+::: {
-      EphemeralStorage: EphemeralStorage,
+      EphemeralStorage:
+        if !std.isObject(EphemeralStorage) then (error 'EphemeralStorage must be an object')
+        else EphemeralStorage,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTaskDefinitionArn(TaskDefinitionArn): {
-    assert std.isString(TaskDefinitionArn) : 'TaskDefinitionArn must be a string',
+  setTaskDefinitionArn(TaskDefinitionArn): {
     Properties+::: {
-      TaskDefinitionArn: TaskDefinitionArn,
+      TaskDefinitionArn:
+        if !std.isString(TaskDefinitionArn) then (error 'TaskDefinitionArn must be a string')
+        else if std.isEmpty(TaskDefinitionArn) then (error 'TaskDefinitionArn must be not empty')
+        else TaskDefinitionArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

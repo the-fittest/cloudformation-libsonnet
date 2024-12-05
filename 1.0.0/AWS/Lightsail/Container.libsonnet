@@ -6,12 +6,21 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ServiceName) : 'ServiceName must be a string',
-      ServiceName: ServiceName,
-      assert std.isString(Power) : 'Power must be a string',
-      Power: Power,
-      assert std.isNumber(Scale) : 'Scale must be a number',
-      Scale: Scale,
+      ServiceName:
+        if !std.isString(ServiceName) then (error 'ServiceName must be a string')
+        else if std.isEmpty(ServiceName) then (error 'ServiceName must be not empty')
+        else if std.length(ServiceName) < 1 then error ('ServiceName should have at least 1 characters')
+        else if std.length(ServiceName) > 63 then error ('ServiceName should have not more than 63 characters')
+        else ServiceName,
+      Power:
+        if !std.isString(Power) then (error 'Power must be a string')
+        else if std.isEmpty(Power) then (error 'Power must be not empty')
+        else Power,
+      Scale:
+        if !std.isNumber(Scale) then (error 'Scale must be an number')
+        else if Scale < 1 then error ('Scale should be at least 1')
+        else if Scale > 20 then error ('Scale should be not more than 20')
+        else Scale,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,120 +30,132 @@
     Metadata:: [],
     Type: 'AWS::Lightsail::Container',
   },
-  withContainerArn(ContainerArn): {
-    assert std.isString(ContainerArn) : 'ContainerArn must be a string',
+  setContainerArn(ContainerArn): {
     Properties+::: {
-      ContainerArn: ContainerArn,
+      ContainerArn:
+        if !std.isString(ContainerArn) then (error 'ContainerArn must be a string')
+        else if std.isEmpty(ContainerArn) then (error 'ContainerArn must be not empty')
+        else ContainerArn,
     },
   },
-  withPublicDomainNames(PublicDomainNames): {
+  setPublicDomainNames(PublicDomainNames): {
     Properties+::: {
-      PublicDomainNames: (if std.isArray(PublicDomainNames) then PublicDomainNames else [PublicDomainNames]),
+      PublicDomainNames:
+        if !std.isArray(PublicDomainNames) then (error 'PublicDomainNames must be an array')
+        else PublicDomainNames,
     },
   },
-  withPublicDomainNamesMixin(PublicDomainNames): {
+  setPublicDomainNamesMixin(PublicDomainNames): {
     Properties+::: {
-      PublicDomainNames+: (if std.isArray(PublicDomainNames) then PublicDomainNames else [PublicDomainNames]),
+      PublicDomainNames+: PublicDomainNames,
     },
   },
-  withContainerServiceDeployment(ContainerServiceDeployment): {
-    assert std.isObject(ContainerServiceDeployment) : 'ContainerServiceDeployment must be a object',
+  setContainerServiceDeployment(ContainerServiceDeployment): {
     Properties+::: {
-      ContainerServiceDeployment: ContainerServiceDeployment,
+      ContainerServiceDeployment:
+        if !std.isObject(ContainerServiceDeployment) then (error 'ContainerServiceDeployment must be an object')
+        else ContainerServiceDeployment,
     },
   },
-  withIsDisabled(IsDisabled): {
-    assert std.isBoolean(IsDisabled) : 'IsDisabled must be a boolean',
+  setIsDisabled(IsDisabled): {
     Properties+::: {
-      IsDisabled: IsDisabled,
+      IsDisabled:
+        if !std.isBoolean(IsDisabled) then (error 'IsDisabled must be a boolean') else IsDisabled,
     },
   },
-  withPrivateRegistryAccess(PrivateRegistryAccess): {
-    assert std.isObject(PrivateRegistryAccess) : 'PrivateRegistryAccess must be a object',
+  setPrivateRegistryAccess(PrivateRegistryAccess): {
     Properties+::: {
-      PrivateRegistryAccess: PrivateRegistryAccess,
+      PrivateRegistryAccess:
+        if !std.isObject(PrivateRegistryAccess) then (error 'PrivateRegistryAccess must be an object')
+        else PrivateRegistryAccess,
     },
   },
-  withUrl(Url): {
-    assert std.isString(Url) : 'Url must be a string',
+  setUrl(Url): {
     Properties+::: {
-      Url: Url,
+      Url:
+        if !std.isString(Url) then (error 'Url must be a string')
+        else if std.isEmpty(Url) then (error 'Url must be not empty')
+        else Url,
     },
   },
-  withPrincipalArn(PrincipalArn): {
-    assert std.isString(PrincipalArn) : 'PrincipalArn must be a string',
+  setPrincipalArn(PrincipalArn): {
     Properties+::: {
-      PrincipalArn: PrincipalArn,
+      PrincipalArn:
+        if !std.isString(PrincipalArn) then (error 'PrincipalArn must be a string')
+        else if std.isEmpty(PrincipalArn) then (error 'PrincipalArn must be not empty')
+        else PrincipalArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

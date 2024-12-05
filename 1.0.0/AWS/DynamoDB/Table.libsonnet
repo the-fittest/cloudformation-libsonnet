@@ -14,206 +14,245 @@
     Metadata:: [],
     Type: 'AWS::DynamoDB::Table',
   },
-  withOnDemandThroughput(OnDemandThroughput): {
-    assert std.isObject(OnDemandThroughput) : 'OnDemandThroughput must be a object',
+  setOnDemandThroughput(OnDemandThroughput): {
     Properties+::: {
-      OnDemandThroughput: OnDemandThroughput,
+      OnDemandThroughput:
+        if !std.isObject(OnDemandThroughput) then (error 'OnDemandThroughput must be an object')
+        else OnDemandThroughput,
     },
   },
-  withSSESpecification(SSESpecification): {
-    assert std.isObject(SSESpecification) : 'SSESpecification must be a object',
+  setSSESpecification(SSESpecification): {
     Properties+::: {
-      SSESpecification: SSESpecification,
+      SSESpecification:
+        if !std.isObject(SSESpecification) then (error 'SSESpecification must be an object')
+        else if !std.objectHas(SSESpecification, 'SSEEnabled') then (error ' have attribute SSEEnabled')
+        else SSESpecification,
     },
   },
-  withKinesisStreamSpecification(KinesisStreamSpecification): {
-    assert std.isObject(KinesisStreamSpecification) : 'KinesisStreamSpecification must be a object',
+  setKinesisStreamSpecification(KinesisStreamSpecification): {
     Properties+::: {
-      KinesisStreamSpecification: KinesisStreamSpecification,
+      KinesisStreamSpecification:
+        if !std.isObject(KinesisStreamSpecification) then (error 'KinesisStreamSpecification must be an object')
+        else if !std.objectHas(KinesisStreamSpecification, 'StreamArn') then (error ' have attribute StreamArn')
+        else KinesisStreamSpecification,
     },
   },
-  withStreamSpecification(StreamSpecification): {
-    assert std.isObject(StreamSpecification) : 'StreamSpecification must be a object',
+  setStreamSpecification(StreamSpecification): {
     Properties+::: {
-      StreamSpecification: StreamSpecification,
+      StreamSpecification:
+        if !std.isObject(StreamSpecification) then (error 'StreamSpecification must be an object')
+        else if !std.objectHas(StreamSpecification, 'StreamViewType') then (error ' have attribute StreamViewType')
+        else StreamSpecification,
     },
   },
-  withContributorInsightsSpecification(ContributorInsightsSpecification): {
-    assert std.isObject(ContributorInsightsSpecification) : 'ContributorInsightsSpecification must be a object',
+  setContributorInsightsSpecification(ContributorInsightsSpecification): {
     Properties+::: {
-      ContributorInsightsSpecification: ContributorInsightsSpecification,
+      ContributorInsightsSpecification:
+        if !std.isObject(ContributorInsightsSpecification) then (error 'ContributorInsightsSpecification must be an object')
+        else if !std.objectHas(ContributorInsightsSpecification, 'Enabled') then (error ' have attribute Enabled')
+        else ContributorInsightsSpecification,
     },
   },
-  withImportSourceSpecification(ImportSourceSpecification): {
-    assert std.isObject(ImportSourceSpecification) : 'ImportSourceSpecification must be a object',
+  setImportSourceSpecification(ImportSourceSpecification): {
     Properties+::: {
-      ImportSourceSpecification: ImportSourceSpecification,
+      ImportSourceSpecification:
+        if !std.isObject(ImportSourceSpecification) then (error 'ImportSourceSpecification must be an object')
+        else if !std.objectHas(ImportSourceSpecification, 'S3BucketSource') then (error ' have attribute S3BucketSource')
+        else if !std.objectHas(ImportSourceSpecification, 'InputFormat') then (error ' have attribute InputFormat')
+        else ImportSourceSpecification,
     },
   },
-  withPointInTimeRecoverySpecification(PointInTimeRecoverySpecification): {
-    assert std.isObject(PointInTimeRecoverySpecification) : 'PointInTimeRecoverySpecification must be a object',
+  setPointInTimeRecoverySpecification(PointInTimeRecoverySpecification): {
     Properties+::: {
-      PointInTimeRecoverySpecification: PointInTimeRecoverySpecification,
+      PointInTimeRecoverySpecification:
+        if !std.isObject(PointInTimeRecoverySpecification) then (error 'PointInTimeRecoverySpecification must be an object')
+        else PointInTimeRecoverySpecification,
     },
   },
-  withProvisionedThroughput(ProvisionedThroughput): {
-    assert std.isObject(ProvisionedThroughput) : 'ProvisionedThroughput must be a object',
+  setProvisionedThroughput(ProvisionedThroughput): {
     Properties+::: {
-      ProvisionedThroughput: ProvisionedThroughput,
+      ProvisionedThroughput:
+        if !std.isObject(ProvisionedThroughput) then (error 'ProvisionedThroughput must be an object')
+        else if !std.objectHas(ProvisionedThroughput, 'WriteCapacityUnits') then (error ' have attribute WriteCapacityUnits')
+        else if !std.objectHas(ProvisionedThroughput, 'ReadCapacityUnits') then (error ' have attribute ReadCapacityUnits')
+        else ProvisionedThroughput,
     },
   },
-  withWarmThroughput(WarmThroughput): {
-    assert std.isObject(WarmThroughput) : 'WarmThroughput must be a object',
+  setWarmThroughput(WarmThroughput): {
     Properties+::: {
-      WarmThroughput: WarmThroughput,
+      WarmThroughput:
+        if !std.isObject(WarmThroughput) then (error 'WarmThroughput must be an object')
+        else WarmThroughput,
     },
   },
-  withTableName(TableName): {
-    assert std.isString(TableName) : 'TableName must be a string',
+  setTableName(TableName): {
     Properties+::: {
-      TableName: TableName,
+      TableName:
+        if !std.isString(TableName) then (error 'TableName must be a string')
+        else if std.isEmpty(TableName) then (error 'TableName must be not empty')
+        else TableName,
     },
   },
-  withAttributeDefinitions(AttributeDefinitions): {
+  setAttributeDefinitions(AttributeDefinitions): {
     Properties+::: {
-      AttributeDefinitions: (if std.isArray(AttributeDefinitions) then AttributeDefinitions else [AttributeDefinitions]),
+      AttributeDefinitions:
+        if !std.isArray(AttributeDefinitions) then (error 'AttributeDefinitions must be an array')
+        else AttributeDefinitions,
     },
   },
-  withAttributeDefinitionsMixin(AttributeDefinitions): {
+  setAttributeDefinitionsMixin(AttributeDefinitions): {
     Properties+::: {
-      AttributeDefinitions+: (if std.isArray(AttributeDefinitions) then AttributeDefinitions else [AttributeDefinitions]),
+      AttributeDefinitions+: AttributeDefinitions,
     },
   },
-  withBillingMode(BillingMode): {
-    assert std.isString(BillingMode) : 'BillingMode must be a string',
+  setBillingMode(BillingMode): {
     Properties+::: {
-      BillingMode: BillingMode,
+      BillingMode:
+        if !std.isString(BillingMode) then (error 'BillingMode must be a string')
+        else if std.isEmpty(BillingMode) then (error 'BillingMode must be not empty')
+        else BillingMode,
     },
   },
-  withGlobalSecondaryIndexes(GlobalSecondaryIndexes): {
+  setGlobalSecondaryIndexes(GlobalSecondaryIndexes): {
     Properties+::: {
-      GlobalSecondaryIndexes: (if std.isArray(GlobalSecondaryIndexes) then GlobalSecondaryIndexes else [GlobalSecondaryIndexes]),
+      GlobalSecondaryIndexes:
+        if !std.isArray(GlobalSecondaryIndexes) then (error 'GlobalSecondaryIndexes must be an array')
+        else GlobalSecondaryIndexes,
     },
   },
-  withGlobalSecondaryIndexesMixin(GlobalSecondaryIndexes): {
+  setGlobalSecondaryIndexesMixin(GlobalSecondaryIndexes): {
     Properties+::: {
-      GlobalSecondaryIndexes+: (if std.isArray(GlobalSecondaryIndexes) then GlobalSecondaryIndexes else [GlobalSecondaryIndexes]),
+      GlobalSecondaryIndexes+: GlobalSecondaryIndexes,
     },
   },
-  withResourcePolicy(ResourcePolicy): {
-    assert std.isObject(ResourcePolicy) : 'ResourcePolicy must be a object',
+  setResourcePolicy(ResourcePolicy): {
     Properties+::: {
-      ResourcePolicy: ResourcePolicy,
+      ResourcePolicy:
+        if !std.isObject(ResourcePolicy) then (error 'ResourcePolicy must be an object')
+        else if !std.objectHas(ResourcePolicy, 'PolicyDocument') then (error ' have attribute PolicyDocument')
+        else ResourcePolicy,
     },
   },
-  withLocalSecondaryIndexes(LocalSecondaryIndexes): {
+  setLocalSecondaryIndexes(LocalSecondaryIndexes): {
     Properties+::: {
-      LocalSecondaryIndexes: (if std.isArray(LocalSecondaryIndexes) then LocalSecondaryIndexes else [LocalSecondaryIndexes]),
+      LocalSecondaryIndexes:
+        if !std.isArray(LocalSecondaryIndexes) then (error 'LocalSecondaryIndexes must be an array')
+        else LocalSecondaryIndexes,
     },
   },
-  withLocalSecondaryIndexesMixin(LocalSecondaryIndexes): {
+  setLocalSecondaryIndexesMixin(LocalSecondaryIndexes): {
     Properties+::: {
-      LocalSecondaryIndexes+: (if std.isArray(LocalSecondaryIndexes) then LocalSecondaryIndexes else [LocalSecondaryIndexes]),
+      LocalSecondaryIndexes+: LocalSecondaryIndexes,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withStreamArn(StreamArn): {
-    assert std.isString(StreamArn) : 'StreamArn must be a string',
+  setStreamArn(StreamArn): {
     Properties+::: {
-      StreamArn: StreamArn,
+      StreamArn:
+        if !std.isString(StreamArn) then (error 'StreamArn must be a string')
+        else if std.isEmpty(StreamArn) then (error 'StreamArn must be not empty')
+        else StreamArn,
     },
   },
-  withDeletionProtectionEnabled(DeletionProtectionEnabled): {
-    assert std.isBoolean(DeletionProtectionEnabled) : 'DeletionProtectionEnabled must be a boolean',
+  setDeletionProtectionEnabled(DeletionProtectionEnabled): {
     Properties+::: {
-      DeletionProtectionEnabled: DeletionProtectionEnabled,
+      DeletionProtectionEnabled:
+        if !std.isBoolean(DeletionProtectionEnabled) then (error 'DeletionProtectionEnabled must be a boolean') else DeletionProtectionEnabled,
     },
   },
-  withTableClass(TableClass): {
-    assert std.isString(TableClass) : 'TableClass must be a string',
+  setTableClass(TableClass): {
     Properties+::: {
-      TableClass: TableClass,
+      TableClass:
+        if !std.isString(TableClass) then (error 'TableClass must be a string')
+        else if std.isEmpty(TableClass) then (error 'TableClass must be not empty')
+        else TableClass,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withTimeToLiveSpecification(TimeToLiveSpecification): {
-    assert std.isObject(TimeToLiveSpecification) : 'TimeToLiveSpecification must be a object',
+  setTimeToLiveSpecification(TimeToLiveSpecification): {
     Properties+::: {
-      TimeToLiveSpecification: TimeToLiveSpecification,
+      TimeToLiveSpecification:
+        if !std.isObject(TimeToLiveSpecification) then (error 'TimeToLiveSpecification must be an object')
+        else if !std.objectHas(TimeToLiveSpecification, 'Enabled') then (error ' have attribute Enabled')
+        else TimeToLiveSpecification,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(NetworkInsightsPathId) : 'NetworkInsightsPathId must be a string',
-      NetworkInsightsPathId: NetworkInsightsPathId,
+      NetworkInsightsPathId:
+        if !std.isString(NetworkInsightsPathId) then (error 'NetworkInsightsPathId must be a string')
+        else if std.isEmpty(NetworkInsightsPathId) then (error 'NetworkInsightsPathId must be not empty')
+        else NetworkInsightsPathId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,181 +17,207 @@
     Metadata:: [],
     Type: 'AWS::EC2::NetworkInsightsAnalysis',
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
-    assert Status == 'running' || Status == 'failed' || Status == 'succeeded' : "Status should be 'running' or 'failed' or 'succeeded'",
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else if Status != 'running' && Status != 'failed' && Status != 'succeeded' then (error "Status should be 'running' or 'failed' or 'succeeded'")
+        else Status,
     },
   },
-  withReturnPathComponents(ReturnPathComponents): {
+  setReturnPathComponents(ReturnPathComponents): {
     Properties+::: {
-      ReturnPathComponents: (if std.isArray(ReturnPathComponents) then ReturnPathComponents else [ReturnPathComponents]),
+      ReturnPathComponents:
+        if !std.isArray(ReturnPathComponents) then (error 'ReturnPathComponents must be an array')
+        else ReturnPathComponents,
     },
   },
-  withReturnPathComponentsMixin(ReturnPathComponents): {
+  setReturnPathComponentsMixin(ReturnPathComponents): {
     Properties+::: {
-      ReturnPathComponents+: (if std.isArray(ReturnPathComponents) then ReturnPathComponents else [ReturnPathComponents]),
+      ReturnPathComponents+: ReturnPathComponents,
     },
   },
-  withNetworkInsightsAnalysisId(NetworkInsightsAnalysisId): {
-    assert std.isString(NetworkInsightsAnalysisId) : 'NetworkInsightsAnalysisId must be a string',
+  setNetworkInsightsAnalysisId(NetworkInsightsAnalysisId): {
     Properties+::: {
-      NetworkInsightsAnalysisId: NetworkInsightsAnalysisId,
+      NetworkInsightsAnalysisId:
+        if !std.isString(NetworkInsightsAnalysisId) then (error 'NetworkInsightsAnalysisId must be a string')
+        else if std.isEmpty(NetworkInsightsAnalysisId) then (error 'NetworkInsightsAnalysisId must be not empty')
+        else NetworkInsightsAnalysisId,
     },
   },
-  withNetworkPathFound(NetworkPathFound): {
-    assert std.isBoolean(NetworkPathFound) : 'NetworkPathFound must be a boolean',
+  setNetworkPathFound(NetworkPathFound): {
     Properties+::: {
-      NetworkPathFound: NetworkPathFound,
+      NetworkPathFound:
+        if !std.isBoolean(NetworkPathFound) then (error 'NetworkPathFound must be a boolean') else NetworkPathFound,
     },
   },
-  withSuggestedAccounts(SuggestedAccounts): {
+  setSuggestedAccounts(SuggestedAccounts): {
     Properties+::: {
-      SuggestedAccounts: (if std.isArray(SuggestedAccounts) then SuggestedAccounts else [SuggestedAccounts]),
+      SuggestedAccounts:
+        if !std.isArray(SuggestedAccounts) then (error 'SuggestedAccounts must be an array')
+        else SuggestedAccounts,
     },
   },
-  withSuggestedAccountsMixin(SuggestedAccounts): {
+  setSuggestedAccountsMixin(SuggestedAccounts): {
     Properties+::: {
-      SuggestedAccounts+: (if std.isArray(SuggestedAccounts) then SuggestedAccounts else [SuggestedAccounts]),
+      SuggestedAccounts+: SuggestedAccounts,
     },
   },
-  withFilterInArns(FilterInArns): {
+  setFilterInArns(FilterInArns): {
     Properties+::: {
-      FilterInArns: (if std.isArray(FilterInArns) then FilterInArns else [FilterInArns]),
+      FilterInArns:
+        if !std.isArray(FilterInArns) then (error 'FilterInArns must be an array')
+        else FilterInArns,
     },
   },
-  withFilterInArnsMixin(FilterInArns): {
+  setFilterInArnsMixin(FilterInArns): {
     Properties+::: {
-      FilterInArns+: (if std.isArray(FilterInArns) then FilterInArns else [FilterInArns]),
+      FilterInArns+: FilterInArns,
     },
   },
-  withNetworkInsightsAnalysisArn(NetworkInsightsAnalysisArn): {
-    assert std.isString(NetworkInsightsAnalysisArn) : 'NetworkInsightsAnalysisArn must be a string',
+  setNetworkInsightsAnalysisArn(NetworkInsightsAnalysisArn): {
     Properties+::: {
-      NetworkInsightsAnalysisArn: NetworkInsightsAnalysisArn,
+      NetworkInsightsAnalysisArn:
+        if !std.isString(NetworkInsightsAnalysisArn) then (error 'NetworkInsightsAnalysisArn must be a string')
+        else if std.isEmpty(NetworkInsightsAnalysisArn) then (error 'NetworkInsightsAnalysisArn must be not empty')
+        else NetworkInsightsAnalysisArn,
     },
   },
-  withStatusMessage(StatusMessage): {
-    assert std.isString(StatusMessage) : 'StatusMessage must be a string',
+  setStatusMessage(StatusMessage): {
     Properties+::: {
-      StatusMessage: StatusMessage,
+      StatusMessage:
+        if !std.isString(StatusMessage) then (error 'StatusMessage must be a string')
+        else if std.isEmpty(StatusMessage) then (error 'StatusMessage must be not empty')
+        else StatusMessage,
     },
   },
-  withStartDate(StartDate): {
-    assert std.isString(StartDate) : 'StartDate must be a string',
+  setStartDate(StartDate): {
     Properties+::: {
-      StartDate: StartDate,
+      StartDate:
+        if !std.isString(StartDate) then (error 'StartDate must be a string')
+        else if std.isEmpty(StartDate) then (error 'StartDate must be not empty')
+        else StartDate,
     },
   },
-  withAlternatePathHints(AlternatePathHints): {
+  setAlternatePathHints(AlternatePathHints): {
     Properties+::: {
-      AlternatePathHints: (if std.isArray(AlternatePathHints) then AlternatePathHints else [AlternatePathHints]),
+      AlternatePathHints:
+        if !std.isArray(AlternatePathHints) then (error 'AlternatePathHints must be an array')
+        else AlternatePathHints,
     },
   },
-  withAlternatePathHintsMixin(AlternatePathHints): {
+  setAlternatePathHintsMixin(AlternatePathHints): {
     Properties+::: {
-      AlternatePathHints+: (if std.isArray(AlternatePathHints) then AlternatePathHints else [AlternatePathHints]),
+      AlternatePathHints+: AlternatePathHints,
     },
   },
-  withExplanations(Explanations): {
+  setExplanations(Explanations): {
     Properties+::: {
-      Explanations: (if std.isArray(Explanations) then Explanations else [Explanations]),
+      Explanations:
+        if !std.isArray(Explanations) then (error 'Explanations must be an array')
+        else Explanations,
     },
   },
-  withExplanationsMixin(Explanations): {
+  setExplanationsMixin(Explanations): {
     Properties+::: {
-      Explanations+: (if std.isArray(Explanations) then Explanations else [Explanations]),
+      Explanations+: Explanations,
     },
   },
-  withForwardPathComponents(ForwardPathComponents): {
+  setForwardPathComponents(ForwardPathComponents): {
     Properties+::: {
-      ForwardPathComponents: (if std.isArray(ForwardPathComponents) then ForwardPathComponents else [ForwardPathComponents]),
+      ForwardPathComponents:
+        if !std.isArray(ForwardPathComponents) then (error 'ForwardPathComponents must be an array')
+        else ForwardPathComponents,
     },
   },
-  withForwardPathComponentsMixin(ForwardPathComponents): {
+  setForwardPathComponentsMixin(ForwardPathComponents): {
     Properties+::: {
-      ForwardPathComponents+: (if std.isArray(ForwardPathComponents) then ForwardPathComponents else [ForwardPathComponents]),
+      ForwardPathComponents+: ForwardPathComponents,
     },
   },
-  withAdditionalAccounts(AdditionalAccounts): {
+  setAdditionalAccounts(AdditionalAccounts): {
     Properties+::: {
-      AdditionalAccounts: (if std.isArray(AdditionalAccounts) then AdditionalAccounts else [AdditionalAccounts]),
+      AdditionalAccounts:
+        if !std.isArray(AdditionalAccounts) then (error 'AdditionalAccounts must be an array')
+        else AdditionalAccounts,
     },
   },
-  withAdditionalAccountsMixin(AdditionalAccounts): {
+  setAdditionalAccountsMixin(AdditionalAccounts): {
     Properties+::: {
-      AdditionalAccounts+: (if std.isArray(AdditionalAccounts) then AdditionalAccounts else [AdditionalAccounts]),
+      AdditionalAccounts+: AdditionalAccounts,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

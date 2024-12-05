@@ -11,22 +11,45 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(AuthMode) : 'AuthMode must be a string',
-      assert AuthMode == 'SSO' || AuthMode == 'IAM' : "AuthMode should be 'SSO' or 'IAM'",
-      AuthMode: AuthMode,
-      assert std.isString(EngineSecurityGroupId) : 'EngineSecurityGroupId must be a string',
-      EngineSecurityGroupId: EngineSecurityGroupId,
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(ServiceRole) : 'ServiceRole must be a string',
-      ServiceRole: ServiceRole,
-      SubnetIds: (if std.isArray(SubnetIds) then SubnetIds else [SubnetIds]),
-      assert std.isString(VpcId) : 'VpcId must be a string',
-      VpcId: VpcId,
-      assert std.isString(WorkspaceSecurityGroupId) : 'WorkspaceSecurityGroupId must be a string',
-      WorkspaceSecurityGroupId: WorkspaceSecurityGroupId,
-      assert std.isString(DefaultS3Location) : 'DefaultS3Location must be a string',
-      DefaultS3Location: DefaultS3Location,
+      AuthMode:
+        if !std.isString(AuthMode) then (error 'AuthMode must be a string')
+        else if std.isEmpty(AuthMode) then (error 'AuthMode must be not empty')
+        else if AuthMode != 'SSO' && AuthMode != 'IAM' then (error "AuthMode should be 'SSO' or 'IAM'")
+        else AuthMode,
+      EngineSecurityGroupId:
+        if !std.isString(EngineSecurityGroupId) then (error 'EngineSecurityGroupId must be a string')
+        else if std.isEmpty(EngineSecurityGroupId) then (error 'EngineSecurityGroupId must be not empty')
+        else if std.length(EngineSecurityGroupId) < 4 then error ('EngineSecurityGroupId should have at least 4 characters')
+        else if std.length(EngineSecurityGroupId) > 256 then error ('EngineSecurityGroupId should have not more than 256 characters')
+        else EngineSecurityGroupId,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 256 then error ('Name should have not more than 256 characters')
+        else Name,
+      ServiceRole:
+        if !std.isString(ServiceRole) then (error 'ServiceRole must be a string')
+        else if std.isEmpty(ServiceRole) then (error 'ServiceRole must be not empty')
+        else ServiceRole,
+      SubnetIds:
+        if !std.isArray(SubnetIds) then (error 'SubnetIds must be an array')
+        else if std.length(SubnetIds) < 1 then error ('SubnetIds cannot have less than 1 items')
+        else SubnetIds,
+      VpcId:
+        if !std.isString(VpcId) then (error 'VpcId must be a string')
+        else if std.isEmpty(VpcId) then (error 'VpcId must be not empty')
+        else VpcId,
+      WorkspaceSecurityGroupId:
+        if !std.isString(WorkspaceSecurityGroupId) then (error 'WorkspaceSecurityGroupId must be a string')
+        else if std.isEmpty(WorkspaceSecurityGroupId) then (error 'WorkspaceSecurityGroupId must be not empty')
+        else WorkspaceSecurityGroupId,
+      DefaultS3Location:
+        if !std.isString(DefaultS3Location) then (error 'DefaultS3Location must be a string')
+        else if std.isEmpty(DefaultS3Location) then (error 'DefaultS3Location must be not empty')
+        else if std.length(DefaultS3Location) < 6 then error ('DefaultS3Location should have at least 6 characters')
+        else if std.length(DefaultS3Location) > 10280 then error ('DefaultS3Location should have not more than 10280 characters')
+        else DefaultS3Location,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -36,141 +59,171 @@
     Metadata:: [],
     Type: 'AWS::EMR::Studio',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 256 then error ('Description should have not more than 256 characters')
+        else Description,
     },
   },
-  withStudioId(StudioId): {
-    assert std.isString(StudioId) : 'StudioId must be a string',
+  setStudioId(StudioId): {
     Properties+::: {
-      StudioId: StudioId,
+      StudioId:
+        if !std.isString(StudioId) then (error 'StudioId must be a string')
+        else if std.isEmpty(StudioId) then (error 'StudioId must be not empty')
+        else if std.length(StudioId) < 4 then error ('StudioId should have at least 4 characters')
+        else if std.length(StudioId) > 256 then error ('StudioId should have not more than 256 characters')
+        else StudioId,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withUrl(Url): {
-    assert std.isString(Url) : 'Url must be a string',
+  setUrl(Url): {
     Properties+::: {
-      Url: Url,
+      Url:
+        if !std.isString(Url) then (error 'Url must be a string')
+        else if std.isEmpty(Url) then (error 'Url must be not empty')
+        else if std.length(Url) > 4096 then error ('Url should have not more than 4096 characters')
+        else Url,
     },
   },
-  withUserRole(UserRole): {
-    assert std.isString(UserRole) : 'UserRole must be a string',
+  setUserRole(UserRole): {
     Properties+::: {
-      UserRole: UserRole,
+      UserRole:
+        if !std.isString(UserRole) then (error 'UserRole must be a string')
+        else if std.isEmpty(UserRole) then (error 'UserRole must be not empty')
+        else UserRole,
     },
   },
-  withIdpAuthUrl(IdpAuthUrl): {
-    assert std.isString(IdpAuthUrl) : 'IdpAuthUrl must be a string',
+  setIdpAuthUrl(IdpAuthUrl): {
     Properties+::: {
-      IdpAuthUrl: IdpAuthUrl,
+      IdpAuthUrl:
+        if !std.isString(IdpAuthUrl) then (error 'IdpAuthUrl must be a string')
+        else if std.isEmpty(IdpAuthUrl) then (error 'IdpAuthUrl must be not empty')
+        else if std.length(IdpAuthUrl) > 4096 then error ('IdpAuthUrl should have not more than 4096 characters')
+        else IdpAuthUrl,
     },
   },
-  withIdpRelayStateParameterName(IdpRelayStateParameterName): {
-    assert std.isString(IdpRelayStateParameterName) : 'IdpRelayStateParameterName must be a string',
+  setIdpRelayStateParameterName(IdpRelayStateParameterName): {
     Properties+::: {
-      IdpRelayStateParameterName: IdpRelayStateParameterName,
+      IdpRelayStateParameterName:
+        if !std.isString(IdpRelayStateParameterName) then (error 'IdpRelayStateParameterName must be a string')
+        else if std.isEmpty(IdpRelayStateParameterName) then (error 'IdpRelayStateParameterName must be not empty')
+        else if std.length(IdpRelayStateParameterName) > 256 then error ('IdpRelayStateParameterName should have not more than 256 characters')
+        else IdpRelayStateParameterName,
     },
   },
-  withTrustedIdentityPropagationEnabled(TrustedIdentityPropagationEnabled): {
-    assert std.isBoolean(TrustedIdentityPropagationEnabled) : 'TrustedIdentityPropagationEnabled must be a boolean',
+  setTrustedIdentityPropagationEnabled(TrustedIdentityPropagationEnabled): {
     Properties+::: {
-      TrustedIdentityPropagationEnabled: TrustedIdentityPropagationEnabled,
+      TrustedIdentityPropagationEnabled:
+        if !std.isBoolean(TrustedIdentityPropagationEnabled) then (error 'TrustedIdentityPropagationEnabled must be a boolean') else TrustedIdentityPropagationEnabled,
     },
   },
-  withIdcUserAssignment(IdcUserAssignment): {
-    assert std.isString(IdcUserAssignment) : 'IdcUserAssignment must be a string',
-    assert IdcUserAssignment == 'REQUIRED' || IdcUserAssignment == 'OPTIONAL' : "IdcUserAssignment should be 'REQUIRED' or 'OPTIONAL'",
+  setIdcUserAssignment(IdcUserAssignment): {
     Properties+::: {
-      IdcUserAssignment: IdcUserAssignment,
+      IdcUserAssignment:
+        if !std.isString(IdcUserAssignment) then (error 'IdcUserAssignment must be a string')
+        else if std.isEmpty(IdcUserAssignment) then (error 'IdcUserAssignment must be not empty')
+        else if IdcUserAssignment != 'REQUIRED' && IdcUserAssignment != 'OPTIONAL' then (error "IdcUserAssignment should be 'REQUIRED' or 'OPTIONAL'")
+        else IdcUserAssignment,
     },
   },
-  withIdcInstanceArn(IdcInstanceArn): {
-    assert std.isString(IdcInstanceArn) : 'IdcInstanceArn must be a string',
+  setIdcInstanceArn(IdcInstanceArn): {
     Properties+::: {
-      IdcInstanceArn: IdcInstanceArn,
+      IdcInstanceArn:
+        if !std.isString(IdcInstanceArn) then (error 'IdcInstanceArn must be a string')
+        else if std.isEmpty(IdcInstanceArn) then (error 'IdcInstanceArn must be not empty')
+        else if std.length(IdcInstanceArn) < 20 then error ('IdcInstanceArn should have at least 20 characters')
+        else if std.length(IdcInstanceArn) > 2048 then error ('IdcInstanceArn should have not more than 2048 characters')
+        else IdcInstanceArn,
     },
   },
-  withEncryptionKeyArn(EncryptionKeyArn): {
-    assert std.isString(EncryptionKeyArn) : 'EncryptionKeyArn must be a string',
+  setEncryptionKeyArn(EncryptionKeyArn): {
     Properties+::: {
-      EncryptionKeyArn: EncryptionKeyArn,
+      EncryptionKeyArn:
+        if !std.isString(EncryptionKeyArn) then (error 'EncryptionKeyArn must be a string')
+        else if std.isEmpty(EncryptionKeyArn) then (error 'EncryptionKeyArn must be not empty')
+        else EncryptionKeyArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

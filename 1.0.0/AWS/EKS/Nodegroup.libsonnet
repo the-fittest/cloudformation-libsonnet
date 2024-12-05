@@ -6,11 +6,18 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ClusterName) : 'ClusterName must be a string',
-      ClusterName: ClusterName,
-      assert std.isString(NodeRole) : 'NodeRole must be a string',
-      NodeRole: NodeRole,
-      Subnets: (if std.isArray(Subnets) then Subnets else [Subnets]),
+      ClusterName:
+        if !std.isString(ClusterName) then (error 'ClusterName must be a string')
+        else if std.isEmpty(ClusterName) then (error 'ClusterName must be not empty')
+        else if std.length(ClusterName) < 1 then error ('ClusterName should have at least 1 characters')
+        else ClusterName,
+      NodeRole:
+        if !std.isString(NodeRole) then (error 'NodeRole must be a string')
+        else if std.isEmpty(NodeRole) then (error 'NodeRole must be not empty')
+        else NodeRole,
+      Subnets:
+        if !std.isArray(Subnets) then (error 'Subnets must be an array')
+        else Subnets,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -20,180 +27,208 @@
     Metadata:: [],
     Type: 'AWS::EKS::Nodegroup',
   },
-  withAmiType(AmiType): {
-    assert std.isString(AmiType) : 'AmiType must be a string',
+  setAmiType(AmiType): {
     Properties+::: {
-      AmiType: AmiType,
+      AmiType:
+        if !std.isString(AmiType) then (error 'AmiType must be a string')
+        else if std.isEmpty(AmiType) then (error 'AmiType must be not empty')
+        else AmiType,
     },
   },
-  withCapacityType(CapacityType): {
-    assert std.isString(CapacityType) : 'CapacityType must be a string',
+  setCapacityType(CapacityType): {
     Properties+::: {
-      CapacityType: CapacityType,
+      CapacityType:
+        if !std.isString(CapacityType) then (error 'CapacityType must be a string')
+        else if std.isEmpty(CapacityType) then (error 'CapacityType must be not empty')
+        else CapacityType,
     },
   },
-  withDiskSize(DiskSize): {
-    assert std.isNumber(DiskSize) : 'DiskSize must be a number',
+  setDiskSize(DiskSize): {
     Properties+::: {
-      DiskSize: DiskSize,
+      DiskSize:
+        if !std.isNumber(DiskSize) then (error 'DiskSize must be an number')
+        else DiskSize,
     },
   },
-  withForceUpdateEnabled(ForceUpdateEnabled): {
-    assert std.isBoolean(ForceUpdateEnabled) : 'ForceUpdateEnabled must be a boolean',
+  setForceUpdateEnabled(ForceUpdateEnabled): {
     Properties+::: {
-      ForceUpdateEnabled: ForceUpdateEnabled,
+      ForceUpdateEnabled:
+        if !std.isBoolean(ForceUpdateEnabled) then (error 'ForceUpdateEnabled must be a boolean') else ForceUpdateEnabled,
     },
   },
-  withInstanceTypes(InstanceTypes): {
+  setInstanceTypes(InstanceTypes): {
     Properties+::: {
-      InstanceTypes: (if std.isArray(InstanceTypes) then InstanceTypes else [InstanceTypes]),
+      InstanceTypes:
+        if !std.isArray(InstanceTypes) then (error 'InstanceTypes must be an array')
+        else InstanceTypes,
     },
   },
-  withInstanceTypesMixin(InstanceTypes): {
+  setInstanceTypesMixin(InstanceTypes): {
     Properties+::: {
-      InstanceTypes+: (if std.isArray(InstanceTypes) then InstanceTypes else [InstanceTypes]),
+      InstanceTypes+: InstanceTypes,
     },
   },
-  withLabels(Labels): {
-    assert std.isObject(Labels) : 'Labels must be a object',
+  setLabels(Labels): {
     Properties+::: {
-      Labels: Labels,
+      Labels:
+        if !std.isObject(Labels) then (error 'Labels must be an object')
+        else Labels,
     },
   },
-  withLaunchTemplate(LaunchTemplate): {
-    assert std.isObject(LaunchTemplate) : 'LaunchTemplate must be a object',
+  setLaunchTemplate(LaunchTemplate): {
     Properties+::: {
-      LaunchTemplate: LaunchTemplate,
+      LaunchTemplate:
+        if !std.isObject(LaunchTemplate) then (error 'LaunchTemplate must be an object')
+        else LaunchTemplate,
     },
   },
-  withNodegroupName(NodegroupName): {
-    assert std.isString(NodegroupName) : 'NodegroupName must be a string',
+  setNodegroupName(NodegroupName): {
     Properties+::: {
-      NodegroupName: NodegroupName,
+      NodegroupName:
+        if !std.isString(NodegroupName) then (error 'NodegroupName must be a string')
+        else if std.isEmpty(NodegroupName) then (error 'NodegroupName must be not empty')
+        else if std.length(NodegroupName) < 1 then error ('NodegroupName should have at least 1 characters')
+        else NodegroupName,
     },
   },
-  withReleaseVersion(ReleaseVersion): {
-    assert std.isString(ReleaseVersion) : 'ReleaseVersion must be a string',
+  setReleaseVersion(ReleaseVersion): {
     Properties+::: {
-      ReleaseVersion: ReleaseVersion,
+      ReleaseVersion:
+        if !std.isString(ReleaseVersion) then (error 'ReleaseVersion must be a string')
+        else if std.isEmpty(ReleaseVersion) then (error 'ReleaseVersion must be not empty')
+        else ReleaseVersion,
     },
   },
-  withRemoteAccess(RemoteAccess): {
-    assert std.isObject(RemoteAccess) : 'RemoteAccess must be a object',
+  setRemoteAccess(RemoteAccess): {
     Properties+::: {
-      RemoteAccess: RemoteAccess,
+      RemoteAccess:
+        if !std.isObject(RemoteAccess) then (error 'RemoteAccess must be an object')
+        else if !std.objectHas(RemoteAccess, 'Ec2SshKey') then (error ' have attribute Ec2SshKey')
+        else RemoteAccess,
     },
   },
-  withScalingConfig(ScalingConfig): {
-    assert std.isObject(ScalingConfig) : 'ScalingConfig must be a object',
+  setScalingConfig(ScalingConfig): {
     Properties+::: {
-      ScalingConfig: ScalingConfig,
+      ScalingConfig:
+        if !std.isObject(ScalingConfig) then (error 'ScalingConfig must be an object')
+        else ScalingConfig,
     },
   },
-  withTags(Tags): {
-    assert std.isObject(Tags) : 'Tags must be a object',
+  setTags(Tags): {
     Properties+::: {
-      Tags: Tags,
+      Tags:
+        if !std.isObject(Tags) then (error 'Tags must be an object')
+        else Tags,
     },
   },
-  withTaints(Taints): {
+  setTaints(Taints): {
     Properties+::: {
-      Taints: (if std.isArray(Taints) then Taints else [Taints]),
+      Taints:
+        if !std.isArray(Taints) then (error 'Taints must be an array')
+        else Taints,
     },
   },
-  withTaintsMixin(Taints): {
+  setTaintsMixin(Taints): {
     Properties+::: {
-      Taints+: (if std.isArray(Taints) then Taints else [Taints]),
+      Taints+: Taints,
     },
   },
-  withUpdateConfig(UpdateConfig): {
-    assert std.isObject(UpdateConfig) : 'UpdateConfig must be a object',
+  setUpdateConfig(UpdateConfig): {
     Properties+::: {
-      UpdateConfig: UpdateConfig,
+      UpdateConfig:
+        if !std.isObject(UpdateConfig) then (error 'UpdateConfig must be an object')
+        else UpdateConfig,
     },
   },
-  withNodeRepairConfig(NodeRepairConfig): {
-    assert std.isObject(NodeRepairConfig) : 'NodeRepairConfig must be a object',
+  setNodeRepairConfig(NodeRepairConfig): {
     Properties+::: {
-      NodeRepairConfig: NodeRepairConfig,
+      NodeRepairConfig:
+        if !std.isObject(NodeRepairConfig) then (error 'NodeRepairConfig must be an object')
+        else NodeRepairConfig,
     },
   },
-  withVersion(Version): {
-    assert std.isString(Version) : 'Version must be a string',
+  setVersion(Version): {
     Properties+::: {
-      Version: Version,
+      Version:
+        if !std.isString(Version) then (error 'Version must be a string')
+        else if std.isEmpty(Version) then (error 'Version must be not empty')
+        else Version,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else Arn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

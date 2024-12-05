@@ -6,12 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(BaselineIdentifier) : 'BaselineIdentifier must be a string',
-      BaselineIdentifier: BaselineIdentifier,
-      assert std.isString(TargetIdentifier) : 'TargetIdentifier must be a string',
-      TargetIdentifier: TargetIdentifier,
-      assert std.isString(BaselineVersion) : 'BaselineVersion must be a string',
-      BaselineVersion: BaselineVersion,
+      BaselineIdentifier:
+        if !std.isString(BaselineIdentifier) then (error 'BaselineIdentifier must be a string')
+        else if std.isEmpty(BaselineIdentifier) then (error 'BaselineIdentifier must be not empty')
+        else if std.length(BaselineIdentifier) < 20 then error ('BaselineIdentifier should have at least 20 characters')
+        else if std.length(BaselineIdentifier) > 2048 then error ('BaselineIdentifier should have not more than 2048 characters')
+        else BaselineIdentifier,
+      TargetIdentifier:
+        if !std.isString(TargetIdentifier) then (error 'TargetIdentifier must be a string')
+        else if std.isEmpty(TargetIdentifier) then (error 'TargetIdentifier must be not empty')
+        else if std.length(TargetIdentifier) < 20 then error ('TargetIdentifier should have at least 20 characters')
+        else if std.length(TargetIdentifier) > 2048 then error ('TargetIdentifier should have not more than 2048 characters')
+        else TargetIdentifier,
+      BaselineVersion:
+        if !std.isString(BaselineVersion) then (error 'BaselineVersion must be a string')
+        else if std.isEmpty(BaselineVersion) then (error 'BaselineVersion must be not empty')
+        else BaselineVersion,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,90 +31,98 @@
     Metadata:: [],
     Type: 'AWS::ControlTower::EnabledBaseline',
   },
-  withEnabledBaselineIdentifier(EnabledBaselineIdentifier): {
-    assert std.isString(EnabledBaselineIdentifier) : 'EnabledBaselineIdentifier must be a string',
+  setEnabledBaselineIdentifier(EnabledBaselineIdentifier): {
     Properties+::: {
-      EnabledBaselineIdentifier: EnabledBaselineIdentifier,
+      EnabledBaselineIdentifier:
+        if !std.isString(EnabledBaselineIdentifier) then (error 'EnabledBaselineIdentifier must be a string')
+        else if std.isEmpty(EnabledBaselineIdentifier) then (error 'EnabledBaselineIdentifier must be not empty')
+        else if std.length(EnabledBaselineIdentifier) < 20 then error ('EnabledBaselineIdentifier should have at least 20 characters')
+        else if std.length(EnabledBaselineIdentifier) > 2048 then error ('EnabledBaselineIdentifier should have not more than 2048 characters')
+        else EnabledBaselineIdentifier,
     },
   },
-  withParameters(Parameters): {
+  setParameters(Parameters): {
     Properties+::: {
-      Parameters: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters:
+        if !std.isArray(Parameters) then (error 'Parameters must be an array')
+        else Parameters,
     },
   },
-  withParametersMixin(Parameters): {
+  setParametersMixin(Parameters): {
     Properties+::: {
-      Parameters+: (if std.isArray(Parameters) then Parameters else [Parameters]),
+      Parameters+: Parameters,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

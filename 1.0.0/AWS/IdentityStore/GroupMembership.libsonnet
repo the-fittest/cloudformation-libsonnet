@@ -6,12 +6,22 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(IdentityStoreId) : 'IdentityStoreId must be a string',
-      IdentityStoreId: IdentityStoreId,
-      assert std.isString(GroupId) : 'GroupId must be a string',
-      GroupId: GroupId,
-      assert std.isObject(MemberId) : 'MemberId must be an object',
-      MemberId: MemberId,
+      IdentityStoreId:
+        if !std.isString(IdentityStoreId) then (error 'IdentityStoreId must be a string')
+        else if std.isEmpty(IdentityStoreId) then (error 'IdentityStoreId must be not empty')
+        else if std.length(IdentityStoreId) < 1 then error ('IdentityStoreId should have at least 1 characters')
+        else if std.length(IdentityStoreId) > 36 then error ('IdentityStoreId should have not more than 36 characters')
+        else IdentityStoreId,
+      GroupId:
+        if !std.isString(GroupId) then (error 'GroupId must be a string')
+        else if std.isEmpty(GroupId) then (error 'GroupId must be not empty')
+        else if std.length(GroupId) < 1 then error ('GroupId should have at least 1 characters')
+        else if std.length(GroupId) > 47 then error ('GroupId should have not more than 47 characters')
+        else GroupId,
+      MemberId:
+        if !std.isObject(MemberId) then (error 'MemberId must be an object')
+        else if !std.objectHas(MemberId, 'UserId') then (error ' have attribute UserId')
+        else MemberId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -21,70 +31,74 @@
     Metadata:: [],
     Type: 'AWS::IdentityStore::GroupMembership',
   },
-  withMembershipId(MembershipId): {
-    assert std.isString(MembershipId) : 'MembershipId must be a string',
+  setMembershipId(MembershipId): {
     Properties+::: {
-      MembershipId: MembershipId,
+      MembershipId:
+        if !std.isString(MembershipId) then (error 'MembershipId must be a string')
+        else if std.isEmpty(MembershipId) then (error 'MembershipId must be not empty')
+        else if std.length(MembershipId) < 1 then error ('MembershipId should have at least 1 characters')
+        else if std.length(MembershipId) > 47 then error ('MembershipId should have not more than 47 characters')
+        else MembershipId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

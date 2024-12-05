@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(NamespaceName) : 'NamespaceName must be a string',
-      NamespaceName: NamespaceName,
+      NamespaceName:
+        if !std.isString(NamespaceName) then (error 'NamespaceName must be a string')
+        else if std.isEmpty(NamespaceName) then (error 'NamespaceName must be not empty')
+        else if std.length(NamespaceName) < 3 then error ('NamespaceName should have at least 3 characters')
+        else if std.length(NamespaceName) > 64 then error ('NamespaceName should have not more than 64 characters')
+        else NamespaceName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,176 +19,210 @@
     Metadata:: [],
     Type: 'AWS::RedshiftServerless::Namespace',
   },
-  withAdminPasswordSecretKmsKeyId(AdminPasswordSecretKmsKeyId): {
-    assert std.isString(AdminPasswordSecretKmsKeyId) : 'AdminPasswordSecretKmsKeyId must be a string',
+  setAdminPasswordSecretKmsKeyId(AdminPasswordSecretKmsKeyId): {
     Properties+::: {
-      AdminPasswordSecretKmsKeyId: AdminPasswordSecretKmsKeyId,
+      AdminPasswordSecretKmsKeyId:
+        if !std.isString(AdminPasswordSecretKmsKeyId) then (error 'AdminPasswordSecretKmsKeyId must be a string')
+        else if std.isEmpty(AdminPasswordSecretKmsKeyId) then (error 'AdminPasswordSecretKmsKeyId must be not empty')
+        else AdminPasswordSecretKmsKeyId,
     },
   },
-  withAdminUserPassword(AdminUserPassword): {
-    assert std.isString(AdminUserPassword) : 'AdminUserPassword must be a string',
+  setAdminUserPassword(AdminUserPassword): {
     Properties+::: {
-      AdminUserPassword: AdminUserPassword,
+      AdminUserPassword:
+        if !std.isString(AdminUserPassword) then (error 'AdminUserPassword must be a string')
+        else if std.isEmpty(AdminUserPassword) then (error 'AdminUserPassword must be not empty')
+        else if std.length(AdminUserPassword) < 8 then error ('AdminUserPassword should have at least 8 characters')
+        else if std.length(AdminUserPassword) > 64 then error ('AdminUserPassword should have not more than 64 characters')
+        else AdminUserPassword,
     },
   },
-  withAdminUsername(AdminUsername): {
-    assert std.isString(AdminUsername) : 'AdminUsername must be a string',
+  setAdminUsername(AdminUsername): {
     Properties+::: {
-      AdminUsername: AdminUsername,
+      AdminUsername:
+        if !std.isString(AdminUsername) then (error 'AdminUsername must be a string')
+        else if std.isEmpty(AdminUsername) then (error 'AdminUsername must be not empty')
+        else AdminUsername,
     },
   },
-  withDbName(DbName): {
-    assert std.isString(DbName) : 'DbName must be a string',
+  setDbName(DbName): {
     Properties+::: {
-      DbName: DbName,
+      DbName:
+        if !std.isString(DbName) then (error 'DbName must be a string')
+        else if std.isEmpty(DbName) then (error 'DbName must be not empty')
+        else if std.length(DbName) > 127 then error ('DbName should have not more than 127 characters')
+        else DbName,
     },
   },
-  withDefaultIamRoleArn(DefaultIamRoleArn): {
-    assert std.isString(DefaultIamRoleArn) : 'DefaultIamRoleArn must be a string',
+  setDefaultIamRoleArn(DefaultIamRoleArn): {
     Properties+::: {
-      DefaultIamRoleArn: DefaultIamRoleArn,
+      DefaultIamRoleArn:
+        if !std.isString(DefaultIamRoleArn) then (error 'DefaultIamRoleArn must be a string')
+        else if std.isEmpty(DefaultIamRoleArn) then (error 'DefaultIamRoleArn must be not empty')
+        else DefaultIamRoleArn,
     },
   },
-  withIamRoles(IamRoles): {
+  setIamRoles(IamRoles): {
     Properties+::: {
-      IamRoles: (if std.isArray(IamRoles) then IamRoles else [IamRoles]),
+      IamRoles:
+        if !std.isArray(IamRoles) then (error 'IamRoles must be an array')
+        else IamRoles,
     },
   },
-  withIamRolesMixin(IamRoles): {
+  setIamRolesMixin(IamRoles): {
     Properties+::: {
-      IamRoles+: (if std.isArray(IamRoles) then IamRoles else [IamRoles]),
+      IamRoles+: IamRoles,
     },
   },
-  withKmsKeyId(KmsKeyId): {
-    assert std.isString(KmsKeyId) : 'KmsKeyId must be a string',
+  setKmsKeyId(KmsKeyId): {
     Properties+::: {
-      KmsKeyId: KmsKeyId,
+      KmsKeyId:
+        if !std.isString(KmsKeyId) then (error 'KmsKeyId must be a string')
+        else if std.isEmpty(KmsKeyId) then (error 'KmsKeyId must be not empty')
+        else KmsKeyId,
     },
   },
-  withLogExports(LogExports): {
+  setLogExports(LogExports): {
     Properties+::: {
-      LogExports: (if std.isArray(LogExports) then LogExports else [LogExports]),
+      LogExports:
+        if !std.isArray(LogExports) then (error 'LogExports must be an array')
+        else if std.length(LogExports) > 16 then error ('LogExports cannot have more than 16 items')
+        else LogExports,
     },
   },
-  withLogExportsMixin(LogExports): {
+  setLogExportsMixin(LogExports): {
     Properties+::: {
-      LogExports+: (if std.isArray(LogExports) then LogExports else [LogExports]),
+      LogExports+: LogExports,
     },
   },
-  withManageAdminPassword(ManageAdminPassword): {
-    assert std.isBoolean(ManageAdminPassword) : 'ManageAdminPassword must be a boolean',
+  setManageAdminPassword(ManageAdminPassword): {
     Properties+::: {
-      ManageAdminPassword: ManageAdminPassword,
+      ManageAdminPassword:
+        if !std.isBoolean(ManageAdminPassword) then (error 'ManageAdminPassword must be a boolean') else ManageAdminPassword,
     },
   },
-  withNamespace(Namespace): {
-    assert std.isObject(Namespace) : 'Namespace must be a object',
+  setNamespace(Namespace): {
     Properties+::: {
-      Namespace: Namespace,
+      Namespace:
+        if !std.isObject(Namespace) then (error 'Namespace must be an object')
+        else Namespace,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 200 then error ('Tags cannot have more than 200 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withFinalSnapshotName(FinalSnapshotName): {
-    assert std.isString(FinalSnapshotName) : 'FinalSnapshotName must be a string',
+  setFinalSnapshotName(FinalSnapshotName): {
     Properties+::: {
-      FinalSnapshotName: FinalSnapshotName,
+      FinalSnapshotName:
+        if !std.isString(FinalSnapshotName) then (error 'FinalSnapshotName must be a string')
+        else if std.isEmpty(FinalSnapshotName) then (error 'FinalSnapshotName must be not empty')
+        else if std.length(FinalSnapshotName) > 255 then error ('FinalSnapshotName should have not more than 255 characters')
+        else FinalSnapshotName,
     },
   },
-  withFinalSnapshotRetentionPeriod(FinalSnapshotRetentionPeriod): {
-    assert std.isNumber(FinalSnapshotRetentionPeriod) : 'FinalSnapshotRetentionPeriod must be a number',
+  setFinalSnapshotRetentionPeriod(FinalSnapshotRetentionPeriod): {
     Properties+::: {
-      FinalSnapshotRetentionPeriod: FinalSnapshotRetentionPeriod,
+      FinalSnapshotRetentionPeriod:
+        if !std.isNumber(FinalSnapshotRetentionPeriod) then (error 'FinalSnapshotRetentionPeriod must be an number')
+        else FinalSnapshotRetentionPeriod,
     },
   },
-  withNamespaceResourcePolicy(NamespaceResourcePolicy): {
-    assert std.isObject(NamespaceResourcePolicy) : 'NamespaceResourcePolicy must be a object',
+  setNamespaceResourcePolicy(NamespaceResourcePolicy): {
     Properties+::: {
-      NamespaceResourcePolicy: NamespaceResourcePolicy,
+      NamespaceResourcePolicy:
+        if !std.isObject(NamespaceResourcePolicy) then (error 'NamespaceResourcePolicy must be an object')
+        else NamespaceResourcePolicy,
     },
   },
-  withRedshiftIdcApplicationArn(RedshiftIdcApplicationArn): {
-    assert std.isString(RedshiftIdcApplicationArn) : 'RedshiftIdcApplicationArn must be a string',
+  setRedshiftIdcApplicationArn(RedshiftIdcApplicationArn): {
     Properties+::: {
-      RedshiftIdcApplicationArn: RedshiftIdcApplicationArn,
+      RedshiftIdcApplicationArn:
+        if !std.isString(RedshiftIdcApplicationArn) then (error 'RedshiftIdcApplicationArn must be a string')
+        else if std.isEmpty(RedshiftIdcApplicationArn) then (error 'RedshiftIdcApplicationArn must be not empty')
+        else RedshiftIdcApplicationArn,
     },
   },
-  withSnapshotCopyConfigurations(SnapshotCopyConfigurations): {
+  setSnapshotCopyConfigurations(SnapshotCopyConfigurations): {
     Properties+::: {
-      SnapshotCopyConfigurations: (if std.isArray(SnapshotCopyConfigurations) then SnapshotCopyConfigurations else [SnapshotCopyConfigurations]),
+      SnapshotCopyConfigurations:
+        if !std.isArray(SnapshotCopyConfigurations) then (error 'SnapshotCopyConfigurations must be an array')
+        else if std.length(SnapshotCopyConfigurations) > 1 then error ('SnapshotCopyConfigurations cannot have more than 1 items')
+        else SnapshotCopyConfigurations,
     },
   },
-  withSnapshotCopyConfigurationsMixin(SnapshotCopyConfigurations): {
+  setSnapshotCopyConfigurationsMixin(SnapshotCopyConfigurations): {
     Properties+::: {
-      SnapshotCopyConfigurations+: (if std.isArray(SnapshotCopyConfigurations) then SnapshotCopyConfigurations else [SnapshotCopyConfigurations]),
+      SnapshotCopyConfigurations+: SnapshotCopyConfigurations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

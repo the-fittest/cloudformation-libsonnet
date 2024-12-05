@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(OrganizationConfigRuleName) : 'OrganizationConfigRuleName must be a string',
-      OrganizationConfigRuleName: OrganizationConfigRuleName,
+      OrganizationConfigRuleName:
+        if !std.isString(OrganizationConfigRuleName) then (error 'OrganizationConfigRuleName must be a string')
+        else if std.isEmpty(OrganizationConfigRuleName) then (error 'OrganizationConfigRuleName must be not empty')
+        else OrganizationConfigRuleName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,98 +17,110 @@
     Metadata:: [],
     Type: 'AWS::Config::OrganizationConfigRule',
   },
-  withOrganizationCustomRuleMetadata(OrganizationCustomRuleMetadata): {
-    assert std.isObject(OrganizationCustomRuleMetadata) : 'OrganizationCustomRuleMetadata must be a object',
+  setOrganizationCustomRuleMetadata(OrganizationCustomRuleMetadata): {
     Properties+::: {
-      OrganizationCustomRuleMetadata: OrganizationCustomRuleMetadata,
+      OrganizationCustomRuleMetadata:
+        if !std.isObject(OrganizationCustomRuleMetadata) then (error 'OrganizationCustomRuleMetadata must be an object')
+        else if !std.objectHas(OrganizationCustomRuleMetadata, 'LambdaFunctionArn') then (error ' have attribute LambdaFunctionArn')
+        else if !std.objectHas(OrganizationCustomRuleMetadata, 'OrganizationConfigRuleTriggerTypes') then (error ' have attribute OrganizationConfigRuleTriggerTypes')
+        else OrganizationCustomRuleMetadata,
     },
   },
-  withOrganizationManagedRuleMetadata(OrganizationManagedRuleMetadata): {
-    assert std.isObject(OrganizationManagedRuleMetadata) : 'OrganizationManagedRuleMetadata must be a object',
+  setOrganizationManagedRuleMetadata(OrganizationManagedRuleMetadata): {
     Properties+::: {
-      OrganizationManagedRuleMetadata: OrganizationManagedRuleMetadata,
+      OrganizationManagedRuleMetadata:
+        if !std.isObject(OrganizationManagedRuleMetadata) then (error 'OrganizationManagedRuleMetadata must be an object')
+        else if !std.objectHas(OrganizationManagedRuleMetadata, 'RuleIdentifier') then (error ' have attribute RuleIdentifier')
+        else OrganizationManagedRuleMetadata,
     },
   },
-  withExcludedAccounts(ExcludedAccounts): {
+  setExcludedAccounts(ExcludedAccounts): {
     Properties+::: {
-      ExcludedAccounts: (if std.isArray(ExcludedAccounts) then ExcludedAccounts else [ExcludedAccounts]),
+      ExcludedAccounts:
+        if !std.isArray(ExcludedAccounts) then (error 'ExcludedAccounts must be an array')
+        else ExcludedAccounts,
     },
   },
-  withExcludedAccountsMixin(ExcludedAccounts): {
+  setExcludedAccountsMixin(ExcludedAccounts): {
     Properties+::: {
-      ExcludedAccounts+: (if std.isArray(ExcludedAccounts) then ExcludedAccounts else [ExcludedAccounts]),
+      ExcludedAccounts+: ExcludedAccounts,
     },
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withOrganizationCustomPolicyRuleMetadata(OrganizationCustomPolicyRuleMetadata): {
-    assert std.isObject(OrganizationCustomPolicyRuleMetadata) : 'OrganizationCustomPolicyRuleMetadata must be a object',
+  setOrganizationCustomPolicyRuleMetadata(OrganizationCustomPolicyRuleMetadata): {
     Properties+::: {
-      OrganizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata,
+      OrganizationCustomPolicyRuleMetadata:
+        if !std.isObject(OrganizationCustomPolicyRuleMetadata) then (error 'OrganizationCustomPolicyRuleMetadata must be an object')
+        else if !std.objectHas(OrganizationCustomPolicyRuleMetadata, 'Runtime') then (error ' have attribute Runtime')
+        else if !std.objectHas(OrganizationCustomPolicyRuleMetadata, 'PolicyText') then (error ' have attribute PolicyText')
+        else OrganizationCustomPolicyRuleMetadata,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

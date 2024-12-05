@@ -1,9 +1,7 @@
 {
-  new(
-  ): {
+  new(): {
     local base = self,
-    Properties: {
-    },
+    Properties:: {},
     DependsOn:: [],
     CreationPolicy:: [],
     DeletionPolicy:: [],
@@ -12,128 +10,142 @@
     Metadata:: [],
     Type: 'AWS::EC2::DHCPOptions',
   },
-  withDhcpOptionsId(DhcpOptionsId): {
-    assert std.isString(DhcpOptionsId) : 'DhcpOptionsId must be a string',
+  setDhcpOptionsId(DhcpOptionsId): {
     Properties+::: {
-      DhcpOptionsId: DhcpOptionsId,
+      DhcpOptionsId:
+        if !std.isString(DhcpOptionsId) then (error 'DhcpOptionsId must be a string')
+        else if std.isEmpty(DhcpOptionsId) then (error 'DhcpOptionsId must be not empty')
+        else DhcpOptionsId,
     },
   },
-  withDomainName(DomainName): {
-    assert std.isString(DomainName) : 'DomainName must be a string',
+  setDomainName(DomainName): {
     Properties+::: {
-      DomainName: DomainName,
+      DomainName:
+        if !std.isString(DomainName) then (error 'DomainName must be a string')
+        else if std.isEmpty(DomainName) then (error 'DomainName must be not empty')
+        else DomainName,
     },
   },
-  withDomainNameServers(DomainNameServers): {
+  setDomainNameServers(DomainNameServers): {
     Properties+::: {
-      DomainNameServers: (if std.isArray(DomainNameServers) then DomainNameServers else [DomainNameServers]),
+      DomainNameServers:
+        if !std.isArray(DomainNameServers) then (error 'DomainNameServers must be an array')
+        else DomainNameServers,
     },
   },
-  withDomainNameServersMixin(DomainNameServers): {
+  setDomainNameServersMixin(DomainNameServers): {
     Properties+::: {
-      DomainNameServers+: (if std.isArray(DomainNameServers) then DomainNameServers else [DomainNameServers]),
+      DomainNameServers+: DomainNameServers,
     },
   },
-  withNetbiosNameServers(NetbiosNameServers): {
+  setNetbiosNameServers(NetbiosNameServers): {
     Properties+::: {
-      NetbiosNameServers: (if std.isArray(NetbiosNameServers) then NetbiosNameServers else [NetbiosNameServers]),
+      NetbiosNameServers:
+        if !std.isArray(NetbiosNameServers) then (error 'NetbiosNameServers must be an array')
+        else NetbiosNameServers,
     },
   },
-  withNetbiosNameServersMixin(NetbiosNameServers): {
+  setNetbiosNameServersMixin(NetbiosNameServers): {
     Properties+::: {
-      NetbiosNameServers+: (if std.isArray(NetbiosNameServers) then NetbiosNameServers else [NetbiosNameServers]),
+      NetbiosNameServers+: NetbiosNameServers,
     },
   },
-  withNetbiosNodeType(NetbiosNodeType): {
-    assert std.isNumber(NetbiosNodeType) : 'NetbiosNodeType must be a number',
+  setNetbiosNodeType(NetbiosNodeType): {
     Properties+::: {
-      NetbiosNodeType: NetbiosNodeType,
+      NetbiosNodeType:
+        if !std.isNumber(NetbiosNodeType) then (error 'NetbiosNodeType must be an number')
+        else NetbiosNodeType,
     },
   },
-  withNtpServers(NtpServers): {
+  setNtpServers(NtpServers): {
     Properties+::: {
-      NtpServers: (if std.isArray(NtpServers) then NtpServers else [NtpServers]),
+      NtpServers:
+        if !std.isArray(NtpServers) then (error 'NtpServers must be an array')
+        else NtpServers,
     },
   },
-  withNtpServersMixin(NtpServers): {
+  setNtpServersMixin(NtpServers): {
     Properties+::: {
-      NtpServers+: (if std.isArray(NtpServers) then NtpServers else [NtpServers]),
+      NtpServers+: NtpServers,
     },
   },
-  withIpv6AddressPreferredLeaseTime(Ipv6AddressPreferredLeaseTime): {
-    assert std.isNumber(Ipv6AddressPreferredLeaseTime) : 'Ipv6AddressPreferredLeaseTime must be a number',
+  setIpv6AddressPreferredLeaseTime(Ipv6AddressPreferredLeaseTime): {
     Properties+::: {
-      Ipv6AddressPreferredLeaseTime: Ipv6AddressPreferredLeaseTime,
+      Ipv6AddressPreferredLeaseTime:
+        if !std.isNumber(Ipv6AddressPreferredLeaseTime) then (error 'Ipv6AddressPreferredLeaseTime must be an number')
+        else Ipv6AddressPreferredLeaseTime,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

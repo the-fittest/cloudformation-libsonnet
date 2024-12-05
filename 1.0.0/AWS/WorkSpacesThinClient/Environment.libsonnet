@@ -4,8 +4,12 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(DesktopArn) : 'DesktopArn must be a string',
-      DesktopArn: DesktopArn,
+      DesktopArn:
+        if !std.isString(DesktopArn) then (error 'DesktopArn must be a string')
+        else if std.isEmpty(DesktopArn) then (error 'DesktopArn must be not empty')
+        else if std.length(DesktopArn) < 20 then error ('DesktopArn should have at least 20 characters')
+        else if std.length(DesktopArn) > 2048 then error ('DesktopArn should have not more than 2048 characters')
+        else DesktopArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,190 +19,237 @@
     Metadata:: [],
     Type: 'AWS::WorkSpacesThinClient::Environment',
   },
-  withId(Id): {
-    assert std.isString(Id) : 'Id must be a string',
+  setId(Id): {
     Properties+::: {
-      Id: Id,
+      Id:
+        if !std.isString(Id) then (error 'Id must be a string')
+        else if std.isEmpty(Id) then (error 'Id must be not empty')
+        else Id,
     },
   },
-  withName(Name): {
-    assert std.isString(Name) : 'Name must be a string',
+  setName(Name): {
     Properties+::: {
-      Name: Name,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 64 then error ('Name should have not more than 64 characters')
+        else Name,
     },
   },
-  withDesktopEndpoint(DesktopEndpoint): {
-    assert std.isString(DesktopEndpoint) : 'DesktopEndpoint must be a string',
+  setDesktopEndpoint(DesktopEndpoint): {
     Properties+::: {
-      DesktopEndpoint: DesktopEndpoint,
+      DesktopEndpoint:
+        if !std.isString(DesktopEndpoint) then (error 'DesktopEndpoint must be a string')
+        else if std.isEmpty(DesktopEndpoint) then (error 'DesktopEndpoint must be not empty')
+        else if std.length(DesktopEndpoint) < 1 then error ('DesktopEndpoint should have at least 1 characters')
+        else if std.length(DesktopEndpoint) > 1024 then error ('DesktopEndpoint should have not more than 1024 characters')
+        else DesktopEndpoint,
     },
   },
-  withDesktopType(DesktopType): {
-    assert std.isString(DesktopType) : 'DesktopType must be a string',
-    assert DesktopType == 'workspaces' || DesktopType == 'appstream' || DesktopType == 'workspaces-web' : "DesktopType should be 'workspaces' or 'appstream' or 'workspaces-web'",
+  setDesktopType(DesktopType): {
     Properties+::: {
-      DesktopType: DesktopType,
+      DesktopType:
+        if !std.isString(DesktopType) then (error 'DesktopType must be a string')
+        else if std.isEmpty(DesktopType) then (error 'DesktopType must be not empty')
+        else if DesktopType != 'workspaces' && DesktopType != 'appstream' && DesktopType != 'workspaces-web' then (error "DesktopType should be 'workspaces' or 'appstream' or 'workspaces-web'")
+        else DesktopType,
     },
   },
-  withActivationCode(ActivationCode): {
-    assert std.isString(ActivationCode) : 'ActivationCode must be a string',
+  setActivationCode(ActivationCode): {
     Properties+::: {
-      ActivationCode: ActivationCode,
+      ActivationCode:
+        if !std.isString(ActivationCode) then (error 'ActivationCode must be a string')
+        else if std.isEmpty(ActivationCode) then (error 'ActivationCode must be not empty')
+        else ActivationCode,
     },
   },
-  withRegisteredDevicesCount(RegisteredDevicesCount): {
-    assert std.isNumber(RegisteredDevicesCount) : 'RegisteredDevicesCount must be a number',
+  setRegisteredDevicesCount(RegisteredDevicesCount): {
     Properties+::: {
-      RegisteredDevicesCount: RegisteredDevicesCount,
+      RegisteredDevicesCount:
+        if !std.isNumber(RegisteredDevicesCount) then (error 'RegisteredDevicesCount must be an number')
+        else RegisteredDevicesCount,
     },
   },
-  withSoftwareSetUpdateSchedule(SoftwareSetUpdateSchedule): {
-    assert std.isString(SoftwareSetUpdateSchedule) : 'SoftwareSetUpdateSchedule must be a string',
-    assert SoftwareSetUpdateSchedule == 'USE_MAINTENANCE_WINDOW' || SoftwareSetUpdateSchedule == 'APPLY_IMMEDIATELY' : "SoftwareSetUpdateSchedule should be 'USE_MAINTENANCE_WINDOW' or 'APPLY_IMMEDIATELY'",
+  setSoftwareSetUpdateSchedule(SoftwareSetUpdateSchedule): {
     Properties+::: {
-      SoftwareSetUpdateSchedule: SoftwareSetUpdateSchedule,
+      SoftwareSetUpdateSchedule:
+        if !std.isString(SoftwareSetUpdateSchedule) then (error 'SoftwareSetUpdateSchedule must be a string')
+        else if std.isEmpty(SoftwareSetUpdateSchedule) then (error 'SoftwareSetUpdateSchedule must be not empty')
+        else if SoftwareSetUpdateSchedule != 'USE_MAINTENANCE_WINDOW' && SoftwareSetUpdateSchedule != 'APPLY_IMMEDIATELY' then (error "SoftwareSetUpdateSchedule should be 'USE_MAINTENANCE_WINDOW' or 'APPLY_IMMEDIATELY'")
+        else SoftwareSetUpdateSchedule,
     },
   },
-  withMaintenanceWindow(MaintenanceWindow): {
-    assert std.isObject(MaintenanceWindow) : 'MaintenanceWindow must be a object',
+  setMaintenanceWindow(MaintenanceWindow): {
     Properties+::: {
-      MaintenanceWindow: MaintenanceWindow,
+      MaintenanceWindow:
+        if !std.isObject(MaintenanceWindow) then (error 'MaintenanceWindow must be an object')
+        else if !std.objectHas(MaintenanceWindow, 'Type') then (error ' have attribute Type')
+        else MaintenanceWindow,
     },
   },
-  withSoftwareSetUpdateMode(SoftwareSetUpdateMode): {
-    assert std.isString(SoftwareSetUpdateMode) : 'SoftwareSetUpdateMode must be a string',
-    assert SoftwareSetUpdateMode == 'USE_LATEST' || SoftwareSetUpdateMode == 'USE_DESIRED' : "SoftwareSetUpdateMode should be 'USE_LATEST' or 'USE_DESIRED'",
+  setSoftwareSetUpdateMode(SoftwareSetUpdateMode): {
     Properties+::: {
-      SoftwareSetUpdateMode: SoftwareSetUpdateMode,
+      SoftwareSetUpdateMode:
+        if !std.isString(SoftwareSetUpdateMode) then (error 'SoftwareSetUpdateMode must be a string')
+        else if std.isEmpty(SoftwareSetUpdateMode) then (error 'SoftwareSetUpdateMode must be not empty')
+        else if SoftwareSetUpdateMode != 'USE_LATEST' && SoftwareSetUpdateMode != 'USE_DESIRED' then (error "SoftwareSetUpdateMode should be 'USE_LATEST' or 'USE_DESIRED'")
+        else SoftwareSetUpdateMode,
     },
   },
-  withDesiredSoftwareSetId(DesiredSoftwareSetId): {
-    assert std.isString(DesiredSoftwareSetId) : 'DesiredSoftwareSetId must be a string',
+  setDesiredSoftwareSetId(DesiredSoftwareSetId): {
     Properties+::: {
-      DesiredSoftwareSetId: DesiredSoftwareSetId,
+      DesiredSoftwareSetId:
+        if !std.isString(DesiredSoftwareSetId) then (error 'DesiredSoftwareSetId must be a string')
+        else if std.isEmpty(DesiredSoftwareSetId) then (error 'DesiredSoftwareSetId must be not empty')
+        else DesiredSoftwareSetId,
     },
   },
-  withPendingSoftwareSetId(PendingSoftwareSetId): {
-    assert std.isString(PendingSoftwareSetId) : 'PendingSoftwareSetId must be a string',
+  setPendingSoftwareSetId(PendingSoftwareSetId): {
     Properties+::: {
-      PendingSoftwareSetId: PendingSoftwareSetId,
+      PendingSoftwareSetId:
+        if !std.isString(PendingSoftwareSetId) then (error 'PendingSoftwareSetId must be a string')
+        else if std.isEmpty(PendingSoftwareSetId) then (error 'PendingSoftwareSetId must be not empty')
+        else PendingSoftwareSetId,
     },
   },
-  withPendingSoftwareSetVersion(PendingSoftwareSetVersion): {
-    assert std.isString(PendingSoftwareSetVersion) : 'PendingSoftwareSetVersion must be a string',
+  setPendingSoftwareSetVersion(PendingSoftwareSetVersion): {
     Properties+::: {
-      PendingSoftwareSetVersion: PendingSoftwareSetVersion,
+      PendingSoftwareSetVersion:
+        if !std.isString(PendingSoftwareSetVersion) then (error 'PendingSoftwareSetVersion must be a string')
+        else if std.isEmpty(PendingSoftwareSetVersion) then (error 'PendingSoftwareSetVersion must be not empty')
+        else PendingSoftwareSetVersion,
     },
   },
-  withSoftwareSetComplianceStatus(SoftwareSetComplianceStatus): {
-    assert std.isString(SoftwareSetComplianceStatus) : 'SoftwareSetComplianceStatus must be a string',
-    assert SoftwareSetComplianceStatus == 'COMPLIANT' || SoftwareSetComplianceStatus == 'NOT_COMPLIANT' || SoftwareSetComplianceStatus == 'NO_REGISTERED_DEVICES' : "SoftwareSetComplianceStatus should be 'COMPLIANT' or 'NOT_COMPLIANT' or 'NO_REGISTERED_DEVICES'",
+  setSoftwareSetComplianceStatus(SoftwareSetComplianceStatus): {
     Properties+::: {
-      SoftwareSetComplianceStatus: SoftwareSetComplianceStatus,
+      SoftwareSetComplianceStatus:
+        if !std.isString(SoftwareSetComplianceStatus) then (error 'SoftwareSetComplianceStatus must be a string')
+        else if std.isEmpty(SoftwareSetComplianceStatus) then (error 'SoftwareSetComplianceStatus must be not empty')
+        else if SoftwareSetComplianceStatus != 'COMPLIANT' && SoftwareSetComplianceStatus != 'NOT_COMPLIANT' && SoftwareSetComplianceStatus != 'NO_REGISTERED_DEVICES' then (error "SoftwareSetComplianceStatus should be 'COMPLIANT' or 'NOT_COMPLIANT' or 'NO_REGISTERED_DEVICES'")
+        else SoftwareSetComplianceStatus,
     },
   },
-  withCreatedAt(CreatedAt): {
-    assert std.isString(CreatedAt) : 'CreatedAt must be a string',
+  setCreatedAt(CreatedAt): {
     Properties+::: {
-      CreatedAt: CreatedAt,
+      CreatedAt:
+        if !std.isString(CreatedAt) then (error 'CreatedAt must be a string')
+        else if std.isEmpty(CreatedAt) then (error 'CreatedAt must be not empty')
+        else CreatedAt,
     },
   },
-  withUpdatedAt(UpdatedAt): {
-    assert std.isString(UpdatedAt) : 'UpdatedAt must be a string',
+  setUpdatedAt(UpdatedAt): {
     Properties+::: {
-      UpdatedAt: UpdatedAt,
+      UpdatedAt:
+        if !std.isString(UpdatedAt) then (error 'UpdatedAt must be a string')
+        else if std.isEmpty(UpdatedAt) then (error 'UpdatedAt must be not empty')
+        else UpdatedAt,
     },
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) < 20 then error ('Arn should have at least 20 characters')
+        else if std.length(Arn) > 2048 then error ('Arn should have not more than 2048 characters')
+        else Arn,
     },
   },
-  withKmsKeyArn(KmsKeyArn): {
-    assert std.isString(KmsKeyArn) : 'KmsKeyArn must be a string',
+  setKmsKeyArn(KmsKeyArn): {
     Properties+::: {
-      KmsKeyArn: KmsKeyArn,
+      KmsKeyArn:
+        if !std.isString(KmsKeyArn) then (error 'KmsKeyArn must be a string')
+        else if std.isEmpty(KmsKeyArn) then (error 'KmsKeyArn must be not empty')
+        else if std.length(KmsKeyArn) < 20 then error ('KmsKeyArn should have at least 20 characters')
+        else if std.length(KmsKeyArn) > 2048 then error ('KmsKeyArn should have not more than 2048 characters')
+        else KmsKeyArn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDeviceCreationTags(DeviceCreationTags): {
+  setDeviceCreationTags(DeviceCreationTags): {
     Properties+::: {
-      DeviceCreationTags: (if std.isArray(DeviceCreationTags) then DeviceCreationTags else [DeviceCreationTags]),
+      DeviceCreationTags:
+        if !std.isArray(DeviceCreationTags) then (error 'DeviceCreationTags must be an array')
+        else if std.length(DeviceCreationTags) > 50 then error ('DeviceCreationTags cannot have more than 50 items')
+        else DeviceCreationTags,
     },
   },
-  withDeviceCreationTagsMixin(DeviceCreationTags): {
+  setDeviceCreationTagsMixin(DeviceCreationTags): {
     Properties+::: {
-      DeviceCreationTags+: (if std.isArray(DeviceCreationTags) then DeviceCreationTags else [DeviceCreationTags]),
+      DeviceCreationTags+: DeviceCreationTags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

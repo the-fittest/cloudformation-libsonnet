@@ -7,13 +7,25 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(InstanceArn) : 'InstanceArn must be a string',
-      InstanceArn: InstanceArn,
-      assert std.isObject(Template) : 'Template must be an object',
-      Template: Template,
-      Actions: (if std.isArray(Actions) then Actions else [Actions]),
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
+      InstanceArn:
+        if !std.isString(InstanceArn) then (error 'InstanceArn must be a string')
+        else if std.isEmpty(InstanceArn) then (error 'InstanceArn must be not empty')
+        else if std.length(InstanceArn) < 1 then error ('InstanceArn should have at least 1 characters')
+        else if std.length(InstanceArn) > 100 then error ('InstanceArn should have not more than 100 characters')
+        else InstanceArn,
+      Template:
+        if !std.isObject(Template) then (error 'Template must be an object')
+        else Template,
+      Actions:
+        if !std.isArray(Actions) then (error 'Actions must be an array')
+        else if std.length(Actions) > 1000 then error ('Actions cannot have more than 1000 items')
+        else Actions,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 512 then error ('Name should have not more than 512 characters')
+        else Name,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -23,98 +35,114 @@
     Metadata:: [],
     Type: 'AWS::Connect::View',
   },
-  withViewArn(ViewArn): {
-    assert std.isString(ViewArn) : 'ViewArn must be a string',
+  setViewArn(ViewArn): {
     Properties+::: {
-      ViewArn: ViewArn,
+      ViewArn:
+        if !std.isString(ViewArn) then (error 'ViewArn must be a string')
+        else if std.isEmpty(ViewArn) then (error 'ViewArn must be not empty')
+        else if std.length(ViewArn) < 1 then error ('ViewArn should have at least 1 characters')
+        else if std.length(ViewArn) > 255 then error ('ViewArn should have not more than 255 characters')
+        else ViewArn,
     },
   },
-  withViewId(ViewId): {
-    assert std.isString(ViewId) : 'ViewId must be a string',
+  setViewId(ViewId): {
     Properties+::: {
-      ViewId: ViewId,
+      ViewId:
+        if !std.isString(ViewId) then (error 'ViewId must be a string')
+        else if std.isEmpty(ViewId) then (error 'ViewId must be not empty')
+        else if std.length(ViewId) < 1 then error ('ViewId should have at least 1 characters')
+        else if std.length(ViewId) > 500 then error ('ViewId should have not more than 500 characters')
+        else ViewId,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) > 4096 then error ('Description should have not more than 4096 characters')
+        else Description,
     },
   },
-  withViewContentSha256(ViewContentSha256): {
-    assert std.isString(ViewContentSha256) : 'ViewContentSha256 must be a string',
+  setViewContentSha256(ViewContentSha256): {
     Properties+::: {
-      ViewContentSha256: ViewContentSha256,
+      ViewContentSha256:
+        if !std.isString(ViewContentSha256) then (error 'ViewContentSha256 must be a string')
+        else if std.isEmpty(ViewContentSha256) then (error 'ViewContentSha256 must be not empty')
+        else ViewContentSha256,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(RouteTableId) : 'RouteTableId must be a string',
-      RouteTableId: RouteTableId,
+      RouteTableId:
+        if !std.isString(RouteTableId) then (error 'RouteTableId must be a string')
+        else if std.isEmpty(RouteTableId) then (error 'RouteTableId must be not empty')
+        else RouteTableId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,154 +17,184 @@
     Metadata:: [],
     Type: 'AWS::EC2::Route',
   },
-  withCarrierGatewayId(CarrierGatewayId): {
-    assert std.isString(CarrierGatewayId) : 'CarrierGatewayId must be a string',
+  setCarrierGatewayId(CarrierGatewayId): {
     Properties+::: {
-      CarrierGatewayId: CarrierGatewayId,
+      CarrierGatewayId:
+        if !std.isString(CarrierGatewayId) then (error 'CarrierGatewayId must be a string')
+        else if std.isEmpty(CarrierGatewayId) then (error 'CarrierGatewayId must be not empty')
+        else CarrierGatewayId,
     },
   },
-  withCidrBlock(CidrBlock): {
-    assert std.isString(CidrBlock) : 'CidrBlock must be a string',
+  setCidrBlock(CidrBlock): {
     Properties+::: {
-      CidrBlock: CidrBlock,
+      CidrBlock:
+        if !std.isString(CidrBlock) then (error 'CidrBlock must be a string')
+        else if std.isEmpty(CidrBlock) then (error 'CidrBlock must be not empty')
+        else CidrBlock,
     },
   },
-  withCoreNetworkArn(CoreNetworkArn): {
-    assert std.isString(CoreNetworkArn) : 'CoreNetworkArn must be a string',
+  setCoreNetworkArn(CoreNetworkArn): {
     Properties+::: {
-      CoreNetworkArn: CoreNetworkArn,
+      CoreNetworkArn:
+        if !std.isString(CoreNetworkArn) then (error 'CoreNetworkArn must be a string')
+        else if std.isEmpty(CoreNetworkArn) then (error 'CoreNetworkArn must be not empty')
+        else CoreNetworkArn,
     },
   },
-  withDestinationCidrBlock(DestinationCidrBlock): {
-    assert std.isString(DestinationCidrBlock) : 'DestinationCidrBlock must be a string',
+  setDestinationCidrBlock(DestinationCidrBlock): {
     Properties+::: {
-      DestinationCidrBlock: DestinationCidrBlock,
+      DestinationCidrBlock:
+        if !std.isString(DestinationCidrBlock) then (error 'DestinationCidrBlock must be a string')
+        else if std.isEmpty(DestinationCidrBlock) then (error 'DestinationCidrBlock must be not empty')
+        else DestinationCidrBlock,
     },
   },
-  withDestinationIpv6CidrBlock(DestinationIpv6CidrBlock): {
-    assert std.isString(DestinationIpv6CidrBlock) : 'DestinationIpv6CidrBlock must be a string',
+  setDestinationIpv6CidrBlock(DestinationIpv6CidrBlock): {
     Properties+::: {
-      DestinationIpv6CidrBlock: DestinationIpv6CidrBlock,
+      DestinationIpv6CidrBlock:
+        if !std.isString(DestinationIpv6CidrBlock) then (error 'DestinationIpv6CidrBlock must be a string')
+        else if std.isEmpty(DestinationIpv6CidrBlock) then (error 'DestinationIpv6CidrBlock must be not empty')
+        else DestinationIpv6CidrBlock,
     },
   },
-  withDestinationPrefixListId(DestinationPrefixListId): {
-    assert std.isString(DestinationPrefixListId) : 'DestinationPrefixListId must be a string',
+  setDestinationPrefixListId(DestinationPrefixListId): {
     Properties+::: {
-      DestinationPrefixListId: DestinationPrefixListId,
+      DestinationPrefixListId:
+        if !std.isString(DestinationPrefixListId) then (error 'DestinationPrefixListId must be a string')
+        else if std.isEmpty(DestinationPrefixListId) then (error 'DestinationPrefixListId must be not empty')
+        else DestinationPrefixListId,
     },
   },
-  withEgressOnlyInternetGatewayId(EgressOnlyInternetGatewayId): {
-    assert std.isString(EgressOnlyInternetGatewayId) : 'EgressOnlyInternetGatewayId must be a string',
+  setEgressOnlyInternetGatewayId(EgressOnlyInternetGatewayId): {
     Properties+::: {
-      EgressOnlyInternetGatewayId: EgressOnlyInternetGatewayId,
+      EgressOnlyInternetGatewayId:
+        if !std.isString(EgressOnlyInternetGatewayId) then (error 'EgressOnlyInternetGatewayId must be a string')
+        else if std.isEmpty(EgressOnlyInternetGatewayId) then (error 'EgressOnlyInternetGatewayId must be not empty')
+        else EgressOnlyInternetGatewayId,
     },
   },
-  withGatewayId(GatewayId): {
-    assert std.isString(GatewayId) : 'GatewayId must be a string',
+  setGatewayId(GatewayId): {
     Properties+::: {
-      GatewayId: GatewayId,
+      GatewayId:
+        if !std.isString(GatewayId) then (error 'GatewayId must be a string')
+        else if std.isEmpty(GatewayId) then (error 'GatewayId must be not empty')
+        else GatewayId,
     },
   },
-  withInstanceId(InstanceId): {
-    assert std.isString(InstanceId) : 'InstanceId must be a string',
+  setInstanceId(InstanceId): {
     Properties+::: {
-      InstanceId: InstanceId,
+      InstanceId:
+        if !std.isString(InstanceId) then (error 'InstanceId must be a string')
+        else if std.isEmpty(InstanceId) then (error 'InstanceId must be not empty')
+        else InstanceId,
     },
   },
-  withLocalGatewayId(LocalGatewayId): {
-    assert std.isString(LocalGatewayId) : 'LocalGatewayId must be a string',
+  setLocalGatewayId(LocalGatewayId): {
     Properties+::: {
-      LocalGatewayId: LocalGatewayId,
+      LocalGatewayId:
+        if !std.isString(LocalGatewayId) then (error 'LocalGatewayId must be a string')
+        else if std.isEmpty(LocalGatewayId) then (error 'LocalGatewayId must be not empty')
+        else LocalGatewayId,
     },
   },
-  withNatGatewayId(NatGatewayId): {
-    assert std.isString(NatGatewayId) : 'NatGatewayId must be a string',
+  setNatGatewayId(NatGatewayId): {
     Properties+::: {
-      NatGatewayId: NatGatewayId,
+      NatGatewayId:
+        if !std.isString(NatGatewayId) then (error 'NatGatewayId must be a string')
+        else if std.isEmpty(NatGatewayId) then (error 'NatGatewayId must be not empty')
+        else NatGatewayId,
     },
   },
-  withNetworkInterfaceId(NetworkInterfaceId): {
-    assert std.isString(NetworkInterfaceId) : 'NetworkInterfaceId must be a string',
+  setNetworkInterfaceId(NetworkInterfaceId): {
     Properties+::: {
-      NetworkInterfaceId: NetworkInterfaceId,
+      NetworkInterfaceId:
+        if !std.isString(NetworkInterfaceId) then (error 'NetworkInterfaceId must be a string')
+        else if std.isEmpty(NetworkInterfaceId) then (error 'NetworkInterfaceId must be not empty')
+        else NetworkInterfaceId,
     },
   },
-  withTransitGatewayId(TransitGatewayId): {
-    assert std.isString(TransitGatewayId) : 'TransitGatewayId must be a string',
+  setTransitGatewayId(TransitGatewayId): {
     Properties+::: {
-      TransitGatewayId: TransitGatewayId,
+      TransitGatewayId:
+        if !std.isString(TransitGatewayId) then (error 'TransitGatewayId must be a string')
+        else if std.isEmpty(TransitGatewayId) then (error 'TransitGatewayId must be not empty')
+        else TransitGatewayId,
     },
   },
-  withVpcEndpointId(VpcEndpointId): {
-    assert std.isString(VpcEndpointId) : 'VpcEndpointId must be a string',
+  setVpcEndpointId(VpcEndpointId): {
     Properties+::: {
-      VpcEndpointId: VpcEndpointId,
+      VpcEndpointId:
+        if !std.isString(VpcEndpointId) then (error 'VpcEndpointId must be a string')
+        else if std.isEmpty(VpcEndpointId) then (error 'VpcEndpointId must be not empty')
+        else VpcEndpointId,
     },
   },
-  withVpcPeeringConnectionId(VpcPeeringConnectionId): {
-    assert std.isString(VpcPeeringConnectionId) : 'VpcPeeringConnectionId must be a string',
+  setVpcPeeringConnectionId(VpcPeeringConnectionId): {
     Properties+::: {
-      VpcPeeringConnectionId: VpcPeeringConnectionId,
+      VpcPeeringConnectionId:
+        if !std.isString(VpcPeeringConnectionId) then (error 'VpcPeeringConnectionId must be a string')
+        else if std.isEmpty(VpcPeeringConnectionId) then (error 'VpcPeeringConnectionId must be not empty')
+        else VpcPeeringConnectionId,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

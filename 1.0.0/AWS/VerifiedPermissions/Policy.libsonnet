@@ -6,8 +6,12 @@
     local base = self,
     Properties: {
       Definition: Definition,
-      assert std.isString(PolicyStoreId) : 'PolicyStoreId must be a string',
-      PolicyStoreId: PolicyStoreId,
+      PolicyStoreId:
+        if !std.isString(PolicyStoreId) then (error 'PolicyStoreId must be a string')
+        else if std.isEmpty(PolicyStoreId) then (error 'PolicyStoreId must be not empty')
+        else if std.length(PolicyStoreId) < 1 then error ('PolicyStoreId should have at least 1 characters')
+        else if std.length(PolicyStoreId) > 200 then error ('PolicyStoreId should have not more than 200 characters')
+        else PolicyStoreId,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -17,77 +21,83 @@
     Metadata:: [],
     Type: 'AWS::VerifiedPermissions::Policy',
   },
-  withPolicyId(PolicyId): {
-    assert std.isString(PolicyId) : 'PolicyId must be a string',
+  setPolicyId(PolicyId): {
     Properties+::: {
-      PolicyId: PolicyId,
+      PolicyId:
+        if !std.isString(PolicyId) then (error 'PolicyId must be a string')
+        else if std.isEmpty(PolicyId) then (error 'PolicyId must be not empty')
+        else if std.length(PolicyId) < 1 then error ('PolicyId should have at least 1 characters')
+        else if std.length(PolicyId) > 200 then error ('PolicyId should have not more than 200 characters')
+        else PolicyId,
     },
   },
-  withPolicyType(PolicyType): {
-    assert std.isString(PolicyType) : 'PolicyType must be a string',
-    assert PolicyType == 'STATIC' || PolicyType == 'TEMPLATE_LINKED' : "PolicyType should be 'STATIC' or 'TEMPLATE_LINKED'",
+  setPolicyType(PolicyType): {
     Properties+::: {
-      PolicyType: PolicyType,
+      PolicyType:
+        if !std.isString(PolicyType) then (error 'PolicyType must be a string')
+        else if std.isEmpty(PolicyType) then (error 'PolicyType must be not empty')
+        else if PolicyType != 'STATIC' && PolicyType != 'TEMPLATE_LINKED' then (error "PolicyType should be 'STATIC' or 'TEMPLATE_LINKED'")
+        else PolicyType,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

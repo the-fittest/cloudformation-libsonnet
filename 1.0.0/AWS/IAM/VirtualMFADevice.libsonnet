@@ -4,7 +4,9 @@
   ): {
     local base = self,
     Properties: {
-      Users: (if std.isArray(Users) then Users else [Users]),
+      Users:
+        if !std.isArray(Users) then (error 'Users must be an array')
+        else Users,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,92 +16,106 @@
     Metadata:: [],
     Type: 'AWS::IAM::VirtualMFADevice',
   },
-  withVirtualMfaDeviceName(VirtualMfaDeviceName): {
-    assert std.isString(VirtualMfaDeviceName) : 'VirtualMfaDeviceName must be a string',
+  setVirtualMfaDeviceName(VirtualMfaDeviceName): {
     Properties+::: {
-      VirtualMfaDeviceName: VirtualMfaDeviceName,
+      VirtualMfaDeviceName:
+        if !std.isString(VirtualMfaDeviceName) then (error 'VirtualMfaDeviceName must be a string')
+        else if std.isEmpty(VirtualMfaDeviceName) then (error 'VirtualMfaDeviceName must be not empty')
+        else if std.length(VirtualMfaDeviceName) < 1 then error ('VirtualMfaDeviceName should have at least 1 characters')
+        else if std.length(VirtualMfaDeviceName) > 226 then error ('VirtualMfaDeviceName should have not more than 226 characters')
+        else VirtualMfaDeviceName,
     },
   },
-  withPath(Path): {
-    assert std.isString(Path) : 'Path must be a string',
+  setPath(Path): {
     Properties+::: {
-      Path: Path,
+      Path:
+        if !std.isString(Path) then (error 'Path must be a string')
+        else if std.isEmpty(Path) then (error 'Path must be not empty')
+        else if std.length(Path) < 1 then error ('Path should have at least 1 characters')
+        else if std.length(Path) > 512 then error ('Path should have not more than 512 characters')
+        else Path,
     },
   },
-  withSerialNumber(SerialNumber): {
-    assert std.isString(SerialNumber) : 'SerialNumber must be a string',
+  setSerialNumber(SerialNumber): {
     Properties+::: {
-      SerialNumber: SerialNumber,
+      SerialNumber:
+        if !std.isString(SerialNumber) then (error 'SerialNumber must be a string')
+        else if std.isEmpty(SerialNumber) then (error 'SerialNumber must be not empty')
+        else if std.length(SerialNumber) < 9 then error ('SerialNumber should have at least 9 characters')
+        else if std.length(SerialNumber) > 256 then error ('SerialNumber should have not more than 256 characters')
+        else SerialNumber,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

@@ -5,11 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(CollaborationIdentifier) : 'CollaborationIdentifier must be a string',
-      CollaborationIdentifier: CollaborationIdentifier,
-      assert std.isString(QueryLogStatus) : 'QueryLogStatus must be a string',
-      assert QueryLogStatus == 'ENABLED' || QueryLogStatus == 'DISABLED' : "QueryLogStatus should be 'ENABLED' or 'DISABLED'",
-      QueryLogStatus: QueryLogStatus,
+      CollaborationIdentifier:
+        if !std.isString(CollaborationIdentifier) then (error 'CollaborationIdentifier must be a string')
+        else if std.isEmpty(CollaborationIdentifier) then (error 'CollaborationIdentifier must be not empty')
+        else if std.length(CollaborationIdentifier) < 36 then error ('CollaborationIdentifier should have at least 36 characters')
+        else if std.length(CollaborationIdentifier) > 36 then error ('CollaborationIdentifier should have not more than 36 characters')
+        else CollaborationIdentifier,
+      QueryLogStatus:
+        if !std.isString(QueryLogStatus) then (error 'QueryLogStatus must be a string')
+        else if std.isEmpty(QueryLogStatus) then (error 'QueryLogStatus must be not empty')
+        else if QueryLogStatus != 'ENABLED' && QueryLogStatus != 'DISABLED' then (error "QueryLogStatus should be 'ENABLED' or 'DISABLED'")
+        else QueryLogStatus,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -19,110 +25,130 @@
     Metadata:: [],
     Type: 'AWS::CleanRooms::Membership',
   },
-  withArn(Arn): {
-    assert std.isString(Arn) : 'Arn must be a string',
+  setArn(Arn): {
     Properties+::: {
-      Arn: Arn,
+      Arn:
+        if !std.isString(Arn) then (error 'Arn must be a string')
+        else if std.isEmpty(Arn) then (error 'Arn must be not empty')
+        else if std.length(Arn) > 100 then error ('Arn should have not more than 100 characters')
+        else Arn,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withCollaborationArn(CollaborationArn): {
-    assert std.isString(CollaborationArn) : 'CollaborationArn must be a string',
+  setCollaborationArn(CollaborationArn): {
     Properties+::: {
-      CollaborationArn: CollaborationArn,
+      CollaborationArn:
+        if !std.isString(CollaborationArn) then (error 'CollaborationArn must be a string')
+        else if std.isEmpty(CollaborationArn) then (error 'CollaborationArn must be not empty')
+        else if std.length(CollaborationArn) > 100 then error ('CollaborationArn should have not more than 100 characters')
+        else CollaborationArn,
     },
   },
-  withCollaborationCreatorAccountId(CollaborationCreatorAccountId): {
-    assert std.isString(CollaborationCreatorAccountId) : 'CollaborationCreatorAccountId must be a string',
+  setCollaborationCreatorAccountId(CollaborationCreatorAccountId): {
     Properties+::: {
-      CollaborationCreatorAccountId: CollaborationCreatorAccountId,
+      CollaborationCreatorAccountId:
+        if !std.isString(CollaborationCreatorAccountId) then (error 'CollaborationCreatorAccountId must be a string')
+        else if std.isEmpty(CollaborationCreatorAccountId) then (error 'CollaborationCreatorAccountId must be not empty')
+        else if std.length(CollaborationCreatorAccountId) < 12 then error ('CollaborationCreatorAccountId should have at least 12 characters')
+        else if std.length(CollaborationCreatorAccountId) > 12 then error ('CollaborationCreatorAccountId should have not more than 12 characters')
+        else CollaborationCreatorAccountId,
     },
   },
-  withMembershipIdentifier(MembershipIdentifier): {
-    assert std.isString(MembershipIdentifier) : 'MembershipIdentifier must be a string',
+  setMembershipIdentifier(MembershipIdentifier): {
     Properties+::: {
-      MembershipIdentifier: MembershipIdentifier,
+      MembershipIdentifier:
+        if !std.isString(MembershipIdentifier) then (error 'MembershipIdentifier must be a string')
+        else if std.isEmpty(MembershipIdentifier) then (error 'MembershipIdentifier must be not empty')
+        else if std.length(MembershipIdentifier) < 36 then error ('MembershipIdentifier should have at least 36 characters')
+        else if std.length(MembershipIdentifier) > 36 then error ('MembershipIdentifier should have not more than 36 characters')
+        else MembershipIdentifier,
     },
   },
-  withDefaultResultConfiguration(DefaultResultConfiguration): {
-    assert std.isObject(DefaultResultConfiguration) : 'DefaultResultConfiguration must be a object',
+  setDefaultResultConfiguration(DefaultResultConfiguration): {
     Properties+::: {
-      DefaultResultConfiguration: DefaultResultConfiguration,
+      DefaultResultConfiguration:
+        if !std.isObject(DefaultResultConfiguration) then (error 'DefaultResultConfiguration must be an object')
+        else if !std.objectHas(DefaultResultConfiguration, 'OutputConfiguration') then (error ' have attribute OutputConfiguration')
+        else DefaultResultConfiguration,
     },
   },
-  withPaymentConfiguration(PaymentConfiguration): {
-    assert std.isObject(PaymentConfiguration) : 'PaymentConfiguration must be a object',
+  setPaymentConfiguration(PaymentConfiguration): {
     Properties+::: {
-      PaymentConfiguration: PaymentConfiguration,
+      PaymentConfiguration:
+        if !std.isObject(PaymentConfiguration) then (error 'PaymentConfiguration must be an object')
+        else if !std.objectHas(PaymentConfiguration, 'QueryCompute') then (error ' have attribute QueryCompute')
+        else PaymentConfiguration,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

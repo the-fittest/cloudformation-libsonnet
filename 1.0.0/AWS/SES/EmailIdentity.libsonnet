@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(EmailIdentity) : 'EmailIdentity must be a string',
-      EmailIdentity: EmailIdentity,
+      EmailIdentity:
+        if !std.isString(EmailIdentity) then (error 'EmailIdentity must be a string')
+        else if std.isEmpty(EmailIdentity) then (error 'EmailIdentity must be not empty')
+        else EmailIdentity,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,130 +17,147 @@
     Metadata:: [],
     Type: 'AWS::SES::EmailIdentity',
   },
-  withConfigurationSetAttributes(ConfigurationSetAttributes): {
-    assert std.isObject(ConfigurationSetAttributes) : 'ConfigurationSetAttributes must be a object',
+  setConfigurationSetAttributes(ConfigurationSetAttributes): {
     Properties+::: {
-      ConfigurationSetAttributes: ConfigurationSetAttributes,
+      ConfigurationSetAttributes:
+        if !std.isObject(ConfigurationSetAttributes) then (error 'ConfigurationSetAttributes must be an object')
+        else ConfigurationSetAttributes,
     },
   },
-  withDkimSigningAttributes(DkimSigningAttributes): {
-    assert std.isObject(DkimSigningAttributes) : 'DkimSigningAttributes must be a object',
+  setDkimSigningAttributes(DkimSigningAttributes): {
     Properties+::: {
-      DkimSigningAttributes: DkimSigningAttributes,
+      DkimSigningAttributes:
+        if !std.isObject(DkimSigningAttributes) then (error 'DkimSigningAttributes must be an object')
+        else DkimSigningAttributes,
     },
   },
-  withDkimAttributes(DkimAttributes): {
-    assert std.isObject(DkimAttributes) : 'DkimAttributes must be a object',
+  setDkimAttributes(DkimAttributes): {
     Properties+::: {
-      DkimAttributes: DkimAttributes,
+      DkimAttributes:
+        if !std.isObject(DkimAttributes) then (error 'DkimAttributes must be an object')
+        else DkimAttributes,
     },
   },
-  withMailFromAttributes(MailFromAttributes): {
-    assert std.isObject(MailFromAttributes) : 'MailFromAttributes must be a object',
+  setMailFromAttributes(MailFromAttributes): {
     Properties+::: {
-      MailFromAttributes: MailFromAttributes,
+      MailFromAttributes:
+        if !std.isObject(MailFromAttributes) then (error 'MailFromAttributes must be an object')
+        else MailFromAttributes,
     },
   },
-  withFeedbackAttributes(FeedbackAttributes): {
-    assert std.isObject(FeedbackAttributes) : 'FeedbackAttributes must be a object',
+  setFeedbackAttributes(FeedbackAttributes): {
     Properties+::: {
-      FeedbackAttributes: FeedbackAttributes,
+      FeedbackAttributes:
+        if !std.isObject(FeedbackAttributes) then (error 'FeedbackAttributes must be an object')
+        else FeedbackAttributes,
     },
   },
-  withDkimDNSTokenName1(DkimDNSTokenName1): {
-    assert std.isString(DkimDNSTokenName1) : 'DkimDNSTokenName1 must be a string',
+  setDkimDNSTokenName1(DkimDNSTokenName1): {
     Properties+::: {
-      DkimDNSTokenName1: DkimDNSTokenName1,
+      DkimDNSTokenName1:
+        if !std.isString(DkimDNSTokenName1) then (error 'DkimDNSTokenName1 must be a string')
+        else if std.isEmpty(DkimDNSTokenName1) then (error 'DkimDNSTokenName1 must be not empty')
+        else DkimDNSTokenName1,
     },
   },
-  withDkimDNSTokenName2(DkimDNSTokenName2): {
-    assert std.isString(DkimDNSTokenName2) : 'DkimDNSTokenName2 must be a string',
+  setDkimDNSTokenName2(DkimDNSTokenName2): {
     Properties+::: {
-      DkimDNSTokenName2: DkimDNSTokenName2,
+      DkimDNSTokenName2:
+        if !std.isString(DkimDNSTokenName2) then (error 'DkimDNSTokenName2 must be a string')
+        else if std.isEmpty(DkimDNSTokenName2) then (error 'DkimDNSTokenName2 must be not empty')
+        else DkimDNSTokenName2,
     },
   },
-  withDkimDNSTokenName3(DkimDNSTokenName3): {
-    assert std.isString(DkimDNSTokenName3) : 'DkimDNSTokenName3 must be a string',
+  setDkimDNSTokenName3(DkimDNSTokenName3): {
     Properties+::: {
-      DkimDNSTokenName3: DkimDNSTokenName3,
+      DkimDNSTokenName3:
+        if !std.isString(DkimDNSTokenName3) then (error 'DkimDNSTokenName3 must be a string')
+        else if std.isEmpty(DkimDNSTokenName3) then (error 'DkimDNSTokenName3 must be not empty')
+        else DkimDNSTokenName3,
     },
   },
-  withDkimDNSTokenValue1(DkimDNSTokenValue1): {
-    assert std.isString(DkimDNSTokenValue1) : 'DkimDNSTokenValue1 must be a string',
+  setDkimDNSTokenValue1(DkimDNSTokenValue1): {
     Properties+::: {
-      DkimDNSTokenValue1: DkimDNSTokenValue1,
+      DkimDNSTokenValue1:
+        if !std.isString(DkimDNSTokenValue1) then (error 'DkimDNSTokenValue1 must be a string')
+        else if std.isEmpty(DkimDNSTokenValue1) then (error 'DkimDNSTokenValue1 must be not empty')
+        else DkimDNSTokenValue1,
     },
   },
-  withDkimDNSTokenValue2(DkimDNSTokenValue2): {
-    assert std.isString(DkimDNSTokenValue2) : 'DkimDNSTokenValue2 must be a string',
+  setDkimDNSTokenValue2(DkimDNSTokenValue2): {
     Properties+::: {
-      DkimDNSTokenValue2: DkimDNSTokenValue2,
+      DkimDNSTokenValue2:
+        if !std.isString(DkimDNSTokenValue2) then (error 'DkimDNSTokenValue2 must be a string')
+        else if std.isEmpty(DkimDNSTokenValue2) then (error 'DkimDNSTokenValue2 must be not empty')
+        else DkimDNSTokenValue2,
     },
   },
-  withDkimDNSTokenValue3(DkimDNSTokenValue3): {
-    assert std.isString(DkimDNSTokenValue3) : 'DkimDNSTokenValue3 must be a string',
+  setDkimDNSTokenValue3(DkimDNSTokenValue3): {
     Properties+::: {
-      DkimDNSTokenValue3: DkimDNSTokenValue3,
+      DkimDNSTokenValue3:
+        if !std.isString(DkimDNSTokenValue3) then (error 'DkimDNSTokenValue3 must be a string')
+        else if std.isEmpty(DkimDNSTokenValue3) then (error 'DkimDNSTokenValue3 must be not empty')
+        else DkimDNSTokenValue3,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

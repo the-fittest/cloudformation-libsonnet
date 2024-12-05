@@ -5,10 +5,17 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(Name) : 'Name must be a string',
-      Name: Name,
-      assert std.isString(DatasetGroupArn) : 'DatasetGroupArn must be a string',
-      DatasetGroupArn: DatasetGroupArn,
+      Name:
+        if !std.isString(Name) then (error 'Name must be a string')
+        else if std.isEmpty(Name) then (error 'Name must be not empty')
+        else if std.length(Name) < 1 then error ('Name should have at least 1 characters')
+        else if std.length(Name) > 63 then error ('Name should have not more than 63 characters')
+        else Name,
+      DatasetGroupArn:
+        if !std.isString(DatasetGroupArn) then (error 'DatasetGroupArn must be a string')
+        else if std.isEmpty(DatasetGroupArn) then (error 'DatasetGroupArn must be not empty')
+        else if std.length(DatasetGroupArn) > 256 then error ('DatasetGroupArn should have not more than 256 characters')
+        else DatasetGroupArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -18,100 +25,110 @@
     Metadata:: [],
     Type: 'AWS::Personalize::Solution',
   },
-  withSolutionArn(SolutionArn): {
-    assert std.isString(SolutionArn) : 'SolutionArn must be a string',
+  setSolutionArn(SolutionArn): {
     Properties+::: {
-      SolutionArn: SolutionArn,
+      SolutionArn:
+        if !std.isString(SolutionArn) then (error 'SolutionArn must be a string')
+        else if std.isEmpty(SolutionArn) then (error 'SolutionArn must be not empty')
+        else if std.length(SolutionArn) > 256 then error ('SolutionArn should have not more than 256 characters')
+        else SolutionArn,
     },
   },
-  withEventType(EventType): {
-    assert std.isString(EventType) : 'EventType must be a string',
+  setEventType(EventType): {
     Properties+::: {
-      EventType: EventType,
+      EventType:
+        if !std.isString(EventType) then (error 'EventType must be a string')
+        else if std.isEmpty(EventType) then (error 'EventType must be not empty')
+        else if std.length(EventType) > 256 then error ('EventType should have not more than 256 characters')
+        else EventType,
     },
   },
-  withPerformAutoML(PerformAutoML): {
-    assert std.isBoolean(PerformAutoML) : 'PerformAutoML must be a boolean',
+  setPerformAutoML(PerformAutoML): {
     Properties+::: {
-      PerformAutoML: PerformAutoML,
+      PerformAutoML:
+        if !std.isBoolean(PerformAutoML) then (error 'PerformAutoML must be a boolean') else PerformAutoML,
     },
   },
-  withPerformHPO(PerformHPO): {
-    assert std.isBoolean(PerformHPO) : 'PerformHPO must be a boolean',
+  setPerformHPO(PerformHPO): {
     Properties+::: {
-      PerformHPO: PerformHPO,
+      PerformHPO:
+        if !std.isBoolean(PerformHPO) then (error 'PerformHPO must be a boolean') else PerformHPO,
     },
   },
-  withRecipeArn(RecipeArn): {
-    assert std.isString(RecipeArn) : 'RecipeArn must be a string',
+  setRecipeArn(RecipeArn): {
     Properties+::: {
-      RecipeArn: RecipeArn,
+      RecipeArn:
+        if !std.isString(RecipeArn) then (error 'RecipeArn must be a string')
+        else if std.isEmpty(RecipeArn) then (error 'RecipeArn must be not empty')
+        else if std.length(RecipeArn) > 256 then error ('RecipeArn should have not more than 256 characters')
+        else RecipeArn,
     },
   },
-  withSolutionConfig(SolutionConfig): {
-    assert std.isObject(SolutionConfig) : 'SolutionConfig must be a object',
+  setSolutionConfig(SolutionConfig): {
     Properties+::: {
-      SolutionConfig: SolutionConfig,
+      SolutionConfig:
+        if !std.isObject(SolutionConfig) then (error 'SolutionConfig must be an object')
+        else SolutionConfig,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

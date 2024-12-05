@@ -4,8 +4,11 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(ModelPackageGroupName) : 'ModelPackageGroupName must be a string',
-      ModelPackageGroupName: ModelPackageGroupName,
+      ModelPackageGroupName:
+        if !std.isString(ModelPackageGroupName) then (error 'ModelPackageGroupName must be a string')
+        else if std.isEmpty(ModelPackageGroupName) then (error 'ModelPackageGroupName must be not empty')
+        else if std.length(ModelPackageGroupName) > 63 then error ('ModelPackageGroupName should have not more than 63 characters')
+        else ModelPackageGroupName,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,104 +18,118 @@
     Metadata:: [],
     Type: 'AWS::SageMaker::ModelPackageGroup',
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withModelPackageGroupArn(ModelPackageGroupArn): {
-    assert std.isString(ModelPackageGroupArn) : 'ModelPackageGroupArn must be a string',
+  setModelPackageGroupArn(ModelPackageGroupArn): {
     Properties+::: {
-      ModelPackageGroupArn: ModelPackageGroupArn,
+      ModelPackageGroupArn:
+        if !std.isString(ModelPackageGroupArn) then (error 'ModelPackageGroupArn must be a string')
+        else if std.isEmpty(ModelPackageGroupArn) then (error 'ModelPackageGroupArn must be not empty')
+        else if std.length(ModelPackageGroupArn) < 1 then error ('ModelPackageGroupArn should have at least 1 characters')
+        else if std.length(ModelPackageGroupArn) > 256 then error ('ModelPackageGroupArn should have not more than 256 characters')
+        else ModelPackageGroupArn,
     },
   },
-  withModelPackageGroupDescription(ModelPackageGroupDescription): {
-    assert std.isString(ModelPackageGroupDescription) : 'ModelPackageGroupDescription must be a string',
+  setModelPackageGroupDescription(ModelPackageGroupDescription): {
     Properties+::: {
-      ModelPackageGroupDescription: ModelPackageGroupDescription,
+      ModelPackageGroupDescription:
+        if !std.isString(ModelPackageGroupDescription) then (error 'ModelPackageGroupDescription must be a string')
+        else if std.isEmpty(ModelPackageGroupDescription) then (error 'ModelPackageGroupDescription must be not empty')
+        else if std.length(ModelPackageGroupDescription) > 1024 then error ('ModelPackageGroupDescription should have not more than 1024 characters')
+        else ModelPackageGroupDescription,
     },
   },
-  withModelPackageGroupPolicy(ModelPackageGroupPolicy): {
+  setModelPackageGroupPolicy(ModelPackageGroupPolicy): {
     Properties+::: {
       ModelPackageGroupPolicy: ModelPackageGroupPolicy,
     },
   },
-  withCreationTime(CreationTime): {
-    assert std.isString(CreationTime) : 'CreationTime must be a string',
+  setCreationTime(CreationTime): {
     Properties+::: {
-      CreationTime: CreationTime,
+      CreationTime:
+        if !std.isString(CreationTime) then (error 'CreationTime must be a string')
+        else if std.isEmpty(CreationTime) then (error 'CreationTime must be not empty')
+        else CreationTime,
     },
   },
-  withModelPackageGroupStatus(ModelPackageGroupStatus): {
-    assert std.isString(ModelPackageGroupStatus) : 'ModelPackageGroupStatus must be a string',
-    assert ModelPackageGroupStatus == 'Pending' || ModelPackageGroupStatus == 'InProgress' || ModelPackageGroupStatus == 'Completed' || ModelPackageGroupStatus == 'Failed' || ModelPackageGroupStatus == 'Deleting' || ModelPackageGroupStatus == 'DeleteFailed' : "ModelPackageGroupStatus should be 'Pending' or 'InProgress' or 'Completed' or 'Failed' or 'Deleting' or 'DeleteFailed'",
+  setModelPackageGroupStatus(ModelPackageGroupStatus): {
     Properties+::: {
-      ModelPackageGroupStatus: ModelPackageGroupStatus,
+      ModelPackageGroupStatus:
+        if !std.isString(ModelPackageGroupStatus) then (error 'ModelPackageGroupStatus must be a string')
+        else if std.isEmpty(ModelPackageGroupStatus) then (error 'ModelPackageGroupStatus must be not empty')
+        else if ModelPackageGroupStatus != 'Pending' && ModelPackageGroupStatus != 'InProgress' && ModelPackageGroupStatus != 'Completed' && ModelPackageGroupStatus != 'Failed' && ModelPackageGroupStatus != 'Deleting' && ModelPackageGroupStatus != 'DeleteFailed' then (error "ModelPackageGroupStatus should be 'Pending' or 'InProgress' or 'Completed' or 'Failed' or 'Deleting' or 'DeleteFailed'")
+        else ModelPackageGroupStatus,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

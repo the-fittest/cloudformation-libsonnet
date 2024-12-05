@@ -4,8 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      assert std.isString(TargetArn) : 'TargetArn must be a string',
-      TargetArn: TargetArn,
+      TargetArn:
+        if !std.isString(TargetArn) then (error 'TargetArn must be a string')
+        else if std.isEmpty(TargetArn) then (error 'TargetArn must be not empty')
+        else TargetArn,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -15,116 +17,135 @@
     Metadata:: [],
     Type: 'AWS::Connect::PhoneNumber',
   },
-  withPhoneNumberArn(PhoneNumberArn): {
-    assert std.isString(PhoneNumberArn) : 'PhoneNumberArn must be a string',
+  setPhoneNumberArn(PhoneNumberArn): {
     Properties+::: {
-      PhoneNumberArn: PhoneNumberArn,
+      PhoneNumberArn:
+        if !std.isString(PhoneNumberArn) then (error 'PhoneNumberArn must be a string')
+        else if std.isEmpty(PhoneNumberArn) then (error 'PhoneNumberArn must be not empty')
+        else PhoneNumberArn,
     },
   },
-  withDescription(Description): {
-    assert std.isString(Description) : 'Description must be a string',
+  setDescription(Description): {
     Properties+::: {
-      Description: Description,
+      Description:
+        if !std.isString(Description) then (error 'Description must be a string')
+        else if std.isEmpty(Description) then (error 'Description must be not empty')
+        else if std.length(Description) < 1 then error ('Description should have at least 1 characters')
+        else if std.length(Description) > 500 then error ('Description should have not more than 500 characters')
+        else Description,
     },
   },
-  withType(Type): {
-    assert std.isString(Type) : 'Type must be a string',
+  setType(Type): {
     Properties+::: {
-      Type: Type,
+      Type:
+        if !std.isString(Type) then (error 'Type must be a string')
+        else if std.isEmpty(Type) then (error 'Type must be not empty')
+        else Type,
     },
   },
-  withCountryCode(CountryCode): {
-    assert std.isString(CountryCode) : 'CountryCode must be a string',
+  setCountryCode(CountryCode): {
     Properties+::: {
-      CountryCode: CountryCode,
+      CountryCode:
+        if !std.isString(CountryCode) then (error 'CountryCode must be a string')
+        else if std.isEmpty(CountryCode) then (error 'CountryCode must be not empty')
+        else CountryCode,
     },
   },
-  withPrefix(Prefix): {
-    assert std.isString(Prefix) : 'Prefix must be a string',
+  setPrefix(Prefix): {
     Properties+::: {
-      Prefix: Prefix,
+      Prefix:
+        if !std.isString(Prefix) then (error 'Prefix must be a string')
+        else if std.isEmpty(Prefix) then (error 'Prefix must be not empty')
+        else Prefix,
     },
   },
-  withAddress(Address): {
-    assert std.isString(Address) : 'Address must be a string',
+  setAddress(Address): {
     Properties+::: {
-      Address: Address,
+      Address:
+        if !std.isString(Address) then (error 'Address must be a string')
+        else if std.isEmpty(Address) then (error 'Address must be not empty')
+        else Address,
     },
   },
-  withTags(Tags): {
+  setTags(Tags): {
     Properties+::: {
-      Tags: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags:
+        if !std.isArray(Tags) then (error 'Tags must be an array')
+        else if std.length(Tags) > 50 then error ('Tags cannot have more than 50 items')
+        else Tags,
     },
   },
-  withTagsMixin(Tags): {
+  setTagsMixin(Tags): {
     Properties+::: {
-      Tags+: (if std.isArray(Tags) then Tags else [Tags]),
+      Tags+: Tags,
     },
   },
-  withSourcePhoneNumberArn(SourcePhoneNumberArn): {
-    assert std.isString(SourcePhoneNumberArn) : 'SourcePhoneNumberArn must be a string',
+  setSourcePhoneNumberArn(SourcePhoneNumberArn): {
     Properties+::: {
-      SourcePhoneNumberArn: SourcePhoneNumberArn,
+      SourcePhoneNumberArn:
+        if !std.isString(SourcePhoneNumberArn) then (error 'SourcePhoneNumberArn must be a string')
+        else if std.isEmpty(SourcePhoneNumberArn) then (error 'SourcePhoneNumberArn must be not empty')
+        else SourcePhoneNumberArn,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }

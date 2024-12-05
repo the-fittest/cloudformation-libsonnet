@@ -4,7 +4,10 @@
   ): {
     local base = self,
     Properties: {
-      Members: (if std.isArray(Members) then Members else [Members]),
+      Members:
+        if !std.isArray(Members) then (error 'Members must be an array')
+        else if std.length(Members) < 1 then error ('Members cannot have less than 1 items')
+        else Members,
     },
     DependsOn:: [],
     CreationPolicy:: [],
@@ -14,134 +17,153 @@
     Metadata:: [],
     Type: 'AWS::ElastiCache::GlobalReplicationGroup',
   },
-  withGlobalReplicationGroupIdSuffix(GlobalReplicationGroupIdSuffix): {
-    assert std.isString(GlobalReplicationGroupIdSuffix) : 'GlobalReplicationGroupIdSuffix must be a string',
+  setGlobalReplicationGroupIdSuffix(GlobalReplicationGroupIdSuffix): {
     Properties+::: {
-      GlobalReplicationGroupIdSuffix: GlobalReplicationGroupIdSuffix,
+      GlobalReplicationGroupIdSuffix:
+        if !std.isString(GlobalReplicationGroupIdSuffix) then (error 'GlobalReplicationGroupIdSuffix must be a string')
+        else if std.isEmpty(GlobalReplicationGroupIdSuffix) then (error 'GlobalReplicationGroupIdSuffix must be not empty')
+        else GlobalReplicationGroupIdSuffix,
     },
   },
-  withAutomaticFailoverEnabled(AutomaticFailoverEnabled): {
-    assert std.isBoolean(AutomaticFailoverEnabled) : 'AutomaticFailoverEnabled must be a boolean',
+  setAutomaticFailoverEnabled(AutomaticFailoverEnabled): {
     Properties+::: {
-      AutomaticFailoverEnabled: AutomaticFailoverEnabled,
+      AutomaticFailoverEnabled:
+        if !std.isBoolean(AutomaticFailoverEnabled) then (error 'AutomaticFailoverEnabled must be a boolean') else AutomaticFailoverEnabled,
     },
   },
-  withCacheNodeType(CacheNodeType): {
-    assert std.isString(CacheNodeType) : 'CacheNodeType must be a string',
+  setCacheNodeType(CacheNodeType): {
     Properties+::: {
-      CacheNodeType: CacheNodeType,
+      CacheNodeType:
+        if !std.isString(CacheNodeType) then (error 'CacheNodeType must be a string')
+        else if std.isEmpty(CacheNodeType) then (error 'CacheNodeType must be not empty')
+        else CacheNodeType,
     },
   },
-  withEngineVersion(EngineVersion): {
-    assert std.isString(EngineVersion) : 'EngineVersion must be a string',
+  setEngineVersion(EngineVersion): {
     Properties+::: {
-      EngineVersion: EngineVersion,
+      EngineVersion:
+        if !std.isString(EngineVersion) then (error 'EngineVersion must be a string')
+        else if std.isEmpty(EngineVersion) then (error 'EngineVersion must be not empty')
+        else EngineVersion,
     },
   },
-  withEngine(Engine): {
-    assert std.isString(Engine) : 'Engine must be a string',
+  setEngine(Engine): {
     Properties+::: {
-      Engine: Engine,
+      Engine:
+        if !std.isString(Engine) then (error 'Engine must be a string')
+        else if std.isEmpty(Engine) then (error 'Engine must be not empty')
+        else Engine,
     },
   },
-  withCacheParameterGroupName(CacheParameterGroupName): {
-    assert std.isString(CacheParameterGroupName) : 'CacheParameterGroupName must be a string',
+  setCacheParameterGroupName(CacheParameterGroupName): {
     Properties+::: {
-      CacheParameterGroupName: CacheParameterGroupName,
+      CacheParameterGroupName:
+        if !std.isString(CacheParameterGroupName) then (error 'CacheParameterGroupName must be a string')
+        else if std.isEmpty(CacheParameterGroupName) then (error 'CacheParameterGroupName must be not empty')
+        else CacheParameterGroupName,
     },
   },
-  withGlobalNodeGroupCount(GlobalNodeGroupCount): {
-    assert std.isNumber(GlobalNodeGroupCount) : 'GlobalNodeGroupCount must be a number',
+  setGlobalNodeGroupCount(GlobalNodeGroupCount): {
     Properties+::: {
-      GlobalNodeGroupCount: GlobalNodeGroupCount,
+      GlobalNodeGroupCount:
+        if !std.isNumber(GlobalNodeGroupCount) then (error 'GlobalNodeGroupCount must be an number')
+        else GlobalNodeGroupCount,
     },
   },
-  withGlobalReplicationGroupDescription(GlobalReplicationGroupDescription): {
-    assert std.isString(GlobalReplicationGroupDescription) : 'GlobalReplicationGroupDescription must be a string',
+  setGlobalReplicationGroupDescription(GlobalReplicationGroupDescription): {
     Properties+::: {
-      GlobalReplicationGroupDescription: GlobalReplicationGroupDescription,
+      GlobalReplicationGroupDescription:
+        if !std.isString(GlobalReplicationGroupDescription) then (error 'GlobalReplicationGroupDescription must be a string')
+        else if std.isEmpty(GlobalReplicationGroupDescription) then (error 'GlobalReplicationGroupDescription must be not empty')
+        else GlobalReplicationGroupDescription,
     },
   },
-  withGlobalReplicationGroupId(GlobalReplicationGroupId): {
-    assert std.isString(GlobalReplicationGroupId) : 'GlobalReplicationGroupId must be a string',
+  setGlobalReplicationGroupId(GlobalReplicationGroupId): {
     Properties+::: {
-      GlobalReplicationGroupId: GlobalReplicationGroupId,
+      GlobalReplicationGroupId:
+        if !std.isString(GlobalReplicationGroupId) then (error 'GlobalReplicationGroupId must be a string')
+        else if std.isEmpty(GlobalReplicationGroupId) then (error 'GlobalReplicationGroupId must be not empty')
+        else GlobalReplicationGroupId,
     },
   },
-  withStatus(Status): {
-    assert std.isString(Status) : 'Status must be a string',
+  setStatus(Status): {
     Properties+::: {
-      Status: Status,
+      Status:
+        if !std.isString(Status) then (error 'Status must be a string')
+        else if std.isEmpty(Status) then (error 'Status must be not empty')
+        else Status,
     },
   },
-  withRegionalConfigurations(RegionalConfigurations): {
+  setRegionalConfigurations(RegionalConfigurations): {
     Properties+::: {
-      RegionalConfigurations: (if std.isArray(RegionalConfigurations) then RegionalConfigurations else [RegionalConfigurations]),
+      RegionalConfigurations:
+        if !std.isArray(RegionalConfigurations) then (error 'RegionalConfigurations must be an array')
+        else RegionalConfigurations,
     },
   },
-  withRegionalConfigurationsMixin(RegionalConfigurations): {
+  setRegionalConfigurationsMixin(RegionalConfigurations): {
     Properties+::: {
-      RegionalConfigurations+: (if std.isArray(RegionalConfigurations) then RegionalConfigurations else [RegionalConfigurations]),
+      RegionalConfigurations+: RegionalConfigurations,
     },
   },
-  withDependsOn(DependsOn): {
+  setDependsOn(DependsOn): {
     Properties+::: {
-      DependsOn: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn: DependsOn,
     },
   },
-  withDependsOnMixin(DependsOn): {
+  setDependsOnMixin(DependsOn): {
     Properties+::: {
-      DependsOn+: (if std.isArray(DependsOn) then DependsOn else [DependsOn]),
+      DependsOn+: DependsOn,
     },
   },
-  withCreationPolicy(CreationPolicy): {
+  setCreationPolicy(CreationPolicy): {
     Properties+::: {
-      CreationPolicy: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy: CreationPolicy,
     },
   },
-  withCreationPolicyMixin(CreationPolicy): {
+  setCreationPolicyMixin(CreationPolicy): {
     Properties+::: {
-      CreationPolicy+: (if std.isArray(CreationPolicy) then CreationPolicy else [CreationPolicy]),
+      CreationPolicy+: CreationPolicy,
     },
   },
-  withDeletionPolicy(DeletionPolicy): {
+  setDeletionPolicy(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy: DeletionPolicy,
     },
   },
-  withDeletionPolicyMixin(DeletionPolicy): {
+  setDeletionPolicyMixin(DeletionPolicy): {
     Properties+::: {
-      DeletionPolicy+: (if std.isArray(DeletionPolicy) then DeletionPolicy else [DeletionPolicy]),
+      DeletionPolicy+: DeletionPolicy,
     },
   },
-  withUpdatePolicy(UpdatePolicy): {
+  setUpdatePolicy(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy: UpdatePolicy,
     },
   },
-  withUpdatePolicyMixin(UpdatePolicy): {
+  setUpdatePolicyMixin(UpdatePolicy): {
     Properties+::: {
-      UpdatePolicy+: (if std.isArray(UpdatePolicy) then UpdatePolicy else [UpdatePolicy]),
+      UpdatePolicy+: UpdatePolicy,
     },
   },
-  withUpdateReplacePolicy(UpdateReplacePolicy): {
+  setUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  withUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
     Properties+::: {
-      UpdateReplacePolicy+: (if std.isArray(UpdateReplacePolicy) then UpdateReplacePolicy else [UpdateReplacePolicy]),
+      UpdateReplacePolicy+: UpdateReplacePolicy,
     },
   },
-  withMetadata(Metadata): {
+  setMetadata(Metadata): {
     Properties+::: {
-      Metadata: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata: Metadata,
     },
   },
-  withMetadataMixin(Metadata): {
+  setMetadataMixin(Metadata): {
     Properties+::: {
-      Metadata+: (if std.isArray(Metadata) then Metadata else [Metadata]),
+      Metadata+: Metadata,
     },
   },
 }
