@@ -64,7 +64,7 @@
         else SecondarySources,
     },
   },
-  setSecondarySourcesMixin(SecondarySources): {
+  pushSecondarySources(SecondarySources): {
     Properties+::: {
       SecondarySources+: SecondarySources,
     },
@@ -84,7 +84,7 @@
         else SecondaryArtifacts,
     },
   },
-  setSecondaryArtifactsMixin(SecondaryArtifacts): {
+  pushSecondaryArtifacts(SecondaryArtifacts): {
     Properties+::: {
       SecondaryArtifacts+: SecondaryArtifacts,
     },
@@ -118,7 +118,7 @@
         else SecondarySourceVersions,
     },
   },
-  setSecondarySourceVersionsMixin(SecondarySourceVersions): {
+  pushSecondarySourceVersions(SecondarySourceVersions): {
     Properties+::: {
       SecondarySourceVersions+: SecondarySourceVersions,
     },
@@ -130,7 +130,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -170,7 +170,7 @@
         else FileSystemLocations,
     },
   },
-  setFileSystemLocationsMixin(FileSystemLocations): {
+  pushFileSystemLocations(FileSystemLocations): {
     Properties+::: {
       FileSystemLocations+: FileSystemLocations,
     },
@@ -233,7 +233,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -243,7 +243,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -253,7 +253,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -263,7 +263,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -273,7 +273,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -283,7 +283,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

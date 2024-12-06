@@ -25,7 +25,7 @@
         else SecurityGroups,
     },
   },
-  setSecurityGroupsMixin(SecurityGroups): {
+  pushSecurityGroups(SecurityGroups): {
     Properties+::: {
       SecurityGroups+: SecurityGroups,
     },
@@ -61,7 +61,7 @@
         else BlockDeviceMappings,
     },
   },
-  setBlockDeviceMappingsMixin(BlockDeviceMappings): {
+  pushBlockDeviceMappings(BlockDeviceMappings): {
     Properties+::: {
       BlockDeviceMappings+: BlockDeviceMappings,
     },
@@ -81,7 +81,7 @@
         else Ipv6Addresses,
     },
   },
-  setIpv6AddressesMixin(Ipv6Addresses): {
+  pushIpv6Addresses(Ipv6Addresses): {
     Properties+::: {
       Ipv6Addresses+: Ipv6Addresses,
     },
@@ -121,7 +121,7 @@
         else ElasticGpuSpecifications,
     },
   },
-  setElasticGpuSpecificationsMixin(ElasticGpuSpecifications): {
+  pushElasticGpuSpecifications(ElasticGpuSpecifications): {
     Properties+::: {
       ElasticGpuSpecifications+: ElasticGpuSpecifications,
     },
@@ -133,7 +133,7 @@
         else ElasticInferenceAccelerators,
     },
   },
-  setElasticInferenceAcceleratorsMixin(ElasticInferenceAccelerators): {
+  pushElasticInferenceAccelerators(ElasticInferenceAccelerators): {
     Properties+::: {
       ElasticInferenceAccelerators+: ElasticInferenceAccelerators,
     },
@@ -145,7 +145,7 @@
         else Volumes,
     },
   },
-  setVolumesMixin(Volumes): {
+  pushVolumes(Volumes): {
     Properties+::: {
       Volumes+: Volumes,
     },
@@ -186,7 +186,7 @@
         else NetworkInterfaces,
     },
   },
-  setNetworkInterfacesMixin(NetworkInterfaces): {
+  pushNetworkInterfaces(NetworkInterfaces): {
     Properties+::: {
       NetworkInterfaces+: NetworkInterfaces,
     },
@@ -220,7 +220,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -247,7 +247,7 @@
         else LicenseSpecifications,
     },
   },
-  setLicenseSpecificationsMixin(LicenseSpecifications): {
+  pushLicenseSpecifications(LicenseSpecifications): {
     Properties+::: {
       LicenseSpecifications+: LicenseSpecifications,
     },
@@ -329,7 +329,7 @@
         else SecurityGroupIds,
     },
   },
-  setSecurityGroupIdsMixin(SecurityGroupIds): {
+  pushSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
       SecurityGroupIds+: SecurityGroupIds,
     },
@@ -377,7 +377,7 @@
         else SsmAssociations,
     },
   },
-  setSsmAssociationsMixin(SsmAssociations): {
+  pushSsmAssociations(SsmAssociations): {
     Properties+::: {
       SsmAssociations+: SsmAssociations,
     },
@@ -418,7 +418,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -428,7 +428,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -438,7 +438,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -448,7 +448,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -458,7 +458,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -468,7 +468,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

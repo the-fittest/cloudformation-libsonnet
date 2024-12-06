@@ -48,7 +48,7 @@
         else AliasAttributes,
     },
   },
-  setAliasAttributesMixin(AliasAttributes): {
+  pushAliasAttributes(AliasAttributes): {
     Properties+::: {
       AliasAttributes+: AliasAttributes,
     },
@@ -60,7 +60,7 @@
         else UsernameAttributes,
     },
   },
-  setUsernameAttributesMixin(UsernameAttributes): {
+  pushUsernameAttributes(UsernameAttributes): {
     Properties+::: {
       UsernameAttributes+: UsernameAttributes,
     },
@@ -72,7 +72,7 @@
         else AutoVerifiedAttributes,
     },
   },
-  setAutoVerifiedAttributesMixin(AutoVerifiedAttributes): {
+  pushAutoVerifiedAttributes(AutoVerifiedAttributes): {
     Properties+::: {
       AutoVerifiedAttributes+: AutoVerifiedAttributes,
     },
@@ -141,7 +141,7 @@
         else EnabledMfas,
     },
   },
-  setEnabledMfasMixin(EnabledMfas): {
+  pushEnabledMfas(EnabledMfas): {
     Properties+::: {
       EnabledMfas+: EnabledMfas,
     },
@@ -220,7 +220,7 @@
         else Schema,
     },
   },
-  setSchemaMixin(Schema): {
+  pushSchema(Schema): {
     Properties+::: {
       Schema+: Schema,
     },
@@ -307,7 +307,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -317,7 +317,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -327,7 +327,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -337,7 +337,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -347,7 +347,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -357,7 +357,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

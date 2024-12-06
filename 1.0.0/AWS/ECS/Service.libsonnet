@@ -42,7 +42,7 @@
         else PlacementStrategies,
     },
   },
-  setPlacementStrategiesMixin(PlacementStrategies): {
+  pushPlacementStrategies(PlacementStrategies): {
     Properties+::: {
       PlacementStrategies+: PlacementStrategies,
     },
@@ -54,7 +54,7 @@
         else ServiceRegistries,
     },
   },
-  setServiceRegistriesMixin(ServiceRegistries): {
+  pushServiceRegistries(ServiceRegistries): {
     Properties+::: {
       ServiceRegistries+: ServiceRegistries,
     },
@@ -66,7 +66,7 @@
         else VolumeConfigurations,
     },
   },
-  setVolumeConfigurationsMixin(VolumeConfigurations): {
+  pushVolumeConfigurations(VolumeConfigurations): {
     Properties+::: {
       VolumeConfigurations+: VolumeConfigurations,
     },
@@ -78,7 +78,7 @@
         else CapacityProviderStrategy,
     },
   },
-  setCapacityProviderStrategyMixin(CapacityProviderStrategy): {
+  pushCapacityProviderStrategy(CapacityProviderStrategy): {
     Properties+::: {
       CapacityProviderStrategy+: CapacityProviderStrategy,
     },
@@ -132,7 +132,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -163,7 +163,7 @@
         else PlacementConstraints,
     },
   },
-  setPlacementConstraintsMixin(PlacementConstraints): {
+  pushPlacementConstraints(PlacementConstraints): {
     Properties+::: {
       PlacementConstraints+: PlacementConstraints,
     },
@@ -183,7 +183,7 @@
         else LoadBalancers,
     },
   },
-  setLoadBalancersMixin(LoadBalancers): {
+  pushLoadBalancers(LoadBalancers): {
     Properties+::: {
       LoadBalancers+: LoadBalancers,
     },
@@ -210,7 +210,7 @@
         else VpcLatticeConfigurations,
     },
   },
-  setVpcLatticeConfigurationsMixin(VpcLatticeConfigurations): {
+  pushVpcLatticeConfigurations(VpcLatticeConfigurations): {
     Properties+::: {
       VpcLatticeConfigurations+: VpcLatticeConfigurations,
     },
@@ -258,7 +258,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -268,7 +268,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -278,7 +278,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -288,7 +288,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -298,7 +298,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -308,7 +308,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

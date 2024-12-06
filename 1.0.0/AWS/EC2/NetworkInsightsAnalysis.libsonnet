@@ -33,7 +33,7 @@
         else ReturnPathComponents,
     },
   },
-  setReturnPathComponentsMixin(ReturnPathComponents): {
+  pushReturnPathComponents(ReturnPathComponents): {
     Properties+::: {
       ReturnPathComponents+: ReturnPathComponents,
     },
@@ -59,7 +59,7 @@
         else SuggestedAccounts,
     },
   },
-  setSuggestedAccountsMixin(SuggestedAccounts): {
+  pushSuggestedAccounts(SuggestedAccounts): {
     Properties+::: {
       SuggestedAccounts+: SuggestedAccounts,
     },
@@ -71,7 +71,7 @@
         else FilterInArns,
     },
   },
-  setFilterInArnsMixin(FilterInArns): {
+  pushFilterInArns(FilterInArns): {
     Properties+::: {
       FilterInArns+: FilterInArns,
     },
@@ -107,7 +107,7 @@
         else AlternatePathHints,
     },
   },
-  setAlternatePathHintsMixin(AlternatePathHints): {
+  pushAlternatePathHints(AlternatePathHints): {
     Properties+::: {
       AlternatePathHints+: AlternatePathHints,
     },
@@ -119,7 +119,7 @@
         else Explanations,
     },
   },
-  setExplanationsMixin(Explanations): {
+  pushExplanations(Explanations): {
     Properties+::: {
       Explanations+: Explanations,
     },
@@ -131,7 +131,7 @@
         else ForwardPathComponents,
     },
   },
-  setForwardPathComponentsMixin(ForwardPathComponents): {
+  pushForwardPathComponents(ForwardPathComponents): {
     Properties+::: {
       ForwardPathComponents+: ForwardPathComponents,
     },
@@ -143,7 +143,7 @@
         else AdditionalAccounts,
     },
   },
-  setAdditionalAccountsMixin(AdditionalAccounts): {
+  pushAdditionalAccounts(AdditionalAccounts): {
     Properties+::: {
       AdditionalAccounts+: AdditionalAccounts,
     },
@@ -155,7 +155,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -165,7 +165,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -175,7 +175,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -185,7 +185,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -195,7 +195,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -205,7 +205,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -215,7 +215,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

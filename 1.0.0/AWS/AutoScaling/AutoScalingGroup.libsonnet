@@ -29,7 +29,7 @@
         else LifecycleHookSpecificationList,
     },
   },
-  setLifecycleHookSpecificationListMixin(LifecycleHookSpecificationList): {
+  pushLifecycleHookSpecificationList(LifecycleHookSpecificationList): {
     Properties+::: {
       LifecycleHookSpecificationList+: LifecycleHookSpecificationList,
     },
@@ -41,7 +41,7 @@
         else LoadBalancerNames,
     },
   },
-  setLoadBalancerNamesMixin(LoadBalancerNames): {
+  pushLoadBalancerNames(LoadBalancerNames): {
     Properties+::: {
       LoadBalancerNames+: LoadBalancerNames,
     },
@@ -78,7 +78,7 @@
         else TargetGroupARNs,
     },
   },
-  setTargetGroupARNsMixin(TargetGroupARNs): {
+  pushTargetGroupARNs(TargetGroupARNs): {
     Properties+::: {
       TargetGroupARNs+: TargetGroupARNs,
     },
@@ -98,7 +98,7 @@
         else NotificationConfigurations,
     },
   },
-  setNotificationConfigurationsMixin(NotificationConfigurations): {
+  pushNotificationConfigurations(NotificationConfigurations): {
     Properties+::: {
       NotificationConfigurations+: NotificationConfigurations,
     },
@@ -160,7 +160,7 @@
         else VPCZoneIdentifier,
     },
   },
-  setVPCZoneIdentifierMixin(VPCZoneIdentifier): {
+  pushVPCZoneIdentifier(VPCZoneIdentifier): {
     Properties+::: {
       VPCZoneIdentifier+: VPCZoneIdentifier,
     },
@@ -172,7 +172,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -206,7 +206,7 @@
         else AvailabilityZones,
     },
   },
-  setAvailabilityZonesMixin(AvailabilityZones): {
+  pushAvailabilityZones(AvailabilityZones): {
     Properties+::: {
       AvailabilityZones+: AvailabilityZones,
     },
@@ -233,7 +233,7 @@
         else MetricsCollection,
     },
   },
-  setMetricsCollectionMixin(MetricsCollection): {
+  pushMetricsCollection(MetricsCollection): {
     Properties+::: {
       MetricsCollection+: MetricsCollection,
     },
@@ -252,7 +252,7 @@
         else TerminationPolicies,
     },
   },
-  setTerminationPoliciesMixin(TerminationPolicies): {
+  pushTerminationPolicies(TerminationPolicies): {
     Properties+::: {
       TerminationPolicies+: TerminationPolicies,
     },
@@ -272,7 +272,7 @@
         else TrafficSources,
     },
   },
-  setTrafficSourcesMixin(TrafficSources): {
+  pushTrafficSources(TrafficSources): {
     Properties+::: {
       TrafficSources+: TrafficSources,
     },
@@ -321,7 +321,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -331,7 +331,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -341,7 +341,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -351,7 +351,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -361,7 +361,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -371,7 +371,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

@@ -65,7 +65,7 @@
         else ConformancePackInputParameters,
     },
   },
-  setConformancePackInputParametersMixin(ConformancePackInputParameters): {
+  pushConformancePackInputParameters(ConformancePackInputParameters): {
     Properties+::: {
       ConformancePackInputParameters+: ConformancePackInputParameters,
     },
@@ -78,7 +78,7 @@
         else ExcludedAccounts,
     },
   },
-  setExcludedAccountsMixin(ExcludedAccounts): {
+  pushExcludedAccounts(ExcludedAccounts): {
     Properties+::: {
       ExcludedAccounts+: ExcludedAccounts,
     },
@@ -88,7 +88,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -98,7 +98,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -108,7 +108,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -118,7 +118,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -128,7 +128,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -138,7 +138,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

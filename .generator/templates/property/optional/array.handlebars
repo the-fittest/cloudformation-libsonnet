@@ -3,7 +3,7 @@ set{{property}}({{property}}): {
         {{> (whichProperty this.type 'required') property=property parameters=parameters}}
     },
 },
-set{{property}}Mixin({{property}}): {
+push{{property}}({{property}}): {
     Properties+::: {
         {{property}}+: {{property}}
     },

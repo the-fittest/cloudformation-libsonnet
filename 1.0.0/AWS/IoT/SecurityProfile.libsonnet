@@ -36,7 +36,7 @@
         else Behaviors,
     },
   },
-  setBehaviorsMixin(Behaviors): {
+  pushBehaviors(Behaviors): {
     Properties+::: {
       Behaviors+: Behaviors,
     },
@@ -55,7 +55,7 @@
         else AdditionalMetricsToRetainV2,
     },
   },
-  setAdditionalMetricsToRetainV2Mixin(AdditionalMetricsToRetainV2): {
+  pushAdditionalMetricsToRetainV2(AdditionalMetricsToRetainV2): {
     Properties+::: {
       AdditionalMetricsToRetainV2+: AdditionalMetricsToRetainV2,
     },
@@ -77,7 +77,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -89,7 +89,7 @@
         else TargetArns,
     },
   },
-  setTargetArnsMixin(TargetArns): {
+  pushTargetArns(TargetArns): {
     Properties+::: {
       TargetArns+: TargetArns,
     },
@@ -107,7 +107,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -117,7 +117,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -127,7 +127,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -137,7 +137,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -147,7 +147,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -157,7 +157,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

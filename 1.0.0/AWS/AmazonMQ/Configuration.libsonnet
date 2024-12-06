@@ -1,7 +1,6 @@
 {
   new(
     EngineType,
-    Data,
     Name,
   ): {
     local base = self,
@@ -10,10 +9,6 @@
         if !std.isString(EngineType) then (error 'EngineType must be a string')
         else if std.isEmpty(EngineType) then (error 'EngineType must be not empty')
         else EngineType,
-      Data:
-        if !std.isString(Data) then (error 'Data must be a string')
-        else if std.isEmpty(Data) then (error 'Data must be not empty')
-        else Data,
       Name:
         if !std.isString(Name) then (error 'Name must be a string')
         else if std.isEmpty(Name) then (error 'Name must be not empty')
@@ -51,6 +46,14 @@
         else EngineVersion,
     },
   },
+  setData(Data): {
+    Properties+::: {
+      Data:
+        if !std.isString(Data) then (error 'Data must be a string')
+        else if std.isEmpty(Data) then (error 'Data must be not empty')
+        else Data,
+    },
+  },
   setDescription(Description): {
     Properties+::: {
       Description:
@@ -82,7 +85,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -92,7 +95,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -102,7 +105,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -112,7 +115,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -122,7 +125,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -132,7 +135,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -142,7 +145,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

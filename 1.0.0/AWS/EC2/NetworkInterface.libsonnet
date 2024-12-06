@@ -40,7 +40,7 @@
         else PrivateIpAddresses,
     },
   },
-  setPrivateIpAddressesMixin(PrivateIpAddresses): {
+  pushPrivateIpAddresses(PrivateIpAddresses): {
     Properties+::: {
       PrivateIpAddresses+: PrivateIpAddresses,
     },
@@ -67,7 +67,7 @@
         else Ipv4Prefixes,
     },
   },
-  setIpv4PrefixesMixin(Ipv4Prefixes): {
+  pushIpv4Prefixes(Ipv4Prefixes): {
     Properties+::: {
       Ipv4Prefixes+: Ipv4Prefixes,
     },
@@ -86,7 +86,7 @@
         else GroupSet,
     },
   },
-  setGroupSetMixin(GroupSet): {
+  pushGroupSet(GroupSet): {
     Properties+::: {
       GroupSet+: GroupSet,
     },
@@ -98,7 +98,7 @@
         else Ipv6Addresses,
     },
   },
-  setIpv6AddressesMixin(Ipv6Addresses): {
+  pushIpv6Addresses(Ipv6Addresses): {
     Properties+::: {
       Ipv6Addresses+: Ipv6Addresses,
     },
@@ -110,7 +110,7 @@
         else Ipv6Prefixes,
     },
   },
-  setIpv6PrefixesMixin(Ipv6Prefixes): {
+  pushIpv6Prefixes(Ipv6Prefixes): {
     Properties+::: {
       Ipv6Prefixes+: Ipv6Prefixes,
     },
@@ -143,7 +143,7 @@
         else SecondaryPrivateIpAddresses,
     },
   },
-  setSecondaryPrivateIpAddressesMixin(SecondaryPrivateIpAddresses): {
+  pushSecondaryPrivateIpAddresses(SecondaryPrivateIpAddresses): {
     Properties+::: {
       SecondaryPrivateIpAddresses+: SecondaryPrivateIpAddresses,
     },
@@ -191,7 +191,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -209,7 +209,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -219,7 +219,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -229,7 +229,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -239,7 +239,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -249,7 +249,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -259,7 +259,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

@@ -43,7 +43,7 @@
         else RouteTableIds,
     },
   },
-  setRouteTableIdsMixin(RouteTableIds): {
+  pushRouteTableIds(RouteTableIds): {
     Properties+::: {
       RouteTableIds+: RouteTableIds,
     },
@@ -69,7 +69,7 @@
         else NetworkInterfaceIds,
     },
   },
-  setNetworkInterfaceIdsMixin(NetworkInterfaceIds): {
+  pushNetworkInterfaceIds(NetworkInterfaceIds): {
     Properties+::: {
       NetworkInterfaceIds+: NetworkInterfaceIds,
     },
@@ -89,7 +89,7 @@
         else DnsEntries,
     },
   },
-  setDnsEntriesMixin(DnsEntries): {
+  pushDnsEntries(DnsEntries): {
     Properties+::: {
       DnsEntries+: DnsEntries,
     },
@@ -101,7 +101,7 @@
         else SecurityGroupIds,
     },
   },
-  setSecurityGroupIdsMixin(SecurityGroupIds): {
+  pushSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
       SecurityGroupIds+: SecurityGroupIds,
     },
@@ -113,7 +113,7 @@
         else SubnetIds,
     },
   },
-  setSubnetIdsMixin(SubnetIds): {
+  pushSubnetIds(SubnetIds): {
     Properties+::: {
       SubnetIds+: SubnetIds,
     },
@@ -123,7 +123,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -133,7 +133,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -143,7 +143,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -153,7 +153,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -163,7 +163,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -173,7 +173,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

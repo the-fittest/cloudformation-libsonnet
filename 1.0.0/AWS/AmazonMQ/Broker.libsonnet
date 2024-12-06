@@ -46,7 +46,7 @@
         else SecurityGroups,
     },
   },
-  setSecurityGroupsMixin(SecurityGroups): {
+  pushSecurityGroups(SecurityGroups): {
     Properties+::: {
       SecurityGroups+: SecurityGroups,
     },
@@ -83,7 +83,7 @@
         else SubnetIds,
     },
   },
-  setSubnetIdsMixin(SubnetIds): {
+  pushSubnetIds(SubnetIds): {
     Properties+::: {
       SubnetIds+: SubnetIds,
     },
@@ -95,7 +95,7 @@
         else StompEndpoints,
     },
   },
-  setStompEndpointsMixin(StompEndpoints): {
+  pushStompEndpoints(StompEndpoints): {
     Properties+::: {
       StompEndpoints+: StompEndpoints,
     },
@@ -107,7 +107,7 @@
         else MqttEndpoints,
     },
   },
-  setMqttEndpointsMixin(MqttEndpoints): {
+  pushMqttEndpoints(MqttEndpoints): {
     Properties+::: {
       MqttEndpoints+: MqttEndpoints,
     },
@@ -119,7 +119,7 @@
         else AmqpEndpoints,
     },
   },
-  setAmqpEndpointsMixin(AmqpEndpoints): {
+  pushAmqpEndpoints(AmqpEndpoints): {
     Properties+::: {
       AmqpEndpoints+: AmqpEndpoints,
     },
@@ -139,7 +139,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -213,7 +213,7 @@
         else WssEndpoints,
     },
   },
-  setWssEndpointsMixin(WssEndpoints): {
+  pushWssEndpoints(WssEndpoints): {
     Properties+::: {
       WssEndpoints+: WssEndpoints,
     },
@@ -225,7 +225,7 @@
         else IpAddresses,
     },
   },
-  setIpAddressesMixin(IpAddresses): {
+  pushIpAddresses(IpAddresses): {
     Properties+::: {
       IpAddresses+: IpAddresses,
     },
@@ -237,7 +237,7 @@
         else OpenWireEndpoints,
     },
   },
-  setOpenWireEndpointsMixin(OpenWireEndpoints): {
+  pushOpenWireEndpoints(OpenWireEndpoints): {
     Properties+::: {
       OpenWireEndpoints+: OpenWireEndpoints,
     },
@@ -277,7 +277,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -287,7 +287,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -297,7 +297,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -307,7 +307,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -317,7 +317,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -327,7 +327,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

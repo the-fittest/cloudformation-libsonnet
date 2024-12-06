@@ -31,7 +31,7 @@
         else AssociatedRoles,
     },
   },
-  setAssociatedRolesMixin(AssociatedRoles): {
+  pushAssociatedRoles(AssociatedRoles): {
     Properties+::: {
       AssociatedRoles+: AssociatedRoles,
     },
@@ -189,7 +189,7 @@
         else DBSecurityGroups,
     },
   },
-  setDBSecurityGroupsMixin(DBSecurityGroups): {
+  pushDBSecurityGroups(DBSecurityGroups): {
     Properties+::: {
       DBSecurityGroups+: DBSecurityGroups,
     },
@@ -259,7 +259,7 @@
         else DomainDnsIps,
     },
   },
-  setDomainDnsIpsMixin(DomainDnsIps): {
+  pushDomainDnsIps(DomainDnsIps): {
     Properties+::: {
       DomainDnsIps+: DomainDnsIps,
     },
@@ -295,7 +295,7 @@
         else EnableCloudwatchLogsExports,
     },
   },
-  setEnableCloudwatchLogsExportsMixin(EnableCloudwatchLogsExports): {
+  pushEnableCloudwatchLogsExports(EnableCloudwatchLogsExports): {
     Properties+::: {
       EnableCloudwatchLogsExports+: EnableCloudwatchLogsExports,
     },
@@ -495,7 +495,7 @@
         else ProcessorFeatures,
     },
   },
-  setProcessorFeaturesMixin(ProcessorFeatures): {
+  pushProcessorFeatures(ProcessorFeatures): {
     Properties+::: {
       ProcessorFeatures+: ProcessorFeatures,
     },
@@ -597,7 +597,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -645,7 +645,7 @@
         else VPCSecurityGroups,
     },
   },
-  setVPCSecurityGroupsMixin(VPCSecurityGroups): {
+  pushVPCSecurityGroups(VPCSecurityGroups): {
     Properties+::: {
       VPCSecurityGroups+: VPCSecurityGroups,
     },
@@ -655,7 +655,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -665,7 +665,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -675,7 +675,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -685,7 +685,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -695,7 +695,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -705,7 +705,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

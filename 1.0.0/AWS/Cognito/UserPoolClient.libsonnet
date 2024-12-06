@@ -34,7 +34,7 @@
         else ExplicitAuthFlows,
     },
   },
-  setExplicitAuthFlowsMixin(ExplicitAuthFlows): {
+  pushExplicitAuthFlows(ExplicitAuthFlows): {
     Properties+::: {
       ExplicitAuthFlows+: ExplicitAuthFlows,
     },
@@ -52,7 +52,7 @@
         else ReadAttributes,
     },
   },
-  setReadAttributesMixin(ReadAttributes): {
+  pushReadAttributes(ReadAttributes): {
     Properties+::: {
       ReadAttributes+: ReadAttributes,
     },
@@ -107,7 +107,7 @@
         else WriteAttributes,
     },
   },
-  setWriteAttributesMixin(WriteAttributes): {
+  pushWriteAttributes(WriteAttributes): {
     Properties+::: {
       WriteAttributes+: WriteAttributes,
     },
@@ -119,7 +119,7 @@
         else AllowedOAuthFlows,
     },
   },
-  setAllowedOAuthFlowsMixin(AllowedOAuthFlows): {
+  pushAllowedOAuthFlows(AllowedOAuthFlows): {
     Properties+::: {
       AllowedOAuthFlows+: AllowedOAuthFlows,
     },
@@ -137,7 +137,7 @@
         else AllowedOAuthScopes,
     },
   },
-  setAllowedOAuthScopesMixin(AllowedOAuthScopes): {
+  pushAllowedOAuthScopes(AllowedOAuthScopes): {
     Properties+::: {
       AllowedOAuthScopes+: AllowedOAuthScopes,
     },
@@ -149,7 +149,7 @@
         else CallbackURLs,
     },
   },
-  setCallbackURLsMixin(CallbackURLs): {
+  pushCallbackURLs(CallbackURLs): {
     Properties+::: {
       CallbackURLs+: CallbackURLs,
     },
@@ -169,7 +169,7 @@
         else LogoutURLs,
     },
   },
-  setLogoutURLsMixin(LogoutURLs): {
+  pushLogoutURLs(LogoutURLs): {
     Properties+::: {
       LogoutURLs+: LogoutURLs,
     },
@@ -181,7 +181,7 @@
         else SupportedIdentityProviders,
     },
   },
-  setSupportedIdentityProvidersMixin(SupportedIdentityProviders): {
+  pushSupportedIdentityProviders(SupportedIdentityProviders): {
     Properties+::: {
       SupportedIdentityProviders+: SupportedIdentityProviders,
     },
@@ -242,7 +242,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -252,7 +252,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -262,7 +262,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -272,7 +272,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -282,7 +282,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -292,7 +292,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

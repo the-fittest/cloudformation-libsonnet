@@ -23,7 +23,7 @@
         else SecurityGroups,
     },
   },
-  setSecurityGroupsMixin(SecurityGroups): {
+  pushSecurityGroups(SecurityGroups): {
     Properties+::: {
       SecurityGroups+: SecurityGroups,
     },
@@ -43,7 +43,7 @@
         else Policies,
     },
   },
-  setPoliciesMixin(Policies): {
+  pushPolicies(Policies): {
     Properties+::: {
       Policies+: Policies,
     },
@@ -63,7 +63,7 @@
         else AvailabilityZones,
     },
   },
-  setAvailabilityZonesMixin(AvailabilityZones): {
+  pushAvailabilityZones(AvailabilityZones): {
     Properties+::: {
       AvailabilityZones+: AvailabilityZones,
     },
@@ -128,7 +128,7 @@
         else Instances,
     },
   },
-  setInstancesMixin(Instances): {
+  pushInstances(Instances): {
     Properties+::: {
       Instances+: Instances,
     },
@@ -148,7 +148,7 @@
         else Subnets,
     },
   },
-  setSubnetsMixin(Subnets): {
+  pushSubnets(Subnets): {
     Properties+::: {
       Subnets+: Subnets,
     },
@@ -166,7 +166,7 @@
         else AppCookieStickinessPolicy,
     },
   },
-  setAppCookieStickinessPolicyMixin(AppCookieStickinessPolicy): {
+  pushAppCookieStickinessPolicy(AppCookieStickinessPolicy): {
     Properties+::: {
       AppCookieStickinessPolicy+: AppCookieStickinessPolicy,
     },
@@ -178,7 +178,7 @@
         else LBCookieStickinessPolicy,
     },
   },
-  setLBCookieStickinessPolicyMixin(LBCookieStickinessPolicy): {
+  pushLBCookieStickinessPolicy(LBCookieStickinessPolicy): {
     Properties+::: {
       LBCookieStickinessPolicy+: LBCookieStickinessPolicy,
     },
@@ -214,7 +214,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -224,7 +224,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -234,7 +234,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -244,7 +244,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -254,7 +254,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -264,7 +264,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -274,7 +274,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

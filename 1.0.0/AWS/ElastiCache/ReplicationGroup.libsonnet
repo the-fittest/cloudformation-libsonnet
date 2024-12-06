@@ -24,7 +24,7 @@
         else PreferredCacheClusterAZs,
     },
   },
-  setPreferredCacheClusterAZsMixin(PreferredCacheClusterAZs): {
+  pushPreferredCacheClusterAZs(PreferredCacheClusterAZs): {
     Properties+::: {
       PreferredCacheClusterAZs+: PreferredCacheClusterAZs,
     },
@@ -44,7 +44,7 @@
         else NodeGroupConfiguration,
     },
   },
-  setNodeGroupConfigurationMixin(NodeGroupConfiguration): {
+  pushNodeGroupConfiguration(NodeGroupConfiguration): {
     Properties+::: {
       NodeGroupConfiguration+: NodeGroupConfiguration,
     },
@@ -56,7 +56,7 @@
         else SnapshotArns,
     },
   },
-  setSnapshotArnsMixin(SnapshotArns): {
+  pushSnapshotArns(SnapshotArns): {
     Properties+::: {
       SnapshotArns+: SnapshotArns,
     },
@@ -125,7 +125,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -199,7 +199,7 @@
         else SecurityGroupIds,
     },
   },
-  setSecurityGroupIdsMixin(SecurityGroupIds): {
+  pushSecurityGroupIds(SecurityGroupIds): {
     Properties+::: {
       SecurityGroupIds+: SecurityGroupIds,
     },
@@ -234,7 +234,7 @@
         else ReadEndPointAddressesList,
     },
   },
-  setReadEndPointAddressesListMixin(ReadEndPointAddressesList): {
+  pushReadEndPointAddressesList(ReadEndPointAddressesList): {
     Properties+::: {
       ReadEndPointAddressesList+: ReadEndPointAddressesList,
     },
@@ -278,7 +278,7 @@
         else CacheSecurityGroupNames,
     },
   },
-  setCacheSecurityGroupNamesMixin(CacheSecurityGroupNames): {
+  pushCacheSecurityGroupNames(CacheSecurityGroupNames): {
     Properties+::: {
       CacheSecurityGroupNames+: CacheSecurityGroupNames,
     },
@@ -298,7 +298,7 @@
         else ReadEndPointPortsList,
     },
   },
-  setReadEndPointPortsListMixin(ReadEndPointPortsList): {
+  pushReadEndPointPortsList(ReadEndPointPortsList): {
     Properties+::: {
       ReadEndPointPortsList+: ReadEndPointPortsList,
     },
@@ -393,7 +393,7 @@
         else UserGroupIds,
     },
   },
-  setUserGroupIdsMixin(UserGroupIds): {
+  pushUserGroupIds(UserGroupIds): {
     Properties+::: {
       UserGroupIds+: UserGroupIds,
     },
@@ -419,7 +419,7 @@
         else LogDeliveryConfigurations,
     },
   },
-  setLogDeliveryConfigurationsMixin(LogDeliveryConfigurations): {
+  pushLogDeliveryConfigurations(LogDeliveryConfigurations): {
     Properties+::: {
       LogDeliveryConfigurations+: LogDeliveryConfigurations,
     },
@@ -429,7 +429,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -439,7 +439,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -449,7 +449,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -459,7 +459,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -469,7 +469,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -479,7 +479,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },

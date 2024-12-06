@@ -85,7 +85,7 @@
         else Resources,
     },
   },
-  setResourcesMixin(Resources): {
+  pushResources(Resources): {
     Properties+::: {
       Resources+: Resources,
     },
@@ -97,7 +97,7 @@
         else ResourcesToAdd,
     },
   },
-  setResourcesToAddMixin(ResourcesToAdd): {
+  pushResourcesToAdd(ResourcesToAdd): {
     Properties+::: {
       ResourcesToAdd+: ResourcesToAdd,
     },
@@ -109,7 +109,7 @@
         else ResourcesToRemove,
     },
   },
-  setResourcesToRemoveMixin(ResourcesToRemove): {
+  pushResourcesToRemove(ResourcesToRemove): {
     Properties+::: {
       ResourcesToRemove+: ResourcesToRemove,
     },
@@ -130,7 +130,7 @@
         else Tags,
     },
   },
-  setTagsMixin(Tags): {
+  pushTags(Tags): {
     Properties+::: {
       Tags+: Tags,
     },
@@ -172,7 +172,7 @@
       DependsOn: DependsOn,
     },
   },
-  setDependsOnMixin(DependsOn): {
+  pushDependsOn(DependsOn): {
     Properties+::: {
       DependsOn+: DependsOn,
     },
@@ -182,7 +182,7 @@
       CreationPolicy: CreationPolicy,
     },
   },
-  setCreationPolicyMixin(CreationPolicy): {
+  pushCreationPolicy(CreationPolicy): {
     Properties+::: {
       CreationPolicy+: CreationPolicy,
     },
@@ -192,7 +192,7 @@
       DeletionPolicy: DeletionPolicy,
     },
   },
-  setDeletionPolicyMixin(DeletionPolicy): {
+  pushDeletionPolicy(DeletionPolicy): {
     Properties+::: {
       DeletionPolicy+: DeletionPolicy,
     },
@@ -202,7 +202,7 @@
       UpdatePolicy: UpdatePolicy,
     },
   },
-  setUpdatePolicyMixin(UpdatePolicy): {
+  pushUpdatePolicy(UpdatePolicy): {
     Properties+::: {
       UpdatePolicy+: UpdatePolicy,
     },
@@ -212,7 +212,7 @@
       UpdateReplacePolicy: UpdateReplacePolicy,
     },
   },
-  setUpdateReplacePolicyMixin(UpdateReplacePolicy): {
+  pushUpdateReplacePolicy(UpdateReplacePolicy): {
     Properties+::: {
       UpdateReplacePolicy+: UpdateReplacePolicy,
     },
@@ -222,7 +222,7 @@
       Metadata: Metadata,
     },
   },
-  setMetadataMixin(Metadata): {
+  pushMetadata(Metadata): {
     Properties+::: {
       Metadata+: Metadata,
     },
