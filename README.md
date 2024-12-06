@@ -11,7 +11,7 @@ brew install go-task go-jsonnet jsonnet-bundler nvm wget unzip
 
 To run a `task` run:
 ```shell
-task generate
+task generate:cloudformation
 ```
 
 a bit of testing can be done in the test folder
